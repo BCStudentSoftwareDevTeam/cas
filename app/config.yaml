@@ -9,7 +9,7 @@ databases:
   # stage: ""
   # prod: ""
 databaseAdmin:
-  user: 'heggens'
+  user: ['heggens','pearcej']
 
 # For every table in the database, add an item here
 models:
