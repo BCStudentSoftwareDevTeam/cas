@@ -5,7 +5,7 @@ import sys,os
 
 def makeExcelFile(term):
     filename = "cas-{}-courses.xlsx".format(term.termCode)
-    path = getAbsolutePath(cfg['filepath']['tmp'],filename)
+    path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
     workbook = xlsxwriter.Workbook(path)
     workbook.set_properties({
     'title':    'Course Schedule for {}'.format(term.name),
