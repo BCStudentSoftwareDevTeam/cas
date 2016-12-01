@@ -5,16 +5,9 @@ import os
 from app.loadConfig import *
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'config.yaml'))
-db	  = os.path.join(here,'../',cfg['databases']['dev']) 
-# mainDB    = SqliteDatabase(cfg['databases']['dev'])
-mainDB    = SqliteDatabase(db,
-                          pragmas = ( ('busy_timeout',  100),
-                                      ('journal_mode', 'WAL')
-                                  ),
-                          threadlocals = True
-                          )
+secrets   = load_config(os.path.join(here, 'secrets.yaml'))
+mainDB = MySQLDatabase(secrets['db']['db_name'], host=secrets['db']['host'], user=secrets['db']['username'], passwd=secrets['db']['password'])
 
-# Creates the class that will be used by Peewee to store the database
 class dbModel (Model):
   class Meta: 
     database = mainDB

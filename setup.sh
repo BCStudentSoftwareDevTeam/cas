@@ -20,3 +20,6 @@ pip install XlsxWriter
 pip install MySQL-python
 pip install flask-admin
 pip install wtf-peewee
+
+#mysql installation
+pip install PyMySQL
