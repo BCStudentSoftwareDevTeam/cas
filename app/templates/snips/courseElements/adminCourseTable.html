@@ -29,7 +29,7 @@
                 <!--TAUGHT BY-->
                 <td>
                     {% for instructor in instructors[course.cId] %}
-                        {{instructor.username.username}}<br>
+                        {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                     {% endfor %}
                 </td>
                 <!--SCHEDULE-->
