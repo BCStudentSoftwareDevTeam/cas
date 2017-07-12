@@ -33,3 +33,4 @@ from app import courseManagement
 from app import addCourse
 from app import excelDownload
 from app import databaseAdmin
+from app import selectTerm
