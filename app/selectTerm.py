@@ -13,8 +13,9 @@ def selectTerm():
     print(user)
     if user.lastVisited is not None:
         prefix = user.lastVisited.prefix
-        print(prefix)
     else:
         prefix = "MAT"
-
     return render_template("selectTerm.html", allTerms=terms, prefix=prefix, cfg=cfg)
+
+
+ 
