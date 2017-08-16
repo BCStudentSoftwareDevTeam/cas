@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+{% endblock %}
+<!--Page Content -->
+{% block body %}
+    
+<table class="table table-striped table-hover table-bordered">
+    </br></br>
+    <thead>
+        <tr>
+            <th>Courses</th>
+            {% for term in terms %}
+                <th>{{term}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+<tbody>
+    {% for course in allCourses %}
+        <tr>
+            <th scope = "row"> {{course.subject.prefix}} {{course.number}}</th>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+        </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+{% endblock %}
+<!--Page Content -->
+{% block body %}
+
+<div class="modal fade" id="selectProgramModal" role="dialog" data-backdrop = "static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Select a Program</h4>
+            </div>
+            <div class="modal-body">
+                <select name = "program-select" class="selectpicker form-control" data-live-search="true" name="ptitle" id="programInfo"  required>
+                    {% for program in allPrograms %}
+                        <option value ={{program.pID}} >
+                            {{program.name}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="modal-footer">
+                    <button onclick="redirectCourses()" class="btn btn-success">Submit</button>
+                </div>  
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/local/selectProgram.js"></script>
+{% endblock %}
+
+ 
