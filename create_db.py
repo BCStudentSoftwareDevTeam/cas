@@ -155,27 +155,48 @@ banner = BannerSchedule(  letter        = "Standard B",
 ##############
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
-                                ctitle        = "Data Structures"
+                                ctitle        = "Data Structures",
+                                program       = 1
                               ).save()
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
-                                ctitle        = "Calculus I"
+                                ctitle        = "Calculus I",
+                                program       = 2
+                                
                               ).save()
                         
+
+bannercourse =  BannerCourses(  subject       = "MAT",
+                                number        = 225,
+                                ctitle        = "Calculus II",
+                                program       = 2
+                                
+                              ).save()
 bannercourse =  BannerCourses(  subject       = "TAD",
                                 number        = 435,
-                                ctitle        = "Wood Shop"
+                                ctitle        = "Wood Shop",
+                                program       = 3
                               ).save()
+
+bannercourse =  BannerCourses(  subject       = "TAD",
+                                number        = 265,
+                                ctitle        = "Electricity",
+                                program       = 3
+                              ).save()
+            
+            
                     
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
-                                ctitle        = "Better Apps"
+                                ctitle        = "Better Apps",
+                                program       = 1
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
-                                ctitle        = "Software Design"
+                                ctitle        = "Software Design",
+                                program       = 1
                               ).save()                                
 ######
 #TERM#
@@ -183,16 +204,50 @@ bannercourse =  BannerCourses(  subject       = "CSC",
 term = Term(  name              = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
-              termCode          = 201611,
+              termCode          = 201612,
               editable          = 0
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2017",
               semester          = "Spring",
               year              = 2017,
-              termCode          = 201612,
+              termCode          = 201711,
+              editable          = 0
+            ).save(force_insert = True)  
+term = Term(  name              = "Fall 2017",
+              semester          = "Fall",
+              year              = 2017,
+              termCode          = 201712,
+              editable          = 0
+            ).save(force_insert = True)
+            
+term = Term(  name              = "Spring 2018",
+              semester          = "Spring",
+              year              = 2018,
+              termCode          = 201811,
               editable          = 0
             ).save(force_insert = True)      
+term = Term(  name              = "Fall 2018",
+              semester          = "Fall",
+              year              = 2018,
+              termCode          = 201812,
+              editable          = 0
+            ).save(force_insert = True)
+            
+term = Term(  name              = "Spring 2019",
+              semester          = "Spring",
+              year              = 2019,
+              termCode          = 201911,
+              editable          = 0
+            ).save(force_insert = True)      
+term = Term(  name              = "Fall 2019",
+              semester          = "Fall",
+              year              = 2019,
+              termCode          = 201912,
+              editable          = 0
+            ).save(force_insert = True)
+            
+
             
 ########
 #COURSE#

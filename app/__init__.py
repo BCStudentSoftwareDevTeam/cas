@@ -34,3 +34,5 @@ from app import addCourse
 from app import excelDownload
 from app import databaseAdmin
 from app import selectTerm
+from app import selectProgram
+from app import courseTable
