@@ -98,39 +98,79 @@ division = Division(  name = "Division II"
 #########
 program  = Program( name = "Computer Science",
                     division = 2,
-                    prefix   = "CSC"
+                    prefix   = "CSC",
+                    has_subjects = False
               ).save()
               
 program  = Program( name = "Mathematics",
                     division = 1,
-                    prefix   = "MAT"
+                    prefix   = "MAT",
+                    has_subjects = False
               ).save()
               
 program  = Program( name = "Technology and Design",
                     division = 2,
-                    prefix   = "TAD"
+                    prefix   = "TAD",
+                    has_subjects = False
+              ).save()
+program  = Program( name = "Foreign Languages",
+                    division = 4,
+                    prefix   = "FL", 
+                    has_subjects = True
+              ).save()
+program  = Program( name = "Health and Human Performance",
+                    division = 3,
+                    prefix   = "HHP", 
+                    has_subjects = True
               ).save()
 #########         
 #SUBJECT#
 #########
 subject = Subject(  prefix  = "CSC",
                     pid     = 1,
+                    name    = "Computer Science",
                     webname = "cs.berea.edu"
                     ).save(force_insert=True)
                     
 subject = Subject(  prefix  = "MAT",
                     pid     = 2,
+                    name    = "Mathematics",
                     webname = "math.berea.edu"
                   ).save(force_insert=True)
                   
-subject = Subject(  prefix  = "CODY",
-                    pid     = 1,
-                    webname = "math.berea.edu"
-                  ).save(force_insert=True)                 
                   
 subject = Subject(  prefix  = "TAD",
                     pid     = 3,
+                    name    = "Technology and Applied Design",
                     webname = "math.berea.edu"
+                  ).save(force_insert=True)
+                  
+subject = Subject(  prefix  = "CHI",
+                    pid     = 4,
+                    name    = "Chinese",
+                    webname = "chinese.berea.edu"
+                  ).save(force_insert=True)
+                  
+subject = Subject(  prefix  = "FRN",
+                    pid     = 4,
+                    name    = "French",
+                    webname = "french.berea.edu"
+                  ).save(force_insert=True)
+                  
+subject = Subject(  prefix  = "GER",
+                    pid     = 4,
+                    name    = "German",
+                    webname = "german.berea.edu"
+                  ).save(force_insert=True)
+subject = Subject(  prefix  = "HHP",
+                    pid     = 5,
+                    name    = "Health and Human Performance",
+                    webname = "health.berea.edu"
+                  ).save(force_insert=True)
+subject = Subject(  prefix  = "HLT",
+                    pid     = 5,
+                    name    = "Health",
+                    webname = "health.berea.edu"
                   ).save(force_insert=True)
 ########                  
 #BANNER#
@@ -184,8 +224,6 @@ bannercourse =  BannerCourses(  subject       = "TAD",
                                 ctitle        = "Electricity",
                                 program       = 3
                               ).save()
-            
-            
                     
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
@@ -197,7 +235,82 @@ bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
                                 ctitle        = "Software Design",
                                 program       = 1
-                              ).save()                                
+                              ).save()  
+bannercourse =  BannerCourses(  subject       = "CHI",
+                                number        = 101,
+                                ctitle        = "Intro to Chinese I",
+                                program       = 4
+                              ).save()       
+                              
+bannercourse =  BannerCourses(  subject       = "CHI",
+                                number        = 102,
+                                ctitle        = "Intro to Chinese II",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "CHI",
+                                number        = 103,
+                                ctitle        = "Intro to Chinese III",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "CHI",
+                                number        = 104,
+                                ctitle        = "Intro to Chinese IV",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "FRN",
+                                number        = 101,
+                                ctitle        = "Intro to Frn Lang & Culture I",
+                                program       = 4
+                              ).save()       
+                              
+bannercourse =  BannerCourses(  subject       = "FRN",
+                                number        = 102,
+                                ctitle        = "Intro to Frn Lang & Culture II",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "FRN",
+                                number        = 103,
+                                ctitle        = "Intermediate French III",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "FRN",
+                                number        = 140,
+                                ctitle        = "Frn Civilization Past/Present",
+                                program       = 4
+                              ).save()   
+bannercourse =  BannerCourses(  subject       = "GER",
+                                number        = 101,
+                                ctitle        = "Intro to German I",
+                                program       = 4
+                              ).save()       
+                              
+bannercourse =  BannerCourses(  subject       = "GER",
+                                number        = 102,
+                                ctitle        = "Intro to German II",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "GER",
+                                number        = 103,
+                                ctitle        = "Intermediate German III",
+                                program       = 4
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "GER",
+                                number        = 140,
+                                ctitle        = "German Civilization",
+                                program       = 4
+                              ).save()   
+bannercourse =  BannerCourses(  subject       = "HHP",
+                                number        = 200,
+                                ctitle        = "Survival Swimming",
+                                program       = 3
+                              ).save()    
+bannercourse =  BannerCourses(  subject       = "HLT",
+                                number        = 100,
+                                ctitle        = "Intro to Lifetime Health and Wellness",
+                                program       = 3
+                              ).save()   
+
+######
 ######
 #TERM#
 ######
@@ -278,10 +391,136 @@ course = Course(  bannerRef         = 3,
                   notes          = "Preference1",
                   crossListed       = 0
                   ).save()
+course = Course(  bannerRef         = 8,
+                  prefix            = "CHI",
+                  term              = 201612,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save()       
+                              
+course = Course(  bannerRef         = 9,
+                  prefix            = "CHI",
+                  term              = 201711,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 10,
+                  prefix            = "CHI",
+                  term              = 201711,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 11,
+                  prefix            = "CHI",
+                  term              = 201712,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 11,
+                  prefix            = "CHI",
+                  term              = 201811,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 13,
+                  prefix            = "FRN",
+                  term              = 201611,
+                  schedule          = "A",
+                  capacity          = 20,
+                  notes             = "Preference1",
+                  crossListed       = 1
+                ).save()
+                
+course = Course(  bannerRef         = 14,
+                  prefix            = "FRN",
+                  term              = 201612,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                ).save()                
+
+course = Course(  bannerRef         = 15,
+                  prefix            = "FRN",
+                  term              = 201712,
+                  schedule          = "A",
+                  capacity          = 20,
+                  notes          = "Preference1",
+                  crossListed       = 0
+                  ).save()
+course = Course(  bannerRef         = 15,
+                  prefix            = "FRN",
+                  term              = 201612,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save()       
+                              
+course = Course(  bannerRef         = 17,
+                  prefix            = "GER",
+                  term              = 201711,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 18,
+                  prefix            = "GER",
+                  term              = 201711,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201712,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201811,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 20,
+                  prefix            = "HHP",
+                  term              = 201712,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 21,
+                  prefix            = "HLT",
+                  term              = 201811,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+
+
 ########
 #PCHAIR#
 ########
-pchair = ProgramChair(  username  = "jadudm",
+chair = ProgramChair(  username  = "jadud",
                         pid       = 1
                     ).save()
                     

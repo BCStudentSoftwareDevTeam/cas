@@ -8,7 +8,8 @@ from app.logic import functions
 def selectProgram():
     programs = Program.select()
     authorizedUser = AuthorizedUser()
-    return render_template("selectProgram.html", allPrograms=programs, cfg=cfg)
+    subjects = Subject.select()
+    return render_template("selectProgram.html", allPrograms=programs, subjects = subjects, cfg=cfg)
 
 
  

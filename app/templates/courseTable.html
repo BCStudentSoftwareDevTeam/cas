@@ -8,6 +8,7 @@
 <table class="table table-striped table-hover table-bordered">
     </br></br>
     <thead>
+        
         <tr>
             <th>Courses</th>
             {% for term in terms %}
@@ -19,14 +20,13 @@
     {% for course in allCourses %}
         <tr>
             <th scope = "row"> {{course.subject.prefix}} {{course.number}}</th>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
+            {% for term in terms %}
+                <td>YES</td>
+            {% endfor %}
         </tr>
     {% endfor %}
 
 </tbody>
 </table>
+
 {% endblock %}
