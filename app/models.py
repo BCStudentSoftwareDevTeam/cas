@@ -75,6 +75,7 @@ class Program(dbModel):
   pID           = PrimaryKeyField()
   name          = CharField()
   division      = ForeignKeyField(Division)
+  has_subjects  = BooleanField()
   
   def __str__(self):
     return str(self.name)
@@ -82,6 +83,7 @@ class Program(dbModel):
 class Subject(dbModel):
   prefix        = CharField(primary_key=True)
   pid           = ForeignKeyField(Program, related_name='subjects')
+  name          = TextField()
   webname       = TextField()
   
   def __str__(self):
@@ -104,6 +106,7 @@ class BannerCourses(dbModel):
   number        = CharField(null = False)
   section       = CharField(null = True)
   ctitle        = CharField(null = False)
+
   
   def __str__(self):
     return '{0} {1}'.format(self.subject, self.number)

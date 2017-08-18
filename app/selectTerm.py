@@ -15,6 +15,7 @@ def selectTerm():
         prefix = user.lastVisited.prefix
     else:
         prefix = "MAT"
+
     return render_template("selectTerm.html", allTerms=terms, prefix=prefix, cfg=cfg)
 
 
