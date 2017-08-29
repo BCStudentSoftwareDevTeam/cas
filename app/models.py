@@ -75,7 +75,7 @@ class Program(dbModel):
   pID           = PrimaryKeyField()
   name          = CharField()
   division      = ForeignKeyField(Division)
-  has_subjects  = BooleanField()
+
   
   def __str__(self):
     return str(self.name)
