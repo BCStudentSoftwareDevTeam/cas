@@ -14,23 +14,16 @@
            <div class="modal-body">
                <select name = "program-select" class="selectpicker form-control" data-live-search="true" name="ptitle" id="programInfo"  required>
                    {% for program in allPrograms %}
-                       {% if program.has_subjects == true %}
-                           <optgroup>
-                                <optgroup label= "{{program.name}}">
-                                    {% for subject in subjects %} 
-                                        {% if subject.pid.pID== program.pID %}
-                                             <option value = {{subject.prefix}}>
-                                                 {{subject.prefix}}
-                                             </option>
-                                        {% endif %}
-                                    {% endfor %}
-                            </optgroup>
-                        
-                        {% elif program.has_subjects == false %}
-                           <option value ={{program.pID}} >
-                               {{program.name}}
-                           </option>
-                        {% endif %}   
+                       <optgroup>
+                            <optgroup label= "{{program.name}}">
+                                {% for subject in subjects %} 
+                                    {% if subject.pid.pID== program.pID %}
+                                         <option value = {{subject.prefix}}>
+                                             {{subject.prefix}}
+                                         </option>
+                                    {% endif %}
+                                {% endfor %}
+                        </optgroup>
                    {% endfor %}
                </select>
                <div class="modal-footer">

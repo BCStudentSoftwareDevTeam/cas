@@ -18,12 +18,20 @@
     </thead>
 <tbody>
     {% for course in allCourses %}
+                {% for dict_item in reFID_to_term %}
         <tr>
-            <th scope = "row"> {{course.subject.prefix}} {{course.number}}</th>
-            {% for term in terms %}
-                <td>YES</td>
-            {% endfor %}
+            <th scope = "row"> {{course.subject.prefix}} {{course.number}}</th>  
+                    {% for term in terms %}
+                        {% if term.termCode in reFID_to_term[dict_item] %}
+                            <td>{{term.termCode}}</td>
+                       {% else %}
+                            <td>N</td>
+                         {% endif %}
+                 {% endfor %}
+             {% endfor %}     
+                     
         </tr>
+
     {% endfor %}
 
 </tbody>
