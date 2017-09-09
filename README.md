@@ -14,6 +14,7 @@
 ``` bash
 git clone https://username@bitbucket.org/username/repositoryname.git
 source setup.sh
+python create_db.py
 python app.py
 ```
 You can now check your localhost to see if it deployed correctly.
