@@ -26,6 +26,7 @@ You can now check your localhost to see if it deployed correctly.
     4. Now paste the git URL into "Clone from Git URL" field in cloud9
 ``` bash
 source setup.sh
+python create_db.py
 python app.py
 ``` 
 If you are succesful you will see something like:
