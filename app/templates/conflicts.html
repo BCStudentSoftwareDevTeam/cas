@@ -101,7 +101,7 @@
                         <!--EDIT MODAL-->
                         <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         <!--DELETE MODAL-->
-                        <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
+                        <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a> 
                         {% include "snips/courseElements/deleteCourse.html" %} 
                       {% endif %}
                     </td>
