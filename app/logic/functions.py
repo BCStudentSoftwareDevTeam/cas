@@ -73,20 +73,25 @@ def removeDuplicates(array):
 '''
 returns a dicitionary with the courseID as key
 and the colorClass list as value
+It also replaces the colors for verified entries
 @param courses - course list to get colors from
-
 @return {Dict} dicitionary of colorClassList
 '''
 
 
 def getColorClassDict(courses):
+    
     colorClassDict = {}
     for course in courses:
         tdClass = course.tdcolors
         tdClassList = tdClass.split(",")
+        if course.verified == True:
+            for index, color in enumerate(tdClassList):
+                tdClassList[index] =  cfg['columnColor']['verified']
         colorClassDict[course.cId] = tdClassList
     return colorClassDict
-    
+
+       
     
 def createColorString(changeType):
         ''' Purpose: This method will create a comma seperated list depending on the changeType entered

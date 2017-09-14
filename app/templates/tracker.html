@@ -5,6 +5,7 @@
 {% set currentPage = "tracker" %}
 {% block body %}
 <script src="/static/js/local/popup.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/tracker.css">
 <body>
   <div id="wrapper">
     <div id="page-wrapper">
@@ -30,6 +31,10 @@
         <li>
           <span class="glyphicon glyphicon-stop" style="color:#f0ad4e"></span>
           The course field has been <b>updated</b>.
+        </li>
+        <li>
+          <span class="glyphicon glyphicon-stop" style="color:#777"></span>
+          The course has been <b>verified</b>.
         </li>
       </ul>
         <div class="panel panel default">
@@ -105,10 +110,13 @@
                   <td id="lastEdit" class="{{classDict[course.cId][8]}}">
                     {{course.lastEditBy}}
                   </td>
+                  {% if course.verified == false %}
                   <td>
                     <a href="" data-toggle="modal" data-id="" data-target="#verifyCourseChange{{course.cId}}"><span class="glyphicon glyphicon-check" aria-hidden="true" style="color:gray;"></span></a>
                     {% include "snips/verifiedCourseChange.html" %}
                   </td>
+                  {% endif %}
+
                 </tr>
               {% endfor %}  
             </tbody>

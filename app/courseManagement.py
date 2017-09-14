@@ -137,10 +137,8 @@ def trackerListed(tID):
     if (request.method == "GET"):
         if authorizedUser.isAdmin():
 
-            courses = CourseChange.select().where(CourseChange.verified == False).order_by(CourseChange.term)
-
+            courses = CourseChange.select().order_by(CourseChange.verified, CourseChange.term.desc())
             instructorsDict = databaseInterface.createInstructorDict(courses)
-
             colorClassDict = functions.getColorClassDict(courses)
             '''
             DATA STRUCTURES
