@@ -94,7 +94,7 @@ for row in cur.fetchall():
   # print row[0], row[1], row[2], row[3]
   term = Term(name = row[1],
               termCode = row[2],
-              editable = row[3]).save(force_insert=True)
+              state = row[3]).save(force_insert=True)
               
 # This populates the courses
 cur.execute("select * from course")

@@ -56,7 +56,7 @@ def addCourses(tid, prefix):
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
-        if not databaseInterface.isTermEditable(tid):  # IF THE TERM IS NOT EDITABLE
+        if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
             # ADD THE COURSE TO THE COURSECHANGE TABLE
             newCourse.addCourseChange(cid, cfg["changeType"]["create"])
 

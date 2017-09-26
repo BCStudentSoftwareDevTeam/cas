@@ -9,14 +9,11 @@ def editterm(state):
       data = request.form
       term = Term.get(Term.termCode == data['termCode'])
       if state == "locked":
-        term.editable = False
-        term.locked = True
+        term.state = 2
       elif state == "tracking":
-        term.editable = False
-        term.locked = False
+        term.state = 1
       elif state == "open":
-        term.editable = True
-        term.locked = False
+        term.state = 0
       else:
         return jsonify({"Error": "Invalid State"})
         

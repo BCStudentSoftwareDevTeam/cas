@@ -47,14 +47,14 @@ def editcourse(tid, prefix, page):
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
     
-    if (not databaseInterface.isTermEditable(tid) and not databaseInterface.isTermLocked(tid) ) or (authorizedUser.isAdmin() and databaseInterface.isTermLocked(tid)):
+    if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
-      databaseInterface.editCourse(data, prefix, professors)
-      message = "Course: course {} has been edited".format(data['cid'])
-      log.writer("INFO", page1, message)
-      flash("Course information has successfully been modified!")
-      if page == 'courses':
-        return redirect(url_for("courses", tID=tid, prefix=prefix))
+    databaseInterface.editCourse(data, prefix, professors)
+    message = "Course: course {} has been edited".format(data['cid'])
+    log.writer("INFO", page1, message)
+    flash("Course information has successfully been modified!")
+    if page == 'courses':
+      return redirect(url_for("courses", tID=tid, prefix=prefix))
     else:
       url = "/courseManagement/" + page + "/" + tid
       return redirect(url)

@@ -58,8 +58,7 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  editable          = BooleanField()
-  locked            = BooleanField(default = False)
+  state             = IntegerField(default=0)
   
   def __str__(self):
     return self.name
