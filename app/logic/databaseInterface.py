@@ -111,11 +111,15 @@ return terms
 def getAllTerms():
     return Term.select().order_by(-Term.termCode)
     
-    
 def isTermEditable(termID):
     ''' returns booleans stating whether the term is editable'''
     return Term.get(Term.termCode == int(termID)).editable
-    
+        
+def isTermLocked(termID):
+    ''' returns booleans stating whether the term is locked'''
+    return Term.get(Term.termCode == int(termID)).locked
+        
+   
 
 def editInstructors(newInstructors, courseID):
     ''' edits the instructs give a list of the new instructors

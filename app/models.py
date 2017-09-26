@@ -59,6 +59,7 @@ class Term(dbModel):
   year              = IntegerField(null = True)
   name              = CharField()
   editable          = BooleanField()
+  locked            = BooleanField(default = False)
   
   def __str__(self):
     return self.name

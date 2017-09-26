@@ -12,7 +12,7 @@
                 <table class="table table-striped table-hover">
                     {% include "snips/courseElements/adminCourseTable.html" %}
                 </table>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
+                {% if isAdmin or (isDivisionChair or isProgramChair and not curTermName.locked) %}
                     {% include "snips/courseElements/createCourse.html" %}
                 {% endif %}
             </div>
