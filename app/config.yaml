@@ -35,7 +35,7 @@ mainMenu:
     link: "/"
   - title: "Courses"
     link: "/selectTerm"
-  - title: "Prospective Courses"
+  - title: "Course Sequencing Table"
     link: "/selectProgram"
   - title: "Log Out"
     link: "http://login.berea.edu/idp/profile/Logout"
