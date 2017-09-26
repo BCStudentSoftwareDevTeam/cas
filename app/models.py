@@ -62,10 +62,14 @@ class Term(dbModel):
   
   def __str__(self):
     return self.name
+    
+class Building(dbModel):
+  bID           = PrimaryKeyField()
+  name          = CharField()
   
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
-  building       = CharField(null=False)
+  building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
