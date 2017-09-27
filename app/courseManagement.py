@@ -73,6 +73,9 @@ def conflictsListed(tid):
 
     buildings = databaseInterface.getAllBuildings()
 
+    allCourses = Course.select().where(Course.term == tid)
+    instructors = databaseInterface.createInstructorDict(allCourses)
+
     for building in buildings:
 
         # we want a clean conflicts list for each room
@@ -89,13 +92,12 @@ def conflictsListed(tid):
             
             while len(courseList):
                 current_course = courseList.pop()
-
                 # NEEDED TO PREVENT SEG FAULT
                 if len(courseList):
                     buildingConflicts += functions.getConflicts(
                         current_course, courseList)
             buildingConflicts+=specialScheduleCourseList
-        instructors = {}
+            
         if len(buildingConflicts):
 
             buildingConflicts = functions.removeDuplicates(buildingConflicts)
@@ -104,8 +106,7 @@ def conflictsListed(tid):
             # SET THE KEY(building name) TO THE VALUE(list of course objects)
             conflict_dict[building.building] = buildingConflicts
             # DATA FOR THE CONFLICTS TABLE
-            instructors = databaseInterface.createInstructorDict(
-                buildingConflicts)
+            
                 
     return render_template("conflicts.html",
                            cfg=cfg,
