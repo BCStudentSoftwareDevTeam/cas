@@ -71,7 +71,7 @@ changeType:
   create: 'create'
   delete: 'delete'
   update: 'update'
-  
+
 tableLayout:
   order: ['Course Name', 'Taught By', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
   Course Name:    0
@@ -89,6 +89,7 @@ columnColor:
   delete:   'danger'
   create:   'success'
   default:  'none'
+  verified: 'verified'
   
 DEBUG:
   user: "heggens" #Admin Access

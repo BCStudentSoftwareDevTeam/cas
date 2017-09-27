@@ -1,6 +1,8 @@
 from allImports import *
 from app.logic.NullCheck import NullCheck
 from app.logic import databaseInterface
+from app.logic import functions
+
 import pprint
 
 
@@ -65,11 +67,12 @@ class DataUpdate():
 
     
 
-
+    '''
+    Marks a course as having been verified and saves the db
+    @param data - The post form data containing the id of the course.
+    @return None
+    '''
     def verifyCourseChange(self, data):
         course = CourseChange.get(CourseChange.cId == data['id'])
-        course.delete_instance()
-        instructors = InstructorCourseChange.select().where(
-            InstructorCourseChange.course == int(data['id']))
-        for instructor in instructors:
-            instructor.delete_instance()
+        course.verified = True
+        course.save()
