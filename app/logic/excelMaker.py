@@ -2,73 +2,77 @@ import xlsxwriter
 from app.allImports import *
 import sys,os
 
-
-def makeExcelFile(term):
-    filename = "cas-{}-courses.xlsx".format(term.termCode)
-    path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-    workbook = xlsxwriter.Workbook(path)
-    workbook.set_properties({
-    'title':    'Course Schedule for {}'.format(term.name),
-    'author':   'Cas System',
-    'comments': 'Created with Python and XlsxWriter'})
-    
-    # create a master worksheet
-    master_worksheet = workbook.add_worksheet('All Courses')
-    row = 2
-    master_row = 2
-    subjects = Subject.select().order_by(Subject.prefix)
-    # add values 
-    master_worksheet.write('A1','Prefix')
-    master_worksheet.write('B1','Number')
-    master_worksheet.write('C1','Title')
-    master_worksheet.write('D1','Block ID')
-    master_worksheet.write('E1','Block')
-    master_worksheet.write('F1', 'Capacity')
-    master_worksheet.write('G1', 'Notes')
-    
-    #loop though the subjects
-    for subject in subjects:
-        row = 2
-        current_sheet = workbook.add_worksheet(subject.prefix)
-        current_sheet.write('A1','Prefix')
-        current_sheet.write('B1','Number')
-        current_sheet.write('C1','Title')
-        current_sheet.write('D1','Block ID')
-        current_sheet.write('E1','Block')
-        current_sheet.write('F1', 'Capacity')
-        current_sheet.write('G1', 'Notes')
+class ExcelMaker:
+    def __init__(self):
+        self.program_row = 2
+        self.cross_row   = 2
+        self.master_row  = 2
         
-        courses = Course.select().where(Course.prefix == subject.prefix).where(Course.term == term).order_by(Course.bannerRef)
+    def writeHeaders(self,sheet):
+        sheet.write('A1','Prefix')
+        sheet.write('B1','Number')
+        sheet.write('C1','Title')
+        sheet.write('D1','Block ID')
+        sheet.write('E1','Block')
+        sheet.write('F1', 'Capacity')
+        sheet.write('G1', 'Notes')
         
-        for course in courses:
+    def writeRow(self,sheet,column,row,value):
+        sheet.write('{0}{1}'.format(column,row), value)
+        
+    def make_master_file(self,term):
+        #Set excel parameter variables
+        filename = "cas-{}-courses.xlsx".format(term.termCode)
+        path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
+        workbook = xlsxwriter.Workbook(path)
+        workbook.set_properties({
+        'title':    'Course Schedule for {}'.format(term.name),
+        'author':   'Cas System',
+        'comments': 'Created with Python and XlsxWriter'})
+        
+        #Create worksheets and Set Headers
+        master_sheet = workbook.add_worksheet('All Courses')
+        self.writeHeaders(master_sheet)
+        
+        cross_sheet = workbook.add_worksheet('CrossListed')
+        self.writeHeaders(cross_sheet)
+        
+        #Loop through programs
+        programs = Subject.select().order_by(Subject.prefix)
+        for program in programs:
+            self.program_row = 2 #reset the program row 
+            program_sheet = workbook.add_worksheet(program.prefix)
+            self.writeHeaders(program_sheet)
             
-            
-            master_worksheet.write('A{}'.format(master_row), course.prefix.prefix)
-            master_worksheet.write('B{}'.format(master_row), course.bannerRef.number)
-            master_worksheet.write('C{}'.format(master_row), course.bannerRef.ctitle)
-            if course.schedule is not None:
-                master_worksheet.write('D{}'.format(master_row), course.schedule.sid)
-                master_worksheet.write('E{}'.format(master_row), course.schedule.letter)
-                current_sheet.write('D{}'.format(row), course.schedule.sid)
-                current_sheet.write('E{}'.format(row), course.schedule.letter)
-            master_worksheet.write('F{}'.format(master_row), course.capacity)
-            
-            current_sheet.write('A{}'.format(row), course.prefix.prefix)
-            current_sheet.write('B{}'.format(row), course.bannerRef.number)
-            current_sheet.write('C{}'.format(row), course.bannerRef.ctitle)
-            
-            current_sheet.write('F{}'.format(row), course.capacity)
-            #Notes
-            master_worksheet.write('G{}'.format(master_row),course.notes)
-            current_sheet.write('G{}'.format(row),course.notes)
-            instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
-            colNum = ord('H')
-            for instructor in instructors:
-                master_worksheet.write('{0}{1}'.format(chr(colNum), master_row), instructor.username.username)
-                current_sheet.write('{0}{1}'.format(chr(colNum), row), instructor.username.username)
-                colNum += 1
-            row += 1
-            master_row += 1
-            
-    workbook.close()
-    return path
+            #Loop through Courses in that program
+            courses = Course.select().where(Course.prefix == program.prefix).where(Course.term == term).order_by(Course.bannerRef)
+            for course in courses:
+                sheet_matrix = [[master_sheet,self.master_row],[program_sheet,self.program_row]]
+                if course.crossListed:
+                    sheet_matrix.append([cross_sheet,self.cross_row])
+                for sheet_list in sheet_matrix:
+                    sheet = sheet_list[0]
+                    row   = sheet_list[1]
+                    self.writeRow(sheet,'A',row,course.prefix.prefix)
+                    self.writeRow(sheet,'B',row,course.bannerRef.number)
+                    self.writeRow(sheet,'C',row,course.bannerRef.ctitle)
+                    if course.schedule is not None:
+                        self.writeRow(sheet,'D',row,course.schedule.sid)
+                        self.writeRow(sheet,'E',row,course.schedule.letter)
+                    self.writeRow(sheet,'F',row,course.capacity)
+                    self.writeRow(sheet,'G',row,course.notes)
+                    
+                    #Handle Instructors
+                    instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
+                    colNum = ord('H')
+                    for instructor in instructors:
+                        self.writeRow(sheet,chr(colNum),row,instructor.username.username)
+                        colNum += 1
+                #Increment Rows
+                self.program_row  += 1
+                self.master_row += 1
+                if course.crossListed:
+                    self.cross_row += 1
+                    
+        workbook.close()
+        return path
