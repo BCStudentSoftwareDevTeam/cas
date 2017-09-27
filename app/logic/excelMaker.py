@@ -24,6 +24,7 @@ def makeExcelFile(term):
     master_worksheet.write('D1','Block ID')
     master_worksheet.write('E1','Block')
     master_worksheet.write('F1', 'Capacity')
+    master_worksheet.write('G1', 'Notes')
     
     #loop though the subjects
     for subject in subjects:
@@ -35,6 +36,7 @@ def makeExcelFile(term):
         current_sheet.write('D1','Block ID')
         current_sheet.write('E1','Block')
         current_sheet.write('F1', 'Capacity')
+        current_sheet.write('G1', 'Notes')
         
         courses = Course.select().where(Course.prefix == subject.prefix).where(Course.term == term).order_by(Course.bannerRef)
         
@@ -56,9 +58,11 @@ def makeExcelFile(term):
             current_sheet.write('C{}'.format(row), course.bannerRef.ctitle)
             
             current_sheet.write('F{}'.format(row), course.capacity)
-            
+            #Notes
+            master_worksheet.write('G{}'.format(master_row),course.notes)
+            current_sheet.write('G{}'.format(row),course.notes)
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
-            colNum = ord('G')
+            colNum = ord('H')
             for instructor in instructors:
                 master_worksheet.write('{0}{1}'.format(chr(colNum), master_row), instructor.username.username)
                 current_sheet.write('{0}{1}'.format(chr(colNum), row), instructor.username.username)
