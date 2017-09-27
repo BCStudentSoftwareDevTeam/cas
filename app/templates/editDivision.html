@@ -5,7 +5,9 @@
 {% block body %}
 
 <div id="page-wrapper">
-  {% include "snips/messages.html" %}
+<div class = "col-lg-2"> &nbsp;</div>
+<div style="text-align: center;">
+{% include "snips/messages.html" %}</div>
     <div class="row">
         <form action="\editDivision" method="post" id="divisionEditForm{{division.dID}}">
           <div class="form-group">
