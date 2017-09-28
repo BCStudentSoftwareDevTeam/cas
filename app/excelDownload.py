@@ -28,3 +28,13 @@ def makeExcel(tid):
         
     #   flash("Division succesfully changed")
     #   return redirect(redirect_url())
+    
+@app.route('/excel/crossListed/<tid>', methods=["GET"])
+def makeCrossListedExcel(tid):
+  authorizedUser = AuthorizedUser()
+  if authorizedUser.isAdmin():
+    page = "/" + request.url.split("/")[-1]
+    term = Term.get(Term.termCode == tid)
+    excel = ExcelMaker()
+    completePath = excel.make_cross_listed_file(term)
+    return send_file(completePath,as_attachment=True)
