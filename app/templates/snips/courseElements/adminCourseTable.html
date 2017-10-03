@@ -10,7 +10,7 @@
             <th>Cross-Listed</th>
             <th>Notes</th>
             <th>Last Edited</th>
-            {% if isAdmin or isDivisionChair or isProgramChair %}
+            {% if isAdmin or ((isDivisionChair or isProgramChair) and curTermName.state != 2) %}
               <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
             {% endif %}
         </tr> 
@@ -85,7 +85,7 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
+                {% if isAdmin or ((isDivisionChair or isProgramChair) and curTermName.state != 2) %}
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->

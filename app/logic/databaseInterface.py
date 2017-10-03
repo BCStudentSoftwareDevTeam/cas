@@ -111,11 +111,28 @@ return terms
 def getAllTerms():
     return Term.select().order_by(-Term.termCode)
     
-    
-def isTermEditable(termID):
-    ''' returns booleans stating whether the term is editable'''
-    return Term.get(Term.termCode == int(termID)).editable
-    
+def isTermOpen(termID):
+    ''' returns booleans stating whether the term is open'''
+    if (Term.get(Term.termCode == int(termID)).state == 0):
+        return True
+    else:
+        return False
+        
+def isTermLocked(termID):
+    ''' returns booleans stating whether the term is locked'''
+    if (Term.get(Term.termCode == int(termID)).state == 2):
+        return True
+    else:
+        return False
+        
+def isTermTracking(termID):
+    ''' returns booleans stating whether the term is locked'''
+    if (Term.get(Term.termCode == int(termID)).state == 1):
+        return True
+    else:
+        return False
+        
+   
 
 def editInstructors(newInstructors, courseID):
     ''' edits the instructs give a list of the new instructors
@@ -160,6 +177,3 @@ def editCourse(data, prefix, professors):
         course.save()
         editInstructors(professors, data['cid'])    
     
-def isTermEditable(termID):
-    ''' returns booleans stating whether the term is editable'''
-    return Term.get(Term.termCode == int(termID)).editable
