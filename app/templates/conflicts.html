@@ -57,7 +57,9 @@
                     <!--TAUGHT BY-->
                     <!--Needed in one line so names wrap correctly-->
                     <td>
-                      {% for instructor in instructors[course.cId] %} {{instructor.username.username}} {% endfor %}
+                      {% for instructor in instructors[course.cId] %}
+                          {{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> 
+                      {% endfor %}
                     </td>
                     <!--SCHEDULE-->
                     <td>
