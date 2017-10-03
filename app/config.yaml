@@ -39,16 +39,19 @@ mainMenu:
     link: "http://login.berea.edu/idp/profile/Logout"
 
 adminMenu:
-  Administration:
-    - title: "Program Management"
-      link:  "/redirect/program_management"
-    - title: "Division Management"
-      link:  "/redirect/division_management"
-    - title: "System Management"
-      link:  "/admin/systemManagement"
-    - title: "Course Management"
-      link:  "/courseManagement/crossListed"
-
+  - title: "Program Management"
+    link:  "/redirect/program_management"
+    page: ["programManagement"]
+  - title: "Division Management"
+    link:  "/redirect/division_management"
+    page: ["divisionManagement"]
+  - title: "System Management"
+    link:  "/admin/systemManagement"
+    page: ["systemManagement"]
+  - title: "Course Management"
+    link:  "/courseManagement/crossListed"
+    page: ["tracker","conflicts","crossListed"]
+      
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
     11: 'Fall'                    # e.g. Fall 2016 = 201611
