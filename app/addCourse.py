@@ -4,7 +4,8 @@ from app.logic.getAuthUser import AuthorizedUser
 from app.logic import databaseInterface
 from app.logic.NullCheck import NullCheck
 from app.logic.redirectBack import redirect_url
-
+from flask import jsonify
+import json
 
 '''
 adds the course to the course table and to the course change if needed
@@ -67,8 +68,20 @@ def addCourses(tid, prefix):
         return redirect(redirect_url())
     else:
         abort(404) 
+        
 @app.route("/test_form", methods=["POST"])
 def form_sample():
     data = request.form
     
     return "The parameter was: {0}".format(data['var1'])
+        
+        
+@app.route('/get_termcourses/<term>/')
+def term_courses(term):
+    term1=Term.get(Term.name==term)
+    courses=[]
+    for course in Course.select().where(Course.term_id==term1.termCode):
+        courses.append(str(course))
+    return json.dumps(courses)
+        
+    

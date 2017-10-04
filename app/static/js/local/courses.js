@@ -7,7 +7,34 @@ function getSelectedCourse(elementId) {
       return null;
    }
    return selectedCourse.options[selectedCourse.selectedIndex].text;
+
 }
+
+function retrieveCourses(){
+   var e = document.getElementById("selected_term");
+   var selected_term = e.options[e.selectedIndex].value;
+   console.log(selected_term);
+   console.log("/get_termcourses/"+selected_term)
+   $.ajax({
+            url: '/get_termcourses/'+selected_term,
+            dataType: 'json',
+            success: function(response){
+      				console.log(response);
+      				
+      				
+      			},
+      			error: function(error){
+      				console.log(error);
+      			}
+          
+            });
+   
+   
+   //courses= $.getJSON("/get_termcourses", selected_term)
+  
+}
+
+
 
 function stn(){
    console.log('here');
