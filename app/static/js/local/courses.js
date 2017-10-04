@@ -9,6 +9,23 @@ function getSelectedCourse(elementId) {
    return selectedCourse.options[selectedCourse.selectedIndex].text;
 
 }
+function fillCourses(response){
+   var courses = document.getElementById("coursesDiv");
+   courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
+   var selectPicker = document.getElementById("multipleCoursesSelect");
+   for (var e = 0; e < response.length; e++){
+      var option = document.createElement("option");
+      option.text = response[e];
+      option.value = response[e];
+      //change data structure to use either a matrix or dictionary
+      // where the cid is the key or first element
+      // and the course title is the value or second element
+      selectPicker.appendChild(option);
+   }
+   $('.selectpicker').selectpicker('refresh');
+}
+
+
 
 function retrieveCourses(){
    var e = document.getElementById("selected_term");
@@ -20,6 +37,7 @@ function retrieveCourses(){
             dataType: 'json',
             success: function(response){
       				console.log(response);
+      				fillCourses(response);
       				
       				
       			},
