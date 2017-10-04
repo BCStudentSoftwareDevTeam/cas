@@ -44,14 +44,19 @@ class Division(dbModel):
   
 class BannerSchedule(dbModel):
   letter        = CharField()
-  days          = CharField(null = True)
-  startTime     = TimeField(null = True)
-  endTime       = TimeField(null = True)
   sid           = CharField(primary_key = True)
   order         = IntegerField(unique = True)
+  startTime   = TimeField(null = True)
+  endTime     = TimeField(null = True)
   
   def __str__(self):
     return self.letter
+    
+class ScheduleDays(dbModel):
+  schedule = ForeignKeyField(BannerSchedule, null = True)
+  day         = CharField(null=True)
+
+  
 
 class Term(dbModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
