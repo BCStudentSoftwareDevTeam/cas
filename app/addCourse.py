@@ -67,3 +67,8 @@ def addCourses(tid, prefix):
         return redirect(redirect_url())
     else:
         abort(404) 
+@app.route("/test_form", methods=["POST"])
+def form_sample():
+    data = request.form
+    
+    return "The parameter was: {0}".format(data['var1'])
