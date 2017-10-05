@@ -33,6 +33,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         {% endfor %}
+
+                        <li class="active">
+                            <a class="termSelect head2" href="#">Term<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
+                           
                             <ul class="nav nav-second-level">
                                 <select id = "termSelect" placeholder= "Select Term" name = "term-select" class="selectpicker form-control" data-live-search="true" >
                                     {% for term in allTerms %}
