@@ -33,11 +33,6 @@ def crossListed(tid):
         ).where(Course.crossListed == 1
         ).where(Course.term == tid
         ).order_by(BannerCourses.ctitle)
-        
-        
-        
-    for course in crossListedCourses:
-        print course
 
     instructors = databaseInterface.createInstructorDict(crossListedCourses)
 
