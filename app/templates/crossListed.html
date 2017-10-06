@@ -13,9 +13,14 @@
         <div id="wrapper">
             <div id="page-wrapper">
                 <div class="row">
-                {% include "snips/messages.html" %} {% for term in allTerms %} {% if term.termCode == currentTerm|int %}
-                <h2> {{term.name}}: Cross Listed Courses </h2> {% endif %} {% endfor %}
-                    {% if crossListedCourses is not none %}
+                {% include "snips/messages.html" %} 
+                {% for term in allTerms %} 
+                    {% if term.termCode == currentTerm|int %}
+                        <h2> {{term.name}}: Cross Listed Courses </h2>
+                        <a class="btn btn-info" href="/excel/crossListed/{{currentTerm}}">Download CrossListed Terms</a>
+                    {% endif %} 
+                {% endfor %}
+                {% if crossListedCourses is not none %}
                     <div class="row">
                         <div class="col-lg-12">
                             <table class="table table-striped table-hover">
@@ -24,16 +29,17 @@
                             <!--if you change the name of this button it will break the javascript in toggleMenu.js-->
                         </div>
                     </div>
-                    {% else %}
+                {% else %}
                     <div class="jumbotron">
                         <p>There are currently no cross listed courses.</p>
                     </div>
-                    {% endif %}
+                {% endif %}
                     </div>
                 </div>
             <!-- /#page-content-wrapper -->
         </div>
         <!-- /#wrapper -->
         <script type="text/javascript" src="/static/js/local/courses.js" ></script>
+        
 {% endblock %}
 <!--end page content-->
