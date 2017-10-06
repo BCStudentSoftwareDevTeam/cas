@@ -1,3 +1,20 @@
+//Checks whether there is currently an admin selected and enables/disables remove button accordingly
+function updateFormEnabled() {
+    if (verifyAdmin()) {
+        $('#adminRemove').prop('disabled', false);
+    } else {
+        $('#adminRemove').prop('disabled', true);
+    }
+}
+function verifyAdmin() {
+    if ($('#adminPicker').val() != "None") {
+        return true;
+    } else {
+        return false
+    }
+}
+$('#adminPicker').change(updateFormEnabled);
+window.onload(updateFormEnabled());
 $( function() {
     $( "#datepicker" ).datepicker();
   } );
