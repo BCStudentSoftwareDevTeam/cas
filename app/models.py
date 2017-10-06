@@ -58,7 +58,7 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  editable          = BooleanField()
+  state             = IntegerField(default=0)
   
   def __str__(self):
     return self.name
@@ -94,6 +94,7 @@ class User(dbModel):
   email        = CharField()
   isAdmin      = BooleanField()
   lastVisited  = ForeignKeyField(Subject, null=True)
+  bNumber      = CharField(null = True)
   
   def __str__(self):
     return self.username

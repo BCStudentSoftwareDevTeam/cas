@@ -20,15 +20,19 @@ import pprint
 @app.route("/courseManagement/crossListed/<tid>", methods=["GET", "POST"])
 def crossListed(tid):
     # DATA FOR THE NAVBAR AND SIDE BAR
-    terms = Term.select().order_by(-Term.termCode)
     if tid == 0:
+        terms = Term.select().order_by(-Term.termCode)
         tid = terms[0].termCode
+        print tid
 
     page = "crossListed"
     authorizedUser = AuthorizedUser()
     ##DATA FOR THE CROSS LISTED COURSE TABLE##
-    crossListedCourses = Course.select().where(Course.crossListed == 1).where(
-        Course.term == tid).order_by(+Course.schedule).order_by(+Course.rid)
+    crossListedCourses = Course.select(
+        ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
+        ).where(Course.crossListed == 1
+        ).where(Course.term == tid
+        ).order_by(BannerCourses.ctitle)
 
     instructors = databaseInterface.createInstructorDict(crossListedCourses)
 
@@ -73,6 +77,9 @@ def conflictsListed(tid):
 
     buildings = databaseInterface.getAllBuildings()
 
+    allCourses = Course.select().where(Course.term == tid)
+    instructors = databaseInterface.createInstructorDict(allCourses)
+
     for building in buildings:
 
         # we want a clean conflicts list for each room
@@ -89,13 +96,12 @@ def conflictsListed(tid):
             
             while len(courseList):
                 current_course = courseList.pop()
-
                 # NEEDED TO PREVENT SEG FAULT
                 if len(courseList):
                     buildingConflicts += functions.getConflicts(
                         current_course, courseList)
             buildingConflicts+=specialScheduleCourseList
-        instructors = {}
+            
         if len(buildingConflicts):
 
             buildingConflicts = functions.removeDuplicates(buildingConflicts)
@@ -104,8 +110,7 @@ def conflictsListed(tid):
             # SET THE KEY(building name) TO THE VALUE(list of course objects)
             conflict_dict[building.building] = buildingConflicts
             # DATA FOR THE CONFLICTS TABLE
-            instructors = databaseInterface.createInstructorDict(
-                buildingConflicts)
+            
                 
     return render_template("conflicts.html",
                            cfg=cfg,

@@ -21,7 +21,7 @@ def deletecourse(prefix, tid):
     course = Course.get(Course.cId == cid)
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
     if authorizedUser.isAuthorized():
-        if not databaseInterface.isTermEditable(tid):
+        if not databaseInterface.isTermOpen(tid):
 
             change = CourseChange.select().where(CourseChange.cId == cid)
             # IF THE RECORD ALREADY EXSISTED THEN WE NEED TO UPDATE THE

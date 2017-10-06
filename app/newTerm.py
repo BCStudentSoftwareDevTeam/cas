@@ -31,7 +31,7 @@ def newterm():
         flash(message,'error')
       else:
         #ADD THE INFORMATION TO THE DATABASE
-        newTerm = Term(termCode=int(term_code), name=term_name, semester=semester_name, year=int(term_year), editable = True)
+        newTerm = Term(termCode=int(term_code), name=term_name, semester=semester_name, year=int(term_year), state=0)
         newTerm.save(force_insert=True)
         message = "Term: Term {} has been created".format(data['year'])
         log.writer("INFO", page, message)

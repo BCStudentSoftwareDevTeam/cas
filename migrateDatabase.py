@@ -52,6 +52,7 @@ for row in cur.fetchall():
               firstName = row[1],
               lastName = row[2],
               email    = row[3],
+              bNumber  = row[4],
               isAdmin  = admin,
               lastVisted = None)
               
@@ -94,7 +95,7 @@ for row in cur.fetchall():
   # print row[0], row[1], row[2], row[3]
   term = Term(name = row[1],
               termCode = row[2],
-              editable = row[3]).save(force_insert=True)
+              state = row[3]).save(force_insert=True)
               
 # This populates the courses
 cur.execute("select * from course")

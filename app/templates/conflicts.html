@@ -57,13 +57,19 @@
                     <!--TAUGHT BY-->
                     <!--Needed in one line so names wrap correctly-->
                     <td>
-                      {% for instructor in instructors[course.cId] %} {{instructor.username.username}} {% endfor %}
+                      {% for instructor in instructors[course.cId] %}
+                          {{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> 
+                      {% endfor %}
                     </td>
                     <!--SCHEDULE-->
                     <td>
                       {% if course.schedule is not none %} 
-                        {{course.schedule.days}} 
-                        {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} 
+                        {% if course.schedule.sid == 'ZZZ' %}
+                          <b><p>See Notes</p></b>
+                        {% else %}
+                          {{course.schedule.days}} 
+                          {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} 
+                        {% endif %}
                       {% endif %}
                     </td>
                     <!--CAPACITY-->

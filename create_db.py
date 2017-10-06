@@ -9,7 +9,7 @@ users = User(  firstName = "Scott",
                 username  = "heggens",
                 email     = "heggens@berea.edu",
                 isAdmin   = 1,
-                program   = 1
+                bNumber   = "1239485"
             ).save(force_insert=True)
             
 users = User(  firstName = "Jan",
@@ -17,7 +17,7 @@ users = User(  firstName = "Jan",
                 username  = "pearcej",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1239495"
             ).save(force_insert=True)     
 
 users = User(  firstName = "Matt",
@@ -25,7 +25,7 @@ users = User(  firstName = "Matt",
                 username  = "jadudm",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1234409485"
             ).save(force_insert=True)
             
 users = User(  firstName = "Cody",
@@ -33,7 +33,7 @@ users = User(  firstName = "Cody",
                 username  = "myersco",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1774409485"
             ).save(force_insert=True) 
 ##########
 #DIVISION#
@@ -130,18 +130,18 @@ bannercourse =  BannerCourses(  subject       = "CSC",
 ######
 #TERM#
 ######
-term = Term(  name              = "Fall 2016",
+term = Term(  name             = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
               termCode          = 201611,
-              editable          = 0
+              state             = 0
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2017",
               semester          = "Spring",
               year              = 2017,
               termCode          = 201612,
-              editable          = 0
+              state             = 0
             ).save(force_insert = True)      
             
 ########
