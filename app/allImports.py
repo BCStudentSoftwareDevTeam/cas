@@ -68,11 +68,9 @@ admin = Admin(app)
 
 @app.before_request
 def before_request():
-    g.dbMain = mainDB.connect()
+    mainDB.connect()
 
 
 @app.teardown_request
 def teardown_request(exception):
-    dbM = getattr(g, 'db', None)
-    if (dbM is not None) and (not dbM.is_closed()):
-        dbM.close()
+    mainDB.close()
