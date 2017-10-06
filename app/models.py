@@ -94,6 +94,7 @@ class User(dbModel):
   email        = CharField()
   isAdmin      = BooleanField()
   lastVisited  = ForeignKeyField(Subject, null=True)
+  bNumber      = CharField(null = True)
   
   def __str__(self):
     return self.username
