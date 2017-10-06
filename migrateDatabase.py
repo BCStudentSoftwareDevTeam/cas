@@ -52,6 +52,7 @@ for row in cur.fetchall():
               firstName = row[1],
               lastName = row[2],
               email    = row[3],
+              bNumber  = row[4],
               isAdmin  = admin,
               lastVisted = None)
               
