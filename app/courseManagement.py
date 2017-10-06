@@ -20,8 +20,8 @@ import pprint
 @app.route("/courseManagement/crossListed/<tid>", methods=["GET", "POST"])
 def crossListed(tid):
     # DATA FOR THE NAVBAR AND SIDE BAR
+    terms = Term.select().order_by(-Term.termCode)
     if tid == 0:
-        terms = Term.select().order_by(-Term.termCode)
         tid = terms[0].termCode
         print tid
 
