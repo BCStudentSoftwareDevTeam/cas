@@ -6,6 +6,8 @@ from app.logic.NullCheck import NullCheck
 from app.logic.redirectBack import redirect_url
 from flask import jsonify
 import json
+from playhouse.shortcuts import model_to_dict, dict_to_model
+import datetime
 
 '''
 adds the course to the course table and to the course change if needed
@@ -76,12 +78,30 @@ def form_sample():
     return "The parameter was: {0}".format(data['var1'])
         
         
-@app.route('/get_termcourses/<term>/')
-def term_courses(term):
+@app.route('/get_termcourses/<term>/<department>')
+def term_courses(term, department):
+    
+    
+
+    #user_obj = User.select().where(User.username == 'charlie').get()
+    #json_data = json.dumps(model_to_dict(user_obj))
+    
+    
     term1=Term.get(Term.name==term)
-    courses=[]
-    for course in Course.select().where(Course.term_id==term1.termCode):
-        courses.append(str(course))
-    return json.dumps(courses)
+    courses={}
+    for course in Course.select().where(Course.term_id==term1.termCode and Course.prefix_id==department):
+        courses[course.cId]=model_to_dict(course)
+        #courses[course.cId]=course
+    print courses
+    return json.dumps(courses, default=myconverter)
+
+
+def myconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
+
+
+    
+    
         
     
