@@ -14,7 +14,7 @@ function verifyAdmin() {
     }
 }
 $('#adminPicker').change(updateFormEnabled);
-window.onload(updateFormEnabled());
+window.onload=updateFormEnabled;
 $( function() {
     $( "#datepicker" ).datepicker();
   } );
