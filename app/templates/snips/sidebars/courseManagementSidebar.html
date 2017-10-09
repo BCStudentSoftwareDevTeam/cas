@@ -14,6 +14,9 @@
             <li>
                 <a id="trackerLink" href="">Change Tracker</a>
             </li>
+            <li>
+                <a id="deactivateLink" href="/edit/active/courses">Edit Active Courses</a>
+            </li>
             {% if page == "tracker" %} {# We need a hidden input for our javascript #}
             <input type="hidden" value="{{currentTerm}}" id="termSelect"> {% else %}
             <li class="head2"><a>Current Term</a></li>
