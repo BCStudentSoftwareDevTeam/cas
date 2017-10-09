@@ -105,6 +105,7 @@ class BannerCourses(dbModel):
   number        = CharField(null = False)
   section       = CharField(null = True)
   ctitle        = CharField(null = False)
+  is_active     = BooleanField()
   
   def __str__(self):
     return '{0} {1}'.format(self.subject, self.number)
