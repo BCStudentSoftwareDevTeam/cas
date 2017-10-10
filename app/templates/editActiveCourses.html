@@ -8,51 +8,66 @@
 
 {% block body %}
 
-{% include "snips/messages.html" %}
+
 <div id="wrapper">
     <div id="page-wrapper">
+    {% include "snips/messages.html" %}
     
     {# Deactivate Course Panel #}
-      <div class="panel panel-default">
+      <div class="panel panel-default" style="margin-top: 50px;">
         <div class="panel-heading">
-          <div class="panel-body">
-            <label for="deactive">Deactivate A Course</label>
-            <form action="deactivate/course" method="post" id="deactive">
-              <div class="form-group">
-                <select class="selectpicker form-control" name="deactivate" data-live-search="true">
-                  <option value="">---</option>
-                  {% for course in activeCourses %}
-                    <option>
-                      {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
-                    </option>
-                  {% endfor %}
-                </select>
-              </div>
-            </form>
-          </div>
+          <h3 class="panel-title">Deactivate A Course
+            <a data-toggle="popover" data-content="Deactivating a course ensures that is unable to be selected by Program and Division Chairs during the scheduling process.">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form action="/deactivate/course" method="post" id="deactive">
+            <div class="form-group">
+              <select class="selectpicker form-control" name="deactivate" data-live-search="true" required>
+                <option value="">---</option>
+                {% for course in activeCourses %}
+                  <option value="{{course.reFID}}">
+                    {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-danger">Deactivate</button>
+          </form>
         </div>
       </div>
+    
       
       {# Reactivate a Course #}
       <div class="panel panel-default">
         <div class="panel-heading">
-          <div class="panel-body">
-            <label for="active">Activate A Course</label>
-            <form action="activate/course" method="post" id="active">
-              <div class="form-group">
-                <select class="selectpicker form-control" name="activate" data-live-search="true">
-                  <option value="">---</option>
-                  {% for course in deactiveCourses %}
-                    <option>
-                      {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
-                    </optin>
-                  {% endfor %}
-                </select>
-              </div>
-            </form>
-          </div>
+          <h3 class="panel-title">Activate A Course
+            <a data-toggle="popover" data-content="Activating a course makes a previous deactivated course available for selection during the scheduling process.">
+              <span class="glyphicon glyphicon-question-sign"></span>
+            </a>
+          </h3>
+        </div>                            
+        <div class="panel-body">
+          <form action="/activate/course" method="post" id="active">
+            <div class="form-group">
+              <select class="selectpicker form-control" name="activate" data-live-search="true" required>
+                <option value="">---</option>
+                {% for course in deactiveCourses %}
+                  <option value="{{course.reFID}}">
+                    {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
+                  </optin>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-info">Activate</button>
+          </form>
         </div>
       </div>
+      
+      {# Javascript Includes #}
+      <script src="/static/js/local/popup.js"></script>
       
     </div>
 </div>
