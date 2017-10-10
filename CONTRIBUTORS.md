@@ -30,7 +30,7 @@ __Berea College Faculty and Staff__
 * [Jonathan Chauwa](https://bitbucket.org/Jchauwa/)
 * [Sher Sanginov](https://bitbucket.org/shersanginov/)
 * [Guillermo Ramos-Macias](https://bitbucket.org/guillermo_ramos/)
-* [Jesson Ventura](https://bitbucket.org/Jessons/)
+* [Jesson Soto Ventura](https://bitbucket.org/Jessonsotoventura/)
 * [Aleksandra Cvetanovska](https://bitbucket.org/cvetanovskaalex/)
 
 
