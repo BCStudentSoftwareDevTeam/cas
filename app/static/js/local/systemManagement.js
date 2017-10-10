@@ -18,7 +18,7 @@ window.onload=updateFormEnabled;
 $( function() {
     $( "#datepicker" ).datepicker();
   } );
-  
+
 // Changes the text and post action in the modal based on the selected state 
 function changeModalText(state, termcode){
     if (state == "locked"){
@@ -38,3 +38,9 @@ function changeModalText(state, termcode){
     }
     $("#termCode").prop("value",termcode)
 }
+// Activate the tooltips and modals
+$(document).ready(function(){
+        $('[data-tooltip="true"]').tooltip({trigger:"hover"}); 
+        $('[data-toggle="modal"]').modal({show:false}); 
+});
+
