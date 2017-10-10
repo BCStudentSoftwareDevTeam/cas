@@ -9,6 +9,7 @@ def editAcitveCourses():
         deactiveCourses = BannerCourses.select().where(BannerCourses.is_active == False)
         return render_template("editActiveCourses.html",
                                 cfg             = cfg,
+                                isAdmin=authorizedUser.isAdmin(),
                                 activeCourses   = activeCourses,
                                 deactiveCourses = deactiveCourses
                                )

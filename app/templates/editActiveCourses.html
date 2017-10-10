@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set currentPage = "courseManagement" %}
+{% set currentPage = "editActiveCourses" %}
 
 <!--area outside of container-->
 {% block aboveContainer %} 
@@ -8,9 +8,52 @@
 
 {% block body %}
 
+{% include "snips/messages.html" %}
 <div id="wrapper">
-    <div id="page-wrapper"> 
-      <p> User Interface should go here.</p>
+    <div id="page-wrapper">
+    
+    {# Deactivate Course Panel #}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-body">
+            <label for="deactive">Deactivate A Course</label>
+            <form action="deactivate/course" method="post" id="deactive">
+              <div class="form-group">
+                <select class="selectpicker form-control" name="deactivate" data-live-search="true">
+                  <option value="">---</option>
+                  {% for course in activeCourses %}
+                    <option>
+                      {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      {# Reactivate a Course #}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-body">
+            <label for="active">Activate A Course</label>
+            <form action="activate/course" method="post" id="active">
+              <div class="form-group">
+                <select class="selectpicker form-control" name="activate" data-live-search="true">
+                  <option value="">---</option>
+                  {% for course in deactiveCourses %}
+                    <option>
+                      {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
+                    </optin>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
     </div>
 </div>
 
