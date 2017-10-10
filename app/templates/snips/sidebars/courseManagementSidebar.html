@@ -17,11 +17,15 @@
             <li>
                 <a id="deactivateLink" href="/edit/active/courses">Edit Active Courses</a>
             </li>
-            {% if page == "tracker" %} {# We need a hidden input for our javascript #}
-            <input type="hidden" value="{{currentTerm}}" id="termSelect"> {% else %}
-            <li class="head2"><a>Current Term</a></li>
-            <li id="sidebarSelect">
-                <select id="termSelect" class="form-control col-md-1" onchange="buildURL('{{page}}')">
+            {# TODO: This whole sidebar mess needs to be rebuilt #}
+            {% if currentPage == "tracker" %}
+                <input type="hidden" value="{{currentTerm}}" id="termSelect">  {# We need a hidden input for our javascript #}                
+            {% elif currentPage == "editActiveCourses" %}
+                <input type="hidden" value="{{currentTerm}}" id="termSelect">
+            {% else %}                
+                <li class="head2"><a>Current Term</a></li>
+                <li id="sidebarSelect">
+                    <select id="termSelect" class="form-control col-md-1" onchange="buildURL('{{page}}')">
                         {% for term in allTerms %}
                             <option value ="{{term.termCode}}"
                                 {% if term.termCode|int == currentTerm|int %}
