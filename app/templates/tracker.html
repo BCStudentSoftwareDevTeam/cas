@@ -89,13 +89,16 @@
                       {% if special != [] %}
                         <p>See Notes</p>
                       {% else %}
-                        {{course.schedule.days}} {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                        {% for day in course.schedule.days %} 
+                          {{ day.day }} 
+                        {% endfor %} 
+                        {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                       {% endif %}
                     {% endif %}
                   </td>
                   <td id="room" class="{{classDict[course.cId][3]}}">
                     {% if course.rid is not none %}
-                      {{course.rid.building}}:{{course.rid.number}}
+                      {{course.rid.building.name }}:{{course.rid.number}}
                     {% else %}
                       <p> None </p>
                     {% endif %}
