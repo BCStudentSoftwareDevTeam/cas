@@ -75,17 +75,35 @@ def getRoomConflicts(room_id, term_id):
     return conflicts
 
 def get_all_conflicts(term_id):
+    '''
+    Returns all the courses with conflicts
+    @param {int} term_id - the code of the term to look in
+
+    return {QueryResults} conflicts - A QueryResults object containing courses that conflict
+    '''
     all_conflicts = (Course.select()
                             .where(Course.cId << SQL(conflicts_sql('cId'), term_id, term_id)))
     return all_conflicts
     
 def get_rooms_with_conflicts(term_id):
+    '''
+    Returns all the rooms with conflicts
+    @param {int} term_id - the code of the term to look in
+
+    return {QueryResults} conflicts - A QueryResults object containing rooms that have conflicts
+    '''
     rooms_with_conflicts = (Rooms.select(Rooms)
                             .where(Rooms.rID << SQL(conflicts_sql('rid_id'), term_id, term_id))
                             .group_by(Rooms.rID))
     return rooms_with_conflicts
     
 def get_buildings_with_conflicts(term_id):
+    '''
+    Returns all the buildings with conflicts
+    @param {int} term_id - the code of the term to look in
+
+    return {QueryResults} conflicts - A QueryResults object containing buildings that have conflicts
+    '''
     rooms_with_conflicts = get_rooms_with_conflicts(term_id).alias('room_conflicts')
     buildings_with_conflicts = (Building
                                     .select()
