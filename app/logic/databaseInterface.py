@@ -92,7 +92,7 @@ gets all of the buildings
 
 
 def getAllBuildings():
-    return Rooms.select(Rooms.building).distinct()
+    return Building.select().order_by(Building.name)
 
 '''
 gets all the rooms that belong to a building

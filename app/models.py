@@ -53,7 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
-  schedule = ForeignKeyField(BannerSchedule, null = True)
+  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
   
@@ -129,7 +129,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True)
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
