@@ -12,6 +12,7 @@ def courses(tID, prefix):
     data = None
     if request.method == "POST":
       data = request.form
+      
     tID, prefix = functions.checkRoute(tID,prefix,username,data)
     
 
@@ -48,18 +49,27 @@ def courses(tID, prefix):
     courses = Course.select().where(
         Course.prefix == prefix).where(
         Course.term == tID)
-
+        
+    specialCourses = SpecialTopicCourse.select().where(
+        SpecialTopicCourse.prefix == prefix).where(
+        SpecialTopicCourse.term == tID).where(
+        SpecialTopicCourse.status != 3 and SpecialTopicCourse.status != 4) #We exclude the approved courses, because they'll be stored in the 'Course' table already
+        
     rooms = Rooms.select().order_by(Rooms.building)
 
     instructors = createInstructorDict(courses)
     #checking if its a summer course and passing this information to the view
     termd = list(tID)
     key = int(termd[-1])
+    instructors2 = createInstructorDict(specialCourses)
+    
     return render_template(
             "course.html",
             cfg=cfg,
             courses=courses,
+            specialCourses = specialCourses,
             instructors=instructors,
+            instructors2 = instructors2,
             programs=programs,
             divisions=divisions,
             subjects=subjects,

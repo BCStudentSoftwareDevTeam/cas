@@ -122,6 +122,11 @@ bannercourse =  BannerCourses(  subject       = "TAD",
                                 is_active     = 1
                               ).save()
                     
+bannercourse =  BannerCourses(  subject       = "TAD",
+                                number        = 123,
+                                ctitle        = "Something Shop"
+                              ).save()
+                              
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
                                 ctitle        = "Better Apps",

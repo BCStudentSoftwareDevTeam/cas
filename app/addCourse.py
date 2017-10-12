@@ -20,7 +20,6 @@ adds the course to the course table and to the course change if needed
 def addCourses(tid, prefix):
     # check to see if they are authorized to change anything
     authorizedUser = AuthorizedUser(prefix)
-
     # only do the bottom if authorized
     if authorizedUser.isAuthorized():
         # set the current page
@@ -28,7 +27,6 @@ def addCourses(tid, prefix):
 
         # get the data
         data = request.form
-
         # instructors need to be a list
         instructors = request.form.getlist('professors[]')
 
@@ -36,6 +34,26 @@ def addCourses(tid, prefix):
         nullCheck = NullCheck()
 
         values = nullCheck.add_course_form(data)
+        banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
+        bannerNumber = str(banner.number)[-2:]
+        cId = ""
+        
+        if bannerNumber != "86":
+        
+            # update the course
+            course = Course(bannerRef=values['bannerRef'],
+                            prefix=values['prefix'],
+                            term=int(tid),
+                            schedule=values['schedule'],
+                            capacity=values['capacity'],
+                            specialTopicName=values['specialTopicName'],
+                            notes=values['requests'],
+                            crossListed=int(data['crossListed']),
+                            rid=values['rid']
+                            )
+    
+            course.save()
+            databaseInterface.addCourseInstructors(instructors, course.cId)
 
         # update the course
         course = Course(bannerRef=values['bannerRef'],
@@ -59,12 +77,53 @@ def addCourses(tid, prefix):
         if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
             # ADD THE COURSE TO THE COURSECHANGE TABLE
             newCourse.addCourseChange(cid, cfg["changeType"]["create"])
+            
+            message = "Course: #{0} has been added".format(course.cId)
+            flash("Course has successfully been added!")
+            log.writer("INFO", current_page, message)
+                
+            newCourse = DataUpdate()
+            if not databaseInterface.isTermEditable(tid):  # IF THE TERM IS NOT EDITABLE
+                # ADD THE COURSE TO THE COURSECHANGE TABLE
+                newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
+                
+            
+        else:
+            specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
+                            prefix=values['prefix'],
+                            term=int(tid),
+                            schedule=values['schedule'],
+                            capacity=values['capacity'],
+                            specialTopicName=values['specialTopicName'],
+                            notes=values['requests'],
+                            crossListed=int(data['crossListed']),
+                            rid=values['rid'],
+                            status = 0,
+                            credits = data['credits'],
+                            description = data['description'],
+                            prereqs = data['prereqs'],
+                            majorReqsMet = data['majorReqsMet'],
+                            concentrationReqsMet = data['concentrationReqsMet'],
+                            minorReqsMet = data['minorReqsMet'],
+                            perspectivesMet = data['perspectivesMet']
+            )
+            
+            
+            if data['formBtn'] == "submit":
+                specialTopicCourse.status = 1 
+                
+            specialTopicCourse.save()
+            databaseInterface.addSTCourseInstructors(instructors, specialTopicCourse.stId)
 
-        # log the change
-        message = "Course: #{0} has been added".format(cid)
-        log.writer("INFO", current_page, message)
-        flash("Course has successfully been added!")
+            if bannerNumber == "86" and data['formBtn'] == "save":
+                message = "Course: #{0} has been saved. It needs to be submitted before it can be approved.".format(specialTopicCourse.stId)
+                flash("Course has been saved. It needs to be submitted before it can be approved.")
+                log.writer("INFO", current_page, message)
+            else:
+                flash("Course has successfully been added!")
+                
         return redirect(redirect_url())
+        
     else:
         abort(404) 
 @app.route("/test_form", methods=["POST"])

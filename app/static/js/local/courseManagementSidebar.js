@@ -23,5 +23,5 @@ $(document).ready(function ($) {
     $("#conflictsLink").attr("href", "/courseManagement/conflicts/" + termCode)
     $("#trackerLink").attr("href", "/courseManagement/tracker/" + termCode)
     $("#courseTimeline").attr("href", "/courseTimeline/" + termCode)
+    $("#specialCourseRequestsLink").attr("href", "/courseManagement/specialCourses/" + termCode)
 });
-

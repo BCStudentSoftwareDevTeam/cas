@@ -30,9 +30,11 @@ models:
     - BannerCourses
     - Term
     - Course
+    - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
     - InstructorCourse
+    - InstructorSTCourse
     - Deadline
     - CourseChange
     - InstructorCourseChange
@@ -62,6 +64,18 @@ adminMenu:
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
       
+      
+specialTopicStatus:
+  - option: "Submitted"
+    value: "1"
+  - option: "Sent to the Dean"
+    value: "2"
+  - option: "Approved"
+    value: "3"
+  - option: "Denied"
+    value: "4"
+
+
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
     11: 'Fall'                    # e.g. Fall 2016 = 201611
@@ -113,6 +127,7 @@ DEBUG:
 filepath:
   tmp: 'data/tmp'
 
+<<<<<<< HEAD
 contributors:
   - name: "Cody Myers"
     username: "myersco"
@@ -145,3 +160,11 @@ contributors:
     username: "sotoventuraj"
     year: 2019
     
+=======
+credits:
+  - value: "0.250"
+  - value: "0.500"
+  - value: "0.750"
+  - value: "1.000"
+  - value: "2.000"
+>>>>>>> Integrated the Special Topic Form

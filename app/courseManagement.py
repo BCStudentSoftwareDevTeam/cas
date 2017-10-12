@@ -4,6 +4,7 @@ from updateCourse import DataUpdate
 from app.logic.getAuthUser import AuthorizedUser
 from app.logic import databaseInterface
 from app.logic import functions
+from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.redirectBack import redirect_url
 import pprint
 
@@ -151,3 +152,41 @@ def verifyChange():
         return render_template("404.html", cfg=cfg)
     return render_template("404.html", cfg=cfg)
     
+
+@app.route("/courseManagement/specialCourses/<tid>", methods=["GET", "POST"])
+def specialCourses(tid):
+    #DATA FOR THE NAVEBAR AND SIDEBAR#
+    page = "specialCourses"
+    terms = Term.select().order_by(-Term.termCode)
+    authorizedUser = AuthorizedUser()
+    
+    if (request.method == "POST"):
+        data = request.form
+    
+    curTermName = Term.get(Term.termCode == tid)
+
+    terms = Term.select().order_by(-Term.termCode)
+    
+    specialCourses = SpecialTopicCourse.select()
+    submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1)
+    sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2)
+    approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3)
+    deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4)
+        
+    # rooms = Rooms.select().order_by(Rooms.building)
+    instructors = createInstructorDict(specialCourses)
+    
+    ############################
+    
+    
+                
+    return render_template("specialTopicRequests.html",
+                          cfg=cfg,
+                          submittedCourses = submittedCourses,
+                          sentToDeanCourses = sentToDeanCourses,
+                          approvedCourses = approvedCourses,
+                          deniedCourses = deniedCourses,
+                          isAdmin = authorizedUser.isAdmin(),
+                          currentTerm=int(tid),
+                          page = page,
+                          instructors = instructors)

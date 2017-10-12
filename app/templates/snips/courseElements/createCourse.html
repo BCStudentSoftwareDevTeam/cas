@@ -30,9 +30,18 @@
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  /> 
           </div>
         </div>
-        
+          <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
+            <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true">
+              {% for credit in cfg['credits'] %}
+                  <option value="{{credit['value']}}">
+                    {{credit['value']}}
+                  </option>
+                  {% endfor %}
+           </select>
+          </div>
+          
         <div class=" col-md-2 offset_input right">
-          <label id="radioLabel" for="radios">Crosslisted</label>
+            <label id="radioLabel" for="radios">Crosslisted</label>
           <div class="radio-inline" id=radios>
             <label>
               <input type="radio" name="crossListed" id="exampleRadios1" value=1 required>
@@ -47,11 +56,35 @@
           </div>
         </div>
         
+        <div id = "specialTopicCourse" hidden>
+          <div class="col-lg-6 form-group">
+            <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" /> 
+          </div>
+          <div class="col-md-6 offset_input right form-group">
+            <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  /> 
+          </div>
+          <div class="col-lg-6 form-group">
+            <textarea rows="2" class="form-control"  name="majorReqsMet" cols="25" placeholder="Please indicate the major requirements met with this course, if any"></textarea>
+          </div>
+          <div class="col-md-6 offset_input right form-group">
+            <textarea rows="2" class="form-control"  name="concentrationReqsMet" cols="25" placeholder="Please indicate the concentration requirements met with this course, if any"></textarea>
+          </div>
+          <div class="col-lg-6 form-group">
+            <textarea rows="2" class="form-control"  name="minorReqsMet" cols="25" placeholder="Please indicate the minor requirements met with this course, if any"></textarea>
+          </div>
+          <div class="col-md-6 offset_input right form-group">
+            <textarea rows="2" class="form-control"  name="perspectivesMet" cols="25" placeholder="Please indicate the perspectives satisfied with this course, if any"></textarea>
+          </div>
+        </div>
+        
         <div>
           <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course, including..."></textarea>
         </div>
       </form>
-      <button form="createCourseForm" type="submit" class="btn btn-primary pull-right" id="submitAdd">Submit</button>
+      <div class="btn-toolbar pull-right">
+        <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" hidden>Save</button> 
+        <button form="createCourseForm" type="submit" name="formBtn" value="submit" onclick="workk()" class="btn btn-success " id="submitAdd">Submit</button>
+      </div>
     </div>
   </div>
 <script type="text/javascript" src="/static/js/local/addCourseForm.js"></script>

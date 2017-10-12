@@ -13,6 +13,10 @@ def addCourseInstructors(instructors, cid):
     for instructor in instructors:
         InstructorCourse(username=instructor, course=cid).save()
 
+def addSTCourseInstructors(instructors, stid):
+    for instructor in instructors:
+        InstructorSTCourse(username=instructor, course=stid).save()
+
 '''
 adds division chair to database
 @param {list} users - list of users that need to be added as division chair
@@ -80,9 +84,18 @@ def getSidebarElements():
 
 def createInstructorDict(courses):
     instructors = {}
-    for course in courses:
-        instructors[course.cId] = InstructorCourse.select().where(
-            InstructorCourse.course == course.cId)
+    try:
+        for course in courses:
+            if "app.models.SpecialTopicCourse" in str(type(course)) :
+                instructors[course.stId] = InstructorSTCourse.select().where(
+                    InstructorSTCourse.course == course.stId)
+            else:
+                instructors[course.cId] = InstructorCourse.select().where(
+                    InstructorCourse.course == course.cId)
+    except:
+        for course in courses:
+                instructors[course.cId] = InstructorCourse.select().where(
+                    InstructorCourse.course == course.cId)
     return instructors
 
 '''
@@ -151,6 +164,24 @@ def editInstructors(newInstructors, courseID):
                 username=instructor, course=courseID)
             newInstructor.save()
 
+def editSTInstructors(newInstructors, courseID):
+    ''' edits the instructs give a list of the new instructors
+        @param {list} newInstructors - list of new instructors
+        @param {int} courseID
+    '''
+    oldInstructors = InstructorSTCourse.select().where(
+            InstructorSTCourse.course == courseID)
+    for oldInstructor in oldInstructors:
+            if oldInstructor.username.username not in newInstructors:
+                oldInstructor.delete_instance()
+            else:
+                newInstructors.remove(oldInstructor.username.username)
+    for instructor in newInstructors:
+            newInstructor = InstructorSTCourse(
+                username=instructor, course=courseID)
+            newInstructor.save()
+            
+
 def editCourse(data, prefix, professors):
         '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
         # check to see if the user has privileges to edit
@@ -186,4 +217,60 @@ def getCourseTimelineSchedules(day,tid):
                           ).distinct(
                           ).order_by(BannerSchedule.startTime)
     return schedules
+
+
+def editSTCourse(data, prefix, professors, status):
+        '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
+        # check to see if the user has privileges to edit
+        # get the specialTopicCourse object
+        #TODO: We are not doing null checks on the portion of
+        #the code which is causing crashes on the system
+        specialTopicCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
+        if specialTopicCourse.status == 3:
+            specialTopicCourse.status = status
+        else:
+            #CHECK VALUES FOR NULL
+            room     = data["room"] if data["room"] else None
+            capacity = data['capacity'] if data['capacity'] else None
+            schedule = data['schedule'] if data['schedule'] else None
+            
+            if data['notes'].replace(" ", "") == "":
+                notes = None
+            else:
+                notes = data['notes']
+            
+            if data['submitbtn'] == "Submit":
+                specialTopicCourse.status = status
+                if status == 3:
+                    course = Course(bannerRef = specialTopicCourse.bannerRef,
+                                prefix = specialTopicCourse.prefix,
+                                term = specialTopicCourse.term,
+                                schedule = specialTopicCourse.schedule,
+                                capacity = specialTopicCourse.capacity,
+                                specialTopicName = specialTopicCourse.specialTopicName,
+                                notes = specialTopicCourse.notes,
+                                crossListed = specialTopicCourse.crossListed,
+                                rid = specialTopicCourse.rid
+                                )
+        
+                    course.save()
+                    addCourseInstructors(professors, course.cId)
+        
+            
+            specialTopicCourse.crossListed = int(data["crossListed"])
+            specialTopicCourse.term = data['term']
+            specialTopicCourse.capacity = capacity
+            specialTopicCourse.rid  = room
+            specialTopicCourse.schedule = schedule
+            specialTopicCourse.notes = notes
+            specialTopicCourse.lastEditBy = authUser(request.environ)
+            specialTopicCourse.credits = data['credits']
+            specialTopicCourse.description = data['description']
+            # specialTopicCourse.prereqs = data['prereqs']
+            specialTopicCourse.majorReqsMet = data['majorReqsMet']
+            specialTopicCourse.minorReqsMet = data['minorReqsMet']
+            specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
+            specialTopicCourse.perspectivesMet = data['perspectivesMet']
+            editSTInstructors(professors, data['stid'])    
+        specialTopicCourse.save()
     
