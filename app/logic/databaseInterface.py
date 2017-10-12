@@ -234,7 +234,7 @@ def editSTCourse(data, prefix, professors, status):
             room     = data["room"] if data["room"] else None
             capacity = data['capacity'] if data['capacity'] else None
             schedule = data['schedule'] if data['schedule'] else None
-            
+                
             if data['notes'].replace(" ", "") == "":
                 notes = None
             else:
@@ -244,34 +244,37 @@ def editSTCourse(data, prefix, professors, status):
                 specialTopicCourse.status = status
                 if status == 3:
                     course = Course(bannerRef = specialTopicCourse.bannerRef,
-                                prefix = specialTopicCourse.prefix,
-                                term = specialTopicCourse.term,
-                                schedule = specialTopicCourse.schedule,
-                                capacity = specialTopicCourse.capacity,
-                                specialTopicName = specialTopicCourse.specialTopicName,
-                                notes = specialTopicCourse.notes,
-                                crossListed = specialTopicCourse.crossListed,
-                                rid = specialTopicCourse.rid
-                                )
-        
+                                    prefix = specialTopicCourse.prefix,
+                                    term = specialTopicCourse.term,
+                                    schedule = specialTopicCourse.schedule,
+                                    capacity = specialTopicCourse.capacity,
+                                    specialTopicName = specialTopicCourse.specialTopicName,
+                                    notes = specialTopicCourse.notes,
+                                    crossListed = specialTopicCourse.crossListed,
+                                    rid = specialTopicCourse.rid
+                                    )
+            
                     course.save()
                     addCourseInstructors(professors, course.cId)
-        
             
-            specialTopicCourse.crossListed = int(data["crossListed"])
-            specialTopicCourse.term = data['term']
-            specialTopicCourse.capacity = capacity
-            specialTopicCourse.rid  = room
-            specialTopicCourse.schedule = schedule
-            specialTopicCourse.notes = notes
-            specialTopicCourse.lastEditBy = authUser(request.environ)
-            specialTopicCourse.credits = data['credits']
-            specialTopicCourse.description = data['description']
-            # specialTopicCourse.prereqs = data['prereqs']
-            specialTopicCourse.majorReqsMet = data['majorReqsMet']
-            specialTopicCourse.minorReqsMet = data['minorReqsMet']
-            specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
-            specialTopicCourse.perspectivesMet = data['perspectivesMet']
-            editSTInstructors(professors, data['stid'])    
-        specialTopicCourse.save()
+                    
+                specialTopicCourse.crossListed = int(data["crossListed"])
+                specialTopicCourse.term = data['term']
+                specialTopicCourse.capacity = capacity
+                specialTopicCourse.rid  = room
+                specialTopicCourse.schedule = schedule
+                specialTopicCourse.notes = notes
+                specialTopicCourse.lastEditBy = authUser(request.environ)
+                specialTopicCourse.credits = data['credits']
+                specialTopicCourse.description = data['description']
+                specialTopicCourse.prereqs = data['prereqs']
+                specialTopicCourse.majorReqsMet = data['majorReqsMet']
+                specialTopicCourse.minorReqsMet = data['minorReqsMet']
+                specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
+                specialTopicCourse.perspectivesMet = data['perspectivesMet']
+                editSTInstructors(professors, data['stid'])    
+                print "-----------------------"
+                print specialTopicCourse.status
+                print "------------------------"
+                specialTopicCourse.save()
     

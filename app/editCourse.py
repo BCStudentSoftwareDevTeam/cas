@@ -104,7 +104,6 @@ def editSTcourse(tid, prefix, page):
   message = "Course: course {} has been edited".format(data['stid'])
   log.writer("INFO", page1, message)
   flash("Course information has successfully been modified!")
-  
   if page == 'courses':
     return redirect(url_for("courses", tID=tid, prefix=prefix))
   else:

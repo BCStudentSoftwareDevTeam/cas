@@ -41,3 +41,4 @@ $("#roomSelect").on('changed.bs.select', function(e) {
     $window
         .resize(resize)
         .trigger('resize');
+

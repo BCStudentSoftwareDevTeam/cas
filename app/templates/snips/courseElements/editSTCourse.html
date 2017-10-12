@@ -7,7 +7,13 @@
     <form method="post" action="\editstcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
       <div class="modal-content">
         <div class="modal-header">
-          <a href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">
+          <a
+            {% if page == "courses" %}
+            href="/courses/{{currentTerm}}/{{course.prefix.prefix}}"
+            {% else %} 
+            href="/courseManagement/specialCourses/{{currentTerm}}"
+            {% endif %}
+            >
             <button type="button" class="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -140,9 +146,15 @@
           </h5>   
           </br>
           
-          <div id="home" class="tab-pane fade in active">
+          <div>
             <h5>Description</h5>
             <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
+          </div>
+          </br>
+          
+          <div>
+            <h5>Prerequisites</h5>
+            <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="prereqs">{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </div>
           </br>
           

@@ -41,6 +41,16 @@ def courses(tID, prefix, can_edit):
 
     schedules = BannerSchedule.select().order_by(BannerSchedule.order)
 
+    courses = Course.select().where(
+        Course.prefix == prefix).where(
+        Course.term == tID)
+        
+    specialCourses = SpecialTopicCourse.select().where(
+        SpecialTopicCourse.prefix == prefix).where(
+        SpecialTopicCourse.term == tID).where(
+        SpecialTopicCourse.status != 3).where(SpecialTopicCourse.status != 4) #We exclude the approved courses, because they'll be stored in the 'Course' table already
+
+        
     rooms = Rooms.select().order_by(Rooms.building)
     
     # Key  - 1 indicates Fall
