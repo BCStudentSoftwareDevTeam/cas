@@ -42,10 +42,3 @@ $("#roomSelect").on('changed.bs.select', function(e) {
         .resize(resize)
         .trigger('resize');
 
-
-workk(){
-      alert("WORKDAMNIT");
-      document.getElementById('specialCourseDesc').required = true;
-    
-    
-};

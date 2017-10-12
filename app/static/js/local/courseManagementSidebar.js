@@ -25,3 +25,4 @@ $(document).ready(function ($) {
     $("#courseTimeline").attr("href", "/courseTimeline/" + termCode)
     $("#specialCourseRequestsLink").attr("href", "/courseManagement/specialCourses/" + termCode)
 });
+

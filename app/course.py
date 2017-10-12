@@ -53,7 +53,8 @@ def courses(tID, prefix):
     specialCourses = SpecialTopicCourse.select().where(
         SpecialTopicCourse.prefix == prefix).where(
         SpecialTopicCourse.term == tID).where(
-        SpecialTopicCourse.status != 3 and SpecialTopicCourse.status != 4) #We exclude the approved courses, because they'll be stored in the 'Course' table already
+        SpecialTopicCourse.status != 3).where(SpecialTopicCourse.status != 4) #We exclude the approved courses, because they'll be stored in the 'Course' table already
+
         
     rooms = Rooms.select().order_by(Rooms.building)
 

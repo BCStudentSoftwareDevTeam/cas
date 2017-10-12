@@ -64,7 +64,7 @@ adminMenu:
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
       
-      
+
 specialTopicStatus:
   - option: "Submitted"
     value: "1"
@@ -160,11 +160,17 @@ contributors:
     username: "sotoventuraj"
     year: 2019
     
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> Integrated the Special Topic Form
 credits:
   - value: "0.250"
   - value: "0.500"
   - value: "0.750"
   - value: "1.000"
   - value: "2.000"
+<<<<<<< HEAD
+>>>>>>> Integrated the Special Topic Form
+=======
 >>>>>>> Integrated the Special Topic Form

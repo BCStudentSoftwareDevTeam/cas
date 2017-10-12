@@ -145,6 +145,7 @@ class SpecialTopicCourse(dbModel):
   specialTopicName     = CharField(null = True)
   notes                = TextField(null = True)
   lastEditBy           = CharField(null = True)
+  submitBy             = CharField(null = True)
   crossListed          = BooleanField()
   rid                  = ForeignKeyField(Rooms, null = True)
   status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied

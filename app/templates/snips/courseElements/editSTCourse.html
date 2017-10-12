@@ -7,7 +7,13 @@
     <form method="post" action="\editstcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
       <div class="modal-content">
         <div class="modal-header">
-          <a href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">
+          <a
+            {% if page == "courses" %}
+            href="/courses/{{currentTerm}}/{{course.prefix.prefix}}"
+            {% else %} 
+            href="/courseManagement/specialCourses/{{currentTerm}}"
+            {% endif %}
+            >
             <button type="button" class="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -182,6 +188,7 @@
           {% if page == "courses" %}
             <a type="button" class="btn btn-danger btn-sm" href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">Close</a>
           {% else %}
+<<<<<<< HEAD
             <a type="button" class="btn btn-danger btn-sm" href="/courseManagement/specialTopics/{{currentTerm}}">Close</a>
           {% endif %}            
           {% if page == "courses" %}
@@ -191,6 +198,17 @@
             {% endif %}
           {% else %}
             <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
+=======
+            <a type="button" class="btn btn-danger btn-sm" href="/courseManagement/specialCourses/{{currentTerm}}">Close</a>
+          {% endif %}            
+          {% if page == "courses" %}
+            {% if course.status == 0 %}
+            <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
+            <input  class="btn btn-primary btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
+            {% endif %}
+          {% else %}
+            <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
+>>>>>>> Integrated the Special Topic Form
           {% endif %}
         </div>
       </div>

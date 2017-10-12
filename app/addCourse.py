@@ -39,7 +39,7 @@ def addCourses(tid, prefix):
         cId = ""
         
         if bannerNumber != "86":
-        
+
             # update the course
             course = Course(bannerRef=values['bannerRef'],
                             prefix=values['prefix'],
@@ -55,35 +55,14 @@ def addCourses(tid, prefix):
             course.save()
             databaseInterface.addCourseInstructors(instructors, course.cId)
 
-        # update the course
-        course = Course(bannerRef=values['bannerRef'],
-                        prefix=values['prefix'],
-                        term=int(tid),
-                        schedule=values['schedule'],
-                        capacity=values['capacity'],
-                        specialTopicName=values['specialTopicName'],
-                        notes=values['requests'],
-                        crossListed=int(data['crossListed']),
-                        rid=values['rid']
-                        )
-
-        course.save()
-
-        # we will need to keep the cid to enter the intructors
-        cid = course.cId
-        databaseInterface.addCourseInstructors(instructors, course.cId)
-
-        newCourse = DataUpdate()
-        if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
-            # ADD THE COURSE TO THE COURSECHANGE TABLE
-            newCourse.addCourseChange(cid, cfg["changeType"]["create"])
+            
             
             message = "Course: #{0} has been added".format(course.cId)
             flash("Course has successfully been added!")
             log.writer("INFO", current_page, message)
                 
             newCourse = DataUpdate()
-            if not databaseInterface.isTermEditable(tid):  # IF THE TERM IS NOT EDITABLE
+            if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
                 # ADD THE COURSE TO THE COURSECHANGE TABLE
                 newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
                 
@@ -99,6 +78,7 @@ def addCourses(tid, prefix):
                             crossListed=int(data['crossListed']),
                             rid=values['rid'],
                             status = 0,
+                            submitBy = authorizedUser.username,
                             credits = data['credits'],
                             description = data['description'],
                             prereqs = data['prereqs'],
@@ -126,6 +106,7 @@ def addCourses(tid, prefix):
         
     else:
         abort(404) 
+        
 @app.route("/test_form", methods=["POST"])
 def form_sample():
     data = request.form
