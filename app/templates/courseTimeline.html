@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% set currentPage = "courseTimeline" %}
+{% block aboveContainer %} {% endblock %}
+
+{% block body %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="/static/js/local/CourseTimeline.js"></script>
+
+<body>
+  <div id="wrapper">
+    <div id="page-wrapper">
+      <div id="chart_div"></div>
+    </div>
+  </div>
+
+{% endblock %}
