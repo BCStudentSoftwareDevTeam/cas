@@ -4,7 +4,7 @@
       <option value="">---</option>
       {% for schedule in schedules %}
         <option value="{{schedule.sid}}">
-          {{schedule.letter}}: {% for day in course.schedule.days %} {{ day.day }} {% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
+          {{schedule.letter}}: {% for day in schedule.day %} {{ day.day }} {% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
         </option>
       {% endfor %}
      </select>
