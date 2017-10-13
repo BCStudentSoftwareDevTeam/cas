@@ -90,7 +90,7 @@
     <label for="newAdmin">Add a new administrative user</label>
     <form action="\changeAdmin" method="post" id="newAdmin" class="form-inline">
       <div class="form-group adminSelect"  >
-        <select class="selectpicker form-control" name="admin" data-live-search="true">
+        <select class="selectpicker form-control" name="admin" id= "adminPicker1" data-live-search="true">
         <option value="None">---</option>
         {% for user in users %}
           {% if not user.isAdmin %}
@@ -100,7 +100,7 @@
         </select>
       </div>
       <div class="form-group">
-        <input type="submit" class="btn btn-success" value="Add">
+        <input type="submit" class="btn btn-success" id = "adminAdd" value="Add">
       </div>
     </form>
     <label for="newAdmin">Remove an administrative user</label>
