@@ -10,39 +10,38 @@ function getSelectedCourse(elementId) {
 
 }
 function fillCourses(response, id){
+   if (response !== "Error"){
    if(id=="selected_term_one"){
       var courses = document.getElementById("coursesDivOne");
       courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
       var selectPicker = document.getElementById("oneCoursesSelect");
+      $("#oneCoursesSelect").empty();
    }
    else{
       var courses = document.getElementById("coursesDiv");
       courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
       var selectPicker = document.getElementById("multipleCoursesSelect");
+      $("#multipleCoursesSelect").empty();
    }
-   
    for (var key in response){
-      console.log(key);
       var option = document.createElement("option");
-      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" "+ response[key].schedule["startTime"];
-      console.log("this is option text", option.text);
+      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" "+ response[key].schedule['letter'];
       option.value = key;
       selectPicker.appendChild(option);
    }
    $('.selectpicker').selectpicker('refresh');
 }
+else{console.log("return value is None");}
+}
 
 
 function retrieveCourses(obj){
    var id = $(obj).attr('id');
-   console.log("this is selected object", id);
    var x = window.location.href
    var y =x.split("/"); 
-   console.log(y);
    var e = document.getElementById(id);
    var selected_term = e.options[e.selectedIndex].value;
-   console.log("this is selected term", selected_term);
-   console.log("/get_termcourses/"+selected_term+"/"+y[5])
+   if(selected_term){
    $.ajax({
             url: '/get_termcourses/'+selected_term+"/"+y[5],
             dataType: 'json',
@@ -52,9 +51,18 @@ function retrieveCourses(obj){
       			error: function(error){
       				console.log(error);
       			}
-          
-            });
-  
+            }); }
+   else{
+      if(id=="selected_term_one"){
+         var courses = document.getElementById("coursesDivOne");
+         courses.style.visibility = 'hidden';}
+      
+      else{
+           var courses = document.getElementById("coursesDiv");
+           courses.style.visibility = 'hidden';// do enabled/disabled instead of hidden
+         }
+   }  
+   
 }
 
 
