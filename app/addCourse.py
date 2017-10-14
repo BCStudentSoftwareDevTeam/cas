@@ -12,6 +12,71 @@ import datetime
 '''
 adds the course to the course table and to the course change if needed
 '''
+@app.route("/addOne/<tid>", methods=["POST"])
+def add_one(tid):
+    data = request.form
+    print data
+    print data["courses"]
+    print tid
+    course=Course.get(Course.cId==data["courses"])
+    instructor=InstructorCourse.get(InstructorCourse.course_id==data["courses"])
+    print course.prefix_id   
+    course = Course(bannerRef=course.bannerRef_id,
+                    prefix=course.prefix_id,
+                    term=int(tid),
+                    schedule=course.schedule_id,
+                    capacity=course.capacity,
+                    specialTopicName=course.specialTopicName,
+                    notes=None,
+                    crossListed=int(course.crossListed), rid=None
+                    )
+    course.save()
+
+    course_instructor=InstructorCourse(
+        username_id = instructor.username_id,
+        course_id = course.cId
+        
+        )
+    course_instructor.save()
+        
+    #for course in data["courses[]"]:
+     #   print course
+    return redirect(redirect_url()) 
+    
+
+
+@app.route("/addMany/<tid>", methods=["POST"])
+def add_many(tid):
+    data = request.form.getlist
+    courses = request.form.getlist('courses')
+    if courses:
+        for i in courses:
+            course=Course.get(Course.cId==int(i))
+            instructor=InstructorCourse.get(InstructorCourse.course_id==int(i))
+            course = Course(bannerRef=course.bannerRef_id,
+                    prefix=course.prefix_id,
+                    term=int(tid),
+                    schedule=course.schedule_id,
+                    capacity=course.capacity,
+                    specialTopicName=course.specialTopicName,
+                    notes=None,
+                    crossListed=int(course.crossListed), rid=None
+                    )
+            course.save()
+        
+            course_instructor=InstructorCourse(
+                username_id = instructor.username_id,
+                course_id = course.cId
+                
+                )
+            course_instructor.save()
+            
+    
+    
+    #for course in data["courses[]"]:
+     #   print course
+    return redirect(redirect_url()) 
+    
 
 
 @app.route(
@@ -31,6 +96,8 @@ def addCourses(tid, prefix):
 
         # get the data
         data = request.form
+        print data
+        
 
         # instructors need to be a list
         instructors = request.form.getlist('professors[]')
@@ -70,28 +137,17 @@ def addCourses(tid, prefix):
         return redirect(redirect_url())
     else:
         abort(404) 
-        
-@app.route("/test_form", methods=["POST"])
-def form_sample():
-    data = request.form
-    
-    return "The parameter was: {0}".format(data['var1'])
-        
+
         
 @app.route('/get_termcourses/<term>/<department>')
 def term_courses(term, department):
-    
-    
-
     #user_obj = User.select().where(User.username == 'charlie').get()
     #json_data = json.dumps(model_to_dict(user_obj))
     
-    
     term1=Term.get(Term.name==term)
     courses={}
-    for course in Course.select().where(Course.term_id==term1.termCode and Course.prefix_id==department):
+    for course in Course.select().where(Course.prefix_id==department, Course.term_id==term1.termCode):
         courses[course.cId]=model_to_dict(course)
-        #courses[course.cId]=course
     print courses
     return json.dumps(courses, default=myconverter)
 
@@ -100,8 +156,13 @@ def myconverter(o):
     if isinstance(o, datetime.datetime):
         return o.__str__()
 
-
     
     
         
+
+@app.route("/test_form", methods=["POST"])
+def form_sample():
+    data = request.form
     
+    return "The parameter was: {0}".format(data['var1'])
+

@@ -9,58 +9,51 @@ function getSelectedCourse(elementId) {
    return selectedCourse.options[selectedCourse.selectedIndex].text;
 
 }
-function fillCourses(response){
-   var courses = document.getElementById("coursesDiv");
-   courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
-   var selectPicker = document.getElementById("multipleCoursesSelect");
-   //console.log("this is filcourses", response);
+function fillCourses(response, id){
+   if(id=="selected_term_one"){
+      var courses = document.getElementById("coursesDivOne");
+      courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
+      var selectPicker = document.getElementById("oneCoursesSelect");
+   }
+   else{
+      var courses = document.getElementById("coursesDiv");
+      courses.style.visibility = 'visible';// do enabled/disabled instead of hidden
+      var selectPicker = document.getElementById("multipleCoursesSelect");
+   }
+   
    for (var key in response){
-      console.log(response);
-      console.log(response[key].prefix["prefix"]);
-      console.log(response[key].bannerRef["ctitle"]);
-      
-      
+      console.log(key);
       var option = document.createElement("option");
-      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["ctitle"].toString();
+      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" "+ response[key].schedule["startTime"];
       console.log("this is option text", option.text);
-      //option.text = response[e];  // --> name
       option.value = key;
-      //option.value = response[e]; // --> cid
-      //change data structure to use either a matrix or dictionary
-      // where the cid is the key or first element
-      // and the course title is the value or second element
       selectPicker.appendChild(option);
    }
    $('.selectpicker').selectpicker('refresh');
 }
 
 
-function retrieveCourses(){
+function retrieveCourses(obj){
+   var id = $(obj).attr('id');
+   console.log("this is selected object", id);
    var x = window.location.href
    var y =x.split("/"); 
    console.log(y);
-   var e = document.getElementById("selected_term");
+   var e = document.getElementById(id);
    var selected_term = e.options[e.selectedIndex].value;
-   console.log(selected_term);
+   console.log("this is selected term", selected_term);
    console.log("/get_termcourses/"+selected_term+"/"+y[5])
    $.ajax({
             url: '/get_termcourses/'+selected_term+"/"+y[5],
             dataType: 'json',
             success: function(response){
-      				console.log(response[2].prefix["prefix"]);
-      				console.log(response[2].bannerRef["ctitle"]);
-      				fillCourses(response);
-      				
-      				
+      				fillCourses(response, id);
       			},
       			error: function(error){
       				console.log(error);
       			}
           
             });
-   
-   
-   //courses= $.getJSON("/get_termcourses", selected_term)
   
 }
 
