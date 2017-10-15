@@ -266,7 +266,7 @@ def editSTCourse(data, prefix, professors, status):
             specialTopicCourse.lastEditBy = authUser(request.environ)
             specialTopicCourse.credits = data['credits']
             specialTopicCourse.description = data['description']
-            # specialTopicCourse.prereqs = data['prereqs']
+            specialTopicCourse.prereqs = data['prereqs']
             specialTopicCourse.majorReqsMet = data['majorReqsMet']
             specialTopicCourse.minorReqsMet = data['minorReqsMet']
             specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']

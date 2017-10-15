@@ -4,7 +4,13 @@
 <div class="modal fade" id="editSTModal{{course.stId}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     
   <div class="modal-dialog modal-md">
-    <form method="post" action="\editstcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
+    <form id = "editSTcourse" 
+          {% if page == "courses" %} 
+             onsubmit = "return validateEditForm();"
+          {% endif %}
+          method="post" 
+          action="\editstcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
+      
       <div class="modal-content">
         <div class="modal-header">
           <a
@@ -23,7 +29,7 @@
         <div class="modal-body">
           {# Modal Title #}
           <h2 class="text-center">
-            {{course.prefix.prefix}} {{course.bannerRef.number}}
+            {{course.prefix.prefix}} {{course.bannerRef.number}} - {{course.specialTopicName}}
           </h2>
           {# Pass in a hidden input to record the course ID #}
           <input type="hidden" name="stid" value="{{course.stId}}" >
@@ -70,7 +76,7 @@
           </select>
           {# --Schedule Block-- #}
           <h5>Schedule Block</h5>
-          <select class="form-control" name="schedule" {% if course.status == 3 %} disabled {% endif %} >
+          <select class="form-control" name="schedule">
             <option value="">---</option>
             {% for schedule in schedules %}
               <option value="{{schedule.sid}}" 
@@ -78,7 +84,8 @@
                   selected 
                 {% endif %}
               >
-                {{schedule.letter}}: {{schedule.days}} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
+                {{schedule.letter}}: {% for day in schedule.days %} {{day.day}} 
+                  {% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
           </select>
@@ -105,7 +112,7 @@
           {# --Credits-- #}
           <div class="col-md-6 float-right">
             <h5>Credits</h5>
-           <select  {% if course.status == 3 %} disabled {% endif %} title="Course Credits" class="form-control selectpicker" id='credits' name="credits" data-live-search="true">
+           <select id =  "editcredits" {% if course.status == 3 %} disabled {% endif %} title="Course Credits" class="form-control selectpicker" id='credits' name="credits" data-live-search="true">
               {% for credit in cfg['credits'] %}
                   <option {% if course.credits == credit['value'] %} selected {% endif %} value="{{credit['value']}}">
                     {{credit['value']}}
@@ -138,15 +145,17 @@
                 No
             </label>
           </div>
+          
           <h5>Notes</h5>
               <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
-          </h5>   
           </br>
           
-          <div id="home" class="tab-pane fade in active">
-            <h5>Description</h5>
-            <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
-          </div>
+          <h5>Description</h5>
+            <textarea id =  "editcd" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
+          </br>
+          
+          <h5>Prerequisites </h5>
+            <textarea id =  "editcp" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="prereqs">{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </br>
           
           <div class="">
@@ -158,21 +167,21 @@
             </ul>
             
             <div class="tab-content">
-               <div id="menu0" class="tab-pane fade in active">
+              <div id="menu0" class="tab-pane fade in active">
                 <h5>Major Requirements Met</h5>
-                <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="majorReqsMet">{% if course.majorReqsMet is not none %}{{ course.majorReqsMet }}{% endif %}</textarea>
+                <textarea id =  "editcm" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="majorReqsMet">{% if course.majorReqsMet is not none %}{{ course.majorReqsMet }}{% endif %}</textarea>
               </div>
               <div id="menu1" class="tab-pane fade">
                 <h5>Concentration Requirements Met</h5>
-                <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="concentrationReqsMet">{% if course.concentrationReqsMet is not none %}{{ course.concentrationReqsMet }}{% endif %}</textarea>
+                <textarea id =  "editcc" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="concentrationReqsMet">{% if course.concentrationReqsMet is not none %}{{ course.concentrationReqsMet }}{% endif %}</textarea>
               </div>
               <div id="menu2" class="tab-pane fade">
                 <h5>Minor Requirements Met</h5>
-                <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="minorReqsMet">{% if course.minorReqsMet is not none %}{{ course.minorReqsMet }}{% endif %}</textarea>
+                <textarea id =  "editcmi" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="minorReqsMet">{% if course.minorReqsMet is not none %}{{ course.minorReqsMet }}{% endif %}</textarea>
               </div>
               <div id="menu3" class="tab-pane fade">
                 <h5>Perspectives Met</h5>
-                <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="perspectivesMet">{% if course.perspectivesMet is not none %}{{ course.perspectivesMet }}{% endif %}</textarea>
+                <textarea id =  "editcp" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="perspectivesMet">{% if course.perspectivesMet is not none %}{{ course.perspectivesMet }}{% endif %}</textarea>
               </div>
             </div>
           </div>
@@ -188,7 +197,6 @@
           {% if page == "courses" %}
             <a type="button" class="btn btn-danger btn-sm" href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">Close</a>
           {% else %}
-<<<<<<< HEAD
             <a type="button" class="btn btn-danger btn-sm" href="/courseManagement/specialTopics/{{currentTerm}}">Close</a>
           {% endif %}            
           {% if page == "courses" %}
@@ -198,23 +206,18 @@
             {% endif %}
           {% else %}
             <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
-=======
-            <a type="button" class="btn btn-danger btn-sm" href="/courseManagement/specialCourses/{{currentTerm}}">Close</a>
-          {% endif %}            
-          {% if page == "courses" %}
-            {% if course.status == 0 %}
-            <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
-            <input  class="btn btn-primary btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
-            {% endif %}
-          {% else %}
+
             <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
->>>>>>> Integrated the Special Topic Form
+
+            <button  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"> Save </button>
+
           {% endif %}
         </div>
       </div>
     </form>
   </div>
 </div>
+<script type="text/javascript" src="/static/js/local/editSTModal.js"></script>
 <script type="text/javascript">
   var stid = {{course.stId}};
 </script>

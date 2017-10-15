@@ -4,6 +4,58 @@ $("#showForm").click(function() {
    $(this).hide();
 });
 
+function validateForm()
+{
+    if ( $(specialTopicCourse).css('display') != 'none' ){
+        var btn = $(document.activeElement).attr('id');
+        if (btn == "submitAdd")
+        {
+            var credits = document.getElementById("credits").value;
+            var desc = document.getElementById("cd").value;
+            var prereqs = document.getElementById("cp").value;
+            var majorReqs = document.getElementById("cm").value;
+            var concReqs = document.getElementById("cc").value;
+            var minorReqs = document.getElementById("cmi").value;
+            var perspectives = document.getElementById("cpe").value;
+            var valid = true;
+            if (credits == '') {
+                $("#credits").attr("required", true);
+                valid = false;
+            }
+            if (desc == '') {
+                $("#cd").attr("required", true);
+                valid = false;
+            }
+            if (prereqs == '') {
+                $("#cp").attr("required", true);
+                valid = false;
+            }
+            if (majorReqs == '') {
+                $("#cm").attr("required", true);
+                valid = false;
+            }
+            if (concReqs == '') {
+                $("#cc").attr("required", true);
+                valid = false;
+            }
+            if (minorReqs == '') {
+                $("#cmi").attr("required", true);
+                valid = false;
+            }
+            if (perspectives == '') {
+                $("#cpe").attr("required", true);
+                valid = false;
+            } 
+          return valid;
+            }
+        else {return true;}
+        }
+    else
+        {
+            return true;
+        }
+    }
+
 $("#hideForm").click(function() {
      $("#createCourseFormJumbo").css('display', 'none');
      $("#showForm").show();

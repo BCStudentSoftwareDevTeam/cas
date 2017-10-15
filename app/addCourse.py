@@ -88,7 +88,6 @@ def addCourses(tid, prefix):
                             perspectivesMet = data['perspectivesMet']
             )
             
-            
             if data['formBtn'] == "submit":
                 specialTopicCourse.status = 1 
                 
