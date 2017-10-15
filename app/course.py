@@ -40,7 +40,7 @@ def courses(tID, prefix):
 
     # We need these for populating add course
     courseInfo = BannerCourses.select().where(
-        BannerCourses.subject == prefix).order_by(
+        BannerCourses.subject == prefix).where(BannerCourses.is_active == True).order_by(
         BannerCourses.number)
 
     schedules = BannerSchedule.select().order_by(BannerSchedule.order)
