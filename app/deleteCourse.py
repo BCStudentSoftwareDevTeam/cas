@@ -49,7 +49,7 @@ def deletecourse(prefix, tid):
     flash("Course has been successfully deleted")
     return redirect(redirect_url())
 
-@app.route("/deleteSTcourse/<tid>/<prefix>", methods=["POST"])
+@app.route("/deletestcourse/<tid>/<prefix>", methods=["POST"])
 def deleteSTcourse(prefix, tid):
 
     current_page = "/" + request.url.split("/")[-1]

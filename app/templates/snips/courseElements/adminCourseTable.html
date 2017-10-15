@@ -183,38 +183,6 @@
                 {% else %}
                     <p>No room listed</p>
                 {% endif %}
-                </td>
-                <!--CROSS LISTED-->
-                <td>
-                    {% if course.crossListed == 1 %}
-                        yes
-                    {% else %}
-                        no
-                    {% endif %}
-                </td>
-                <!--NOTES-->
-                <td>
-                    {% if course.notes is not none %}
-                        <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
-                    {% else %}
-                        <p>Notes</p>
-                    {% endif %}
-                </td>
-                <!--LAST EDITED BY-->
-                <td>
-                    {{course.lastEditBy}}
-                </td>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
-                    <td>
-                        <div class="child">
-                            <!--EDIT MODAL-->
-                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                            {% include "snips/courseElements/deleteSTCourse.html" %}
-                        </div>
-                    </td>
-                {% endif %}
             </tr>
         {% endfor %}
     </tbody>

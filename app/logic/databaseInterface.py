@@ -257,7 +257,6 @@ def editSTCourse(data, prefix, professors, status):
                     course.save()
                     addCourseInstructors(professors, course.cId)
             
-                    
                 specialTopicCourse.crossListed = int(data["crossListed"])
                 specialTopicCourse.term = data['term']
                 specialTopicCourse.capacity = capacity
@@ -273,8 +272,4 @@ def editSTCourse(data, prefix, professors, status):
                 specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
                 specialTopicCourse.perspectivesMet = data['perspectivesMet']
                 editSTInstructors(professors, data['stid'])    
-                print "-----------------------"
-                print specialTopicCourse.status
-                print "------------------------"
                 specialTopicCourse.save()
-    

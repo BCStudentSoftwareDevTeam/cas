@@ -37,7 +37,7 @@
                     </td>
                     <!--SCHEDULE-->
                     <td>
-                   {# Needed to move special to the top for scoping issue #}
+                    {# Needed to move special to the top for scoping issue #}
                     {% set special = [] %}
                     {% if course.schedule is not none %}
                         {% for sid in cfg['specialSchedule']['unknownTime'] %}
@@ -98,7 +98,7 @@
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 <!--DELETE MODAL-->
                                 <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                                {% include "snips/courseElements/deleteCourse.html" %}
+                                {% include "snips/courseElements/deleteSTCourse.html" %}
                             </div>
                         </td>
                     {% endif %}
