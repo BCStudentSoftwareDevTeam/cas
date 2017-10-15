@@ -68,7 +68,6 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-      
 
 specialTopicStatus:
   - option: "Submitted"
@@ -144,7 +143,7 @@ contributors:
     username: "myersco"
     year: 2017
   - name: "Guillermo Ramos"
-    username: "ramosg"
+    username: "ramosmaciasg"
     year: 2018
   - name: "Sarah Watts"
     username: "wattss"

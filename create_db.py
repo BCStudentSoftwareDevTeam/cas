@@ -133,7 +133,6 @@ banner = BannerSchedule(  letter        = "Standard B",
 ##############
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
-
                                 ctitle        = "Data Structures",
                                 program       = 1,
                                 is_active     = True,
@@ -155,7 +154,7 @@ bannercourse =  BannerCourses(  subject       = "MAT",
                                 
                               ).save()
 bannercourse =  BannerCourses(  subject       = "TAD",
-                                number        = 435,
+                                number        = 486,
                                 ctitle        = "Wood Shop",
                                 program       = 3,
                                 is_active     = True
