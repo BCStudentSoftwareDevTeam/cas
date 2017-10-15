@@ -106,37 +106,38 @@ banner = BannerSchedule(  letter        = "Standard B",
 ##############
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
-                                ctitle        = "Data Structures", 
-                                is_active     = 1
+                                ctitle        = "Data Structures",
+                                is_active     = True
                               ).save()
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
                                 ctitle        = "Calculus I",
-                                is_active     = 1
+                                is_active     = True
                               ).save()
                         
 bannercourse =  BannerCourses(  subject       = "TAD",
-                                number        = 435,
+                                number        = 486,
                                 ctitle        = "Wood Shop",
-                                is_active     = 1
+                                is_active     = True
                               ).save()
                     
 bannercourse =  BannerCourses(  subject       = "TAD",
                                 number        = 123,
-                                ctitle        = "Something Shop"
+                                ctitle        = "Something Shop",
+                                is_active     = True
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
                                 ctitle        = "Better Apps",
-                                is_active     = 1
+                                is_active     = True
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
                                 ctitle        = "Software Design",
-                                is_active     = 1
+                                is_active     = True
                               ).save()                                
 ######
 #TERM#

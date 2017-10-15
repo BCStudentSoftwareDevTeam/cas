@@ -63,7 +63,6 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-      
 
 specialTopicStatus:
   - option: "Submitted"
@@ -127,13 +126,12 @@ DEBUG:
 filepath:
   tmp: 'data/tmp'
 
-<<<<<<< HEAD
 contributors:
   - name: "Cody Myers"
     username: "myersco"
     year: 2017
   - name: "Guillermo Ramos"
-    username: "ramosg"
+    username: "ramosmaciasg"
     year: 2018
   - name: "Sarah Watts"
     username: "wattss"
@@ -160,17 +158,11 @@ contributors:
     username: "sotoventuraj"
     year: 2019
     
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Integrated the Special Topic Form
+
 credits:
   - value: "0.250"
   - value: "0.500"
   - value: "0.750"
   - value: "1.000"
   - value: "2.000"
-<<<<<<< HEAD
->>>>>>> Integrated the Special Topic Form
-=======
->>>>>>> Integrated the Special Topic Form
+
