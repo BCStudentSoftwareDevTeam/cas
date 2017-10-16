@@ -1,30 +1,65 @@
 /* global google */
+/* global $ */
+
+
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
 
 function drawBasic() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'X');
-    data.addColumn('number', '# Courses');
 
-    data.addRows([
-        ["8:00", 0], ["8:00", 48],   ["8:40", 48],  ["9:10", 28],  ["9:20", 74],  ["9:50", 48],  ["10:30", 0],
-        ["10:40", 45], ["11:50", 7], ["12:00", 26], ["12:30", 19], ["12:40", 30], ["1:10", 11],
-        ["1:20", 40], ["2:30", 0], ["2:40", 34], ["3:50", 6], ["4:00", 8], ["4:30", 2], ["5:10", 0]
-    ]);
+      var data = new google.visualization.DataTable();
+      data.addColumn('timeofday', 'X');
+      data.addColumn('number', '# Courses');
+        
+      var rowContent = google_data_json();
+      data.addRows(rowContent);               
 
-    var options = {
+      var options = {
         title: 'Mondays', 
-    
+        
         hAxis: {
-        title: 'Time',
-        showTextEvery: 1,
-    },
-    vAxis: {
-      title: '# Courses'
-    }
-  };
+          title: 'Time',
+          showTextEvery: 1,
+        },
+        vAxis: {
+          title: '# Courses'
+        }
+      };
 
-  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-  chart.draw(data, options);
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    
+
+function append_url(){
+   var current_url = window.location.href;
+   var list = current_url.split('/');
+   for ( var i = 0; i < list.length; i++ ){
+     if (list[i] == 'courseTimeline'){
+       i = i + 100;
+     }
+     else{
+        list.shift();
+     }
+   }
+   list.push('json');
+   var new_url = '/' + list.join('/');
+   return new_url
 }
+
+function google_data_json(){    
+    var data =  $.ajax({
+       url: append_url(),
+       method: 'GET',
+       async: false, //this is neccessary to get the return
+       done: function(results){
+         JSON.parse(results);
+         return results;
+       },
+       fail: function( jqXHR, textStatus, errorThrown ) {
+        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+    }
+    }).responseJSON;    
+    var jsonData = JSON.parse(data)    
+    return jsonData.google_chart
+}}
