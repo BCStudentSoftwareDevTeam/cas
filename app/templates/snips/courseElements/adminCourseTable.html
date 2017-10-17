@@ -10,7 +10,7 @@
             <th>Cross-Listed</th>
             <th>Notes</th>
             <th>Last Edited</th>
-            {% if isAdmin or isDivisionChair or isProgramChair %}
+            {% if isAdmin or ((isDivisionChair or isProgramChair) and curTermName.state != 2) %}
               <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
             {% endif %}
         </tr> 
@@ -45,7 +45,10 @@
                         {% if special != [] %}
                             <p>See Notes</p>                            
                         {% else %}
-                            {{course.schedule.days}} {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                            {% for day in course.schedule.days %} 
+                                {{ day.day }} 
+                            {% endfor %}
+                            {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                         {% endif %}
                     {% endif %}
                 </td>
@@ -60,7 +63,7 @@
                 <!-- ROOM -->
                 <td>
                     {% if course.rid is not none %}
-                        {{course.rid.building}}:{{course.rid.number}}
+                        {{course.rid.building.name}}:{{course.rid.number}}
                     {% else %}
                         <p>No room listed</p>
                     {% endif %}
@@ -85,7 +88,7 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
+                {% if isAdmin or ((isDivisionChair or isProgramChair) and curTermName.state != 2) %}
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->

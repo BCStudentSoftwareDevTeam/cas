@@ -27,8 +27,11 @@ def crossListed(tid):
     page = "crossListed"
     authorizedUser = AuthorizedUser()
     ##DATA FOR THE CROSS LISTED COURSE TABLE##
-    crossListedCourses = Course.select().where(Course.crossListed == 1).where(
-        Course.term == tid).order_by(+Course.schedule).order_by(+Course.rid)
+    crossListedCourses = Course.select(
+        ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
+        ).where(Course.crossListed == 1
+        ).where(Course.term == tid
+        ).order_by(BannerCourses.ctitle)
 
     instructors = databaseInterface.createInstructorDict(crossListedCourses)
 
@@ -58,64 +61,33 @@ def crossListed(tid):
 #############################
 
 
-@app.route("/courseManagement/conflicts/<tid>", methods=["GET"])
-def conflictsListed(tid):
+@app.route("/courseManagement/conflicts/<term_id>", methods=["GET"])
+def conflictsListed(term_id):
     #DATA FOR THE NAVEBAR AND SIDEBAR#
     page = "conflicts"
     terms = Term.select().order_by(-Term.termCode)
     authorizedUser = AuthorizedUser()
+    
+    current_term = Term.get(Term.termCode == term_id)
 
-    # need a something to hold the conflicts
-    conflict_dict = dict()
 
-    # we need the dict keys to loop through in the view
-    dict_keys = []
 
-    buildings = databaseInterface.getAllBuildings()
+    buildings = functions.get_buildings_with_conflicts(term_id)
+    rooms = functions.get_rooms_with_conflicts(term_id)
+    conflicts = functions.get_all_conflicts(term_id)
+    
+    buildings_prefetch = prefetch(buildings, rooms, conflicts, BannerSchedule, ScheduleDays, InstructorCourse, User)
 
-    for building in buildings:
 
-        # we want a clean conflicts list for each room
-        buildingConflicts = []
-
-        rooms = databaseInterface.getRoomsByBuilding(building)
-
-        for room in rooms:
-
-            # gets all of the courses by room where schedule is none
-            # and filters ones special scheduleID ZZZ
-            specialScheduleCourseList, courseList = functions.getCoursesByRoom(
-                room.rID, tid)
-            
-            while len(courseList):
-                current_course = courseList.pop()
-
-                # NEEDED TO PREVENT SEG FAULT
-                if len(courseList):
-                    buildingConflicts += functions.getConflicts(
-                        current_course, courseList)
-            buildingConflicts+=specialScheduleCourseList
-        instructors = {}
-        if len(buildingConflicts):
-
-            buildingConflicts = functions.removeDuplicates(buildingConflicts)
-
-            dict_keys.append(building.building)
-            # SET THE KEY(building name) TO THE VALUE(list of course objects)
-            conflict_dict[building.building] = buildingConflicts
-            # DATA FOR THE CONFLICTS TABLE
-            instructors = databaseInterface.createInstructorDict(
-                buildingConflicts)
                 
     return render_template("conflicts.html",
                            cfg=cfg,
                            isAdmin=authorizedUser.isAdmin(),
                            allTerms=terms,
                            page=page,
-                           currentTerm=int(tid),
-                           conflicts_dict=conflict_dict,
-                           dict_keys=dict_keys,
-                           instructors=instructors
+                           currentTerm = term_id,
+                           current_term=current_term,
+                           buildings_prefetch = buildings_prefetch
                            )
 ################
 #CHANGE TRACKER#
@@ -137,10 +109,8 @@ def trackerListed(tID):
     if (request.method == "GET"):
         if authorizedUser.isAdmin():
 
-            courses = CourseChange.select().where(CourseChange.verified == False).order_by(CourseChange.term)
-
+            courses = CourseChange.select().order_by(CourseChange.verified, CourseChange.term.desc())
             instructorsDict = databaseInterface.createInstructorDict(courses)
-
             colorClassDict = functions.getColorClassDict(courses)
             '''
             DATA STRUCTURES

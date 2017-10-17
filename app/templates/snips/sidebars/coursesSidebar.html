@@ -33,20 +33,14 @@
                             <!-- /.nav-second-level -->
                         </li>
                         {% endfor %}
-
-                        <li class="active">
-                            <a class="termSelect head2" href="#">Term</a>
-                           
                             <ul class="nav nav-second-level">
-                                {% for term in allTerms %}
-                                <li>
-                                    <a 
-                                    {% if currentTerm == term.termCode %}
-                                    class="active"
-                                    {% endif %}
-                                    href="/courses/{{term.termCode}}/{{prefix}}">{{term.name}}</a>
-                                </li>
-                                {% endfor %}
+                                <select id = "termSelect" placeholder= "Select Term" name = "term-select" class="selectpicker form-control" data-live-search="true" >
+                                    {% for term in allTerms %}
+                                        <option value ={{term.termCode}} >
+                                              {{term.name}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
                             </ul>
                             
                             <!-- /.nav-second-level -->
@@ -55,4 +49,22 @@
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
+            
+<script type="text/javascript">
+window.onload = function(){
+    var selectEl = document.getElementById('termSelect');
+    $('select[id=termSelect]').val('{{currentTerm}}')
+    $('.selectpicker').selectpicker('refresh')
+};
+</script>
+<script type="text/javascript">
+var selectEl = document.getElementById('termSelect');
+selectEl.onchange = function(){
+    function redirectCourses(prefix){
+    var termCode = document.getElementById("termSelect").value
+    window.location.replace("/courses/"+termCode+"/" + prefix)
+    }
+    redirectCourses('{{prefix}}')
+};
+</script>
         

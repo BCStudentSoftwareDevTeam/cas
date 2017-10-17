@@ -56,7 +56,7 @@ def addCourses(tid, prefix):
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
-        if not databaseInterface.isTermEditable(tid):  # IF THE TERM IS NOT EDITABLE
+        if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
             # ADD THE COURSE TO THE COURSECHANGE TABLE
             newCourse.addCourseChange(cid, cfg["changeType"]["create"])
 
@@ -67,3 +67,8 @@ def addCourses(tid, prefix):
         return redirect(redirect_url())
     else:
         abort(404) 
+@app.route("/test_form", methods=["POST"])
+def form_sample():
+    data = request.form
+    
+    return "The parameter was: {0}".format(data['var1'])

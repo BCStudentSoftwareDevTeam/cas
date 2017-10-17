@@ -6,10 +6,6 @@
     color: #404040;
 }
 
-.glyphicon.disabled {
-    color: #d3d3d3;
-}
-
 textarea {
     resize: vertical;
 }
@@ -19,4 +15,17 @@ textarea {
 }
 body {
     background-color: #fff;
+}
+
+/*Sets the color for the selected option*/
+.glyphicon-edit.disabled{
+    color: #5bc0de;
+}
+
+.glyphicon-list.disabled{
+    color: #FF8800;
+}
+
+.glyphicon-lock.disabled{
+    color: #d62c1a;
 }

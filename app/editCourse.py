@@ -47,9 +47,8 @@ def editcourse(tid, prefix, page):
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
     
-    if not databaseInterface.isTermEditable(tid):
+    if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
-      #created = editcourse.addCourseChange(data['cid'], "update")
     databaseInterface.editCourse(data, prefix, professors)
     message = "Course: course {} has been edited".format(data['cid'])
     log.writer("INFO", page1, message)

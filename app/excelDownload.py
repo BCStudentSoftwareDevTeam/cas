@@ -1,7 +1,7 @@
 from allImports import *
 from app.logic.getAuthUser import AuthorizedUser
 from app.logic.redirectBack import redirect_url
-from app.logic.excelMaker import makeExcelFile
+from app.logic.excelMaker import ExcelMaker
 from flask import send_file
 from os.path import basename
 import os
@@ -13,7 +13,8 @@ def makeExcel(tid):
       
       page        = "/" + request.url.split("/")[-1]
       term = Term.get(Term.termCode == tid)
-      completePath = makeExcelFile(term)
+      excel = ExcelMaker()
+      completePath = excel.make_master_file(term)
       
       #filename = "cas-{}-courses.xlsx".format(tid)
       #currentLocation = os.path.dirname(os.path.dirname(__file__))
@@ -27,3 +28,13 @@ def makeExcel(tid):
         
     #   flash("Division succesfully changed")
     #   return redirect(redirect_url())
+    
+@app.route('/excel/crossListed/<tid>', methods=["GET"])
+def makeCrossListedExcel(tid):
+  authorizedUser = AuthorizedUser()
+  if authorizedUser.isAdmin():
+    page = "/" + request.url.split("/")[-1]
+    term = Term.get(Term.termCode == tid)
+    excel = ExcelMaker()
+    completePath = excel.make_cross_listed_file(term)
+    return send_file(completePath,as_attachment=True)

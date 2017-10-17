@@ -1,55 +1,5 @@
-# WARNING: NOT FOR USE IN PRODUCTION AFTER REAL DATA EXISTS!!!!!!!!!!!!!!!!!!!!!!
-'''
-This script creates the database tables in the SQLite file. 
-Update this file as you update your database.
-'''
-import os, sys
-import importlib
-import datetime
-
-# Don't forget to import your own models!
+from create_tables import *
 from app.models import *
-conf = load_config(os.path.join(here,'config.yaml'))
-#onf = load_config('app/config.yaml')
-
-sqlite_dbs  = [ conf['databases']['dev']
-                # add more here if multiple DBs
-              ]
-
-# Remove DBs
-for fname in sqlite_dbs:
-  try:
-    print ("Removing {0}.".format(fname))
-    os.remove(fname)
-  except OSError:
-    pass
-
-# Creates DBs
-for fname in sqlite_dbs:
-  if os.path.isfile(fname):
-    print ("Database {0} should not exist at this point!".format(fname))
-  print ("Creating empty SQLite file: {0}.".format(fname))
-  open(fname, 'a').close()
-  
-
-def class_from_name (module_name, class_name):
-  # load the module, will raise ImportError if module cannot be loaded
-  # m = __import__(module_name, globals(), locals(), class_name)
-  # get the class, will raise AttributeError if class cannot be found
-  c = getattr(module_name, class_name)
-  return c
-    
-"""This file creates the database and fills it with some dummy run it after you have made changes to the models pages."""
-def get_classes (db):
-  classes = []
-  for str in conf['models'][db]:
-    print ("\tCreating model for '{0}'".format(str))
-    c = class_from_name(sys.modules[__name__], str)
-    classes.append(c)
-  return classes
-
-  
-mainDB.create_tables(get_classes('mainDB'))
 
 ######
 #USERS#
@@ -59,7 +9,7 @@ users = User(  firstName = "Scott",
                 username  = "heggens",
                 email     = "heggens@berea.edu",
                 isAdmin   = 1,
-                program   = 1
+                bNumber   = "1239485"
             ).save(force_insert=True)
             
 users = User(  firstName = "Jan",
@@ -67,7 +17,7 @@ users = User(  firstName = "Jan",
                 username  = "pearcej",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1239495"
             ).save(force_insert=True)     
 
 users = User(  firstName = "Matt",
@@ -75,7 +25,7 @@ users = User(  firstName = "Matt",
                 username  = "jadudm",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1234409485"
             ).save(force_insert=True)
             
 users = User(  firstName = "Cody",
@@ -83,7 +33,7 @@ users = User(  firstName = "Cody",
                 username  = "myersco",
                 email     = "jadudm@berea.edu",
                 isAdmin   = 0,
-                program   = 2
+                bNumber   = "1774409485"
             ).save(force_insert=True) 
 ##########
 #DIVISION#
@@ -191,155 +141,181 @@ banner = BannerSchedule(  letter        = "Standard B",
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
                                 ctitle        = "Data Structures",
-                                program       = 1
+                                program       = 1,
+                                is_active     = True,
                               ).save()
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
                                 ctitle        = "Calculus I",
-                                program       = 2
-                                
+                                program       = 2,
+                                is_active     = True
                               ).save()
                         
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 225,
                                 ctitle        = "Calculus II",
-                                program       = 2
+                                program       = 2,
+                                is_active     = True
                                 
                               ).save()
 bannercourse =  BannerCourses(  subject       = "TAD",
                                 number        = 435,
                                 ctitle        = "Wood Shop",
-                                program       = 3
+                                program       = 3,
+                                is_active     = True
                               ).save()
 
 bannercourse =  BannerCourses(  subject       = "TAD",
                                 number        = 265,
                                 ctitle        = "Electricity",
-                                program       = 3
+                                program       = 3,
+                                is_active     = True
                               ).save()
                     
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
                                 ctitle        = "Better Apps",
-                                program       = 1
+                                program       = 1,
+                                is_active     = True,
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
                                 ctitle        = "Software Design",
-                                program       = 1
+                                program       = 1,
+                                is_active     = True
                               ).save()  
 bannercourse =  BannerCourses(  subject       = "CHI",
                                 number        = 101,
                                 ctitle        = "Intro to Chinese I",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()       
                               
 bannercourse =  BannerCourses(  subject       = "CHI",
                                 number        = 102,
                                 ctitle        = "Intro to Chinese II",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "CHI",
                                 number        = 103,
                                 ctitle        = "Intro to Chinese III",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "CHI",
                                 number        = 104,
                                 ctitle        = "Intro to Chinese IV",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "FRN",
                                 number        = 101,
                                 ctitle        = "Intro to Frn Lang & Culture I",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()       
                               
 bannercourse =  BannerCourses(  subject       = "FRN",
                                 number        = 102,
                                 ctitle        = "Intro to Frn Lang & Culture II",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "FRN",
                                 number        = 103,
                                 ctitle        = "Intermediate French III",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "FRN",
                                 number        = 140,
                                 ctitle        = "Frn Civilization Past/Present",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()   
 bannercourse =  BannerCourses(  subject       = "GER",
                                 number        = 101,
                                 ctitle        = "Intro to German I",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()       
                               
 bannercourse =  BannerCourses(  subject       = "GER",
                                 number        = 102,
                                 ctitle        = "Intro to German II",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "GER",
                                 number        = 103,
                                 ctitle        = "Intermediate German III",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
+                                
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "GER",
                                 number        = 140,
                                 ctitle        = "German Civilization",
-                                program       = 4
+                                program       = 4,
+                                is_active     = True
                               ).save()   
 bannercourse =  BannerCourses(  subject       = "HHP",
                                 number        = 200,
                                 ctitle        = "Survival Swimming",
-                                program       = 3
+                                program       = 3,
+                                is_active     = True
                               ).save()    
 bannercourse =  BannerCourses(  subject       = "HLT",
                                 number        = 100,
                                 ctitle        = "Intro to Lifetime Health and Wellness",
-                                program       = 3
+                                program       = 3,
+                                is_active     = True
                               ).save()   
 
 ######
 ######
 #TERM#
 ######
-term = Term(  name              = "Fall 2016",
+term = Term(  name             = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
-              termCode          = 201612,
-              editable          = 0
+              editable          = 0,
+              termCode          = 201611,
+              state             = 0
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2017",
               semester          = "Spring",
               year              = 2017,
-              termCode          = 201711,
-              editable          = 0
+              termCode          = 201612,
+              editable          = 0,
+              state             = 0
             ).save(force_insert = True)  
 term = Term(  name              = "Fall 2017",
               semester          = "Fall",
               year              = 2017,
-              termCode          = 201712,
-              editable          = 0
+              termCode          = 201711,
+              editable          = 0,
+              state             = 0
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2018",
               semester          = "Spring",
               year              = 2018,
-              termCode          = 201811,
-              editable          = 0
+              termCode          = 201712,
+              editable          = 0,
+              state             = 0
             ).save(force_insert = True)      
 term = Term(  name              = "Fall 2018",
               semester          = "Fall",
               year              = 2018,
-              termCode          = 201812,
-              editable          = 0
+              termCode          = 201811,
+              editable          = 0,
+              state             = 0
             ).save(force_insert = True)
             
 
@@ -535,14 +511,19 @@ instructor = InstructorCourse(  username = "jadudm",
 instructor = InstructorCourse(  username = "myersco",
                                 course   = 3
                               ).save()  
-                              
+######
+#Buildings#
+building = Building(name="Ag Building")
+building = Building(name="Tech BUilding")
+
+######                             
 ######
 #ROOMS#
 ######
-room = Rooms(building = 'Ag Building', number ='102', maxCapacity=12, roomType="Something").save()
-room = Rooms(building = 'Tech Building', number ='105', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
 
-room = Rooms(building = 'Ag Building', number ='103A', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 1, number ='103A', maxCapacity=12, roomType="Something").save()
 
 # try:
 #   os.system('mysql-ctl start')
