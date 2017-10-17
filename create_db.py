@@ -98,30 +98,25 @@ division = Division(  name = "Division II"
 #########
 program  = Program( name = "Computer Science",
                     division = 2,
-                    prefix   = "CSC",
-                    has_subjects = False
+                    prefix   = "CSC"
               ).save()
               
 program  = Program( name = "Mathematics",
                     division = 1,
-                    prefix   = "MAT",
-                    has_subjects = False
+                    prefix   = "MAT"
               ).save()
               
 program  = Program( name = "Technology and Design",
                     division = 2,
-                    prefix   = "TAD",
-                    has_subjects = False
+                    prefix   = "TAD"
               ).save()
 program  = Program( name = "Foreign Languages",
                     division = 4,
-                    prefix   = "FL", 
-                    has_subjects = True
+                    prefix   = "FL"
               ).save()
 program  = Program( name = "Health and Human Performance",
                     division = 3,
-                    prefix   = "HHP", 
-                    has_subjects = True
+                    prefix   = "HHP"
               ).save()
 #########         
 #SUBJECT#
@@ -347,19 +342,7 @@ term = Term(  name              = "Fall 2018",
               editable          = 0
             ).save(force_insert = True)
             
-term = Term(  name              = "Spring 2019",
-              semester          = "Spring",
-              year              = 2019,
-              termCode          = 201911,
-              editable          = 0
-            ).save(force_insert = True)      
-term = Term(  name              = "Fall 2019",
-              semester          = "Fall",
-              year              = 2019,
-              termCode          = 201912,
-              editable          = 0
-            ).save(force_insert = True)
-            
+
 
             
 ########
@@ -494,6 +477,14 @@ course = Course(  bannerRef         = 19,
 course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201811,
+                  schedule          = "B",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201612,
                   schedule          = "B",
                   capacity          = 20,
                   notes             = "Preference2",
