@@ -28,6 +28,7 @@ models:
     - Deadline
     - CourseChange
     - InstructorCourseChange
+    - Building
     - Rooms
 # this makes the navigation bar
 mainMenu:
