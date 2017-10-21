@@ -73,48 +73,40 @@ program  = Program( name = "Health and Human Performance",
 #########
 subject = Subject(  prefix  = "CSC",
                     pid     = 1,
-                    name    = "Computer Science",
                     webname = "cs.berea.edu"
                     ).save(force_insert=True)
                     
 subject = Subject(  prefix  = "MAT",
                     pid     = 2,
-                    name    = "Mathematics",
                     webname = "math.berea.edu"
                   ).save(force_insert=True)
                   
                   
 subject = Subject(  prefix  = "TAD",
                     pid     = 3,
-                    name    = "Technology and Applied Design",
                     webname = "math.berea.edu"
                   ).save(force_insert=True)
                   
 subject = Subject(  prefix  = "CHI",
                     pid     = 4,
-                    name    = "Chinese",
                     webname = "chinese.berea.edu"
                   ).save(force_insert=True)
                   
 subject = Subject(  prefix  = "FRN",
                     pid     = 4,
-                    name    = "French",
                     webname = "french.berea.edu"
                   ).save(force_insert=True)
                   
 subject = Subject(  prefix  = "GER",
                     pid     = 4,
-                    name    = "German",
                     webname = "german.berea.edu"
                   ).save(force_insert=True)
 subject = Subject(  prefix  = "HHP",
                     pid     = 5,
-                    name    = "Health and Human Performance",
                     webname = "health.berea.edu"
                   ).save(force_insert=True)
 subject = Subject(  prefix  = "HLT",
                     pid     = 5,
-                    name    = "Health",
                     webname = "health.berea.edu"
                   ).save(force_insert=True)
 ########                  
@@ -176,14 +168,14 @@ bannercourse =  BannerCourses(  subject       = "TAD",
                     
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
-                                ctitle        = "Better Apps",
+                                ctitle        = "Building Better Apps",
                                 program       = 1,
                                 is_active     = True,
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
-                                ctitle        = "Software Design",
+                                ctitle        = "Software Design and Implement",
                                 program       = 1,
                                 is_active     = True
                               ).save()  

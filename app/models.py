@@ -92,7 +92,6 @@ class Program(dbModel):
 class Subject(dbModel):
   prefix        = CharField(primary_key=True)
   pid           = ForeignKeyField(Program, related_name='subjects')
-  name          = TextField()
   webname       = TextField()
   
   def __str__(self):

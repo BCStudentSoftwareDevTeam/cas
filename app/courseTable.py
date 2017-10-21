@@ -4,6 +4,11 @@ from app.logic.databaseInterface import *
 
 @app.route("/courses/<prefix>/", methods=["GET", "POST"])
 def retrieveCourses(prefix):
+    
+    authorizedUser = AuthorizedUser()
+    username = authorizedUser.getUsername()
+    user = User.get(User.username == username)
+    
     # Select 5 most recents years in the database to display courses from.
     terms = Term.select().distinct().order_by(Term.termCode.asc()).limit(10)
 
@@ -18,7 +23,8 @@ def retrieveCourses(prefix):
         allCourses = BannerCourses.select().join(Subject).where(Subject.prefix== prefix)
         
         subject = Subject.get(Subject.prefix==prefix)
-        
+        program = Program.select().join(Subject).where(Subject.prefix==prefix).where(Program.pID ==Subject.pid).get()
+    
         courses_offered = []
         
         # courseName_to_term is a dictionary that maps the course name to the semesters when it was offered
@@ -31,9 +37,9 @@ def retrieveCourses(prefix):
             
             for course in ref_course:
                 terms_offered.append(course.term.termCode)
-            courseName_to_term[str(bannerRef.subject)+" "+ str(bannerRef.number)] = terms_offered
+            courseName_to_term[str(bannerRef.subject)+" "+ str(bannerRef.number),str(bannerRef.ctitle)] = terms_offered
             
-        return render_template("courseTable.html", terms = terms, allCourses = allCourses, courseName_to_term = courseName_to_term, subject = subject, cfg=cfg)
+        return render_template("courseTable.html", terms = terms, isAdmin=authorizedUser.isAdmin(),allCourses = allCourses, courseName_to_term = courseName_to_term, program = program,subject=subject, cfg=cfg)
     
     except Exception as e:
         print ("Here is the error:")
