@@ -31,8 +31,6 @@ def timelineJson(tid):
     schedule_list.append(schedule.schedule.sid)
   
   obj = timeline(schedule_info,schedule_list)
-  obj.check_schedules()
-  
   google_chart = obj.google_chart_data()
   try: 
     chart_dict = {"google_chart" : google_chart}
