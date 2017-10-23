@@ -6,8 +6,18 @@ from datetime import datetime, date, time
 from flask import json, jsonify
 
 @app.route('/courseTimeline/<tid>',methods=["GET","POST"])
-def courseTimeline(tid):  
-  return render_template('courseTimeline.html',                        
+def courseTimeline(tid):
+  #This information has to be passed for the courseManagementSidebar...
+  #TODO: Turn this information into a json call so that it doesn't have to be
+  #passed in every course management controller. 
+  terms = Term.select().order_by(-Term.termCode)
+  if tid == 0:
+    tid = terms[0].termCode
+  page = "courseTimeline"
+  return render_template('courseTimeline.html',
+                            allTerms=terms,
+                            page=page,
+                            currentTerm=int(tid),
                             cfg = cfg)
                             
 @app.route('/courseTimeline/<tid>/json', methods=["GET","POST"])

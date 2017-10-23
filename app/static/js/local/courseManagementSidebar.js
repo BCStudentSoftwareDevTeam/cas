@@ -1,8 +1,15 @@
 /* global $ */
 function buildURL(page){
+    console.log(page)
     var selectedTerm = document.getElementById('termSelect').value
-    var url       = '/courseManagement/'.concat(page).concat('/').concat(selectedTerm)
-    window.location.replace(url)
+    if (page == "courseTimeline") {
+        var url = '/'.concat(page).concat('/').concat(selectedTerm);
+        console.log(url);
+    }
+    else{
+        var url       = '/courseManagement/'.concat(page).concat('/').concat(selectedTerm);
+    }
+    window.location.replace(url);
 }
 
 function getCurrentTerm() {
@@ -17,3 +24,4 @@ $(document).ready(function ($) {
     $("#trackerLink").attr("href", "/courseManagement/tracker/" + termCode)
     $("#courseTimeline").attr("href", "/courseTimeline/" + termCode)
 });
+
