@@ -8,10 +8,13 @@ class timeline:
         self.google_chart      = []
         self.overall_times     = []
         self.chart_data        = self.collect_chart_data()
+        self.last_number       = 0
         
     def append_google_chart(self, time):
         format_date = self.convert_time(time)
+        self.google_chart.append([format_date,self.last_number])
         self.google_chart.append([format_date, self.overall_number])
+        
         return True
         
     def convert_time(self,time_obj):
@@ -54,6 +57,7 @@ class timeline:
     def create_google_chart(self):
         for time in self.overall_times:
             x = self.chart_data[time]
+            self.last_number = self.overall_number
             self.overall_number += x
             self.append_google_chart(time)
         

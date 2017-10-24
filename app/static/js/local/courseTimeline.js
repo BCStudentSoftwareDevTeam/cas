@@ -1,34 +1,53 @@
 /* global google */
 /* global $ */
 
-
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
+function google_data_json(){    
+    var data =  $.ajax({
+       url: append_url(),
+       method: 'GET',
+       async: false, //this is neccessary to get the return. 
+       done: function(results){
+         JSON.parse(results);
+         return results;
+       },
+       fail: function( jqXHR, textStatus, errorThrown ) {
+        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+    }
+    }).responseJSON;    
+    //data is returned as a string
+    //console.log(typeof(data));
+    //Convert string to dictionary    
+    var jsonData = JSON.parse(data);
+    //console.log(typeof(jsonData));    
+    return jsonData
+}
 
 function drawBasic() {
-
-      var data = new google.visualization.DataTable();
-      data.addColumn('timeofday', 'X');
-      data.addColumn('number', '# Courses');
+    var chart_order = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+    var google_chart_dict = google_data_json();    
+    for (var i = 0; i < chart_order.length; i++){
+        var day = chart_order[i];        
+        var data = new google.visualization.DataTable();
+        data.addColumn('timeofday', 'X');
+        data.addColumn('number', '# Courses');
+        data.addRows(google_chart_dict[day]);               
+        var options = {
+            title: day, 
         
-      var rowContent = google_data_json();
-      data.addRows(rowContent);               
-
-      var options = {
-        title: 'Mondays', 
-        
-        hAxis: {
-          title: 'Time',
-          showTextEvery: 1,
-        },
-        vAxis: {
-          title: '# Courses'
-        }
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
-      chart.draw(data, options);
+            hAxis: {
+                title: 'Time',
+                showTextEvery: 1,
+            },
+            vAxis: {
+                title: '# Courses'
+            }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById(day));
+        chart.draw(data, options);
+    }
+}
     
 
 function append_url(){
@@ -47,19 +66,3 @@ function append_url(){
    return new_url
 }
 
-function google_data_json(){    
-    var data =  $.ajax({
-       url: append_url(),
-       method: 'GET',
-       async: false, //this is neccessary to get the return
-       done: function(results){
-         JSON.parse(results);
-         return results;
-       },
-       fail: function( jqXHR, textStatus, errorThrown ) {
-        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-    }
-    }).responseJSON;    
-    var jsonData = JSON.parse(data)    
-    return jsonData.google_chart
-}}
