@@ -52,7 +52,9 @@ def courses(tID, prefix):
     rooms = Rooms.select().order_by(Rooms.building)
 
     instructors = createInstructorDict(courses)
-    
+    #checking if its a summer course and passing this information to the view
+    termd = list(tID)
+    key = int(termd[-1])
     return render_template(
             "course.html",
             cfg=cfg,
@@ -73,4 +75,5 @@ def courses(tID, prefix):
             curTermName=curTermName,
             prefix=prefix,
             page=page,
-            rooms=rooms)
+            rooms=rooms,
+            key = key)
