@@ -120,13 +120,14 @@ class TrackerEdit():
     @param -formData {dict} -Should always come directly from a request.form
     Author -> CDM 20160713'''
     # Reduce formKeys to only keys related to courseChange
-    formKeys = ['schedule', 'room', 'capacity', 'crossListed', 'notes','term']
+    formKeys = ['section', 'schedule', 'room', 'capacity', 'crossListed', 'notes','term']
     course = Course.get(Course.cId == self.formData['cid'])
     # Check null before using forgein key
     courseSchedule = course.schedule.sid if course.schedule is not None else None
     courseRoom = course.rid.rID if course.rid is not None else None
     # Order the course data to match the order as the formCourseKeys
     courseData = [
+        course.section,
         courseSchedule,
         courseRoom,
         course.capacity,
@@ -134,8 +135,7 @@ class TrackerEdit():
         course.notes,
         course.term.termCode]
     # Reduce the Layout headers to only things that can be found in the course model
-    layout = ['Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term']
-
+    layout = ['Section','Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term']
     for index in range(len(formKeys)):
       formValue   = str(self.formData[formKeys[index]])
       courseValue = str(courseData[index])
@@ -168,6 +168,7 @@ class TrackerEdit():
           prefix      = course.prefix.prefix,
           bannerRef   = course.bannerRef.reFID,
           term        = self.formData['term'],
+          section     = self.formData['section'],
           schedule    = self.formData['schedule'],
           capacity    = self.formData['capacity'],
           notes       = self.formData['notes'],

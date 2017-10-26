@@ -8,6 +8,7 @@
       <h3 class="display-3">Create Course</h3>
       <hr class="m-y-2">
       <form class="form-horizontal" method="post" id="createCourseForm" action="/addCourse/{{currentTerm}}/{{prefix}}">
+        <input type="hidden" id=term value="{{currentTerm}}">
         <div class="form-group col-md-6">
           <select title="Course title" class="form-control selectpicker" data-live-search="true" name="ctitle" id="courseInfo" onchange="stn()" required>
             <option value="">---</option>
@@ -24,13 +25,14 @@
         {% include "snips/courseElements/addRoom.html" %}
         {% include "snips/courseElements/addInstructors.html"%}
         {% include "snips/courseElements/addSchedule.html" %}
-       
+        {% include "snips/courseElements/addSection.html" %}
+
         <div class="form-group col-md-4 offset_input right">
           <div>
-            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  /> 
+            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
         </div>
-        
+
         <div class=" col-md-2 offset_input right">
           <label id="radioLabel" for="radios">Crosslisted</label>
           <div class="radio-inline" id=radios>
@@ -46,7 +48,7 @@
             </label>
           </div>
         </div>
-        
+
         <div>
           <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course, including..."></textarea>
         </div>

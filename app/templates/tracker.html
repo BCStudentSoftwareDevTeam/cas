@@ -77,7 +77,10 @@
                       {{instructor.username.username}}
                     {% endfor %}
                   </td>
-                  <td id="schedule"class="{{classDict[course.cId][2]}}">
+                  <td id="capacity"class="{{classDict[course.cId][2]}}">
+                    {{course.section}}
+                  </td>
+                  <td id="schedule"class="{{classDict[course.cId][3]}}">
                     {# Needed to move special to the top for scoping issue #}
                     {% set special = [] %}
                     {% if  course.schedule is not none %}
@@ -96,24 +99,24 @@
                       {% endif %}
                     {% endif %}
                   </td>
-                  <td id="room" class="{{classDict[course.cId][3]}}">
+                  <td id="room" class="{{classDict[course.cId][4]}}">
                     {% if course.rid is not none %}
                       {{course.rid.building.name }}:{{course.rid.number}}
                     {% else %}
                       <p> None </p>
                     {% endif %}
                   </td>
-                  <td id="capacity"class="{{classDict[course.cId][4]}}">
+                  <td id="capacity"class="{{classDict[course.cId][5]}}">
                     {{course.capacity}}
                   </td>
-                  <td id='crossListed' class="{{classDict[course.cId][5]}}">
+                  <td id='crossListed' class="{{classDict[course.cId][6]}}">
                     {% if course.crossListed == 1 %}
                       <p>Yes</p>
                     {% else %}
                       <p>No</p>
                     {% endif %}
                   </td>
-                  <td id="notes"class="{{classDict[course.cId][6]}}">
+                  <td id="notes"class="{{classDict[course.cId][7]}}">
                     {% if course.notes is not none %}
                       <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>
                         Notes
@@ -122,11 +125,11 @@
                       <p>Notes</p>
                     {% endif %}
                   </td>
-                  <td id="term"class="{{classDict[course.cId][7]}}">
+                  <td id="term"class="{{classDict[course.cId][8]}}">
                     {{course.term.name}}
                   </td>
                   {# Last Edit should always be the edit color #}
-                  <td id="lastEdit" class="{{classDict[course.cId][8]}}">
+                  <td id="lastEdit" class="{{classDict[course.cId][9]}}">
                     {{course.lastEditBy}}
                   </td>
                   {% if course.verified == false %}
