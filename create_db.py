@@ -327,6 +327,7 @@ course = Course(  bannerRef         = 1,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
+                  section           = "A",
                   capacity          = 20,
                   notes             = "Preference1",
                   crossListed       = 1
@@ -338,6 +339,7 @@ course = Course(  bannerRef         = 2,
                   schedule          = "B",
                   capacity          = 20,
                   notes             = "Preference2",
+                  section           = "A",
                   crossListed       = 1
                 ).save()                
 
@@ -346,6 +348,7 @@ course = Course(  bannerRef         = 3,
                   term              = 201612,
                   schedule          = "A",
                   capacity          = 20,
+                  section           = "A",
                   notes          = "Preference1",
                   crossListed       = 0
                   ).save()

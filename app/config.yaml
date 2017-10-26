@@ -77,7 +77,7 @@ termInfo:
     #10: 'Berea Bridge Program'   # e.g. Berea Bridge Program 2016 = 201610    
 
 editForm:
-  dataKeys: ['cid','term','schedule','room','capacity','crossListed','notes']
+  dataKeys: ['cid','term','section','schedule','room','capacity','crossListed','notes']
 
 specialSchedule:
   # Times that needed to be automatically added on the conflicts.html
@@ -91,16 +91,17 @@ changeType:
   update: 'update'
 
 tableLayout:
-  order: ['Course Name', 'Taught By', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
+  order: ['Course Name', 'Taught By', 'Section', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
   Course Name:    0
   Taught By:      1  
-  Schedule:       2
-  Room:           3
-  Capacity:       4
-  Cross Listed:   5
-  Notes:          6
-  Term:           7
-  Last Edited By: 8
+  Section:        2
+  Schedule:       3
+  Room:           4
+  Capacity:       5
+  Cross Listed:   6
+  Notes:          7
+  Term:           8
+  Last Edited By: 9
   
 columnColor:
   edit:     'warning'

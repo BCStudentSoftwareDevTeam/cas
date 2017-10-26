@@ -56,6 +56,12 @@ class ScheduleDays(dbModel):
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
+"""
+Possible States:
+    0 - Open - open for all but not tracked
+    1 - tracked - tracking but not open
+    2 - locked - not open and not tracked
+"""
 class Term(dbModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
   semester          = CharField(null = True)
@@ -149,6 +155,7 @@ class Course(dbModel):
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True)
+  section           = TextField(null = True)
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
@@ -184,6 +191,7 @@ class CourseChange(dbModel):
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
+  section           = TextField(null = True)
   
 class InstructorCourseChange(dbModel):
   username     = ForeignKeyField(User)
