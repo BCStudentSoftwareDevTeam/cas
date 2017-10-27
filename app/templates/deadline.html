@@ -30,7 +30,7 @@
                 <tr>
                   <td>
                     <div class='deadlineDisplay'>{{deadline.description}}</div>
-                    {% if isAdmin %}
+                    {% if can_edit %}
                       <a href="" data-toggle="modal" data-id="{{deadline.id}}" data-target="#deleteDeadline"><span class="glyphicon glyphicon glyphicon glyphicon-trash pull-right" aria-hidden="true"></span></a>
                       <a href="" data-toggle="modal" data-description="{{deadline.description}}" data-id="{{deadline.id}}" data-target="#editDeadline"><span  class="glyphicon glyphicon glyphicon-edit pull-right" aria-hidden="true"></span></a> 
                     {% endif %}

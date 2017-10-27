@@ -1,17 +1,44 @@
-
-    <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
-    <thead>
-        <tr>
-            <th>Course Name</th> 
-            <th>Taught By</th>
-            <th>Schedule</th>
-            <th>Capacity</th>
-            <th>Room</th>
-            <th>Cross-Listed</th>
-            <th>Notes</th>
-            <th>Last Edited</th>
-            {% if isAdmin or ((isDivisionChair or isProgramChair) and curTermName.state != 2) %}
-              <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+<link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+<thead>
+    <tr>
+        <th>Course Name</th>
+        <th>Taught By</th>
+        <th>Schedule</th>
+        <th>Capacity</th>
+        <th>Room</th>
+        <th>Cross-Listed</th>
+        <th>Notes</th>
+        <th>Last Edited</th>
+        {% if (can_edit is defined and curTermName.state != 2) %}
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+        {% endif %}
+    </tr>
+</thead>
+<tbody>
+    {% for course in courses %}
+    <tr>
+        <!--COURSE NAME-->
+        <td>{{course.prefix.prefix}} {{course.bannerRef.number}} {% if course.specialTopicName is not none %} {{course.specialTopicName}} {% else %} {{course.bannerRef.ctitle}} {%endif%}
+        </td>
+        <!--TAUGHT BY-->
+        <td>
+            {% for instructor in course.instructors_course_prefetch %} {{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> {% endfor %}
+        </td>
+        <!--SCHEDULE-->
+        <td>
+            {# Needed to move special to the top for scoping issue #} {% set special = [] %} {% if course.schedule is not none %} {% for sid in cfg['specialSchedule']['unknownTime'] %} {% if sid == course.schedule.sid %} {% set special = special.append(sid) %} {%
+            endif %} {% endfor %} {% if special != [] %}
+            <p>See Notes</p>
+            {% else %} {% for day in course.schedule.days %} {{ day.day }} {% endfor %} {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} {% endif %} {% endif %}
+        </td>
+        <!--CAPACITY-->
+        <td>
+            {% if course.capacity is not none %} {{course.capacity}} {% else %} no capacity specified {% endif %}
+        </td>
+        <!-- ROOM -->
+        <td>
+            {% if course.rid is not none %} {{course.rid.building.name}}:{{course.rid.number}} {% else %}
+            <p>No room listed</p>
             {% endif %}
         </tr> 
     </thead>
@@ -101,7 +128,7 @@
                     </td>
                 {% else %}
                     
-                    {% if isAdmin or (isDivisionChair or isProgramChair) and key < 3 %}
+                    {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">

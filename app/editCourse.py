@@ -1,15 +1,11 @@
 from allImports import *
 from updateCourse import DataUpdate
 from app.logic.TrackerEdit import TrackerEdit
-from app.logic.getAuthUser import AuthorizedUser
 from app.logic import databaseInterface
+from app.logic.authorization import must_be_authorized
 
 @app.route("/editCourseModal/<tid>/<prefix>/<cid>/<page>", methods=["GET"])
 def editCourseModal(tid, prefix, cid, page):
-  authorizedUser = AuthorizedUser(prefix)
-  
-  checkUser = DataUpdate()
-  if authorizedUser.isAuthorized():
     
     # Select all schedules
     schedules = BannerSchedule.select().order_by(BannerSchedule.order)
@@ -26,7 +22,6 @@ def editCourseModal(tid, prefix, cid, page):
     rooms     = Rooms.select()
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
-                            cfg = cfg,
                             terms     = terms,
                             course    = course,
                             users = users,
@@ -37,11 +32,11 @@ def editCourseModal(tid, prefix, cid, page):
                             )
 
 @app.route("/editcourse/<tid>/<prefix>/<page>", methods=["POST"])
+@must_be_authorized
 def editcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
-  authorizedUser = AuthorizedUser(prefix)
-  if authorizedUser.isAuthorized():
-    username = authorizedUser.getUsername()
+
+    username = g.user.username
     page1 =  "/" + request.url.split("/")[-1]
     data = request.form
     trackerEdit = TrackerEdit(data)
@@ -58,5 +53,3 @@ def editcourse(tid, prefix, page):
     else:
       url = "/courseManagement/" + page + "/" + tid
       return redirect(url)
-  else:
-    return render_template("404.html", cfg=cfg)

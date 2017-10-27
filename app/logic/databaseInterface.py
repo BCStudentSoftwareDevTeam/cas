@@ -67,7 +67,8 @@ gets elements for the course sidebar
 
 
 def getSidebarElements():
-    return (Division.select(), Program.select(), Subject.select())
+
+    return prefetch(Division.select(), Program, Subject)
 
 
 
