@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% set currentPage = "courseTimeline" %}
+
+{% block aboveContainer %} {% endblock %}
+
+{% block body %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+<body>
+  <div id="wrapper">
+    <div id="page-wrapper">
+    
+      <div id="Monday_Chart">
+        <div id="Monday"></div>
+      </div>
+      
+      <div id="Tuesday_Chart">
+        <div id="Tuesday"></div>
+      </div>
+      
+      <div id="Wednesday_Chart">
+        <div id="Wednesday"></div>
+      </div>
+      
+      <div id="Thursday_Chart">
+        <div id="Thursday"></div>
+      </div>
+      
+      <div="Friday_Chart">
+        <div id="Friday"></div>
+      </div>
+    
+    </div>
+  </div>
+</body>
+
+{% endblock %}

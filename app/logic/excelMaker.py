@@ -17,24 +17,42 @@ class ExcelMaker:
         sheet.write('C1','Title')
         sheet.write('D1','Block ID')
         sheet.write('E1','Block')
-        sheet.write('F1', 'Capacity')
-        sheet.write('G1', 'Notes')
+        sheet.write('F1', 'Time')
+        sheet.write('G1', 'Capacity')
+        sheet.write('H1', 'Notes')
+        sheet.write('I1', 'Room Preference')
+        sheet.write('J1','Instructors')
+        
+    
         
     def write_course_info(self,sheet,row,course):
+        # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
+        #Course Schedule
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
-        sheet.write('F{0}'.format(row),course.capacity)
-        sheet.write('G{0}'.format(row),course.notes)
+            time = course.schedule.days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
+            self.writeRow(sheet,'F',row, time)
+        #Notes & Capacity
+        sheet.write('G{0}'.format(row),course.capacity)
+        sheet.write('H{0}'.format(row),course.notes)
+        # Room Information
+        room_name = ""
+        if course.rid:
+            room_name = course.rid.building + ' ' + course.rid.number
+        sheet.write('I{0}'.format(row),room_name)
+        #Instructor Information
         instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
-        colNum = ord('H')
-        for  instructor in instructors:
+        colNum = ord('J')
+        for  instructor in instructors:            
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)
             colNum += 1
-                        
+            self.writeRow(sheet,chr(colNum),row,instructor.username.bNumber)
+            colNum += 1
+            
     def increment_rows(self,course):
         self.program_row  += 1
         self.master_row += 1

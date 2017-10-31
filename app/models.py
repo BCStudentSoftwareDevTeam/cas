@@ -44,19 +44,14 @@ class Division(dbModel):
   
 class BannerSchedule(dbModel):
   letter        = CharField()
+  days          = CharField(null = True)
+  startTime     = TimeField(null = True)
+  endTime       = TimeField(null = True)
   sid           = CharField(primary_key = True)
   order         = IntegerField(unique = True)
-  startTime   = TimeField(null = True)
-  endTime     = TimeField(null = True)
   
   def __str__(self):
     return self.letter
-    
-class ScheduleDays(dbModel):
-  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
-  day         = CharField(null=True)
-
-  
 
 class Term(dbModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
@@ -67,14 +62,10 @@ class Term(dbModel):
   
   def __str__(self):
     return self.name
-    
-class Building(dbModel):
-  bID           = PrimaryKeyField()
-  name          = CharField()
   
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
+  building       = CharField(null=False)
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
@@ -83,7 +74,7 @@ class Rooms(dbModel):
 class Program(dbModel):
   pID           = PrimaryKeyField()
   name          = CharField()
-  division      = ForeignKeyField(Division)
+  division      = ForeignKeyField(Division, related_name='programs')
   
   def __str__(self):
     return str(self.name)
@@ -105,6 +96,24 @@ class User(dbModel):
   lastVisited  = ForeignKeyField(Subject, null=True)
   bNumber      = CharField(null = True)
   
+  def is_active(self):
+      """All user will be active"""
+      return True
+  
+  
+  def get_id(self):
+      return str(self.username)
+      
+  def is_authenticated(self):
+      """Return True if the user is authenticated"""
+      return True
+      
+  def is_anonymous(self):
+      return False
+      
+  def __repr__(self):
+    return '{0} {1}'.format(self.firstname, self.lastname)
+  
   def __str__(self):
     return self.username
   
@@ -114,6 +123,7 @@ class BannerCourses(dbModel):
   number        = CharField(null = False)
   section       = CharField(null = True)
   ctitle        = CharField(null = False)
+  is_active     = BooleanField()
   
   def __str__(self):
     return '{0} {1}'.format(self.subject, self.number)
@@ -121,7 +131,7 @@ class BannerCourses(dbModel):
 class Course(dbModel):
   cId               = PrimaryKeyField()
   prefix            = ForeignKeyField(Subject)
-  bannerRef         = ForeignKeyField(BannerCourses)
+  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   capacity          = IntegerField(null = True)
@@ -129,7 +139,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
+  rid               = ForeignKeyField(Rooms, null = True)
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
@@ -143,8 +153,8 @@ class DivisionChair(dbModel):
   did          = ForeignKeyField(Division)
 
 class InstructorCourse(dbModel):
-  username     = ForeignKeyField(User)
-  course       = ForeignKeyField(Course)
+  username     = ForeignKeyField(User, related_name='instructor_courses')
+  course       = ForeignKeyField(Course, related_name='instructors_course')
   
 class Deadline(dbModel):
   description  = TextField()
