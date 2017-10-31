@@ -117,7 +117,8 @@ banner = BannerSchedule(  letter        = "Standard A",
                           startTime     = datetime.time(8, 0, 0),
                           endTime       = datetime.time(9, 10, 0),
                           sid           = "A",
-                          order         = 1
+                          order         = 1,
+            
                         ).save(force_insert=True)
 
 banner = BannerSchedule(  letter        = "Standard B",
@@ -132,17 +133,19 @@ banner = BannerSchedule(  letter        = "Standard B",
 ##############
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
+
                                 ctitle        = "Data Structures",
                                 program       = 1,
                                 is_active     = True,
-                              ).save()
+           ).save()
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
                                 ctitle        = "Calculus I",
+
                                 program       = 2,
                                 is_active     = True
-                              ).save()
+       ).save()
                         
 
 bannercourse =  BannerCourses(  subject       = "MAT",
@@ -155,6 +158,7 @@ bannercourse =  BannerCourses(  subject       = "MAT",
 bannercourse =  BannerCourses(  subject       = "TAD",
                                 number        = 435,
                                 ctitle        = "Wood Shop",
+
                                 program       = 3,
                                 is_active     = True
                               ).save()
@@ -168,13 +172,16 @@ bannercourse =  BannerCourses(  subject       = "TAD",
                     
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
+
                                 ctitle        = "Building Better Apps",
                                 program       = 1,
                                 is_active     = True,
+
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
+
                                 ctitle        = "Software Design and Implement",
                                 program       = 1,
                                 is_active     = True
@@ -503,19 +510,24 @@ instructor = InstructorCourse(  username = "jadudm",
 instructor = InstructorCourse(  username = "myersco",
                                 course   = 3
                               ).save()  
+
 ######
-#Buildings#
-building = Building(name="Ag Building")
-building = Building(name="Tech BUilding")
+#Buildings
 
 ######                             
+
+                              
+building     = Building(name = 'Ag Building').save()
+building     = Building(name = 'Tech Building').save()
+
+
+                              
+
 ######
 #ROOMS#
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
-
-room = Rooms(building = 1, number ='103A', maxCapacity=12, roomType="Something").save()
 
 # try:
 #   os.system('mysql-ctl start')

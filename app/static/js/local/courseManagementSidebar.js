@@ -1,7 +1,15 @@
+/* global $ */
 function buildURL(page){
+    console.log(page)
     var selectedTerm = document.getElementById('termSelect').value
-    var url       = '/courseManagement/'.concat(page).concat('/').concat(selectedTerm)
-    window.location.replace(url)
+    if (page == "courseTimeline") {
+        var url = '/'.concat(page).concat('/').concat(selectedTerm);
+        console.log(url);
+    }
+    else{
+        var url       = '/courseManagement/'.concat(page).concat('/').concat(selectedTerm);
+    }
+    window.location.replace(url);
 }
 
 function getCurrentTerm() {
@@ -10,8 +18,10 @@ function getCurrentTerm() {
 }
     
 $(document).ready(function ($) {
-    termCode = getCurrentTerm()
+    var termCode = getCurrentTerm()
     $("#crossListedLink").attr("href", "/courseManagement/crossListed/" + termCode)
     $("#conflictsLink").attr("href", "/courseManagement/conflicts/" + termCode)
     $("#trackerLink").attr("href", "/courseManagement/tracker/" + termCode)
+    $("#courseTimeline").attr("href", "/courseTimeline/" + termCode)
 });
+

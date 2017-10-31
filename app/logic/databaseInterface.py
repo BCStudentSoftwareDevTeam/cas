@@ -67,7 +67,8 @@ gets elements for the course sidebar
 
 
 def getSidebarElements():
-    return (Division.select(), Program.select(), Subject.select())
+
+    return prefetch(Division.select(), Program, Subject)
 
 
 
@@ -175,5 +176,15 @@ def editCourse(data, prefix, professors):
         course.notes = notes
         course.lastEditBy = authUser(request.environ)
         course.save()
-        editInstructors(professors, data['cid'])    
+        editInstructors(professors, data['cid'])
+        
+def getCourseTimelineSchedules(day,tid):
+    schedules = ScheduleDays.select(ScheduleDays.schedule
+                          ).join(Course, on=(Course.schedule == ScheduleDays.schedule)
+                          ).join(BannerSchedule, on=(BannerSchedule.sid == ScheduleDays.schedule)
+                          ).where(ScheduleDays.day == day
+                          ).where(Course.term == tid
+                          ).distinct(
+                          ).order_by(BannerSchedule.startTime)
+    return schedules
     

@@ -15,6 +15,12 @@ td, th {
 .glyphicon {
 	padding-top: 5px;
 }
+#edit{
+	display: inline-block;
+  	/*line-height: 1em;*/
+	margin: 150%;
+
+
  
 /*Max width before this PARTICULAR table gets nasty*/
 /*This query will take effect for any screen smaller than 760px*/
