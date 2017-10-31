@@ -31,7 +31,7 @@ def isAuthorized(user, prefix):
 def can_modify(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
-    if g.user is None: # check if user is logged in
+    if not g.user.is_authenticated(): # check if user is logged in
       return redirect(url_for('login', next=request.url))
     prefix = kwargs.get('prefix', None)
     
@@ -50,7 +50,7 @@ def can_modify(f):
 def must_be_authorized(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
-    if g.user is None: # check if user is logged in
+    if not g.user.is_authenticated: # check if user is logged in
       return redirect(url_for('login', next=request.url))
     prefix = kwargs['prefix']
     
@@ -64,7 +64,7 @@ def must_be_authorized(f):
 def must_be_admin(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):
-    if g.user is None: # check if user is logged in
+    if not g.user.is_authenticated(): # check if user is logged in
       return redirect(url_for('login', next=request.url))
     
     if not g.user.isAdmin:
