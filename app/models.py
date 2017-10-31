@@ -69,7 +69,7 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
-  
+
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
