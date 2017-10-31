@@ -44,7 +44,6 @@ class Division(dbModel):
   
 class BannerSchedule(dbModel):
   letter        = CharField()
-  days          = CharField(null = True)
   startTime     = TimeField(null = True)
   endTime       = TimeField(null = True)
   sid           = CharField(primary_key = True)
@@ -70,11 +69,11 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
-  building       = ForeignKeyField(Building, related_name='rooms')
+  
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
-  building       = CharField(null=False)
+  building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
