@@ -69,7 +69,7 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
-  
+
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
@@ -83,6 +83,7 @@ class Program(dbModel):
   pID           = PrimaryKeyField()
   name          = CharField()
   division      = ForeignKeyField(Division, related_name='programs')
+
   
   def __str__(self):
     return str(self.name)
