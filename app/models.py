@@ -54,7 +54,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
-  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
+  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='scheduleDays')
   day         = CharField(null=True)
 
 class Term(dbModel):
@@ -70,11 +70,11 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
-  building       = ForeignKeyField(Building, related_name='rooms')
+
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
-  building       = CharField(null=False)
+  building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
