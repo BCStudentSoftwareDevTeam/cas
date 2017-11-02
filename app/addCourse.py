@@ -79,16 +79,17 @@ def add_one(tid):
                     )
     course.save()
     
-    try:  #if there is instructor for an existing course, update an instructor of new course as well
-        instructor=InstructorCourse.get(InstructorCourse.course_id==data["courses"])  
-        course_instructor=InstructorCourse(
-            username_id = instructor.username_id,
-            course_id = course.cId
-            )
-        course_instructor.save()
-        return redirect(redirect_url()) 
-    except:  #if no instructor, just redirect
-        return redirect(redirect_url()) 
+     #if there are instructors for an existing course, update instructors of new course as well
+    for instructor in InstructorCourse.select().where(InstructorCourse.course_id==data["courses"]):
+        if instructor:
+            course_instructor=InstructorCourse(
+                username_id = instructor.username_id,
+                course_id = course.cId
+                )
+            course_instructor.save()
+                
+        
+    return redirect(redirect_url()) 
     
     
 @app.route("/addMany/<tid>", methods=["POST"])
@@ -109,17 +110,16 @@ def add_many(tid):
                     crossListed=int(course.crossListed), rid=None
                     )
             course.save()
-        
             
-            try:   #if there is instructor for an existing course, update an instructor of new course as well
-                instructor=InstructorCourse.get(InstructorCourse.course_id==int(i))
-                course_instructor=InstructorCourse(
-                    username_id = instructor.username_id,
-                    course_id = course.cId
-                )
-                course_instructor.save()
-            except:
-                pass
+            
+     #if there are many instructors for an existing course, update instructors of new course as well
+            for instructor in InstructorCourse.select().where(InstructorCourse.course_id==int(i)):
+                if instructor:
+                    course_instructor=InstructorCourse(
+                        username_id = instructor.username_id,
+                        course_id = course.cId
+                        )
+                    course_instructor.save()
             
     return redirect(redirect_url()) 
     
