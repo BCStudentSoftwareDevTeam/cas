@@ -118,9 +118,10 @@ def add_many(tid):
                     course_id = course.cId
                 )
                 course_instructor.save()
-                return redirect(redirect_url()) 
-            except:  #if no instructor then it's None
-                return redirect(redirect_url()) 
+            except:
+                pass
+            
+    return redirect(redirect_url()) 
     
         
 @app.route('/get_termcourses/<term>/<department>')
