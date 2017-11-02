@@ -2,12 +2,12 @@ from allImports import *
 from updateCourse import DataUpdate
 from app.logic import databaseInterface
 from app.logic.redirectBack import redirect_url
-from app.logic.authorization import can_modify
+from app.logic.authorization import must_be_authorized
 
 
 @app.route("/deletecourse/<tid>/<prefix>", methods=["POST"])
-@can_modify
-def deletecourse(prefix, tid, can_edit):
+@must_be_authorized
+def deletecourse(prefix, tid):
 
     current_page = "/" + request.url.split("/")[-1]
 
