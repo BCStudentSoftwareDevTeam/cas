@@ -1,6 +1,5 @@
 from allImports import *
 from app.logic.databaseInterface import getSidebarElements
-
 from app.logic.course import define_term_code_and_prefix
 from app.logic.course import save_last_visited
 from app.logic.authorization import can_modify
@@ -44,8 +43,15 @@ def courses(tID, prefix, can_edit):
     
     rooms = Rooms.select().order_by(Rooms.building)
     
-    termd = list(tID)
-    key = int(termd[-1])
+    # Key  - 1 indicates Fall
+    # Key  - 2 indicates Spring
+    # Key  - 3 indicates Summer
+    key = 1
+    try:
+        key = int(tID[-1])
+    except ValueError as error: 
+        log.writer("Unable to parse Term ID, course.py", e)
+
     courses = (Course.select(Course, BannerCourses).join(BannerCourses)
                      .where(Course.prefix == prefix)
                      .where(Course.term == tID))
