@@ -66,7 +66,8 @@ def addCourses(tid, prefix):
 def add_one(tid):
     data = request.form
     course=Course.get(Course.cId==data["courses"])
-    instructor=InstructorCourse.get(InstructorCourse.course_id==data["courses"])
+   
+    
     course = Course(bannerRef=course.bannerRef_id,
                     prefix=course.prefix_id,
                     term=int(tid),
@@ -78,13 +79,16 @@ def add_one(tid):
                     )
     course.save()
     
-    course_instructor=InstructorCourse(
-        username_id = instructor.username_id,
-        course_id = course.cId
-        
-        )
-    course_instructor.save()
-    return redirect(redirect_url()) 
+    try:  #if there is instructor 
+        instructor=InstructorCourse.get(InstructorCourse.course_id==data["courses"])  
+        course_instructor=InstructorCourse(
+            username_id = instructor.username_id,
+            course_id = course.cId
+            )
+        course_instructor.save()
+        return redirect(redirect_url()) 
+    except:  #if no instructor, just redirect
+        return redirect(redirect_url()) 
     
     
 @app.route("/addMany/<tid>", methods=["POST"])
@@ -94,7 +98,7 @@ def add_many(tid):
     if courses:
         for i in courses:
             course=Course.get(Course.cId==int(i))
-            instructor=InstructorCourse.get(InstructorCourse.course_id==int(i))
+            
             course = Course(bannerRef=course.bannerRef_id,
                     prefix=course.prefix_id,
                     term=int(tid),
@@ -106,13 +110,17 @@ def add_many(tid):
                     )
             course.save()
         
-            course_instructor=InstructorCourse(
-                username_id = instructor.username_id,
-                course_id = course.cId
-                
+            
+            try:  #if there is instructor 
+                instructor=InstructorCourse.get(InstructorCourse.course_id==int(i))
+                course_instructor=InstructorCourse(
+                    username_id = instructor.username_id,
+                    course_id = course.cId
                 )
-            course_instructor.save()
-    return redirect(redirect_url()) 
+                course_instructor.save()
+                return redirect(redirect_url()) 
+            except:  #if no instructor then it's None
+                return redirect(redirect_url()) 
     
         
 @app.route('/get_termcourses/<term>/<department>')
