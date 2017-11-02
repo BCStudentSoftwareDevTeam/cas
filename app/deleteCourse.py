@@ -7,7 +7,7 @@ from app.logic.authorization import must_be_authorized
 
 @app.route("/deletecourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
-def deletecourse(prefix, tid, can_edit):
+def deletecourse(prefix, tid):
 
     current_page = "/" + request.url.split("/")[-1]
 
