@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+{% endblock %}
+<!--Page Content -->
+{% block body %}
+
+<div class="modal fade" id="selectProgramModal" role="dialog" data-backdrop = "static">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+               <a type="button" class="close"  aria-label="Close" href = "/"><span aria-hidden="true">&times;</span></a>
+               <h4 class="modal-title">Select a Program</h4>
+		       
+           </div>
+           <div class="modal-body">
+               <select name = "program-select" class="selectpicker form-control" data-live-search="true" name="ptitle" id="programInfo"  required>
+                   {% for program in allPrograms %}
+                       <optgroup>
+                            <optgroup label= "{{program.name}}">
+                                {% for subject in subjects %} 
+                                    {% if subject.pid.pID== program.pID %}
+                                         <option value = {{subject.prefix}}>
+                                             {{subject.prefix}}
+                                         </option>
+                                    {% endif %}
+                                {% endfor %}
+                        </optgroup>
+                   {% endfor %}
+               </select>
+               <div class="modal-footer">
+                   <button onclick="redirectCourses()" class="btn btn-success">Submit</button>
+               </div>  
+               
+           </div>
+       </div>
+   </div>
+</div>
+<script src="/static/js/local/selectProgram.js"></script>
+{% endblock %}

@@ -4,7 +4,7 @@ $(window).on('load',function(){
 });
 
 
-function redirectCourses(prefix){
+function redirectCourses(pref){
     var termCode = document.getElementById("termInfo").value
-    window.location.replace("/courses/"+termCode+"/" + prefix)
+    window.location.replace("/courses/"+termCode+"/" + pref)
 }
