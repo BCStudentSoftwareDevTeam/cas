@@ -65,9 +65,9 @@ def addCourses(tid, prefix):
 @app.route("/addOne/<tid>", methods=["POST"])
 def add_one(tid):
     data = request.form
-    course=Course.get(Course.cId==data["courses"])
+    course=Course.get(Course.cId==data["courses"]) #get an existing course
    
-    
+    #create a new course using fields from an existing course because we are importing it as new
     course = Course(bannerRef=course.bannerRef_id,
                     prefix=course.prefix_id,
                     term=int(tid),
@@ -79,7 +79,7 @@ def add_one(tid):
                     )
     course.save()
     
-    try:  #if there is instructor 
+    try:  #if there is instructor for an existing course, update an instructor of new course as well
         instructor=InstructorCourse.get(InstructorCourse.course_id==data["courses"])  
         course_instructor=InstructorCourse(
             username_id = instructor.username_id,
@@ -97,8 +97,8 @@ def add_many(tid):
     courses = request.form.getlist('courses')
     if courses:
         for i in courses:
-            course=Course.get(Course.cId==int(i))
-            
+            course=Course.get(Course.cId==int(i)) #get an existing course
+            #create a new course using fields from an existing course because we are importing it as new
             course = Course(bannerRef=course.bannerRef_id,
                     prefix=course.prefix_id,
                     term=int(tid),
@@ -111,7 +111,7 @@ def add_many(tid):
             course.save()
         
             
-            try:  #if there is instructor 
+            try:   #if there is instructor for an existing course, update an instructor of new course as well
                 instructor=InstructorCourse.get(InstructorCourse.course_id==int(i))
                 course_instructor=InstructorCourse(
                     username_id = instructor.username_id,
@@ -126,6 +126,7 @@ def add_many(tid):
         
 @app.route('/get_termcourses/<term>/<department>')
 def term_courses(term, department):
+    '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
     try:
         term1=Term.get(Term.name==term)
         courses={}
