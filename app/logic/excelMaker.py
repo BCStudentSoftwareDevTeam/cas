@@ -34,7 +34,10 @@ class ExcelMaker:
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
-            time = course.schedule.days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
+            days = course.schedule.days.get().day
+            if days is None:
+                days = "TBD"
+            time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
             self.writeRow(sheet,'F',row, time)
         #Notes & Capacity
         sheet.write('G{0}'.format(row),course.capacity)
@@ -42,7 +45,7 @@ class ExcelMaker:
         # Room Information
         room_name = ""
         if course.rid:
-            room_name = course.rid.building + ' ' + course.rid.number
+            room_name = course.rid.building.name + ' ' + course.rid.number
         sheet.write('I{0}'.format(row),room_name)
         #Instructor Information
         instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)

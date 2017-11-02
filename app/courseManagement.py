@@ -42,6 +42,16 @@ def crossListed(tid):
     users = User.select(User.username, User.firstName, User.lastName)
     schedules = BannerSchedule.select()
     rooms = Rooms.select()
+    
+    # Key  - 1 indicates Fall
+    # Key  - 2 indicates Spring
+    # Key  - 3 indicates Summer
+    key = 1
+    try:
+        key = int(str(tid)[-1])
+    except ValueError as error: 
+        log.writer("Unable to parse Term ID, courseManagment.py", e)
+
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
@@ -51,7 +61,8 @@ def crossListed(tid):
                            courseInfo=courseInfo,
                            users=users,
                            schedules=schedules,
-                           rooms=rooms
+                           rooms=rooms,
+                           key = key
                            )
 #############################
 #SCHEDULE AND ROOM CONFLICTS#
