@@ -36,7 +36,7 @@ mainMenu:
   - title: "Courses"
     link: "/selectTerm"
   - title: "Log Out"
-    link: "http://login.berea.edu/idp/profile/Logout"
+    link: "https://login.berea.edu/idp/profile/Logout"
 
 adminMenu:
   Administration:
