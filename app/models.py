@@ -153,6 +153,30 @@ class Course(dbModel):
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
+class SpecialTopicCourse(dbModel):
+  stId                 = PrimaryKeyField()
+  prefix               = ForeignKeyField(Subject)
+  bannerRef            = ForeignKeyField(BannerCourses)
+  term                 = ForeignKeyField(Term, null = False)
+  schedule             = ForeignKeyField(BannerSchedule, null = True)
+  capacity             = IntegerField(null = True)
+  specialTopicName     = CharField(null = True)
+  notes                = TextField(null = True)
+  lastEditBy           = CharField(null = True)
+  crossListed          = BooleanField()
+  rid                  = ForeignKeyField(Rooms, null = True)
+  status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied
+  credits              = CharField(default = "1.000")
+  description          = TextField(null = True)
+  prereqs              = TextField(null = True)
+  majorReqsMet         = TextField(null = True)
+  concentrationReqsMet = TextField(null = True)
+  minorReqsMet         = TextField(null = True)
+  perspectivesMet      = TextField(null = True)
+  
+  def __str__(self):
+      return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+
 class ProgramChair(dbModel):
   username     = ForeignKeyField(User)
   pid          = ForeignKeyField(Program)
@@ -164,6 +188,10 @@ class DivisionChair(dbModel):
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
   course       = ForeignKeyField(Course, related_name='instructors_course')
+  
+class InstructorSTCourse(dbModel):
+  username     = ForeignKeyField(User, related_name='instructor_stcourses')
+  course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
 class Deadline(dbModel):
   description  = TextField()
