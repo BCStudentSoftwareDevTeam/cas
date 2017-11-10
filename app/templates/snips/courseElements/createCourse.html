@@ -25,14 +25,15 @@
         {% include "snips/courseElements/addInstructors.html"%}
         {% include "snips/courseElements/addSchedule.html" %}
        
-        <div class="form-group col-md-4 offset_input right">
+        <div class="form-group col-md-2 offset_input right">
           <div>
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  /> 
           </div>
         </div>
+
           
         <div class=" col-md-2 offset_input right">
-          <label id="radioLabel" for="radios">Crosslisted</label>
+            <label id="radioLabel" for="radios">Crosslisted</label>
           <div class="radio-inline" id=radios>
             <label>
               <input type="radio" name="crossListed" id="exampleRadios1" value=1 required>

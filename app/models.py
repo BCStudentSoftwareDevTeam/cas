@@ -194,6 +194,10 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
+class InstructorSTCourse(dbModel):
+  username     = ForeignKeyField(User)
+  course       = ForeignKeyField(SpecialTopicCourse)
+  
 class Deadline(dbModel):
   description  = TextField()
   date         = DateField()
