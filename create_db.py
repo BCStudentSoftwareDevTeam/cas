@@ -133,7 +133,6 @@ banner = BannerSchedule(  letter        = "Standard B",
 ##############
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 236,
-
                                 ctitle        = "Data Structures",
                                 program       = 1,
                                 is_active     = True,
@@ -142,7 +141,6 @@ bannercourse =  BannerCourses(  subject       = "CSC",
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
                                 ctitle        = "Calculus I",
-
                                 program       = 2,
                                 is_active     = True
        ).save()
@@ -156,9 +154,8 @@ bannercourse =  BannerCourses(  subject       = "MAT",
                                 
                               ).save()
 bannercourse =  BannerCourses(  subject       = "TAD",
-                                number        = 435,
+                                number        = 486,
                                 ctitle        = "Wood Shop",
-
                                 program       = 3,
                                 is_active     = True
                               ).save()
@@ -170,18 +167,21 @@ bannercourse =  BannerCourses(  subject       = "TAD",
                                 is_active     = True
                               ).save()
                     
+bannercourse =  BannerCourses(  subject       = "TAD",
+                                number        = 486,
+                                ctitle        = "Something Shop",
+                                is_active     = True
+                              ).save()
+                              
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 124,
-
                                 ctitle        = "Building Better Apps",
                                 program       = 1,
-                                is_active     = True,
-
+                                is_active     = True
                               ).save()
                               
 bannercourse =  BannerCourses(  subject       = "CSC",
                                 number        = 226,
-
                                 ctitle        = "Software Design and Implement",
                                 program       = 1,
                                 is_active     = True
@@ -511,6 +511,9 @@ instructor = InstructorCourse(  username = "myersco",
                                 course   = 3
                               ).save()  
 
+instructor = InstructorSTCourse(  username = "myersco",
+                                course   = 1
+                              ).save()  
 ######
 #Buildings
 

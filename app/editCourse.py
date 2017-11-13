@@ -53,3 +53,59 @@ def editcourse(tid, prefix, page):
     else:
       url = "/courseManagement/" + page + "/" + tid
       return redirect(url)
+    
+@app.route("/editSTCourseModal/<tid>/<prefix>/<stid>/<page>", methods=["GET"])
+def editSTCourseModal(tid, prefix, stid, page):
+  checkUser = DataUpdate()
+    
+  # Select all schedules
+  schedules = BannerSchedule.select().order_by(BannerSchedule.order)
+  # Select all terms
+  terms = Term.select()
+  # Select the course informations
+  course = SpecialTopicCourse.get(SpecialTopicCourse.stId == stid)
+  # Select all users
+  users = User.select().order_by(User.lastName)
+  # Select instructors for the course
+  instructors = {}
+  instructors[course.stId] = InstructorSTCourse.select().where(InstructorSTCourse.course == course.stId)
+  # SELECT ALL ROOMS
+  rooms     = Rooms.select()
+    
+  return render_template("snips/courseElements/editSTCourse.html",
+                          schedules = schedules,
+                          cfg = cfg,
+                          terms     = terms,
+                          course    = course,
+                          users = users,
+                          instructors = instructors,
+                          currentTerm = int(tid),
+                          page        = page,
+                          rooms       = rooms
+                          )
+                            
+                            
+@app.route("/editstcourse/<tid>/<prefix>/<page>", methods=["POST"])
+@must_be_authorized
+def editSTcourse(tid, prefix, page):
+  #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
+  page1 =  "/" + request.url.split("/")[-1]
+  data = request.form
+  specialCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
+  professors = request.form.getlist('professors[]')
+  if page1 == "/specialCourses": 
+      if data['statusChange']:
+        databaseInterface.editSTCourse(data, prefix, professors, int(data['statusChange']))
+      else:
+        databaseInterface.editSTCourse(data, prefix, professors, specialCourse.status)
+  else:
+      databaseInterface.editSTCourse(data, prefix, professors, 1)
+      
+  message = "Course: course {} has been edited".format(data['stid'])
+  log.writer("INFO", page1, message)
+  flash("Course information has successfully been modified!")
+  if page == 'courses':
+    return redirect(url_for("courses", tID=tid, prefix=prefix))
+  else:
+    url = "/courseManagement/" + page + "/" + tid
+    return redirect(url)

@@ -3,6 +3,7 @@ from allImports import *
 from updateCourse import DataUpdate
 from app.logic import databaseInterface
 from app.logic import functions
+from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.redirectBack import redirect_url
 from app.logic.authorization import must_be_admin
 import pprint
@@ -149,3 +150,44 @@ def verifyChange():
         flash("Your course has been marked verified")
         return redirect(redirect_url())
     
+
+@app.route("/courseManagement/specialCourses/<tid>", methods=["GET", "POST"])
+@must_be_admin
+def specialCourses(tid):
+    #DATA FOR THE NAVEBAR AND SIDEBAR#
+    page = "specialCourses"
+    terms = Term.select().order_by(-Term.termCode)
+   # authorizedUser = AuthorizedUser()
+    
+    if (request.method == "POST"):
+        data = request.form
+    
+    curTermName = Term.get(Term.termCode == tid)
+
+    terms = Term.select().order_by(-Term.termCode)
+    
+    specialCourses = SpecialTopicCourse.select()
+    submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
+    sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
+    approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
+    deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
+        
+    # rooms = Rooms.select().order_by(Rooms.building)
+    instructors = createInstructorDict(specialCourses)
+    
+
+    ############################
+    
+    
+                
+    return render_template("specialTopicRequests.html",
+                          cfg=cfg,
+                          submittedCourses = submittedCourses,
+                          sentToDeanCourses = sentToDeanCourses,
+                          approvedCourses = approvedCourses,
+                          deniedCourses = deniedCourses,
+                          isAdmin = True,
+                          allTerms = terms,
+                          currentTerm=int(tid),
+                          page = page,
+                          instructors = instructors)

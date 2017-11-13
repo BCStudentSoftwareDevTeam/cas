@@ -30,9 +30,11 @@ models:
     - BannerCourses
     - Term
     - Course
+    - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
     - InstructorCourse
+    - InstructorSTCourse
     - Deadline
     - CourseChange
     - InstructorCourseChange
@@ -66,7 +68,18 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-      
+
+specialTopicStatus:
+  - option: "Submitted"
+    value: "1"
+  - option: "Sent to the Dean"
+    value: "2"
+  - option: "Approved"
+    value: "3"
+  - option: "Denied"
+    value: "4"
+
+
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
     11: 'Fall'                    # e.g. Fall 2016 = 201611
@@ -118,12 +131,19 @@ DEBUG:
 filepath:
   tmp: 'data/tmp'
 
+credits:
+  - value: "0.250"
+  - value: "0.500"
+  - value: "0.750"
+  - value: "1.000"
+  - value: "2.000"
+  
 contributors:
   - name: "Cody Myers"
     username: "myersco"
     year: 2017
   - name: "Guillermo Ramos"
-    username: "ramosg"
+    username: "ramosmaciasg"
     year: 2018
   - name: "Sarah Watts"
     username: "wattss"
@@ -150,3 +170,16 @@ contributors:
     username: "sotoventuraj"
     year: 2019
     
+# The log file location   
+log:
+filename: "urcpp.log"
+
+# All the databases used by the system
+databases:
+  dev: "data/db.sqlite"
+  # stage: ""
+  # prod: ""
+databaseAdmin:
+  user: ['heggens','myersco']
+
+
