@@ -2,9 +2,30 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         
-                        <li class="sidebar-brand">
-                            <a href="#" class='text-center head'> Menu</a>
+                              <li class="active">
+                            <a class="termSelect text-center head" href="#">Term <span class="caret"></span></a>
+                           
+                            <ul class="nav nav-second-level">
+                                {% for term in allTerms %}
+                                <li>
+                                    <a 
+                                    {% if currentTerm == term.termCode %}
+                                    class="active"
+                                    {% endif %}
+                                    href="/courses/{{term.termCode}}/{{prefix}}">{{term.name}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            
+                            <!-- /.nav-second-level -->
                         </li>
+                        
+            
+                        
+                        <li class="active">
+                            <a href="#" class='text-center head'> Division <span class="caret"></span></a>
+                            
+                        <ul class="nav nav-second-level">
                         {% for division in divisions %}
                         <li>
                             <a class="first-level" href="#">{{division.name}}<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
@@ -46,6 +67,8 @@
                             
                             <!-- /.nav-second-level -->
                         </li>
+
+                  
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

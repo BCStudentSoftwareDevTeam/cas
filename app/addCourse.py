@@ -3,6 +3,10 @@ from updateCourse import DataUpdate
 from app.logic import databaseInterface
 from app.logic.NullCheck import NullCheck
 from app.logic.redirectBack import redirect_url
+from flask import jsonify
+import json
+from playhouse.shortcuts import model_to_dict, dict_to_model
+import datetime
 from app.logic.authorization import must_be_authorized
 
 
@@ -97,8 +101,90 @@ def addCourses(tid, prefix):
         
         
 
+@app.route("/addOne/<tid>", methods=["POST"])
+def add_one(tid):
+    data = request.form
+    course=Course.get(Course.cId==data["courses"]) #get an existing course
+   
+    #create a new course using fields from an existing course because we are importing it as new
+    course = Course(bannerRef=course.bannerRef_id,
+                    prefix=course.prefix_id,
+                    term=int(tid),
+                    schedule=course.schedule_id,
+                    capacity=course.capacity,
+                    specialTopicName=course.specialTopicName,
+                    notes=None,
+                    crossListed=int(course.crossListed), rid=None
+                    )
+    course.save()
+    
+     #if there are instructors for an existing course, update instructors of new course as well
+    for instructor in InstructorCourse.select().where(InstructorCourse.course_id==data["courses"]):
+        if instructor:
+            course_instructor=InstructorCourse(
+                username_id = instructor.username_id,
+                course_id = course.cId
+                )
+            course_instructor.save()
+                
+        
+    return redirect(redirect_url()) 
+    
+    
+@app.route("/addMany/<tid>", methods=["POST"])
+def add_many(tid):
+    data = request.form.getlist
+    courses = request.form.getlist('courses')
+    if courses:
+        for i in courses:
+            course=Course.get(Course.cId==int(i)) #get an existing course
+            #create a new course using fields from an existing course because we are importing it as new
+            course = Course(bannerRef=course.bannerRef_id,
+                    prefix=course.prefix_id,
+                    term=int(tid),
+                    schedule=course.schedule_id,
+                    capacity=course.capacity,
+                    specialTopicName=course.specialTopicName,
+                    notes=None,
+                    crossListed=int(course.crossListed), rid=None
+                    )
+            course.save()
+            
+            
+     #if there are many instructors for an existing course, update instructors of new course as well
+            for instructor in InstructorCourse.select().where(InstructorCourse.course_id==int(i)):
+                if instructor:
+                    course_instructor=InstructorCourse(
+                        username_id = instructor.username_id,
+                        course_id = course.cId
+                        )
+                    course_instructor.save()
+            
+    return redirect(redirect_url()) 
+    
+        
+@app.route('/get_termcourses/<term>/<department>')
+def term_courses(term, department):
+    '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
+    try:
+        term1=Term.get(Term.name==term)
+        courses={}
+        for course in Course.select().where(Course.prefix_id==department, Course.term_id==term1.termCode):
+            courses[course.cId]=model_to_dict(course)
+        print courses
+        return json.dumps(courses, default=myconverter)
+    except:
+        return json.dumps("Error")
+
+def myconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
+
+
+
 @app.route("/test_form", methods=["POST"])
 def form_sample():
     data = request.form
     
     return "The parameter was: {0}".format(data['var1'])
+
