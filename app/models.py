@@ -181,7 +181,7 @@ class SpecialTopicCourse(dbModel):
   concentrationReqsMet = TextField(null = True)
   minorReqsMet         = TextField(null = True)
   perspectivesMet      = TextField(null = True)
-  
+  section              = TextField(null = True)
   def __str__(self):
       return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 

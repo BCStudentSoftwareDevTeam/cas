@@ -41,6 +41,7 @@ def addCourses(tid, prefix):
             log.writer("INFO", current_page, message)
             flash("Course with section %s already exists" % (values['section']),"error")
             return redirect(redirect_url())
+
         course = Course(bannerRef=values['bannerRef'],
                         prefix=values['prefix'],
                         term=int(tid),
@@ -81,7 +82,8 @@ def addCourses(tid, prefix):
                         majorReqsMet = data['majorReqsMet'],
                         concentrationReqsMet = data['concentrationReqsMet'],
                         minorReqsMet = data['minorReqsMet'],
-                        perspectivesMet = data['perspectivesMet']
+                        perspectivesMet = data['perspectivesMet'],
+                        section = data['section']
         )
 
         if data['formBtn'] == "submit":
@@ -182,7 +184,6 @@ def myconverter(o):
 def get_sections():
     course = request.json['course']
     term = request.json['term']
-    print(term)
     try:
         term = int(term)
     except ValueError:
@@ -191,28 +192,37 @@ def get_sections():
     if "edit" in request.json:
         edit = True
     prefix, number, section = course.split(" ", 2)
-    bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
-    if bannerCourse.exists():
-	bRef = bannerCourse.get().reFID
-	current_courses = Course.select().where(Course.bannerRef == bRef).where(Course.term == term)
-	existing_section = list()
-	sections = list()
-        if edit and section is not None:
-            sections.append(section)
-            existing_section.append(section)
-        for course in current_courses:
-            existing_section.append(course.section)
-	if len(existing_section) ==  0 or len(current_courses) == 0:
-	    return jsonify(list("A"))
-	else:
-	    for i in range(1, 3):
-		for letter in range(65,91):
-		    letter = chr(letter) * i
-		    if letter not in existing_section:
-			sections.append(letter)
+    if number != "186":
+        bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
+        if bannerCourse.exists():
+            bRef = bannerCourse.get().reFID
+            current_courses = Course.select().where(Course.bannerRef == bRef).where(Course.term == term)
+            existing_section = list()
+            sections = list()
+            if edit and section is not None:
+                sections.append(section)
+                existing_section.append(section)
 
-	    return jsonify(sections)
+            for course in current_courses:
+                existing_section.append(course.section)
+            if "A" not in existing_section or len(current_courses) == 0:
+                return jsonify(list("A"))
+            else:
+                sections = generate_sections(existing_section)
+                return jsonify(sections)
+    else:
+        specialTopics = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix)
+        if specialTopics.exists():
 
+
+def generate_sections(existing_section):
+    sections = list()
+    for i in range(1, 3):
+        for letter in range(65,91):
+            letter = chr(letter) * i
+            if letter not in existing_section:
+                sections.append(letter)
+    return sections
 
 @app.route("/test_form", methods=["POST"])
 def form_sample():
