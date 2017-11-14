@@ -8,8 +8,7 @@ import json
 from playhouse.shortcuts import model_to_dict, dict_to_model
 import datetime
 from app.logic.authorization import must_be_authorized
-
-
+from flask import jsonify
 '''
 adds the course to the course table and to the course change if needed
 '''
@@ -19,7 +18,7 @@ adds the course to the course table and to the course change if needed
 @must_be_authorized
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
-    
+
     # set the current page
 
     # get the data
@@ -33,10 +32,15 @@ def addCourses(tid, prefix):
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
     cId = ""
-        
+
     if bannerNumber != "86":
-        
-            # update the course
+        # update the course
+        section_exists = Course.select().where(Course.bannerRef == values['bannerRef']).where(Course.term == int(tid)).where(Course.section ==values['section']).exists()
+        if section_exists:
+            message = "Course: TID#{0} prefix#{1} with section {2} exists".format(tid,prefix, values["section"])
+            log.writer("INFO", current_page, message)
+            flash("Course with section %s already exists" % (values['section']),"error")
+            return redirect(redirect_url())
         course = Course(bannerRef=values['bannerRef'],
                         prefix=values['prefix'],
                         term=int(tid),
@@ -46,24 +50,20 @@ def addCourses(tid, prefix):
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
                         rid=values['rid']
+                        section = values['section']
                         )
-    
+
         course.save()
         databaseInterface.addCourseInstructors(instructors, course.cId)
-            
-
 
         newCourse = DataUpdate()
         if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
             # ADD THE COURSE TO THE COURSECHANGE TABLE
             newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
-            
+
             message = "Course: #{0} has been added".format(course.cId)
             flash("Course has successfully been added!")
             log.writer("INFO", current_page, message)
-                    
-             
-            
     else:
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                         prefix=values['prefix'],
@@ -83,10 +83,10 @@ def addCourses(tid, prefix):
                         minorReqsMet = data['minorReqsMet'],
                         perspectivesMet = data['perspectivesMet']
         )
-            
+
         if data['formBtn'] == "submit":
-            specialTopicCourse.status = 1 
-            
+            specialTopicCourse.status = 1
+
         specialTopicCourse.save()
         databaseInterface.addSTCourseInstructors(instructors, specialTopicCourse.stId)
 
@@ -96,16 +96,14 @@ def addCourses(tid, prefix):
             log.writer("INFO", current_page, message)
         else:
             flash("Course has successfully been added!")
-            
+
     return redirect(redirect_url())
-        
-        
 
 @app.route("/addOne/<tid>", methods=["POST"])
 def add_one(tid):
     data = request.form
-    course=Course.get(Course.cId==data["courses"]) #get an existing course
-   
+    course= Course.get(Course.cId==data["courses"]) #get an existing course
+
     #create a new course using fields from an existing course because we are importing it as new
     course = Course(bannerRef=course.bannerRef_id,
                     prefix=course.prefix_id,
@@ -117,7 +115,7 @@ def add_one(tid):
                     crossListed=int(course.crossListed), rid=None
                     )
     course.save()
-    
+
      #if there are instructors for an existing course, update instructors of new course as well
     for instructor in InstructorCourse.select().where(InstructorCourse.course_id==data["courses"]):
         if instructor:
@@ -126,11 +124,11 @@ def add_one(tid):
                 course_id = course.cId
                 )
             course_instructor.save()
-                
-        
-    return redirect(redirect_url()) 
-    
-    
+
+
+    return redirect(redirect_url())
+
+
 @app.route("/addMany/<tid>", methods=["POST"])
 def add_many(tid):
     data = request.form.getlist
@@ -149,8 +147,8 @@ def add_many(tid):
                     crossListed=int(course.crossListed), rid=None
                     )
             course.save()
-            
-            
+
+
      #if there are many instructors for an existing course, update instructors of new course as well
             for instructor in InstructorCourse.select().where(InstructorCourse.course_id==int(i)):
                 if instructor:
@@ -159,10 +157,10 @@ def add_many(tid):
                         course_id = course.cId
                         )
                     course_instructor.save()
-            
-    return redirect(redirect_url()) 
-    
-        
+
+    return redirect(redirect_url())
+
+
 @app.route('/get_termcourses/<term>/<department>')
 def term_courses(term, department):
     '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
@@ -180,11 +178,43 @@ def myconverter(o):
     if isinstance(o, datetime.datetime):
         return o.__str__()
 
+@app.route("/courses/get_sections/", methods=["POST"])
+def get_sections():
+    course = request.json['course']
+    term = request.json['term']
+    print(term)
+    try:
+        term = int(term)
+    except ValueError:
+	return jsonify(list())
+    edit = False
+    if "edit" in request.json:
+        edit = True
+    prefix, number, section = course.split(" ", 2)
+    bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
+    if bannerCourse.exists():
+	bRef = bannerCourse.get().reFID
+	current_courses = Course.select().where(Course.bannerRef == bRef).where(Course.term == term)
+	existing_section = list()
+	sections = list()
+        if edit and section is not None:
+            sections.append(section)
+            existing_section.append(section)
+        for course in current_courses:
+            existing_section.append(course.section)
+	if len(existing_section) ==  0 or len(current_courses) == 0:
+	    return jsonify(list("A"))
+	else:
+	    for i in range(1, 3):
+		for letter in range(65,91):
+		    letter = chr(letter) * i
+		    if letter not in existing_section:
+			sections.append(letter)
+
+	    return jsonify(sections)
 
 
 @app.route("/test_form", methods=["POST"])
 def form_sample():
     data = request.form
-    
     return "The parameter was: {0}".format(data['var1'])
-
