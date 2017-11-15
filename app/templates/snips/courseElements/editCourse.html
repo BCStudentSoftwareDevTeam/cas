@@ -20,6 +20,8 @@
           </h2>
           {# Pass in a hidden input to record the course ID #}
           <input type="hidden" name="cid" value="{{course.cId}}" >
+          {# Pass in a hidden input to record the term #}
+          <input type="hidden" id="term" value="{{currentTerm}}" >
           {# --Room Location-- #}
           <h5>Room Requested</h5>
           <select class="form-control" name="room">
@@ -35,6 +37,10 @@
                 {{ room.building.name }} : {{room.number}}
               </option>
             {% endfor %}
+          </select>
+          {# -- Section -- #}
+          <h5>Section</h5>
+          <select class="form-control selectpicker" data-live-search="true" id="section" name="section">
           </select>
           {# --Schedule Block-- #}
           <h5>Schedule Block</h5>
@@ -110,7 +116,12 @@
     </form>
   </div>
 </div>
+{% endblock %}
+{% block belowContainer %}
 <script type="text/javascript">
   var cid = {{course.cId}};
+  var title =  "{{course.prefix.prefix}} {{course.bannerRef.number}} {{course.section}}";
+
 </script>
+
 {% endblock %}

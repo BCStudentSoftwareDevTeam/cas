@@ -7,6 +7,7 @@
         <th>Capacity</th>
         <th>Room</th>
         <th>Cross-Listed</th>
+        <th>Section</th>
         <th>Notes</th>
         <th>Last Edited</th>
         {% if (can_edit is defined and curTermName.state != 2) %}
@@ -30,6 +31,10 @@
                 {% for instructor in course.instructors_course_prefetch %} 
                     {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                 {% endfor %}
+            </td>
+            <!-- SECTION -->
+            <td>
+                {{course.section}}
             </td>
             <!--SCHEDULE-->
             <td>
