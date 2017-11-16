@@ -9,7 +9,6 @@ $(window).load(function(){
 });
 
 
-});
 
 function get_sections(){
     $.ajax({
@@ -19,7 +18,6 @@ function get_sections(){
         type:"POST",
     	contentType: 'application/json',
         success:function(data){
-            $("#section").empty();
             for (section in data){
                 select = "<option value=" + data[section] + ">" + data[section] + "</option"
                 $("#section").append(select);

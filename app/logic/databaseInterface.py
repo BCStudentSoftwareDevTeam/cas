@@ -236,6 +236,8 @@ def editSTCourse(data, prefix, professors, status):
             room     = data["room"] if data["room"] else None
             capacity = data['capacity'] if data['capacity'] else None
             schedule = data['schedule'] if data['schedule'] else None
+            section  = data['section']  if data['section'] else None
+            print(section)
                 
             if data['notes'].replace(" ", "") == "":
                 notes = None
@@ -250,6 +252,7 @@ def editSTCourse(data, prefix, professors, status):
                                     term = specialTopicCourse.term,
                                     schedule = specialTopicCourse.schedule,
                                     capacity = specialTopicCourse.capacity,
+                                    section = specialTopicCourse.section,
                                     specialTopicName = specialTopicCourse.specialTopicName,
                                     notes = specialTopicCourse.notes,
                                     crossListed = specialTopicCourse.crossListed,
@@ -259,19 +262,20 @@ def editSTCourse(data, prefix, professors, status):
                     course.save()
                     addCourseInstructors(professors, course.cId)
             
-                specialTopicCourse.crossListed = int(data["crossListed"])
-                specialTopicCourse.term = data['term']
-                specialTopicCourse.capacity = capacity
-                specialTopicCourse.rid  = room
-                specialTopicCourse.schedule = schedule
-                specialTopicCourse.notes = notes
-                specialTopicCourse.lastEditBy = authUser(request.environ)
-                specialTopicCourse.credits = data['credits']
-                specialTopicCourse.description = data['description']
-                specialTopicCourse.prereqs = data['prereqs']
-                specialTopicCourse.majorReqsMet = data['majorReqsMet']
-                specialTopicCourse.minorReqsMet = data['minorReqsMet']
-                specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
-                specialTopicCourse.perspectivesMet = data['perspectivesMet']
-                editSTInstructors(professors, data['stid'])    
-                specialTopicCourse.save()
+            specialTopicCourse.crossListed = int(data["crossListed"])
+            specialTopicCourse.term = data['term']
+            specialTopicCourse.capacity = capacity
+            specialTopicCourse.rid  = room
+            specialTopicCourse.schedule = schedule
+            specialTopicCourse.notes = notes
+            specialTopicCourse.section = section
+            specialTopicCourse.lastEditBy = authUser(request.environ)
+            specialTopicCourse.credits = data['credits']
+            specialTopicCourse.description = data['description']
+            specialTopicCourse.prereqs = data['prereqs']
+            specialTopicCourse.majorReqsMet = data['majorReqsMet']
+            specialTopicCourse.minorReqsMet = data['minorReqsMet']
+            specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
+            specialTopicCourse.perspectivesMet = data['perspectivesMet']
+            editSTInstructors(professors, data['stid'])    
+            specialTopicCourse.save()
