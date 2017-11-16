@@ -3,11 +3,11 @@
     <tr>
         <th>Course Name</th>
         <th>Taught By</th>
+        <th>Section</th>
         <th>Schedule</th>
         <th>Capacity</th>
         <th>Room</th>
         <th>Cross-Listed</th>
-        <th>Section</th>
         <th>Notes</th>
         <th>Last Edited</th>
         {% if (can_edit is defined and curTermName.state != 2) %}
@@ -147,16 +147,15 @@
                         {% endif %}
                         </span> 
                 </td>
+                <!--TAUGHT BY-->
+                <td>
+                    {% for instructor in course.instructorstcourse_set_prefetch%}
+                        {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+                    {% endfor %}
+                </td>
                 <!-- SECTION -->
                 <td>
                     {{course.section}}
-                </td>
-                <!--TAUGHT BY-->
-                <td>
-                    {{course.instructors_stcourse_prefetch}}
-                    {% for instructor in course.instructors_stcourse_prefetch %}
-                        {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
-                    {% endfor %}
                 </td>
                 <!--SCHEDULE-->
                 <td>
