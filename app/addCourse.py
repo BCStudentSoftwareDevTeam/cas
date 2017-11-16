@@ -192,27 +192,26 @@ def get_sections():
     if "edit" in request.json:
         edit = True
     prefix, number, section = course.split(" ", 2)
-    if number != "186":
-        bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
-        if bannerCourse.exists():
-            bRef = bannerCourse.get().reFID
-            current_courses = Course.select().where(Course.bannerRef == bRef).where(Course.term == term)
-            existing_section = list()
-            sections = list()
-            if edit and section is not None:
-                sections.append(section)
-                existing_section.append(section)
+    bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
+    if bannerCourse.exists():
+        bRef = bannerCourse.get().reFID
+        current_courses = Course.select().where(Course.bannerRef == bRef).where(Course.term == term)
+        if "86" in number:
+            current_courses = SpecialTopicCourse.select().where(SpecialTopicCourse.bannerRef == bRef).where(SpecialTopicCourse.term == term)
+        existing_section = list()
+        sections = list()
+        if edit and section is not None:
+            sections.append(section)
+            existing_section.append(section)
 
-            for course in current_courses:
-                existing_section.append(course.section)
-            if "A" not in existing_section or len(current_courses) == 0:
-                return jsonify(list("A"))
-            else:
-                sections = generate_sections(existing_section)
-                return jsonify(sections)
-    else:
-        specialTopics = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix)
-        if specialTopics.exists():
+        for course in current_courses:
+            existing_section.append(course.section)
+        if "A" not in existing_section or len(current_courses) == 0:
+            return jsonify(list("A"))
+        else:
+            sections = generate_sections(existing_section)
+            return jsonify(sections)
+
 
 
 def generate_sections(existing_section):

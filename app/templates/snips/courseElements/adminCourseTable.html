@@ -147,8 +147,13 @@
                         {% endif %}
                         </span> 
                 </td>
+                <!-- SECTION -->
+                <td>
+                    {{course.section}}
+                </td>
                 <!--TAUGHT BY-->
                 <td>
+                    {{course.instructors_stcourse_prefetch}}
                     {% for instructor in course.instructors_stcourse_prefetch %}
                         {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                     {% endfor %}
