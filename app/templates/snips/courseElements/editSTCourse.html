@@ -2,21 +2,21 @@
 {% set currentPage = "editSTModal" %}
 {% block body %}
 <div class="modal fade" id="editSTModal{{course.stId}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    
+
   <div class="modal-dialog modal-md">
-    <form id = "editSTcourse" 
-          {% if page == "courses" %} 
+    <form id = "editSTcourse"
+          {% if page == "courses" %}
              onsubmit = "return validateEditForm();"
           {% endif %}
-          method="post" 
+          method="post"
           action="\editstcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
-      
+
       <div class="modal-content">
         <div class="modal-header">
           <a
             {% if page == "courses" %}
             href="/courses/{{currentTerm}}/{{course.prefix.prefix}}"
-            {% else %} 
+            {% else %}
             href="/courseManagement/specialCourses/{{currentTerm}}"
             {% endif %}
             >
@@ -33,15 +33,17 @@
           </h2>
           {# Pass in a hidden input to record the course ID #}
           <input type="hidden" name="stid" value="{{course.stId}}" >
+          {# Pass in a hidden input to record the term #}
+          <input type="hidden" id="term" value="{{currentTerm}}" >
           {# --Room Location-- #}
-          
+
           {% if page == "specialCourses" %}
               <label for="status"> Course Status: </label>
-              <select class="selectpicker form-control" 
+              <select class="selectpicker form-control"
                         title="
                         {% if course.status == 1 %}
                           Submitted
-                        {% elif course.status == 2 %}  
+                        {% elif course.status == 2 %}
                           Sent to the Dean
                         {% elif course.status == 3 %}
                           Approved
@@ -49,7 +51,7 @@
                           Denied
                         {% endif %}
                         "
-                        name="statusChange" 
+                        name="statusChange"
                         >
                   {% for status in cfg['specialTopicStatus'] %}
                   <option value="{{status['value']}}">
@@ -58,7 +60,7 @@
                   {% endfor %}
                  </select>
           {% endif %}
-          
+
           <h5>Room Requested</h5>
           <select class="form-control" name="room" {% if course.status == 3 %} disabled {% endif %}>
             <option value="">---</option>
@@ -79,38 +81,47 @@
             <select class="form-control" name="schedule" {% if course.status == 3 %} disabled {% endif %}>
             <option value="">---</option>
             {% for schedule in schedules %}
-              <option value="{{schedule.sid}}" 
-                {% if course.schedule.order == schedule.order %} 
-                  selected 
+              <option value="{{schedule.sid}}"
+                {% if course.schedule.order == schedule.order %}
+                  selected
                 {% endif %}
               >
-                {{schedule.letter}}: {% for day in schedule.days %} {{day.day}} 
+                {{schedule.letter}}: {% for day in schedule.days %} {{day.day}}
                   {% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
           </select>
-            
-            
           {# --Term-- #}
-          <h5>Term</h5>
-          <select class="form-control" name="term" {% if course.status == 3 %} disabled {% endif %}>
-            {% for term in terms %}
-              <option value="{{term.termCode}}" 
-                {% if currentTerm == term.termCode %} 
-                  selected 
-                {% endif %}
-              >
-                {{term.name}}
-              </option>
-            {% endfor %}
-          </select>
+          <div class="row">
+          <div class="col-md-6 float-left">
+              <h5>Term</h5>
+              <select class="form-control" name="term" {% if course.status == 3 %} disabled {% endif %}>
+                {% for term in terms %}
+                  <option value="{{term.termCode}}"
+                    {% if currentTerm == term.termCode %}
+                      selected
+                    {% endif %}
+                  >
+                    {{term.name}}
+                  </option>
+                {% endfor %}
+              </select>
+          </div>
+          {# -- Section -- #}
+          <div class="col-md-6 float-right">
+              <h5>Section</h5>
+              <select class="form-control selectpicker" data-live-search="true" id="section" name="section">
+                  <option value="{{course.section}}">{{course.section}}</option>
+              </select>
+          </div>
+          </div>
           <div class="row">
           {# --Capacity-- #}
           <div class="col-md-6 float-left">
             <h5>Capacity</h5>
             <input {% if course.status == 3 %} disabled {% endif %} type="number" name ="capacity" class="form-control" min="1" value ="{{course.capacity}}" />
           </div>
-          
+
           {# --Credits-- #}
           <div class="col-md-6 float-right">
             <h5>Credits</h5>
@@ -128,7 +139,7 @@
           <div class="radio">
             <label>
               <input type="radio" name="crossListed" id="exampleRadios1" value=1 required
-                {% if course.status == 3 %} disabled {% endif %} 
+                {% if course.status == 3 %} disabled {% endif %}
                 {% if course.crossListed == 1 %}
                   checked="checked"
                 {% endif %}
@@ -139,7 +150,7 @@
           <div class="radio">
             <label>
               <input type="radio" name="crossListed" id="exampleRadios1" value=0 required
-                {% if course.status == 3 %} disabled {% endif %} 
+                {% if course.status == 3 %} disabled {% endif %}
                 {% if course.crossListed == 0 %}
                   checked="checked"
                 {% endif %}
@@ -147,22 +158,22 @@
                 No
             </label>
           </div>
-          
+
           <h5>Notes</h5>
               <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
           </br>
-          
+
           <div>
             <h5>Description</h5>
             <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
           </div>
-          
+
           <div>
             <h5>Prerequisites</h5>
             <textarea {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="prereqs">{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </div>
           </br>
-          
+
           <div class="">
             <ul class="nav nav-tabs nav-justified" >
               <li class="active"><a data-toggle="tab" href="#menu0"> Major Reqs.</a></li>
@@ -170,7 +181,7 @@
               <li><a data-toggle="tab" href="#menu2">Minor Reqs.</a></li>
               <li><a data-toggle="tab" href="#menu3">Perspectives</a></li>
             </ul>
-            
+
             <div class="tab-content">
               <div id="menu0" class="tab-pane fade in active">
                 <h5>Major Requirements Met</h5>
@@ -191,7 +202,7 @@
             </div>
           </div>
 
-          
+
           {# --Instructors-- #}
           <h5>Edit Instructor</h5>
             {% include "snips/selectSTUser.html" %}
@@ -203,7 +214,7 @@
             <a type="button" class="btn btn-danger btn-sm" href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">Close</a>
           {% else %}
             <a type="button" class="btn btn-danger btn-sm" href="/courseManagement/specialTopics/{{currentTerm}}">Close</a>
-          {% endif %}            
+          {% endif %}
           {% if page == "courses" %}
             {% if course.status == 0 %}
             <input  class="btn btn-primary btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
@@ -220,5 +231,6 @@
 <script type="text/javascript" src="/static/js/local/editSTModal.js"></script>
 <script type="text/javascript">
   var stid = {{course.stId}};
+  var title =  "{{course.prefix.prefix}} {{course.bannerRef.number}} {{course.section}}";
 </script>
 {% endblock %}
