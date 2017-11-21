@@ -70,9 +70,9 @@ app.config.from_object('settings')
 admin = Admin(app)
 
 import logging
-logger = logging.getLogger('peewee')
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
+# logger = logging.getLogger('peewee')
+# logger.setLevel(logging.DEBUG)
+# logger.addHandler(logging.StreamHandler())
 
 
 

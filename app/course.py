@@ -1,6 +1,5 @@
 from allImports import *
-from app.logic.databaseInterface import getSidebarElements
-
+from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.course import define_term_code_and_prefix
 from app.logic.course import save_last_visited
 from app.logic.authorization import can_modify
@@ -13,7 +12,7 @@ from app.logic.authorization import can_modify
 @can_modify
 def courses(tID, prefix, can_edit):
     page = "courses"
-    
+
     # These are the necessary components of the sidebar. Should we move them
     # somewhere else?
 
@@ -41,24 +40,38 @@ def courses(tID, prefix, can_edit):
                         .order_by(BannerCourses.number))
 
     schedules = BannerSchedule.select().order_by(BannerSchedule.order)
-    
+
     rooms = Rooms.select().order_by(Rooms.building)
-    
-    termd = list(tID)
-    key = int(termd[-1])
+
+    # Key  - 1 indicates Fall
+    # Key  - 2 indicates Spring
+    # Key  - 3 indicates Summer
+    key = 1
+    try:
+        key = int(tID[-1])
+    except ValueError as error:
+        log.writer("Unable to parse Term ID, course.py", e)
+
+
     courses = (Course.select(Course, BannerCourses).join(BannerCourses)
                      .where(Course.prefix == prefix)
                      .where(Course.term == tID))
-    
+
+    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != 3).where(SpecialTopicCourse.status != 4)
+                     #We exclude the approved courses, because they'll be stored in the 'Course' table already
+
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
-    
-    
+    instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
+
     courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
-    
+
+    special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
+
     return render_template(
             "course.html",
             courses=courses_prefetch,
-            divisions = divisions_prefetch, 
+            specialCourses=special_courses_prefetch,
+            divisions = divisions_prefetch,
             currentTerm=int(tID),
             courseInfo=courseInfo,
             users=users,
@@ -71,3 +84,4 @@ def courses(tID, prefix, can_edit):
             page=page,
             rooms=rooms,
             key = key)
+

@@ -7,7 +7,7 @@ from app.logic.authorization import must_be_authorized
 
 @app.route("/deletecourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
-def deletecourse(prefix, tid, can_edit):
+def deletecourse(prefix, tid):
 
     current_page = "/" + request.url.split("/")[-1]
 
@@ -44,6 +44,31 @@ def deletecourse(prefix, tid, can_edit):
     message = "Course: course {} has been deleted".format(course.cId)
     course.delete_instance()
     
+    log.writer("INFO", current_page, message)
+
+    flash("Course has been successfully deleted")
+    return redirect(redirect_url())
+
+
+@app.route("/deletestcourse/<tid>/<prefix>", methods=["POST"])
+@must_be_authorized
+def deleteSTcourse(prefix, tid):
+
+    current_page = "/" + request.url.split("/")[-1]
+
+    # DATA NEEDED FOR MANIPULATION
+    # TODO: Change the colors when a course is updated
+    dataUpdateObj = DataUpdate()
+    data = request.form
+    stid = int(data['stid'])
+    # START PROCESSING THE DELETION OF THE COURSE
+    course = SpecialTopicCourse.get(SpecialTopicCourse.stId == stid)
+    # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
+    
+    course.status = 4
+    course.save()
+    message = "Course: course {} has been deleted".format(course.stId)
+        
     log.writer("INFO", current_page, message)
 
     flash("Course has been successfully deleted")
