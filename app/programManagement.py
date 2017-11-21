@@ -8,7 +8,13 @@ from app.logic.authorization import must_be_admin
 def adminProgramManagement(pid):
     
     users = User.select().order_by(User.lastName)
-    divisions = Division.select()
+    try:
+        divisions = Division.select()
+   
+    except Exception as e:
+        print ("something terrible happened!")
+        print e
+       
     programs  = Program.select()
     program = Program.get(Program.pID == pid)
     programChairs = {}
@@ -20,4 +26,4 @@ def adminProgramManagement(pid):
                             users         = users,
                             divisions     = divisions,
                             programs      = programs)
-  
+

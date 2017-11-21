@@ -70,6 +70,7 @@ def crossListed(tid):
 #############################
 
 
+@app.route("/courseManagement/conflicts/", defaults={'term_id':0}, methods=["GET"])
 @app.route("/courseManagement/conflicts/<term_id>", methods=["GET"])
 @must_be_admin
 def conflictsListed(term_id):
@@ -77,14 +78,18 @@ def conflictsListed(term_id):
     page = "conflicts"
     terms = Term.select().order_by(-Term.termCode)
     
-    current_term = Term.get(Term.termCode == term_id)
 
-
+    
+    if term_id == 0:
+      for term in terms:
+        if term.termCode > term_id:
+          term_id = term.termCode
 
     buildings = functions.get_buildings_with_conflicts(term_id)
     rooms = functions.get_rooms_with_conflicts(term_id)
     conflicts = functions.get_all_conflicts(term_id)
     
+    current_term = Term.get(Term.termCode == term_id)
     buildings_prefetch = prefetch(buildings, rooms, conflicts, BannerSchedule, ScheduleDays, InstructorCourse, User)
 
 
@@ -151,6 +156,7 @@ def verifyChange():
         return redirect(redirect_url())
     
 
+@app.route("/courseManagement/specialCourses/", defaults={'tid':0}, methods=["GET"])
 @app.route("/courseManagement/specialCourses/<tid>", methods=["GET", "POST"])
 @must_be_admin
 def specialCourses(tid):
@@ -161,7 +167,11 @@ def specialCourses(tid):
     
     if (request.method == "POST"):
         data = request.form
-    
+    if tid == 0:
+      for term in terms:
+        if term.termCode > tid:
+          tid = term.termCode
+          
     curTermName = Term.get(Term.termCode == tid)
 
     terms = Term.select().order_by(-Term.termCode)
