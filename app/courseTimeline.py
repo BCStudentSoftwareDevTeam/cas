@@ -6,6 +6,7 @@ from app.logic.timeline import timeline
 from datetime import datetime, date, time
 from flask import json, jsonify
 
+@app.route('/courseTimeline/', defaults={'tid':0}, methods=["GET"])
 @app.route('/courseTimeline/<tid>',methods=["GET","POST"])
 def courseTimeline(tid):
   #This information has to be passed for the courseManagementSidebar...
