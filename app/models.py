@@ -154,7 +154,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True)
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
   section           = TextField(null = True)
   
   def __str__(self):
