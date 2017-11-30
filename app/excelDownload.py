@@ -9,17 +9,17 @@ import os
 @app.route("/excel/<tid>", methods=["GET"])
 @must_be_admin
 def makeExcel(tid):
-      
+
     page        = "/" + request.url.split("/")[-1]
     term = Term.get(Term.termCode == tid)
     excel = ExcelMaker()
     completePath = excel.make_master_file(term)
-    
-    
+
+
     return send_file(completePath,as_attachment=True)
-      
-        
-    
+
+
+
 @app.route('/excel/crossListed/<tid>', methods=["GET"])
 @must_be_admin
 def makeCrossListedExcel(tid):
