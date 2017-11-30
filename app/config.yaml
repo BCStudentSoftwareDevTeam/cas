@@ -67,6 +67,8 @@ adminMenu:
     page: ["tracker","conflicts","crossListed"]
 
 specialTopicStatus:
+  - option: "Incomplete"
+    value: "0"
   - option: "Submitted"
     value: "1"
   - option: "Sent to the Dean"

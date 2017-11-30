@@ -91,7 +91,10 @@ def editSTcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
   page1 =  "/" + request.url.split("/")[-1]
   data = request.form
+
   specialCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
+  if data['submitbtn'] == "Submit":
+    specialCourse.status = 1
   professors = request.form.getlist('professors[]')
   if page1 == "/specialCourses":
       if data['statusChange']:
