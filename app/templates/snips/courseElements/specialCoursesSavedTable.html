@@ -1,6 +1,6 @@
 
     <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
-    {% if sentToDeanCourses %}
+    {% if savedCourses %}
     <thead>
         <tr>
             <th>Course Name</th> 
@@ -17,8 +17,8 @@
         </tr> 
     </thead>
     <tbody>
-        <div id = "sentToDean" >
-        {% for course in sentToDeanCourses %}
+        <div id = "savedCourses">
+        {% for course in savedCourses %}
             <tr>
                 <!--COURSE NAME-->
                 <td>
@@ -104,11 +104,10 @@
                 {% endif %}
             </tr>
         {% endfor %}
-        {% else %}
-            <br/>
-            <p> There are no special topic requests to be sent to the Dean . </p>
-        {% endif %}
+    {% else %}
+        <br/>
+        <p> There are no incomplete special topic requests. </p>
+    {% endif %}
         </div>
-        
     </tbody>
 
