@@ -216,11 +216,13 @@
             <!---- if user is admin and its summer course, they can edit---->
                 <td>
                     <div class="child">
-                        <!--EDIT MODAL-->
-                        <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        <!--DELETE MODAL-->
-                        <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                        {% include "snips/courseElements/deleteCourse.html" %}
+                        {% if course.status < 2 %}
+                            <!--EDIT MODAL-->
+                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <!--DELETE MODAL-->
+                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                            {% include "snips/courseElements/deleteCourse.html" %}
+                        {% endif %}
                     </div>
                 </td>
             {% else %}
@@ -228,11 +230,13 @@
                 <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                     <td>
                         <div class="child">
-                            <!--EDIT MODAL-->
-                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                            {% include "snips/courseElements/deleteSTCourse.html" %}
+                            {% if course.status < 2 %}
+                                <!--EDIT MODAL-->
+                                <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                <!--DELETE MODAL-->
+                                <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                                {% include "snips/courseElements/deleteSTCourse.html" %}
+                            {% endif %}
                         </div>
                     </td>
                 {% endif %}
