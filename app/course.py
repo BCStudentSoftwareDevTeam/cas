@@ -57,7 +57,7 @@ def courses(tID, prefix, can_edit):
                      .where(Course.prefix == prefix)
                      .where(Course.term == tID))
 
-    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != 3).where(SpecialTopicCourse.status != 4)
+    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
 
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
