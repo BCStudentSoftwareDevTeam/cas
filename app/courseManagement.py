@@ -105,6 +105,8 @@ def conflictsListed(term_id):
 #CHANGE TRACKER#
 ################
 
+
+
 @app.route("/courseManagement/tracker/", defaults={'tID':0}, methods=["GET"])
 @app.route("/courseManagement/tracker/<tID>/", methods=["GET"])
 @must_be_admin
@@ -202,3 +204,32 @@ def specialCourses(tid):
                           currentTerm=int(tid),
                           page = page,
                           instructors = instructors)
+                          
+                          
+
+
+@app.route("/courseManagement/timechange/", methods=["GET"])
+@must_be_admin
+def timechange(tID):
+    #get all the courses that have their times changed
+    #render it in view
+    courses={}
+    for record in TimeChanges.select():
+        course=Course.get(Course.cId == record.course_id)
+        time = BannerSchedule.get(BannerSchedule.sid=record.BannerSchedule)
+        courses[time]=course
+    return render_template("timechange.html", courses)
+    
+
+
+
+@app.route("/courseManagement/roomchange/", methods=["GET"])
+@must_be_admin
+def roomchange(tID):
+    courses={}  #room_change: course  (value:key)
+    for record in RoomChanges.select():
+        course=Course.get(Course.cId == record.course_id)
+        room = Rooms.get(Rooms.rID=record.BannerSchedule)
+        courses[room]=course
+
+    return render_template("roomchange.html", course)

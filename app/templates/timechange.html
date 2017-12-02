@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{%block body %}
+<table class="table table-striped table-hover">
+  <p>Time Changes</p>                      
+    <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+<thead>
+    <tr>
+        <th>Course Title</th>
+        <th>Section</th>
+        <th>Schedule</th>
+        <th>Last Edited</th>
+        <th>The edited time</th>
+       
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+      
+    </tr>
+</thead>
+<tbody>
+    {% for time in courses %}
+        <tr>
+            <!--COURSE NAME-->
+            <td>{{courses[time].prefix.prefix}} {{courses[time].bannerRef.number}}
+                {% if courses[time].specialTopicName is not none %}
+                    {{courses[time].specialTopicName}}
+                {% else %}
+                    {{courses[time].bannerRef.ctitle}}
+                {%endif%}
+            </td>
+          
+          
+            <!-- SECTION -->
+            <td>
+                {{courses[time].section}}
+            </td>
+            <!--Time Change-->
+            <td>
+                {{time.startTime - time.endTime}}
+            </td>
+            <!--CAPACITY-->
+          
+            <!--LAST EDITED BY-->
+            <td>
+                {{courses[time].lastEditBy}}
+            </td>
+           
+            </tr>
+        {% endfor %}
+       
+        
+    </tbody>
+
+                        
+                        
+
+
+
+                        
+</table>
+
+{%endblock%}

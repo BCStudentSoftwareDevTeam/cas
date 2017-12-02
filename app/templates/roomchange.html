@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{%block body %}
+<table class="table table-striped table-hover">
+  <p>Room Changes</p>                      
+    <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+<thead>
+    <tr>
+        <th>Course Title</th>
+        <th>Section</th>
+        <th>Schedule</th>
+        <th>Last Edited</th>
+        <th>Edited Room</th>
+       
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+      
+    </tr>
+</thead>
+<tbody>
+    {% for room in courses %}
+        <tr>
+            <!--COURSE NAME-->
+            <td>{{courses[room].prefix.prefix}} {{courses[room].bannerRef.number}}
+                {% if courses[room].specialTopicName is not none %}
+                    {{courses[room].specialTopicName}}
+                {% else %}
+                    {{courses[room].bannerRef.ctitle}}
+                {%endif%}
+            </td>
+          
+          
+            <!-- SECTION -->
+            <td>
+                {{courses[room].section}}
+            </td>
+            <!--Time Change-->
+            <td>
+                {{room.building_id - room.number}}
+            </td>
+            <!--CAPACITY-->
+          
+            <!--LAST EDITED BY-->
+            <td>
+                {{courses[room].lastEditBy}}
+            </td>
+           
+            </tr>
+        {% endfor %}
+       
+        
+    </tbody>
+
+                        
+                        
+
+
+
+                        
+</table>
+
+{%endblock%}

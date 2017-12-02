@@ -156,6 +156,7 @@ class Course(dbModel):
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
   section           = TextField(null = True)
+ 
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
@@ -235,3 +236,14 @@ class CoursesInBanner(dbModel):
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
 
+class TimeChanges(dbModel):
+  cId          = PrimaryKeyField()
+  username_id  = ForeignKeyField(User)
+  course_id    = ForeignKeyField(CourseChange)
+  time         = ForeignKeyField(BannerSchedule, null = True)
+  
+class RoomChanges(dbModel):
+  cId          = PrimaryKeyField()
+  username_id  = ForeignKeyField(User)
+  course_id    = ForeignKeyField(CourseChange)
+  room         = ForeignKeyField(Rooms, null = True)
