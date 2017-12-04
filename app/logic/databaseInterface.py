@@ -260,6 +260,7 @@ def editSTCourse(data, prefix, professors, status):
                                     )
             
                     course.save()
+                    specialTopicCourse.course = course
                     addCourseInstructors(professors, course.cId)
             
             specialTopicCourse.crossListed = int(data["crossListed"])
