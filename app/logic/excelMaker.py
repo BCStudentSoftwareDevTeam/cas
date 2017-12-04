@@ -21,8 +21,8 @@ class ExcelMaker:
         sheet.write('G1', 'Capacity')
         sheet.write('H1', 'Notes')
         sheet.write('I1', 'Room Preference')
-        sheet.write('J1','Instructors')
-        sheet.write('K1','Section')
+        sheet.write('J1','Section')
+        sheet.write('K1','Instructors')
 
 
 
@@ -50,13 +50,13 @@ class ExcelMaker:
         sheet.write('I{0}'.format(row),room_name)
         #Instructor Information
         instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
-        colNum = ord('J')
+        sheet.write('J{0}'.format(row),course.section)
+        colNum = ord('K')
         for  instructor in instructors:
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)
             colNum += 1
             self.writeRow(sheet,chr(colNum),row,instructor.username.bNumber)
             colNum += 1
-        sheet.write('K{0}'.format(row),course.section)
 
     def increment_rows(self,course):
         self.program_row  += 1
