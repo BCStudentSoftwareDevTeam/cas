@@ -188,7 +188,7 @@
                 <!-- ROOM -->
                 <td>
                 {% if course.rid is not none %}
-                    {{course.rid.building.name}}:{{course.rid.number}}
+                    {{course.rid.building.name+" "}}:{{" "+ course.rid.number}}
                 {% else %}
                     <p>No room listed</p>
                 {% endif %}
