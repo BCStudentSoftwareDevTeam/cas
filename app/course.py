@@ -66,10 +66,12 @@ def courses(tID, prefix, can_edit):
     courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
 
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
+    approved_special_topics = Course.select().join(SpecialTopicCourse).where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status == 3)
 
     return render_template(
             "course.html",
             courses=courses_prefetch,
+            approved_special_topics = approved_special_topics,
             specialCourses=special_courses_prefetch,
             divisions = divisions_prefetch,
             currentTerm=int(tID),

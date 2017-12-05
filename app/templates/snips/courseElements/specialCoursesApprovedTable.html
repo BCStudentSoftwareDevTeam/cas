@@ -10,9 +10,6 @@
             <th>Cross-Listed</th>
             <th>Notes</th>
             <th>Last Edited</th>
-            {% if isAdmin or isDivisionChair or isProgramChair %}
-              <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
-            {% endif %}
         </tr> 
     </thead>
     <tbody>
@@ -90,17 +87,6 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
-                    <td>
-                        <div class="child">
-                            <!--EDIT MODAL-->
-                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                            {% include "snips/courseElements/deleteSTCourse.html" %}
-                        </div>
-                    </td>
-                {% endif %}
             </tr>
         {% endfor %}
         </div>
