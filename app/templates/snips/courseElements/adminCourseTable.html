@@ -25,6 +25,11 @@
                 {% else %}
                     {{course.bannerRef.ctitle}}
                 {%endif%}
+                {% if course in approved_special_topics%}
+                    <span class="label label-success pull-right">
+                        Approved
+                    </span> 
+                {%endif%}
             </td>
             <!--TAUGHT BY-->
             <td>
@@ -120,73 +125,90 @@
             </tr>
         {% endfor %}
         {% for course in specialCourses %}
-            <tr>
-                <!--COURSE NAME-->
-                <td>
-                    {{course.prefix.prefix}} {{course.bannerRef.number}}
-                    {% if course.specialTopicName is not none %}
-                        {{course.specialTopicName}}
-                    {% else %}
-                        {{course.bannerRef.ctitle}}
-                    {%endif%}
-                        {% if course.status == 0 %}
-                    <span class="label label-default pull-right">
-                            Saved 
-                        {% elif course.status == 1 %}
-                    <span class="label label-primary pull-right">
-                            Submitted 
-                        {% elif course.status == 2 %}
-                    <span class="label label-warning pull-right">
-                            Sent to Dean
-                        {% elif course.status == 3 %}
-                    <span class="label label-success pull-right">
-                            Approved 
+            {% if course.course not in  approved_special_topics %}
+                <tr>
+                    <!--COURSE NAME-->
+                    <td>
+                        {{course.prefix.prefix}} {{course.bannerRef.number}}
+                        {% if course.specialTopicName is not none %}
+                            {{course.specialTopicName}}
                         {% else %}
-                    <span class="label label-danger pull-right">
-                            Denied
-                        {% endif %}
-                        </span> 
-                </td>
-                <!--TAUGHT BY-->
-                <td>
-                    {% for instructor in course.instructorstcourse_set_prefetch%}
-                        {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
-                    {% endfor %}
-                </td>
-                <!-- SECTION -->
-                <td>
-                    {{course.section}}
-                </td>
-                <!--SCHEDULE-->
-                <td>
-                   {# Needed to move special to the top for scoping issue #}
-                    {% set special = [] %}
-                    {% if course.schedule is not none %}
-                        {% for sid in cfg['specialSchedule']['unknownTime'] %}
-                            {% if sid == course.schedule.sid %}
-                                {% set special = special.append(sid) %}
+                            {{course.bannerRef.ctitle}}
+                        {%endif%}
+                            {% if course.status == 0 %}
+                        <span class="label label-default pull-right">
+                                Saved 
+                            {% elif course.status == 1 %}
+                        <span class="label label-primary pull-right">
+                                Submitted 
+                            {% elif course.status == 2 %}
+                        <span class="label label-warning pull-right">
+                                Sent to Dean
+                            {% elif course.status == 3 %}
+                        <span class="label label-success pull-right">
+                                Approved 
+                            {% else %}
+                        <span class="label label-danger pull-right">
+                                Denied
                             {% endif %}
+                        </span> 
+                    </td>
+                    <!--TAUGHT BY-->
+                    <td>
+                        {% for instructor in course.instructorstcourse_set_prefetch%}
+                            {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                         {% endfor %}
-                        {% if special != [] %}
-                            <p>See Notes</p>                            
-                        {% else %}
-                            {% for day in course.schedule.days %} 
-                                {{ day.day }} 
+                    </td>
+                    <!-- SECTION -->
+                    <td>
+                        {{course.section}}
+                    </td>
+                    <!--SCHEDULE-->
+                    <td>
+                       {# Needed to move special to the top for scoping issue #}
+                        {% set special = [] %}
+                        {% if course.schedule is not none %}
+                            {% for sid in cfg['specialSchedule']['unknownTime'] %}
+                                {% if sid == course.schedule.sid %}
+                                    {% set special = special.append(sid) %}
+                                {% endif %}
                             {% endfor %}
-                            {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                            {% if special != [] %}
+                                <p>See Notes</p>                            
+                            {% else %}
+                                {% for day in course.schedule.days %} 
+                                    {{ day.day }} 
+                                {% endfor %}
+                                {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                </td>
-                <!--CAPACITY-->
-                <td> 
-                    {% if course.capacity is not none  %}
-                        {{course.capacity}}
+                    </td>
+                    <!--CAPACITY-->
+                    <td> 
+                        {% if course.capacity is not none  %}
+                            {{course.capacity}}
+                        {% else %}
+                            no capacity specified
+                        {% endif %}
+                    </td>
+                    <!-- ROOM -->
+                    <td>
+                    {% if course.rid is not none %}
+                        {{course.rid.building.name}}:{{course.rid.number}}
                     {% else %}
-                        no capacity specified
+                        <p>No room listed</p>
+                    {% endif %}
+                <!--CROSS LISTED-->
+                <td>
+                    {% if course.crossListed == 1 %}
+                        yes
+                    {% else %}
+                        no
                     {% endif %}
                 </td>
-                <!-- ROOM -->
+                <!--NOTES-->
                 <td>
+<<<<<<< HEAD
                 {% if course.rid is not none %}
                     {{course.rid.building.name+" "}}:{{" "+ course.rid.number}}
                 {% else %}
@@ -202,32 +224,18 @@
             </td>
             <!--NOTES-->
             <td>
-                {% if course.notes is not none %}
-                    <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
-                {% else %}
-                    <p>Notes</p>
-                {% endif %}
-            </td>
-            <!--LAST EDITED BY-->
-            <td>
-                {{course.lastEditBy}}
-            </td>
-            {% if key > 2 and isAdmin %}
-            <!---- if user is admin and its summer course, they can edit---->
-                <td>
-                    <div class="child">
-                        {% if course.status < 2 %}
-                            <!--EDIT MODAL-->
-                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                            {% include "snips/courseElements/deleteCourse.html" %}
-                        {% endif %}
-                    </div>
+                    {% if course.notes is not none %}
+                        <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+                    {% else %}
+                        <p>Notes</p>
+                    {% endif %}
                 </td>
-            {% else %}
-                {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
-                <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                <!--LAST EDITED BY-->
+                <td>
+                    {{course.lastEditBy}}
+                </td>
+                {% if key > 2 and isAdmin %}
+                <!---- if user is admin and its summer course, they can edit---->
                     <td>
                         <div class="child">
                             {% if course.status < 2 %}
@@ -235,13 +243,28 @@
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 <!--DELETE MODAL-->
                                 <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                                {% include "snips/courseElements/deleteSTCourse.html" %}
+                                {% include "snips/courseElements/deleteCourse.html" %}
                             {% endif %}
                         </div>
                     </td>
+                {% else %}
+                    {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
+                    <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                        <td>
+                            <div class="child">
+                                {% if course.status < 2 %}
+                                    <!--EDIT MODAL-->
+                                    <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    <!--DELETE MODAL-->
+                                    <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                                    {% include "snips/courseElements/deleteSTCourse.html" %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    {% endif %}
                 {% endif %}
+                </tr>
             {% endif %}
-            </tr>
         {% endfor %}
     </tbody>
 
