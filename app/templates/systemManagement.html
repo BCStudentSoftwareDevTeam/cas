@@ -24,7 +24,7 @@
           <span class="glyphicon glyphicon-lock disabled" aria-hidden="true" style="color:#d62c1a;"></span>
         </td>
         <td>
-            <p>Term changes <b>are not</b> being accepted <b>nor</b> <a href="/courseManagement/tracker/">tracked</a>.</p>
+            <p>Term changes <b>are not</b> being accepted <b>nor</b> tracked.</p>
         </td>
         {% elif term.state == 1 %}
         <td>
@@ -43,7 +43,7 @@
           <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a>
         </td>
         <td>
-            <p>Term changes <b>are</b> being accepted but <b> not</b> <a href="/courseManagement/tracker/">tracked</a>.</p>
+            <p>Term changes <b>are</b> being accepted but <b> not</b> tracked.</p>
         </td>
         {% endif %}
         <td>
