@@ -7,6 +7,7 @@ from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.redirectBack import redirect_url
 from app.logic.authorization import must_be_admin
 import pprint
+from flask import jsonify
 
 #CROSS LISTED COURSES#
 
@@ -43,14 +44,14 @@ def crossListed(tid):
     users = User.select(User.username, User.firstName, User.lastName)
     schedules = BannerSchedule.select()
     rooms = Rooms.select()
-    
+
     # Key  - 1 indicates Fall
     # Key  - 2 indicates Spring
     # Key  - 3 indicates Summer
     key = 1
     try:
         key = int(str(tid)[-1])
-    except ValueError as error: 
+    except ValueError as error:
         log.writer("Unable to parse Term ID, courseManagment.py", e)
 
     return render_template("crossListed.html",
@@ -77,9 +78,9 @@ def conflictsListed(term_id):
     #DATA FOR THE NAVEBAR AND SIDEBAR#
     page = "conflicts"
     terms = Term.select().order_by(-Term.termCode)
-    
 
-    
+
+
     if term_id == 0:
       for term in terms:
         if term.termCode > term_id:
@@ -122,8 +123,8 @@ def trackerListed(tID):
           tID = term.termCode
     # DATA FOR THE CHANGE TRACKER PAGE
     # ALL OF THIS CAME FROMT HE COURSECHANGE.PY
-    
-    
+
+
 
     courses = CourseChange.select().order_by(CourseChange.verified, CourseChange.term.desc())
     instructorsDict = databaseInterface.createInstructorDict(courses)
@@ -133,7 +134,7 @@ def trackerListed(tID):
     NOTE: The keys for both dictionaries the course identification number
     classDict[cId] = [className,className,className,className,className]
     *Then it will return a list of classnames that can be accessed through an index
-    
+
     instructorsDict[cid] = intructorCourseChange peewee object
     '''
     return render_template("tracker.html",
@@ -144,8 +145,8 @@ def trackerListed(tID):
                            instructorsDict=instructorsDict,
                            classDict=colorClassDict
                            )
-        
- 
+
+
 
 @app.route("/courseManagement/tracker/verified", methods=["POST"])
 @must_be_admin
@@ -158,7 +159,82 @@ def verifyChange():
         log.writer("INFO", page, message)
         flash("Your course has been marked verified")
         return redirect(redirect_url())
-    
+
+
+
+@app.route("/courseManagement/specialTopics/get/<tid>", methods=["GET"])
+@must_be_admin
+def get_speical_topic_courses(tid):
+    submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
+    sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
+    approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
+    deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
+    savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
+
+    course_data = dict()
+    course_data["0"] = map(format_course_data, savedCourses)
+    course_data["1"] = map(format_course_data, submittedCourses)
+    course_data["2"] = map(format_course_data, sentToDeanCourses)
+    course_data["3"] = map(format_course_data, approvedCourses)
+    course_data["4"] = map(format_course_data, deniedCourses)
+    return jsonify(course_data)
+
+def format_course_data(course):
+    instructors = map(format_instructor, InstructorSTCourse.select().where(InstructorSTCourse.course == course))
+    term = course.term.termCode
+    prefix = course.prefix.prefix
+    stId = course.stId
+    status = course.status
+    days = map(lambda schedule: schedule.day, ScheduleDays.select(ScheduleDays.day).where(ScheduleDays.schedule == course.schedule.sid))
+
+    name = course.bannerRef.ctitle
+    if name is not None:
+        name = "%s %s %s" % (course.prefix, course.bannerRef.number, course.specialTopicName)
+
+    taught = " ".join(instructors)
+
+    schedule = "See Notes"
+    if course.schedule.sid not in cfg['specialSchedule']['unknownTime']:
+        schedule = " ".join(days) + " " + str(course.schedule.startTime.strftime("%X %p")) +" - "+ str(course.schedule.endTime.strftime("%X %p"))
+
+    capacity = "No capacity specified"
+    if capacity is not None:
+        capacity= course.capacity
+
+    room = "No room listed"
+    if room is not None:
+        room= "%s %s" % (course.rid.building.name, course.rid.number)
+
+    cross = "No"
+    if course.crossListed:
+        coss = "Yes"
+
+    notes = "Notes"
+    if course.notes is not None:
+        notes = """
+                <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='%s'>Notes</a>
+                """ % (course.notes)
+        note = "JE"
+
+    edit = course.lastEditBy
+
+    if course.status != 3:
+        buttons = """
+                    <div class="child">
+                        <a href="/editSTCourseModal/%s/%s/%s/specialCourses"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href=# data-toggle="modal" data-target="#deleteSTModal%s"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                    </div>
+                """ % (term, prefix, stId, stId)
+    else:
+        buttons = ""
+    entry = [name, taught, schedule, capacity, room, cross, notes, edit, buttons]
+    return entry
+
+def format_instructor(instructor):
+    return instructor.username.firstName +  " " + instructor.username.lastName
+
+
+
 
 ################
 #Special Topics#
@@ -170,19 +246,18 @@ def specialCourses(tid):
     #DATA FOR THE NAVEBAR AND SIDEBAR#
     page = "specialCourses"
     terms = Term.select().order_by(-Term.termCode)
-   # authorizedUser = AuthorizedUser()
-    
+
     if (request.method == "POST"):
         data = request.form
     if tid == 0:
       for term in terms:
         if term.termCode > tid:
           tid = term.termCode
-          
+
     curTermName = Term.get(Term.termCode == tid)
 
     terms = Term.select().order_by(-Term.termCode)
-    
+
     specialCourses = SpecialTopicCourse.select()
     submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
     sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
@@ -191,12 +266,12 @@ def specialCourses(tid):
     savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
     # rooms = Rooms.select().order_by(Rooms.building)
     instructors = createInstructorDict(specialCourses)
-    
+
 
     ############################
-    
-    
-                
+
+
+
     return render_template("specialTopicRequests.html",
                           cfg=cfg,
                           submittedCourses = submittedCourses,
