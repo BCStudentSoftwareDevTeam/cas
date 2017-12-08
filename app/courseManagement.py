@@ -176,29 +176,33 @@ def get_speical_topic_courses(tid):
     return jsonify(course_data)
 
 def format_course_data(course):
+    """Generates the list of data used by """
     instructors = map(format_instructor, InstructorSTCourse.select().where(InstructorSTCourse.course == course))
     term = course.term.termCode
     prefix = course.prefix.prefix
     stId = course.stId
     status = course.status
-    days = map(lambda schedule: schedule.day, ScheduleDays.select(ScheduleDays.day).where(ScheduleDays.schedule == course.schedule.sid))
+    days = ""
+    schedule = ""
+    if course.schedule is not None:
+        days = map(lambda schedule: schedule.day, ScheduleDays.select(ScheduleDays.day).where(ScheduleDays.schedule == course.schedule.sid))
+        schedule = "See Notes"
+        if course.schedule.sid not in cfg['specialSchedule']['unknownTime']:
+            schedule = " ".join(days) + " " + str(course.schedule.startTime.strftime("%X %p")) +" - "+ str(course.schedule.endTime.strftime("%X %p"))
+
 
     name = course.bannerRef.ctitle
-    if name is not None:
+    if course.bannerRef.ctitle is not None:
         name = "%s %s %s" % (course.prefix, course.bannerRef.number, course.specialTopicName)
 
     taught = " ".join(instructors)
 
-    schedule = "See Notes"
-    if course.schedule.sid not in cfg['specialSchedule']['unknownTime']:
-        schedule = " ".join(days) + " " + str(course.schedule.startTime.strftime("%X %p")) +" - "+ str(course.schedule.endTime.strftime("%X %p"))
-
     capacity = "No capacity specified"
-    if capacity is not None:
+    if course.capacity is not None:
         capacity= course.capacity
 
     room = "No room listed"
-    if room is not None:
+    if course.rid is not None:
         room= "%s %s" % (course.rid.building.name, course.rid.number)
 
     cross = "No"
@@ -207,27 +211,38 @@ def format_course_data(course):
 
     notes = "Notes"
     if course.notes is not None:
-        notes = """
-                <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='%s'>Notes</a>
-                """ % (course.notes)
-        note = "JE"
-
+        notes = course.notes
     edit = course.lastEditBy
+    edit_button =  "%s,%s,%s"% (term, prefix,stId)
 
-    if course.status != 3:
+    delete_button = """
+                    """ % (stId, term, prefix)
+
+    if course.status != 3 and course.status != 4:
         buttons = """
                     <div class="child">
-                        <a href="/editSTCourseModal/%s/%s/%s/specialCourses"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        <a href=# data-toggle="modal" data-target="#deleteSTModal%s"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                    %s 
+                    %s
                     </div>
-                """ % (term, prefix, stId, stId)
+                """ % (edit_button, delete_button)
+    elif course.status == 4:
+        buttons = """
+                    <div class="child">
+                    %s 
+                    </div>
+                """ % (edit_button)
     else:
         buttons = ""
-    entry = [name, taught, schedule, capacity, room, cross, notes, edit, buttons]
+    entry = [name, taught, schedule, capacity, room, cross, notes, edit,edit_button, buttons]
     return entry
 
 def format_instructor(instructor):
-    return instructor.username.firstName +  " " + instructor.username.lastName
+    """ Formats the instructors name for rendering in the ajax dataTable
+    
+    Args:
+        instructor(InstructorSTCourse): An instructor object to be turned into a name
+    """
+    return instructor.username.firstName[0] +  ". " + instructor.username.lastName+","
 
 
 
