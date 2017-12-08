@@ -135,23 +135,16 @@
                         {% else %}
                             {{course.bannerRef.ctitle}}
                         {%endif%}
-                            {% if course.status == 0 %}
-                        <span class="label label-default pull-right">
-                                Saved 
-                            {% elif course.status == 1 %}
-                        <span class="label label-primary pull-right">
-                                Submitted 
-                            {% elif course.status == 2 %}
-                        <span class="label label-warning pull-right">
-                                Sent to Dean
-                            {% elif course.status == 3 %}
-                        <span class="label label-success pull-right">
-                                Approved 
-                            {% else %}
-                        <span class="label label-danger pull-right">
-                                Denied
+                        
+                        {% for state in cfg['specialTopicStates'] %}
+                            {% if course.status == state['value'] %}
+                                <span class="label label-{{state['color']}} pull-right">
+                                    {{state['name']}}
+                                </span>
                             {% endif %}
-                        </span> 
+                        {% endfor %}
+                            
+                        
                     </td>
                     <!--TAUGHT BY-->
                     <td>
