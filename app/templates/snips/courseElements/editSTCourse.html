@@ -198,7 +198,7 @@
                 <textarea id =  "editcmi" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="minorReqsMet">{% if course.minorReqsMet is not none %}{{ course.minorReqsMet }}{% endif %}</textarea>
               </div>
               <div id="menu3" class="tab-pane fade">
-                <h5>Perspectives Met</h5>
+                <h5>Perspectives Requested</h5>
                 <textarea id =  "editcp" {% if course.status == 3 %} disabled {% endif %}  class="form-control" name="perspectivesMet">{% if course.perspectivesMet is not none %}{{ course.perspectivesMet }}{% endif %}</textarea>
               </div>
             </div>
