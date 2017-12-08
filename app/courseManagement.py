@@ -177,13 +177,20 @@ def specialCourses(tid):
     terms = Term.select().order_by(-Term.termCode)
     
     specialCourses = SpecialTopicCourse.select()
-    submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
-    sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
-    approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
-    deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
-    savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
-    # rooms = Rooms.select().order_by(Rooms.building)
     instructors = createInstructorDict(specialCourses)
+    
+    special_dict = dict()
+    for state in cfg['specialTopicStates']:
+        special_dict[state['id']] = SpecialTopicCourse.select().where(SpecialTopicCourse.status == state['value']).where(SpecialTopicCourse.term == int(tid))
+        
+        
+    #submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
+    #sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
+    #approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
+    #deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
+    #savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
+    # rooms = Rooms.select().order_by(Rooms.building)
+    
     
 
     ############################
@@ -192,11 +199,12 @@ def specialCourses(tid):
                 
     return render_template("specialTopicRequests.html",
                           cfg=cfg,
-                          submittedCourses = submittedCourses,
-                          sentToDeanCourses = sentToDeanCourses,
-                          approvedCourses = approvedCourses,
-                          deniedCourses = deniedCourses,
-                          savedCourses = savedCourses,
+                          special_dict = special_dict,
+                          #submittedCourses = submittedCourses,
+                          #sentToDeanCourses = sentToDeanCourses,
+                          #approvedCourses = approvedCourses,
+                          #deniedCourses = deniedCourses,
+                          #savedCourses = savedCourses,
                           isAdmin = True,
                           allTerms = terms,
                           currentTerm=int(tid),

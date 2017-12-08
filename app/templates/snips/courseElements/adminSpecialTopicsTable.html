@@ -1,0 +1,106 @@
+
+    <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+    <thead>
+        <tr>
+            <th>Course Name</th> 
+            <th>Taught By</th>
+            <th>Schedule</th>
+            <th>Capacity</th>
+            <th>Room</th>
+            <th>Cross-Listed</th>
+            <th>Notes</th>
+            <th>Last Edited</th>
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+        </tr> 
+    </thead>
+    <tbody>
+        <div id = "state['id']">
+        {% for course in courses %}
+            <tr>
+                <!--COURSE NAME-->
+                <td>
+                    {{course.prefix.prefix}} {{course.bannerRef.number}}
+                    {% if course.specialTopicName is not none %}
+                        {{course.specialTopicName}}
+                    {% else %}
+                        {{course.bannerRef.ctitle}}
+                    {%endif%}
+                </td>
+                <!--TAUGHT BY-->
+                <td>
+                    {% for instructor in instructors[course.stId] %}
+                        {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+                    {% endfor %}
+                </td>
+                <!--SCHEDULE-->
+                <td>
+                   {# Needed to move special to the top for scoping issue #}
+                    {% set special = [] %}
+                    {% if course.schedule is not none %}
+                        {% for sid in cfg['specialSchedule']['unknownTime'] %}
+                            {% if sid == course.schedule.sid %}
+                                {% set special = special.append(sid) %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if special != [] %}
+                            <p>See Notes</p>                            
+                        {% else %}
+                            {% for day in course.schedule.days %} 
+                                {{ day.day }} 
+                            {% endfor %}
+                            {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <!--CAPACITY-->
+                <td> 
+                    {% if course.capacity is not none  %}
+                        {{course.capacity}}
+                    {% else %}
+                        no capacity specified
+                    {% endif %}
+                </td>
+                <!-- ROOM -->
+                <td>
+                    {% if course.rid is not none %}
+                        {{course.rid.building.name}}:{{course.rid.number}}
+                    {% else %}
+                        <p>No room listed</p>
+                    {% endif %}
+                </td>
+                <!--CROSS LISTED-->
+                <td>
+                    {% if course.crossListed == 1 %}
+                        yes
+                    {% else %}
+                        no
+                    {% endif %}
+                </td>
+                <!--NOTES-->
+                <td>
+                    {% if course.notes is not none %}
+                        <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+                    {% else %}
+                        <p>Notes</p>
+                    {% endif %}
+                </td>
+                <!--LAST EDITED BY-->
+                <td>
+                    {{course.lastEditBy}}
+                </td>
+                {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}
+                    <td>
+                        <div class="child">
+                            <!--EDIT MODAL-->
+                            <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <!--DELETE MODAL-->
+                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                            {% include "snips/courseElements/deleteSTCourse.html" %}
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </div>
+    </tbody>
+

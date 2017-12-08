@@ -91,18 +91,20 @@ def editSTcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
   page1 =  "/" + request.url.split("/")[-1]
   data = request.form
-
+  print data
+  
   specialCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
+  print specialCourse
   if data['submitbtn'] == "Submit":
     specialCourse.status = 1
   professors = request.form.getlist('professors[]')
   if page1 == "/specialCourses":
       if data['statusChange']:
-        databaseInterface.editSTCourse(data, prefix, professors, int(data['statusChange']))
+        databaseInterface.editSTCourse(data, prefix, professors, int(data['statusChange']),cfg)
       else:
-        databaseInterface.editSTCourse(data, prefix, professors, specialCourse.status)
+        databaseInterface.editSTCourse(data, prefix, professors, specialCourse.status,cfg)
   else:
-      databaseInterface.editSTCourse(data, prefix, professors, 1)
+      databaseInterface.editSTCourse(data, prefix, professors, 1,cfg)
 
   message = "Course: course {} has been edited".format(data['stid'])
   log.writer("INFO", page1, message)

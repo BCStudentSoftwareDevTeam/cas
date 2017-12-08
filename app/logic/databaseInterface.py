@@ -222,61 +222,59 @@ def getCourseTimelineSchedules(day,tid):
     return schedules
 
 
-def editSTCourse(data, prefix, professors, status):
+def editSTCourse(data, prefix, professors, status, cfg):
         '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
         # check to see if the user has privileges to edit
         # get the specialTopicCourse object
         #TODO: We are not doing null checks on the portion of
         #the code which is causing crashes on the system
         specialTopicCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
-        if specialTopicCourse.status == 3:
-            specialTopicCourse.status = status
+        #import pdb; pdb.set_trace()
+        
+        #CHECK VALUES FOR NULL
+        room     = data["room"] if data["room"] else None
+        capacity = data['capacity'] if data['capacity'] else None
+        schedule = data['schedule'] if data['schedule'] else None
+        section  = data['section']  if data['section'] else None            
+        if data['notes'].replace(" ", "") == "":
+            notes = None
         else:
-            #CHECK VALUES FOR NULL
-            room     = data["room"] if data["room"] else None
-            capacity = data['capacity'] if data['capacity'] else None
-            schedule = data['schedule'] if data['schedule'] else None
-            section  = data['section']  if data['section'] else None
-            print(section)
-                
-            if data['notes'].replace(" ", "") == "":
-                notes = None
-            else:
-                notes = data['notes']
-            
-            if data['submitbtn'] == "Submit":
-                specialTopicCourse.status = status
-                if status == 3:
-                    course = Course(bannerRef = specialTopicCourse.bannerRef,
-                                    prefix = specialTopicCourse.prefix,
-                                    term = specialTopicCourse.term,
-                                    schedule = specialTopicCourse.schedule,
-                                    capacity = specialTopicCourse.capacity,
-                                    section = specialTopicCourse.section,
-                                    specialTopicName = specialTopicCourse.specialTopicName,
-                                    notes = specialTopicCourse.notes,
-                                    crossListed = specialTopicCourse.crossListed,
-                                    rid = specialTopicCourse.rid
-                                    )
-            
-                    course.save()
-                    specialTopicCourse.course = course
-                    addCourseInstructors(professors, course.cId)
-            
-            specialTopicCourse.crossListed = int(data["crossListed"])
-            specialTopicCourse.term = data['term']
-            specialTopicCourse.capacity = capacity
-            specialTopicCourse.rid  = room
-            specialTopicCourse.schedule = schedule
-            specialTopicCourse.notes = notes
-            specialTopicCourse.section = section
-            specialTopicCourse.lastEditBy = authUser(request.environ)
-            specialTopicCourse.credits = data['credits']
-            specialTopicCourse.description = data['description']
-            specialTopicCourse.prereqs = data['prereqs']
-            specialTopicCourse.majorReqsMet = data['majorReqsMet']
-            specialTopicCourse.minorReqsMet = data['minorReqsMet']
-            specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
-            specialTopicCourse.perspectivesMet = data['perspectivesMet']
-            editSTInstructors(professors, data['stid'])    
-            specialTopicCourse.save()
+            notes = data['notes']
+        
+        
+        specialTopicCourse.status = status
+        if status in cfg['specialTopicLogic']['approved']:
+            course = Course(bannerRef = specialTopicCourse.bannerRef,
+                            prefix = specialTopicCourse.prefix,
+                            term = specialTopicCourse.term,
+                            schedule = specialTopicCourse.schedule,
+                            capacity = specialTopicCourse.capacity,
+                            section = specialTopicCourse.section,
+                            specialTopicName = specialTopicCourse.specialTopicName,
+                            notes = specialTopicCourse.notes,
+                            crossListed = specialTopicCourse.crossListed,
+                            rid = specialTopicCourse.rid
+                            )
+    
+            course.save()
+            specialTopicCourse.course = course
+            addCourseInstructors(professors, course.cId)
+        
+        specialTopicCourse.status = status
+        specialTopicCourse.crossListed = int(data["crossListed"])
+        specialTopicCourse.term = data['term']
+        specialTopicCourse.capacity = capacity
+        specialTopicCourse.rid  = room
+        specialTopicCourse.schedule = schedule
+        specialTopicCourse.notes = notes
+        specialTopicCourse.section = section
+        specialTopicCourse.lastEditBy = authUser(request.environ)
+        specialTopicCourse.credits = data['credits']
+        specialTopicCourse.description = data['description']
+        specialTopicCourse.prereqs = data['prereqs']
+        specialTopicCourse.majorReqsMet = data['majorReqsMet']
+        specialTopicCourse.minorReqsMet = data['minorReqsMet']
+        specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
+        specialTopicCourse.perspectivesMet = data['perspectivesMet']
+        editSTInstructors(professors, data['stid'])    
+        specialTopicCourse.save()
