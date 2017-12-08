@@ -162,22 +162,18 @@ def verifyChange():
 
 
 
-@app.route("/courseManagement/specialTopics/get/<tid>", methods=["GET"])
+@app.route("/courseManagement/specialTopics/get/<tid>/<table>", methods=["GET"])
 @must_be_admin
-def get_speical_topic_courses(tid):
-    submittedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 1).where(SpecialTopicCourse.term == int(tid))
-    sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
-    approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
-    deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
-    savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
+def get_speical_topic_courses(tid, table):
+    status = None
+    for state in cfg['specialTopicStates']:
+        if state['name'] == table:
+            status = state['value']
 
-    course_data = dict()
-    course_data["0"] = map(format_course_data, savedCourses)
-    course_data["1"] = map(format_course_data, submittedCourses)
-    course_data["2"] = map(format_course_data, sentToDeanCourses)
-    course_data["3"] = map(format_course_data, approvedCourses)
-    course_data["4"] = map(format_course_data, deniedCourses)
-    return jsonify(course_data)
+    if status is not None:
+        courses= SpecialTopicCourse.select().where(SpecialTopicCourse.status == status).where(SpecialTopicCourse.term == int(tid))
+        course_data = map(format_course_data, courses)
+        return jsonify(course_data)
 
 def format_course_data(course):
     """Generates the list of data used by """
@@ -192,7 +188,7 @@ def format_course_data(course):
         days = map(lambda schedule: schedule.day, ScheduleDays.select(ScheduleDays.day).where(ScheduleDays.schedule == course.schedule.sid))
         schedule = "See Notes"
         if course.schedule.sid not in cfg['specialSchedule']['unknownTime']:
-            schedule = " ".join(days) + " " + str(course.schedule.startTime.strftime("%X %p")) +" - "+ str(course.schedule.endTime.strftime("%X %p"))
+            schedule = " ".join(days) + " " + str(course.schedule.startTime.strftime("%I:%M %p")) +" - "+ str(course.schedule.endTime.strftime("%I:%M %p"))
 
 
     name = course.bannerRef.ctitle
@@ -207,11 +203,11 @@ def format_course_data(course):
 
     room = "No room listed"
     if course.rid is not None:
-        room= "%s %s" % (course.rid.building.name, course.rid.number)
+        room= "%s:%s" % (course.rid.building.name, course.rid.number)
 
     cross = "No"
     if course.crossListed:
-        coss = "Yes"
+        cross = "Yes"
 
     notes = "Notes"
     if course.notes is not None:
@@ -219,25 +215,13 @@ def format_course_data(course):
     edit = course.lastEditBy
     edit_button =  "%s,%s,%s"% (term, prefix,stId)
 
-    delete_button = """
-                    """ % (stId, term, prefix)
+    delete_button = "%s,%s,%s" % (stId, term, prefix)
 
-    if course.status != 3 and course.status != 4:
-        buttons = """
-                    <div class="child">
-                    %s 
-                    %s
-                    </div>
-                """ % (edit_button, delete_button)
-    elif course.status == 4:
-        buttons = """
-                    <div class="child">
-                    %s 
-                    </div>
-                """ % (edit_button)
+    entry = None
+    if course.status in cfg["specialTopicLogic"]["admin_disabled"]:
+        entry = [name, taught, schedule, capacity, room, cross, notes, edit]
     else:
-        buttons = ""
-    entry = [name, taught, schedule, capacity, room, cross, notes, edit,edit_button, buttons]
+        entry = [name, taught, schedule, capacity, room, cross, notes, edit, edit_button]
     return entry
 
 def format_instructor(instructor):
