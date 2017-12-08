@@ -206,7 +206,6 @@
         
         <!--Modal Footer-->
         <div class="modal-footer">
-          {# DIFFERENT URL'S DEPENDING ON THE PAGE #}
             <button type="button" class="btn btn-primary btn-sm" onclick="returnToPreviousPage()"> Close </button>
             {% if course.status in cfg['specialTopicLogic']['submit_form'] %}
               <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
