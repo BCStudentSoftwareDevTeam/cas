@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+{% include "snips/courseElements/deleteSTCourse.html" %}
 <thead>
     <tr>
         <th>Course Name</th>
@@ -219,8 +220,7 @@
                                 <!--EDIT MODAL-->
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 <!--DELETE MODAL-->
-                                <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                                {% include "snips/courseElements/deleteCourse.html" %}
+                                <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
                             {% endif %}
                         </div>
                     </td>
