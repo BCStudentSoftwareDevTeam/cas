@@ -70,23 +70,24 @@ specialTopicStates:
   - name: "Incomplete" 
     value: 0
     id: "saved"
-    html: "snips/courseElements/specialCoursesSavedTable.html"
+    color: "default"
   - name: "Submitted"
     value: 1
     id: "submitted"
-    html: "snips/courseElements/specialCoursesSubmittedTable.html"
+    color: "info"
   - name: "Approved"
     value: 2
     id: "approved"
-    html: "snips/courseElements/specialCoursesApprovedTable.html"
+    color: "success"
   - name: "Denied"
     value: 3
     id: "denied"
-    html: "snips/courseElements/specialCoursesDeniedTable.html"
+    color: "danger"
   
 specialTopicLogic:
-  admin_disabled: [3] #state values where admins can not edit
+  admin_disabled: [2] #state values where admins can not edit
   submit_form:    [0] #state values where forms can be sumbitted
+  approved:       [2] #state values where special topics are approved
 
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
