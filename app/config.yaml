@@ -71,13 +71,34 @@ specialTopicStatus:
     value: "0"
   - option: "Submitted"
     value: "1"
-  - option: "Sent to the Dean"
+  - option: "Sent To Division"
     value: "2"
   - option: "Approved"
     value: "3"
   - option: "Denied"
     value: "4"
-
+    
+specialTopicStates:
+  - name: "Incomplete" 
+    value: "0"
+    id: "saved"
+    html: "snips/courseElements/specialCoursesSavedTable.html"
+  - name: "Submitted"
+    value: "1"
+    id: "submitted"
+    html: "snips/courseElements/specialCoursesSubmittedTable.html"
+  - name: "Sent to Department"
+    value: "2"
+    id: "sentToDepartment"
+    html: "snips/courseElements/specialCoursesSentTable.html" 
+  - name: "Approved"
+    value: "3"
+    id: "approved"
+    html: "snips/courseElements/specialCoursesApprovedTable.html"
+  - name: "Denied"
+    value: "4"
+    id: "denied"
+    html: "snips/courseElements/specialCoursesDeniedTable.html"
 
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
