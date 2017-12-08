@@ -10,8 +10,7 @@
 <!--Page content-->
 {% block body %}
 <link rel="stylesheet" href="/static/css/Courses.css" type="text/css" />
-<script src="/static/js/local/popup.js"></script>
-<script src="/static/js/local/specialTopicRequest.js"></script>
+<link rel="stylesheet" href="/static/css/table.css" type="text/css" />
 
 <body>
   <div id="wrapper">
@@ -20,7 +19,7 @@
         <div id="specialCoursesTabs">
           <ul class="nav nav-tabs">
             {% for element in cfg['specialTopicStates'] %}
-              <li><a data-toggle="tab" href="#{{element['id']}}">{{element['name']}}</a></li>
+              <li><a data-toggle="tab" onclick="reload(this)" data-table="new_table" href="#{{element['id']}}">{{element['name']}}</a></li>
             {% endfor %}          
           </ul>
           <div class="tab-content">
@@ -42,6 +41,7 @@
     </div>
   </div>
 </body>
+<script src="/static/js/local/popup.js"></script>
 {% endblock %}
 <!--end page content-->
 
