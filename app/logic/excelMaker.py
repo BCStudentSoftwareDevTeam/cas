@@ -139,7 +139,12 @@ class ExcelMaker:
         master_sheet = workbook.add_worksheet('CrossListed')
         self.writeHeaders(master_sheet)
 
-        courses = Course.select().where(Course.term == term).where(Course.crossListed == 1)
+        courses = Course.select(
+        ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
+        ).where(Course.crossListed == 1
+        ).where(Course.term == term
+        ).order_by(BannerCourses.ctitle)
+
         self.master_row = 2
         for course in courses:
             self.write_course_info(master_sheet,self.master_row,course)
