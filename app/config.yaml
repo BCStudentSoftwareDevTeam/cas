@@ -65,40 +65,28 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-
-specialTopicStatus:
-  - option: "Incomplete"
-    value: "0"
-  - option: "Submitted"
-    value: "1"
-  - option: "Sent To Division"
-    value: "2"
-  - option: "Approved"
-    value: "3"
-  - option: "Denied"
-    value: "4"
     
 specialTopicStates:
   - name: "Incomplete" 
-    value: "0"
+    value: 0
     id: "saved"
     html: "snips/courseElements/specialCoursesSavedTable.html"
   - name: "Submitted"
-    value: "1"
+    value: 1
     id: "submitted"
     html: "snips/courseElements/specialCoursesSubmittedTable.html"
-  - name: "Sent to Department"
-    value: "2"
-    id: "sentToDepartment"
-    html: "snips/courseElements/specialCoursesSentTable.html" 
   - name: "Approved"
-    value: "3"
+    value: 2
     id: "approved"
     html: "snips/courseElements/specialCoursesApprovedTable.html"
   - name: "Denied"
-    value: "4"
+    value: 3
     id: "denied"
     html: "snips/courseElements/specialCoursesDeniedTable.html"
+  
+specialTopicLogic:
+  admin_disabled: [3] #state values where admins can not edit
+  submit_form:    [0] #state values where forms can be sumbitted
 
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
