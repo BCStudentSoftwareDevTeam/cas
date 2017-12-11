@@ -26,8 +26,6 @@ def isAuthorized(user, prefix):
   
   return(isAdminBool or  isProgramChairBool or isDivisionChairBool)
 
-
-
 def can_modify(f):
   @wraps(f)
   def decorated_function(*args, **kwargs):

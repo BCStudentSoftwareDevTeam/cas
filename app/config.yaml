@@ -49,6 +49,8 @@ mainMenu:
     link: "/selectTerm"
   - title: "Sequence"
     link: "/selectProgram"
+  - title: "Special Topic Form"
+    link: "/professor/specialTopicForm"
   - title: "Log Out"
     link: "https://login.berea.edu/idp/profile/Logout"
 
@@ -123,10 +125,10 @@ columnColor:
   verified: 'verified'
   
 DEBUG:
-  user: "heggens" #Admin Access
+  #user: "heggens" #Admin Access
   #user: "pearcej" #Division Chair Access
   #user: "jadudm"  #Program Chair Access
-  # user: "myersco" #Professor Access
+  user: "lovelle" #Professor Access
   
 filepath:
   tmp: 'data/tmp'
