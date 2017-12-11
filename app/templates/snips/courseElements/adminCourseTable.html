@@ -11,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if (can_edit is defined and curTermName.state != 2) %}
+        {% if (can_edit == True and curTermName.state != 2) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         {% endif %}
     </tr>
@@ -110,7 +110,7 @@
                     </div>
                 </td>
             {% else %}
-                {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
+                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
                 <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                     <td>
                         <div class="child">
@@ -225,7 +225,7 @@
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
+                    {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">
