@@ -59,18 +59,20 @@
             {% endfor %}
           </select>
           {# --Term-- #}
-          <h5>Term</h5>
-          <select class="form-control" name="term">
-            {% for term in terms %}
-              <option value="{{term.termCode}}" 
-                {% if currentTerm == term.termCode %} 
-                  selected 
-                {% endif %}
-              >
-                {{term.name}}
-              </option>
-            {% endfor %}
-          </select>
+          {% if course.specialTopicName == None %}
+            <h5>Term</h5>
+            <select class="form-control" name="term">
+              {% for term in terms %}
+                <option value="{{term.termCode}}" 
+                  {% if currentTerm == term.termCode %} 
+                    selected 
+                  {% endif %}
+                >
+                  {{term.name}}
+                </option>
+              {% endfor %}
+            </select>
+          {% endif %}
           {# --Capacity-- #}
           <h5>Capacity</h5>
           <input type="number" name ="capacity" class="form-control" min="1" value ="{{course.capacity}}" />
