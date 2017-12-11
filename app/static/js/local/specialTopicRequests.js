@@ -1,4 +1,5 @@
 function reload_table(request, table){
+    $("#" + table).find("tr:gt(0)").remove()
     for (let row in request) {
         let table_row = $("<tr>")
         for (let cell in request[row]){
@@ -31,7 +32,6 @@ function reload_table(request, table){
             let entry = $("<td>").append(cell_text)
             table_row.append(entry)
         }
-        $("#" + table).find("tr:gt(0)").remove()
         $("#" + table).append(table_row)
     }
 }
