@@ -23,13 +23,11 @@
             <td>{{course.prefix.prefix}} {{course.bannerRef.number}}
                 {% if course.specialTopicName is not none %}
                     {{course.specialTopicName}}
+                    <span class="label label-success pull-right">
+                      Approved
+                    </span>
                 {% else %}
                     {{course.bannerRef.ctitle}}
-                {%endif%}
-                {% if course in approved_special_topics%}
-                    <span class="label label-success pull-right">
-                        Approved
-                    </span> 
                 {%endif%}
             </td>
             <!--TAUGHT BY-->
