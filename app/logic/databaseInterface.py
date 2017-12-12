@@ -244,7 +244,13 @@ def editSTCourse(data, prefix, professors, status, cfg):
         
         specialTopicCourse.status = status
         if status in cfg['specialTopicLogic']['approved']:
-            course = Course(bannerRef = specialTopicCourse.bannerRef,
+            bannercourses = BannerCourses(subject = specialTopicCourse.prefix,
+                                          number  = specialTopicCourse.bannerRef.number,
+                                          ctitle  = specialTopicCourse.specialTopicName,
+                                          is_active = 1)
+            bannercourses.save()
+            
+            course = Course(bannerRef = bannercourses,
                             prefix = specialTopicCourse.prefix,
                             term = specialTopicCourse.term,
                             schedule = specialTopicCourse.schedule,
@@ -257,7 +263,6 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             )
     
             course.save()
-            specialTopicCourse.course = course
             addCourseInstructors(professors, course.cId)
         
         specialTopicCourse.status = status
