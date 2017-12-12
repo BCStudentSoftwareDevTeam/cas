@@ -35,14 +35,12 @@ def addCourses(tid, prefix):
     
     prereqs = request.form.getlist('prereqs')
     nullCheck = NullCheck()
-    print prereqs
     values = nullCheck.add_course_form(data)
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
     cId = ""
 
     if bannerNumber != "86":
-        print "what"
         # update the course
         section_exists = Course.select().where(Course.bannerRef == values['bannerRef']).where(Course.term == int(tid)).where(Course.section ==values['section']).exists()
         if section_exists:
@@ -65,8 +63,7 @@ def addCourses(tid, prefix):
                         )
 
         course.save()
-        print "final"
-        print course.prereq
+        
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
@@ -187,7 +184,7 @@ def term_courses(term, department):
             courses[course.cId]=model_to_dict(course)
             courses[course.cId]["schedule"]["startTime"]= str(courses[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
             courses[course.cId]["schedule"]["endTime"]= str(courses[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
-        print courses
+        
     
         return json.dumps(courses)
     except:
