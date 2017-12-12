@@ -4,11 +4,10 @@ from app.logic import databaseInterface
 from app.logic.redirectBack import redirect_url
 from app.logic.authorization import must_be_authorized
 
-
 @app.route("/deletecourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def deletecourse(prefix, tid):
-
+    
     current_page = "/" + request.url.split("/")[-1]
 
 
@@ -42,6 +41,7 @@ def deletecourse(prefix, tid):
         InstructorCourseChange.course == cid)
     for instructor in instructors:
         instructor.delete_instance()
+        
     message = "Course: course {} has been deleted".format(course.cId)
     course.delete_instance()
     
@@ -66,11 +66,10 @@ def deleteSTcourse(prefix, tid):
     course = SpecialTopicCourse.get(SpecialTopicCourse.stId == stid)
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
     
-    course.status = 4
-    course.save()
+    course.delete_instance()
     message = "Course: course {} has been deleted".format(course.stId)
         
     log.writer("INFO", current_page, message)
 
-    flash("Course has been successfully deleted")
+    flash("Special Topic Request has been deleted.")
     return redirect(redirect_url())
