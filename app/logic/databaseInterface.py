@@ -1,4 +1,6 @@
 from app.allImports import *
+from app.updateCourse import DataUpdate
+
 # TODO: standarize docstring see https://www.python.org/dev/peps/pep-0257/
 
 
@@ -249,7 +251,6 @@ def editSTCourse(data, prefix, professors, status, cfg):
                                           ctitle  = specialTopicCourse.specialTopicName,
                                           is_active = 1)
             bannercourses.save()
-            
             course = Course(bannerRef = bannercourses,
                             prefix = specialTopicCourse.prefix,
                             term = specialTopicCourse.term,
@@ -259,12 +260,12 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             specialTopicName = specialTopicCourse.specialTopicName,
                             notes = specialTopicCourse.notes,
                             crossListed = specialTopicCourse.crossListed,
-                            rid = specialTopicCourse.rid
-                            )
-    
+                            rid = specialTopicCourse.rid)
             course.save()
+            update_course = DataUpdate()
             addCourseInstructors(professors, course.cId)
-        
+            if isTermTracking(specialTopicCourse.term.termCode):
+                update_course.addCourseChange(int(course.cId), "create")
         specialTopicCourse.status = status
         specialTopicCourse.crossListed = int(data["crossListed"])
         specialTopicCourse.term = data['term']
