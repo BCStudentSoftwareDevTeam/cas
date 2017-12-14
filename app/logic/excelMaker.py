@@ -7,6 +7,7 @@ class ExcelMaker:
         self.program_row = 2
         self.cross_row   = 2
         self.master_row  = 2
+        self.intr_letter = ''
 
     def writeRow(self,sheet,column,row,value):
         sheet.write('{0}{1}'.format(column,row),value)
@@ -23,9 +24,19 @@ class ExcelMaker:
         sheet.write('I1', 'Room Preference')
         sheet.write('J1','Section')
         sheet.write('K1','Instructors')
-
-
-
+        self.intr_letter = 'K'
+        
+    def writeSpecialHeaders(self,sheet):
+        sheet.write('K1','credits')
+        sheet.write('L1','description')
+        sheet.write('M1','prerequisites')
+        sheet.write('N1','major Req')
+        sheet.write('O1','Concentration Req')
+        sheet.write('P1', 'Minor Req')
+        sheet.write('Q1', 'Perspectives Request')
+        sheet.write('R1', 'Instructors')
+        self.intr_letter = 'R'
+        
     def write_course_info(self,sheet,row,course):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
@@ -49,15 +60,28 @@ class ExcelMaker:
             room_name = course.rid.building.name + ' ' + course.rid.number
         sheet.write('I{0}'.format(row),room_name)
         #Instructor Information
-        instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
+        if self.intr_letter == 'K':
+            instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
+        else:
+            instructors = InstructorCourse.select().where(InstructorCourse.course == course.course)
         sheet.write('J{0}'.format(row),course.section)
-        colNum = ord('K')
+        colNum = ord(self.intr_letter)
         for  instructor in instructors:
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)
             colNum += 1
             self.writeRow(sheet,chr(colNum),row,instructor.username.bNumber)
             colNum += 1
-
+            
+    def write_special_course_info(self,sheet,row,course):
+        sheet.write('C{0}'.format(row),course.specialTopicName)
+        sheet.write('K{0}'.format(row),course.credits)
+        sheet.write('L{0}'.format(row),course.description)
+        sheet.write('M{0}'.format(row),course.prereqs)
+        sheet.write('N{0}'.format(row),course.majorReqsMet)
+        sheet.write('O{0}'.format(row),course.concentrationReqsMet)
+        sheet.write('P{0}'.format(row),course.minorReqsMet)
+        sheet.write('Q{0}'.format(row),course.perspectivesMet)
+        
     def increment_rows(self,course):
         self.program_row  += 1
         self.master_row += 1
@@ -98,8 +122,6 @@ class ExcelMaker:
                 for sheet_list in sheet_matrix:
                     self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
-
-
         workbook.close()
         return path
 
@@ -110,17 +132,45 @@ class ExcelMaker:
         workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Cross Listed Courses  for {}'.format(term.name),
-        'author':   'Cas System',
+        'author':   'CAS System',
         'comments': 'Created with Python and XlsxWriter'})
 
         #Create Master worksheet and Set Headers
         master_sheet = workbook.add_worksheet('CrossListed')
         self.writeHeaders(master_sheet)
 
-        courses = Course.select().where(Course.term == term).where(Course.crossListed == 1)
+        courses = Course.select(
+        ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
+        ).where(Course.crossListed == 1
+        ).where(Course.term == term
+        ).order_by(BannerCourses.ctitle)
+
         self.master_row = 2
         for course in courses:
             self.write_course_info(master_sheet,self.master_row,course)
+            self.master_row += 1
+        workbook.close()
+        return path
+        
+    def make_special_topics_file(self, term):
+        #set excel parameters variables
+        filename = "cas-{}-specialTopics.xlsx".format(term.termCode)
+        path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
+        workbook = xlsxwriter.Workbook(path)
+        workbook.set_properties({
+        'title': 'Special Topic Courses for {}'.format(term.name),
+        'author': 'CAS System',
+        'comments': 'Created with Python and XlsxWriter'})
+        
+        #Create Master worksheet and Set Headers
+        master_sheet = workbook.add_worksheet('SpecialTopics')
+        self.writeHeaders(master_sheet)
+        self.writeSpecialHeaders(master_sheet)            
+        courses = SpecialTopicCourse.select().where(SpecialTopicCourse.term == term).where(SpecialTopicCourse.status == 3)
+        self.master_row = 2
+        for course in courses:
+            self.write_course_info(master_sheet,self.master_row,course)
+            self.write_special_course_info(master_sheet,self.master_row,course)
             self.master_row += 1
         workbook.close()
         return path

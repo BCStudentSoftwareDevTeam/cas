@@ -8,23 +8,31 @@ import os
 
 @app.route("/excel/<tid>", methods=["GET"])
 @must_be_admin
-def makeExcel(tid):
-
+def makeMainExcel(tid):
     page        = "/" + request.url.split("/")[-1]
     term = Term.get(Term.termCode == tid)
     excel = ExcelMaker()
     completePath = excel.make_master_file(term)
-
-
     return send_file(completePath,as_attachment=True)
 
-
-
-@app.route('/excel/crossListed/<tid>', methods=["GET"])
+# @app.route('/excel/crossListed/<tid>', methods=["GET"])
+# @must_be_admin
+# def makeSecondaryExcel(tid):
+#   page = "/" + request.url.split("/")[-1]
+#   term = Term.get(Term.termCode == tid)
+#   excel = ExcelMaker()
+#   completePath = excel.make_cross_listed_file(term)
+#   return send_file(completePath,as_attachment=True)
+  
+@app.route('/excel/<excel_type>/<tid>', methods=["GET"])
 @must_be_admin
-def makeCrossListedExcel(tid):
+def makeSecondaryExcel(excel_type,tid):
   page = "/" + request.url.split("/")[-1]
   term = Term.get(Term.termCode == tid)
   excel = ExcelMaker()
-  completePath = excel.make_cross_listed_file(term)
+  if excel_type == "crossListed":
+    completePath = excel.make_cross_listed_file(term)
+  elif excel_type == "specialTopics":
+    completePath = excel.make_special_topics_file(term)
   return send_file(completePath,as_attachment=True)
+    

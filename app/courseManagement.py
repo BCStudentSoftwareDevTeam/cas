@@ -156,6 +156,9 @@ def verifyChange():
         return redirect(redirect_url())
     
 
+################
+#Special Topics#
+################
 @app.route("/courseManagement/specialCourses/", defaults={'tid':0}, methods=["GET"])
 @app.route("/courseManagement/specialCourses/<tid>", methods=["GET", "POST"])
 @must_be_admin
