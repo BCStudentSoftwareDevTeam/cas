@@ -17,7 +17,7 @@
                 {% for term in allTerms %} 
                     {% if term.termCode == currentTerm|int %}
                         <h2> {{term.name}}: Cross Listed Courses </h2>
-                        <a class="btn btn-info" href="/excel/crossListed/{{currentTerm}}">Download CrossListed Terms</a>
+                        <a class="btn btn-info" href="/excel/crossListed/{{currentTerm}}">Download Cross-listed Courses</a>
                     {% endif %} 
                 {% endfor %}
                 {% if crossListedCourses is not none %}

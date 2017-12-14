@@ -171,14 +171,15 @@ def term_courses(term, department):
         courses={}
         for course in Course.select().where(Course.prefix_id==department, Course.term_id==term1.termCode):
             courses[course.cId]=model_to_dict(course)
+            courses[course.cId]["schedule"]["startTime"]= str(courses[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
+            courses[course.cId]["schedule"]["endTime"]= str(courses[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
         print courses
-        return json.dumps(courses, default=myconverter)
+    
+        return json.dumps(courses)
     except:
         return json.dumps("Error")
 
-def myconverter(o):
-    if isinstance(o, datetime.datetime):
-        return o.__str__()
+
 
 @app.route("/courses/get_sections/", methods=["POST"])
 def get_sections():

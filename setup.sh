@@ -21,3 +21,4 @@ pip install MySQL-python
 pip install flask-admin
 pip install wtf-peewee
 pip install flask_login
+pip install git+https://github.com/memo330179/migrant-cli.git

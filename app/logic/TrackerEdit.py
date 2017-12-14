@@ -39,8 +39,8 @@ class TrackerEdit():
     @param  -cid {number} : Course Identification Number
     @return -changeExist: if course exist return peewee object of course else 
     return None :Author -> CDM 20160713'''
-    import pdb
-    pdb.set_trace()
+    #import pdb
+    #pdb.set_trace()
     try:
       changeExist = CourseChange.get(CourseChange.cId == self.formData['cid'])
       # Set the class variable colorList to the current tdcolors

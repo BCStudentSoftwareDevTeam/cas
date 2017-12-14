@@ -181,7 +181,7 @@ def specialCourses(tid):
     sentToDeanCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 2).where(SpecialTopicCourse.term == int(tid))
     approvedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 3).where(SpecialTopicCourse.term == int(tid))
     deniedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 4).where(SpecialTopicCourse.term == int(tid))
-        
+    savedCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.status == 0).where(SpecialTopicCourse.term == int(tid))
     # rooms = Rooms.select().order_by(Rooms.building)
     instructors = createInstructorDict(specialCourses)
     
@@ -196,6 +196,7 @@ def specialCourses(tid):
                           sentToDeanCourses = sentToDeanCourses,
                           approvedCourses = approvedCourses,
                           deniedCourses = deniedCourses,
+                          savedCourses = savedCourses,
                           isAdmin = True,
                           allTerms = terms,
                           currentTerm=int(tid),

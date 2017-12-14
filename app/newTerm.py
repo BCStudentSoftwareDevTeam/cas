@@ -26,7 +26,7 @@ def newterm():
     #I NEED TO ENSURE THAT THE TERM CODE DOES NOT ALREADY EXSIST IN THE DATABASE
     newTerm = Term.select().where(Term.termCode == term_code)
     if newTerm:
-      message = "Term: {} already exsists in the database.".format(term_name)
+      message = "Term: {} already exists in the database.".format(term_name)
       log.writer("ERROR",page,message)
       flash(message,'error')
     else:
