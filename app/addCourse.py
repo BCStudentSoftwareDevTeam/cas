@@ -13,21 +13,28 @@ from flask import jsonify
 adds the course to the course table and to the course change if needed
 '''
 
-
+def convertPrereqs(prereqs):
+    "prevents from storing empty prereq string into the database"
+    if prereqs[0]:
+        return prereqs[0]
+    else:
+        return None
+        
+        
 @app.route("/addCourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
-
+    
     # set the current page
 
     # get the data
     data = request.form
     # instructors need to be a list
     instructors = request.form.getlist('professors[]')
-
+    
+    prereqs = request.form.getlist('prereqs')
     nullCheck = NullCheck()
-
     values = nullCheck.add_course_form(data)
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
@@ -51,10 +58,12 @@ def addCourses(tid, prefix):
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
                         rid=values['rid'],
-                        section = values['section']
+                        section = values['section'],
+                        prereq = convertPrereqs(prereqs)
                         )
 
         course.save()
+        
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
@@ -114,7 +123,8 @@ def add_one(tid):
                     capacity=course.capacity,
                     specialTopicName=course.specialTopicName,
                     notes=None,
-                    crossListed=int(course.crossListed), rid=None
+                    crossListed=int(course.crossListed), rid=None,
+                    prereq=course.prereq
                     )
     course.save()
 
@@ -146,7 +156,8 @@ def add_many(tid):
                     capacity=course.capacity,
                     specialTopicName=course.specialTopicName,
                     notes=None,
-                    crossListed=int(course.crossListed), rid=None
+                    crossListed=int(course.crossListed), rid=None,
+                    prereq=course.prereq
                     )
             course.save()
 
@@ -229,3 +240,8 @@ def generate_sections(existing_section):
 def form_sample():
     data = request.form
     return "The parameter was: {0}".format(data['var1'])
+
+
+
+
+    

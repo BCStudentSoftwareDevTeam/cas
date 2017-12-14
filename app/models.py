@@ -156,6 +156,7 @@ class Course(dbModel):
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
   section           = TextField(null = True)
+  prereq            = CharField(null = True)
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
