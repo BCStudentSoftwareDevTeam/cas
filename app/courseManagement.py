@@ -89,17 +89,21 @@ def conflictsListed(term_id):
     rooms = functions.get_rooms_with_conflicts(term_id)
     conflicts = functions.get_all_conflicts(term_id)
     
+    courses_special_time = functions.get_special_times(term_id)
+    special_time_courses_prefetch = prefetch(courses_special_time, InstructorCourse, User)
+    
     current_term = Term.get(Term.termCode == term_id)
     buildings_prefetch = prefetch(buildings, rooms, conflicts, BannerSchedule, ScheduleDays, InstructorCourse, User)
 
 
                 
-    return render_template("conflicts.html",
+    return render_template("time_conflicts.html",
                            allTerms=terms,
                            page=page,
                            currentTerm = term_id,
                            current_term=current_term,
-                           buildings_prefetch = buildings_prefetch
+                           buildings_prefetch = buildings_prefetch,
+                           courses_special_time = special_time_courses_prefetch
                            )
 ################
 #CHANGE TRACKER#
