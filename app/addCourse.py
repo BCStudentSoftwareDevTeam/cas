@@ -182,19 +182,11 @@ def term_courses(term, department):
         term1=Term.get(Term.name==term)
         courses={}
         for course in Course.select().where(Course.prefix_id==department, Course.term_id==term1.termCode):
-<<<<<<< HEAD
-            courses[course.cId]=model_to_dict(course)
-            courses[course.cId]["schedule"]["startTime"]= str(courses[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
-            courses[course.cId]["schedule"]["endTime"]= str(courses[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
-        
-    
-=======
             bannerNumber = str(course.bannerRef.number)[-2:]
             if bannerNumber != '86':
                 courses[course.cId]=model_to_dict(course)
                 courses[course.cId]["schedule"]["startTime"]= str(courses[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
                 courses[course.cId]["schedule"]["endTime"]= str(courses[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
->>>>>>> development
         return json.dumps(courses)
     except:
         return json.dumps("Error")
