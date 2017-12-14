@@ -43,6 +43,11 @@ division = Division(  name = "Division I"
 
 division = Division(  name = "Division II"
               ).save()
+division = Division(  name = "Division III"
+              ).save()
+
+division = Division(  name = "Division IV"
+              ).save()
 #########
 #PROGRAM#
 #########
