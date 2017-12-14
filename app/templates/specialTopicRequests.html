@@ -16,9 +16,12 @@
 <body>
   <div id="wrapper">
     <div id="page-wrapper">
-      <!--Messages that need to be displayed-->
       {% include "snips/messages.html" %} 
-      <br/>
+      <!--Messages that need to be displayed-->
+      <div style="padding-bottom:5px;">
+        <h2>Special Topic Course Requests</h2>
+        <a class="btn btn-info" href="/excel/specialTopics/{{currentTerm}}">Download All Approved</a>
+      </div>
       <div id="specialCoursesTabs">
          <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#new"> Submitted </a></li>
