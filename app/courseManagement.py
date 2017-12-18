@@ -96,8 +96,6 @@ def conflictsListed(term_id):
     current_term = Term.get(Term.termCode == term_id)
     buildings_prefetch = prefetch(buildings, rooms, conflicts, BannerSchedule, ScheduleDays, InstructorCourse, User)
 
-
-                
     return render_template("time_conflicts.html",
                            allTerms=terms,
                            page=page,
@@ -232,9 +230,6 @@ def format_instructor(instructor):
     """
     return instructor.username.firstName[0] +  ". " + instructor.username.lastName+","
 
-
-
-
 ################
 #Special Topics#
 ################
@@ -263,7 +258,7 @@ def specialCourses(tid):
     special_dict = dict()
     for state in cfg['specialTopicStates']:
         special_dict[state['id']] = SpecialTopicCourse.select().where(SpecialTopicCourse.status == state['value']).where(SpecialTopicCourse.term == int(tid))
- 
+        
     return render_template("specialTopicRequests.html",
                           cfg=cfg,
                           special_dict = special_dict,
