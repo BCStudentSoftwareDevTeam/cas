@@ -113,6 +113,10 @@ def get_buildings_with_conflicts(term_id):
                                     .group_by(Building.bID))
                                     
     return buildings_with_conflicts
+    
+def get_special_times(term_id):
+    special_times = (Course.select(Course, BannerSchedule).join(BannerSchedule).where(BannerSchedule.sid=='A1'))
+    return special_times
 
 '''
 removes duplicates from a list

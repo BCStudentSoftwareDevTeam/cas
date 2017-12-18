@@ -8,6 +8,7 @@ from flask import json, jsonify
 
 @app.route('/courseTimeline/', defaults={'tid':0}, methods=["GET"])
 @app.route('/courseTimeline/<tid>',methods=["GET","POST"])
+@login_required
 def courseTimeline(tid):
   #This information has to be passed for the courseManagementSidebar...
   #TODO: Turn this information into a json call so that it doesn't have to be
