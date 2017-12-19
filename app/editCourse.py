@@ -89,17 +89,11 @@ def editSTCourseModal(tid, prefix, stid, page):
 @must_be_authorized
 def editSTcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
-  print tid
-  print prefix
-  print page
   page1 =  "/" + request.url.split("/")[-1]
   data = request.form
-  print data
   specialCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
-  print specialCourse
-  print data['submitbtn']
   if data['submitbtn'] == "Submit":
-    specialCourse.status = 1
+    specialCourse.status = cfg['specialTopicLogic']['submitted']
   professors = request.form.getlist('professors[]')
   if page1 == "/specialCourses":
       if data['statusChange']:
