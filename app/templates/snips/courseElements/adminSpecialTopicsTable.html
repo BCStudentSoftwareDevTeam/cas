@@ -1,6 +1,5 @@
 
     <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
-    {% if sentToDeanCourses %}
     <thead>
         <tr>
             <th>Course Name</th> 
@@ -11,14 +10,13 @@
             <th>Cross-Listed</th>
             <th>Notes</th>
             <th>Last Edited</th>
-            {% if isAdmin or isDivisionChair or isProgramChair %}
-              <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
-            {% endif %}
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         </tr> 
     </thead>
     <tbody>
-        <div id = "sentToDean" >
-        {% for course in sentToDeanCourses %}
+        <div id = "state['id']">
+        {% for course in courses %}
+        <div >
             <tr>
                 <!--COURSE NAME-->
                 <td>
@@ -91,24 +89,17 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if isAdmin or isDivisionChair or isProgramChair %}
+                {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->
                             <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                             <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                            {% include "snips/courseElements/deleteSTCourse.html" %}
+                                    <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
                         </div>
                     </td>
                 {% endif %}
             </tr>
         {% endfor %}
-        {% else %}
-            <br/>
-            <p> There are no special topic requests to be sent to the Dean . </p>
-        {% endif %}
         </div>
-        
     </tbody>
-

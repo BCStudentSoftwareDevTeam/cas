@@ -25,23 +25,46 @@ def convertPrereqs(prereqs):
 @must_be_authorized
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
-    
-    # set the current page
-
-    # get the data
     data = request.form
-    # instructors need to be a list
+    # # instructors need to be a list
     instructors = request.form.getlist('professors[]')
-    
     prereqs = request.form.getlist('prereqs')
     nullCheck = NullCheck()
     values = nullCheck.add_course_form(data)
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
     cId = ""
+    if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
+        specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
+                    prefix=values['prefix'],
+                    term=int(tid),
+                    schedule=values['schedule'],
+                    capacity=values['capacity'],
+                    specialTopicName=values['specialTopicName'],
+                    notes=values['requests'],
+                    crossListed=int(data['crossListed']),
+                    rid=values['rid'],
+                    status = 0,
+                    credits = data['credits'],
+                    description = data['description'],
+                    prereqs = data['prereqs'],
+                    majorReqsMet = data['majorReqsMet'],
+                    concentrationReqsMet = data['concentrationReqsMet'],
+                    minorReqsMet = data['minorReqsMet'],
+                    perspectivesMet = data['perspectivesMet'],
+                    section = data['section'])
+        if data['formBtn'] == "submit":
+            specialTopicCourse.status = 1
+        specialTopicCourse.save()
+        databaseInterface.addSTCourseInstructors(instructors, specialTopicCourse.stId)
 
-    if bannerNumber != "86":
-        # update the course
+        if bannerNumber == "86" and data['formBtn'] == "save":
+            message = "Course: #{0} has been saved. It needs to be submitted before it can be approved.".format(specialTopicCourse.stId)
+            flash("Course has been saved. It needs to be submitted before it can be approved.")
+            log.writer("INFO", current_page, message)
+        else:
+            flash("Course has successfully been added!")
+    else:
         section_exists = Course.select().where(Course.bannerRef == values['bannerRef']).where(Course.term == int(tid)).where(Course.section ==values['section']).exists()
         if section_exists:
             message = "Course: TID#{0} prefix#{1} with section {2} exists".format(tid,prefix, values["section"])
@@ -74,41 +97,9 @@ def addCourses(tid, prefix):
             message = "Course: #{0} has been added".format(course.cId)
             flash("Course has successfully been added!")
             log.writer("INFO", current_page, message)
-    else:
-        specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
-                        prefix=values['prefix'],
-                        term=int(tid),
-                        schedule=values['schedule'],
-                        capacity=values['capacity'],
-                        specialTopicName=values['specialTopicName'],
-                        notes=values['requests'],
-                        crossListed=int(data['crossListed']),
-                        rid=values['rid'],
-                        status = 0,
-                        credits = data['credits'],
-                        description = data['description'],
-                        prereqs = data['prereqs'],
-                        majorReqsMet = data['majorReqsMet'],
-                        concentrationReqsMet = data['concentrationReqsMet'],
-                        minorReqsMet = data['minorReqsMet'],
-                        perspectivesMet = data['perspectivesMet'],
-                        section = data['section']
-        )
+    return redirect(redirect_url())         
 
-        if data['formBtn'] == "submit":
-            specialTopicCourse.status = 1
-
-        specialTopicCourse.save()
-        databaseInterface.addSTCourseInstructors(instructors, specialTopicCourse.stId)
-
-        if bannerNumber == "86" and data['formBtn'] == "save":
-            message = "Course: #{0} has been saved. It needs to be submitted before it can be approved.".format(specialTopicCourse.stId)
-            flash("Course has been saved. It needs to be submitted before it can be approved.")
-            log.writer("INFO", current_page, message)
-        else:
-            flash("Course has successfully been added!")
-
-    return redirect(redirect_url())
+ 
 
 @app.route("/addOne/<tid>", methods=["POST"])
 def add_one(tid):
@@ -197,6 +188,7 @@ def term_courses(term, department):
 def get_sections():
     course = request.json['course']
     term = request.json['term']
+    course = course.replace("(New)", "").strip()
     try:
         term = int(term)
     except ValueError:
@@ -224,7 +216,7 @@ def get_sections():
         else:
             sections = generate_sections(existing_section)
             return jsonify(sections)
-
+    return jsonify(list("A"))
 
 
 def generate_sections(existing_section):

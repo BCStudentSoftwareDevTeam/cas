@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+{% include "snips/courseElements/deleteSTCourse.html" %}
 <thead>
     <tr>
         <th>Course Name</th>
@@ -10,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if (can_edit is defined and curTermName.state != 2) %}
+        {% if (can_edit == True and curTermName.state != 2) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         {% endif %}
     </tr>
@@ -22,13 +23,11 @@
             <td>{{course.prefix.prefix}} {{course.bannerRef.number}}
                 {% if course.specialTopicName is not none %}
                     {{course.specialTopicName}}
+                    <span class="label label-success pull-right">
+                      Approved
+                    </span>
                 {% else %}
                     {{course.bannerRef.ctitle}}
-                {%endif%}
-                {% if course in approved_special_topics%}
-                    <span class="label label-success pull-right">
-                        Approved
-                    </span> 
                 {%endif%}
             </td>
             <!--TAUGHT BY-->
@@ -109,7 +108,7 @@
                     </div>
                 </td>
             {% else %}
-                {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
+                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
                 <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                     <td>
                         <div class="child">
@@ -135,23 +134,16 @@
                         {% else %}
                             {{course.bannerRef.ctitle}}
                         {%endif%}
-                            {% if course.status == 0 %}
-                        <span class="label label-default pull-right">
-                                Saved 
-                            {% elif course.status == 1 %}
-                        <span class="label label-primary pull-right">
-                                Submitted 
-                            {% elif course.status == 2 %}
-                        <span class="label label-warning pull-right">
-                                Sent to Dean
-                            {% elif course.status == 3 %}
-                        <span class="label label-success pull-right">
-                                Approved 
-                            {% else %}
-                        <span class="label label-danger pull-right">
-                                Denied
+                        
+                        {% for state in cfg['specialTopicStates'] %}
+                            {% if course.status == state['value'] %}
+                                <span class="label label-{{state['color']}} pull-right">
+                                    {{state['name']}}
+                                </span>
                             {% endif %}
-                        </span> 
+                        {% endfor %}
+                            
+                        
                     </td>
                     <!--TAUGHT BY-->
                     <td>
@@ -226,13 +218,12 @@
                                 <!--EDIT MODAL-->
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 <!--DELETE MODAL-->
-                                <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                                {% include "snips/courseElements/deleteCourse.html" %}
+                                <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
                             {% endif %}
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit is defined and curTermName.state != 2) and key < 3 %}
+                    {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">
@@ -240,8 +231,7 @@
                                     <!--EDIT MODAL-->
                                     <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                     <!--DELETE MODAL-->
-                                    <a href=# data-toggle="modal" data-target="#deleteSTModal{{course.stId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
-                                    {% include "snips/courseElements/deleteSTCourse.html" %}
+                                    <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
                                 {% endif %}
                             </div>
                         </td>

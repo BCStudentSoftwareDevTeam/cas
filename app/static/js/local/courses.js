@@ -85,16 +85,13 @@ function stn(){
       var course = courseTitle.match(/\d/g).join("");
       //Then remove the numbers 86 from the string
       course = course.split("86").join("");
-      console.log(course);
       var coursesDiv = document.getElementById('specialTopicCourse');
       var courseCredits = document.getElementById('ccredits');
-      if (course.length == 1){
-         console.log('inside');
-         $('#specialTopicsName').removeAttr('disabled');
-        coursesDiv.style.display = 'block';
-        courseCredits.style.display = 'block';
-        $('#submitSave').removeClass("hide");
-
+      if (course.length == 1 && courseTitle.includes("Special Topics")){
+            $('#specialTopicsName').removeAttr('disabled');
+            coursesDiv.style.display = 'block';
+            courseCredits.style.display = 'block';
+            $('#submitSave').removeClass("hide");
       }
       else{
          $('#specialTopicsName').attr('disabled','disabled');

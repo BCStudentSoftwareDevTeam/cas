@@ -57,21 +57,18 @@ def courses(tID, prefix, can_edit):
                      .where(Course.prefix == prefix)
                      .where(Course.term == tID))
 
-    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID)
+    approved = cfg['specialTopicLogic']['approved'][0]
+    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
 
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
-
     courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
-
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
-    approved_special_topics = Course.select().join(SpecialTopicCourse).where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status == 3)
 
     return render_template(
             "course.html",
             courses=courses_prefetch,
-            approved_special_topics = approved_special_topics,
             specialCourses=special_courses_prefetch,
             divisions = divisions_prefetch,
             currentTerm=int(tID),

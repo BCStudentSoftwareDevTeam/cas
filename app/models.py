@@ -167,7 +167,6 @@ class SpecialTopicCourse(dbModel):
   bannerRef            = ForeignKeyField(BannerCourses)
   term                 = ForeignKeyField(Term, null = False)
   schedule             = ForeignKeyField(BannerSchedule, null = True)
-  course               = ForeignKeyField(Course, null = True) 
   capacity             = IntegerField(null = True)
   specialTopicName     = CharField(null = True)
   notes                = TextField(null = True)
