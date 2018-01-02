@@ -63,7 +63,9 @@
             </label>
           </div>
         </div>
-        {% include "snips/courseElements/addPrereq.html" %}
+        <div class="col-md-12 form-group">
+          <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  />
+        </div>
         <div id = "specialTopicCourse" hidden>
 
           <div class="col-md-10 form-group">
@@ -78,9 +80,7 @@
                   {% endfor %}
            </select>
           </div>
-          <div class="col-md-12 form-group">
-            <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  />
-          </div>
+          
 
           <div class="col-md-6 form-group">
             <textarea rows="2" class="form-control"  name="majorReqsMet" cols="25" placeholder="Please indicate the major requirements met with this course, if any"></textarea>
