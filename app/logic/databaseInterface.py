@@ -268,7 +268,6 @@ def editSTCourse(data, prefix, professors, status, cfg):
                 update_course.addCourseChange(int(course.cId), "create")
         specialTopicCourse.status = status
         specialTopicCourse.crossListed = int(data["crossListed"])
-        specialTopicCourse.term = data['term']
         specialTopicCourse.capacity = capacity
         specialTopicCourse.rid  = room
         specialTopicCourse.schedule = schedule

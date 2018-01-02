@@ -87,18 +87,28 @@
           <!--Row One-->
           <div class="row">
             <div class="col-md-6 float-left">
-              <!--Term-->
-              <h5>Term</h5>
-              <select class="form-control" name="term">
-                {% for term in terms %}
-                  <option value="{{term.termCode}}"
-                    {% if currentTerm == term.termCode %}
-                      selected
-                    {% endif %}>
-                    {{term.name}}
-                  </option>
-                {% endfor %}
-              </select>
+              <!--CrossListed-->
+              <h5>Cross Listed</h5>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="crossListed" id="exampleRadios1" value=1 required
+                    {% if course.crossListed == 1 %}
+                      checked="checked"
+                    {% endif %}
+                  >
+                    Yes
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="crossListed" id="exampleRadios1" value=0 required
+                    {% if course.crossListed == 0 %}
+                      checked="checked"
+                    {% endif %}
+                  >
+                    No
+                </label>
+              </div>
             </div>
             <!--Section-->
             <div class="col-md-6 float-right">
@@ -129,28 +139,8 @@
             </div>
           </div>
           
-          <!--CrossListed-->
-          <h5>Cross Listed</h5>
-          <div class="radio">
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=1 required
-                {% if course.crossListed == 1 %}
-                  checked="checked"
-                {% endif %}
-              >
-                Yes
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=0 required
-                {% if course.crossListed == 0 %}
-                  checked="checked"
-                {% endif %}
-              >
-                No
-            </label>
-          </div>
+          
+          
 
           <!--Notes-->
           <h5>Notes</h5>
