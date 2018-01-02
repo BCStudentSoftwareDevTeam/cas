@@ -12,32 +12,28 @@ function getSelectedCourse(elementId) {
 function fillCourses(response, id){
    console.log(response);
    if (response !== "Error"){
-               if(id=="selected_term_one"){
-                  var courses = document.getElementById("coursesDivOne");
-                  courses.style.display = 'inline';// do enabled/disabled instead of hidden
-                  var selectPicker = document.getElementById("oneCoursesSelect");
-                  $("#oneCoursesSelect").empty();
-               }
-               else{
-                  var courses = document.getElementById("coursesDiv");
-                  console.log(courses);
-                  courses.style.display = 'inline';// do enabled/disabled instead of hidden
-                  var selectPicker = document.getElementById("multipleCoursesSelect");
-                  $("#multipleCoursesSelect").empty();
-               }
-               console.log("this is response", response);
-               for (var key in response){
+                var courses = document.getElementById("coursesDiv");
+                courses.style.display = 'inline';// do enabled/disabled instead of hidden
+                var selectPicker = document.getElementById("multipleCoursesSelect");
+                $("#multipleCoursesSelect").empty();
+                for (var key in response){
                   var option = document.createElement("option");
                   /*CSC 111 - COURSE NAME (time)*/
                   console.log(response[key]);
                   option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" " +response[key].schedule['startTime'];
                   option.value = key;
                   selectPicker.appendChild(option);
-               }
+               }               
                $('.selectpicker').selectpicker('refresh');
             }
  else{
+     $("multipleCoursesSelect").empty();
+     var selectPicker = document.getElementById("multipleCoursesSelect");
+     var option = document.createElement("option");
+     option.text="No courses available";
+     option.key="None";
      console.log("return value is None");
+     $('.selectpicker').selectpicker('refresh');
     }
 }
 
