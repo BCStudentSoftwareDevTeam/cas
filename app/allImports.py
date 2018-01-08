@@ -78,8 +78,14 @@ import logging
 
 @app.before_request
 def before_request():
-    mainDB.connect()
+    mainDB.get_conn() #.connect() caused a crash 20180108 CDM
     g.user = current_user
+
+# @app.after_request
+# def add_header(response):
+#     response.cache_control.private = True
+#     response.cache_control.public = False
+#     return response
 
 
 @app.teardown_request
@@ -93,4 +99,7 @@ def load_user(username):
 @app.context_processor
 def inject_dict_for_all_templates():
     #HACK
-    return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg})
+    try: 
+        return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg})
+    except Exception as e:
+        return dict({'isAdmin': False, 'cfg': cfg})
