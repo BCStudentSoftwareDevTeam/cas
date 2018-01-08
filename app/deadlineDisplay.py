@@ -7,7 +7,6 @@ from flask import session
 
 @app.route("/", methods=["GET"])
 @can_modify
-
 def deadlineDisplay(can_edit):
     print session.keys()
     for key in session.keys():
