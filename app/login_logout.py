@@ -15,3 +15,9 @@ def login():
     except Exception as e:
         abort(401)
     abort(401)
+    
+@app.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    logout_user()
+    return redirect('https://login.berea.edu/idp/profile/Logout')
