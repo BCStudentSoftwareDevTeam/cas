@@ -127,7 +127,7 @@ class User(dbModel):
       return False
       
   def __repr__(self):
-    return '{0} {1}'.format(self.firstname, self.lastname)
+    return '{0} {1}'.format(self.firstName, self.lastName)
   
   def __str__(self):
     return self.username

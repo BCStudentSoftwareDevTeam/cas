@@ -27,6 +27,13 @@ def isAuthorized(user, prefix):
   return(isAdminBool or  isProgramChairBool or isDivisionChairBool)
 
 
+def require_authorization(f):
+  @wraps(f)
+  def decorated_function(*args, **kwards):
+    if not g.user.is_authenticated:
+      return redirect(url_for('login', next=request.url))
+    return f(*args, **kwards)
+  return decorated_function
 
 def can_modify(f):
   @wraps(f)
@@ -40,11 +47,7 @@ def can_modify(f):
       kwargs['can_edit'] = True
     else:
       kwargs['can_edit'] = False
-      
-    
-      
     return f(*args, **kwargs)
-    
   return decorated_function
   
   
