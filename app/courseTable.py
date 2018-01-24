@@ -31,6 +31,9 @@ def retrieveCourses(prefix):
         courseName_to_term = OrderedDict()
         
         for bannerRef in allCourses:
+            course_number  = bannerRef.number
+            if course_number[-2:] == "86":
+                continue
             # ref_course is the list of all the classes that were offered for all the terms that were selected
             ref_course = Course.select().where(Course.bannerRef == bannerRef.reFID, Course.term >= lowest_term ).distinct()
             terms_offered = []
@@ -38,7 +41,7 @@ def retrieveCourses(prefix):
                 terms_offered.append(course.term.termCode)
             courseName_to_term[str(bannerRef.subject)+" "+ str(bannerRef.number),str(bannerRef.ctitle)] = terms_offered
             # print(str(bannerRef.subject)+" "+ str(bannerRef.number),str(bannerRef.ctitle))
-        print(courseName_to_term)
+      
             
             
         return render_template("courseTable.html", terms = terms, isAdmin=authorizedUser.isAdmin(), courseName_to_term = courseName_to_term, program = program,subject=subject, cfg=cfg)
