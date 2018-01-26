@@ -25,27 +25,27 @@ def deadlineCreate():
 
 
 @app.route("/deadline/edit", methods=["POST"])
-@must_be_admin
 def deadlineEdit():
-    page = "/" + request.url.split("/")[-1]
+    try: 
+        data = request.form
+        print data
+        deadline = Deadline.get(Deadline.id == data['id'])
+        deadline.description = data['deadlineDescription']
+        deadline.save()
 
-    data = request.form
-
-    deadline = Deadline.get(Deadline.id == data['id'])
-    deadline.description = data['deadlineDescription']
-    deadline.save()
-
-    message = "Deadline: has been edited to {0}".format(
+        message = "Deadline: has been edited to {0}".format(
         deadline.description)
-    log.writer("INFO", page, message)
-    flash("Your Deadline has been edited")
-    return redirect(redirect_url())
+        log.writer("INFO", "/", message)
+        flash("Your Deadline has been edited")
+    except Exception as e:
+        print e
+    return redirect(redirect_url('/'))
 
 
 @app.route("/deleteDeadline", methods=["POST"])
 @must_be_admin
 def deleteDeadline():
-    page = r"/" + request.url.split("/")[-1]
+    page = "/" + request.url.split("/")[-1]
 
     data = request.form
 
