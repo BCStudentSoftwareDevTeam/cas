@@ -22,7 +22,7 @@ def isDivisionChair(username, prefix):
 def isAuthorized(user, prefix):
   isAdminBool = user.isAdmin
   isProgramChairBool = isProgramChair(user.username, prefix)
-  isDivisionChairBool = isProgramChair(user.username, prefix)
+  isDivisionChairBool = isDivisionChair(user.username, prefix)
   
   return(isAdminBool or  isProgramChairBool or isDivisionChairBool)
 
