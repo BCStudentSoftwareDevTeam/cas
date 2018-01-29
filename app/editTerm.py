@@ -1,19 +1,23 @@
 from allImports import *
-from app.logic.getAuthUser import AuthorizedUser
 from app.logic.redirectBack import redirect_url
-@app.route("/editTerm", methods=["POST"])
-def editterm():
-    authorizedUser = AuthorizedUser()
-    if authorizedUser.isAdmin():
-      page =  "/" + request.url.split("/")[-1]
-      data = request.form
-      term = Term.get(Term.termCode == data['termCode'])
-      term.editable = not term.editable
-      term.save()
+from app.logic.authorization import must_be_admin
+
+@app.route("/editTerm/<state>", methods=["POST"])
+@must_be_admin
+def editterm(state):
+    page =  "/" + request.url.split("/")[-1]
+    data = request.form
+    term = Term.get(Term.termCode == data['termCode'])
+    if state == "locked":
+      term.state = 2
+    elif state == "tracking":
+      term.state = 1
+    elif state == "open":
+      term.state = 0
+    else:
+      return jsonify({"Error": "Invalid State"})
       
-      editability = "not editable"  
-      if term.editable:
-        editability = "editable"
-      message = "Term: term {0} has been made {1}".format(data['termCode'], editability)
-      log.writer("INFO", page, message)
-      return redirect(redirect_url())
+    term.save()
+    message = "Term: term {0} is now in {1} mode".format(data['termCode'], state)
+    log.writer("INFO", page, message)
+    return redirect(redirect_url())

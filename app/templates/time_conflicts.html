@@ -1,0 +1,45 @@
+<!--The below line of code is jinja which is a template engine for python-->
+<!-- If you want to learn more about jinja, refer to jinja documentation-->
+{% extends "base.html" %} 
+{% set currentPage = "conflicts" %} 
+
+<!--area before container-->
+{% block aboveContainer %}
+{% endblock %}
+
+<!--Page content-->
+{% block body %}
+<link rel="stylesheet" href="/static/css/courses.css" type="text/css" />
+<script src="/static/js/local/popup.js"></script>
+
+<body>
+  <div id="wrapper">
+    <div id="page-wrapper">
+      {% include "snips/messages.html" %} 
+      <!--Messages that need to be displayed-->
+      <div style="padding-bottom:5px;">
+        <h2>Room/Schedule Conflicts & Special Times</h2>
+      </div>
+      <div id="specialCoursesTabs">
+         <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#new"> Conflicts </a></li>
+            <li><a data-toggle="tab" href="#incomplete"> Special Times </a></li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="new">
+                      {% include "conflicts.html" %}
+               
+            </div>
+            <div class="tab-pane fade" id="incomplete">
+                    {% include "special_time.html" %}
+            </div>
+            
+          </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
+<!--end page content-->
+
+ 

@@ -18,7 +18,8 @@ import sys,os
 import pprint
 from app import models
 # all the database models
-from models import *     
+from models import *   
+from flask_login import login_user, logout_user, current_user, LoginManager, login_required
 
 
 ''' Creates an Flask object; @app will be used for all decorators.
@@ -59,20 +60,46 @@ log = logtool.Log()
 
 app = Flask(__name__)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 app.config.from_object('settings')
 # Builds all the database connections on app run
 # Don't panic, if you need clarification ask.
 admin = Admin(app)
 
+import logging
+# logger = logging.getLogger('peewee')
+# logger.setLevel(logging.DEBUG)
+# logger.addHandler(logging.StreamHandler())
+
 
 
 @app.before_request
 def before_request():
-    g.dbMain = mainDB.connect()
+    mainDB.get_conn() #.connect() caused a crash 20180108 CDM
+    g.user = current_user
+
+# @app.after_request
+# def add_header(response):
+#     response.cache_control.private = True
+#     response.cache_control.public = False
+#     return response
 
 
 @app.teardown_request
 def teardown_request(exception):
-    dbM = getattr(g, 'db', None)
-    if (dbM is not None) and (not dbM.is_closed()):
-        dbM.close()
+    mainDB.close()
+    
+@login_manager.user_loader
+def load_user(username):
+  return User.get(User.username == username)
+  
+@app.context_processor
+def inject_dict_for_all_templates():
+    #HACK
+    try: 
+        return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg})
+    except Exception as e:
+        return dict({'isAdmin': False, 'cfg': cfg})

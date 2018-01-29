@@ -4,7 +4,7 @@
        <option value="">---</option>
         {% for room in rooms %}
           <option value="{{room.rID}}"> 
-             {{room.building}}-{{room.number}} 
+             {{room.building.name}}-{{room.number}} 
           </option>
         {% endfor %}
      </select>

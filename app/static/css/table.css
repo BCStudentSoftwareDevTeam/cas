@@ -1,30 +1,37 @@
- 
+
 /*Generic Styling, for Desktops/Laptops */
 
-table { 
-  width: 100%; 
-  border-collapse: collapse; 
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
- Zebra striping 
-td, th { 
-  padding: 6px; 
-  border: 1px solid #ccc; 
-  text-align: left; 
+
+Zebra striping
+td, th {
+  padding: 6px;
+  border: 1px solid #ccc;
+  text-align: left;
 }
 
 .glyphicon {
 	padding-top: 5px;
 }
- 
+#edit{
+	display: inline-block;
+  	/*line-height: 1em;*/
+	margin: 150%;
+
+
+
 /*Max width before this PARTICULAR table gets nasty*/
 /*This query will take effect for any screen smaller than 760px*/
 /*and also iPads specifically.*/
 
-@media 
+@media
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
-	
-	 
+
+
     .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
       margin-left: 0;
       margin-right: 0;
@@ -32,41 +39,41 @@ only screen and (max-width: 760px),
     }
 
 	 /*Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
-		display: block; 
+	table, thead, tbody, th, td, tr {
+		display: block;
 	}
-	
+
 	 /*Hide table headers (but not display: none;, for accessibility) */
-	thead tr { 
+	thead tr {
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
-	
+
 	tr { border: 1px solid #ccc; }
-	
-	td { 
+
+	td {
 		 /*Behave  like a "row" */
 		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;  
+		border-bottom: 1px solid #eee;
+		position: relative;
 		padding-left: 50% !important;
 	}
-	
-	td:before { 
+
+	td:before {
 		 /*Now like a table header */
 		position: absolute;
 		 /*Top/left values mimic padding */
 		top: 6px;
 		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
+		width: 45%;
+		padding-right: 10px;
 		white-space: nowrap;
 	}
-	
-	
+
+
 	/*Label the data*/
-	
+
 	td:nth-of-type(1):before { content: "Course Title"; }
 	td:nth-of-type(2):before { content: "Instructor(s)"; }
 	td:nth-of-type(3):before { content: "Schedule"; }

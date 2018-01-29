@@ -10,6 +10,14 @@ databases:
   # prod: ""
 databaseAdmin:
   user: ['heggens','myersco']
+  
+#You have to use the - to keep the order
+scheduleDays:
+   Monday: 'M'
+   Tuesday: 'T'
+   Wednesday: 'W'
+   Thursday: 'R'
+   Friday: 'F'
 
 # For every table in the database, add an item here
 models:
@@ -22,32 +30,67 @@ models:
     - BannerCourses
     - Term
     - Course
+    - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
     - InstructorCourse
+    - InstructorSTCourse
     - Deadline
     - CourseChange
     - InstructorCourseChange
+    - Building
     - Rooms
+    - ScheduleDays
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
     link: "/"
   - title: "Courses"
     link: "/selectTerm"
+  - title: "Sequence"
+    link: "/selectProgram"
   - title: "Log Out"
-    link: "https://login.berea.edu/idp/profile/Logout"
+    link: "/logout"
 
 adminMenu:
-  Administration:
-    - title: "Program Management"
-      link:  "/redirect/program_management"
-    - title: "Division Management"
-      link:  "/redirect/division_management"
-    - title: "System Management"
-      link:  "/admin/systemManagement"
-    - title: "Course Management"
-      link:  "/courseManagement/crossListed"
+  - title: "Program Management"
+    link:  "/redirect/program_management"
+    page: ["programManagement"]
+  - title: "Division Management"
+    link:  "/redirect/division_management"
+    page: ["divisionManagement"]
+  - title: "System Management"
+    link:  "/admin/systemManagement"
+    page: ["systemManagement"]
+  - title: "Course Management"
+    link:  "/courseManagement/crossListed"
+    page: ["tracker","conflicts","crossListed"]
+    
+#If you ever change the current states, you cannot duplicate the values, because
+#it will mess up what the numbers symbolize inside of the database. 
+specialTopicStates:
+  - name: "Incomplete" 
+    value: 0
+    id: "saved"
+    color: "default"
+  - name: "Submitted"
+    value: 1
+    id: "submitted"
+    color: "info"
+  - name: "Approved"
+    value: 2
+    id: "approved"
+    color: "success"
+  - name: "Denied"
+    value: 3
+    id: "denied"
+    color: "danger"
+  
+specialTopicLogic:
+  admin_disabled: [2] #state values where admins can not edit
+  submit_form:    [0] #state values where forms can be sumbitted
+  approved:       [2] #state values where special topics are approved
+  submitted:      1
 
 termInfo:
 #the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
@@ -59,7 +102,7 @@ termInfo:
     #10: 'Berea Bridge Program'   # e.g. Berea Bridge Program 2016 = 201610    
 
 editForm:
-  dataKeys: ['cid','term','schedule','room','capacity','crossListed','notes']
+  dataKeys: ['cid','term','section','schedule','room','capacity','crossListed','notes']
 
 specialSchedule:
   # Times that needed to be automatically added on the conflicts.html
@@ -71,31 +114,86 @@ changeType:
   create: 'create'
   delete: 'delete'
   update: 'update'
-  
+
 tableLayout:
-  order: ['Course Name', 'Taught By', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
+  order: ['Course Name', 'Taught By', 'Section', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
   Course Name:    0
   Taught By:      1  
-  Schedule:       2
-  Room:           3
-  Capacity:       4
-  Cross Listed:   5
-  Notes:          6
-  Term:           7
-  Last Edited By: 8
+  Section:        2
+  Schedule:       3
+  Room:           4
+  Capacity:       5
+  Cross Listed:   6
+  Notes:          7
+  Term:           8
+  Last Edited By: 9
   
 columnColor:
   edit:     'warning'
   delete:   'danger'
   create:   'success'
   default:  'none'
+  verified: 'verified'
   
 DEBUG:
   user: "heggens" #Admin Access
-  # user: "pearcej" #Division Chair Access
-  # user: "jadudm"  #Program Chair Access
-  # user: "kramera" #Professor Access
+  #user: "pearcej" #Division Chair Access
+  #user: "nakazawam"  #Program Chair Access
+  #user: "lovelle" #Professor Access
+  #user: "sldkjfalsdkfj;" #for production
   
 filepath:
   tmp: 'data/tmp'
+
+credits:
+  - value: "0.250"
+  - value: "0.500"
+  - value: "0.750"
+  - value: "1.000"
+  - value: "2.000"
+  
+contributors:
+  - name: "Cody Myers"
+    username: "myersco"
+    year: 2017
+  - name: "Guillermo Ramos"
+    username: "ramosmaciasg"
+    year: 2018
+  - name: "Sarah Watts"
+    username: "wattss"
+    year: 2018
+  - name: "Jose Zindia"
+    username: "zindiaj"
+    year: 2018
+  - name: "Jonathan Chauwa"
+    username: "chauwaj"
+    year: 2019
+  - name: "Kenny Nelson"
+    username: "nelsonk"
+    year: 2019
+  - name: "Sher Sanginov"
+    username: "sanginovs"
+    year: 2019
+  - name: "Evan Johnson"
+    username: "johnsone"
+    year: 2019
+  - name: "Aleksandra Cvetanovska"
+    username: "cvetanovskaa"
+    year: 2019
+  - name: "Jesson Soto Ventura"
+    username: "sotoventuraj"
+    year: 2019
+    
+# The log file location   
+log:
+filename: "urcpp.log"
+
+# All the databases used by the system
+databases:
+  dev: "data/db.sqlite"
+  # stage: ""
+  # prod: ""
+databaseAdmin:
+  user: ['heggens','myersco']
+
 

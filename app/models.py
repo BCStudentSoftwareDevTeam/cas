@@ -44,7 +44,6 @@ class Division(dbModel):
   
 class BannerSchedule(dbModel):
   letter        = CharField()
-  days          = CharField(null = True)
   startTime     = TimeField(null = True)
   endTime       = TimeField(null = True)
   sid           = CharField(primary_key = True)
@@ -52,20 +51,35 @@ class BannerSchedule(dbModel):
   
   def __str__(self):
     return self.letter
+    
+class ScheduleDays(dbModel):
+  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
+  day         = CharField(null=True)
 
+"""
+Possible States:
+    0 - Open - open for all but not tracked
+    1 - tracked - tracking but not open
+    2 - locked - not open and not tracked
+"""
 class Term(dbModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  editable          = BooleanField()
+  state             = IntegerField(default=0)
   
   def __str__(self):
     return self.name
   
+class Building(dbModel):
+  bID           = PrimaryKeyField()
+  name          = CharField()
+
+
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
-  building       = CharField(null=False)
+  building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
@@ -74,7 +88,8 @@ class Rooms(dbModel):
 class Program(dbModel):
   pID           = PrimaryKeyField()
   name          = CharField()
-  division      = ForeignKeyField(Division)
+  division      = ForeignKeyField(Division, related_name='programs')
+
   
   def __str__(self):
     return str(self.name)
@@ -94,6 +109,25 @@ class User(dbModel):
   email        = CharField()
   isAdmin      = BooleanField()
   lastVisited  = ForeignKeyField(Subject, null=True)
+  bNumber      = CharField(null = True)
+  
+  def is_active(self):
+      """All user will be active"""
+      return True
+  
+  
+  def get_id(self):
+      return str(self.username)
+      
+  def is_authenticated(self):
+      """Return True if the user is authenticated"""
+      return True
+      
+  def is_anonymous(self):
+      return False
+      
+  def __repr__(self):
+    return '{0} {1}'.format(self.firstName, self.lastName)
   
   def __str__(self):
     return self.username
@@ -104,6 +138,7 @@ class BannerCourses(dbModel):
   number        = CharField(null = False)
   section       = CharField(null = True)
   ctitle        = CharField(null = False)
+  is_active     = BooleanField()
   
   def __str__(self):
     return '{0} {1}'.format(self.subject, self.number)
@@ -111,7 +146,7 @@ class BannerCourses(dbModel):
 class Course(dbModel):
   cId               = PrimaryKeyField()
   prefix            = ForeignKeyField(Subject)
-  bannerRef         = ForeignKeyField(BannerCourses)
+  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   capacity          = IntegerField(null = True)
@@ -119,10 +154,37 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True)
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
+  section           = TextField(null = True)
+  prereq            = CharField(null = True)
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+
+class SpecialTopicCourse(dbModel):
+  stId                 = PrimaryKeyField()
+  prefix               = ForeignKeyField(Subject)
+  bannerRef            = ForeignKeyField(BannerCourses)
+  term                 = ForeignKeyField(Term, null = False)
+  schedule             = ForeignKeyField(BannerSchedule, null = True)
+  capacity             = IntegerField(null = True)
+  specialTopicName     = CharField(null = True)
+  notes                = TextField(null = True)
+  lastEditBy           = CharField(null = True)
+  submitBy             = CharField(null = True)
+  crossListed          = BooleanField()
+  rid                  = ForeignKeyField(Rooms, null = True)
+  status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied
+  credits              = CharField(default = "1.000")
+  description          = TextField(null = True)
+  prereqs              = TextField(null = True)
+  majorReqsMet         = TextField(null = True)
+  concentrationReqsMet = TextField(null = True)
+  minorReqsMet         = TextField(null = True)
+  perspectivesMet      = TextField(null = True)
+  section              = TextField(null = True)
+  def __str__(self):
+      return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
 class ProgramChair(dbModel):
   username     = ForeignKeyField(User)
@@ -133,8 +195,16 @@ class DivisionChair(dbModel):
   did          = ForeignKeyField(Division)
 
 class InstructorCourse(dbModel):
+  username     = ForeignKeyField(User, related_name='instructor_courses')
+  course       = ForeignKeyField(Course, related_name='instructors_course')
+  
+class InstructorSTCourse(dbModel):
+  username     = ForeignKeyField(User, related_name='instructor_stcourses')
+  course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
+  
+class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User)
-  course       = ForeignKeyField(Course)
+  course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()
@@ -155,6 +225,7 @@ class CourseChange(dbModel):
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
+  section           = TextField(null = True)
   
 class InstructorCourseChange(dbModel):
   username     = ForeignKeyField(User)

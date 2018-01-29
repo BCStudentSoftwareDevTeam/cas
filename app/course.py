@@ -1,29 +1,22 @@
 from allImports import *
-from updateCourse import DataUpdate
-from app.logic.getAuthUser import AuthorizedUser
 from app.logic.databaseInterface import getSidebarElements, createInstructorDict
-from app.logic import functions
-@app.route("/courses/",defaults={'tID': None,'prefix': None}, methods=["GET", "POST"] )
-@app.route("/courses/<tID>/<prefix>", methods=["GET", "POST"])
-def courses(tID, prefix):
-    page = "courses"
-    authorizedUser = AuthorizedUser(prefix)
-    username       = authorizedUser.getUsername()
-    data = None
-    if request.method == "POST":
-      data = request.form
-    tID, prefix = functions.checkRoute(tID,prefix,username,data)
-    
+from app.logic.course import define_term_code_and_prefix
+from app.logic.course import save_last_visited
+from app.logic.authorization import can_modify
 
-    # Checking the permissions of the user.
-    # we need the subject to know if someone if a division chair or a program
-    # chair
-    authorizedUser = AuthorizedUser(prefix)
+
+@app.route("/courses/", methods=["GET"] )
+@app.route("/courses/<tID>/<prefix>", methods=["GET"])
+@define_term_code_and_prefix
+@save_last_visited
+@can_modify
+def courses(tID, prefix, can_edit):
+    page = "courses"
 
     # These are the necessary components of the sidebar. Should we move them
     # somewhere else?
 
-    divisions, programs, subjects = getSidebarElements()
+    divisions_prefetch = getSidebarElements()
     subject = Subject.get(Subject.prefix == prefix)
 
     users = User.select(User.username, User.firstName, User.lastName)
@@ -39,38 +32,55 @@ def courses(tID, prefix):
     terms = Term.select().order_by(-Term.termCode)
 
     # We need these for populating add course
-    courseInfo = BannerCourses.select().where(
-        BannerCourses.subject == prefix).order_by(
-        BannerCourses.number)
+    courseInfo = (BannerCourses
+                        .select(BannerCourses, Subject)
+                        .join(Subject)
+                        .where(BannerCourses.subject == prefix)
+                        .where(BannerCourses.is_active == True)
+                        .order_by(BannerCourses.number))
 
     schedules = BannerSchedule.select().order_by(BannerSchedule.order)
 
-    courses = Course.select().where(
-        Course.prefix == prefix).where(
-        Course.term == tID)
-
     rooms = Rooms.select().order_by(Rooms.building)
 
-    instructors = createInstructorDict(courses)
-    
+    # Key  - 1 indicates Fall
+    # Key  - 2 indicates Spring
+    # Key  - 3 indicates Summer
+    key = 1
+    try:
+        key = int(tID[-1])
+    except ValueError as error:
+        log.writer("Unable to parse Term ID, course.py", e)
+
+
+    courses = (Course.select(Course, BannerCourses).join(BannerCourses)
+                     .where(Course.prefix == prefix)
+                     .where(Course.term == tID))
+
+    approved = cfg['specialTopicLogic']['approved'][0]
+    specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
+                     #We exclude the approved courses, because they'll be stored in the 'Course' table already
+
+    instructors = InstructorCourse.select(InstructorCourse, User).join(User)
+    instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
+    courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
+    special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
+
     return render_template(
             "course.html",
-            cfg=cfg,
-            courses=courses,
-            instructors=instructors,
-            programs=programs,
-            divisions=divisions,
-            subjects=subjects,
+            courses=courses_prefetch,
+            specialCourses=special_courses_prefetch,
+            divisions = divisions_prefetch,
             currentTerm=int(tID),
             courseInfo=courseInfo,
             users=users,
             schedules=schedules,
             allTerms=terms,
-            isAdmin=authorizedUser.isAdmin(),
-            isProgramChair=authorizedUser.isProgramChair(),
-            isDivisionChair=authorizedUser.isDivisionChair(),
+            can_edit = can_edit,
             currentProgram=currentProgram,
             curTermName=curTermName,
             prefix=prefix,
             page=page,
-            rooms=rooms)
+            rooms=rooms,
+            key = key)
+

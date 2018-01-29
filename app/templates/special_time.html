@@ -1,0 +1,90 @@
+            <h4>Courses With Special Times</h4>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Course Name</th>
+                  <th>Taught By</th>
+                  <th>Schedule</th>
+                  <th>Capacity</th>
+                  <th>Room</th>
+                  <th>Cross-Listed</th>
+                  <th>Notes</th>
+                  <th>Last Edited By</th>
+                </tr>
+              </thead>
+
+              {% for course in courses_special_time %}
+              <tr>
+                <!--COURSE NAME-->
+                <td>
+                  {{course.prefix.prefix}} 
+                  {{course.bannerRef.number}} 
+                  {% if course.specialTopicName is not none %} 
+                    {{course.specialTopicName}} 
+                  {% else %} 
+                    {{course.bannerRef.ctitle}} 
+                  {%endif%}
+                </td>
+                <!--TAUGHT BY-->
+                <!--Needed in one line so names wrap correctly-->
+                <td>
+                  {% for instructorcourse in course.instructors_course_prefetch %} 
+                    {{instructorcourse.username.firstName[0]+".  "+instructorcourse.username.lastName}}
+                  {% endfor %}
+                </td>
+                <!--SCHEDULE-->
+                <td>
+                  {% if course.schedule is not none %} 
+                    {% for day in course.schedule.days %} {{ day.day }} 
+                  {% endfor %} 
+                    {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} 
+                  {% endif %}
+                </td>
+                <!--CAPACITY-->
+                <td>
+                  {% if course.capacity is not none %} 
+                    {{course.capacity}} 
+                  {% endif %}
+                </td>
+                <!-- ROOM -->
+                <td>
+                  {% if course.rid is not none %} 
+                    {{course.rid.building.name}}:{{course.rid.number}}
+                  {% else %}
+                    <p>No room listed</p>
+                  {% endif %}
+                </td>
+                <!--CROSS LISTED-->
+                <td>
+                  {% if course.crossListed ==1%}
+                    <p>yes</p>
+                  {% else %}
+                    <p>no</p>
+                  {% endif %}
+                </td>
+                <!--NOTES-->
+                <td>
+                  {% if course.notes is not none %}
+                    <a href='javascript:;' 
+                       data-toggle='popover' 
+                       title='Course Notes' 
+                       data-content='{% if course.notes is not none %}{{ course.notes }}{% endif %}'>Notes</a> 
+                  {% else %}
+                    <p>Notes</p>
+                  {% endif %}
+                </td>
+                <!--LAST EDITED BY-->
+                <td>
+                  {{course.lastEditBy}}
+                </td>
+                <td>
+                  {% if isAdmin or isDivisionChair or isProgramChair %}
+                  <!--EDIT MODAL-->
+                  <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                  <!--DELETE MODAL-->
+                  <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a> {% include "snips/courseElements/deleteCourse.html" %} {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+
+            </table>

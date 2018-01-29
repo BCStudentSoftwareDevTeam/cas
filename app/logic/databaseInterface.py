@@ -1,4 +1,6 @@
 from app.allImports import *
+from app.updateCourse import DataUpdate
+
 # TODO: standarize docstring see https://www.python.org/dev/peps/pep-0257/
 
 
@@ -12,6 +14,10 @@ adds the professors from a list to a database
 def addCourseInstructors(instructors, cid):
     for instructor in instructors:
         InstructorCourse(username=instructor, course=cid).save()
+
+def addSTCourseInstructors(instructors, stid):
+    for instructor in instructors:
+        InstructorSTCourse(username=instructor, course=stid).save()
 
 '''
 adds division chair to database
@@ -67,7 +73,8 @@ gets elements for the course sidebar
 
 
 def getSidebarElements():
-    return (Division.select(), Program.select(), Subject.select())
+
+    return prefetch(Division.select(), Program, Subject)
 
 
 
@@ -80,9 +87,18 @@ def getSidebarElements():
 
 def createInstructorDict(courses):
     instructors = {}
-    for course in courses:
-        instructors[course.cId] = InstructorCourse.select().where(
-            InstructorCourse.course == course.cId)
+    try:
+        for course in courses:
+            if "app.models.SpecialTopicCourse" in str(type(course)) :
+                instructors[course.stId] = InstructorSTCourse.select().where(
+                    InstructorSTCourse.course == course.stId)
+            else:
+                instructors[course.cId] = InstructorCourse.select().where(
+                    InstructorCourse.course == course.cId)
+    except:
+        for course in courses:
+                instructors[course.cId] = InstructorCourse.select().where(
+                    InstructorCourse.course == course.cId)
     return instructors
 
 '''
@@ -92,7 +108,7 @@ gets all of the buildings
 
 
 def getAllBuildings():
-    return Rooms.select(Rooms.building).distinct()
+    return Building.select().order_by(Building.name)
 
 '''
 gets all the rooms that belong to a building
@@ -111,11 +127,28 @@ return terms
 def getAllTerms():
     return Term.select().order_by(-Term.termCode)
     
-    
-def isTermEditable(termID):
-    ''' returns booleans stating whether the term is editable'''
-    return Term.get(Term.termCode == int(termID)).editable
-    
+def isTermOpen(termID):
+    ''' returns booleans stating whether the term is open'''
+    if (Term.get(Term.termCode == int(termID)).state == 0):
+        return True
+    else:
+        return False
+        
+def isTermLocked(termID):
+    ''' returns booleans stating whether the term is locked'''
+    if (Term.get(Term.termCode == int(termID)).state == 2):
+        return True
+    else:
+        return False
+        
+def isTermTracking(termID):
+    ''' returns booleans stating whether the term is locked'''
+    if (Term.get(Term.termCode == int(termID)).state == 1):
+        return True
+    else:
+        return False
+        
+   
 
 def editInstructors(newInstructors, courseID):
     ''' edits the instructs give a list of the new instructors
@@ -134,6 +167,24 @@ def editInstructors(newInstructors, courseID):
                 username=instructor, course=courseID)
             newInstructor.save()
 
+def editSTInstructors(newInstructors, courseID):
+    ''' edits the instructs give a list of the new instructors
+        @param {list} newInstructors - list of new instructors
+        @param {int} courseID
+    '''
+    oldInstructors = InstructorSTCourse.select().where(
+            InstructorSTCourse.course == courseID)
+    for oldInstructor in oldInstructors:
+            if oldInstructor.username.username not in newInstructors:
+                oldInstructor.delete_instance()
+            else:
+                newInstructors.remove(oldInstructor.username.username)
+    for instructor in newInstructors:
+            newInstructor = InstructorSTCourse(
+                username=instructor, course=courseID)
+            newInstructor.save()
+            
+
 def editCourse(data, prefix, professors):
         '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
         # check to see if the user has privileges to edit
@@ -145,6 +196,7 @@ def editCourse(data, prefix, professors):
         room     = data["room"] if data["room"] else None
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
+        section  = data['section']  if data['section'] else None
         if data['notes'].replace(" ", "") == "":
             notes = None
         else:
@@ -153,13 +205,81 @@ def editCourse(data, prefix, professors):
         course.crossListed = int(data["crossListed"])
         course.term = data['term']
         course.capacity = capacity
+        course.section = section
         course.rid  = room
         course.schedule = schedule
         course.notes = notes
         course.lastEditBy = authUser(request.environ)
         course.save()
-        editInstructors(professors, data['cid'])    
-    
-def isTermEditable(termID):
-    ''' returns booleans stating whether the term is editable'''
-    return Term.get(Term.termCode == int(termID)).editable
+        editInstructors(professors, data['cid'])
+        
+def getCourseTimelineSchedules(day,tid):
+    schedules = ScheduleDays.select(ScheduleDays.schedule
+                          ).join(Course, on=(Course.schedule == ScheduleDays.schedule)
+                          ).join(BannerSchedule, on=(BannerSchedule.sid == ScheduleDays.schedule)
+                          ).where(ScheduleDays.day == day
+                          ).where(Course.term == tid
+                          ).distinct(
+                          ).order_by(BannerSchedule.startTime)
+    return schedules
+
+
+def editSTCourse(data, prefix, professors, status, cfg):
+        '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
+        # check to see if the user has privileges to edit
+        # get the specialTopicCourse object
+        #TODO: We are not doing null checks on the portion of
+        #the code which is causing crashes on the system
+        specialTopicCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
+        #import pdb; pdb.set_trace()
+        
+        #CHECK VALUES FOR NULL
+        room     = data["room"] if data["room"] else None
+        capacity = data['capacity'] if data['capacity'] else None
+        schedule = data['schedule'] if data['schedule'] else None
+        section  = data['section']  if data['section'] else None            
+        if data['notes'].replace(" ", "") == "":
+            notes = None
+        else:
+            notes = data['notes']
+        
+        
+        specialTopicCourse.status = status
+        if status in cfg['specialTopicLogic']['approved']:
+            bannercourses = BannerCourses(subject = specialTopicCourse.prefix,
+                                          number  = specialTopicCourse.bannerRef.number,
+                                          ctitle  = specialTopicCourse.specialTopicName,
+                                          is_active = 1)
+            bannercourses.save()
+            course = Course(bannerRef = bannercourses,
+                            prefix = specialTopicCourse.prefix,
+                            term = specialTopicCourse.term,
+                            schedule = specialTopicCourse.schedule,
+                            capacity = specialTopicCourse.capacity,
+                            section = specialTopicCourse.section,
+                            specialTopicName = specialTopicCourse.specialTopicName,
+                            notes = specialTopicCourse.notes,
+                            crossListed = specialTopicCourse.crossListed,
+                            rid = specialTopicCourse.rid)
+            course.save()
+            update_course = DataUpdate()
+            addCourseInstructors(professors, course.cId)
+            if isTermTracking(specialTopicCourse.term.termCode):
+                update_course.addCourseChange(int(course.cId), "create")
+        specialTopicCourse.status = status
+        specialTopicCourse.crossListed = int(data["crossListed"])
+        specialTopicCourse.capacity = capacity
+        specialTopicCourse.rid  = room
+        specialTopicCourse.schedule = schedule
+        specialTopicCourse.notes = notes
+        specialTopicCourse.section = section
+        specialTopicCourse.lastEditBy = authUser(request.environ)
+        specialTopicCourse.credits = data['credits']
+        specialTopicCourse.description = data['description']
+        specialTopicCourse.prereqs = data['prereqs']
+        specialTopicCourse.majorReqsMet = data['majorReqsMet']
+        specialTopicCourse.minorReqsMet = data['minorReqsMet']
+        specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
+        specialTopicCourse.perspectivesMet = data['perspectivesMet']
+        editSTInstructors(professors, data['stid'])    
+        specialTopicCourse.save()

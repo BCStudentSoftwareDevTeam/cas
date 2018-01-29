@@ -16,20 +16,18 @@ class NullCheck():
        WHICH WILL ALLSO INCLUDE TURNING "" INTO NONE VALUES'''
     value = dict()
     #SPLIT UP THE COURSE TITLE e.g.: CSC 126 robotics into subject = CSC, number = 126, title = robotics
-    prefix, number, title = data['ctitle'].split(None, 2)
-    value['prefix'] = prefix
+    bannerCourse = BannerCourses.get(reFID = data['reFID'])
     #GRABS THE FIRST BANNERCOURSE OBJECT WITH A NAME MATCHING SUBJECT AND COURSE NUMBER (E.G. CSC 236)
-    bannerCourse = BannerCourses.select().where(BannerCourses.subject == prefix).where(BannerCourses.number == number)
-    bannerCourse = bannerCourse[0] 
-    value['bannerRef']=bannerCourse.reFID
+    value['prefix']    = bannerCourse.subject.prefix    
+    value['bannerRef'] = data['reFID']
     #THE SPECIAL TOPICS FELD
-    if len(str(number).split('86')) > 1:
-       value['specialTopicName'] = data['specialTopicName']
+    if "specialTopicName" in data.keys():
+      value['specialTopicName'] = data['specialTopicName']
     else:
-       value['specialTopicName'] = None
+      value['specialTopicName'] = None
     #CHECK DATA FOR EMPTY STRING
     #THESE ARE ALL OF THE VALUES THAT COULD CONTAIN AN EMPTY STRING
-    checkList = ['capacity','schedule','rid','requests'] 
+    checkList = ['capacity','schedule','rid','requests','section'] 
     for item in checkList:
       if (data[item].replace(" ",""))=="":
         value[item]=None
@@ -37,6 +35,7 @@ class NullCheck():
         value[item]=data[item]
     '''CURRENT DICTIONARY KEYS:['subject','bannerRef','specialTopicName','capacity','schedule','rid']'''
     return value
+  
   #_ADD_COURSE_CHANGE#
   def add_course_change(self,course):
     '''PURPOSE: 
