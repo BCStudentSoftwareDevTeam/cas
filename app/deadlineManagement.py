@@ -43,7 +43,6 @@ def deadlineEdit():
 
 
 @app.route("/deleteDeadline", methods=["POST"])
-@must_be_admin
 def deleteDeadline():
     page = "/" + request.url.split("/")[-1]
 
