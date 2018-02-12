@@ -27,8 +27,7 @@ from app import programManagement
 from app import divisionManagement
 from app import systemManagement
 from app import redirectAdminProgram
-from app import deadlineManagement
-from app import deadlineDisplay
+from app import deadline
 from app import courseManagement
 from app import addCourse
 from app import excelDownload
