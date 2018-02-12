@@ -3,7 +3,6 @@ from updateCourse import DataUpdate
 import datetime
 from app.logic.redirectBack import redirect_url
 from app.logic.authorization import can_modify
-from app.logic.authorization import must_be_admin
 from flask import session
 
 @app.route("/", methods=["GET"])
