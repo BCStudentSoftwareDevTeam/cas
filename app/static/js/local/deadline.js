@@ -1,28 +1,29 @@
-// Every HTML page should have a complimentary JS file, 
-// even if it's empty
-$('#editDeadline').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var id = button.data('id')
-  var description = button.data('description')
-  // Update the modal's content
-  var modal = $(this)
-  modal.find('#deadlineid').val(id)
-  modal.find('#deadlineDescription').val(description) 
-});
+function resize(textarea_obj){
+        textarea_obj.style.height = 'auto';
+        textarea_obj.style.height = textarea_obj.scrollHeight+'px';
+}
 
-$('#deleteDeadline').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var id = button.data('id') // Extract info from data-id
-  var modal = $(this)
-  modal.find('#deadlineid').val(id)
-});
-
-
-$('.deadlineEditTextarea').on('change keyup keydown paste cut', function(e){
-    var that = $(this);
-    while (that.scrollTop()) {
-        $(this).height(function(i,h){
-            return h + 20;
-        });
+function EditDeadline(deadline_id){    
+    var display      = document.getElementById('displayDeadline' + deadline_id);
+    var edit_display = document.getElementById('editDeadline'    + deadline_id);
+    var save_button  = document.getElementById('saveButton' + deadline_id);
+    var cancel_button = document.getElementById('cancelButton' + deadline_id);
+    var edit_glyphicon = document.getElementById("edit_glyphicon" + deadline_id);
+    
+    if (display.style.display == "none") {
+        display.style.display = "block";             //show the display div
+        edit_display.style.display = "none";         //hide the textarea for the form
+        save_button.style.display  = "none";         //hide save button for the form
+        cancel_button.style.display = "none";        //hide cancel button for the form
+        edit_glyphicon.style.display = "block";      //show the glyphicon
+        
+    } else {
+        display.style.display        = "none";       //hide the display div
+        edit_display.style.display   = "block";      //show the textarea for the form
+        save_button.style.display    = "block";      //show save button for the form
+        cancel_button.style.display  = "block";      //show cancel button for the form
+        edit_glyphicon.style.display = "none";       //hide the glyphicon
     }
-});
+    resize(edit_display);
+}
+

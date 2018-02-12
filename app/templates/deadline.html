@@ -7,45 +7,39 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <td class='tableHead'>Date</td>
-          <td class='tableHead'>Deadline</td>
+          <!--<td class='tableHead'>Date</td>-->
+          <td class='tableHead'>Deadline(s)</td>
         </tr>
       </thead>
       {% for deadline in deadlines %}
-        {% if deadline.date >= today %}
+        {# {% if deadline.date >= today %} #}
           <tr>
-            <td>
-                {% if deadline.date == today %}
-                <p>today</p>
-                {% endif %}
-              <div>
-                <p class="day">{{deadline.date.strftime('%d')}}</p>
-              </div>
-              <div class="month">
-                <p>{{deadline.date.strftime('%b')}}</p>
-              </div>
-            </td>
             <td>
               <table class="table table-hover table-bordered">
                 <tr>
                   <td>
-                    <div class='deadlineDisplay'>{{deadline.description}}</div>
+                    <div class='deadlineDisplay' id="displayDeadline{{deadline.id}}">{{deadline.description}}</div>
                     {% if can_edit %}
-                      <a href="" data-toggle="modal" data-id="{{deadline.id}}" data-target="#deleteDeadline"><span class="glyphicon glyphicon glyphicon glyphicon-trash pull-right" aria-hidden="true"></span></a>
-                      <a href="" data-toggle="modal" data-description="{{deadline.description}}" data-id="{{deadline.id}}" data-target="#editDeadline"><span  class="glyphicon glyphicon glyphicon-edit pull-right" aria-hidden="true"></span></a> 
+                      <form id = "deadlineDescription" method="post" action="/deadline/edit">
+                        <input type="hidden" name="id" id="deadlineid" value="{{deadline.id}}"> 
+                        <textarea class="form-control" id="editDeadline{{deadline.id}}" name="deadlineDescription" style='display:none'>{{deadline.description}}</textarea>            
+                        
+                      </form>
+                      <div>
+                        <button type="submit" class="btn btn-primary pull-right" form="deadlineDescription" id="saveButton{{deadline.id}}" style="display:none">Save</button>
+                        <button type ="cancel" class="btn btn-warning pull-right" onclick="EditDeadline({{deadline.id}})" id="cancelButton{{deadline.id}}" style="display:none">Cancel</button>
+                        <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon{{deadline.id}}" aria-hidden="true" onclick="EditDeadline({{deadline.id}})"></span>
+                      </div>
                     {% endif %}
                   </td>
                 </tr>
               </table>
-              {% include "snips/deadline/deleteDeadline.html" %} {% include "snips/deadline/editDeadline.html" %}
             </td>
           </tr>
-        {% endif %}
       {% endfor %}
     </table>
   {% else %}
     <div class="jumbotron">Upcoming deadlines will be posted here.</div>
   {% endif %}
-</div>
-    
+</div>    
 {% endblock %}
