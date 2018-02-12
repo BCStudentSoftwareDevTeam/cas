@@ -2,8 +2,8 @@ from allImports import *
 from updateCourse import DataUpdate
 import datetime
 from app.logic.redirectBack import redirect_url
-from app.logic.authorization import must_be_authorized
 from app.logic.authorization import can_modify
+from app.logic.authorization import must_be_admin
 from flask import session
 
 @app.route("/", methods=["GET"])
@@ -14,7 +14,7 @@ def deadlineDisplay(can_edit):
         session.pop(key)
     dates=Deadline.select()   
     return render_template("deadline.html",
-                           can_edit=can_edit,
+                           can_edit=g.user.isAdmin,
                            deadlines=dates)
 
 @app.route("/deadline/edit", methods=["POST"])
