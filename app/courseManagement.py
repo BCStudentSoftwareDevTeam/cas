@@ -28,20 +28,14 @@ def crossListed(tid):
         tid = terms[0].termCode
 
     page = "crossListed"
-    ##DATA FOR THE CROSS LISTED COURSE TABLE##
     crossListedCourses = Course.select(
         ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
         ).where(Course.crossListed == 1
         ).where(Course.term == tid
         ).order_by(BannerCourses.ctitle)
 
-    instructors = databaseInterface.createInstructorDict(crossListedCourses)
-
-    ##DATA FOR THE ADD COURSE FORM##
-    courseInfo = BannerCourses.select().order_by(
-        BannerCourses.number).order_by(
-        BannerCourses.subject)
-    users = User.select(User.username, User.firstName, User.lastName)
+    instructors = InstructorCourse.select(InstructorCourse, User).join(User)
+    courses_prefetch = prefetch(crossListedCourses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
     schedules = BannerSchedule.select()
     rooms = Rooms.select()
 
@@ -55,13 +49,11 @@ def crossListed(tid):
         log.writer("Unable to parse Term ID, courseManagment.py", e)
 
     return render_template("crossListed.html",
-                           allTerms=terms,
+                           allTerms=terms,                           
                            page=page,
                            currentTerm=int(tid),
-                           courses=crossListedCourses,
-                           instructors=instructors,
-                           courseInfo=courseInfo,
-                           users=users,
+                           courses=courses_prefetch,
+                           #courseInfo=courseInfo,
                            schedules=schedules,
                            rooms=rooms,
                            key = key
