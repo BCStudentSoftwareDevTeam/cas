@@ -1,20 +1,26 @@
 import datetime
 
 class timeline:
-    def __init__(self, scheduleInfo, scheduleList):
-        self.schedule_info     = scheduleInfo
-        self.schedule_list     = scheduleList
+    def __init__(self):
+        self.schedule_info     = None
+        self.schedule_list     = None
         self.overall_number    = 0
         self.google_chart      = []
         self.overall_times     = []
-        self.chart_data        = self.collect_chart_data()
+        self.chart_data        = None
         self.last_number       = 0
+        #self.debug_prints()
+    
+    def collect_schedule_details(self, scheduleInfo, scheduleList):
+        self.schedule_info = scheduleInfo
+        self.schedule_list = scheduleList
+        self.chart_data    = self.collect_chart_data()
+        #self.debug_prints()
         
     def append_google_chart(self, time):
         format_date = self.convert_time(time)
         self.google_chart.append([format_date,self.last_number])
         self.google_chart.append([format_date, self.overall_number])
-        
         return True
         
     def convert_time(self,time_obj):
@@ -63,12 +69,25 @@ class timeline:
         
     def google_chart_data(self):
         self.create_google_chart()
-        return self.google_chart
+        #self.debug_prints()
+        chart = self.google_chart
+        self.reset_values()
+        return chart
+        
+    def reset_values(self):
+        self.schedule_info     = None
+        self.schedule_list     = None
+        self.overall_number    = 0
+        self.google_chart      = []
+        self.overall_times     = []
+        self.chart_data        = None
+        self.last_number       = 0
         
     def debug_prints(self):
-        #print "schedule_info: {}\n".format(self.schedule_info)
-        #print "start list: {}\n".format(self.start_list)
-        #print "end list: {}\n".format(self.end_list)
-        #print "course number: {}\n".format(self.course_number)
-        print "google chart: {}\n".format(self.google_chart)
+        d = vars(self)
+        for item in d:
+            print item 
+            print d[item]
+            print '\n'
+        print '----------------------------------------------------------------------------------------'
         
