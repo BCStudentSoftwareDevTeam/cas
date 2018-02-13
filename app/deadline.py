@@ -8,10 +8,9 @@ from flask import session
 @app.route("/", methods=["GET"])
 @can_modify
 def deadlineDisplay(can_edit):
-    print session.keys()
     for key in session.keys():
         session.pop(key)
-    dates=Deadline.select()   
+    dates=Deadline.select()
     return render_template("deadline.html",
                            can_edit=g.user.isAdmin,
                            deadlines=dates)
