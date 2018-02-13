@@ -1,3 +1,5 @@
+/* global google */
+/* global $ */ 
 function resize(textarea_obj){
         textarea_obj.style.height = 'auto';
         textarea_obj.style.height = textarea_obj.scrollHeight+'px';
@@ -27,3 +29,59 @@ function EditDeadline(deadline_id){
     resize(edit_display);
 }
 
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+function google_data_json(){    
+    var data =  $.ajax({
+       url: '/courseTimeline/0/json', //This will alwasy show the current semester,
+       method: 'GET',
+       async: false, //this is neccessary to get the return. 
+       done: function(results){
+         JSON.parse(results);
+         return results;
+       },
+       fail: function( jqXHR, textStatus, errorThrown ) {
+        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+    }
+    }).responseJSON;    
+    //data is returned as a string
+    //Convert string to dictionary    
+    var jsonData = JSON.parse(data);
+    return jsonData
+}
+
+function drawBasic() {
+    var chart_order = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+    var google_chart_dict = google_data_json();
+    for (var i = 0; i < chart_order.length; i++){
+        var day = chart_order[i];
+        var data = new google.visualization.DataTable();
+        data.addColumn('timeofday', 'X');
+        data.addColumn('number', '# Courses');
+        data.addColumn('number', 'Danger');
+        var new_structure = [];
+        for(var h=0; h < google_chart_dict[day].length; h++){
+            var hList = google_chart_dict[day][h]
+            hList.push(50)
+            new_structure.push(hList)
+        }        
+        data.addRows(new_structure);
+        var options = {
+            title: day, 
+        
+            hAxis: {
+                title: 'Time',
+                showTextEvery: 1,
+            },
+            vAxis: {
+                title: '# Courses',
+                ticks: [10,20,30,40,50,60,70,80]
+            }
+        };
+        
+        var chart = new google.visualization.LineChart(document.getElementById(day));
+        chart.draw(data, options);
+    }
+    var header = document.getElementById("timelineHeader");
+    header.style.display = 'block';
+}

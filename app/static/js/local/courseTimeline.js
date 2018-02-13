@@ -32,7 +32,14 @@ function drawBasic() {
         var data = new google.visualization.DataTable();
         data.addColumn('timeofday', 'X');
         data.addColumn('number', '# Courses');
-        data.addRows(google_chart_dict[day]);               
+        data.addColumn('number', 'Danger');
+        var new_structure = [];
+        for(var h=0; h < google_chart_dict[day].length; h++){
+            var hList = google_chart_dict[day][h]
+            hList.push(50)
+            new_structure.push(hList)
+        }        
+        data.addRows(new_structure);              
         var options = {
             title: day, 
         
@@ -41,7 +48,8 @@ function drawBasic() {
                 showTextEvery: 1,
             },
             vAxis: {
-                title: '# Courses'
+                title: '# Courses',
+                ticks: [10,20,30,40,50,60,70,80]
             }
         };
         var chart = new google.visualization.LineChart(document.getElementById(day));
