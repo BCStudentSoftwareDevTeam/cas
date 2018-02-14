@@ -69,7 +69,7 @@ class timeline:
         
     def google_chart_data(self):
         self.create_google_chart()
-        #self.debug_prints()
+        self.debug_prints()
         chart = self.google_chart
         self.reset_values()
         return chart
