@@ -59,14 +59,15 @@ function drawBasic() {
         data.addColumn('timeofday', 'X');
         data.addColumn('number', '# Courses');
         data.addColumn('number', 'Danger');
-        //data.addColumn('number', 'Warning')
+        data.addColumn('number', 'Warning')
         var new_structure = [];
         for(var h=0; h < google_chart_dict[day].length; h++){
             var hList = google_chart_dict[day][h]
             hList.push(50)
-            //hList.push(35)
+            hList.push(40)
             new_structure.push(hList)
-        }        
+        }
+        new_structure.push([[18,0,0], 0, 50,40]);
         data.addRows(new_structure);
         var options = {
             title: day, 
@@ -74,10 +75,14 @@ function drawBasic() {
             hAxis: {
                 title: 'Time',
                 showTextEvery: 1,
+                viewWindow: {
+                    min: [8,0,0],
+                    max: [18,0,0]},                
+                format: 'h:mm aa'
             },
             vAxis: {
                 title: '# Courses',
-                ticks: [10,20,30,40,50,60,70,80]
+                ticks: [10,20,30,40,50,60,70]
             }
         };
         
