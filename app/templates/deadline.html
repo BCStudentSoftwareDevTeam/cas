@@ -1,45 +1,47 @@
 <!--The below line of code is jinja which is a template engine for python-->
 <!-- If you want to learn more about jinja, refer to jinja documentation-->
 {% extends "base.html" %} {% set currentPage = "deadline" %} {% block body %} 
-<div class='container'>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class='container' id='main'>
   {% include "snips/messages.html" %}
   {% if deadlines %}
-    <table class="table table-bordered">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <!--<td class='tableHead'>Date</td>-->
           <td class='tableHead'>Deadline(s)</td>
         </tr>
       </thead>
       {% for deadline in deadlines %}
-        {# {% if deadline.date >= today %} #}
+        <tbody> 
           <tr>
             <td>
-              <table class="table table-hover table-bordered">
-                <tr>
-                  <td>
-                    <div class='deadlineDisplay' id="displayDeadline{{deadline.id}}">{{deadline.description}}</div>
-                    {% if can_edit %}
-                      <form id = "deadlineDescription" method="post" action="/deadline/edit">
-                        <input type="hidden" name="id" id="deadlineid" value="{{deadline.id}}"> 
-                        <textarea class="form-control" id="editDeadline{{deadline.id}}" name="deadlineDescription" style='display:none'>{{deadline.description}}</textarea>            
-                        
-                      </form>
-                      <div>
-                        <button type="submit" class="btn btn-primary pull-right" form="deadlineDescription" id="saveButton{{deadline.id}}" style="display:none">Save</button>
-                        <button type ="cancel" class="btn btn-warning pull-right" onclick="EditDeadline({{deadline.id}})" id="cancelButton{{deadline.id}}" style="display:none">Cancel</button>
-                        <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon{{deadline.id}}" aria-hidden="true" onclick="EditDeadline({{deadline.id}})"></span>
-                      </div>
-                    {% endif %}
-                  </td>
-                </tr>
-              </table>
+              <div class='deadlineDisplay' id="displayDeadline{{deadline.id}}">{{deadline.description}}</div>
+                {% if can_edit %}
+                  <form id = "deadlineDescription" method="post" action="/deadline/edit">
+                    <input type="hidden" name="id" id="deadlineid" value="{{deadline.id}}"> 
+                    <textarea class="form-control" id="editDeadline{{deadline.id}}" name="deadlineDescription" style='display:none'>{{deadline.description}}</textarea>            
+                  </form>
+                  <div id='deadline_controls'>
+                    <button type="submit" class="btn btn-primary pull-right" form="deadlineDescription" id="saveButton{{deadline.id}}" style="display:none">Save</button>
+                    <button type ="cancel" class="btn btn-warning pull-right" onclick="EditDeadline({{deadline.id}})" id="cancelButton{{deadline.id}}" style="display:none">Cancel</button>
+                    <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon{{deadline.id}}" aria-hidden="true" onclick="EditDeadline({{deadline.id}})"></span>
+                  </div>
+                {% endif %}
             </td>
           </tr>
-      {% endfor %}
+        </tbody>
+        {% endfor %}
     </table>
   {% else %}
     <div class="jumbotron">Upcoming deadlines will be posted here.</div>
   {% endif %}
-</div>    
+    <div>
+    <h3 style='display:none' id='timelineHeader'> CourseTimeline </h3>
+      <div id="Monday_Chart"><div id="Monday"></div></div>
+      <div id="Tuesday_Chart"><div id="Tuesday"></div></div>
+      <div id="Wednesday_Chart"><div id="Wednesday"></div></div>
+      <div id="Thursday_Chart"><div id="Thursday"></div></div>
+      <div="Friday_Chart"><div id="Friday"></div></div>
+    <div>
+</div>
 {% endblock %}

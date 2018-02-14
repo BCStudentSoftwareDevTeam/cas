@@ -23,9 +23,13 @@ def courseTimeline(tid):
                             currentTerm=int(tid),
                             cfg = cfg)
                             
-@app.route('/courseTimeline/<tid>/json', methods=["GET","POST"])
+@app.route('/courseTimeline/<int:tid>/json', methods=["GET","POST"])
 def timelineJson(tid):
+  if tid == 0:
+    terms = Term.select().order_by(-Term.termCode)
+    tid   = terms[0].termCode
   google_chart_dict = dict()
+  timeline_obj = timeline()
   for key, day in cfg['scheduleDays'].items():
     schedule_info = dict()
     schedule_list  = []
@@ -37,10 +41,11 @@ def timelineJson(tid):
         num_of_courses = 0
       schedule_info[schedule.schedule.sid] = [num_of_courses, schedule.schedule.startTime, schedule.schedule.endTime]
       schedule_list.append(schedule.schedule.sid)  
-    obj = timeline(schedule_info,schedule_list)
-    google_chart_data = obj.google_chart_data()
+    timeline_obj.collect_schedule_details(schedule_info,schedule_list)
+    google_chart_data = timeline_obj.google_chart_data()
     google_chart_dict[key]=google_chart_data
   
+    
   try:
     json_str = json.dumps(google_chart_dict)
   except Exception as e:
