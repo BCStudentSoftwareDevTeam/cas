@@ -59,10 +59,12 @@ function drawBasic() {
         data.addColumn('timeofday', 'X');
         data.addColumn('number', '# Courses');
         data.addColumn('number', 'Danger');
+        //data.addColumn('number', 'Warning')
         var new_structure = [];
         for(var h=0; h < google_chart_dict[day].length; h++){
             var hList = google_chart_dict[day][h]
             hList.push(50)
+            //hList.push(35)
             new_structure.push(hList)
         }        
         data.addRows(new_structure);
