@@ -10,9 +10,13 @@ from flask import session
 def deadlineDisplay(can_edit):
     for key in session.keys():
         session.pop(key)
+    terms = Term.select().order_by(-Term.termCode)
+    tid = terms[0].termCode
     dates=Deadline.select()
     return render_template("deadline.html",
+                           allTerms = terms,
                            can_edit=g.user.isAdmin,
+                           currentTerm=int(tid),
                            deadlines=dates)
 
 @app.route("/deadline/edit", methods=["POST"])

@@ -44,8 +44,6 @@ def timelineJson(tid):
     timeline_obj.collect_schedule_details(schedule_info,schedule_list)
     google_chart_data = timeline_obj.google_chart_data()
     google_chart_dict[key]=google_chart_data
-  
-    
   try:
     json_str = json.dumps(google_chart_dict)
   except Exception as e:
