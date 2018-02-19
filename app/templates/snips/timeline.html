@@ -1,0 +1,35 @@
+{# Dependencies:
+    deadline.py
+    courseTimeline.py
+#}
+<div>
+    <div style="display:none;" id='timelineHeader'>
+        <h3 class="pull-left">  Course Timeline </h3>
+        <select data-width="fit" id="tid_selector" class="selectpicker form-control pull-right" onchange="newJSON()">
+            {% for term in allTerms %}
+                <option value ="{{term.termCode}}"
+                    {% if term.termCode|int == currentTerm|int %}
+                        selected
+                    {% endif %} 
+                >
+                {{term.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div id="Monday_Chart" style="clear:both;">
+        <div id="Monday"></div>
+    </div>
+    <div id="Tuesday_Chart">
+        <div id="Tuesday"></div>
+    </div>
+    <div id="Wednesday_Chart">
+        <div id="Wednesday"></div>
+    </div>
+    <div id="Thursday_Chart">
+        <div id="Thursday"></div>
+    </div>
+    <div="Friday_Chart">
+        <div id="Friday"></div>
+    </div>
+<div>
+<script type="text/javascript" src="/static/js/local/timeline.js"></script>
