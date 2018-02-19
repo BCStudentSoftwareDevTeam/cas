@@ -1,5 +1,11 @@
 /* global google */
 /* global $ */
+//DEPENDENCIES
+//used on deadline.js
+//used on courseTimeline.js
+$(document).ready(function() {
+   $('.selectpicker').selectpicker();
+});
 
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
@@ -23,7 +29,11 @@ function google_data_json(){
     //console.log(typeof(jsonData));    
     return jsonData
 }
-
+function newJSON(){
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawBasic);
+}
+newJSON()
 function drawBasic() {
     var chart_order = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
     var google_chart_dict = google_data_json();    
@@ -62,22 +72,19 @@ function drawBasic() {
         var chart = new google.visualization.LineChart(document.getElementById(day));
         chart.draw(data, options);
     }
+    var header = document.getElementById("timelineHeader");
+    header.style.display = 'block';
 }
-    
 
 function append_url(){
-   var current_url = window.location.href;
-   var list = current_url.split('/');
-   for ( var i = 0; i < list.length; i++ ){
-     if (list[i] == 'courseTimeline'){
-       i = i + 100;
-     }
-     else{
-        list.shift();
-     }
-   }
+   //URL Location: courseTime.py
+   var list = ['courseTimeline'];
+   //TODO: get TID
+   var select = document.getElementById("tid_selector").valueOf();
+   var tid = select.options[select.selectedIndex].value;
+   list.push(tid);
    list.push('json');
-   var new_url = '/' + list.join('/');
-   return new_url
+   var json_url = '/' + list.join('/');
+   return json_url
 }
 
