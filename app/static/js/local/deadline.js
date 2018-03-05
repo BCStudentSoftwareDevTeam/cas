@@ -1,3 +1,5 @@
+/* global google */
+/* global $ */ 
 function resize(textarea_obj){
         textarea_obj.style.height = 'auto';
         textarea_obj.style.height = textarea_obj.scrollHeight+'px';
@@ -26,4 +28,3 @@ function EditDeadline(deadline_id){
     }
     resize(edit_display);
 }
-

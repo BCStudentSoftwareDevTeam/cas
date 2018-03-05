@@ -33,6 +33,8 @@
                 <input type="hidden" value="{{currentTerm}}" id="termSelect">  {# We need a hidden input for our javascript #}                
             {% elif currentPage == "editActiveCourses" %}
                 <input type="hidden" value="{{currentTerm}}" id="termSelect">
+            {% elif currentPage == "courseTimeline" %}
+                <input type="hidden" value="{{currentTerm}}" id="termSelect">
             {% else %}                
                 <li class="head2"><a>Current Term</a></li>
                 <li id="sidebarSelect">
