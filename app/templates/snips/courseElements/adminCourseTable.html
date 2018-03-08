@@ -12,7 +12,9 @@
         <th>Notes</th>
         <th>Last Edited</th>
         {% if (can_edit == True and curTermName.state != 2) %}
-            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
+            <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                <span class ="sr-only">Course</span>
+            </th>
         {% endif %}
     </tr>
 </thead>
@@ -101,9 +103,12 @@
                 <td>
                     <div class="child">
                         <!--EDIT MODAL-->
-                        <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
+                            <span  classs = "sr-only">Edit Course</span>
+                        </span></a>
                         <!--DELETE MODAL-->
-                        <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                        <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span>
+                        </span>  </a>
                         {% include "snips/courseElements/deleteCourse.html" %}
                     </div>
                 </td>
@@ -113,9 +118,9 @@
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->
-                            <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                            <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
                             <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"></span></a>
+                            <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
                             {% include "snips/courseElements/deleteCourse.html" %}
                         </div>
                     </td>
