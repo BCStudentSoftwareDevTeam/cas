@@ -24,7 +24,9 @@
                   <div id='deadline_controls'>
                     <button type="submit" class="btn btn-primary pull-right" form="deadlineDescription" id="saveButton{{deadline.id}}" style="display:none">Save</button>
                     <button type ="cancel" class="btn btn-warning pull-right" onclick="EditDeadline({{deadline.id}})" id="cancelButton{{deadline.id}}" style="display:none">Cancel</button>
-                    <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon{{deadline.id}}" aria-hidden="true" onclick="EditDeadline({{deadline.id}})"></span>
+                    <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon{{deadline.id}}" aria-hidden="true" onclick="EditDeadline({{deadline.id}})">
+                      <span class = "sr-only">Edit Deadline</span>
+                    </span>
                   </div>
                 {% endif %}
             </td>
