@@ -19,18 +19,34 @@
         <td>{{term.name}}</td>
         {% if term.state == 2 %}
         <td>
-          <a href="#" onclick= "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
-          <span class="glyphicon glyphicon-lock disabled" aria-hidden="true" style="color:#d62c1a;"></span>
+          <a href="#" onclick= "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true">
+              <span class ="sr-only">Term changes will be accepted but not tracked.</span>
+            </span></a>
+          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-list" aria-hidden="true">
+              <span class ="sr-only">Term changes will be accepted and tracked.</span>
+            </span></a>
+          <span class="glyphicon glyphicon-lock disabled" aria-hidden="true" style="color:#d62c1a;">
+            <span class = "sr-only">Term changes will not be accepted nor tracked.</span>
+          </span>
         </td>
         <td>
             <p>Term changes <b>are not</b> being accepted <b>nor</b> tracked.</p>
         </td>
         {% elif term.state == 1 %}
         <td>
-          <a href="#" onclick = "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-          <span class="glyphicon glyphicon-list disabled" aria-hidden="true" style="color:#d62c1a;"></span>
-          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a>
+          <a href="#" onclick = "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true">
+              <span class = "sr-only">Term changes will be accepted but not tracked.</span>
+            </span></a>
+          <span class="glyphicon glyphicon-list disabled" aria-hidden="true" style="color:#d62c1a;">
+            <span class = "sr-only">Term changes are being accepted but are being tracked.</span>
+          </span>
+          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-lock" aria-hidden="true">
+              <span class = "sr-only">Term changes will neither be accepted nor tracked.</span>
+            </span></a>
         </td>
         <td>
             <p>Term changes <b>are</b> being accepted and <b>are</b> being <a href="/courseManagement/tracker/">tracked</a>.</p>
@@ -38,9 +54,15 @@
 
         {% else %}
         <td>
-          <span class="glyphicon glyphicon-edit disabled" aria-hidden="true" style="color:#d62c1a;"></span>
-          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
-          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a>
+          <span class="glyphicon glyphicon-edit disabled" aria-hidden="true" style="color:#d62c1a;"><span class = "sr-only">Term changes are being acccepted but not tracked.</span></span>
+          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-list" aria-hidden="true">
+              <span class = "sr-only">Term changes will be accepted and tracked.</span>
+            </span></a>
+          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal">
+            <span class="glyphicon glyphicon-lock" aria-hidden="true">
+              <span class = "sr-only">Term changes will neither be accepted not tracked.</span>
+            </span></a>
         </td>
         <td>
             <p>Term changes <b>are</b> being accepted but <b> not</b> tracked.</p>
