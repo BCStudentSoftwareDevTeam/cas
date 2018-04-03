@@ -11,6 +11,13 @@ class ExcelMaker:
 
     def writeRow(self,sheet,column,row,value):
         sheet.write('{0}{1}'.format(column,row),value)
+        
+    def findDays(self, schedule_id):
+        days_info = ScheduleDays.select().where(ScheduleDays.schedule == schedule_id)
+        days = ''
+        for day in days_info:
+            days = days + str(day.day)
+        return days
 
     def writeHeaders(self,sheet):
         sheet.write('A1','Prefix')
@@ -49,6 +56,8 @@ class ExcelMaker:
             days = course.schedule.days.get().day
             if days is None:
                 days = "TBD"
+            else: 
+                days = self.findDays(course.schedule.sid)
             time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
             self.writeRow(sheet,'F',row, time)
         #Notes & Capacity
