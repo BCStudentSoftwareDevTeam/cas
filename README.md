@@ -108,3 +108,5 @@ This will return a python object that will have the data as attributes. You can 
 * [Peewee Documentation](http://docs.peewee-orm.com/en/latest/)
 * [Git documentation](https://git-scm.com/documentation)
 * [Flask Documentation](http://flask.pocoo.org/docs/0.10/)
+* 
+## Needs more details on asking query to finish reading and writing to the database.
