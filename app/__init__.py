@@ -40,4 +40,3 @@ from app import selectProgram
 from app import courseTable
 from app import courseTimeline
 from app import login_logout
-from app import Test
