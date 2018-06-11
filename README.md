@@ -6,6 +6,7 @@
 * git 
 
 ## Creating Development Environment ##
+Scott's addition
 
 1. **Fork** the reposistory from BitBucket and rename to your project.
 
