@@ -7,7 +7,7 @@
 
 ## Creating Development Environment ##
 
-1. **Fork** the reposistory from BitBucket and rename to your project.
+1. **Fork** the repository from BitBucket and rename it to your project.
 
 2. If working on a **local machine**, then clone the repo from your terminal
 
@@ -90,7 +90,7 @@ If I wanted to create a new webpage then I would do the following.
 ```
 * Import the python file you created inside the \_\_init\_\_.py file.
 ```Python
-from app import example.py
+from app import example.py (Do not include .py)
 ```
 
 ## Reading and Writing to the database ##

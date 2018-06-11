@@ -15,7 +15,7 @@ import os,sys
 from app import app
 
 '''Insert the base location for the app in Cloud9'''
-sys.path.insert(0,'/home/ubuntu/workspace/')
+sys.path.insert(0,'/home/ubuntu/workspace/cas-flask/')
 
 # Builds the server configuration
 if os.getenv('IP'):
