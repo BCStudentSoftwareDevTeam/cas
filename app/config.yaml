@@ -183,6 +183,12 @@ contributors:
   - name: "Jesson Soto Ventura"
     username: "sotoventuraj"
     year: 2019
+  - name: "Katelyn Adams"
+    username: "adamska"
+    year: 2019
+  - name: "Anne Otieno"
+    username: "otienoa"
+    year: 2020
     
 # The log file location   
 log:
