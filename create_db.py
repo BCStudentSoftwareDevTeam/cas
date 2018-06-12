@@ -35,6 +35,15 @@ users = User(  firstName = "Cody",
                 isAdmin   = 0,
                 bNumber   = "1774409485"
             ).save(force_insert=True) 
+            
+users = User(  firstName = "Emily",
+                lastName  = "Lovell",
+                username  = "lovelle",
+                email     = "lovelle@berea.edu",
+                isAdmin   = 0,
+                bNumber   = "1239475"
+            ).save(force_insert=True)
+
 ##########
 #DIVISION#
 ##########
