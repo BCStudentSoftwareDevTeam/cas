@@ -183,6 +183,12 @@ contributors:
   - name: "Jesson Soto Ventura"
     username: "sotoventuraj"
     year: 2019
+  - name: "Jamal Mohamed Aw Yonis"
+    username: "awyonis"
+    year: "2020"
+  - name: "Gerardo Nazar Soto"
+    username: "icost99cents"
+    year: "2020"
     
 # The log file location   
 log:
