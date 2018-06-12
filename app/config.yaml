@@ -189,7 +189,13 @@ contributors:
   - name: "Gerardo Nazar Soto"
     username: "icost99cents"
     year: "2020"
-    
+  - name: "Katelyn Adams"
+    username: "adamska"
+    year: 2019
+  - name: "Anne Otieno"
+    username: "otienoa"
+    year: 2020
+
 # The log file location   
 log:
 filename: "urcpp.log"
