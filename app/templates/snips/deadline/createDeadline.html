@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
         <form action="/deadline/create" method="post" id="newDeadline" class="form-horizontal">
-            <div class="form-group col-md-6 col-sm-6">
+            <div class="form-group col-md-12 col-sm-12">
                 <textarea placeholder="Description" class="form-control" id="exampleTextarea" rows="2" name="deadlineDescription" required></textarea>
             </div>
             <!--<div class="form-group col-md-4 col-sm-4">-->
@@ -13,7 +13,7 @@
             <!--    {% set maxYear = (currentYear + 2)|string %}-->
             <!--    <input type="text" id="datepicker" class="form-control" name="deadlineDate" placeholder="MM/DD/YYYY"/>-->
             <!--</div>-->
-            <div class="form-group col-md-2 col-md-2">
-                <input type="submit" class="btn btn-success" value="Add">
+            <div class="form-group col-md-12 col-md-12">
+                <button type="submit" class="btn btn-success pull-right" form="newDeadline" > Add </button>
             </div>
     </div>
