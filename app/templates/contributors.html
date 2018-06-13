@@ -2,8 +2,7 @@
 {% set currentPage = "no" %}
 {% block body %}
 <link rel="stylesheet" href="/static/css/contributors.css">
-<div class="contributors">
-<div id="List of Names">
+<div class="contributors" id="List of Names">
     <h2>Contributors</h2>
     <p> These are the students who helped to create this database and continue to work on it.</p>
     <table class="table table-bordered">
@@ -22,7 +21,6 @@
     {% endfor %}
     </table>
     <button type='button' class='btn btn-success' style="padding: 7px 30px; margin-top: 5px" onclick ="window.history.back()">Back</button>
-</div>
 </div>
 <br>
 {% endblock %}
