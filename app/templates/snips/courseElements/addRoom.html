@@ -6,7 +6,7 @@
         {% for room in rooms %} 
           {% if room.building.name != currentbuilding.cb %}
             {% set currentbuilding.cb = room.building.name %}
-            <option style="border-bottom:2px solid rgba(0,153,153,.3); margin:-2px 0 4px 0" disabled = "disabled"></option>
+            <option class="optionLine" disabled> </option>
           {% endif %}
           <option value="{{room.rID}}"> 
             {{room.building.name}}-{{room.number}} 
