@@ -49,8 +49,13 @@ def deadlineEdit():
         data = request.form
         
         deadline = Deadline.get(Deadline.id == data['id']) 
-        deadline.description = data['deadlineDescription']
+        # this condition checks to see if the deadline box is empty and prints a message.
+        if data['deadlineDescription'] == "":
+            deadline.description = "Upcoming deadlines will be posted here."
+        else:
+            deadline.description = data['deadlineDescription']
         deadline.save()
+        
 
         message = "Deadline: has been edited to {0}".format(
         deadline.description)
