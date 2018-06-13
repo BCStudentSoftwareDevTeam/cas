@@ -35,19 +35,6 @@
     </table>
   {% else %}
     <div class="jumbotron">Upcoming deadlines will be posted here.
-    <!--<div class='deadlineDisplay' id="displayDeadline0"></div>-->
-    <!--  {% if can_edit %}-->
-        <!-- For adding new deadlines -->
-    <!--      <form id = "deadlineDescription" method="post" action="/deadline/edit">-->
-    <!--        <input type="hidden" name="id" id="deadlineid" value="0"> -->
-    <!--        <textarea class="form-control" id="editDeadline0" name="deadlineDescription" style='display:none'></textarea>            -->
-    <!--      </form>-->
-    <!--      <div id='deadline_controls'>-->
-    <!--        <button type="submit" class="btn btn-primary pull-right" form="deadlineDescription" id="saveButton0" style="display:none">Save</button>-->
-    <!--        <button type ="cancel" class="btn btn-warning pull-right" onclick="EditDeadline(0)" id="cancelButton0" style="display:none">Cancel</button>-->
-    <!--        <span  class="glyphicon glyphicon glyphicon-edit pull-right" id="edit_glyphicon0" aria-hidden="true" onclick="EditDeadline(0)"></span>-->
-    <!--      </div>-->
-    <!--    {% endif %}-->
       {% include "snips/deadline/createDeadline.html" %}
     </div>
 {% endif %}
