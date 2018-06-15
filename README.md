@@ -6,6 +6,7 @@
 * git 
 
 ## Creating Development Environment ##
+Scott's addition
 
 1. **Fork** the reposistory from BitBucket and rename to your project.
 
@@ -102,9 +103,13 @@ query = tableName.get( condition = something )
 ```
 This will return a python object that will have the data as attributes. You can pass this object to the html file. You can access this data by typing query.Column. 
 
+NOTE: Needs more details on asking query to finish reading and writing to the database.
+
 ## Documentation links ##
 
 * [Jinja Documentation](http://jinja.pocoo.org/)
 * [Peewee Documentation](http://docs.peewee-orm.com/en/latest/)
 * [Git documentation](https://git-scm.com/documentation)
 * [Flask Documentation](http://flask.pocoo.org/docs/0.10/)
+
+
