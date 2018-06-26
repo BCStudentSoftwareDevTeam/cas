@@ -235,4 +235,23 @@ class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
+  
+#Begin education tech class
+class EducationTech(dbModel):
+  eId                  = PrimaryKeyField()
+  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
+  smartboards          = Integerfield(default = 0) #default of 0 in room
+  instructor_computers = Integerfield(default = 0) #default of 0 no. of instructor computers to zero
+  podium               = Integerfield(default = 0) #default of 0 no. of podium
+  student_workspace    = Integerfield(default = 0) #default of 0 no. f student workspace
+  chalkboards          = Integerfield(default = 0) #default of 0 no. chalkboards
+  whiteboards          = Integerfield(default = 0) #default of 0 no. of whiteboards
+  dvd                  = BooleanField()  #has or doesnt have dvd player
+  blu_ray              = BooleanField()  #has or doesnt have blu ray player
+  audio                = BooleanField()  #has or doesnt have audio hookup
+  extro                = BooleanField()
+  doc_cam              = BooleanField()
+  vhs                  = BooleanField()
+  mondopad             = BooleanField()
+  tech_chart           = BooleanField()
 
