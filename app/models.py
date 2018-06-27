@@ -67,7 +67,7 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  state             = IntegerField(default=0)
+  state_number      = IntegerField(default=0)
   
   def __str__(self):
     return self.name
@@ -153,7 +153,7 @@ class Course(dbModel):
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
-  crossListed       = BooleanField()
+  # crossListed       = BooleanField() We think this will change due to the new process. It is no longer just yes or no. 
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
   section           = TextField(null = True)
   prereq            = CharField(null = True)
@@ -172,7 +172,7 @@ class SpecialTopicCourse(dbModel):
   notes                = TextField(null = True)
   lastEditBy           = CharField(null = True)
   submitBy             = CharField(null = True)
-  crossListed          = BooleanField()
+  # crossListed          = BooleanField()     #we are removing it from here becuase we have a cross-listed table
   rid                  = ForeignKeyField(Rooms, null = True)
   status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied
   credits              = CharField(default = "1.000")
@@ -202,9 +202,9 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-class InstructorSTCourse(dbModel):
-  username     = ForeignKeyField(User)
-  course       = ForeignKeyField(SpecialTopicCourse)
+# class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
+#   username     = ForeignKeyField(User)
+#   course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()
@@ -222,7 +222,7 @@ class CourseChange(dbModel):
   lastEditBy        = CharField(null = True)
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
-  crossListed       = BooleanField()
+  # crossListed       = BooleanField() already in # has its own table
   rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
@@ -254,4 +254,20 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
+
+#Begin cross listed table  
+class CrossListed (dbModel): #Jolena asked for an extra step in the new crosslisting courses process. Need to talk to scott.
+  clId                 = PrimaryKeyField()
+  created_course_1     = ForeignKeyField(Courses) #Created by one of the program chairs
+  verified_course_2    = ForeignKeyField(Courses) #Verified with the other program chair(s)
+  verified             = BooleanField() #Verified? = yes or no
+
+  
+
+
+
+
+
+
+
 
