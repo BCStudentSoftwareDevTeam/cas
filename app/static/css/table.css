@@ -6,7 +6,7 @@ table {
   border-collapse: collapse;
 }
 
-Zebra striping
+/*Zebra striping*/
 td, th {
   padding: 6px;
   border: 1px solid #ccc;
