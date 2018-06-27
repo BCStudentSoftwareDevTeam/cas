@@ -195,6 +195,13 @@ contributors:
   - name: "Anne Otieno"
     username: "otienoa"
     year: 2020
+  - name: "Basanta Phuyal"
+    username: "phuyalb"
+    year: 2020
+  - name: "Muhammad Hamza Khattak"
+    username: "khattakm"
+    year: 2020
+    
 
 # The log file location   
 log:

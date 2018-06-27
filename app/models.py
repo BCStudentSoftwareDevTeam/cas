@@ -62,19 +62,40 @@ Possible States:
     1 - tracked - tracking but not open
     2 - locked - not open and not tracked
 """
+class State(dbModel):#added
+  stateID         =PrimaryKeyField()
+  state_name      =CharField(null=False)
+  state_order     = IntegerField(null=False)
+  
+  
+  def __str__(self):
+    return self.state_name
+
+
 class Term(dbModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  state             = IntegerField(default=0)
+  state             = ForeignKeyField(State, null=False, related_name="terms")# should we make change on this one bc we used foreignKey for the state instead of IntegerField 
+ 
   
   def __str__(self):
     return self.name
+    
+    
+
+
+  
   
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
+  
+  
+  def __str__(self):
+    return self.name 
+  
 
 
 class Rooms(dbModel):
@@ -84,15 +105,26 @@ class Rooms(dbModel):
   maxCapacity    = IntegerField(null=True)
   roomType       = CharField(null=False)
   
+  
+  
+#added
+class Building_User(dbModel):
+  buID = ForeignKeyField(Rooms, null=False)
+  building = CharField(null=False)
+  username = TextField()
+#added
+  
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
-  pID           = PrimaryKeyField()
+  pID           = PrimaryKeyField()# Should get rid of this bc it is not included in the database design 
   name          = CharField()
   division      = ForeignKeyField(Division, related_name='programs')
 
   
   def __str__(self):
     return str(self.name)
+    
+
     
 class Subject(dbModel):
   prefix        = CharField(primary_key=True)
@@ -235,4 +267,3 @@ class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
-
