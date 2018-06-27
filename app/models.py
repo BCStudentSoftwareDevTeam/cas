@@ -75,14 +75,34 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
+  shortName     = CharField()
 
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=True)
+  maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
+  visualAccessibilty     = CharField(null=False)
+  audioAccessibilty      = CharField(null=False)
+  physicalAccessibilty   = CharField(null=False)
+  educationTech        = ForeignKeyField(EducationTech, related_name='rooms')
+  specializedEquipment = CharField(null=False)
+  specialFeatures = CharField(null=False)
+  movableFurniture = BooleanField(default=False)
+  
+  
+class Room_Prefences(dbModel):
+  pID           = PrimaryKeyField()
+  course        = ForeignKeyField(Rooms, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preferences')
+  pref_2        = ForeignKeyField(Rooms, related_name='preferences')
+  pref_3        = ForeignKeyField(Rooms, related_name='preferences') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=False)
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -154,7 +174,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
+  rid               = ForeignKeyField(Rooms, null = False, related_name='courses')
   section           = TextField(null = True)
   prereq            = CharField(null = True)
   
@@ -173,7 +193,7 @@ class SpecialTopicCourse(dbModel):
   lastEditBy           = CharField(null = True)
   submitBy             = CharField(null = True)
   crossListed          = BooleanField()
-  rid                  = ForeignKeyField(Rooms, null = True)
+  rid                  = ForeignKeyField(Rooms, null = False)
   status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied
   credits              = CharField(default = "1.000")
   description          = TextField(null = True)
@@ -223,7 +243,7 @@ class CourseChange(dbModel):
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True)
+  rid               = ForeignKeyField(Rooms, null = False)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
