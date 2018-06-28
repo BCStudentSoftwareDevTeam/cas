@@ -87,7 +87,7 @@ class Rooms(dbModel):
   visualAccessibilty     = CharField(null=False)
   audioAccessibilty      = CharField(null=False)
   physicalAccessibilty   = CharField(null=False)
-  educationTech        = ForeignKeyField(EducationTech, related_name='rooms')
+ #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
   specializedEquipment = CharField(null=False)
   specialFeatures = CharField(null=False)
   movableFurniture = BooleanField(default=False)
@@ -96,9 +96,9 @@ class Rooms(dbModel):
 class Room_Prefences(dbModel):
   pID           = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preferences')
-  pref_2        = ForeignKeyField(Rooms, related_name='preferences')
-  pref_3        = ForeignKeyField(Rooms, related_name='preferences') #We are making sure we have all the preferences jotted down.
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
@@ -174,10 +174,9 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False, related_name='courses')
+  rid               = ForeignKeyField(Rooms, null = False, related_name='courses_rid')
   section           = TextField(null = True)
-  prereq            = CharField(null = True)
-  
+  prereq            = CharField(null = True) 
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
