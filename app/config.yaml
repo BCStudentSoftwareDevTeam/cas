@@ -66,7 +66,7 @@ adminMenu:
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
   - title: "User Management"
-    link:  "/redirect/user_management" #unsure
+    link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
     
 #If you ever change the current states, you cannot duplicate the values, because

@@ -256,11 +256,11 @@ class EducationTech(dbModel):
   tech_chart           = BooleanField()
 
 # Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process. Need to talk to scott
-class crossListedd (dbModel): #added extra d so that it has a different name with the other name up there
-  clId                 = PrimaryKeyField()
-  created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
-  verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
-  verified             = BooleanField() #Verified? = yes or no
+# class crossListedd (dbModel): #added extra d so that it has a different name with the other name up there
+#   clId                 = PrimaryKeyField()
+#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
+#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
+#   verified             = BooleanField() #Verified? = yes or no
 
   
 
