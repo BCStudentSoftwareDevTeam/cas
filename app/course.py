@@ -31,6 +31,7 @@ def courses(tID, prefix, can_edit):
 
     terms = Term.select().order_by(-Term.termCode)
 
+
     # We need these for populating add course
     courseInfo = (BannerCourses
                         .select(BannerCourses, Subject)

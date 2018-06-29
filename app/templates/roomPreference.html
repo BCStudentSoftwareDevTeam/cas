@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %} <!--This is used for the sidebart-->
+{% block aboveContainer %}
+
+{% endblock %}
+<link rel="stylesheet" href="roomPreference.css">
+
+<!--Page Content -->
+
+{% block body %}
+
+<div class="roomselection">
+    <h1>Room Preference</h1>
+    <div class="roomPreference">
+        <table>
+                <th>{% for course in courses %}{{ course.prefix}} {% endfor %}</th>
+                <th>1st Preference ||</th>
+                <th>2nd Preference ||</th>
+                <th> 3rd Preference || </th>
+                <th> Section || </th>
+                <th> Time || </th>
+                <th> # of Students ||</th>
+                <th> Notes </th>
+            <tr class = "courseTaberow1">
+                <td>MAT 012 </td>
+                <td><button type="button" class="btn btn-primary">Any Room</button></td>
+                <td><button type="button" class="btn btn-primary"> Any Room </button></td>
+                <td><button type="button" class="btn btn-primary">Any Room</button></td>
+                <td> B </td> <br>
+                <td > 8:00 am </td>
+                <td align="center"> 23 </td>
+                <td><button type="button"class="btn btn-primary"> <a> add note</a></a> </button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="popup">
+    <table>
+    <caption> Room# </caption>
+    <tr>
+        <td>
+            <input type="text" placeholder="Search Room"/>
+        </td>
+    </tr>
+    <tr>
+        <td class = "popup_info">
+            <div>
+            <strong>{{room.building.name }}{{ room.number}}</strong><br>
+            Room Capacity: {{room.maxCapacity}}<br>
+            Visual Accessibility  : yes<br>
+            Audio Accessibility   : Yes<br>
+            Physical Accessibilty : Yes<br>
+            Specialized Equipment : Scott's Electronics<br>
+            Movable Furniture     : Tables<br>
+            Special Feature Notes : Do not schedule before TAD 265<br>
+            Education tech        : <button type = "button"> View </button> 
+            </div>
+        </td>
+        <td>
+            <strong align="left">Course Conflicts</strong> <br>
+            <table border="1">
+              <tr>
+                <th>Course</th>
+                <th>{{user.username}}</th>
+              </tr>
+              <tr>
+                <td>{{</td>
+                <td>Heggens</td>
+              </tr>
+              <tr>
+                <td>TAD 400</td>
+                <td>Nakazawa</td>
+              </tr>
+            </table>
+        </td>
+    </tr>
+    </table>
+    
+    <table>
+        <th>Education Tech  </th> 
+        <tr>
+        <td> Chalkboards            : 2 <br> 
+             Computers(instructors) : 2  <br>
+             Projectors             : 2  <br>
+             Podium                 : 2 <br> 
+             Smartboards            : 2 <br>
+             Students Workstations  : 2 <br>
+             Whiteborads            : 3 <br>
+             Audio                  : Yes<br>
+             Blu-Ray                : Yes<br>
+             DOC-Cam                : Noz<br>
+             DVD                    : Yes<br>
+             Extro                  : Yes <br> 
+             MondoPad               : Yes <br>
+             Tech Chart             : No <br>
+             VHS                    : No <br>
+        </td>
+        </tr>
+    </table>
+    <button type="button" style="float: right;">Select</button>
+</div>
+
+
+
+{% endblock %}
+
