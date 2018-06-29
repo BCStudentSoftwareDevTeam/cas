@@ -52,6 +52,17 @@ mainMenu:
   - title: "Log Out"
     link: "/logout"
 
+accessLevel:
+  - name: "Program Chair"
+    id: "program_chair"
+  - name: "Division Chair"
+    id: "division_chair"
+  - name: "Building Manager"
+    id: "building_manager"
+  - name: "Administrator"
+    id: "administrator"
+
+
 adminMenu:
   - title: "Program Management" #Not needed after User Management
     link:  "/redirect/program_management"
@@ -88,7 +99,7 @@ specialTopicStates:
     value: 3
     id: "denied"
     color: "danger"
-  
+
 specialTopicLogic:
   admin_disabled: [2] #state values where admins can not edit
   submit_form:    [0] #state values where forms can be sumbitted

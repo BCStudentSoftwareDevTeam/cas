@@ -193,6 +193,10 @@ class ProgramChair(dbModel):
 class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
+  
+class BuildingManager(dbModel):
+  username     = ForeignKeyField(User)
+  bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
@@ -255,13 +259,14 @@ class EducationTech(dbModel):
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
 
-# Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process. Need to talk to scott
-# class crossListedd (dbModel): #added extra d so that it has a different name with the other name up there
+# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
+# class newcrosslisted (dbModel): 
 #   clId                 = PrimaryKeyField()
 #   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
 #   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
 #   verified             = BooleanField() #Verified? = yes or no
-
+# We are not sure why it is not running when we have these uncommented
+# it says newcrosslisted is already in use by another foreign key
   
 
 
@@ -271,3 +276,4 @@ class EducationTech(dbModel):
 
 
 
+# 
