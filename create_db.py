@@ -556,13 +556,13 @@ instructor = InstructorSTCourse(  username = "myersco",
 building     = Building(name = 'Ag Building').save()
 building     = Building(name = 'Tech Building').save()
 
-##################
+###############
 #Building Manager#
 ##################
 
-bmanager = BuildingManager( username = "heggens",
-                            bmid = 1
-                          ).save()
+# bmanager = BuildingManager( username = "heggens",
+#                             bmid = 1
+#                           ).save()
 
 ######
 #ROOMS#

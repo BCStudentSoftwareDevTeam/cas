@@ -7,6 +7,8 @@
 
 <h1>User Management</h1>
 
+
+
 <!---First Box--->
 <h3>Add User</h3>
 <div> <!--- Add User Panel---> 
@@ -14,27 +16,60 @@
 <label for="Access Level">Access Level</label> <!---First dropdown--->
     <div class = "form-group">
     <select class="form control" name= "keyValue">
-        <option value="1" required> Program Chair</option> == $0
-        <option value="2" required> Division Chair</option>== $0
-        <option value="3" required> Building Manager</option> == $0
-        <option value="4" required> Administrator</option> == $0
+        {% for access in cfg['accessLevel']%}
+             <option value="{{access['id']}}">{{access['name']}}</option>
+        {% endfor %}
     </select>
     </div>
 
-    
-<label for="Place Holder">Place Holder</label>
+{{programchairs}}
+<br />
+{{programchairs[0]}}
+<br />
+{{programchairs[0].username}}
+<br />
+{{programchairs[0].username.username}}
+<br />
+{{programchairs[0].username.firstName}}
+
+<div id="Divisions">    
+<label for="Divisions">Divisions</label>
      <div class = "form-group"> <!--Second dropdown for program/division/building--->
         <select class="from control" name= "keyValue">
-            <option value="1" required> This dropdown should change based on previous dropdown selection</option> == $0
+            <option value="1" required> Division 1, 2, etc.</option> == $0
+        </select>
+    </div>
+</div>
+<label for="Programs">Programs</label>
+     <div class = "form-group"> <!--Second dropdown for program/division/building--->
+        <select class="from control" name= "keyValue">
+            {% for program in programs %}
+            <option value="1" required>{{program.name}} </option> == $0
+            {% endfor %}
         </select>
     </div>
     
+<label for="Buildings">Buildings</label>
+     <div class = "form-group"> <!--Second dropdown for program/division/building--->
+        <select class="from control" name= "keyValue">
+            <option value="1" required> Building 1, 2, etc.</option> == $0
+        </select>
+    </div>
+    
+    
+    
+    <!---testing program chair names dropdown--->
 <label for="Add names of chair/manager/admin">Add names of chair/manager/admin</label>
  <div class = "form-group"> <!---Third drop down form--->
+
         <select class="from control" name= "keyValue">
-            <option value="1" required> Anne Otieno</option> == $0
-            <option value ="2" required> Kat Adams</option>
-            <option value = "3" required> Scott Heggen</option>
+            {% for user in users %} <!--- displays names--->
+            
+            <option value="{{user.pid.name}}"> {{user.pid.name}} </option>  <!---Green is what we see, white is what user sees--->
+            <!--<option value="1" required> Anne Otieno</option> == $0-->
+            <!--<option value ="2" required> Kat Adams</option>-->
+            <!--<option value = "3" required> Scott Heggen</option>-->
+            {% endfor %}
         </select>
     </div>
 <div>
@@ -44,29 +79,39 @@
 </div>
 
 
-<!---!Second Box--->
+
+
+
+
+
+
+
+
+
+
+
+
+<Second Box--->
 <h3>Remove User</h3>
 <div> <!---Remove User--->
 
 <label for="Access Level">Access Level</label>
 <div> <!--- first drop down--->
-    <select class="from control" name= "keyValue">
-        <option value="1" required> Program Chair</option> == $0
-        <option value="2" required> Division Chair</option>== $0
-        <option value="3" required> Building Manager</option> == $0
-        <option value="4" required> Administrator</option> == $0
-        </select>
+  <select class="form control" name= "keyValue">
+        {% for access in cfg['accessLevel']%}
+             <option value="{{access['id']}}">{{access['name']}}</option>
+        {% endfor %}
+    </select>
 </div>
 
 
 
 <label for="Remove">Remove</label>
  <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
-        <select class="from control" name= "keyValue">
-            <option value="1" required> Anne Otieno otienoa (CSC)</option> == $0
-            <option value="1" required> Kat Adams adamska (Div II)</option> == $0
-            <option value="1" required> Scott Heggen heggens (Draper)</option> == $0
-            <option value="1" required> Cody Myers Myresco (Admin)</option> == $0
+ <select class="from control" name= "keyValue">
+            <option value="1" required> Anne Otieno</option> == $0
+            <option value ="2" required> Kat Adams</option>
+            <option value = "3" required> Scott Heggen</option>
         </select>
     </div>
 <label for="Remove">Remove (button)</label>
@@ -76,15 +121,12 @@
 </div>
 
 
-{% endblock %}
 
 
 
 
 
-
-
-  
+ {% endblock %}
   
   
   
