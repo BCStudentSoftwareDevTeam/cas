@@ -23,34 +23,35 @@ table, th, td {
   
   <h2><label for="changes"> Your changes have been saved !</label></h2><br>
   
-<div class="container">
- 
-<div id="header">
-<h3><button class="tablink" onclick="openPage('Available Rooms', this, 'green')">Available Rooms</button>
-<button class="tablink" onclick="openPage('Preference One', this, 'green')">Preference One</button>
-<button class="tablink" onclick="openPage('Preference Two', this, 'green')">Preference Two</button>
-<button class="tablink" onclick="openPage('Preference Three', this, 'green')">Preference Three</button></h3>
-</div>
-
-
-<!--This is for the replacement once the available room is chosen -->
-
-  <h2><label for="issue"> Issue Resolved !</label></h2><br>
-  <button type="button" class="block">Emory - E102 </button><br>
-    <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
-    <label for="roomcapacity">Room Cpacity: </label> 32 <br>
-    <label for="physicalaccessibilty">Physical Accessibilty: </label> A<br>
-    <label for="visualaccessibilty">Visual Accessibilty: </label> B<br>
-    <label for="hearingaccessibilty">Hearing Accessibilty: </label> A <br> 
-    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
-    
-</div>
+          <div class="container">
+           
+                    <div id="header">
+                            <h3><button class="tablink" onclick="openPage('Available Rooms', this, 'green')">Available Rooms</button>
+                            <button class="tablink" onclick="openPage('Preference One', this, 'green')">Preference One</button>
+                            <button class="tablink" onclick="openPage('Preference Two', this, 'green')">Preference Two</button>
+                            <button class="tablink" onclick="openPage('Preference Three', this, 'green')">Preference Three</button></h3>
+                            <td>{{roompreference.pref_1.number}}</td>
+                    </div>
+          
+          
+          <!--This is for the replacement once the available room is chosen -->
+          
+            <h2><label for="issue"> Issue Resolved !</label></h2><br>
+            <button type="button" class="block">Emory - E102 </button><br>
+              <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
+              <label for="roomcapacity">Room Cpacity: </label> 32 <br>
+              <label for="physicalaccessibilty">Physical Accessibilty: </label> A<br>
+              <label for="visualaccessibilty">Visual Accessibilty: </label> B<br>
+              <label for="hearingaccessibilty">Hearing Accessibilty: </label> A <br> 
+              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
+              
+          </div>
 
 <!--to assign the room-->
 
 <p><div>Are you sure you want to assign room _____ to course ______?<br>
-<input type="button" class="btn btn-primary btn-sm" value="Yes" />
-<input type="button" class="btn btn-primary btn-sm" value="No" />
+      <input type="button" class="btn btn-primary btn-sm" value="Yes" />
+      <input type="button" class="btn btn-primary btn-sm" value="No" />
 </div></p>
 
 

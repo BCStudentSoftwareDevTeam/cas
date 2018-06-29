@@ -14,6 +14,7 @@ def roomResolution():
 
 def roomResolutionView():
        # Creating the UI
-      return render_template("roomResolutionView.html")
+    roompreference = RoomPreferences.get()
+    return render_template("roomResolutionView.html", roompreference=roompreference)
       
     
