@@ -13,7 +13,7 @@
     <h1>Room Preference</h1>
     <div class="roomPreference">
         <table>
-                <th> Your Courses</th>
+                <th>{% for course in courses %}{{ course.prefix}} {% endfor %}</th>
                 <th>1st Preference ||</th>
                 <th>2nd Preference ||</th>
                 <th> 3rd Preference || </th>
@@ -22,7 +22,7 @@
                 <th> # of Students ||</th>
                 <th> Notes </th>
             <tr class = "courseTaberow1">
-                <td>MAT 012 </</td>
+                <td>MAT 012 </td>
                 <td><button type="button" class="btn btn-primary">Any Room</button></td>
                 <td><button type="button" class="btn btn-primary"> Any Room </button></td>
                 <td><button type="button" class="btn btn-primary">Any Room</button></td>
@@ -37,7 +37,7 @@
 
 <div class="popup">
     <table>
-    <caption> Room#</caption>
+    <caption> Room# </caption>
     <tr>
         <td>
             <input type="text" placeholder="Search Room"/>
@@ -46,9 +46,9 @@
     <tr>
         <td class = "popup_info">
             <div>
-            <strong>Room D-200</strong><br>
-            Room Capacity         : 20<br>
-            Visual Accessibility  : Yes<br>
+            <strong>{{room.building.name }}{{ room.number}}</strong><br>
+            Room Capacity: {{room.maxCapacity}}<br>
+            Visual Accessibility  : yes<br>
             Audio Accessibility   : Yes<br>
             Physical Accessibilty : Yes<br>
             Specialized Equipment : Scott's Electronics<br>
@@ -62,10 +62,10 @@
             <table border="1">
               <tr>
                 <th>Course</th>
-                <th>Professor(s)</th>
+                <th>{{user.username}}</th>
               </tr>
               <tr>
-                <td>CSC 226</td>
+                <td>{{</td>
                 <td>Heggens</td>
               </tr>
               <tr>

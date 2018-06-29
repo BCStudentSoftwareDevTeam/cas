@@ -2,17 +2,22 @@ from app.allImports import *
 from flask import render_template
 from app.logic.redirectBack import redirect_url
 from app import app
+from app.logic import course
 
-@app.route("/roomPreference", methods = ["GET"])
 
-# @save_last_visited
-# @can_modify
-
-def roomPreference():
+@app.route("/roomPreference/<rid>", methods = ["GET"])
+def roomPreference(rid, prefix):
     page="Room Preference"
-    # users = User.select().order_by(User.lastName)
-    # rooms = Rooms.select().order_by(Rooms.building)
+    room = Rooms.select().where(Rooms.rID ==rid).get()
+   
+
+
+    # course= Course.select().where(Course.cId).get()
+    user= User.select().get()
+    
    
     
-    return render_template("roomPreference.html")
-    
+    return render_template("roomPreference.html",
+    room= room,
+    user=user,
+    courses=courses)

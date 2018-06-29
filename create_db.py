@@ -562,7 +562,7 @@ building     = Building(name = 'Tech Building').save()
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lab").save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
 
 # try:
