@@ -553,8 +553,9 @@ instructor = InstructorSTCourse(  username = "myersco",
 ######                             
 
                               
-building     = Building(name = 'Ag Building').save()
-building     = Building(name = 'Tech Building').save()
+building     = Building(name = 'Ag Building', shortName = 'Ag').save()
+building     = Building(name = 'Tech Building', shortName="tech").save()
+
 
 
                               

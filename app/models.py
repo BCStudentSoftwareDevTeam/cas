@@ -84,13 +84,13 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibilty     = CharField(null=False)
-  audioAccessibilty      = CharField(null=False)
-  physicalAccessibilty   = CharField(null=False)
+  visualAccessibilty     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibilty      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibilty   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
  #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-  specializedEquipment = CharField(null=False)
-  specialFeatures = CharField(null=False)
-  movableFurniture = BooleanField(default=False)
+  specializedEquipment = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
+  specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
+  movableFurniture = BooleanField(default=True)  #Has to be false, we added it just because we wanted  to run the files
   
   
 class Room_Prefences(dbModel):
@@ -174,7 +174,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False, related_name='courses_rid')
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
   def __str__(self):
