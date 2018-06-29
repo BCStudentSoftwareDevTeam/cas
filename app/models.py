@@ -92,17 +92,7 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
   movableFurniture = BooleanField(default=True)  #Has to be false, we added it just because we wanted  to run the files
   
-  
-class Room_Prefences(dbModel):
-  pID           = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=False)
+ 
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -254,4 +244,15 @@ class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
-
+  
+# we brought this down here because it was giving us an error for courses foreign key 
+class Room_Prefences(dbModel):
+  pID           = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=False)

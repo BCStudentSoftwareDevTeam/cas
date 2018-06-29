@@ -5,8 +5,9 @@ from app import app
 
 def roomResolution():
     # Creating the UI
-    course = Course.get(Course.cId == 1)
-    return render_template("roomResolution.html", course=course)
+    course = Course.select()
+    bannercourses = BannerCourses.select()
+    return render_template("roomResolution.html", courses=course, bannercourses=bannercourses)
       
       
 @app.route("/roomResolutionView", methods=["GET"])
@@ -14,3 +15,5 @@ def roomResolution():
 def roomResolutionView():
        # Creating the UI
       return render_template("roomResolutionView.html")
+      
+    

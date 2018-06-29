@@ -12,38 +12,26 @@ table, th, td {
 <link rel="roomResolution" href="/static/css/roomResolution.css" type="text/css"/>
 
 <div class="center">
-  <h2> <b>Room Resolutions </b> </h2>
+      <h2> <b>Room Resolutions </b> </h2>
  </div>
-
   <div class="col"> building</div>
 
-  
-  
-<table style="width:100%">
+        <table style="width:100%">
+        
+          <tr>
+                    <th>Course</th>
+                    <th>Time:</th> 
+                    <th>Fix Conflicts</th>
+          </tr>
 
-  <tr>
-    <th>Course</th>
-    <th>Time:</th> 
-    <th>Fix Conflicts</th>
-  </tr>
-  <tr>
-      <th>CSC236-Software Design and Implementation</th>
-      <th>{{course.schedule.endTime}}</th>
-      <th><a href="/"><button type="button" class="btn btn-primary btn-sm">Resolve</button></a></th>
-  </tr>
-  <tr>
-      <th>CSC-124 Building better apps</th>
-      <th>10:00 AM</th>
-      <th><a href="/roomResolutionView" role="button" class="btn btn-primary btn-sm">Resolve</a></th>
-      
-      
-  </tr>
-  <tr>
-      <th>CSC236-Software Design and Implementation</th>
-      <th>08:00 AM</th>
-      <th><a class="btn btn-primary btn-sm" href="http://www.google.com" role="button">Resolve</a></th>
-  </tr>
-</table>
-  
+                {% for course in courses %}
+                    <tr>
+                      <td>{{course.bannerRef}}-{{course.bannerRef.ctitle}}</td>
+                      <td>{{course.schedule.startTime}} - {{course.schedule.endTime}}</td>
+                      <td><a href="/"><button type="button" class="btn btn-primary btn-sm">Resolve</button></a></td>
+                    </tr>
+                {% endfor %}
+        </table>
+          
   
 {% endblock %}
