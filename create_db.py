@@ -337,7 +337,7 @@ term = Term(  name              = "Fall 2018",
 ########
 #COURSE#
 ########
-course = Course(  bannerRef         = 1,
+course1 = Course(  bannerRef         = 1,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
@@ -553,8 +553,8 @@ instructor = InstructorSTCourse(  username = "myersco",
 ######                             
 
                               
-building     = Building(name = 'Ag Building').save()
-building     = Building(name = 'Tech Building').save()
+building     = Building(name = 'Ag Building', shortName="AG").save()
+building1     = Building(name = 'Tech Building', shortName="DT").save()
 
 
                               
@@ -564,6 +564,8 @@ building     = Building(name = 'Tech Building').save()
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lab").save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
+
+roompreference= RoomPreferences(course=course.prefix, pref_1=room.number,pref_2=room.number, pref_3=3,notes="None",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 
 # try:
 #   os.system('mysql-ctl start')

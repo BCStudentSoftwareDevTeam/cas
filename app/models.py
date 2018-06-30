@@ -106,27 +106,14 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibilty     = CharField(null=False)
-  audioAccessibilty      = CharField(null=False)
-  physicalAccessibilty   = CharField(null=False)
+  visualAccessibilty     = CharField(null=True)
+  audioAccessibilty      = CharField(null=True)
+  physicalAccessibilty   = CharField(null=True)
  #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-  specializedEquipment = CharField(null=False)
-  specialFeatures = CharField(null=False)
-  movableFurniture = BooleanField(default=False)
-  
-  
-class Room_Prefences(dbModel):
-  pID           = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=False)
-  
-  
+  specializedEquipment = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField(default=True)
+
   
 #added
 class Building_User(dbModel):
@@ -207,11 +194,24 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False, related_name='courses_rid')
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+  
+  
+class RoomPreferences(dbModel):
+  pID           = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=False)
+  
 
 class SpecialTopicCourse(dbModel):
   stId                 = PrimaryKeyField()
@@ -254,9 +254,9 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-class InstructorSTCourse(dbModel):
-  username     = ForeignKeyField(User)
-  course       = ForeignKeyField(SpecialTopicCourse)
+# class InstructorSTCourse(dbModel):
+#   username     = ForeignKeyField(User)
+#   course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()
