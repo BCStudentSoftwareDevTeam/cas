@@ -9,9 +9,11 @@ from programManagement import *
  
 def userManagement0():
     page        = "/" + request.url.split("/")[-1]
-    users = User.select().order_by(User.lastName)
+    users = User.select()
     programs = Program.select()
     programchairs = ProgramChair.select()
+    buildings = Building.select()
+    divisions = Division.select()
     # data        = request.form
     # newChairs   = request.form.getlist('professors[]')
     # pid         = data['pID']
@@ -39,7 +41,10 @@ def userManagement0():
     # flash("Program succesfully changed")
     return render_template("userManagement.html",
                            programchairs = programchairs, #passing of the variable to html,
-                           programs = programs
+                           programs = programs,
+                           buildings = buildings,
+                           divisions = divisions,
+                           users = users
                            
                            )
          
