@@ -79,6 +79,11 @@ adminMenu:
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
+    # we added
+  - title: "Room Resolution"
+    link:  "/roomResolution"
+    page: ["roomResolution"]
+
     
 #If you ever change the current states, you cannot duplicate the values, because
 #it will mess up what the numbers symbolize inside of the database. 
