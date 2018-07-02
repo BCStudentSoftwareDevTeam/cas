@@ -16,4 +16,6 @@ def roomResolutionView(rpid):
        # Creating the UI
     roompreference = RoomPreferences.get(RoomPreferences.rpID==rpid)
     buildings = Building.select()
-    return render_template("roomResolutionView.html", roompreference=roompreference, buildings=buildings)
+    instructor = InstructorCourse.get()
+    course = Course.get()
+    return render_template("roomResolutionView.html", roompreference=roompreference, buildings=buildings, instructor = instructor, courses=course)
