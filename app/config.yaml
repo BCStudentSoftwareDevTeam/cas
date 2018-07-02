@@ -41,6 +41,7 @@ models:
     - Building
     - Rooms
     - ScheduleDays
+    - RoomPreferences
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
@@ -76,7 +77,6 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
