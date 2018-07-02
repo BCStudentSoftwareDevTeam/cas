@@ -42,6 +42,7 @@ models:
     - Rooms
     - ScheduleDays
     - RoomPreferences
+    - EducationTech
 # this makes the navigation bar
 mainMenu:
   - title: "Home"

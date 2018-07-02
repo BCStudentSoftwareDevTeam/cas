@@ -77,7 +77,24 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
-
+class EducationTech(dbModel):
+  eId                  = PrimaryKeyField()
+  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
+  smartboards          = IntegerField(default = 0) #default of 0 in room
+  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
+  podium               = IntegerField(default = 0) #default of 0 no. of podium
+  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
+  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
+  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
+  dvd                  = BooleanField()  #has or doesnt have dvd player
+  blu_ray              = BooleanField()  #has or doesnt have blu ray player
+  audio                = BooleanField()  #has or doesnt have audio hookup
+  extro                = BooleanField()
+  doc_cam              = BooleanField()
+  vhs                  = BooleanField()
+  mondopad             = BooleanField()
+  tech_chart           = BooleanField()
+  
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
@@ -91,7 +108,7 @@ class Rooms(dbModel):
   visualAcc     = CharField(null=True)
   audioAcc      = CharField(null=True)
   physicalAcc   = CharField(null=True)
- #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
+  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField(default=False)
@@ -239,9 +256,9 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
-  username     = ForeignKeyField(User)
-  course       = ForeignKeyField(SpecialTopicCourse)
+# class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
+#   username     = ForeignKeyField(User)
+#   course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()
@@ -274,23 +291,7 @@ class CoursesInBanner(dbModel):
   instructor   = ForeignKeyField(User, null=True)
   
 #Begin education tech class
-class EducationTech(dbModel):
-  eId                  = PrimaryKeyField()
-  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-  smartboards          = IntegerField(default = 0) #default of 0 in room
-  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-  podium               = IntegerField(default = 0) #default of 0 no. of podium
-  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-  dvd                  = BooleanField()  #has or doesnt have dvd player
-  blu_ray              = BooleanField()  #has or doesnt have blu ray player
-  audio                = BooleanField()  #has or doesnt have audio hookup
-  extro                = BooleanField()
-  doc_cam              = BooleanField()
-  vhs                  = BooleanField()
-  mondopad             = BooleanField()
-  tech_chart           = BooleanField()
+
 
 # #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
 # class newcrosslisted (dbModel): 
@@ -301,14 +302,14 @@ class EducationTech(dbModel):
 # We are not sure why it is not running when we have these uncommented
 # it says newcrosslisted is already in use by another foreign key
   
-# we brought this down here because it was giving us an error for courses foreign key 
-class RoomPreferences(dbModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=False)
+# # we brought this down here because it was giving us an error for courses foreign key 
+# class RoomPreferences(dbModel):
+#   rpID           = PrimaryKeyField()
+#   course        = ForeignKeyField(Course, related_name='courses')
+#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=False)

@@ -567,23 +567,41 @@ building     = Building(name = 'Science Building', shortName="Sci").save()
 #                             bmid = 1
 #                           ).save()
 
-                
+              
+###ROOMS###
+
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = True,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad             = True,
+  tech_chart           = True
+  ).save()
 
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", visualAccessibility = "Good", audioAccessibility = "B", physicalAccessibility = "A").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
-room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture").save()
-room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Something").save()
-room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture").save()
-room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture").save()
-room = Rooms(building = 1, number ='302', maxCapacity=12, roomType="Something").save()
-room = Rooms(building = 2, number ='305', maxCapacity=15, roomType="Lecture").save()
-room = Rooms(building = 3, number ='308', maxCapacity=18, roomType="Lecture").save()
-room = Rooms(building = 1, number ='402', maxCapacity=12, roomType="Something").save()
-room = Rooms(building = 2, number ='405', maxCapacity=15, roomType="Lecture").save()
-room = Rooms(building = 3, number ='408', maxCapacity=18, roomType="Lecture").save()
+room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Something", educationTech = 1).save()
+room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 1, number ='302', maxCapacity=12, roomType="Something", educationTech = 1).save()
+room = Rooms(building = 2, number ='305', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 3, number ='308', maxCapacity=18, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 1, number ='402', maxCapacity=12, roomType="Something", educationTech = 1).save()
+room = Rooms(building = 2, number ='405', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 3, number ='408', maxCapacity=18, roomType="Lecture", educationTech = 1).save()
 
 
 
