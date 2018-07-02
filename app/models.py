@@ -84,16 +84,16 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibilty     = CharField(null=False)
-  audioAccessibilty      = CharField(null=False)
-  physicalAccessibilty   = CharField(null=False)
+  visualAcc     = CharField(null=False)
+  audioAcc      = CharField(null=False)
+  physicalAcc   = CharField(null=False)
  #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-  specializedEquipment = CharField(null=False)
-  specialFeatures = CharField(null=False)
+  specializedEquipment = CharField(null=True)
+  specialFeatures = CharField(null=True)
   movableFurniture = BooleanField(default=False)
   
   
-class Room_Prefences(dbModel):
+class RoomPreferences(dbModel):
   pID           = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='courses')
   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
@@ -102,7 +102,7 @@ class Room_Prefences(dbModel):
   notes         = CharField(null=True)
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=False)
+  none_Reason   = CharField(null=True)
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -174,7 +174,7 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False, related_name='courses_rid')
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
   def __str__(self):
