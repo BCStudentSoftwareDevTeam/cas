@@ -41,6 +41,7 @@ models:
     - Building
     - Rooms
     - ScheduleDays
+    - RoomPreferences
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
