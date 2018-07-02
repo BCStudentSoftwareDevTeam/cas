@@ -70,11 +70,8 @@
         <select class="from control" name= "keyValue">
             {% for user in users %} <!--- displays names--->
             
-            <option value="{{1}}"> {{user.lastName}} </option>  <!---Green is what we see, white is what user sees--->
-            <!--<option value="1" required> Anne Otieno</option> == $0-->
-            <!--<option value ="2" required> Kat Adams</option>-->
-            <!--<option value = "3" required> Scott Heggen</option>-->
-            {% endfor %}
+            <option value="{{1}}" required> {{user.lastName}} </option>  <!---Green is what we see, white is what user sees,--->
+            {% endfor %} <!--- cant understand why the user.lastname brings first name --->
         </select>
     </div>
 <div>
