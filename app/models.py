@@ -247,7 +247,7 @@ class CoursesInBanner(dbModel):
   
 # we brought this down here because it was giving us an error for courses foreign key 
 class RoomPreferences(dbModel):
-  pID           = PrimaryKeyField()
+  rpID           = PrimaryKeyField()
   course        = ForeignKeyField(Course, related_name='courses')
   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')

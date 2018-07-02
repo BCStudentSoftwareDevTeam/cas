@@ -10,11 +10,10 @@ def roomResolution():
     return render_template("roomResolution.html", courses=course, bannercourses=bannercourses)
       
       
-@app.route("/roomResolutionView", methods=["GET"])
+@app.route("/roomResolutionView/<rpid>", methods=["GET"])
 
-def roomResolutionView():
+def roomResolutionView(rpid):
        # Creating the UI
-    roompreference = RoomPreferences.get()
-    return render_template("roomResolutionView.html", roompreference=roompreference)
-      
-    
+    roompreference = RoomPreferences.get(RoomPreferences.rpID==rpid)
+    buildings = Building.select()
+    return render_template("roomResolutionView.html", roompreference=roompreference, buildings=buildings)

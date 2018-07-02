@@ -554,17 +554,29 @@ instructor = InstructorSTCourse(  username = "myersco",
 
                               
 building     = Building(name = 'Ag Building', shortName = 'Ag').save()
-building     = Building(name = 'Tech Building', shortName="tech").save()
+building     = Building(name = 'Tech Building', shortName="Tech").save()
+building     = Building(name = 'Science Building', shortName="Sci").save()
 
 
 
-                              
+                
 
 ######
 #ROOMS#
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture").save()
+room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture").save()
+room = Rooms(building = 1, number ='302', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 2, number ='305', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 3, number ='308', maxCapacity=18, roomType="Lecture").save()
+room = Rooms(building = 1, number ='402', maxCapacity=12, roomType="Something").save()
+room = Rooms(building = 2, number ='405', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 3, number ='408', maxCapacity=18, roomType="Lecture").save()
+
 
 
 ######
@@ -572,7 +584,8 @@ room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").sa
 ######
 
 roompreference= RoomPreferences(course=1, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-
+roompreference= RoomPreferences(course=2, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=3, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 # try:
 #   os.system('mysql-ctl start')
 #   os.system('python migrateDatabase.py')
