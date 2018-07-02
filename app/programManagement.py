@@ -1,8 +1,7 @@
+#renders actual page
 from allImports import *
 from updateCourse import DataUpdate
 from app.logic.authorization import must_be_admin
-
-
 @app.route("/admin/programManagement/<pid>", methods=["GET"])
 @must_be_admin
 def adminProgramManagement(pid):
