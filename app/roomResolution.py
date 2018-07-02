@@ -18,4 +18,5 @@ def roomResolutionView(rpid):
     buildings = Building.select()
     instructor = InstructorCourse.get()
     course = Course.get()
-    return render_template("roomResolutionView.html", roompreference=roompreference, buildings=buildings, instructor = instructor, courses=course)
+    rooms = Rooms.get()
+    return render_template("roomResolutionView.html", roompreference=roompreference, rooms=rooms, buildings=buildings, instructor = instructor, courses=course)

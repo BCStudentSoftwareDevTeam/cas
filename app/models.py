@@ -84,9 +84,9 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibilty     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibilty      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibilty   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
  #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
   specializedEquipment = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
   specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files

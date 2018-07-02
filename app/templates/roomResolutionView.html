@@ -44,10 +44,10 @@ table, th, td {
             <h2><label for="issue"> Issue Resolved !</label></h2><br>
             <button type="button" class="block">Emory - E102 </button><br>
               <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
-              <label for="roomcapacity">Room Cpacity: </label> 32 <br>
-              <label for="physicalaccessibilty">Physical Accessibilty: </label> A<br>
-              <label for="visualaccessibilty">Visual Accessibilty: </label> B<br>
-              <label for="hearingaccessibilty">Hearing Accessibilty: </label> A <br> 
+              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
+              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
+              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
+              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>
               <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
               
           </div>
@@ -110,7 +110,7 @@ table, th, td {
   <label for="courses">Courses: </label>{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}}<br>
   <label for="time">Time: </label>{{courses.schedule.startTime}} - {{courses.schedule.endTime}}<br>
   <label for="title">Title: </label> {{roompreference.course.bannerRef.ctitle}}<br>
-  <label for="capacity">Capacity: </label>{{courses.capacity}} <br> 
+  <label for="capacity">Capacity: </label> {{courses.capacity}} <br> 
 
 
   <!--<br>Course Capacity: 30</br>-->
