@@ -1,0 +1,132 @@
+<!--User Management HTML page -->
+<!--Deals with adding/removing Access Levels; Division Chairs, Program Chairs, Building Managers, and Administrators.-->
+{% extends "base.html" %} 
+{% set currentPage = "no" %} 
+{% block body %}
+
+
+<h1>User Management</h1> <!---- The title of the page ---->
+
+
+
+<!---First Box--->
+<h3>Add User</h3>
+<div class = "container">
+<div class = "jumbotron"> <!--- Add User Panel--->
+<label for="Access Level">Access Level</label> <!---First dropdown--->
+    <div class = "form-group">
+    <select class="form control" name= "keyValue">
+        {% for access in cfg['accessLevel'] %}
+             <option value="{{access['id']}}">{{access['name']}}</option>
+        {% endfor %}
+    </select>
+    </div
+
+<!--- the following nine lines is just for an illusytration on how to call various attributes of classes in models.py--->
+<!--{{programchairs}}-->
+<!--<br />-->
+<!--{{programchairs[0]}}-->
+<!--<br />-->
+<!--{{programchairs[0].username}}-->
+<!--<br />-->
+<!--{{programchairs[0].username.username}}-->
+<!--<br />-->
+<!--{{programchairs[0].username.lastName}}-->
+
+<div id="Divisions">    
+<label for="Divisions">Divisions</label>
+     <div class = "form-group"> <!--Second dropdown for program/division/building--->
+        <select class="from control" name= "keyValue">
+            {% for division in divisions %}
+            <option value="1" required> {{division.name}}</option> == $0
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<label for="Programs">Programs</label>
+     <div class = "form-group"> <!--Second dropdown for program/division/building--->
+        <select class="from control" name= "keyValue">
+            {% for program in programs %}
+            <option value="1" required>{{program.name}} </option> == $0
+            {% endfor %}
+        </select>
+    </div>
+    
+<label for="Buildings">Buildings</label>
+     <div class = "form-group"> <!--Second dropdown for program/division/building--->
+        <select class="from control" name= "keyValue">
+            {% for building in buildings %}
+            <option value="1" required> {{building.name}}</option> == $0
+            {% endfor %}
+        </select>
+    </div>
+    
+    
+    
+    <!---testing program chair names dropdown--->
+<label for="Add names of chair/manager/admin">Add names of chair/manager/admin</label>
+ <div class = "form-group"> <!---Third drop down form--->
+
+        <select class="from control" name= "keyValue">
+            {% for user in users %} <!--- displays names--->
+            
+            <option value="{{1}}"> {{user.lastName}} </option>  <!---Green is what we see, white is what user sees--->
+            <!--<option value="1" required> Anne Otieno</option> == $0-->
+            <!--<option value ="2" required> Kat Adams</option>-->
+            <!--<option value = "3" required> Scott Heggen</option>-->
+            {% endfor %}
+        </select>
+    </div>
+<div>
+    <label for="Add Button">Add (Button)</label>
+</div> <!---Add Button in bottom right--->
+    <button type="button">Add</button>
+</div>
+</div>
+
+
+<!---SECOND BOX--->
+<h3>Remove User</h3>
+<div class = "container">
+<div class = "jumbotron"> <!---Remove User--->
+
+<label for="Access Level">Access Level</label>
+<div> <!--- first drop down--->
+  <select class="form control" name= "keyValue">
+        {% for access in cfg['accessLevel']%}
+             <option value="{{access['id']}}">{{access['name']}}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+
+<label for="Remove">Remove</label>
+ <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
+ <select class="from control" name= "keyValue">
+            <option value="1" required> Anne Otieno</option> == $0
+            <option value ="2" required> Kat Adams</option>
+            <option value = "3" required> Scott Heggen</option>
+        </select>
+    </div>
+<label for="Remove">Remove (button)</label>
+<div><!---Remove button--->
+    <button type="button">Remove</button>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+ {% endblock %}
+  
+  
+  
+  
+  
+      
+
+
