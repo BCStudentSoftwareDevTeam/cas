@@ -76,16 +76,15 @@ adminMenu:
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
-<<<<<<< HEAD
+
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
-=======
     # we added
   - title: "Room Resolution"
     link:  "/roomResolution"
     page: ["roomResolution"]
->>>>>>> b0ed5dab612a3133f81885b6705546eac5ddc318
+
     
 #If you ever change the current states, you cannot duplicate the values, because
 #it will mess up what the numbers symbolize inside of the database. 

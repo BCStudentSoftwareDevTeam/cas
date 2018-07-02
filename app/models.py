@@ -94,7 +94,7 @@ class Rooms(dbModel):
   
   
 class Room_Prefences(dbModel):
-  pID           = PrimaryKeyField()
+  rpID           = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='courses')
   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
