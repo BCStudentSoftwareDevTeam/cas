@@ -98,7 +98,22 @@ class Building(dbModel):
     return self.name 
   
 
-
+class EducationTech(dbModel):
+  eID           =PrimaryKeyField()
+  chalkboard    =IntegerField(null=False)
+  computers      =IntegerField(null=False)
+  projectors     =IntegerField(null=False)
+  podium          =IntegerField(null=False)
+  smartboards     =IntegerField(null=False)
+  studentWorkStations =IntegerField(null=False)
+  whiteboards         =IntegerField(null=False)
+  audio               =CharField(null=False)
+  blue_ray            = CharField(null=False)
+  doc_cam             = CharField(null=False)
+  dvd                 =   CharField(null=False)
+  extro               = CharField(null=False)
+  mondo_pad           = CharField(null=False)
+  
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
@@ -106,13 +121,13 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibilty     = CharField(null=True)
+  visualAccessibilty     =CharField(null=True)
   audioAccessibilty      = CharField(null=True)
   physicalAccessibilty   = CharField(null=True)
- #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
+  educationTech        = ForeignKeyField(EducationTech, related_name='educationTech')
   specializedEquipment = CharField(null=True)
   specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(default=True)
+  movableFurniture = CharField(default=True)
 
   
 #added
@@ -190,6 +205,7 @@ class Course(dbModel):
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   capacity          = IntegerField(null = True)
+  time              = CharField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
@@ -204,9 +220,9 @@ class Course(dbModel):
 class RoomPreferences(dbModel):
   pID           = PrimaryKeyField()
   course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  pref_1        = ForeignKeyField(Rooms, related_name='preference1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference3') #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)

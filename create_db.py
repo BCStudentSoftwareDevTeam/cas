@@ -337,14 +337,15 @@ term = Term(  name              = "Fall 2018",
 ########
 #COURSE#
 ########
-course1 = Course(  bannerRef         = 1,
+course = Course(  bannerRef         = 1,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  time              = "8:00 am"
                 ).save()
                 
 course = Course(  bannerRef         = 2,
@@ -554,18 +555,40 @@ instructor = InstructorSTCourse(  username = "myersco",
 
                               
 building     = Building(name = 'Ag Building', shortName="AG").save()
-building1     = Building(name = 'Tech Building', shortName="DT").save()
+building     = Building(name = 'Tech Building', shortName="DT").save()
 
 
+####
+#Education Tech for Rooms
+#####
+educationTech= EducationTech( 
+    
+          chalkboard= 1,
+          computers= 4,
+          projectors= 6,
+          podium    = 4,
+          smartboards = 3,
+          studentWorkStations= 1,
+          whiteboards= 1,
+          audio=  "Yes",    
+          blue_ray = "Yes",
+          doc_cam= "Yes",
+          dvd=   "Yes",
+          extro= "No",
+          mondo_pad = "Yes").save()
+#####
                               
 
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lab").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 1,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", 
+visualAccessibilty="yes").save()
+room = Rooms(building = 2, number ="105", maxCapacity=15, 
+roomType="Lecture", visualAccessibilty="no",  audioAccessibilty="yes", physicalAccessibilty = "yes").save()
 
-roompreference= RoomPreferences(course=course.prefix, pref_1=room.number,pref_2=room.number, pref_3=3,notes="None",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=2,notes="None",any_Choice = "any", 
+none_choice = "no other rooms work", none_Reason = "None").save()
 
 # try:
 #   os.system('mysql-ctl start')
