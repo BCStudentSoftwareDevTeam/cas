@@ -23,34 +23,40 @@ table, th, td {
   
   <h2><label for="changes"> Your changes have been saved !</label></h2><br>
   
-<div class="container">
- 
-<div id="header">
-<h3><button class="tablink" onclick="openPage('Available Rooms', this, 'green')">Available Rooms</button>
-<button class="tablink" onclick="openPage('Preference One', this, 'green')">Preference One</button>
-<button class="tablink" onclick="openPage('Preference Two', this, 'green')">Preference Two</button>
-<button class="tablink" onclick="openPage('Preference Three', this, 'green')">Preference Three</button></h3>
-</div>
-
-
-<!--This is for the replacement once the available room is chosen -->
-
-  <h2><label for="issue"> Issue Resolved !</label></h2><br>
-  <button type="button" class="block">Emory - E102 </button><br>
-    <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
-    <label for="roomcapacity">Room Cpacity: </label> 32 <br>
-    <label for="physicalaccessibilty">Physical Accessibilty: </label> A<br>
-    <label for="visualaccessibilty">Visual Accessibilty: </label> B<br>
-    <label for="hearingaccessibilty">Hearing Accessibilty: </label> A <br> 
-    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
-    
-</div>
+          <div class="container">
+           
+                    <div id="header">
+                            <h3><button class="tablink" onclick="openPage('Available Rooms', this, 'green')">Available Rooms</button>
+                            <button class="tablink" onclick="openPage('Preference One', this, 'green')">Preference One</button>
+                            <button class="tablink" onclick="openPage('Preference Two', this, 'green')">Preference Two</button>
+                            <button class="tablink" onclick="openPage('Preference Three', this, 'green')">Preference Three</button></h3>
+                           
+                                {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}
+                                {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}
+                                {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}
+                        
+                      
+                    </div>
+          
+          
+          <!--This is for the replacement once the available room is chosen -->
+          
+            <h2><label for="issue"> Issue Resolved !</label></h2><br>
+            <button type="button" class="block">Emory - E102 </button><br>
+              <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
+              <label for="roomcapacity">Room Cpacity: </label> 32 <br>
+              <label for="physicalaccessibilty">Physical Accessibilty: </label> A<br>
+              <label for="visualaccessibilty">Visual Accessibilty: </label> B<br>
+              <label for="hearingaccessibilty">Hearing Accessibilty: </label> A <br> 
+              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
+              
+          </div>
 
 <!--to assign the room-->
 
 <p><div>Are you sure you want to assign room _____ to course ______?<br>
-<input type="button" class="btn btn-primary btn-sm" value="Yes" />
-<input type="button" class="btn btn-primary btn-sm" value="No" />
+      <input type="button" class="btn btn-primary btn-sm" value="Yes" />
+      <input type="button" class="btn btn-primary btn-sm" value="No" />
 </div></p>
 
 
@@ -99,17 +105,14 @@ table, th, td {
 
 <!--This is                                              a comment-->
 
-  <h3> Unassigned Class</h3>
-  <label for="professor">Professor: </label> Dr. Heggen <br>
-  <label for="courses">Courses: </label> CSC-236 <br>
-  <label for="time">Time: </label> 10:00 AM <br>
-  <label for="title">Title: </label> Data Structures <br>
-  <label for="capacity">Capacity: </label> 30 <br>
+  <h3>Unassigned Class</h3>
+  <label for="professor">Professor: </label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}} <br>
+  <label for="courses">Courses: </label>{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}}<br>
+  <label for="time">Time: </label>{{courses.schedule.startTime}} - {{courses.schedule.endTime}}<br>
+  <label for="title">Title: </label> {{roompreference.course.bannerRef.ctitle}}<br>
+  <label for="capacity">Capacity: </label>{{courses.capacity}} <br> 
 
-  
-  <!--<br>Course CSC-236</br>-->
-  <!--<br>Time: 10:00 AM</br>-->
-  <!--<br>Title: Data Structures</br>-->
+
   <!--<br>Course Capacity: 30</br>-->
   <br>Notes: </br>
   <textarea rows="6" cols="80">

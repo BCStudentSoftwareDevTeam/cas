@@ -84,6 +84,7 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
+<<<<<<< HEAD
   visualAcc     = CharField(null=True)
   audioAcc      = CharField(null=True)
   physicalAcc   = CharField(null=True)
@@ -103,6 +104,17 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
+=======
+  visualAccessibilty     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibilty      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibilty   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+ #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
+  specializedEquipment = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
+  specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
+  movableFurniture = BooleanField(default=True)  #Has to be false, we added it just because we wanted  to run the files
+  
+ 
+>>>>>>> soto_hamza_mod
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -259,6 +271,7 @@ class CoursesInBanner(dbModel):
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
   
+<<<<<<< HEAD
 #Begin education tech class
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
@@ -287,3 +300,16 @@ class EducationTech(dbModel):
 # We are not sure why it is not running when we have these uncommented
 # it says newcrosslisted is already in use by another foreign key
   
+=======
+# we brought this down here because it was giving us an error for courses foreign key 
+class RoomPreferences(dbModel):
+  rpID           = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=False)
+>>>>>>> soto_hamza_mod
