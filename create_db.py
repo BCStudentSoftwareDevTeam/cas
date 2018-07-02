@@ -569,7 +569,7 @@ building     = Building(name = 'Tech Building').save()
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
-
+roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
 # try:
 #   os.system('mysql-ctl start')
 #   os.system('python migrateDatabase.py')
