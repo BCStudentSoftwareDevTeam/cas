@@ -98,7 +98,40 @@ class Building(dbModel):
     return self.name 
   
 
-
+# class EducationTech(dbModel):
+#   eID           =PrimaryKeyField()
+#   chalkboard    =IntegerField(null=False)
+#   computers      =IntegerField(null=False)
+#   projectors     =IntegerField(null=False)
+#   podium          =IntegerField(null=False)
+#   smartboards     =IntegerField(null=False)
+#   studentWorkStations =IntegerField(null=False)
+#   whiteboards         =IntegerField(null=False)
+#   audio               =CharField(null=False)
+#   blue_ray            = CharField(null=False)
+#   doc_cam             = CharField(null=False)
+#   dvd                 =   CharField(null=False)
+#   extro               = CharField(null=False)
+#   mondo_pad           = CharField(null=False)
+  
+#Begin education tech class
+class EducationTech(dbModel):
+  eId                  = PrimaryKeyField()
+  projectors           = IntegerField(default = 0) #each room has a default of 0 projectors
+  smartboards          = IntegerField(default = 0) #default of 0 in room
+  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
+  podium               = IntegerField(default = 0) #default of 0 no. of podium
+  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
+  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
+  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
+  dvd                  = BooleanField()  #has or doesnt have dvd player
+  blu_ray              = BooleanField()  #has or doesnt have blu ray player
+  audio                = BooleanField()  #has or doesnt have audio hookup
+  extro                = BooleanField()
+  doc_cam              = BooleanField()
+  vhs                  = BooleanField()
+  mondopad             = BooleanField()
+  tech_chart           = BooleanField()
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
@@ -106,28 +139,36 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
- #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
+  visualAccessibilty     =CharField(null=True)
+  audioAccessibilty      = CharField(null=True)
+  physicalAccessibilty   = CharField(null=True)
+  educationTech        = ForeignKeyField(EducationTech, related_name='educationTech')
+  specializedEquipment = CharField(null=True)
   specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(default=False)
+  movableFurniture = CharField(default=True)
+
+# <<<<<<< HEAD
+#   visualAcc     = CharField(null=True)
+#   audioAcc      = CharField(null=True)
+#   physicalAcc   = CharField(null=True)
+# #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
+#   specializedEq = CharField(null=True)
+#   specialFeatures = CharField(null=True)
+#   movableFurniture = BooleanField(default=False)
   
   
-class RoomPreferences(dbModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
+# class RoomPreferences(dbModel):
+#   rpID           = PrimaryKeyField()
+#   course        = ForeignKeyField(Rooms, related_name='courses')
+#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=True)
   
-  
-  
+ 
 #added
 class Building_User(dbModel):
   buID = ForeignKeyField(Rooms, null=False)
@@ -203,6 +244,7 @@ class Course(dbModel):
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   capacity          = IntegerField(null = True)
+  time              = CharField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
@@ -212,6 +254,19 @@ class Course(dbModel):
   prereq            = CharField(null = True) 
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+  
+  
+class RoomPreferences(dbModel):
+  pID           = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference3') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=False)
+  
 
 class SpecialTopicCourse(dbModel):
   stId                 = PrimaryKeyField()
@@ -258,7 +313,10 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
+
 # class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
+
+# class InstructorSTCourse(dbModel):
 #   username     = ForeignKeyField(User)
 #   course       = ForeignKeyField(SpecialTopicCourse)
   
@@ -293,24 +351,7 @@ class CoursesInBanner(dbModel):
   instructor   = ForeignKeyField(User, null=True)
 
   
-#Begin education tech class
-class EducationTech(dbModel):
-  eId                  = PrimaryKeyField()
-  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-  smartboards          = IntegerField(default = 0) #default of 0 in room
-  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-  podium               = IntegerField(default = 0) #default of 0 no. of podium
-  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-  dvd                  = BooleanField()  #has or doesnt have dvd player
-  blu_ray              = BooleanField()  #has or doesnt have blu ray player
-  audio                = BooleanField()  #has or doesnt have audio hookup
-  extro                = BooleanField()
-  doc_cam              = BooleanField()
-  vhs                  = BooleanField()
-  mondopad             = BooleanField()
-  tech_chart           = BooleanField()
+
 
 # #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
 # class newcrosslisted (dbModel): 

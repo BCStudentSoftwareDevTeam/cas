@@ -13,31 +13,33 @@
     <h1>Room Preference</h1>
     <div class="roomPreference">
         <table>
-                <th>{% for course in courses %}{{ course.prefix}} {% endfor %}</th>
-                <th>1st Preference ||</th>
-                <th>2nd Preference ||</th>
-                <th> 3rd Preference || </th>
-                <th> Section || </th>
-                <th> Time || </th>
-                <th> # of Students ||</th>
+                <th> Course </th>
+                <th> Pref 1</th>
+                <th> Pref 2</th>
+                <th> Pref 3 </th>
+                <th> Section </th>
+                <th> Time </th>
+                <th> # of Students </th>
                 <th> Notes </th>
+                {% for roompreference in roompreferences %}
             <tr class = "courseTaberow1">
-                <td>MAT 012 </td>
-                <td><button type="button" class="btn btn-primary">Any Room</button></td>
-                <td><button type="button" class="btn btn-primary"> Any Room </button></td>
-                <td><button type="button" class="btn btn-primary">Any Room</button></td>
-                <td> B </td> <br>
-                <td > 8:00 am </td>
-                <td align="center"> 23 </td>
-                <td><button type="button"class="btn btn-primary"> <a> add note</a></a> </button></td>
+                <td>{{roompreference.course.prefix}}</td>
+                <td><button type="button" class="btn btn-primary">{{roompreference.any_Choice}}</button></td>
+                <td><button type="button" class="btn btn-primary"> {{roompreference.any_Choice}}</button></td>
+                <td><button type="button" class="btn btn-primary">{{ roompreference.any_Choice}}</button></td>
+                <td> {{roompreference.course.section}} </td> <br>
+                <td > {{roompreference.course.time}}</td>
+                <td align="center">{{roompreference.course.capacity}} </td>
+                <td><button type="button"class="btn btn-primary"> <a{{ roompreference.notes}}</a></a> </button></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>
 
 <div class="popup">
     <table>
-    <caption> Room# </caption>
+    <caption>Room </caption>
     <tr>
         <td>
             <input type="text" placeholder="Search Room"/>
@@ -46,14 +48,14 @@
     <tr>
         <td class = "popup_info">
             <div>
-            <strong>{{room.building.name }}{{ room.number}}</strong><br>
+            <strong>{{room.building.shortName}} {{ room.number }}</strong><br>
             Room Capacity: {{room.maxCapacity}}<br>
-            Visual Accessibility  : yes<br>
-            Audio Accessibility   : Yes<br>
-            Physical Accessibilty : Yes<br>
-            Specialized Equipment : Scott's Electronics<br>
-            Movable Furniture     : Tables<br>
-            Special Feature Notes : Do not schedule before TAD 265<br>
+            Visual Accessibility  : {{room.visualAccessibilty}}<br>
+            Audio Accessibility   : {{room.audioAccessibilty}}<br>
+            Physical Accessibilty : {{room.physicalAccessibilty}}<br>
+            Specialized Equipment : {{room.specializedEquipment}}<br>
+            Movable Furniture     : {{room.movableFurniture}}<br>
+            Special Feature Notes : {{room.specialFeatures}}<br>
             Education tech        : <button type = "button"> View </button> 
             </div>
         </td>
@@ -61,12 +63,7 @@
             <strong align="left">Course Conflicts</strong> <br>
             <table border="1">
               <tr>
-                <th>Course</th>
-                <th>{{user.username}}</th>
-              </tr>
-              <tr>
-                <td>{{</td>
-                <td>Heggens</td>
+                <td>Scott</td>
               </tr>
               <tr>
                 <td>TAD 400</td>
@@ -78,6 +75,7 @@
     </table>
     
     <table>
+        
         <th>Education Tech  </th> 
         <tr>
         <td> Chalkboards            : 2 <br> 

@@ -344,7 +344,8 @@ course = Course(  bannerRef         = 1,
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  time              = "8:00 am"
                 ).save()
                 
 course = Course(  bannerRef         = 2,
@@ -553,27 +554,64 @@ instructor = InstructorSTCourse(  username = "myersco",
 ######                             
 
                               
+
 building     = Building(name = 'Ag Building', shortName = "AG").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
+
+building     = Building(name = 'Ag Building', shortName="EMR").save()
+building     = Building(name = 'Tech Building', shortName="FR").save()
+
 
 ###############
 #Building Manager#
 ##################
 
+
 # bmanager = BuildingManager( username = "heggens",
 #                             bmid = 1
 #                           ).save()
+
+####
+#Education Tech for Rooms
+#####
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = True,
+  blu_ray              = False,
+  audio                = True,
+  extro                = False,
+  doc_cam              = True,
+  vhs                  = False,
+  mondopad             = True,
+  tech_chart           = True
+  ).save()
+
+#####
+                              
+
 
 ######
 #ROOMS#
 ######
 
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lab").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
+room = Rooms(building = 1,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", 
+visualAccessibilty=True, audioAccessibilty=True).save()
+room = Rooms(building = 2, number ="105", maxCapacity=15, 
+roomType="Lecture", visualAccessibilty=False,  audioAccessibilty=True, physicalAccessibilty = False).save()
 
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=2,notes="None",any_Choice = "any", 
+none_choice = "no other rooms work", none_Reason = "None").save()
+
+
+# room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
 
 # try:
 #   os.system('mysql-ctl start')
