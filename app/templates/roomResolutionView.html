@@ -43,7 +43,9 @@ table, th, td {
           
             <h2><label for="issue"> Issue Resolved !</label></h2><br>
             <button type="button" class="block">Emory - E102 </button><br>
-              <label for="resources">Resources: </label> 2 smartboards and other stuff <br>
+              <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>
+              
+              {# do we add all the options or how do we go about this? #} 
               <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
               <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
               <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
@@ -107,11 +109,11 @@ table, th, td {
 
   <h3>Unassigned Class</h3>
   <label for="professor">Professor: </label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}} <br>
-  <label for="courses">Courses: </label>{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}}<br>
-  <label for="time">Time: </label>{{courses.schedule.startTime}} - {{courses.schedule.endTime}}<br>
-  <label for="title">Title: </label> {{roompreference.course.bannerRef.ctitle}}<br>
+  <label for="courses">Courses: </label>{{courses.prefix.prefix}}-{{courses.bannerRef.number}}<br>
+  <label for="time">Time: </label> {{courses.schedule.startTime}} - {{courses.schedule.endTime}}<br>
+  <label for="title">Title: </label> {{courses.bannerRef.ctitle}}<br>
   <label for="capacity">Capacity: </label> {{courses.capacity}} <br> 
-
+  
 
   <!--<br>Course Capacity: 30</br>-->
   <br>Notes: </br>

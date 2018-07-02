@@ -101,7 +101,6 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-
   visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
@@ -124,9 +123,9 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
-  visualAccessibilty     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibilty      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibilty   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
  #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
   specializedEquipment = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
   specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
@@ -288,6 +287,7 @@ class InstructorCourseChange(dbModel):
 class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
+  
   instructor   = ForeignKeyField(User, null=True)
   
 #Begin education tech class
