@@ -359,7 +359,7 @@ course = Course(  bannerRef         = 2,
 
 course = Course(  bannerRef         = 3,
                   prefix            = "TAD",
-                  term              = 201612,
+                  term             = 201612,
                   schedule          = "A",
                   section           = "A",
                   capacity          = 20,
@@ -556,6 +556,17 @@ instructor = InstructorSTCourse(  username = "myersco",
 building     = Building(name = 'Ag Building', shortName = 'Ag').save()
 building     = Building(name = 'Tech Building', shortName="Tech").save()
 building     = Building(name = 'Science Building', shortName="Sci").save()
+
+
+
+###############
+#Building Manager#
+##################
+
+# bmanager = BuildingManager( username = "heggens",
+#                             bmid = 1
+#                           ).save()
+
                 
 
 ######
@@ -589,3 +600,4 @@ roompreference= RoomPreferences(course=3, pref_1=1, pref_2=2, pref_3=3, notes="N
 # except:
 #   print "Migration failed"
 #   raise
+
