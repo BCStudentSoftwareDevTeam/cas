@@ -75,14 +75,34 @@ class Term(dbModel):
 class Building(dbModel):
   bID           = PrimaryKeyField()
   name          = CharField()
+  shortName     = CharField()
 
 
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=True)
+  maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
+  visualAcc     = CharField(null=True)
+  audioAcc      = CharField(null=True)
+  physicalAcc   = CharField(null=True)
+ #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
+  specializedEq = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField(default=False)
+  
+  
+class RoomPreferences(dbModel):
+  rpID           = PrimaryKeyField()
+  course        = ForeignKeyField(Rooms, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=True)
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -154,10 +174,9 @@ class Course(dbModel):
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
-  prereq            = CharField(null = True)
-  
+  prereq            = CharField(null = True) 
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
@@ -172,7 +191,7 @@ class SpecialTopicCourse(dbModel):
   notes                = TextField(null = True)
   lastEditBy           = CharField(null = True)
   submitBy             = CharField(null = True)
-  crossListed          = BooleanField()
+  crossListed          = BooleanField() 
   rid                  = ForeignKeyField(Rooms, null = True)
   status               = IntegerField(default = 0) # 0: Saved, 1: Submitted, 2: Sent to Dean, 3: Approved, 4: Denied
   credits              = CharField(default = "1.000")
@@ -193,6 +212,10 @@ class ProgramChair(dbModel):
 class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
+  
+# class BuildingManager(dbModel):
+#   username     = ForeignKeyField(User)
+#   bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
@@ -202,7 +225,7 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-class InstructorSTCourse(dbModel):
+class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
   username     = ForeignKeyField(User)
   course       = ForeignKeyField(SpecialTopicCourse)
   
@@ -223,7 +246,7 @@ class CourseChange(dbModel):
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True)
+  rid               = ForeignKeyField(Rooms, null = False)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
@@ -235,4 +258,32 @@ class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
+  
+#Begin education tech class
+class EducationTech(dbModel):
+  eId                  = PrimaryKeyField()
+  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
+  smartboards          = IntegerField(default = 0) #default of 0 in room
+  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
+  podium               = IntegerField(default = 0) #default of 0 no. of podium
+  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
+  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
+  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
+  dvd                  = BooleanField()  #has or doesnt have dvd player
+  blu_ray              = BooleanField()  #has or doesnt have blu ray player
+  audio                = BooleanField()  #has or doesnt have audio hookup
+  extro                = BooleanField()
+  doc_cam              = BooleanField()
+  vhs                  = BooleanField()
+  mondopad             = BooleanField()
+  tech_chart           = BooleanField()
 
+# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
+# class newcrosslisted (dbModel): 
+#   clId                 = PrimaryKeyField()
+#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
+#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
+#   verified             = BooleanField() #Verified? = yes or no
+# We are not sure why it is not running when we have these uncommented
+# it says newcrosslisted is already in use by another foreign key
+  

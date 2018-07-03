@@ -26,9 +26,10 @@
     {% endfor %}
   </ul>
   
-  <ul class="nav navbar-top-links navbar-right">
+  <ul class="nav navbar-nav navbar-top-links navbar-right">
+    
     {% if isAdmin %}
-      <li class="dropdown">
+      <li class=" nav dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" > Administration <span class="caret"></span></a>
         <ul class="dropdown-menu">
           {% for menuItem in cfg['adminMenu'] %}

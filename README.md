@@ -1,9 +1,9 @@
 [TOC]
 #Installation#
 ## Requirements ##
-* python 2.7
-* linux, unix, mac, windows(with attachments)
-* git 
+* Python 2.7
+* One of the following: linux, unix, mac or windows (with attachments)
+* Git 
 
 ## Creating Development Environment ##
 
@@ -19,11 +19,11 @@ python app.py
 ```
 You can now check your localhost to see if it deployed correctly.
 
-3. If working on a **cloud9** account follow instructions below to create a new workspace
+3. If working on a **cloud9** account follow instructions below to create a new workspace.
     1. Input your project name and description
     2. Get the git URL of your forked reposistory from BitBucket
     3. You should get the SSH URL, it should look something like: git@bitbucket.org:username/repositoryname.git
-    4. Now paste the git URL into "Clone from Git URL" field in cloud9
+    4. Now paste the git URL into "Clone from Git URL" field in cloud9.
 ``` bash
 source setup.sh
 python create_db.py
@@ -34,7 +34,7 @@ If you are succesful you will see something like:
 Starting application
 Running server at http://0.0.0.0:8080/
 ```
-Click the link in your terminal to check if it deployed correctly.
+Click the link in your terminal to check if it is deployed correctly.
 
 # Working with the flask template #
 ## File Hierarchy ##
@@ -63,7 +63,7 @@ Some **important** files and directories.
 If you want to make a new table then you will add a class to this file, see the example in the models.py file.
 Once you are done making changes to this file run create_db.py to make the changes in the database.
 
-* App/ directory - This directory will contain a python module. In order for python files to be recognized they must be added to the \_\_init\_\_.py file in this directory.
+* App/ directory - This directory will contain a python module in order for python files to be recognized they must be added to the \_\_init\_\_.py file in this directory.
 
 * start.py - This file is a very quick example of a python file that will render a page. This file processes and renders the start.html file located under templates.
 
@@ -102,9 +102,13 @@ query = tableName.get( condition = something )
 ```
 This will return a python object that will have the data as attributes. You can pass this object to the html file. You can access this data by typing query.Column. 
 
+NOTE: Needs more details on asking query to finish reading and writing to the database.
+
 ## Documentation links ##
 
 * [Jinja Documentation](http://jinja.pocoo.org/)
 * [Peewee Documentation](http://docs.peewee-orm.com/en/latest/)
 * [Git documentation](https://git-scm.com/documentation)
 * [Flask Documentation](http://flask.pocoo.org/docs/0.10/)
+
+

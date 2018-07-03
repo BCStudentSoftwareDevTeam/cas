@@ -1,0 +1,14 @@
+/* for our Room resolutions UI*/ 
+
+.b {
+  font-weight:normal;
+}
+
+.col {
+    color: green;
+}
+
+.center {
+    margin: auto;
+    width: 60%;
+}

@@ -35,6 +35,15 @@ users = User(  firstName = "Cody",
                 isAdmin   = 0,
                 bNumber   = "1774409485"
             ).save(force_insert=True) 
+            
+users = User(  firstName = "Emily",
+                lastName  = "Lovell",
+                username  = "lovelle",
+                email     = "lovelle@berea.edu",
+                isAdmin   = 0,
+                bNumber   = "1239475"
+            ).save(force_insert=True)
+
 ##########
 #DIVISION#
 ##########
@@ -350,7 +359,7 @@ course = Course(  bannerRef         = 2,
 
 course = Course(  bannerRef         = 3,
                   prefix            = "TAD",
-                  term              = 201612,
+                  term             = 201612,
                   schedule          = "A",
                   section           = "A",
                   capacity          = 20,
@@ -544,21 +553,27 @@ instructor = InstructorSTCourse(  username = "myersco",
 ######                             
 
                               
-building     = Building(name = 'Ag Building').save()
-building     = Building(name = 'Tech Building').save()
+building     = Building(name = 'Ag Building', shortName = "AG").save()
+building     = Building(name = 'Tech Building', shortName = "DFT").save()
 
+###############
+#Building Manager#
+##################
 
-                              
+# bmanager = BuildingManager( username = "heggens",
+#                             bmid = 1
+#                           ).save()
 
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture").save()
-
+room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
 # try:
 #   os.system('mysql-ctl start')
 #   os.system('python migrateDatabase.py')
 # except:
 #   print "Migration failed"
 #   raise
+
