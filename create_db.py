@@ -592,8 +592,8 @@ educationTech= EducationTech(
 #ROOMS#
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lecture", educationTech = 1,  visualAccessibility = "Good", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
-room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture", educationTech = 1).save()
+room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", educationTech = 1, visualAccessibility = "Bad", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture", educationTech = 1, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Something", educationTech = 1).save()
 room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture", educationTech = 1).save()
 room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture", educationTech = 1).save()

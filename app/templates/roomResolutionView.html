@@ -6,97 +6,345 @@
 <!--Page Content -->
 {% block body %}
 
-<div class="center">
-  <h1 class="text-center"> <b>Room Resolutions View </b> </h1>
- </div>
- 
-<!--<link rel="stylesheet" href="/static/css/roomResolutionView.css">-->
-
- 
 <html>
 <body>
-  
+<div class="center">
+  <h1 class="text-center"> <b>Room Resolutions View </b> </h1>
   <h2 class="text-center"><label for="changes"> Your changes have been saved !</label></h2><br>
-  
-  <div class="container">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#"><h4>Available Rooms</h4></a></li>
-    <li><a href="#"><h4>Preference One</h4></a></li>
-    <li><a href="#"><h4>Preference Two</h4></a></li>
-    <li><a href="#"><h4>Preference Three</h4></a></li>
-  </ul>
-  <br>
-  </div>
-  
-  <div class="container">
-  <ul class="nav nav-pills nav-stacked">
-    <li><a href="#"><h4>{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</h4></a></li>
-    <li><a href="#"><h4>{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</h4></a></li>
-    <li><a href="#"><h4>{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</h4></a></li>
-  </ul>
 </div>
-          <!--<div class="container">-->
-           
-                    <!--{# <div id="header"> #}-->
-                    <!--        <h3><button class="tablink" onclick="openPage('Available Rooms', this, 'green')">Available Rooms</button>-->
-                    <!--        <button class="tablink" onclick="openPage('Preference One', this, 'green')">Preference One</button>-->
-                    <!--        <button class="tablink" onclick="openPage('Preference Two', this, 'green')">Preference Two</button>-->
-                    <!--        <button class="tablink" onclick="openPage('Preference Three', this, 'green')">Preference Three</button></h3>-->
-                           
-          <!--                      {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}-->
-          <!--                      {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}-->
-          <!--                      {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}-->
-                        
-                      
-          <!--           </div> -->
-          
-          
-          <!--This is for the replacement once the available room is chosen -->
-
-          
-            <h2><label for="issue"> Issue Resolved !</label></h2><br>
-            <button type="button" class="block">Emory - E102 </button><br>
-              <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>
-              
-              {# do we add all the options or how do we go about this? #} 
-              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
-              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
-              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
-              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>
-              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
-              
+ 
+<!--<link rel="stylesheet" href="/static/css/roomResolutionView.css">-->
+<!-- -->
+<!-- Container for the Unassigned class and -->
+<div class="container-fluid">
+    <div class = "row"><h3><strong>Unassigned Class</strong></h3></div>
+      <div class="row">
+        <div class="col-xs-4">
+                    <label for="professor"><h4><strong>Professor: </strong></label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}}</h4>
+                    <label for="courses"><h4><strong>Courses: </strong></label>{{courses.prefix.prefix}}-{{courses.bannerRef.number}}</h4>
+                    <label for="time"><h4><strong>Time:</strong> </label> {{courses.schedule.startTime}} - {{courses.schedule.endTime}}</h4>
+                    <label for="title"><h4><strong>Title:</strong> </label> {{courses.bannerRef.ctitle}}</h4>
+                    <label for="capacity"><h4><strong>Capacity:</strong> </label> {{courses.capacity}} </h4><br>
+                    <h4><strong>Notes:</strong> </h4>
+                    <textarea rows="6" cols="40">
+                    I need this room for very important reasons.
+                    </textarea> 
+              <div>
+                    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
+              </div>
           </div>
+        
+  
+    <div class="col-xs-8">
+
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#"><h4>Available Rooms</h4></a></li>
+        <li><a href="#"><h4>Preference One</h4></a></li>
+        <li><a href="#"><h4>Preference Two</h4></a></li>
+        <li><a href="#"><h4>Preference Three</h4></a></li>
+      </ul>
+    <br>
+    
+    
+          <!--<div class="container">-->
+          <!--          <ul class="nav nav-pills nav-stacked">-->
+            
+          <!--                   <div class="container">-->
+          <!--                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</h4></a></li></button>-->
+          <!--                      <div id="demo" class="collapse">-->
+                                    
+          <!--                                    <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+          <!--                                    <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+          <!--                                    <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+          <!--                                    <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+          <!--                                    <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+          <!--                                    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+          <!--                      </div>-->
+          <!--                    </div>-->
+                              
+          <!--                    <div class="container">-->
+          <!--                    <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</h4></a></li></button>-->
+          <!--                        <div id="demo" class="collapse">-->
+                                    
+          <!--                                    <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+          <!--                                    <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+          <!--                                    <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+          <!--                                    <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+          <!--                                    <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+          <!--                                    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+          <!--                    </div><br>-->
+          <!--                    </div>-->
+                              
+          <!--                    <div class="container"> -->
+          <!--                      <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</h4></a></li></button>-->
+          <!--                        <div id="demo" class="collapse">-->
+                                    
+          <!--                                    <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+          <!--                                    <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+          <!--                                    <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+          <!--                                    <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+          <!--                                    <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+          <!--                                    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+          <!--                        </div><br>-->
+          <!--                    </div>-->
+                    
+  <!--this is imp                  -->
+                      <div class="container">
+                        <div class="panel-group" id="accordion">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</a>
+                              </h4>
+                            </div>
+                              <div id="collapse1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                
+                                   <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>
+                                              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
+                                              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
+                                              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
+                                              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>
+                                              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>
+                              </div>
+                              </div>
+                            </div>
+                            
+                            
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</a>
+                              </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                
+                                      <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>
+                                              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
+                                              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
+                                              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
+                                              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>
+                                              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>
+                              </div>                                
+                             </div>
+                          </div>  
+                                
+                                
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</a>
+                              </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                
+                                      <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>
+                                              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>
+                                              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>
+                                              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> 
+                                              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>
+                                              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>
+                              </div>                                
+                            </div>
+                          </div>  
+                      </div>
+                    </div>
+ 
+<!--</div>-->
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <p><div>Are you sure you want to assign room _____ to course ______?<br>
+                          <input type="button" class="btn btn-primary btn-sm" value="Yes" />
+                          <input type="button" class="btn btn-primary btn-sm" value="No" />
+                    </div></p>
+                    
+                    
+                    After the room has been assigned and the preference is roomless now is available room was not selected
+                    
+                    
+                    <p><div>Do you want to schedule ____ now?<br>
+                    <input type="button" class="btn btn-primary btn-sm" value="Yes" />
+                    <input type="button" class="btn btn-primary btn-sm" value="No" />
+                    </div></p>
+                    
+        </div>               
+      </div>
+    </div>
+</div>
+</body>
+</html>
+<!--  <h2 class="text-center"><label for="changes"> Your changes have been saved !</label></h2><br>-->
+  
+<!--  <div class="container">-->
+<!--  <ul class="nav nav-tabs">-->
+<!--    <li class="active"><a href="#"><h4>Available Rooms</h4></a></li>-->
+<!--    <li><a href="#"><h4>Preference One</h4></a></li>-->
+<!--    <li><a href="#"><h4>Preference Two</h4></a></li>-->
+<!--    <li><a href="#"><h4>Preference Three</h4></a></li>-->
+<!--  </ul>-->
+<!--  <br>-->
+<!--  </div>-->
+  
+<!--            <div class="container">-->
+<!--                      <ul class="nav nav-pills nav-stacked">-->
+              
+<!--                               <div class="container">-->
+<!--                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</h4></a></li></button>-->
+<!--                                    <div id="demo" class="collapse">-->
+                                      
+<!--                                                <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+<!--                                                <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+<!--                                                <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+<!--                                                <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+<!--                                                <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+<!--                                                <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+<!--                                </div>-->
+<!--                                </div>-->
+                                
+<!--                                <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</h4></a></li></button>-->
+<!--                                    <div id="demo" class="collapse">-->
+                                      
+<!--                                                <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+<!--                                                <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+<!--                                                <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+<!--                                                <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+<!--                                                <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+<!--                                                <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+<!--                                </div>-->
+                                
+<!--                                <br><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><li><a href="#"><h4>{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</h4></a></li></button>-->
+<!--                                    <div id="demo" class="collapse">-->
+                                      
+<!--                                                <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+<!--                                                <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+<!--                                                <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+<!--                                                <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+<!--                                                <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+<!--                                                <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br>-->
+<!--                                </div>-->
+
+    <!--<li><a href="#"><h4>{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</h4></a></li>-->
+    <!--<li><a href="#"><h4>{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</h4></a></li>-->
+    <!--<li><a href="#"><h4>{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</h4></a></li>-->
+<!--      </ul>-->
+<!--      </div>-->
+          
+<!--            <h2><label for="issue"> Issue Resolved !</label></h2><br>-->
+<!--            <button type="button" class="block">Emory - E102 </button><br>-->
+<!--              <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+              
+<!--              {# do we add all the options or how do we go about this? #} -->
+<!--              <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+<!--              <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+<!--              <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+<!--              <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+<!--              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>-->
+              
+<!--          </div>-->
 
 <!--to assign the room-->
 
-<p><div>Are you sure you want to assign room _____ to course ______?<br>
-      <input type="button" class="btn btn-primary btn-sm" value="Yes" />
-      <input type="button" class="btn btn-primary btn-sm" value="No" />
-</div></p>
-
-
-<!--After the room has been assigned and the preference is roomless now is available room was not selected-->
-
-
-<p><div>Do you want to schedule ____ now?<br>
-<input type="button" class="btn btn-primary btn-sm" value="Yes" />
-<input type="button" class="btn btn-primary btn-sm" value="No" />
-</div></p>
-
-
-
-</body>
-</html>
-
-
-
+<!--                      <p><div>Are you sure you want to assign room _____ to course ______?<br>-->
+<!--                            <input type="button" class="btn btn-primary btn-sm" value="Yes" />-->
+<!--                            <input type="button" class="btn btn-primary btn-sm" value="No" />-->
+<!--                      </div></p>-->
+                      
+                      
+                      <!--After the room has been assigned and the preference is roomless now is available room was not selected-->
+                      
+                      
+<!--                      <p><div>Do you want to schedule ____ now?<br>-->
+<!--                      <input type="button" class="btn btn-primary btn-sm" value="Yes" />-->
+<!--                      <input type="button" class="btn btn-primary btn-sm" value="No" />-->
+<!--                      </div></p>-->
+                      
+                      
+                      
+<!--                      </body>-->
+<!--                      </html>-->
 
 
 
+<!--                                                 this is the border                            -->
 
 
 
 
+
+
+
+
+
+
+
+      <!--<li><a href="#"><h4>{{roompreference.pref_1.building.name}} {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</h4></a></li>-->
+      <!--<li><a href="#"><h4>{{roompreference.pref_2.building.name}} {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</h4></a></li>-->
+      <!--<li><a href="#"><h4>{{roompreference.pref_3.building.name}} {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</h4></a></li>-->
+      <!--</ul>-->
+      <!--</div>-->
+      
+      <!--      <h2><label for="issue"> Issue Resolved !</label></h2><br>-->
+      <!--      <button type="button" class="block">Emory - E102 </button><br>-->
+      <!--        <label for="resources">Resources: </label> Projectors: {{rooms.educationTech.projector}}<br>-->
+          
+      <!--        {# do we add all the options or how do we go about this? #} -->
+      <!--        <label for="roomcapacity">Room Capacity: </label> {{rooms.maxCapacity}} <br>-->
+      <!--        <label for="visualaccessibility">Visual Accessibility:</label> {{rooms.visualAccessibility}} <br>-->
+      <!--        <label for="hearingaccessibility">Hearing Accessibility: </label> {{rooms.audioAccessibility}} <br> -->
+      <!--        <label for="physicalaccessibility">Physical Accessibility: </label> {{rooms.physicalAccessibility}}<br>-->
+      <!--        <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>-->
+          
+      <!--    </div>-->
+      
+      <!--to assign the room-->
 
 
 
@@ -125,41 +373,23 @@
 
 
 <!--This is                                              a comment-->
-<div class="container-fluid">
-  <h3>Unassigned Class</h3>
-  <div class="row-fluid">
-    <div class="span10">
-      <label for="professor">Professor: </label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}} <br>
-      <label for="courses">Courses: </label>{{courses.prefix.prefix}}-{{courses.bannerRef.number}}<br>
-      <label for="time">Time: </label> {{courses.schedule.startTime}} - {{courses.schedule.endTime}}<br>
-      <label for="title">Title: </label> {{courses.bannerRef.ctitle}}<br>
-      <label for="capacity">Capacity: </label> {{courses.capacity}} <br> 
-      
-      <br>Notes: </br>
-      <textarea rows="6" cols="25">
-      I need this room for very important reasons.
-      </textarea> <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
-    </div>
-  </div>
-</div>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!--<div class="container container-small" style="border:1px solid #cecece;">-->
+<!--    <h3><strong>Unassigned Class</strong></h3>-->
+<!--      <div class="row-fluid">-->
+<!--        <div class="span2">-->
+<!--            <label for="professor"><h4><strong>Professor: </strong></label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}}</h4>-->
+<!--            <label for="courses"><h4><strong>Courses: </strong></label>{{courses.prefix.prefix}}-{{courses.bannerRef.number}}</h4>-->
+<!--            <label for="time"><h4><strong>Time:</strong> </label> {{courses.schedule.startTime}} - {{courses.schedule.endTime}}</h4>-->
+<!--            <label for="title"><h4><strong>Title:</strong> </label> {{courses.bannerRef.ctitle}}</h4>-->
+<!--            <label for="capacity"><h4><strong>Capacity:</strong> </label> {{courses.capacity}} </h4><br>-->
+<!--            <h4><strong>Notes:</strong> </h4>-->
+<!--            <textarea rows="6" cols="50">-->
+<!--            I need this room for very important reasons.-->
+<!--            </textarea> -->
+<!--          <div>-->
+<!--              <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--</div>-->
 {% endblock %}
