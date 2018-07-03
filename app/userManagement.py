@@ -11,21 +11,26 @@ def userManagement0():
     page        = "/" + request.url.split("/")[-1]
     users = User.select()
     programs = Program.select()
-    programchairs = ProgramChair.select()
     buildings = Building.select()
     divisions = Division.select()
     admins = User.select().where(User.isAdmin== 1)
+    programchairs = ProgramChair.select().where(User.ProgramChair == 1)
+    divisionchairs = DivisionChair.select().where(User.DivisionChair == 1)
+    buildingmanagers = BuildingManager.select()
+    
 
     
     return render_template("userManagement.html",
-                           programchairs = programchairs, #passing of the variable to html,
+                            #passing of the variable to html,
                            programs = programs,
                            buildings = buildings,
                            divisions = divisions,
                            users = users,
-                           admins = admins
-                           
-                           
+                           admins = admins,
+                           divisionchairs = divisionchairs,
+                           programchairs = programchairs,
+                           buildingmanagers = buildingmanagers,
+                          
                            )
          
  

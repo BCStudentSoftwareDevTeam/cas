@@ -47,6 +47,30 @@
     }
 </script>
 
+    <script>function show_names(s) {
+    console.log(s.value); 
+     if (s.value == "program_chair"){
+         x=$("#RemoveDropdown")
+         {% for programchair in programchairs %}
+         x.append($('<option value="programchair.username">').text("{{programchair.firstName}} {{programchair.lastName}}"));
+         {% endfor %}
+         
+     }
+    
+     else if (s.value =="administrator"){
+         x=$("#RemoveDropdown")
+         {% for admin in admins %}
+         x.append($('<option value="admin.username">').text("{{admin.firstName}} {{admin.lastName}}"));
+         {% endfor %}
+         
+     }
+    
+    $("#Add").show();
+    $("#Remove").show();
+}
+
+</script>
+
 <!--Programs dropdown-->
 <div id="Programs">
 <label for="Programs">Programs</label>
@@ -62,21 +86,6 @@
     </div>
     </div>
     
-<script>function show_names(s) {
-    console.log(s.value); 
-     if (s.value =="administrator"){
-         x=$("#RemoveDropdown")
-         {% for admin in admins %}
-         x.append($('<option value="admin.username">').text("{{admin.firstName}} {{admin.lastName}}"));
-         {% endfor %}
-         console.log(x)
-     }
-    
-    $("#Add").show();
-    $("#Remove").show();
-}
-
-</script>
 <!--Divisions dropdown-->
 <div id="Divisions">    
 <label for="Divisions">Divisions</label>
@@ -119,8 +128,11 @@
     
     
     <!---Add Button in bottom right--->
-<!---Add Button in bottom right--->
-<button type="button">Add</button>
+<div>
+    <label for="Add Button">Add User</label>
+</div> 
+    <button type="button" class="btn btn-success">Add</button>
+<div/>
 
  <!--Remove names and button   -->
 
