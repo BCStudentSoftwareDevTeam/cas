@@ -12,23 +12,36 @@ table, th, td {
 <link rel="roomResolution" href="/static/css/roomResolution.css" type="text/css"/>
 
       <div class="center">
-      <h2><b>Room Resolutions </b></h2>
+      <h1 class="text-center"><b>Room Resolutions </b></h1>
       </div>
-        
-        <table style="width:100%">
-            <tr>
-                    <th>Course</th>
-                    <th>Time:</th> 
-                    <th>Fix Conflicts</th>
-            </tr>
+      
+                    <table class="table">
+            
+                      <thead>
+                            <tr>
+                                  
+                                  <th scope="col"><h3><strong>Courses</strong></h3></th>
+                                  <th scope="col"><h3><strong>Time</strong></h3></th>
+                                  <th scope="col"><h3><strong>Fix Conflicts</strong></h3></th>
+                                  
+                                  
+                                  
+                            </tr>
+                      </thead>
+                  <tbody> </tbody>
 
+            <tbody>
                 {% for course in courses %}
                     <tr>
                           <td>{{course.bannerRef}}-{{course.bannerRef.ctitle}}</td>
                           <td>{{course.schedule.startTime}} - {{course.schedule.endTime}}</td>
-                          <td><a href="/roomResolutionView/1"><button type="button" class="btn btn-primary btn-sm">Resolve</button></a></td>
+                             
+                                  <td><a href="/roomResolutionView/1"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></td>
+                              
+                         
                     </tr>
                 {% endfor %}
-        </table>
-
+            </tbody>
+    </table>
+ 
 {% endblock %}
