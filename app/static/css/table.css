@@ -4,9 +4,10 @@
 table {
   width: 100%;
   border-collapse: collapse;
+ 
 }
 
-Zebra striping
+/*Zebra striping*/
 td, th {
   padding: 6px;
   border: 1px solid #ccc;
@@ -84,3 +85,19 @@ only screen and (max-width: 760px),
 	td:nth-of-type(8):before { content: "Last Edited By"; }
 
 }
+/*Found on stack overflow at the following link: https://stackoverflow.com/questions/19758598/what-is-sr-only-in-bootstrap-3*/
+/* To be used to create text for screen readers only */
+.sr-only {
+    position: absolute;
+    margin: -1px 0 0 -1px;
+    padding: 0;
+    display: block;
+    width: 1px;
+    height: 1px;
+    font-size: 1px;
+    line-height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+    outline: 0;
+    }
