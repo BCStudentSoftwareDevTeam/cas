@@ -7,13 +7,24 @@ from app.logic import course
 @app.route("/roomPreference/<rid>", methods = ["GET"])
 def roomPreference(rid=1):
     page="Room Preference"
+    # courses = (Course.select(Course, Ban).join(BannerCourses)
+    #                  .where(Course.prefix == prefix)
+    #                  .where(Course.term == tID))
     roompreferences = RoomPreferences.select()
+      
+        
+        
     room = Rooms.select().where(Rooms.rID == rid).get()
+    users= User.select().get()
+    course= Course.select().get()
+   
     
   
     return render_template(
         "roomPreference.html",
         roompreferences= roompreferences,
-        room=room
+        room=room,
+        users=users,
+        course=course 
         
     )
