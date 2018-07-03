@@ -41,6 +41,7 @@ models:
     - Building
     - Rooms
     - ScheduleDays
+    - RoomPreferences
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
@@ -52,19 +53,38 @@ mainMenu:
   - title: "Log Out"
     link: "/logout"
 
+accessLevel:
+  - name: "Program Chair"
+    id: "program_chair"
+  - name: "Division Chair"
+    id: "division_chair"
+  - name: "Building Manager"
+    id: "building_manager"
+  - name: "Administrator"
+    id: "administrator"
+
+
 adminMenu:
-  - title: "Program Management"
+  - title: "Program Management" #Not needed after User Management
     link:  "/redirect/program_management"
     page: ["programManagement"]
-  - title: "Division Management"
+  - title: "Division Management" # we do not need this anymore after adding the user mgmt
     link:  "/redirect/division_management"
     page: ["divisionManagement"]
-  - title: "System Management"
+  - title: "System Management" #Change to term management
     link:  "/admin/systemManagement"
     page: ["systemManagement"]
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
+  - title: "User Management"
+    link:  "/admin/userManagement" #unsure
+    page: ["userManagement"]
+    # we added
+  - title: "Room Resolution"
+    link:  "/roomResolution"
+    page: ["roomResolution"]
+
     
 #If you ever change the current states, you cannot duplicate the values, because
 #it will mess up what the numbers symbolize inside of the database. 
@@ -85,7 +105,7 @@ specialTopicStates:
     value: 3
     id: "denied"
     color: "danger"
-  
+
 specialTopicLogic:
   admin_disabled: [2] #state values where admins can not edit
   submit_form:    [0] #state values where forms can be sumbitted
@@ -183,7 +203,19 @@ contributors:
   - name: "Jesson Soto Ventura"
     username: "sotoventuraj"
     year: 2019
-    
+  - name: "Jamal Mohamed Aw Yonis"
+    username: "awyonis"
+    year: "2020"
+  - name: "Gerardo Nazar Soto"
+    username: "icost99cents"
+    year: "2020"
+  - name: "Katelyn Adams"
+    username: "adamska"
+    year: 2019
+  - name: "Anne Otieno"
+    username: "otienoa"
+    year: 2020
+
 # The log file location   
 log:
 filename: "urcpp.log"
