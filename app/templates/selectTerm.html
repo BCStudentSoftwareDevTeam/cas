@@ -4,7 +4,7 @@
 {% endblock %}
 <!--Page Content -->
 {% block body %}
-
+<link rel="stylesheet" href="/static/css/selectTerm.css" type="text/css" />
 <div class="modal fade" id="selectTermModal" role="dialog" data-backdrop = "static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,7 +13,7 @@
                 <a type="button" class="close"  aria-label="Close" href = "/"><span aria-hidden="true">&times;</span></a>
             </div>
             <div class="modal-body">
-                <select name = "term-select" class="selectpicker form-control" data-live-search="true" name="ttitle" id="termInfo"  required>
+                <select name = "term-select" class="selectpicker form-control" data-live-search="true" name="title" id="termInfo"  required>
                     {% for term in allTerms %}
                         <option value ={{term.termCode}} >
                             {{term.name}}
