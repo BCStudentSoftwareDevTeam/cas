@@ -4,11 +4,11 @@
 {% set currentPage = "no" %} 
 {% block body %}
 
-<!---First Box--->
 <h3 style="text-align: center">User Management</h3>
 <div class = "container">
-<div class = "jumbotron"> <!--- Add User Panel--->
-<label for="Access Level">Access Level</label> <!---First dropdown--->
+<div class = "jumbotron">
+<!---Access Level dropdown--->
+<label for="Access Level">Access Level</label> 
     <div class = "form-group">
     <select onchange="show_access_level(this)" class="form control" name= "keyValue">
         <option value = "---" disabled selected>---</option>
@@ -17,12 +17,15 @@
         {% endfor %}
     </select>
     </div>
-    <script>function show_access_level(s) {
+    <script>
+    
+    function show_access_level(s) {
         console.log(s.value);
         $("#Programs").hide();
         $("#Divisions").hide();
         $("#Buildings").hide();
-    // $("#Admins").hide();
+        $("#Add").hide();
+        $("#Remove").hide();  
     
         if (s.value == "program_chair"){
             $("#Programs").show();
@@ -33,35 +36,52 @@
         else if(s.value == "building_manager"){
             $("#Buildings").show();
         }
+        else if(s.value == "administrator"){
+            show_names(s);
+        }
     }
 </script>
 
+<!--Programs dropdown-->
 <div id="Programs">
 <label for="Programs">Programs</label>
-     <div class = "form-group"> <!--Second dropdown for program/division/building--->
-        <select class="from control" name= "keyValue"> <!---Needs on change for when user selects program, should force user to select program/division/building--->
-            {% for program in programs %}
-            <option value="1" required>{{program.name}} </option> == $0
-            {% endfor %}
-        </select>
+     <div class = "form-group">
+     
+     <!--Should hide add/remove name dropdown and buttons until specific program/division/building is chosen-->
+    <select onchange="show_names(this)" class="form control" name= "keyValue">
+    <option value = "---" disabled selected>---</option>
+        {% for program in programs %}
+        <option value="{{program.name}}" required>{{program.name}} </option> == $0
+        {% endfor %}
+    </select>
     </div>
     </div>
+    
+<script>function show_names(s) {
+    console.log(s.value); 
+    $("#Add").show();
+    $("#Remove").show();
+}
 
+</script>
+<!--Divisions dropdown-->
 <div id="Divisions">    
 <label for="Divisions">Divisions</label>
-     <div class = "form-group"> <!--Second dropdown for program/division/building--->
-        <select class="from control" name= "keyValue">
+     <div class = "form-group">
+        <select onchange="show_names(this)" class="from control" name= "keyValue">
+        <option value = "---" disabled selected>---</option>
             {% for division in divisions %}
             <option value="1" required> {{division.name}}</option> == $0
             {% endfor %}
         </select>
     </div>
 </div>
-
+<!--Buildings dropdown-->
 <div id="Buildings">
     <label for="Buildings">Buildings</label>
-         <div class = "form-group"> <!--Second dropdown for program/division/building--->
-            <select class="from control" name= "keyValue">
+         <div class = "form-group">
+            <select onchange="show_names(this)" class="from control" name= "keyValue">
+                <option value = "---" disabled selected>---</option>
                 {% for building in buildings %}
                 <option value="1" required> {{building.name}}</option> == $0
                 {% endfor %}
@@ -69,25 +89,31 @@
         </div>
 </div>
     
-    <!---testing names dropdown--->
-<div id="Admins">
-<label for="Add names of chair/manager/admin">Add names of chair/manager/admin</label>
- <div class = "form-group"> <!---Third drop down form--->
+<!--Add names and button-->
+<div id="Add">
+<label for="Users">Users</label>
+ <div class = "form-group">
 
         <select class="from control" name= "keyValue">
+            <option value = "---" disabled selected>---</option>
             {% for user in users %} <!--- displays names--->
             
             <option value="{{1}}"> {{user.firstName}} {{user.lastName}} </option>
             {% endfor %}
         </select>
     </div>
-    <!---Add Button in bottom right--->
-<div>
-    <label for="Add Button">Add (Button)</label>
-</div> 
-    <button type="button">Add</button>
     
-<div style="text-align: center">
+    
+    <!---Add Button in bottom right--->
+
+<div>
+    <label for="Add Button">Add User</label>
+</div> 
+    <button type="button" class="btn btn-success">Add</button>
+<div/>
+ <!--Remove names and button   -->
+
+<div style="text-align: Right">
 <label for="Remove">Remove</label>
  <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
  <select class="from control" name= "keyValue">
@@ -96,44 +122,28 @@
             <option value = "3" required> Scott Heggen</option>
         </select>
     </div>
-    <label for="Remove">Remove (button)</label>
-<div><!---Remove button--->
-    <button type="button">Remove</button>
+<div id="Remove">
+<label for="Remove Button">Remove User</label> <!--Red w/ bootstrap-->
+<div>
+    <button type="button" class="btn btn-danger">Remove</button>
 </div>
 </div>
-<!--<label for="Remove">Remove (button)</label>-->
-<!--<div><!---Remove button--->
-<!--    <button type="button">Remove</button>-->
-<!--</div>-->
+</div>
 </div>
 </div> 
-
 </div>
 </div>
+</div>
 
 
-
-
-
-
-<!---SECOND BOX--->
-<!--<h3 style= "text-align: center">Remove User</h3>-->
-<!--<div class = "container">-->
-<!--<div class = "jumbotron"> <!---Remove User--->
-
-<!--<label for="Access Level">Access Level</label>-->
-<!--<div> <!--- first drop down--->
-<!--  <select class="form control" name= "keyValue">-->
-<!--        {% for access in cfg['accessLevel']%}-->
-<!--             <option value="{{access['id']}}">{{access['name']}}</option>-->
-<!--        {% endfor %}-->
-<!--    </select>-->
-<!--</div>-->
-
-
-
-
-
+<script>
+    
+$("#Programs").hide();
+$("#Divisions").hide();
+$("#Buildings").hide();
+$("#Add").hide();
+$("#Remove").hide();      
+</script>
 
  {% endblock %}
   
