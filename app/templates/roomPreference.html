@@ -1,11 +1,5 @@
 {% extends "base.html" %}
 {% set currentPage = "no" %} <!--This is used for the sidebart-->
-{% block aboveContainer %}
-
-{% endblock %}
-<link rel="stylesheet" href="roomPreference.css">
-<script src="/js/myScript1.js"></script>
-
 <!--Page Content -->
 
 {% block body %}
@@ -14,6 +8,8 @@
     <h1 class="text-center">Room Preference</h1>
     <div>
         <table class="table">
+            
+
             <thead class="thead-dark">
                 <th scope="col"> Your Course(s) </th>
                 <th scope="col"> Preference 1</th>
@@ -39,7 +35,8 @@
                 <td> {{roompreference.course.section}} </td> <br>
                 <td > {{roompreference.course.time}}</td>
                 <td align="center">{{roompreference.course.capacity}} </td>
-                <td><button type="button"class="btn btn-primary btn-lg" >{{ roompreference.notes}} </button></td>
+                <td> <button type = "button"  class="btn btn-primary btn-lg" 
+                {{roompreference.notes}}> Edit </button </td>
             </tr>
             {% endfor %}
         </table>
@@ -65,9 +62,7 @@
             Specialized Equipment : {{room.specializedEquipment}}<br>
             Movable Furniture     : {{room.movableFurniture}}<br>
             Special Feature Notes : {{room.specialFeatures}}<br>
-            Education tech        : <button type="button" class="btn btn-secondary" data-container="body" 
-                                    data-toggle="popover" data-placement="right" 
-                                    data-target="collapseExample3">View</button>
+            Education tech        : <a href="#" id="openDialog"> View </a>
             </div>
         </td>
         <td>
@@ -88,9 +83,9 @@
     </tr>
     </table>
     
-    <class="collapse" id="collapseExample3">
+    <div id ="dialog-modal" title="Education Tech" style="display:none">
     <table class="table">
-        <th>Education Tech  </th> 
+        <!--<th>Education Tech  </th> -->
         <tr>
         <td> Chalkboard:{{room.educationTech.chalkboards}} <br> 
              Computers(instructors) : {{room.educationTech.instructor_computers}}  <br>
@@ -118,11 +113,16 @@
         </td>
         </tr>
     </table>
-    </class>
+    </div>
     <button type="button" style="float: right;">Select</button>
-</div>
+
 
 
 
 {% endblock %}
+
+{% block belowContainer %}
+<link rel="stylesheet" href="/static/cs/roomPreference.css">
+<script type="application/javascript" src="/static/js/local/roompreference.js"></script>
+{% endblock %} 
 

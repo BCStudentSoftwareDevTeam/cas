@@ -3,7 +3,7 @@ from flask import render_template
 from app.logic.redirectBack import redirect_url
 from app import app
 from app.logic import course
-# @app.route("/roomPreference/", methods = ["GET"])
+@app.route("/roomPreference/", methods = ["GET"])
 @app.route("/roomPreference/<rid>", methods = ["GET"])
 def roomPreference(rid=1):
     page="Room Preference"
