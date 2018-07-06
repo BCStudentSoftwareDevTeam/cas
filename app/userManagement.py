@@ -14,14 +14,14 @@ def userManagement0():
     buildings = Building.select()
     divisions = Division.select()
     admins = User.select().where(User.isAdmin== 1)
-    programchairs = ProgramChair.select().where(User.ProgramChair == 1)
-    divisionchairs = DivisionChair.select().where(User.DivisionChair == 1)
+    programchairs = ProgramChair.select().where(ProgramChair.pid == 1)
+    divisionchairs = DivisionChair.select().where(DivisionChair.did == 1)
     buildingmanagers = BuildingManager.select()
     
 
     
     return render_template("userManagement.html",
-                            #passing of the variable to html,
+                        #passing of the variable to html,
                            programs = programs,
                            buildings = buildings,
                            divisions = divisions,
