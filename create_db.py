@@ -536,7 +536,7 @@ chair = ProgramChair(  username = "myersco",
 dchair = DivisionChair(  username  = "pearcej",
                         did       = 3
                       ).save()
-dchair = DivisionChair(  username  = "myersc",
+dchair = DivisionChair(  username  = "myersco",
                         did       = 2
                       ).save()  
 dchair = DivisionChair(  username  = "heggens",
@@ -560,18 +560,17 @@ instructor = InstructorCourse(  username = "myersco",
 instructor = InstructorSTCourse(  username = "myersco",
                                 course   = 1
                               ).save()  
-######
-#Buildings
-
-######                             
+###########
+#Buildings#
+###########                          
 
                               
 building     = Building(name = 'Ag Building', shortName = "AG").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
 
-#################
+###################
 #Building Managers#
-#################
+###################
 
 bmanager = BuildingManager( username = "heggens",
                             bmid = 1
@@ -579,10 +578,13 @@ bmanager = BuildingManager( username = "heggens",
 bmanager = BuildingManager( username = "myersco",
                             bmid = 2
                           ).save()
+bmanager = BuildingManager( username = "pearcej",
+                            bmid = 3
+                          ).save()
 
-######
+#######
 #ROOMS#
-######
+#######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
 room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
 roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()

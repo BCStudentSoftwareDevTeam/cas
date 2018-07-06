@@ -21,6 +21,7 @@ def program_chair(program):
 def division_chair(division):
 #returns all users for a specific division to ajax call when removing users from a specific division in User Management UI
     allchairs = DivisionChair.select().where(DivisionChair.did==division)
+    print(allchairs)
     newchairs={}
     for dchair in allchairs:
         newchairs[dchair.username.username]={'firstname':dchair.username.firstName,
@@ -34,7 +35,7 @@ def building_manager(building):
     allmanagers = BuildingManager.select().where(BuildingManager.bmid==building)
     newmanagers={}
     for bmanager in allmanagers:
-        newmangaers[bmanager.username.username]={'firstname':bmanager.username.firstName,
+        newmanagers[bmanager.username.username]={'firstname':bmanager.username.firstName,
                         'lastname':bmanager.username.lastName,
                         'username':bmanager.username.username
         }
