@@ -101,9 +101,9 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  visualAcc     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAcc      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAcc   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   visualAcc     = CharField(null=True)
   audioAcc      = CharField(null=True)
   physicalAcc   = CharField(null=True)
@@ -123,13 +123,6 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
-  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
- #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-  specializedEquipment = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
-  specialFeatures = CharField(null=True)  #Has to be false, we added it just because we wanted  to run the files
-  movableFurniture = BooleanField(default=True)  #Has to be false, we added it just because we wanted  to run the files
   
  
 
