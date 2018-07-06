@@ -522,13 +522,26 @@ course = Course(  bannerRef         = 21,
 chair = ProgramChair(  username  = "jadudm",
                         pid       = 1
                     ).save()
+chair = ProgramChair(  username = "pearcej",
+                        pid = 1
+                    ).save()
+chair = ProgramChair(  username = "myersco",
+                        pid = 2
+                    ).save()
+
                     
 ########
 #DCHAIR#
 ########
 dchair = DivisionChair(  username  = "pearcej",
-                        did       = 2
+                        did       = 3
                       ).save()
+dchair = DivisionChair(  username  = "myersc",
+                        did       = 2
+                      ).save()  
+dchair = DivisionChair(  username  = "heggens",
+                        did       = 1
+                      ).save()                      
 ############
 #INSTRUCTOR#
 ############
@@ -556,13 +569,16 @@ instructor = InstructorSTCourse(  username = "myersco",
 building     = Building(name = 'Ag Building', shortName = "AG").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
 
-###############
-#Building Manager#
-##################
+#################
+#Building Managers#
+#################
 
-# bmanager = BuildingManager( username = "heggens",
-#                             bmid = 1
-#                           ).save()
+bmanager = BuildingManager( username = "heggens",
+                            bmid = 1
+                          ).save()
+bmanager = BuildingManager( username = "myersco",
+                            bmid = 2
+                          ).save()
 
 ######
 #ROOMS#

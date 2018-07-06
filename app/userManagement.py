@@ -13,9 +13,8 @@ def userManagement0():
     programs = Program.select()
     buildings = Building.select()
     divisions = Division.select()
-    admins = User.select().where(User.isAdmin== 1)
-    programchairs = ProgramChair.select().where(ProgramChair.pid == 1)
-    divisionchairs = DivisionChair.select().where(DivisionChair.did == 1)
+    admins = User.select().where(User.isAdmin == 1)
+    programchairs = ProgramChair.select()
     buildingmanagers = BuildingManager.select()
     
 
@@ -29,10 +28,9 @@ def userManagement0():
                            admins = admins,
                            divisionchairs = divisionchairs,
                            programchairs = programchairs,
-                           buildingmanagers = buildingmanagers,
-                          
+                           buildingmanagers = buildingmanagers
                            )
-         
+                           
  
 
 
