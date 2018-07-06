@@ -8,7 +8,6 @@ from app.logic.authorization import must_be_admin
 def roomResolution():
     # Creating the UI
     course = Course.select()
-
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=course)
       
       

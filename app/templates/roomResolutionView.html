@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% set currentPage = "no" %}
-{% block aboveContainer %}
 
-{% endblock %}
 <!--Page Content -->
 {% block body %}
-
+<script scr = "/static/js/local/roomResolutionView.js"></script>
+{% include 'snips/messages.html' %}
 <html>
 <body>
 <div class="center">
@@ -16,7 +15,24 @@
 <!--<link rel="stylesheet" href="/static/css/roomResolutionView.css">-->
 <!-- -->
 <!-- Container for the Unassigned class and -->
-<div class="container-fluid">
+
+
+
+
+
+
+  
+          what is happening
+          <div class="alert alert-success" id="here">
+            Your changes have been saved !
+          </div>
+          
+        
+
+ what is happening
+
+
+<div class="container">
     <div class = "row">
       <h3><strong>Unassigned Class</strong></h3>
     </div>
@@ -48,8 +64,8 @@
                                   </ul>
                                   <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="tab-01">
-                                      <div class="container pre-scrollable">
-                                        <div class="panel-group" style="border= 1px; overflow=auto" id="accordion">
+                                      <div class="container pre-scrollable" style="max-height: 500">
+                                        <div class="panel-group  w-50 p-3" style="overflow=auto" id="accordion">
                                           {% for room in available_rooms %}
                                           <!-- start of first according -->
                                           <div class="panel panel-default">
@@ -205,14 +221,22 @@
         Changes have been saved!
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>q
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
  
+ 
+ 
+ <!--alert for changes saved!-->
+ 
+<!--<div class="alert alert-success" id="success" role="alert">-->
+<!--  This is a success alert—check it out!-->
+<!--</div> -->
+<script src = "/static/js/local/roomResolutionView.js"></script>
 {% endblock %}
-</div>
+
 
 
 
