@@ -42,6 +42,7 @@ models:
     - Rooms
     - ScheduleDays
     - RoomPreferences
+    - EducationTech
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
@@ -207,7 +208,7 @@ contributors:
     username: "awyonis"
     year: "2020"
   - name: "Gerardo Nazar Soto"
-    username: "icost99cents"
+    username: "sotog"
     year: "2020"
   - name: "Katelyn Adams"
     username: "adamska"
