@@ -1,16 +1,19 @@
 from allImports import *
 from app import app
+from app.logic.authorization import must_be_admin
 
 @app.route("/roomResolution", methods=["GET"])
+@must_be_admin
 
 def roomResolution():
     # Creating the UI
     course = Course.select()
-    bannercourses = BannerCourses.select()
-    return render_template("roomResolution.html", courses=course, bannercourses=bannercourses)
+
+    return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=course)
       
       
 @app.route("/roomResolutionView/<rpid>", methods=["GET"])
+
 
 def roomResolutionView(rpid):
        # Creating the UI
