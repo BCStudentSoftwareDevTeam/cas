@@ -15,7 +15,7 @@
                 <th scope="col"> Preference 1</th>
                 <th scope="col"> Preference 2</th>
                 <th scope="col"> Preference 3 </th>
-                <th scope="col"> Sec </th>
+                <th scope="col"> Section </th>
                 <th scope="col"> Time </th>
                 <th scope="col"> # of Students </th>
                 <th scope="col"> Notes </th>
@@ -63,76 +63,101 @@
 
 <div class="collapse" id="collapseExample">
     <table class="table table-dark">
-    <th>Room 1 - Course Title</th>
     <tr>
         <td>
-            <input type="text" placeholder="Search Room"/>
-        </td>
-    </tr>
-    <tr>
-        <td class = "popup_info">
-            <div>
-            <strong>{{room.building.shortName}} {{ room.number }}</strong><br>
-            Room Capacity: {{room.maxCapacity}}<br>
-            Visual Accessibility  : <input type="checkbox" name="Visual Acc" value="Visual Acc" {% if room.visualAccessibilty == True %} checked {% endif %} onclick="return false;"><br>
-            Audio Accessibility   : <input type="checkbox" name="Audio Acc" value="Audio Acc" {% if room.audioAccessibilty == True %} checked {% endif %} onclick="return false;"><br>
-            Physical Accessibilty : <input type="checkbox" name="Physical Acc" value="Physical Acc" {% if room.physicalAccessibilty == True %} checked {% endif %} onclick="return false;"><br>
-            Specialized Equipment : {{room.specializedEquipment}}<br>
-            Movable Furniture     : {{room.movableFurniture}}<br>
-            Special Feature Notes : {{room.specialFeatures}}<br>
-            Education tech        : <a href="#" id="openDialog"> View </a>
+            <div id="selectTermModal" role="dialog" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title">Room 1 - Course Title</span>
+                            <a type="button" class="close"  aria-label="Close" href = "/"><span aria-hidden="true">&times;</span></a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row"> <select onchange= "goto_rdetails(this)" class="selectpicker form-control" data-live-search="true" name="keyValue">
+                                        <option value="" disabled selected >Select your option</option>
+                                        {% for r in room %}
+                                            <option value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >
+                                                {{r['building']['shortName']}} {{r['number']}}
+                                            </option>
+                                       {% endfor %}
+                                    </select>
+                                </div>  
+                                    <div class="row">
+                                           <div  id = "Details" class="collapse" id="collapseExample">
+                                               <div class="col-sm-6">
+                                                    <div id="roomNumber" ><strong> {{ room.number }}</strong><br></div>
+                                                    <div id="roomCapacity">Room Capacity: {{room.maxCapacity}}<br></div>
+                                                    Visual Accessibility  : <input type="checkbox" name="Visual Acc" value="Visual Acc" {% if room.visualAcc  == True %} checked {% endif %} onclick="return false;"/><br>
+                                                    Audio Accessibility   : <input type="checkbox" name="Audio Acc" value="Audio Acc" {% if room.audioAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    Physical Accessibilty : <input type="checkbox" name="Physical Acc" value="Physical Acc" {% if room.physicalAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    Specialized Equipment : {{room.specializedEquipment}}<br>
+                                                    Movable Furniture     : {{room.movableFurniture}}<br>
+                                                    Special Feature Notes : {{room.specialFeatures}}<br>
+                                                    Education tech        : <a href="#" id="openDialog"> View </a>
+              
+                                                </div>
+                                        
+                                    <div id ="dialog-modal" class="col-sm-4" title="Education Tech" style="display:none">
+                                        <table>
+                                        <tr>
+                                            {% for items in educationTech %}                                                   
+                                          <td>       
+                                                    Chalkboards: {{items.chalkboards}} <br> 
+                                                     Computers(instructors) : {{items.instructor_computers}}  <br>
+                                                     Projectors             : {{items.projectors}}  <br>
+                                                     Podium                 : {{items.podium}} <br> 
+                                                     Smartboards            : {{items.smartboards}} <br>
+                                                     Students Workstations  : {{items.student_workspace}} <br>
+                                                     Whiteboards            : {{items.whiteboards}} <br>
+                                                     <input type="checkbox" name="dvd" value="dvd" {% if items.audio == True %} 
+                                                    checked {% endif %} onclick="return false;">Audio<br>
+                                                     <input type="checkbox" name="dvd" value="dvd" {% if items.blu_ray == True %} 
+                                                    checked {% endif %} onclick="return false;">Blu-Ray<br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.doc_cam == True %} 
+                                                    checked {% endif %} onclick="return false;">DOC-Cam<br>            
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.dvd == True %} 
+                                                    checked {% endif %} onclick="return false;">DVD<br>
+                                                     <input type="checkbox" name="extro" value="extro" {% if items.extro == True %} 
+                                                    checked {% endif %} onclick="return false;">Extro <br> 
+                                                     <input type="checkbox" name="dvd" value="mondopad" {% if items.dvd == True %} 
+                                                    checked {% endif %} onclick="return false;">DV <br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.tech_chart == True %} 
+                                                    checked {% endif %} onclick="return false;">Tech-Chart<br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.vhs == True %} 
+                                                    checked {% endif %} onclick="return false;">VHS<br>
+                                            </td>
+                                            {% endfor %}
+                                        
+                                        </tr>
+                                        </table>                                            
+                                    </div>
+                                               <div class="col-sm-6" align="right"> 
+                                                   <strong align="center">Course Conflicts</strong> <br>
+                                                    <table border="1">
+                                                      <th>Course(s)</th>
+                                                      <th>Profssor(s)</th>
+                                                      <tr>
+                                                         <td>{{course.prefix }}</td>
+                                                        <td>{{users.firstName}} {{users.lastName}} </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>{{course.prefix}}</td>
+                                                        <td>{{users.firstName}} {{users.lastName}}</td>
+                                                      </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </td>
-        <td>
-            <strong align="left">Course Conflicts</strong> <br>
-            <table border="1">
-              <th>Course(s)</th>
-              <th>Profssor(s)</th>
-              <tr>
-                 <td>{{ course.prefix }}</td>
-                <td>{{users.firstName}} {{users.lastName}} </td>
-              </tr>
-              <tr>
-                <td>{{course.prefix}}</td>
-                <td>Nakazawa</td>
-              </tr>
-            </table>
-        </td>
     </tr>
     </table>
-    
-    <div id ="dialog-modal" title="Education Tech" style="display:none">
-    <table class="table">
-        <!--<th>Education Tech  </th> -->
-        <tr>
-        <td> Chalkboard:{{room.educationTech.chalkboards}} <br> 
-             Computers(instructors) : {{room.educationTech.instructor_computers}}  <br>
-             Projectors             : {{room.educationTech.projectors}}  <br>
-             Podium                 : {{room.educationTech.podium}} <br> 
-             Smartboards            : {{room.educationTech.smartboards}} <br>
-             Students Workstations  : {{room.educationTech.student_workspace}} <br>
-             Whiteboards            : {{room.educationTech.whiteboards}} <br>
-             <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.audio == True %} 
-            checked {% endif %} onclick="return false;">Audio<br>
-             <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.blu_ray == True %} 
-            checked {% endif %} onclick="return false;">Blu-Ray<br>
-            <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.doc_cam == True %} 
-            checked {% endif %} onclick="return false;">DOC-Cam<br>            
-            <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.dvd == True %} 
-            checked {% endif %} onclick="return false;">DVD<br>
-             <input type="checkbox" name="extro" value="extro" {% if room.educationTech.extro == True %} 
-            checked {% endif %} onclick="return false;">Extro <br> 
-             <input type="checkbox" name="dvd" value="mondopad" {% if room.educationTech.dvd == True %} 
-            checked {% endif %} onclick="return false;">DV <br>
-            <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.tech_chart == True %} 
-            checked {% endif %} onclick="return false;">Tech-Chart<br>
-            <input type="checkbox" name="dvd" value="dvd" {% if room.educationTech.vhs == True %} 
-            checked {% endif %} onclick="return false;">VHS<br>
-        </td>
-        </tr>
-    </table>
-    </div>
-    <button type="button" style="float: right;">Select</button>
+</div>
+        
+<button type="button" style="float: right;">Select</button>
 
 
 

@@ -5,26 +5,35 @@ from app import app
 from app.logic import course
 @app.route("/roomPreference/", methods = ["GET"])
 @app.route("/roomPreference/<rid>", methods = ["GET"])
-def roomPreference(rid=1):
+def roomPreference(rid):
     page="Room Preference"
-    # courses = (Course.select(Course, Ban).join(BannerCourses)
-    #                  .where(Course.prefix == prefix)
-    #                  .where(Course.term == tID))
     roompreferences = RoomPreferences.select()
-      
-        
-        
-    room = Rooms.select().where(Rooms.rID == rid).get()
+    room = Rooms.select().where(Rooms.rID==rid)
     users= User.select().get()
     course= Course.select().get()
-   
-    
-  
+    educationTech= EducationTech.select()
     return render_template(
         "roomPreference.html",
         roompreferences= roompreferences,
         room=room,
         users=users,
-        course=course 
-        
+        course=course,
+        educationTech=educationTech
     )
+    
+    
+# New controller for ajax request
+# Query DB for data about specific room
+# construct all the data to send to front end (build dictionary)
+# return a json object (return (json.dumps(<data>))
+# ---> back to javascript
+
+
+
+@app.route('/roomDetails', methods=['GET'])
+def roomDetails():
+    
+
+        
+    }
+    return json.dumps({'status':'OK','user':user,'pass':password}); 
