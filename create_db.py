@@ -574,6 +574,9 @@ building     = Building(name = 'Tech Building', shortName="FR").save()
 ####
 #Education Tech for Rooms
 #####
+
+
+
 educationTech= EducationTech( 
   projectors           = 1,
   smartboards          = 2,
@@ -585,9 +588,9 @@ educationTech= EducationTech(
   dvd                  = True,
   blu_ray              = False,
   audio                = True,
-  extro                = False,
+  extro                = True,
   doc_cam              = True,
-  vhs                  = False,
+  vhs                  = True,
   mondopad             = True,
   tech_chart           = True
   ).save()
@@ -600,12 +603,10 @@ educationTech= EducationTech(
 #ROOMS#
 ######
 
-room = Rooms(building = 1,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", 
-visualAccessibilty=True, audioAccessibilty=True).save()
-room = Rooms(building = 2, number ="105", maxCapacity=15, 
-roomType="Lecture", visualAccessibilty=False,  audioAccessibilty=True, physicalAccessibilty = False).save()
+room = Rooms(building = 1,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True).save()
+room = Rooms(building = 2, educationTech =1, number ="105", maxCapacity=15,roomType="Lecture",audioAcc=True).save()
 
-roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=2,notes="None",any_Choice = "any", 
+roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=2,notes="notes",any_Choice = "any", 
 none_choice = "no other rooms work", none_Reason = "None").save()
 
 
