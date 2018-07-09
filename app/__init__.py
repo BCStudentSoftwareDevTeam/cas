@@ -40,5 +40,9 @@ from app import selectProgram
 from app import courseTable
 from app import courseTimeline
 from app import login_logout
+<<<<<<< HEAD
 from app import roomPreference
+=======
+from app import roomResolution
+>>>>>>> f70dbb05905aa1433f5502208aad592f615e4ee4
 from app import userManagement

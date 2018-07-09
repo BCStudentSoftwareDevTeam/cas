@@ -29,10 +29,19 @@ function validateForm() {
 }
    
 function goto_rdetails(r) {
-    console.log("hi mom");
+   
     console.log(r.value);
+
       $("#Details").show();
     
+
+      
+      // make ajax request
+        // --> goes to server
+      // on success of ajax request, populate all the fields in UI
+            $("#roomCapacity").value = response['roomCapacity']
+      $("#Details").show();
+
       
 }
     
