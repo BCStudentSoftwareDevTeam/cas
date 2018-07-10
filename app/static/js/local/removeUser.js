@@ -24,11 +24,22 @@ function show_access_level(s) {
         }
     }
 
+function fillProgramchairs(response){
+    console.log(response)
+    var programselect = document.getElementbyID("RemoveDropdown")
+}
 //Program chair remove field
 function fillProgramChairs(response){
     console.log(response)
     var programselect = document.getElementById("RemoveDropdown");
     $("#RemoveDropdown").empty();
+    var option = document.createElement("option");
+    option.disabled = true;
+    option.selected = true;
+    option.text="---";
+    option.value = "---";
+    programselect.appendChild(option);
+    
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
@@ -148,6 +159,49 @@ function building_managers_show_names(s) {
             $("#Remove").show();
         }
 
+/*global $ */
+// this creates the pop up for remove button
+$(function() {
+   $( "#openDialog").on("click", function(){ 
+       $( "#dialog-modal" ).dialog({
+          height: 180,
+          width: 470,
+          modal: true,
+        });
+        $("#dialog-modal").dialog({
+      buttons : {
+        "Yes" : function() {
+          $(this).dialog("close");
+        },
+        "No" : function() {
+            $(this).dialog("close");
+        }
+      }
+    });
+       $( "#dialog-modal" ).show();
+    });
+ });
+
+$(function() {
+   $( "#openDialog1").on("click", function(){ 
+       $( "#dialog-modal1" ).dialog({
+          height: 180,
+          width: 470,
+          modal: true,
+        });
+        $("#dialog-modal1").dialog({
+      buttons : {
+        "Yes" : function() {
+          $(this).dialog("close");
+        },
+        "No" : function() {
+            $(this).dialog("close");
+        }
+      }
+    });
+       $( "#dialog-modal1" ).show();
+    });
+ });
 //FIXME should be function that shows current admins for removal dropdown
 // function administrators_show_names(s) { //TODO: Call this in html 
 //     console.log(s.value);  //TODO: add to py file
