@@ -29,3 +29,21 @@ $("#dismiss").alert('fade');
 $('#code').on('shown.bs.modal', function (e) {
   showalert()// do something...
 })
+
+// function show_prefs {
+//   console.log(pref.value)
+//   $("#tab-02").hide();
+//   $("#tab-03").hide();
+//   $("#tab-04").hide();
+//   if (roompreference.pref_2 == ){
+  
+    
+// }
+function assign_room(s){
+    console.log(s.value);
+    $
+  
+}
+function assignflasher() {
+  document.getElementById("demo").innerHTML = "Hello World";
+}

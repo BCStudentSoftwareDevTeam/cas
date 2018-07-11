@@ -354,7 +354,8 @@ course = Course(  bannerRef         = 2,
                   schedule          = "B",
                   capacity          = 20,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  rid               = 1
                 ).save()                
 
 course = Course(  bannerRef         = 3,
@@ -555,9 +556,10 @@ instructor = InstructorSTCourse(  username = "myersco",
                               
 building     = Building(name = 'Ag Building', shortName = 'Ag').save()
 building     = Building(name = 'Tech Building', shortName="Tech").save()
-building     = Building(name = 'Science Building', shortName="Sci").save()
-
-
+building     = Building(name = 'S Building', shortName="Sci").save()
+building     = Building(name = 'Sci Building', shortName="Sci").save()
+building     = Building(name = 'Scien Building', shortName="Sci").save()
+building     = Building(name = 'Sc Building', shortName="Sci").save()
 
 ###############
 #Building Manager#
@@ -633,7 +635,7 @@ room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture",   
 room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Something", educationTech = 1, visualAccessibility = "checkingifworks", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture",   educationTech = 1, visualAccessibility = "Bad",  audioAccessibility = "D", physicalAccessibility= "A").save()
-room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 6, number ='208', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 2, number ='305', maxCapacity=15, roomType="Lecture",   educationTech = 3, visualAccessibility = "Bad",  audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 3, number ='308', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 1, number ='402', maxCapacity=12, roomType="Something", educationTech = 2, visualAccessibility = "Good", audioAccessibility = "L", physicalAccessibility= "A").save()
@@ -656,9 +658,9 @@ room = Rooms(building = 3, number ='808', maxCapacity=18, roomType="Lecture",   
 #ROOMS#
 ######
 
-roompreference= RoomPreferences(course=9, pref_1=1, pref_2=2, pref_3=1, notes="I want these rooms for a reason", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-# roompreference= RoomPreferences(course=10, pref_2=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-# roompreference= RoomPreferences(course=11, pref_3=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=1, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=8, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=2, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 # try:
 #   os.system('mysql-ctl start')
 #   os.system('python migrateDatabase.py')
