@@ -4,16 +4,20 @@
 {% set currentPage = "no" %} 
 {% block body %}
 
+{% include "snips/messages.html" %}
+
 <h3 style="text-align: center">User Management</h3>
 <form method="POST" action="/admin/userInsert">
 <div class = "container">
     <div class = "jumbotron">
         <div class = "row">
+            
+            
             <!--Add names dropdown and Add button-->
             <div id="Add" class="col-sm-4" padding-bottom= 100px>
                 <label for="Users">Add User</label>
                      <div class = "form-group">
-                        <select id="programChair"class="from control" name= "programChair" >
+                        <select class="from-control" name= "userToAdd" id="AddDropdown">
                             <option value = "---" disabled selected>---</option>
                                 {% for user in users %} <!--- displays names--->
                                 <option value="{{user.username}}"> {{user.firstName}} {{user.lastName}} </option>
@@ -22,7 +26,7 @@
                         
                     </div>
                 <label for="Add Button">Add User</label>
-                <div>
+                <div> <!--- creates a pop up for the user on clicking add button --->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add User</button>
                         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -35,7 +39,7 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <button type="Submit" value = "adduser" name ="adduser" class="btn btn-primary" >Yes</button>
+                                <button name ="adduser" value = "adduser" type="Submit" class="btn btn-primary"> Yes</button>
                               </div>
                             </div>
                           </div>
@@ -52,7 +56,7 @@
                 <div class = "form-group">
                     <select onchange="show_access_level(this)" class="form control" name= "access">
                         <option value = "---" disabled selected>---</option>
-                        {% for access in cfg['accessLevel'] %}
+                        {% for access in cfg['accessLevel'] %} <!---Jinja --->
                              <option value="{{access['id']}}">{{access['name']}}</option>
                         {% endfor %}
                     </select>
@@ -77,7 +81,7 @@
                 <div id="Divisions">    
                     <label for="Divisions">Divisions</label>
                         <div class = "form-group">
-                            <select onchange="division_chairs_show_names(this)" class="form control" name= "divison">
+                            <select onchange="division_chairs_show_names(this)" class="form control" name= "division">
                             <option value = "---" disabled selected>---</option>
                                 {% for division in divisions %}
                                 <option value="{{division.dID}}" required>{{division.name}}</option> == $0
@@ -93,7 +97,7 @@
                             <select onchange="building_managers_show_names(this)" class="from control" name= "building">
                                     <option value = "---" disabled selected>---</option>
                                     {% for building in buildings %}
-                                    <option value="1" required> {{building.name}}</option> == $0
+                                    <option value="{{building.bID}}" required> {{building.name}}</option> == $0
                                     {% endfor %}
                             </select>
                         </div>
@@ -127,6 +131,7 @@
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                 <button name = "removeuser" value = "removeuser" type="Submit" class="btn btn-primary" >Yes</button>
+                                
                               </div>
                             </div>
                           </div>
