@@ -52,6 +52,17 @@ def user_insert(): # this function is used to update and delete data from the us
             bm = BuildingManager.create(username = request.form.get("userToAdd"), bmid = request.form.get("building"))
             bm.save()
             flash("Your changes have been successfully saved!")
+        elif request.form.get('access') == 'administrator' :
+            pass
+            # data = request.form
+
+            # if data['admin'] != "None":
+            #     # get the user
+            # user = User.create(User.username = request.form['admin'])
+    
+            # # toggle admin status
+            # user.isAdmin = not user.isAdmin
+            # user.save()
             
     #for the removing users        
     elif request.form.get('removeuser') == 'removeuser':  

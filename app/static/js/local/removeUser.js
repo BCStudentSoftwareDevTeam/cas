@@ -1,6 +1,3 @@
-from allImports import *
-
-
 /* global $ */
 console.log("removeUser js loaded")
 
@@ -29,10 +26,6 @@ function show_access_level(s) {
         }
     }
 
-function fillProgramchairs(response){
-    console.log(response)
-    var programselect = document.getElementbyID("RemoveDropdown")
-}
 //Program chair remove field
 function fillProgramChairs(response){
     console.log(response)
@@ -163,6 +156,7 @@ function building_managers_show_names(s) {
             $("#Add").show();
             $("#Remove").show();
         }
+        
 
 /*global $ */
 // this creates the pop up for remove button
@@ -208,47 +202,5 @@ $(function() {
     });
  });
  
-
- 
- 
-// FIXME should be function that shows current admins for removal dropdown
-// function administrators_show_names(s) { //TODO: Call this in html 
-//     console.log(s.value);  //TODO: add to py file
-//     retrieveAdmins(s);
-
-//     //  if (s.value =="administrator"){
-//     //      var x=$("#RemoveDropdown");
-//     //  }
-    // $("#Add").show();
-    // $("#Remove").show();
-// }
-
-function fillAdmin(response){
-    console.log(response)
-    var adminselect = document.getElementById("RemoveDropdown");
-    $("#RemoveDropdown").empty();
-    for (var key in response){
-        // console.log(response[key]['firstname']);
-        var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
-        option.value = key;
-        adminselect.appendChild(option);
-    }
-    // $('.selectpicker').selectpicker('refresh');
-}
-
-function retrieveAdmins(){
-         var url = '/get_admin/';
-         console.log("URL: " + url);
-         $.ajax({
-                url: url,
-                dataType: 'json',
-                success: function(response){
-                    console.log(response)
-          		    fillAdmin(response);
-          			},
-          			error: function(error){
-          				console.log(error); 
-          			}
-                }); }    
-
+    
+}   
