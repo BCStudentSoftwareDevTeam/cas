@@ -30,20 +30,28 @@ $('#code').on('shown.bs.modal', function (e) {
   showalert()// do something...
 })
 
-// function show_prefs {
-//   console.log(pref.value)
-//   $("#tab-02").hide();
-//   $("#tab-03").hide();
-//   $("#tab-04").hide();
-//   if (roompreference.pref_2 == ){
-  
-    
-// }
-function assign_room(s){
-    console.log(s.value);
-    $
-  
-}
-function assignflasher() {
+
+
+function assignflasher() { //Getting flash to show up on rresolutions, dependant on action on rresview
   document.getElementById("demo").innerHTML = "Hello World";
 }
+
+function updatemodal(){ //For switching value in assign modal (Are you sure you want to assign (user select) to course CSC-236?)
+  
+}
+
+
+$(document).on("click", ".assignroombutton", function () {
+     var roomID = $(this).data('id');
+     console.log(roomID);
+     var linktoroom = document.getElementById("hidden"+roomID);
+    console.log(linktoroom);
+    console.log(linktoroom.innerText);
+    console.log(linktoroom.innerHTML);
+    console.log(linktoroom.value);
+    
+    
+     $("#assignroomdiv").html("Are you sure you would like to assign this course to "+ linktoroom.value); //Need course name
+     
+     console.log($("#assignroomdiv").innerHTML);
+})

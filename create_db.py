@@ -342,7 +342,7 @@ course = Course(  bannerRef         = 1,
                   term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
-                  notes             = "Preference1",
+                  notes             = "This is 236, yo",
                   section           = "A",
                   crossListed       = 1
                 ).save()
@@ -353,7 +353,7 @@ course = Course(  bannerRef         = 2,
                   section           = "A",
                   schedule          = "B",
                   capacity          = 20,
-                  notes             = "Preference2",
+                  notes             = "Math yo",
                   crossListed       = 1,
                   rid               = 1
                 ).save()                

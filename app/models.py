@@ -112,8 +112,8 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField(default=False)
 
-  def __str__(self):
-    return str(self.rID)+str(self.building.name)+str(self.number)
+  # def __str__(self):
+  #   return str(self.rID)+str(self.building.name)+str(self.number)
 
   
 #MODELS WITH A FOREIGN KEY
