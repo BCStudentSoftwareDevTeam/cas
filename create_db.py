@@ -555,11 +555,11 @@ instructor = InstructorSTCourse(  username = "myersco",
 
                               
 
-building     = Building(name = 'Ag Building', shortName = "AG").save()
+building     = Building(name = 'Ag Building', shortName = "DR").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
 
-building     = Building(name = 'Ag Building', shortName="EMR").save()
-building     = Building(name = 'Tech Building', shortName="FR").save()
+building     = Building(name = 'Emory Building', shortName="EMR").save()
+building     = Building(name = 'Frost Building', shortName="FR").save()
 
 
 ###############
@@ -603,11 +603,14 @@ educationTech= EducationTech(
 #ROOMS#
 ######
 
-room = Rooms(building = 1,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True).save()
-room = Rooms(building = 2, educationTech =1, number ="105", maxCapacity=15,roomType="Lecture",audioAcc=True).save()
+room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
 
-roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=2,notes="notes",any_Choice = "any", 
-none_choice = "no other rooms work", none_Reason = "None").save()
+room = Rooms(building = 1, educationTech =1, number ="105", maxCapacity=15,roomType="Lecture",visualAcc= True, audioAcc=True, physicalAcc=True, movableFurniture= " The materials herea are movable").save()
+
+room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=True, physicalAcc=True, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+
+roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+
 
 
 # room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()

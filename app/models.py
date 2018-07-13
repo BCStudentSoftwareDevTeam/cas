@@ -98,21 +98,7 @@ class Building(dbModel):
     return self.name 
   
 
-# class EducationTech(dbModel):
-#   eID           =PrimaryKeyField()
-#   chalkboard    =IntegerField(null=False)
-#   computers      =IntegerField(null=False)
-#   projectors     =IntegerField(null=False)
-#   podium          =IntegerField(null=False)
-#   smartboards     =IntegerField(null=False)
-#   studentWorkStations = IntegerField(null=False)
-#   whiteboards         = IntegerField(null=False)
-#   audio               = CharField(null=False)
-#   blue_ray            = CharField(null=False)
-#   doc_cam             = CharField(null=False)
-#   dvd                 = CharField(null=False)
-#   extro               = CharField(null=False)
-#   mondo_pad           = CharField(null=False)
+
   
 #Begin education tech class
 class EducationTech(dbModel):
@@ -143,7 +129,7 @@ class Rooms(dbModel):
   audioAcc      = BooleanField(null=True)
   physicalAcc   = BooleanField(null=True)
   educationTech        = ForeignKeyField(EducationTech, related_name='educationTech')
-  specializedEquipment = CharField(null=True)
+  specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = CharField(default=True)
 
