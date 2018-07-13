@@ -4,10 +4,10 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
+import json
 
 @app.route("/roomResolution", methods=["GET"])
 @must_be_admin
-
 def roomResolution():
     # Creating the UI
     courses = Course.select().where(Course.rid == None)
@@ -17,12 +17,12 @@ def roomResolution():
       
 
 @app.route("/roomResolutionView/<cid>", methods=["GET"])
-
 def roomResolutionView(cid):
        # Creating the UI
     roompreference = RoomPreferences.get(RoomPreferences.course==cid)
     buildings = Building.select()
-    instructor = InstructorCourse.select().where(InstructorCourse.course==cid)
+    instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
+    print instructors
     bannercourses = BannerCourses.select()
     course = Course.get(Course.cId==cid)
     educationtech = EducationTech.select()
@@ -42,11 +42,26 @@ def roomResolutionView(cid):
                             roompreference=roompreference, 
                             available_rooms=rooms, 
                             buildings=buildings, 
-                            instructor = instructor, 
+                            instructors = instructors, 
                             courses=course, 
                             bannercourses=bannercourses,
                             educationtech=educationtech
                         )
                         
+#Controller for Assign button (roomResolutionView) sending the assignment of a course to a room to database
 
-
+#Available rooms
+@app.route("/assignRoom/<cid>", methods=["POST"])
+def assignRoom(cid=0):
+    data = request.form
+    print("ROOM ID: ", data['roomID'])
+    # room = data["assignroombutton"]
+    course = Course.get(Course.cId == cid) #Gets course ID from database
+    course.rid = data['roomID']
+    course.save()
+    print course.rid
+    return json.dumps({"success": 1})
+    
+#Assign to an occupied room
+# @app.route("/assignRoom/<cid>", methods=["POST"])
+# def replaceRoom(cid=0):

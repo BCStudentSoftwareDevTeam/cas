@@ -18,24 +18,23 @@
     </div>
     <div class="row">
         <div class="col-xs-4">
-            <label for="professor"><h4><strong>Professor: </strong></label> Dr.{# {{instructor.username.firstName}} {{instructor.username.lastName}} #}</h4>
+          <input id="hiddencourse" hidden value = "{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}} "></input>
+            {%for instructor in instructors %}
+              <label for="professor"><h4><strong>Professor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h4>
+            {% endfor %}
             <label for="courses"><h4><strong>Course: </strong></label>{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}}</h4>
             <label for="time"><h4><strong>Time:</strong> </label> {{roompreference.course.schedule.startTime}} - {{roompreference.course.schedule.endTime}}</h4>
             <label for="title"><h4><strong>Title:</strong> </label> {{roompreference.course.bannerRef.ctitle}}</h4>
             <label for="capacity"><h4><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h4><br>
-            <h4><strong>Notes:</strong> </h4><!--FIXME:: fetch these notes from database--->
+            <h4><strong>Notes:</strong> </h4>
             <textarea rows="6" cols="40"> 
             {{roompreference.course.notes}}
             </textarea> 
-            <!--<div>-->
-            <!--    <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>-->
-            <!--</div>-->
         </div>
           
         <!---Div for tabs--->
         <div class="col-xs-8">
           <ul class="nav nav-tabs">
-
            <ul class="nav nav-tabs" role="tablist">
                   <li role="presentation" class="active"><a href="#tab-01" aria-controls="tab-01" role="tab" class="tab-content" class="tab-pane fade in active" data-toggle="tab"><h4>Available Rooms</h4></a></li>
                   <li role="presentation"><a href="#tab-02" aria-controls="tab-02" role="tab" data-toggle="tab"><h4>Preference One</h4></a></li>
@@ -55,18 +54,15 @@
                             </h4>
                           </div>
                             <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
-                              <input id="hidden{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
+                              
                               <div class="panel-body">
+                                <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
                                 <label for="resources">Resources: </label> Projectors: {{room.educationTech.projector}}<br>
                                 <label for="roomcapacity">Room Capacity: </label> {{room.maxCapacity}} <br>
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{room.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{room.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{room.physicalAccessibility}}<br>
-                                <!---FIXME: Form to update database:  
-                                <form method="POST" action="/assignRoom/"+cid>
-                                <Button name="roombutton" value="{{rid}}">
-                                </form>--->
-                                <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign</button></th><br> 
+                                <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign</button></th><br>
                               </div>
                             </div>
                         </div>
@@ -86,19 +82,15 @@
                               <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
                         
                               <div class="panel-body">
+                                <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
                                 <label for="Instructor">Instructor: </label> {{roompreference.instructor}} <br> 
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_1.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from basanta{{roompreference.pref_1.educationtech}}<br>
-                                <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> 
-                                <!---FIXME: Form to update database:  
-                                <form method="POST" action="/assignRoom/"+cid>
-                                <Button name="roombutton" value="{{rid}}">
-                                </form>--->
-                                <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
-                          
+                                <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br>
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_1.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
                               </div>
                           </div>
                         </div>
@@ -113,6 +105,7 @@
                               <strong>{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</strong></h3>
                         
                               <div class="panel-body">
+                                <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
                                 <label for="Instructor">Instructor: </label> {{roompreference.instructor}} <br> 
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_2.maxCapacity}} <br>
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_2.visualAccessibility}} <br>
@@ -120,12 +113,7 @@
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_2.physicalAccessibility}}<br>
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jamal&basanta{{roompreference.pref_2.educationtech}}<br>
                                 <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> 
-                                <!---FIXME: Form to update database:  
-                                <form method="POST" action="/assignRoom/"+cid>
-                                <Button name="roombutton" value="{{rid}}">
-                                </form>--->
-                                <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
-                                
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_2.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
                         </div>                                    
@@ -140,19 +128,15 @@
                               <strong>{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</strong></h3>
                         
                               <div class="panel-body">
-                                
+                                <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
+                                <label for="instructor">Instructor: </label> {{roompreference.instructor}} <br>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_3.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_3.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_3.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_3.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jimmy{{roompreference.pref_3.educationtech}}<br>
                                 <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> 
-                                <!---FIXME: Form to update database:  
-                                <form method="POST" action="/assignRoom/"+cid>
-                                <Button name="roombutton" value="{{rid}}">
-                                </form>--->
-                                <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
-                          
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_3.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
                         </div>
@@ -166,11 +150,6 @@
     </div> 
     
 <button onclick="location.href='/roomResolution';" type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
- 
- <!-- Button trigger modal -->
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
-<!--  Launch demo modal-->
-<!--</button>-->
 
 <!-- Modal for room assignment fix to apply to preferences-->
 <div class="modal fade" id="assignRoom" tabindex="-1" role="dialog">
@@ -184,41 +163,16 @@
       </div>
       <div class="modal-body" id="assignroomdiv"> 
        Are you sure you want to assign {{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}} to course {{courses.prefix.prefix}}-{{courses.bannerRef.number}}?
-      </div>
+      </div> <!--Above is replaced in roomResolutionView js--->
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-        <!---FIXME: Form to update database:  
-                                <form method="POST" action="/assignRoom/"+cid>
-                                <Button name="roombutton" value="{{rid}}">
-                                </form>--->
-        <button onclick="location.href='/roomResolution';" type="button" class="btn btn-primary btn-md" data-dismiss="modal">Save changes</button>
+        <button onclick="submitcoursetoroom()" type="button" class="btn btn-primary btn-md" data-dismiss="modal">Save changes</button>
       </div>
     </div>
   </div>
 </div>
 
-
-
-
-
-<!-- Modal for changes saved -->
-<!--<div class="modal fade" id="changesSaved" tabindex="-1" role="dialog">-->
-<!--  <div class="modal-dialog" role="dialog">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        Changes have been saved!-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
 
 <script src = "/static/js/local/roomResolutionView.js"></script>
 {% endblock %}
