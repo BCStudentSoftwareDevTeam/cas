@@ -1,6 +1,13 @@
 /* global $ */
 console.log("removeUser js loaded")
 
+// These lines of code enables the interface to show only the access level first
+$("#Programs").hide();
+$("#Divisions").hide();
+$("#Buildings").hide();
+$("#Add").hide();
+$("#Remove").hide(); 
+
 //Shows appropriate 2nd dropdown based on first dropdown selection
 function show_access_level(s) {
         console.log(s.value);
@@ -202,5 +209,32 @@ $(function() {
     });
  });
  
-    
-}   
+
+function fillAdmin(response){
+    console.log(response)
+    var adminselect = document.getElementById("RemoveDropdown");
+    $("#RemoveDropdown").empty();
+    for (var key in response){
+        // console.log(response[key]['firstname']);
+        var option = document.createElement("option");
+        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
+        option.value = key;
+        adminselect.appendChild(option);
+    }
+    // $('.selectpicker').selectpicker('refresh');
+}
+
+function retrieveAdmins(){
+         var url = '/get_admin/';
+         console.log("URL: " + url);
+         $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(response){
+                    console.log(response)
+          		    fillAdmin(response);
+          			},
+          			error: function(error){
+          				console.log(error); 
+          			}
+                }); }    

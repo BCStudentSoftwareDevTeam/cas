@@ -32,12 +32,10 @@ def userManagement():
                            
                            
 @app.route("/admin/userInsert", methods = ["POST"]) #'admin/userInsert points to the URL for the form in html file'                          
-def user_insert(): # this function is used to update and delete data from the user input
-   
-    programchairs = ProgramChair.select()
-    
+def user_insert(): 
+    # this function is used to update and delete data from the user input
     # request.form requests data from the front end on what the user has entered
-    # for the adding users
+    # for updating added users
     if request.form.get('adduser') == 'adduser' : 
         if request.form.get('access') == "program_chair":
             pch = ProgramChair.create(username = request.form.get("userToAdd"), pid =request.form.get("program"))
@@ -53,18 +51,11 @@ def user_insert(): # this function is used to update and delete data from the us
             bm.save()
             flash("Your changes have been successfully saved!")
         elif request.form.get('access') == 'administrator' :
-            pass
-            # data = request.form
-
-            # if data['admin'] != "None":
-            #     # get the user
-            # user = User.create(User.username = request.form['admin'])
-    
-            # # toggle admin status
-            # user.isAdmin = not user.isAdmin
-            # user.save()
+            user = User.get(username = request.form.get("userToAdd"))
+            user.isAdmin = 1
+            user.save()
             
-    #for the removing users        
+    #for updating removed users       
     elif request.form.get('removeuser') == 'removeuser':  
         if request.form.get('access') == "program_chair":
             pc = ProgramChair.get(ProgramChair.username == request.form.get("userToRemove"), ProgramChair.pid == request.form.get("program"))
@@ -78,6 +69,10 @@ def user_insert(): # this function is used to update and delete data from the us
             bm = BuildingManager.get(BuildingManager.username == request.form.get("userToRemove"), BuildingManager.bmid == request.form.get("building"))
             bm.delete_instance()
             flash("Your changes have been successfully saved!")
+        elif request.form.get('access') == 'administrator' :
+            user = User.get(User.username == request.form.get("userToRemove"))
+            user.isAdmin = 0
+            user.save()
 
     return redirect(url_for("userManagement"))
     

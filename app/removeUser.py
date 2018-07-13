@@ -42,3 +42,13 @@ def building_manager(building):
     return json.dumps(newmanagers)
     
     
+@app.route('/get_admin/', methods = ["GET"])  
+def administrators():
+    alladmin = User.select().where(User.isAdmin == 1)
+    newadmin={} 
+    for admin in alladmin: 
+        newadmin[admin.username]={'firstname':admin.firstName, 
+                        'lastname':admin.lastName,
+                        'username':admin.username
+        }
+    return json.dumps(newadmin)
