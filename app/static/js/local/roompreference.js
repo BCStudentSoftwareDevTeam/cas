@@ -121,7 +121,23 @@ function setButtonText(button){
 var e = document.getElementById("selectedRoom");
 var roomNumber= e.options[e.selectedIndex].text;
 console.log(setPreference(roomNumber));
+var roomModel= document.getElementById("modelRoom");
+console.log(roomModel);
 
+
+var courseinfo= document.getElementById("courseInfo");
+var modelSentence = "Are you sure you want to assign " + roomNumber + " to " + courseinfo.innerHTML + " ?";
+roomModel.innerHTML= modelSentence;
+
+
+var firstPref= document.getElementById("firstPref");
+firstPref.innerHTML= roomNumber;
+var secondPref= document.getElementById("secondPref");
+secondPref.innerHTML= "hamza";
+var thirdPref= document.getElementById("thirdPref");
+thirdPref.innerHTML= roomNumber;
+
+ 
 }
 
 
@@ -144,4 +160,18 @@ console.log(setPreference(roomNumber));
     
     
 
+$(document).on("click",".assignprefbutton", function () { //Updating assign room modal for preferences
+    var button = $(this).data('id');
+    console.log(button);
+    var linktopref = document.getElementById("hidden"+button);
+    console.log("link to pref"+linktopref);
+    console.log("linktopref.value"+linktopref.value);
+    var linktocourse = document.getElementById("hiddenpreference");
+    console.log(linktocourse)
+    
+    
+    $("#assignroomdiv").html("Are you sure you would like to assign "+ linktopref.value + " to "+linktocourse.value); //Need course name
+     
+    //  console.log($("#assignroomdiv").innerHTML);
+});
 
