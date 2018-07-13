@@ -5,38 +5,73 @@
 {% block body %}
 
 <div>
-    <h1 class="text-center">Room Preference</h1>
+    <h1 class="text-center"><strong>Room Preference</strong></h1>
     <div>
+        <!--Hamza added this here for practice purposes with respect to syncing the data to preferences-->
+        
+        <!--<form method = "post" action= "/setPreference/1">-->
+            
+        <!--    <select name="roomPreference"-->
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        <!--</form>-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <table class="table">
             
 
             <thead class="thead-dark">
-                <th scope="col"> Your Course(s) </th>
-                <th scope="col"> Preference 1</th>
-                <th scope="col"> Preference 2</th>
-                <th scope="col"> Preference 3 </th>
-                <th scope="col"> Section </th>
-                <th scope="col"> Time </th>
-                <th scope="col"> # of Students </th>
-                <th scope="col"> Notes </th>
+                
+                <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
+                <th scope="col"><h4><strong>Preference 1</strong></h4></th>
+                <th scope="col"><h4><strong> Preference 2</strong></h4></th>
+                <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
+                <th scope="col"> <h4><strong>Section </strong></h4></th>
+                <th scope="col"><h4> <strong>Time</strong> </h4></th>
+                <th scope="col"><h4><strong> # of Students</strong></h4> </th>
+                <th scope="col"> <h4><strong>Notes </strong></h4></th>
             </thead>
                 {% for roompreference in roompreferences %}
-            <tr class = "courseTaberow1">
-                <td>{{roompreference.course.prefix}}</td>
-                <!--<td><button type="button" class="btn btn-primary btn-lg" >{{roompreference.any_Choice}}</button></td>-->
+            <tr class = "courseTablerow1">
+                <td><h4>{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</h4></td>
         
-                <td><button class="btn btn-primary btn-lg" type="button" data-toggle="collapse" 
+                <td><button onclick="setPreference(1)" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 {{roompreference.any_Choice}}</button></td>
-                <td><button type="button" class="btn btn-primary btn-lg" type="button" data-toggle="collapse" 
+                
+                <td><button onclick="setPreference(2)" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> {{roompreference.any_Choice}}</button></td>
-                <td><button type="button" class="btn btn-primary btn-lg" type="button" data-toggle="collapse" 
+               
+                <td><button onclick="setPreference(3)" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
+               
                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">{{ roompreference.any_Choice}}</button></td>
+                
+                
+                
                 <td> {{roompreference.course.section}} </td> <br>
-                <td > {{roompreference.course.time}}</td>
-                <td align="center">{{roompreference.course.capacity}} </td>
+                <td> {{roompreference.course.time}}</td>
+                <td> {{roompreference.course.capacity}} </td>
                 <td>
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myNotes">{{roompreference.notes}}</button>
+                        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myNotes">{{roompreference.notes}}</button>
                             <div class="modal fade" id="myNotes" role="dialog">
                             <div class="modal-dialog">
                               <div class="modal-content">
@@ -46,7 +81,7 @@
                                 </div>
                                 <div class="modal-body">
                                    <textarea class="form-control" style="min-width: 100%" rows="4" cols="58" name="comment">Enter notes here...</textarea>
-                                  <!--<input type="text" name=" "/>-->
+                              
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
@@ -73,29 +108,57 @@
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                                <div class="row"> <select onchange= "goto_rdetails(this)" class="selectpicker form-control" data-live-search="true" name="keyValue">
+                                <div class="row"> <select onchange= "goto_rdetails(this)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue">
                                         <option value="" disabled selected >Select your option</option>
                                         {% for r in room %}
                                             <option value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >
+                                                
+                                            
+                                            
                                                 {{r['building']['shortName']}} {{r['number']}}
+                                    
+                                            
+                                            
                                             </option>
-                                       {% endfor %}
+                                          {% endfor %}
                                     </select>
                                 </div>  
                                     <div class="row">
                                            <div  id = "Details" class="collapse" id="collapseExample">
                                                <div class="col-sm-6">
-                                                    <div id="roomNumber" ><strong> {{ room.number }}</strong><br></div>
-                                                    <div id="roomCapacity">Room Capacity: {{room.maxCapacity}}<br></div>
-                                                    Visual Accessibility  : <input type="checkbox" name="Visual Acc" value="Visual Acc" {% if room.visualAcc  == True %} checked {% endif %} onclick="return false;"/><br>
-                                                    Audio Accessibility   : <input type="checkbox" name="Audio Acc" value="Audio Acc" {% if room.audioAcc == True %} checked {% endif %} onclick="return false;"><br>
-                                                    Physical Accessibilty : <input type="checkbox" name="Physical Acc" value="Physical Acc" {% if room.physicalAcc == True %} checked {% endif %} onclick="return false;"><br>
-                                                    Specialized Equipment : {{room.specializedEquipment}}<br>
-                                                    Movable Furniture     : {{room.movableFurniture}}<br>
-                                                    Special Feature Notes : {{room.specialFeatures}}<br>
-                                                    Education tech        : <a href="#" id="openDialog"> View </a>
-              
+                                                    
+                                                   <div class="row">
+                                                    <label  style="float: left;">Room Number :  </label><div id="roomNumber" >{{room.number}}</div>
+                                                   </div>    
+                                                    <div class="row">
+                                                        <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                    </div>
+                                                    <div class="row"> 
+                                                       <label  style="float:left;" >Visual Accessibility:</label><input id="visualAcc" type="checkbox" name="VisualAcc" value="VisualAcc" {% if room.visualAcc  == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" >Audio Accessibility   : </label> <input id="audioAcc" type="checkbox" name="Audio Acc" value="Audio Acc" {% if room.audioAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" >Physical Accessibilty :</label> <input id="physicalAcc" type="checkbox" name="Physical Acc" value="Physical Acc" {% if room.physicalAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                      <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float: left;">Movable Furniture:</label> <div id="movableFurniture">  {{room.movableFurniture}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                         <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" > Education tech: </label> <a href="#" id="openDialog"> View </a>
+                                                    </div>
+                                                
                                                 </div>
+                                                 
+                                            
+                                              
                                         
                                     <div id ="dialog-modal" class="col-sm-4" title="Education Tech" style="display:none">
                                         <table>
@@ -131,33 +194,89 @@
                                         </tr>
                                         </table>                                            
                                     </div>
-                                               <div class="col-sm-6" align="right"> 
-                                                   <strong align="center">Course Conflicts</strong> <br>
-                                                    <table border="1">
-                                                      <th>Course(s)</th>
-                                                      <th>Profssor(s)</th>
+                                    <div class="row">
+                                                  <div class="col-lg-5 " align="center" > 
+                                               
+                                                   <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
+                                                   
+                                                    <table border=4>
+                                                        
+                                                      <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
+                                                      <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
+                                                    
                                                       <tr>
-                                                         <td>{{course.prefix }}</td>
-                                                        <td>{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
                                                       </tr>
                                                       <tr>
-                                                        <td>{{course.prefix}}</td>
-                                                        <td>{{users.firstName}} {{users.lastName}}</td>
-                                                      </tr>
+                                                         <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                           <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                         <tr> <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                     
                                                     </table>
+                                                    
+                                                    
+                                                 </div>
+                                                   
+                                                 </div>
+                                                       <div class="row">
+                                                           <button name="assignButton" id="assignButton" value="" class="btn btn-primary" onclick="setButtonText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                                       </div>
+                                                       
+
+                                            
+
                                                 </div>
+
+                                            </div>
+
+                                            
                                             </div>
                                     </div>
+                                    
+                                    
+                                  
+                                                     Hamza added a Modal 
+                                                      <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header" style="background-color: #2c3e50;">
+                                                            <h3 class="modal-title" style="color: white;" id="exampleModalLabel">Please read:</h3>
+                                                            <button type="button" style="color: white; line-height: 0" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                            <strong>Are you sure you want to assign ROOM to COURSE?</strong>
+                                                          </div>
+                                                          <div class="modal-footer" padding: "10px">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                                            <button type="button" class="btn btn-primary">Yes</button>
+                                                          </div>
+                                                        </div>
+                                                      </div>  
+                                    
+                                    
                             </div>
                         </div>
                     </div>
             </div>
+
         </td>
+       
     </tr>
+    
     </table>
+    
 </div>
         
-<button type="button" style="float: right;">Select</button>
+
 
 
 
