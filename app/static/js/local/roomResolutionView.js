@@ -85,7 +85,9 @@ function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
 function replacecourseinroom(){ //Removing current occupant and playing the current course in
     var url= '/assignRoom'+window.location.href.split("/").pop;
         console.log("URL: " + url);
-         console.log("RoomID: " + roomID)
+        console.log("RoomID: " + roomID);
+        
+        
     
     
 }

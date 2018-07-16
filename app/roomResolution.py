@@ -121,6 +121,6 @@ def assignRoom(cid=0):
 #     print ("prefget")
     
 #     prefget.rid = data[]
-    
+#
     
     
