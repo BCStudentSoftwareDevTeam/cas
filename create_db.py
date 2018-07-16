@@ -344,7 +344,8 @@ course = Course(  bannerRef         = 1,
                   capacity          = 20,
                   notes             = "This is 236, yo",
                   section           = "A",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  rid               = 1
                 ).save()
                 
 course = Course(  bannerRef         = 2,
@@ -393,7 +394,8 @@ course = Course(  bannerRef         = 10,
                   schedule          = "B",
                   capacity          = 20,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  rid               = 2
                   ).save() 
 course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
@@ -402,7 +404,7 @@ course = Course(  bannerRef         = 11,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1,
                   ).save() 
 course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
@@ -430,7 +432,8 @@ course = Course(  bannerRef         = 14,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  rid               = 3
                 ).save()                
 
 course = Course(  bannerRef         = 15,
