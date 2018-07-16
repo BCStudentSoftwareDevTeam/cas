@@ -12,7 +12,7 @@
     <!--<div class = "jumbotron">-->
         <div class="row">
         <!--ACCESS LEVEL DROPDOWN-->
-            <div class="col-sm-12 center-block" style ="text-align:center;" >
+            <div id = "center_block" class="col-sm-6 center-block" style ="text-align:center;" >
                 <label for="Access Level">Access Level </label> 
                     <div class = "form-group">
                         <select class = "form-control" onchange="show_access_level(this)" name= "access">
@@ -62,22 +62,26 @@
                                 </div>
                         </div>
             </div>
-    </div>
-        <div class = "row">
-            
+        </div>
+        
+    <!-- Encloses the remove and the add buttons and dropdowns in a row class -->        
+    <div class = "row">
         <!--ADD NAMES BUTTON AND BUTTON-->
+         <div class = "row">
             <div id="Add" class="col-sm-4">
                 <label for="Users">Users</label>
                      <div class = "form-group">
-                        <select class="form-control" name= "userToAdd" id="AddDropdown">
+                        <select class="form-control col-md-4" name= "userToAdd" id="AddDropdown">
                             <option value = "---" disabled selected>---</option>
                                 {% for user in users %} <!--- displays names--->
-                                    <option value="{{user.username}}"> {{user.firstName}} {{user.lastName}} </option>
+                                    <option value="{{user.username}}"> {{user.firstName}} {{user.lastName}} ({{user.username}})</option>
                                 {% endfor %}
                         </select>
                     </div>
                 <div> <!--- creates a pop up for the user on clicking add button --->
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
+                    <div id = "add_btn">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+                    </div>
                         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -88,8 +92,8 @@
                                  <p>Are you sure you want to add the selected user?</p>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                                <button name ="adduser" value = "adduser" type="Submit" class="btn btn-primary"> Yes</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                <button name ="adduser" value = "adduser" type="Submit" class="btn btn-success"> Yes</button>
                               </div>
                             </div>
                           </div>
@@ -97,43 +101,42 @@
                 </div>
             </div>
             
-            <div class="col-sm-4"></div>
+            <!--Empty div to align the add and remove divs --->
+            <div class="col-sm-4">
+            </div>
+            
             <!--REMOVE NAMES DROPDOWN AND BUTTON--->
-            <div id = "Remove" class="col-sm-4">
-                <div style="text-align: Right">
-                    <label for="Remove">Users</label>
+            <div id = "Remove" class="col-sm-4" >
+                <div >
+                    <label for="Remove">Current User(s)</label>
                         <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
-                            <select class="form-control" name="userToRemove" id="RemoveDropdown">
+                            <select class="form-control" name="userToRemove" id="RemoveDropdown" style="float: right;">
                                 <option value="---"disabled selected>---</option>
                             </select>
                         </div>
-                <div>
-                    <button type="button" class="btn btn-Danger" data-toggle="modal" data-target="#removeModal">Remove User</button>
-                        <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Remove User</h5>
-                              </div>
-                              <div class="modal-body">
-                                 <p>Are you sure you want to remove the selected user?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                <button name = "removeuser" value = "removeuser" type="Submit" class="btn btn-primary" >Yes</button>
-                                
+                    <div>
+                        <div id = "remove_btn" class= "text-right">
+                            <button type="button" class="btn btn-Danger" data-toggle="modal" data-target="#removeModal">Remove</button>
+                        </div>
+                            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove User</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                     <p>Are you sure you want to remove the selected user?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                    <button name = "removeuser" value = "removeuser" type="Submit" class="btn btn-success" >Yes</button>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                 </div>
-</div>
-</div>
-            
-        
-    
-    
-            
+                     </div>
+                </div>
+            </div>
     </div>
     
 <!--</div>-->
@@ -142,6 +145,7 @@
 {% endblock %}
   
 {% block belowContainer %}
+    <link rel="stylesheet" href="../static/css/userManagement.css">
     <script src="../static/js/local/removeUser.js" />
 {% endblock %}
   

@@ -48,10 +48,10 @@ function fillProgramChairs(response){
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
+        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+"(" + response[key]["username"].toString() + ")";
         option.value = key;
         programselect.appendChild(option);
-    }
+    } 
     // $('.selectpicker').selectpicker('refresh');
 }
 
@@ -88,7 +88,7 @@ function fillDivisionChairs(response){
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
+        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+response[key]["username"].toString() + ")";
         option.value = key;
         divisionselect.appendChild(option);
     }
@@ -128,7 +128,7 @@ function fillBuildingManagers(response){
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
+        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+response[key]["username"].toString() +")";
         option.value = key;
         buildingselect.appendChild(option);
     }
@@ -163,7 +163,37 @@ function building_managers_show_names(s) {
             $("#Add").show();
             $("#Remove").show();
         }
-        
+
+
+function fillAdmin(response){
+    console.log(response)
+    var adminselect = document.getElementById("RemoveDropdown");
+    $("#RemoveDropdown").empty();
+    for (var key in response){
+        // console.log(response[key]['firstname']);
+        var option = document.createElement("option");
+        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+ response[key]["username"].toString() + ")";
+        option.value = key;
+        adminselect.appendChild(option);
+    }
+    // $('.selectpicker').selectpicker('refresh');
+}
+
+function retrieveAdmins(){
+         var url = '/get_admin/';
+         console.log("URL: " + url);
+         $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(response){
+                    console.log(response)
+          		    fillAdmin(response);
+          			},
+          			error: function(error){
+          				console.log(error); 
+          			}
+                }); }    
+
 
 /*global $ */
 // this creates the pop up for remove button
@@ -210,31 +240,3 @@ $(function() {
  });
  
 
-function fillAdmin(response){
-    console.log(response)
-    var adminselect = document.getElementById("RemoveDropdown");
-    $("#RemoveDropdown").empty();
-    for (var key in response){
-        // console.log(response[key]['firstname']);
-        var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" "+response[key]["username"].toString();
-        option.value = key;
-        adminselect.appendChild(option);
-    }
-    // $('.selectpicker').selectpicker('refresh');
-}
-
-function retrieveAdmins(){
-         var url = '/get_admin/';
-         console.log("URL: " + url);
-         $.ajax({
-                url: url,
-                dataType: 'json',
-                success: function(response){
-                    console.log(response)
-          		    fillAdmin(response);
-          			},
-          			error: function(error){
-          				console.log(error); 
-          			}
-                }); }    
