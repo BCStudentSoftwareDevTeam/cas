@@ -73,6 +73,7 @@ def roomResolutionView(cid):
         pref_info = dict()
         cc = Course.get(Course.cId == conflictingroomdata[idx])
         pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])
+        full_name = None
         for inst in pref_inst:
             full_name = inst.username.firstName + " " +inst.username.lastName
             
