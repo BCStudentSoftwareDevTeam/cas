@@ -666,7 +666,9 @@ roompreference= RoomPreferences(course=3, pref_1=1, pref_2=2, pref_3=3, notes="N
 roompreference= RoomPreferences(course=8, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=9, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=10, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=11, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=11, pref_1=1, notes="I want these rooms just bc pls", any_Choice = "any").save()
+roompreference= RoomPreferences(course=7, pref_1=1, pref_2=2, notes="I want these rooms just bc pls", any_Choice = "any").save()
+
 roompreference= RoomPreferences(course=13, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=14, pref_1=1, pref_2=2, pref_3=3, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=15, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()

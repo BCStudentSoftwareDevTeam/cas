@@ -37,9 +37,15 @@
           <ul class="nav nav-tabs">
            <ul class="nav nav-tabs" role="tablist">
                   <li role="presentation" class="active"><a href="#tab-01" aria-controls="tab-01" role="tab" class="tab-content" class="tab-pane fade in active" data-toggle="tab"><h4>Available Rooms</h4></a></li>
+                   {% if roompreference.pref_1 %}
                   <li role="presentation"><a href="#tab-02" aria-controls="tab-02" role="tab" data-toggle="tab"><h4>Preference One</h4></a></li>
+                   {%endif%}
+                  {% if roompreference.pref_2 %}
                   <li role="presentation"><a href="#tab-03" aria-controls="tab-03" role="tab" data-toggle="tab"><h4>Preference Two</h4></a></li>
+                  {% endif%}
+                  {% if roompreference.pref_3 %}
                   <li role="presentation"><a href="#tab-04" aria-controls="tab-04" role="tab" data-toggle="tab"><h4>Preference Three</h4></a></li>
+                  {% endif%}
                 </ul>
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="tab-01">
@@ -73,6 +79,7 @@
                   </div>
                   
                   <!---First preference tab--->
+                  {% if roompreference.pref_1%}
                   <div role="tabpanel" class="tab-pane" id="tab-02">
                     
                    
@@ -83,8 +90,10 @@
                         
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
-                                <label for="Instructor">Current Instructor: </label> {{preferences['pref1']['instructor']}} <br> 
-                                <label for="Course">Current Course: </label> {{preferences['pref1']['course_name']}} <br>
+                                {% if preferences['pref1'] %}
+                                  <label for="Instructor">Current Instructor: </label> {{preferences['pref1']['instructor']}} <br> 
+                                  <label for="Course">Current Course: </label> {{preferences['pref1']['course_name']}} <br>
+                                {% endif %}
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_1.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
@@ -96,8 +105,9 @@
                           </div>
                         </div>
                   </div>
-                  
+                  {% endif %}
                   <!---Second preference tab--->
+                  {% if roompreference.pref_2 %}
                   <div role="tabpanel" class="tab-pane" id="tab-03">
 
                         <div class="panel panel-default">
@@ -107,8 +117,10 @@
                         
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
+                                {% if preferences['pref2'] %}
                                 <label for="Instructor">Current Instructor: </label> {{preferences['pref2']['instructor']}} <br> 
                                 <label for="Course">Current Course: </label> {{preferences['pref2']['course_name']}} <br>
+                                {% endif%}
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_2.maxCapacity}} <br>
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_2.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_2.audioAccessibility}} <br> 
@@ -120,8 +132,10 @@
                           </div>
                         </div>                                    
                   </div>
-                  
+                  {% endif %}
                   <!---Third preference tab--->
+                   {%if roompreference.pref_3%}
+
                    <div role="tabpanel" class="tab-pane" id="tab-04">  <!---FIXME: Won't load in third preference--->
                     
                         <div class="panel panel-default">
@@ -131,8 +145,10 @@
                         
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
+                                {% if preferences['pref3'] %}
                                 <label for="instructor">Current Instructor: </label> {{preferences['pref3']['instructor']}} <br>
                                 <label for="Course">Current Course: </label> {{preferences['pref3']['course_name']}} <br>
+                                {% endif %}
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_3.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_3.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_3.audioAccessibility}} <br> 
@@ -144,7 +160,7 @@
                           </div>
                         </div>
                   </div>
-                  
+                  {%endif%}
                   </div>
           </ul>
             <br>
@@ -155,6 +171,7 @@
 <button onclick="location.href='/roomResolution';" type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
 
 <!-- Modal for room assignment fix to apply to preferences-->
+
 <div class="modal fade" id="assignRoom" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -165,7 +182,6 @@
         </button>
       </div>
       <div class="modal-body" id="assignroomdiv"> 
-       Are you sure you want to assign {{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}} to course {{courses.prefix.prefix}}-{{courses.bannerRef.number}}?
       </div> <!--Above is replaced in roomResolutionView js--->
       
       <div class="modal-footer">
@@ -175,6 +191,7 @@
     </div>
   </div>
 </div>
+
 
 
 <script src = "/static/js/local/roomResolutionView.js"></script>

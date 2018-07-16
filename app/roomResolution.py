@@ -19,7 +19,14 @@ def roomResolution():
 @app.route("/roomResolutionView/<cid>", methods=["GET"])
 def roomResolutionView(cid):
        # Creating the UI
-    roompreference = RoomPreferences.get(RoomPreferences.course==cid)
+    try:
+        roompreference = RoomPreferences.get(RoomPreferences.course==cid)
+    except Exception as e:
+        roompreference= RoomPreferences(course=cid, any_Choice = "any").save()
+        roompreference = RoomPreferences.get(RoomPreferences.course==cid)
+        
+
+        flash("Course has no preferences assinged.")
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     print instructors
@@ -47,45 +54,48 @@ def roomResolutionView(cid):
     rp = RoomPreferences.get(RoomPreferences.course == cid)
 
     conflicts_query = "SELECT cid FROM `course` INNER JOIN `bannerschedule` ON `bannerschedule`.sid = `course`.schedule_id WHERE `course`.rid_id = {0} AND `bannerschedule`.startTime <= \"{1}\" AND `bannerschedule`.endTime >= \"{2}\";"
-    
-    
-    conflictingcourse1 = conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime)
-    conflictingcourse2 = conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime)
-    conflictingcourse3 = conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime)
+    cclist = []
+    if rp.pref_1:
+        cclist.append(conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime))
+    elif rp.pref_2:
+        cclist.append(conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime))
+    elif rp.pref_3:
+        cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
     
     
     
     conflictingroomdata = []
-    
-    cclist = [conflictingcourse1, conflictingcourse2, conflictingcourse3]
-    for cc in cclist:
-        print conflictingcourse1
-        cursor = mainDB.execute_sql(cc)
-        print cursor
-        for conflict in cursor:
-            conflictingroomdata.append(conflict[0])
-
-    print conflictingroomdata
-    
-
     preferences = dict()
-    for idx in range(len(conflictingroomdata)): 
-        pref_info = dict()
-        cc = Course.get(Course.cId == conflictingroomdata[idx])
-        pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])
-        full_name = None
-        for inst in pref_inst:
-            full_name = inst.username.firstName + " " +inst.username.lastName
+    
+    if cclist != []:
+    #cclist = [conflictingcourse1, conflictingcourse2, conflictingcourse3]
+        for cc in cclist:
+            cursor = mainDB.execute_sql(cc)
+            print cursor
+            for conflict in cursor:
+                conflictingroomdata.append(conflict[0])
+    
+        print conflictingroomdata
+        
+    
+        
+        for idx in range(len(conflictingroomdata)): 
+            pref_info = dict()
+            cc = Course.get(Course.cId == conflictingroomdata[idx])
+            pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])
+            full_name = None
+            for inst in pref_inst:
+                full_name = inst.username.firstName + " " +inst.username.lastName
+                
+            pref = 'pref'+ str(idx + 1)
+            print cc
+            current_course = str(cc.prefix.prefix) + " " + str(cc.bannerRef.number) + " " + str(cc.bannerRef.ctitle) 
+            pref_info['course_name']=current_course
+            pref_info['instructor']=full_name
+            preferences[pref] = pref_info
             
-        pref = 'pref'+ str(idx + 1)
-        print cc
-        current_course = str(cc.prefix.prefix) + " " + str(cc.bannerRef.number) + " " + str(cc.bannerRef.ctitle) 
-        pref_info['course_name']=current_course
-        pref_info['instructor']=full_name
-        preferences[pref] = pref_info
-        
-        
-    print preferences
+            
+        print preferences
     
     
     return render_template("roomResolutionView.html", 
