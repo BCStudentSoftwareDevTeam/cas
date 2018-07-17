@@ -2,6 +2,7 @@
 {% set currentPage = "no" %}
 
 <!--Page Content -->
+
 {% block body %}
 <script scr = "/static/js/local/roomResolutionView.js"></script>
 {% include 'snips/messages.html' %}
@@ -79,28 +80,28 @@
                   </div>
                   
                   <!---First preference tab--->
-                  {% if roompreference.pref_1%}
+                  {% if roompreference.pref_1%} <!---If Current course has a preference 1--->
                   <div role="tabpanel" class="tab-pane" id="tab-02">
-                    
-                   
                         <div class="panel panel-default">
+                          
                           <div class="panel-heading">
                             <h3> <!---Find the course that got the room that prof wanted--->
                               <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
-                        
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
                                 {% if preferences['pref1'] %}
+                                 <input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input> 
                                   <label for="Instructor">Current Instructor: </label> {{preferences['pref1']['instructor']}} <br> 
                                   <label for="Course">Current Course: </label> {{preferences['pref1']['course_name']}} <br>
                                 {% endif %}
+                                <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_1.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from basanta{{roompreference.pref_1.educationtech}}<br>
                                 <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
-                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_1.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
                               </div>
                           </div>
                         </div>
@@ -109,7 +110,6 @@
                   <!---Second preference tab--->
                   {% if roompreference.pref_2 %}
                   <div role="tabpanel" class="tab-pane" id="tab-03">
-
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <h3>
@@ -118,16 +118,18 @@
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
                                 {% if preferences['pref2'] %}
+                                <input id="pref2_confcourse" hidden value = "{{preferences['pref2']['cid']}}"></input>
                                 <label for="Instructor">Current Instructor: </label> {{preferences['pref2']['instructor']}} <br> 
                                 <label for="Course">Current Course: </label> {{preferences['pref2']['course_name']}} <br>
                                 {% endif%}
+                                <input id="pref2_roominfo" hidden value = "{{roompreference.pref_2.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_2.maxCapacity}} <br>
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_2.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_2.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_2.physicalAccessibility}}<br>
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jamal&basanta{{roompreference.pref_2.educationtech}}<br>
                                 <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
-                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_2.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
                         </div>                                    
@@ -137,7 +139,6 @@
                    {%if roompreference.pref_3%}
 
                    <div role="tabpanel" class="tab-pane" id="tab-04">  <!---FIXME: Won't load in third preference--->
-                    
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <h3>
@@ -146,16 +147,18 @@
                               <div class="panel-body">
                                 <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
                                 {% if preferences['pref3'] %}
+                                <input id="pref3_confcourse" hidden value = "{{preferences['pref3']['cid']}}"></input>
                                 <label for="instructor">Current Instructor: </label> {{preferences['pref3']['instructor']}} <br>
                                 <label for="Course">Current Course: </label> {{preferences['pref3']['course_name']}} <br>
                                 {% endif %}
+                                <input id="pref3_roominfo" hidden value = "{{roompreference.pref_3.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_3.maxCapacity}} <br> 
                                 <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_3.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_3.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_3.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jimmy{{roompreference.pref_3.educationtech}}<br>
                                 <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
-                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id="{{roompreference.pref_3.rID}}" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
                         </div>
@@ -186,7 +189,7 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-        <button onclick="submitcoursetoroom()" type="button" class="btn btn-primary btn-md" data-dismiss="modal">Save changes</button>
+        <button onclick="submitorreplace()" type="button" class="btn btn-primary btn-md" data-dismiss="modal">Save changes</button> <!---Actually updates db--->
       </div>
     </div>
   </div>

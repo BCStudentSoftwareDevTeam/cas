@@ -361,7 +361,7 @@ course = Course(  bannerRef         = 2, #Course 2
 
 course = Course(  bannerRef         = 3, #Course 3
                   prefix            = "MAT",
-                  term              = 201611,
+                  term              = 201612,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "Calculus",
@@ -371,24 +371,22 @@ course = Course(  bannerRef         = 3, #Course 3
                   
 course = Course(  bannerRef         = 4, #Course 4
                   prefix            = "TAD",
-                  term              = 201611,
+                  term              = 201612,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "TAD",
                   crossListed       = 0,
-                  section           = "A",
-                  rid               =2
+                  section           = "A"
                   ).save()                  
                   
 course = Course(  bannerRef         = 8, #Course 5
                   prefix            = "CHI",
-                  term              = 201611,
+                  term              = 201711,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "CHINESE",
                   crossListed       = 1,
-                  section           = "D",
-                  rid               = 2
+                  section           = "D"
                   ).save()       
                               
 course = Course(  bannerRef         = 9, #Course 6
@@ -399,7 +397,7 @@ course = Course(  bannerRef         = 9, #Course 6
                   notes             = "Preference2",
                   crossListed       = 1,
                   section           = "E",
-                  rid               =
+                  
                   ).save() 
 course = Course(  bannerRef         = 10, #Course 7
                   prefix            = "CHI",
@@ -408,8 +406,7 @@ course = Course(  bannerRef         = 10, #Course 7
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1,
-                  section           = "A",
-                  rid               = 2
+                  section           = "A"
                   ).save() 
 course = Course(  bannerRef         = 11, #Course 8
                   prefix            = "CHI",
@@ -448,7 +445,6 @@ course = Course(  bannerRef         = 14, #Course 11
                   notes             = "Preference2",
                   crossListed       = 1,
                   section           = "A",
-                  rid               = 3
                 ).save()                
 
 course = Course(  bannerRef         = 15, #Course 12
@@ -686,8 +682,8 @@ room = Rooms(building = 9, number ='309', maxCapacity=18, roomType="Lecture",   
 #ROOMS#
 #######
 roompreference= RoomPreferences(course=1, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=2, pref_1=4, pref_2=5, pref_3=6, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=3, pref_1=7, pref_2=8, pref_3=9, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=2, pref_1=2, pref_2=5, pref_3=6, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=3, pref_1=2, pref_2=8, pref_3=9, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=4, pref_1=10, notes="I want these rooms just bc pls", any_Choice = "any").save()
 roompreference= RoomPreferences(course=5, pref_1=11, pref_2=12, notes="I want these rooms just bc pls", any_Choice = "any").save()
 roompreference= RoomPreferences(course=6, pref_1=13, pref_2=14, pref_3=15, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
