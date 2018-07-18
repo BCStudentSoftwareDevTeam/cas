@@ -171,7 +171,7 @@
         </div>       
     </div> 
     
-<button onclick="location.href='/roomResolution';" type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
+<button onclick="location.href='/roomResolution/{{termcode}}';" type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
 
 <!-- Modal for room assignment fix to apply to preferences-->
 
@@ -185,8 +185,7 @@
         </button>
       </div>
       <div class="modal-body" id="assignroomdiv"> 
-      </div> <!--Above is replaced in roomResolutionView js--->
-      
+      </div> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
         <button onclick="submitorreplace()" type="button" class="btn btn-primary btn-md" data-dismiss="modal">Save changes</button> <!---Actually updates db--->

@@ -33,7 +33,7 @@ table, th, td {
                                 <tr>
                                     <td>{{course.prefix}} {{course.bannerRef.number}}-{{course.bannerRef.ctitle}}</td>
                                     <td>{{course.schedule.startTime}} - {{course.schedule.endTime}}</td>
-                                    <td><a href="/roomResolutionView/{{course.cId}}"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></td>
+                                    <td><a href="/roomResolutionView/{{termcode}}/{{course.cId}}"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

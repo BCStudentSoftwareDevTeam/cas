@@ -5,12 +5,14 @@ from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
 import json
+
 @app.route("/roomResolutionTerm", methods=["GET"])
 @must_be_admin
 def roomResolutionTerm():
     #Brings up term modal
     terms = Term.select()
     dummy = True
+    
     return render_template("selectTerm.html", allTerms=terms, dummy=dummy)
     
 @app.route("/roomResolution/<termCode>", methods=["GET"])
@@ -19,12 +21,12 @@ def roomResolution(termCode):
     # Creating the UI
     courses = Course.select().where(Course.rid == None, Course.term==termCode)
     flash("Your changes have been saved!") #Needs to be on change after room is assigned in View
-    return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses)
+    return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
       
       
 
-@app.route("/roomResolutionView/<cid>", methods=["GET"])
-def roomResolutionView(cid):
+@app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
+def roomResolutionView(termCode,cid):
        # Creating the UI
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
@@ -53,9 +55,6 @@ def roomResolutionView(cid):
         print rid
 
 
-
-
-
     #For populating current occupant in course's preferences
     #For current course
     confcourse = RoomPreferences.get(RoomPreferences.course == cid)
@@ -74,7 +73,6 @@ def roomResolutionView(cid):
     elif rp.pref_3:
         cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
     print (cclist , "This is the cc list")
-    
     
     
     conflictingroomdata = []
@@ -110,7 +108,8 @@ def roomResolutionView(cid):
             
             
         print ("This is the conflicting course",preferences) #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-    
+        
+   
     
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
@@ -120,14 +119,11 @@ def roomResolutionView(cid):
                             courses=courses, 
                             bannercourses=bannercourses,
                             educationtech=educationtech,
-                            preferences=preferences
+                            preferences=preferences,
+                            termcode=termCode
                         )
                         
-                        
-                        
-                        
-                        
-                        
+
 #Controller for Assign button (roomResolutionView) sending the assignment of a course to a room to database
 #Available rooms
 @app.route("/assignRoom/<cid>", methods=["POST"])
