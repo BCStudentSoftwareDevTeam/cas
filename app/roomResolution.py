@@ -129,7 +129,7 @@ def roomResolutionView(termCode,cid):
 @app.route("/assignRoom/<cid>", methods=["POST"])
 def assignRoom(cid=0):
     data = request.form
-    # print("ROOM ID: ", data['roomID'])
+    print("ROOM ID: ", data['roomID'])
     # room = data["assignroombutton"]
     course = Course.get(Course.cId == cid) #Gets course ID from database
     course.rid = data['roomID']

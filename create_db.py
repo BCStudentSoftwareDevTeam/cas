@@ -361,7 +361,7 @@ course = Course(  bannerRef         = 2, #Course 2
 
 course = Course(  bannerRef         = 3, #Course 3
                   prefix            = "MAT",
-                  term              = 201612,
+                  term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "Calculus",
@@ -371,7 +371,7 @@ course = Course(  bannerRef         = 3, #Course 3
                   
 course = Course(  bannerRef         = 4, #Course 4
                   prefix            = "TAD",
-                  term              = 201612,
+                  term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "TAD",
@@ -381,7 +381,7 @@ course = Course(  bannerRef         = 4, #Course 4
                   
 course = Course(  bannerRef         = 8, #Course 5
                   prefix            = "CHI",
-                  term              = 201711,
+                  term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
                   notes             = "CHINESE",

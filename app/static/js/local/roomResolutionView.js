@@ -1,35 +1,4 @@
 console.log('I have been loaded!')
-// function() {
-  // ("#accordion").show().accordion({
-  //     active: false,
-  //     autoHeight: false,
-  //     navigation: true,
-  //     collapsible: true
-  // });
-  // });
-  // window.alert('Your eroimn saved!');
-  // var secretDiv = document.getElementById('here');
-  // console.log(secretDiv)
-  // function hidealert(){
-  //   secretDiv.style.visibility = 'hidden';
-  // }
-      // Hide
-
-
-// function showalert() { 
-// secretDiv.style.visibility = 'visible';     // Show
-// };
-
-// function closealert(){
-// $("#dismiss").alert('fade');
-// };
- 
-
- 
-// $('#code').on('shown.bs.modal', function (e) {
-//   showalert()// do something...
-// })
-
 
 var roomID="";
 var ogCourse="";
@@ -47,7 +16,7 @@ $(document).on("click", ".assignroombutton", function () {
     
      $("#assignroomdiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); //Need course name
      
-     console.log($("#assignroomdiv").innerHTML);
+    //  console.log($("#assignroomdiv"));
 });
  //Updating assign room modal for preferences tabs
 $(document).on("click",".assignprefbutton", function () {
@@ -69,12 +38,7 @@ $(document).on("click",".assignprefbutton", function () {
     console.log("room:"+ room)
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
     console.log("which_preference.value"+which_preference.value);
-    
-    // var which_room = document.getElementById("hidden") //Which room the preference is referring to
-    // console.log("which_room.value"+which_room.value);
-    
-    // var which_course = document.getElementById("hidden") //Course ID of the room that ia currently occupying that room
-    // console.log("which_course.value"+which_course.value);
+   
     
     
     // // var linktopref = document.getElementById("hidden"+prefID);
@@ -92,14 +56,19 @@ $(document).on("click",".assignprefbutton", function () {
 });
 function submitorreplace(){
     if (ogCourse == ""){
-        submitcoursetoroom()
+        submitcoursetoroom();
     }
     else{
-        replacecourseinroom()    
+        replacecourseinroom();    
         }
     }
 function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
-     var url = '/assignRoom/'+window.location.href.split("/").pop();
+    var oldurl = window.location.href.split("/");
+    var cid = oldurl[oldurl.length-1];
+    var termcode = oldurl[oldurl.length-2];
+    console.log("cid: " + cid);
+    console.log("term code: " + termcode);
+    var url = '/assignRoom/'+cid;  
          console.log("URL: " + url);
          console.log("RoomID: " + roomID)
          console.log("Inside submitcoursetoroom")
@@ -108,32 +77,48 @@ function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
                 url: url,
                 data: {"roomID": roomID},
                 dataType: 'json',
-                success: function(response){
+                success: function(response){ 
                     console.log(response)
-                    // window.location = "/roomResolution"
+                    console.log("It worked")
+                    window.location = "/roomResolution/"+termcode
           			},
           			error: function(error){
+          			    console.log("It didnt work")
           				console.log(error); 
           			}
                 }); }
                 
 function replacecourseinroom(){ //Removing current occupant and putting the current course in
-    var url= '/updateRoom/'+window.location.href.split("/").pop();
+    var oldurl = window.location.href.split("/");
+    var cid = oldurl[oldurl.length-1];
+    var termcode = oldurl[oldurl.length-2];
+    var url = '/updateRoom/'+cid;  
         console.log("URL: " + url);
         console.log("RoomID: " + roomID);
         console.log("Inside replacecourseinroom")
-        $.ajax({
+        $.ajax({  
              type: "POST",
                 url: url,
                 data:{"roomID": roomID, "ogCourse": ogCourse},
                 dataType: 'json',
                 success: function(response){
                     console.log(response)
-                    // window.location = "/roomResolution"
+                    console.log("It worked")
+                    window.location = "/roomResolution/"+ termcode
                     },
                     error: function(error){
+                        console.log("It didnt work")
                         console.log(error);
                     }
                 
                 
         });}
+        
+        
+// function RedirectURL()
+// {
+//     window.location= createDynamicURL();
+    
+    
+    
+// }
