@@ -1,48 +1,127 @@
-.glyphicon {
-    color: #AAA;
-    margin: 5px;
-}
-.glyphicon:hover {
-    color: #404040;
-}
-
-textarea {
-    resize: vertical;
+.btn-group button {
+    background-color: white; /* Green background */
+    border: 1px solid black; /* Green border */
+    color: black; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
 }
 
-.adminSelect {
-    min-width: 200px;
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
 }
-body {
-    background-color: #fff;
+
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders*/ 
 }
+
+ /*Add a background color on hover */
+.btn-group button:hover {
+    background-color: silver;
+}
+
+.terms_btn{
+    height:43px; width:105px; text-align:left;
+}
+
+
+.green_btn{
+    color : green;
+    border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************************** Backup from the previous UI ****************************************************/
+
+/*.glyphicon {*/
+/*    color: #AAA;*/
+/*    margin: 5px;*/
+/*}*/
+/*.glyphicon:hover {*/
+/*    color: #404040;*/
+/*}*/
+
+/*textarea {*/
+/*    resize: vertical;*/
+/*}*/
+
+/*.adminSelect {*/
+/*    min-width: 200px;*/
+/*}*/
+/*body {*/
+/*    background-color: #fff;*/
+/*}*/
 
 /*Sets the color for the selected option*/
-.glyphicon-edit.disabled{
-    color: #5bc0de;
-}
+/*.glyphicon-edit.disabled{*/
+/*    color: #5bc0de;*/
+/*}*/
 
-.glyphicon-list.disabled{
-    color: #FF8800;
-}
+/*.glyphicon-list.disabled{*/
+/*    color: #FF8800;*/
+/*}*/
 
-.glyphicon-lock.disabled{
-    color: #d62c1a;
-}
+/*.glyphicon-lock.disabled{*/
+/*    color: #d62c1a;*/
+/*}*/
 /*Found on stack overflow at the following link: https://stackoverflow.com/questions/19758598/what-is-sr-only-in-bootstrap-3*/
 /* To be used to create text for screen readers only */
-.sr-only {
-    position: absolute;
-    margin: -1px 0 0 -1px;
-    padding: 0;
-    display: block;
-    width: 1px;
-    height: 1px;
-    font-size: 1px;
-    line-height: 1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
-    outline: 0;
-    }
+/*.sr-only {*/
+/*    position: absolute;*/
+/*    margin: -1px 0 0 -1px;*/
+/*    padding: 0;*/
+/*    display: block;*/
+/*    width: 1px;*/
+/*    height: 1px;*/
+/*    font-size: 1px;*/
+/*    line-height: 1px;*/
+/*    overflow: hidden;*/
+/*    clip: rect(0,0,0,0);*/
+/*    border: 0;*/
+/*    outline: 0;*/
+/*    }*/
+
 

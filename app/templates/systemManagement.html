@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% set currentPage = "systemManagement" %} {% block body %}
 {% include "snips/messages.html" %}
+<link rel="stylesheet" href="../static/css/systemManagement.css" >
+<script type="text/javascript" src="/static/js/local/systemManagement.js"></script>
+
 <div class="container">
 <div class="panel panel-default">
   <!--TERM MANAGEMENT-->
@@ -11,72 +14,117 @@
       <tr>
         <th>Term(s)</th>
         <th></th>
-      </tr> </thead>
+      </tr> 
+    </thead>
     <tbody>
       {% include "snips/termModal.html" %}
       {% for term in terms %}
       <tr>
-        <td>{{term.name}}</td>
-        {% if term.state == 2 %}
         <td>
-          <a href="#" onclick= "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true">
-              <span class ="sr-only">Term changes will be accepted but not tracked.</span>
-            </span></a>
-          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-list" aria-hidden="true">
-              <span class ="sr-only">Term changes will be accepted and tracked.</span>
-            </span></a>
-          <span class="glyphicon glyphicon-lock disabled" aria-hidden="true" style="color:#d62c1a;">
-            <span class = "sr-only">Term changes will not be accepted nor tracked.</span>
-          </span>
+            <button type="button" class="btn btn-primary terms_btn" data-toggle="modal" data-target="#addModal">{{term.name}} </button>
         </td>
         <td>
-            <p>Term changes <b>are not</b> being accepted <b>nor</b> tracked.</p>
+          <div class ="btn-group">
+            <button type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling</button>
+            <button type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling</button>
+            <button type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Room Preferences</button>
+            <button type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Lock Room Preferences</button>
+            <button type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Assign Rooms</button>
+          </div>
+          
         </td>
-        {% elif term.state == 1 %}
-        <td>
-          <a href="#" onclick = "changeModalText('open', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted but not tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true">
-              <span class = "sr-only">Term changes will be accepted but not tracked.</span>
-            </span></a>
-          <span class="glyphicon glyphicon-list disabled" aria-hidden="true" style="color:#d62c1a;">
-            <span class = "sr-only">Term changes are being accepted but are being tracked.</span>
-          </span>
-          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-lock" aria-hidden="true">
-              <span class = "sr-only">Term changes will neither be accepted nor tracked.</span>
-            </span></a>
-        </td>
-        <td>
-            <p>Term changes <b>are</b> being accepted and <b>are</b> being <a href="/courseManagement/tracker/">tracked</a>.</p>
-        </td>
-
-        {% else %}
-        <td>
-          <span class="glyphicon glyphicon-edit disabled" aria-hidden="true" style="color:#d62c1a;"><span class = "sr-only">Term changes are being acccepted but not tracked.</span></span>
-          <a href="#" onclick = "changeModalText('tracking', '{{term.termCode}}')" data-tooltip="true" title="Term changes will be accepted and tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-list" aria-hidden="true">
-              <span class = "sr-only">Term changes will be accepted and tracked.</span>
-            </span></a>
-          <a href="#" onclick = "changeModalText('locked', '{{term.termCode}}')" data-tooltip="true" title="Term changes will neither be accepted nor tracked" data-toggle="modal" data-target="#termModal">
-            <span class="glyphicon glyphicon-lock" aria-hidden="true">
-              <span class = "sr-only">Term changes will neither be accepted not tracked.</span>
-            </span></a>
-        </td>
-        <td>
-            <p>Term changes <b>are</b> being accepted but <b> not</b> tracked.</p>
-        </td>
-        {% endif %}
-        <td>
-          <a href="/excel/{{term.termCode}}">Download Courses</a>
+      </tr>
+      <tr>
+        <td colspan="6" id = "divForPanel{{term.termCode}}">
+          
         </td>
       </tr>
       {% endfor %}
+      
     </tbody>
+
   </table>
-  <div class="panel-body">
-    <!--CREATE A NEW TERM-->
+  </div>
+
+<!--------------------------------------------Data to dump in the view---------------------------------------->
+
+<div id = "allPanels">
+  <div class="panel panel-default"> 
+    <div id="open_course" class="collapse"> 
+      <div class="panel-body">
+            <p>Program and Division Chairs will be able to submit courses to this Term.</p>
+            <p>Click the arrow to begin and open Course Scheduling.</p>
+          </div>
+  
+    <div id="lock_course" class="collapse">
+        <div class="panel-body">
+          <p>>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.</p>
+          <p>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</p>   
+        </div>
+    </div>
+    
+    <div id="open_room" class="collapse" >
+          Course Scheduling has now been locked. Chairs can no longer submit Courses for the term.
+          Click the left arrow to unlock Course Scheduling.
+          Click the right arrow to open Room Preferences for faculty. <span> ( Course Scheduling will be permanelty locked. ) </span>
+    </div>
+    
+    <div id="open_room" class="collapse">
+          Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses
+          Click the arrow to lock room preferences submission       
+    </div>
+    
+    
+    <div id="lock_room" class="collapse">
+          Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses
+          Click the arrow to lock room preferences submission    
+         
+    </div>
+    
+    <div id="assign_room" class="collapse">
+          <p>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences</p>
+          <p>Click the left arrow to unlock room preferences</p>
+          <p>Click the right arrow to assign room (Room preferences can no longer be unlocked!!!)</p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------------------------>
+<div class = container>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>  
+
     <label for="newTerm">Create a new term</label>
     <form action="\newTerm" method="post" id="newTerm" class="form-inline">
       <div class="form-group">
@@ -97,70 +145,15 @@
             {% endfor %}
           </select>
       </div>
-      <div class="form-group">
+      <div class="form-group"
         <input type="submit" class="btn btn-success" value="Save">
       </div>
     </form>
   </div>
-</div>
-<!--ADMINISTRATIVE USER MANAGEMENT-->
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Administrative User Management</h3>
-  </div>
-  <div class="panel-body">
-    <label for="newAdmin">Add a new administrative user</label>
-    <form action="\changeAdmin" method="post" id="newAdmin" class="form-inline">
-      <div class="form-group adminSelect"  >
-        <select class="selectpicker form-control" name="admin" id= "adminPicker1" data-live-search="true">
-        <option value="None">---</option>
-        {% for user in users %}
-          {% if not user.isAdmin %}
-            <option value="{{user.username}}" data-subtext="{{user.username}}"> {{user.firstName}} {{user.lastName}}</option>
-          {% endif %}
-        {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <input type="submit" class="btn btn-success" id = "adminAdd" value="Add">
-      </div>
-    </form>
-    <label for="newAdmin">Remove an administrative user</label>
-    <form action="\changeAdmin" method="post" id="removeAdmin" class="form-inline">
-      <div class="form-group adminSelect">
-        <select class="selectpicker form-control" name="admin" id= "adminPicker">
-        <option value="None">---</option>
-        {% for user in users %}
-          {% if user.isAdmin %}
-          <option value="{{user.username}}" data-subtext="{{user.username}}"> {{user.firstName}} {{user.lastName}}</option>
-          {% endif %}
-        {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deleteModal" id= "adminRemove"> Remove </button>
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="deleteModalLabel">Confirmation Required</h4>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure you want to delete this Administrator?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-danger" value="Submit Change">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+<!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
 </div>
 </div>
 </div>
+
+
 {% endblock %}

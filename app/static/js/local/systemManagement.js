@@ -60,3 +60,64 @@ $(document).ready(function(){
         $('[data-toggle="modal"]').modal({show:false}); 
 });
 
+// for the menus for each term
+
+$(document).on('click', '#btn1', function(){
+    console.log("Am I called?");
+//   $('.collapse').hide();
+  $('#lock_course').collapse('hide');
+  $('#open_room').collapse('hide');
+  $('#lock_room').collapse('hide');
+  $('#assign_room').collapse('hide');
+  $('#open_course').collapse('show');
+});
+
+
+
+$(document).on('click', '#btn2', function(){
+  //$('.collapse').collapse('hide');
+  $('#lock_course').collapse('show');
+  $('#open_room').collapse('hide');
+  $('#lock_room').collapse('hide');
+  $('#assign_room').collapse('hide');
+  $('#open_course').collapse('hide');
+});
+
+$(document).on('click', '#btn3', function(){
+  //$('.collapse').collapse('hide');
+  $('#lock_course').collapse('hide');
+  $('#open_room').collapse('show');
+  $('#lock_room').collapse('hide');
+  $('#assign_room').collapse('hide');
+  $('#open_course').collapse('hide');
+});
+
+$(document).on('click', '#btn4', function(){
+  //$('.collapse').collapse('hide');
+  $('#lock_course').collapse('hide');
+  $('#open_room').collapse('hide');
+  $('#lock_room').collapse('show');
+  $('#assign_room').collapse('hide');
+  $('#open_course').collapse('hide');
+});
+
+$(document).on('click', '#btn5', function(){
+  //$('.collapse').collapse('hide');
+  $('#lock_course').collapse('hide');
+  $('#open_room').collapse('hide');
+  $('#lock_room').collapse('hide');
+  $('#assign_room').collapse('show');
+  $('#open_course').collapse('hide');
+});
+
+
+function showPanel(termCode){
+    console.log("Term code: " + termCode);
+    var targetDiv = $("#divForPanel"+termCode);
+    console.log("target div: " + targetDiv);
+    var subjectDiv = $("#allPanels");
+    console.log("subject div: " + subjectDiv);
+    subjectDiv.attr("hidden", false);
+    
+    targetDiv.html(subjectDiv);
+}
