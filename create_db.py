@@ -123,25 +123,57 @@ subject = Subject(  prefix  = "HLT",
                     pid     = 5,
                     webname = "health.berea.edu"
                   ).save(force_insert=True)
+                  
+
+                  
 ########                  
 #BANNER#
 ########
 banner = BannerSchedule(  letter        = "Standard A",
-                          days          = "MWF",
                           startTime     = datetime.time(8, 0, 0),
                           endTime       = datetime.time(9, 10, 0),
                           sid           = "A",
-                          order         = 1,
-            
+                          order         = 1
                         ).save(force_insert=True)
 
 banner = BannerSchedule(  letter        = "Standard B",
-                          days          = "MWF",
                           startTime     = datetime.time(9, 20, 0),
                           endTime       = datetime.time(10, 30, 0),
                           sid           = "B",
                           order         = 2
                         ).save(force_insert=True)
+banner = BannerSchedule(  letter        = "Standard C",
+                          startTime     = datetime.time(8, 0, 0),
+                          endTime       = datetime.time(9, 50, 0),
+                          sid           = "C",
+                          order         = 3
+                        ).save(force_insert=True)
+                        
+banner = BannerSchedule(  letter        = "Standard D",
+                          startTime     = datetime.time(10, 0, 0),
+                          endTime       = datetime.time(11, 50, 0),
+                          sid           = "D",
+                          order         = 4
+                        ).save(force_insert=True)    
+
+###############
+#Schedule Days#
+###############
+scheduledays = ScheduleDays( schedule = "A",
+                             day =  "MWF"
+                             ).save(force_insert=True)
+    
+scheduledays = ScheduleDays( schedule = "B",
+                             day =  "MWF"
+                             ).save(force_insert=True)
+                             
+scheduledays = ScheduleDays( schedule = "C",
+                             day =  "TR"
+                             ).save(force_insert=True)
+
+scheduledays = ScheduleDays( schedule = "D",
+                             day =  "TR"
+                             ).save(force_insert=True)
 ##############
 #BANNERCOURSE#
 ##############
@@ -364,7 +396,7 @@ course = Course(  bannerRef         = 3, #Course 3
                   term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
-                  notes             = "Calculus",
+                  notes             = "mattth",
                   section           = "A",
                   crossListed       = 0
                   ).save()
@@ -392,21 +424,23 @@ course = Course(  bannerRef         = 8, #Course 5
 course = Course(  bannerRef         = 9, #Course 6
                   prefix            = "CHI",
                   term              = 201611,
-                  schedule          = "A",
+                  schedule          = "C",
+                  capacity          = 20,
+                  notes             = "Course 6",
+                  crossListed       = 1,
+                  section           = "E",
+                  rid               = 13
+                 
+                  ).save() 
+course = Course(  bannerRef         = 10, #Course 7
+                  prefix            = "CHI",
+                  term              = 201611,
+                  schedule          = "C",
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1,
                   section           = "E",
                   
-                  ).save() 
-course = Course(  bannerRef         = 10, #Course 7
-                  prefix            = "CHI",
-                  term              = 201611,
-                  schedule          = "B",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1,
-                  section           = "A"
                   ).save() 
 course = Course(  bannerRef         = 11, #Course 8
                   prefix            = "CHI",
@@ -682,13 +716,13 @@ room = Rooms(building = 9, number ='309', maxCapacity=18, roomType="Lecture",   
 #ROOMS#
 #######
 roompreference= RoomPreferences(course=1, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=2, pref_1=2, pref_2=5, pref_3=6, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=3, pref_1=2, pref_2=8, pref_3=9, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=2, pref_1=2, pref_2=5, pref_3=6, notes="I need a room with tech", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=3, pref_1=2, pref_2=8, pref_3=9, notes="I need a room with windows", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=4, pref_1=10, notes="I want these rooms just bc pls", any_Choice = "any").save()
-roompreference= RoomPreferences(course=5, pref_1=11, pref_2=12, notes="I want these rooms just bc pls", any_Choice = "any").save()
-roompreference= RoomPreferences(course=6, pref_1=13, pref_2=14, pref_3=15, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=7, pref_1=16, pref_2=17, pref_3=18, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=8, pref_1=19, pref_2=20, pref_3=21, notes="None", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=5, pref_1=11, pref_2=12, notes="My room needs good hearing access", any_Choice = "any").save()
+roompreference= RoomPreferences(course=6, pref_1=13, pref_2=14, pref_3=15, notes="I need 36 seats", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=7, pref_1=13, pref_2=14, pref_3=15, notes="I need things", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=8, pref_1=19, pref_2=20, pref_3=21, notes="Room notes", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=9, pref_1=22, pref_2=23, pref_3=24, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 
 # try:

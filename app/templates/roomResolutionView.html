@@ -29,7 +29,7 @@
             <label for="capacity"><h4><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h4><br>
             <h4><strong>Notes:</strong> </h4>
             <textarea rows="6" cols="40"> 
-            {{roompreference.course.notes}}
+            {{roompreference.notes}}
             </textarea> 
         </div>
           
@@ -91,8 +91,9 @@
                                 <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
                                 {% if preferences['pref1'] %}
                                  <input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input> 
-                                  <label for="Instructor">Current Instructor: </label> {{preferences['pref1']['instructor']}} <br> 
                                   <label for="Course">Current Course: </label> {{preferences['pref1']['course_name']}} <br>
+                                  <label for="Instructor">Current Instructor: </label> {{preferences['pref1']['instructor']}} <br>
+                                  <label for="notes">Notes: </label> {{preferences['pref1']['notes']}} <br> 
                                 {% endif %}
                                 <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br> 
@@ -100,7 +101,6 @@
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from basanta{{roompreference.pref_1.educationtech}}<br>
-                                <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
                                 <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
                               </div>
                           </div>
@@ -119,8 +119,9 @@
                                 <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
                                 {% if preferences['pref2'] %}
                                 <input id="pref2_confcourse" hidden value = "{{preferences['pref2']['cid']}}"></input>
-                                <label for="Instructor">Current Instructor: </label> {{preferences['pref2']['instructor']}} <br> 
                                 <label for="Course">Current Course: </label> {{preferences['pref2']['course_name']}} <br>
+                                <label for="Instructor">Current Instructor: </label> {{preferences['pref2']['instructor']}} <br> 
+                                <label for="notes">Notes: </label> {{preferences['pref2']['notes']}} <br> 
                                 {% endif%}
                                 <input id="pref2_roominfo" hidden value = "{{roompreference.pref_2.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_2.maxCapacity}} <br>
@@ -128,7 +129,7 @@
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_2.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_2.physicalAccessibility}}<br>
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jamal&basanta{{roompreference.pref_2.educationtech}}<br>
-                                <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
+                               
                                 <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
@@ -148,8 +149,9 @@
                                 <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
                                 {% if preferences['pref3'] %}
                                 <input id="pref3_confcourse" hidden value = "{{preferences['pref3']['cid']}}"></input>
-                                <label for="instructor">Current Instructor: </label> {{preferences['pref3']['instructor']}} <br>
                                 <label for="Course">Current Course: </label> {{preferences['pref3']['course_name']}} <br>
+                                <label for="instructor">Current Instructor: </label> {{preferences['pref3']['instructor']}} <br>
+                                <label for="notes">Notes: </label> {{preferences['pref3']['notes']}} <br> 
                                 {% endif %}
                                 <input id="pref3_roominfo" hidden value = "{{roompreference.pref_3.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_3.maxCapacity}} <br> 
@@ -157,7 +159,7 @@
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_3.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_3.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jimmy{{roompreference.pref_3.educationtech}}<br>
-                                <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> <!---Link to current occupant's notes --->
+                               
                                 <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>

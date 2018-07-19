@@ -20,7 +20,6 @@ def roomResolutionTerm():
 def roomResolution(termCode):
     # Creating the UI
     courses = Course.select().where(Course.rid == None, Course.term==termCode)
-    flash("Your changes have been saved!") #Needs to be on change after room is assigned in View
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
       
       
@@ -35,7 +34,7 @@ def roomResolutionView(termCode,cid):
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
         
 
-        flash("Course has no preferences assinged.")
+        flash("Course has no preferences assigned.")
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     print instructors
@@ -56,16 +55,27 @@ def roomResolutionView(termCode,cid):
 
 
     #For populating current occupant in course's preferences
-    #For current course
-    confcourse = RoomPreferences.get(RoomPreferences.course == cid)
-    sch1startTime = confcourse.course.schedule.startTime
+    
+    
+    confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
+    sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
     # print sch1startTime
-    sch1endTime = confcourse.course.schedule.endTime
+    sch1endTime = confcourse.course.schedule.endTime                # grab the A course's schedule end time
     # print sch1endTime
-    rp = RoomPreferences.get(RoomPreferences.course == cid)
+    rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferrences again (not needed, but used both variables)
+    
     #This gets all conflicting courses
+    print("What is this schedule you speak of: ", confcourse.course.schedule.sid)
+    scheduleDays = ScheduleDays.get(ScheduleDays.schedule == confcourse.course.schedule.sid)
+    
+    
     conflicts_query = "SELECT cid FROM `course` INNER JOIN `bannerschedule` ON `bannerschedule`.sid = `course`.schedule_id WHERE `course`.rid_id = {0} AND `bannerschedule`.endTime <= \"{1}\" OR `bannerschedule`.startTime >= \"{2}\";"
-    cclist = []
+    cclist = []  # holds all conflicting courses queries to be executed later                                      
+    
+    # "A" course schedule
+    aCourseSchedule = scheduleDays.day
+    
+    # check which preference we're on, and append to cclist
     if rp.pref_1:
         cclist.append(conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime))
     elif rp.pref_2:
@@ -74,37 +84,51 @@ def roomResolutionView(termCode,cid):
         cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
     print (cclist , "This is the cc list")
     
+    conflictingroomdata = []        # data about one B Course
+    preferences = dict()            # dictionary to hold all B courses
     
-    conflictingroomdata = []
-    preferences = dict()
-    
-    if cclist != []:
-    #cclist = [conflictingcourse1, conflictingcourse2, conflictingcourse3]
+    if cclist != []:                
+    #cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
         for cc in cclist:
-            cursor = mainDB.execute_sql(cc)
+            cursor = mainDB.execute_sql(cc)             # execute each query
             print ("This is cursor", cursor)
             for conflict in cursor:
-                conflictingroomdata.append(conflict[0])
+                print("Conflict[0] is: ", conflict[0])      # conflict[0] is the B course ID (cId)
+                conflictingroomdata.append(conflict[0])     # appends results of query to list of actual B courses 
     
         print ("This is the conflictingroomdata" ,conflictingroomdata)
         
-    
-        
-        for idx in range(len(conflictingroomdata)): 
-            pref_info = dict()
-            cc = Course.get(Course.cId == conflictingroomdata[idx])
-            pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])
-            full_name = None
-            for inst in pref_inst:
-                full_name = inst.username.firstName + " " +inst.username.lastName
-                
-            pref = 'pref'+ str(idx + 1)
-            print ("This is cc", cc)
-            current_course = str(cc.prefix.prefix) + " " + str(cc.bannerRef.number) + " " + str(cc.bannerRef.ctitle) 
-            pref_info['course_name']=current_course
-            pref_info['instructor']=full_name
-            pref_info['cid']=cc.cId
-            preferences[pref] = pref_info
+        #pulling specific data from conflicting course
+        for idx in range(len(conflictingroomdata)):
+            pref_info = dict()          # to hold course info
+            cc = Course.get(Course.cId == conflictingroomdata[idx])     # get all data baout the course
+            bScheduleDays = ScheduleDays.get(ScheduleDays.schedule == cc.schedule)
+            for letter in aCourseSchedule:
+                if letter in bScheduleDays.day:
+                    print("A course day: {0} conflicted with B course day: {1}".format(letter, bScheduleDays.day))
+                    pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])  # get instructor information
+                    full_name = None
+                    
+                    for inst in pref_inst:
+                        full_name = inst.username.firstName + " " +inst.username.lastName       # if there's an instructor, add name to full_name
+                        
+                    pref = 'pref'+ str(idx + 1)         # which pref?
+                    print ("This is cc", cc)            
+                    current_course = str(cc.prefix.prefix) + " " + str(cc.bannerRef.number) + " " + str(cc.bannerRef.ctitle) # String of info about B course
+                    pref_info['course_name']=current_course         # add to pref_info
+                    pref_info['instructor']=full_name               # add instructor to pref info
+                    pref_info['cid']=cc.cId                         # add cId to pref_info
+                    
+                    print ("Conflicting course's preference notes",cc.cId)
+                    (rp1, created) = RoomPreferences.get_or_create(course = cc.cId)
+                    print(rp1.notes)
+                    pref_info['notes']=rp1.notes
+                    
+                    preferences[pref] = pref_info
+                    break
+            
+           
+            
             
             
         print ("This is the conflicting course",preferences) #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
@@ -121,6 +145,8 @@ def roomResolutionView(termCode,cid):
                             educationtech=educationtech,
                             preferences=preferences,
                             termcode=termCode
+                            
+                            
                         )
                         
 
@@ -135,7 +161,9 @@ def assignRoom(cid=0):
     course.rid = data['roomID']
     course.save()
     # print course.rid
+    flash("Your changes have been saved!") 
     return json.dumps({"success": 1})
+    
     
     
 #Assign to an occupied room, remove current occupant
@@ -150,6 +178,7 @@ def updateRoom(cid=0):
     print("course rid:", course.rid)
     course.rid = None  #Sets room to None
     course.save()
+    flash("Your changes have been saved!") 
     return json.dumps({"success": 1})
 
 
