@@ -353,7 +353,7 @@ course = Course(  bannerRef         = 2,
                   term              = 201612,
                   section           = "A",
                   schedule          = "B",
-                  capacity          = 20,
+                  capacity          = 25,
                   notes             = "Preference2",
                   crossListed       = 1
                 ).save()                
@@ -362,7 +362,7 @@ course = Course(  bannerRef         = 3,
                   prefix            = "TAD",
                   term             = 201612,
                   schedule          = "A",
-                  section           = "A",
+                  section           = "C",
                   capacity          = 20,
                   notes          = "Preference1",
                   crossListed       = 0
@@ -536,6 +536,18 @@ dchair = DivisionChair(  username  = "pearcej",
 instructor = InstructorCourse(  username = "heggens",
                                 course   = 1
                               ).save()
+
+instructor = InstructorCourse(  username = "heggens",
+                                course   = 2
+                              ).save()
+                              
+instructor = InstructorCourse(  username = "heggens",
+                                course   = 1
+                              ).save()
+
+instructor = InstructorCourse(  username = "heggens",
+                                course   = 3
+                              ).save()
                               
 instructor = InstructorCourse(  username = "jadudm",
                                 course   = 2
@@ -609,8 +621,9 @@ room = Rooms(building = 1, educationTech =1, number ="105", maxCapacity=15,roomT
 
 room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=True, physicalAcc=True, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
 
-roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-
+# roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+# roompreference= RoomPreferences( course= 2, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+#roompreference= RoomPreferences( course= 3, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 
 
 # room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()

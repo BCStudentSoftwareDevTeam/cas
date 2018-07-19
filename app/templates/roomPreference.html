@@ -4,6 +4,7 @@
 
 {% block body %}
 
+<!--THE ROOM PREFERENCE TABLE-->
 <div>
     <h1 class="text-center"><strong>Room Preference</strong></h1>
     <div>
@@ -15,61 +16,45 @@
             
             
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         <!--</form>-->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+           
+                
         <table class="table">
             
 
             <thead class="thead-dark">
-                
                 <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
-                <th scope="col"><h4><strong>Preference 1</strong></h4></th>
-                <th scope="col"><h4><strong> Preference 2</strong></h4></th>
-                <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
                 <th scope="col"> <h4><strong>Section </strong></h4></th>
                 <th scope="col"><h4> <strong>Time</strong> </h4></th>
                 <th scope="col"><h4><strong> # of Students</strong></h4> </th>
+    
+                
+                <th scope="col"><h4><strong>Preference 1</strong></h4></th>
+                <th scope="col"><h4><strong> Preference 2</strong></h4></th>
+                <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
+                
                 <th scope="col"> <h4><strong>Notes </strong></h4></th>
             </thead>
                 {% for roompreference in roompreferences %}
-            <tr class = "courseTablerow1">
-                <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                    <tr class = "courseTablerow1" id = "{{roompreference.pID}}">
+                    <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                     <td> {{roompreference.course.section}}</td> <br>
+                    <td> {{roompreference.course.time}}</td>
+                    <td> {{roompreference.course.capacity}} </td>
         
-                <td><button button id="firstPref"  onclick="setPreference(1)" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
+                <td><button id="prefButton1_{{roompreference.course.cId}}" onclick="setPreference(1,{{roompreference.pID}},{{roompreference.course.cId}})" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
                 data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                {{roompreference.any_Choice}}</button></td>
+                {% if roompreference.pref_1 != None %}{{roompreference.pref_1.building.shortName}} {{roompreference.pref_1.number}} {% else %} Any {% endif %} </button></td>
                 
-                <td><button id="secondPref" onclick="setPreference(2)" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
-                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> {{roompreference.any_Choice}}</button></td>
+                <td><button id="prefButton2_{{roompreference.course.cId}}" onclick="setPreference(2,{{roompreference.pID}},{{roompreference.course.cId}})" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">{% if roompreference.pref_2 != None %}{{roompreference.pref_2.building.shortName}} {{roompreference.pref_2.number}} {% else %} Any {% endif %}</button></td>
+                
                
-                <td><button button id="thirdPref"  onclick="setPreference(3)" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
+                <td><button button id="prefButton3_{{roompreference.course.cId}}" onclick="setPreference(3,{{roompreference.pID}},{{roompreference.course.cId}})" type="button" class="btn btn-primary btn-md" type="button" data-toggle="collapse" 
                
-                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">{{ roompreference.any_Choice}}</button></td>
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">{% if roompreference.pref_3 != None %}{{roompreference.pref_3.building.shortName}} {{roompreference.pref_3.number}} {% else %} Any {% endif %}</button></td>
                 
                 
-                
-                <td> {{roompreference.course.section}} </td> <br>
-                <td> {{roompreference.course.time}}</td>
-                <td> {{roompreference.course.capacity}} </td>
                 <td>
                         <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myNotes">{{roompreference.notes}}</button>
                             <div class="modal fade" id="myNotes" role="dialog">
@@ -96,7 +81,8 @@
     </div>
 </div>
 
-<div class="collapse" id="collapseExample">
+<!--ROOM SELECTION COLLAPSE-->
+ <div class="collapse" id="collapseExample">
     <table class="table table-dark">
     <tr>
         <td>
@@ -109,9 +95,11 @@
                         <div class="modal-body">
                             <div class="container">
                                 <div class="row"> <select onchange= "goto_rdetails(this)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue">
-                                        <option value="" disabled selected >Select your option</option>
+                                        <option value=""  >Select your option</option>
                                         {% for r in room %}
-                                            <option value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >
+                                            <option  value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >
+                                                
+                                                <!--selected ="true" disabled = "disabled" -->
                                                 
                                             
                                             
@@ -205,22 +193,26 @@
                                                                     
                                                                   <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
                                                                   <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
-                                                                
+                                                                {% for instructor in instructors %}
+                                                                  <!--<tr>-->
+                                                                      
+                                                                  <!--   <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>-->
+                                                                  <!--   <td class="col-md-1">{{course.bannerRef }}</td>-->
+                                                                  <!--</tr>-->
                                                                   <tr>
-                                                                     <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
-                                                                     <td class="col-md-1">{{course.bannerRef }}</td>
-                                                                  </tr>
-                                                                  <tr>
-                                                                     <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
-                                                                     <td class="col-md-1">{{course.bannerRef }}</td>
+                                                                     <td class="col-md-2">{{instructor.username.firstName}} {{instructor.username.lastName}} </td>
+                                                                     <td class="col-md-1">{{instructor.course.bannerRef }}</td>
                                                                    </tr>
-                                                                   <tr>
-                                                                       <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
-                                                                       <td class="col-md-1">{{course.bannerRef }}</td>
+                                                                   <!--<tr>-->
+                                                                   <!--    <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>-->
+                                                                   <!--    <td class="col-md-1">{{course.bannerRef }}</td>-->
+                                                                   <!--</tr>-->
+                                                                   <!--  <tr> <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>-->
+                                                                   <!--  <td class="col-md-1">{{course.bannerRef }}</td>-->
+                                                                     
+                                                                     
                                                                    </tr>
-                                                                     <tr> <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
-                                                                     <td class="col-md-1">{{course.bannerRef }}</td>
-                                                                   </tr>
+                                                                           {% endfor %}
                                                                  
                                                                   </table>
                                                                 </div>
@@ -248,15 +240,14 @@
                                                           </div>
                                                           <div class="modal-footer" padding: "10px"> {# idk how to#}
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                                                            <button type="button" class="btn btn-primary">Yes</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss = "modal" onclick="setPrefButton()">Yes</button>
+                                                           
+                                                          
                                                           </div>
                                                         </div>
                                                       </div>
                                                     </div>
-
-                                                                                       
-
-
+                                                    
                                             
 
                                                 </div>
@@ -284,10 +275,22 @@
 
 
 
-{% endblock %}
+
+
 
 {% block belowContainer %}
 <link rel="stylesheet" href="/static/cs/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
 {% endblock %} 
 
+{% endblock %}
+
+
+
+
+
+
+
+<!--{# https://stackoverflow.com/questions/21121947/disable-an-entire-dropdown-element-when-a-value-is-selected-from-another-drop-do #}-->
+
+<!--Check this and fix it-->

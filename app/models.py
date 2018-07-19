@@ -245,13 +245,13 @@ class Course(dbModel):
 class RoomPreferences(dbModel):
   pID           = PrimaryKeyField()
   course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference3') #We are making sure we have all the preferences jotted down.
+  pref_1        = ForeignKeyField(Rooms, related_name='preference1',null=True)
+  pref_2        = ForeignKeyField(Rooms, related_name='preference2',null=True)
+  pref_3        = ForeignKeyField(Rooms, related_name='preference3',null=True) #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
+  any_Choice    = CharField(null=False, default="any")
   none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=False)
+  none_Reason   = CharField(null=True)
   
 
 class SpecialTopicCourse(dbModel):

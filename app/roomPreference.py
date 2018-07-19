@@ -4,24 +4,42 @@ from app.logic.redirectBack import redirect_url
 from app import app
 import json
 from app.logic import course
+from app.logic.getAuthUser import AuthorizedUser
 @app.route("/roomPreference/", methods = ["GET"])
 @app.route("/roomPreference/<rid>", methods = ["GET"])
 
 
 def roomPreference(rid=1):
     page="Room Preference"
-    roompreferences = RoomPreferences.select()
     room = Rooms.select()
     users= User.select().get()
-    course= Course.select().get()
+  
+    instructors= InstructorCourse.select()
+    auth_obj = AuthorizedUser()
+    current_user = auth_obj.getUsername()
+    roompreferences = RoomPreferences.select()
     educationTech= EducationTech.select()
+    user = User.get(User.username == current_user)
+    if not user:
+        abort(403)
+        
+    courses= InstructorCourse.select().where(InstructorCourse.username == user)
+    
+    roomPreferences = {}
+    
+    for course in courses:
+        roomPreferences[course.course.cId] = RoomPreferences.get_or_create(course = course.course.cId)
+        
+   #We changed it and removed .get()
+  
     return render_template(
         "roomPreference.html",
         roompreferences= roompreferences,
         room=room,
         users=users,
-        course=course,
-        educationTech=educationTech
+        course=courses,
+        educationTech=educationTech,
+        instructors=instructors
     )
     
     
@@ -46,19 +64,38 @@ def room_details(rid):
     return json.dumps(room_materials)
     
     
-
-# New controller for ajax request
-# Query DB for data about specific room
-# construct all the data to send to front end (build dictionary)
-# return a json object (return (json.dumps(<data>))
-# ---> back to javascript
-
-
-# #hamza added this for posting data to room
-@app.route("/setPreference/<cid>")
-def setPreference(cid=1):
-    if cid != 0:
-        data = request.form
-        roomPicked = data['roomPicked']
-        rp = roompreferences.get_or_create(roomPreferences.course.cid==cid)
-        rp.pref_1=roomPicked
+    
+        #Assign to an occupied room, remove current occupant
+@app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
+def postPreference():
+    data = request.form #data coming from POST
+    pref = int(data["pref_id"])
+    
+    rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
+    
+    if (pref == 1):
+        print("what is up here:  ", pref)
+        rp.pref_1 = data["roomID"]
+        print("set pref 1: ", rp.pref_1.rID)
+        rp.save()
+        print("rp saved")
+    if (pref == 2):
+        rp.pref_2 = data["roomID"]
+        print("set pref 2: ", rp.pref_2.rID)
+        rp.save()
+    elif(pref == 3):
+        rp.pref_3 = data["roomID"]
+        print("set pref 3: ", rp.pref_3.rID)
+        rp.save()
+    else:
+        return json.dumps({"success  ": 0})
+        
+    return json.dumps({"success": 1})
+ 
+    
+    
+    
+    
+    
+    
+    
