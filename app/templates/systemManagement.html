@@ -24,41 +24,41 @@
             <button type="button" class="btn btn-primary terms_btn" data-toggle="modal" data-target="#addModal">{{term.name}} </button>
         </td>
         <td>
-          <div class ="btn-group">
-            <button type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling</button>
-            <button type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling</button>
-            <button type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Room Preferences</button>
-            <button type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Lock Room Preferences</button>
-            <button type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Assign Rooms</button>
+          <div class = "btn-group hideextra">
+            <button class = "col-sm-2" type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "col-sm-2" type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="lock_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "col-sm-2" type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_room" onclick="showPanel({{term.termCode}})"> Open Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "col-sm-2" type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="lock_room" onclick="showPanel({{term.termCode}})"> Lock Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "col-sm-2" type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="assign_room" onclick="showPanel({{term.termCode}})"> Assign Rooms <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "col-sm-2" type = "button" id = "btn6" data-toggle="collapse" data-target="#finish"  aria-expanded="false" aria-controls="finish" onclick="showPanel({{term.termCode}})"> Finish <span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
           
         </td>
       </tr>
       <tr>
-        <td colspan="6" id = "divForPanel{{term.termCode}}">
-          
+        <td colspan="7" id = "divForPanel{{term.termCode}}">
         </td>
       </tr>
       {% endfor %}
       
     </tbody>
-
   </table>
   </div>
 
-<!--------------------------------------------Data to dump in the view---------------------------------------->
+<!--------------------------------------------Data inside the panels for indvidual menus---------------------------------------->
 
-<div id = "allPanels">
+<div id = "allPanels"><!--This covers all the panels-->
   <div class="panel panel-default"> 
+  
   <div class = "row">
     <div id="open_course" class="collapse"> 
       <div class="panel-body">
-        <div class = col-sm-9>
-          <p>Program and Division Chairs will be able to submit courses to this Term.</p>
-          <p>Click the arrow to begin and open Course Scheduling.</p>
-          </div>
+        <div class = "col-sm-9">
+            <p><b>Program and Division Chairs will be able to submit courses to this Term.</b></p>
+            <p><i>Click the arrow to begin and open Course Scheduling.</i></p>
+        </div>
           <div class = "col-sm-3">
-          <a href="#" class="btn btn-info btn-lg">
+          <a href="#" class="btn btn-lg btn-success">
               <span class="glyphicon glyphicon-chevron-right"></span> Open<br> Course Scheduling
           </a>
           </div>
@@ -70,11 +70,11 @@
     <div id="lock_course" class="collapse">
         <div class = "panel-body">
           <div class = "col-sm-9">
-            <p>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.</p>
-            <p>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</p>
+            <p><b>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term</b>.</p>
+            <p><i>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</i></p>
           </div>
           <div class = "col-sm-3">
-             <a href="#" class="btn btn-info btn-lg">
+             <a href="#" class="btn btn-lg btn-danger">
               <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Course Scheduling
             </a>
           </div>
@@ -84,56 +84,94 @@
     
   
     <div id="open_room" class="collapse">
-      <div class = "panel-body">
-        <div class = "row text-center">
-            <p>Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. <br> </p>
-        </div>
-        <div class ="row">
-          <div class = "col-sm-6">
-             <p> <br> Click the left arrow to unlock Course Scheduling. </p>
-            <a href="#" class="btn btn-info btn-lg">
-                <span class="glyphicon glyphicon-chevron-left"></span> Lock<br> Course Scheduling
-              </a>
-          </div>
-          <div class = "col-sm-6 text-right">
-              <p><br>Click the right arrow to open Room Preferences for faculty </p>
-              <a href="#" class="btn btn-info btn-lg">
-                <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Course Scheduling
-              </a>
-              <span><br> (Course Scheduling will be permanelty locked).</span>
-          </div>
+        <div class = "panel-body">
           <div class = "row text-center">
-            <a> Download Courses</a>
+              <p><b>Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. </b><br> </p>
+          </div>
+          <div class ="row">
+            <div class = "col-sm-6">
+               <p> <br> <i>Click the left arrow to unlock Course Scheduling. </i></p>
+              <a href="#" class="btn btn-lg btn-success">
+                  <span class="glyphicon glyphicon-chevron-left"></span> Unlock<br> Course Scheduling
+                </a>
+            </div>
+            <div class = "col-sm-6 text-right">
+                <p><br><i>Click the right arrow to open Room Preferences for faculty.</i></p>
+                <a href="#" class="btn btn-lg btn-success">
+                  <span class="glyphicon glyphicon-chevron-right"></span> Open<br> Room Preferences
+                </a>
+                <br><span><sub><br> (Course Scheduling will be permanelty locked)</sub></span>
+            </div>
+            <div class = "row text-center">
+              <a> Download Courses</a>
+            </div>
           </div>
         </div>
-      </div>
       </div>
       
     <div class = "row">
-    <div id="lock_room" class="collapse">
-      <div class = "panel-body">
-        <div class = "col-xs-9">
-          <p>Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses</p>
-          <p>Click the arrow to lock room preferences submission</p> 
-        </div>
+      <div id="lock_room" class="collapse">
+        <div class = "panel-body">
+          <div class = "col-xs-9">
+            <p><b>Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses.</b></p>
+            <p><i>Click the arrow to lock room preferences submission.</i></p> 
+          </div>
           <div class = "col-xs-3">
-            <a href="#" class="btn btn-info btn-lg">
+            <a href="#" class="btn btn-lg btn-danger">
                 <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Room Preferences
             </a>
           </div>
-    </div>
-    </div>
-    </div>
-    
-    <div class = "row">
-    <div id="assign_room" class="collapse">
-      <div class = "panel-body">
-        <p>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences</p>
-        <p>Click the left arrow to unlock room preferences</p>
-        <p>Click the right arrow to assign room (Room preferences can no longer be unlocked!!!)</p>
+        </div>
       </div>
     </div>
-    </div>
+    
+   
+      <div id="assign_room" class="collapse">
+        <div class = "panel-body">
+          <div class = "row text-center">
+            <p><b>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences.</b></p>
+          </div>
+          <div class = "col-sm-6"> 
+            <p><i>Click the left arrow to unlock room preferences. </i><br></p>
+            <a href="#" class="btn btn-lg btn-danger">
+                <span class="glyphicon glyphicon-chevron-left"></span> Unlock<br> Room Preferences
+            </a>
+          </div>
+          <div class = "col-sm-6 text-right"> 
+            <p><i>Click the right arrow to assign room</i><br></p>
+            <a href="#" class="btn btn-lg btn-success">
+                <span class="glyphicon glyphicon-chevron-right"></span> Assign<br> Rooms
+            </a>
+            <p><sub><br>(Room preferences can no longer be unlocked!!!)</sub></p>
+          </div>
+        </div>
+      </div>
+      
+      
+       <div id="finish" class="collapse">
+        <div class = "panel-body">
+          <div class = "row text-center">
+            <p><b>Rooms have been assigned.</b></p>
+          </div>
+          <div class="row">
+            <div class = "col-sm-6"> 
+              <p><i>Click below to run the Room assignment algorithm again</i><br></p>
+              <button type="button" class="btn btn-danger">Reasign</button>
+            </div>
+            <div class = "col-sm-6 text-right"> 
+              <p><i>Click to Finish term.</i><br></p>
+              <button type="button" class="btn btn-success">Finish</button>
+              <p>
+                <sub><br>(This indicates that all courses <br><br> <br> and room assigments are finished)</sub>
+              </p>
+            </div>
+          </div>  
+          <div class= "row text-center">
+            <a>Click to go to Room Resolutions</a>
+          </div>
+        </div>
+      </div>
+    
     
     
   </div>
@@ -167,39 +205,39 @@
 
 
 <!------------------------------------------------------------------------------------------------------------------------------------------>
-<div class = container>
-  <br>
-  <br>
-  <br>
-  <br>
-</div>  
+<!--<div class = container>-->
+<!--  <br>-->
+<!--  <br>-->
+<!--  <br>-->
+<!--  <br>-->
+<!--</div>  -->
 
-    <label for="newTerm">Create a new term</label>
-    <form action="\newTerm" method="post" id="newTerm" class="form-inline">
-      <div class="form-group">
-        <select class="form-control" name="keyValue">
-            {% for key in cfg['termInfo'] %}
-              <option value="{{key}}" required>
-                {{cfg['termInfo'][key]}}
-              </option>
-            {% endfor %}
-        </select>
-      </div>
-      <div class="form-group">
-        <select class="form-control" name="year">
-            {% for year in years %}
-              <option value="{{year}}" required>
-                {{year}}
-              </option>
-            {% endfor %}
-          </select>
-      </div>
-      <div class="form-group"
-        <input type="submit" class="btn btn-success" value="Save">
-      </div>
-    </form>
-  </div>
+<!--    <label for="newTerm">Create a new term</label>-->
+<!--    <form action="\newTerm" method="post" id="newTerm" class="form-inline">-->
+<!--      <div class="form-group">-->
+<!--        <select class="form-control" name="keyValue">-->
+<!--            {% for key in cfg['termInfo'] %}-->
+<!--              <option value="{{key}}" required>-->
+<!--                {{cfg['termInfo'][key]}}-->
+<!--              </option>-->
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <select class="form-control" name="year">-->
+<!--            {% for year in years %}-->
+<!--              <option value="{{year}}" required>-->
+<!--                {{year}}-->
+<!--              </option>-->
+<!--            {% endfor %}-->
+<!--          </select>-->
+<!--      </div>-->
+<!--      <div class="form-group"-->
+<!--        <input type="submit" class="btn btn-success" value="Save">-->
+<!--      </div>-->
+<!--    </form>-->
+  
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
-
+</div>
 
 {% endblock %}

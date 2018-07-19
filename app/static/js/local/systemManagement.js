@@ -70,6 +70,7 @@ $(document).on('click', '#btn1', function(){
   $('#lock_room').collapse('hide');
   $('#assign_room').collapse('hide');
   $('#open_course').collapse('show');
+  $('#finish').collapse('hide');
 });
 
 
@@ -81,6 +82,7 @@ $(document).on('click', '#btn2', function(){
   $('#lock_room').collapse('hide');
   $('#assign_room').collapse('hide');
   $('#open_course').collapse('hide');
+  $('#finish').collapse('hide');
 });
 
 $(document).on('click', '#btn3', function(){
@@ -90,6 +92,7 @@ $(document).on('click', '#btn3', function(){
   $('#lock_room').collapse('hide');
   $('#assign_room').collapse('hide');
   $('#open_course').collapse('hide');
+  $('#finish').collapse('hide');
 });
 
 $(document).on('click', '#btn4', function(){
@@ -99,6 +102,7 @@ $(document).on('click', '#btn4', function(){
   $('#lock_room').collapse('show');
   $('#assign_room').collapse('hide');
   $('#open_course').collapse('hide');
+  $('#finish').collapse('hide');
 });
 
 $(document).on('click', '#btn5', function(){
@@ -108,7 +112,20 @@ $(document).on('click', '#btn5', function(){
   $('#lock_room').collapse('hide');
   $('#assign_room').collapse('show');
   $('#open_course').collapse('hide');
+  $('#finish').collapse('hide');
 });
+
+$(document).on('click', '#btn6', function(){
+  //$('.collapse').collapse('hide');
+  $('#lock_course').collapse('hide');
+  $('#open_room').collapse('hide');
+  $('#lock_room').collapse('hide');
+  $('#assign_room').collapse('hide');
+  $('#open_course').collapse('hide');
+  $('#finish').collapse('show');
+});
+
+
 
 
 function showPanel(termCode){
