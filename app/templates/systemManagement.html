@@ -50,44 +50,93 @@
 
 <div id = "allPanels">
   <div class="panel panel-default"> 
+  <div class = "row">
     <div id="open_course" class="collapse"> 
       <div class="panel-body">
-            <p>Program and Division Chairs will be able to submit courses to this Term.</p>
-            <p>Click the arrow to begin and open Course Scheduling.</p>
+        <div class = col-sm-9>
+          <p>Program and Division Chairs will be able to submit courses to this Term.</p>
+          <p>Click the arrow to begin and open Course Scheduling.</p>
           </div>
+          <div class = "col-sm-3">
+          <a href="#" class="btn btn-info btn-lg">
+              <span class="glyphicon glyphicon-chevron-right"></span> Open<br> Course Scheduling
+          </a>
+          </div>
+      </div>
+    </div>
+    </div>
   
+    <div class = "row">
     <div id="lock_course" class="collapse">
-        <div class="panel-body">
-          <p>>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.</p>
-          <p>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</p>   
+        <div class = "panel-body">
+          <div class = "col-sm-9">
+            <p>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.</p>
+            <p>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</p>
+          </div>
+          <div class = "col-sm-3">
+             <a href="#" class="btn btn-info btn-lg">
+              <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Course Scheduling
+            </a>
+          </div>
         </div>
     </div>
-    
-    <div id="open_room" class="collapse" >
-          Course Scheduling has now been locked. Chairs can no longer submit Courses for the term.
-          Click the left arrow to unlock Course Scheduling.
-          Click the right arrow to open Room Preferences for faculty. <span> ( Course Scheduling will be permanelty locked. ) </span>
     </div>
     
+  
     <div id="open_room" class="collapse">
-          Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses
-          Click the arrow to lock room preferences submission       
-    </div>
-    
-    
+      <div class = "panel-body">
+        <div class = "row text-center">
+            <p>Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. <br> </p>
+        </div>
+        <div class ="row">
+          <div class = "col-sm-6">
+             <p> <br> Click the left arrow to unlock Course Scheduling. </p>
+            <a href="#" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-chevron-left"></span> Lock<br> Course Scheduling
+              </a>
+          </div>
+          <div class = "col-sm-6 text-right">
+              <p><br>Click the right arrow to open Room Preferences for faculty </p>
+              <a href="#" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Course Scheduling
+              </a>
+              <span><br> (Course Scheduling will be permanelty locked).</span>
+          </div>
+          <div class = "row text-center">
+            <a> Download Courses</a>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+    <div class = "row">
     <div id="lock_room" class="collapse">
-          Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses
-          Click the arrow to lock room preferences submission    
-         
+      <div class = "panel-body">
+        <div class = "col-xs-9">
+          <p>Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses</p>
+          <p>Click the arrow to lock room preferences submission</p> 
+        </div>
+          <div class = "col-xs-3">
+            <a href="#" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Room Preferences
+            </a>
+          </div>
+    </div>
+    </div>
     </div>
     
+    <div class = "row">
     <div id="assign_room" class="collapse">
-          <p>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences</p>
-          <p>Click the left arrow to unlock room preferences</p>
-          <p>Click the right arrow to assign room (Room preferences can no longer be unlocked!!!)</p>
+      <div class = "panel-body">
+        <p>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences</p>
+        <p>Click the left arrow to unlock room preferences</p>
+        <p>Click the right arrow to assign room (Room preferences can no longer be unlocked!!!)</p>
+      </div>
     </div>
+    </div>
+    
+    
   </div>
-</div>
 </div>
 
 
@@ -151,9 +200,6 @@
     </form>
   </div>
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
-</div>
-</div>
-</div>
 
 
 {% endblock %}
