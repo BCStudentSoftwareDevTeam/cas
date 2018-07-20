@@ -30,7 +30,7 @@ def roomResolutionView(termCode,cid):
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
     except Exception as e:
-        roompreference= RoomPreferences(course=cid, any_Choice = "any").save()
+        roompreference = RoomPreferences(course=cid, any_Choice = "any").save()
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
         
 
@@ -59,7 +59,6 @@ def roomResolutionView(termCode,cid):
 
 
     #For populating current occupant in course's preferences
-    
     
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -99,6 +98,7 @@ def roomResolutionView(termCode,cid):
     conflictingroomdata = []        # data about one B Course
     preferences = dict()            # dictionary to hold all B courses
     
+    #if there are conflicting courses
     if cclist != []:                
     #cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
         for cc in cclist:
@@ -165,33 +165,49 @@ def roomResolutionView(termCode,cid):
 #Controller for Assign button (roomResolutionView) sending the assignment of a course to a room to database
 #Available rooms
 @app.route("/assignRoom/<cid>", methods=["POST"])
+
+#Add functionality that checks if room is still empty before the insert#
 def assignRoom(cid=0):
-    data = request.form
-    print("ROOM ID: ", data['roomID'])
-    # room = data["assignroombutton"]
-    course = Course.get(Course.cId == cid) #Gets course ID from database
-    course.rid = data['roomID']
-    course.save()
-    # print course.rid
-    flash("Your changes have been saved!") 
-    return json.dumps({"success": 1})
-    
+    if Course.get(Course.cId==cid).rid == None: 
+        if assignRoom:
+            data = request.form
+            print("ROOM ID: ", data['roomID'])
+            # room = data["assignroombutton"]
+            course = Course.get(Course.cId == cid) #Gets course ID from database
+            course.rid = data['roomID']
+            course.save()
+            # print course.rid
+            flash("Your changes have been saved!") 
+            return json.dumps({"success": 1})
+        
+    else:
+        flash("An error has occurred. Please refresh your browser and try again.","error")
+        return json.dumps({"success":0})
     
     
 #Assign to an occupied room, remove current occupant
 @app.route("/updateRoom/<cid>", methods=["POST"])
+#TO DO: Add check for if Course has already been resolved (has an rid)
 def updateRoom(cid=0):
-    data = request.form #data coming from POST
-    print("Room ID: ", data['roomID'])
-    course = Course.get(Course.cId == cid) #Gets original course ID from database
-    course.rid = data['roomID']
-    course.save()
-    course = Course.get(Course.cId == data['ogCourse']) #Gets conflicting course ID from database
-    print("course rid:", course.rid)
-    course.rid = None  #Sets room to None
-    course.save()
-    flash("Your changes have been saved!") 
-    return json.dumps({"success": 1})
+    print("YOOOOOOOOOOOOOOOOOOOOO",Course.get(Course.cId==cid).rid)
+    if Course.get(Course.cId==cid).rid == None:
+        if updateRoom:
+            data = request.form #data coming from POST
+            print("Room ID: ", data['roomID'])
+            course = Course.get(Course.cId == cid) #Gets original course ID from database
+            course.rid = data['roomID']
+            course.save()
+            course = Course.get(Course.cId == data['ogCourse']) #Gets conflicting course ID from database
+            print("course rid:", course.rid)
+            course.rid = None  #Sets room to None
+            course.save()
+            flash("Your changes have been saved!") 
+            return json.dumps({"success": 1})
+            
+    else:
+        flash("An error has occurred. Please refresh your browser and try again.","error")
+        return json.dumps({"success":0})
+        
 
 
     

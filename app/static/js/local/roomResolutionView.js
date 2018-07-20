@@ -2,7 +2,7 @@ console.log('I have been loaded!')
 
 var roomID="";
 var ogCourse="";
-function assignflasher() { //FIXME:Getting flash to show up on rresolutions, dependant on action on rresview
+function assignflasher() { 
   document.getElementById("demo").innerHTML = "Hello World";
 }
 
@@ -55,11 +55,14 @@ $(document).on("click",".assignprefbutton", function () {
      console.log($("#assignroomdiv").innerHTML);
 });
 function submitorreplace(){
-    if (ogCourse == ""){
-        submitcoursetoroom();
-    }
-    else{
-        replacecourseinroom();    
+    //TO DO: Add check for if Course has already been resolved (has an rid)
+    if(){
+        if (ogCourse == ""){
+            submitcoursetoroom();
+        }
+        else{
+            replacecourseinroom();    
+            }
         }
     }
 function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY

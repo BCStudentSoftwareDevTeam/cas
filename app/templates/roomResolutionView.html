@@ -9,16 +9,14 @@
 <html>
 <body>
 <div class="center">
-  <h1 class="text-center"> <b>Room Resolutions View </b> </h1>
+  <h1 class="text-center"> <b>Room Resolutions View </b> </h1> <br>
 
 
 <!-- Container for the Unassigned class and ?-->
-<div class="container">
-    <div class = "row">
-      <h3><strong>Unassigned Class</strong></h3>
-    </div>
+<div class="container">    
     <div class="row">
         <div class="col-xs-4">
+          <h3><strong>Unassigned Class</strong></h3>
           <input id="hiddencourse" hidden value = "{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}} "></input>
               {%for instructor in instructors %}
               <label for="professor"><h4><strong>Professor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h4>
@@ -50,7 +48,7 @@
                 </ul>
                 <div class="tab-content">
                   <div role="tabpanel" class="tab-pane active" id="tab-01">
-                    <div class="pre-scrollable" style="max-height: 500 max-width: 100">
+                    <div class="pre-scrollable" style="max-height: 40vh">
                       <div class="panel-group  w-50 p-3" style="overflow=auto" id="accordion">
                         {% for room in available_rooms %} 
                         <!-- start of first accordion -->
@@ -101,7 +99,7 @@
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from basanta{{roompreference.pref_1.educationtech}}<br>
-                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
+                                <th><button type="button" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign</button></th><br>
                               </div>
                           </div>
                         </div>
@@ -194,7 +192,9 @@
       </div>
     </div>
   </div>
+  
 </div>
+
 
 
 
