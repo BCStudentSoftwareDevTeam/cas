@@ -47,6 +47,7 @@ def roomPreference(rid=1):
 
 @app.route('/room_details/<rid>', methods = ["GET"])
 def room_details(rid):
+    print(rid)
     details = Rooms.get(Rooms.rID == rid)
     room_materials={}
 
@@ -58,10 +59,40 @@ def room_details(rid):
     room_materials['specializedEq']= details.specializedEq
     room_materials['movableFurniture']=details.movableFurniture
     room_materials['specialFeatures']=details.specialFeatures
+    
+    
+    
    
+    return json.dumps(room_materials)
+    
     
 
-    return json.dumps(room_materials)
+# We will add this on monday based on the room_details 
+
+@app.route('/education_materials/<eid>', methods = ["GET"])
+def education_Tech(eId):
+    print(eId)
+    details = EducationTech.get(EducationTech.eId == eid)
+    education_materials={}
+
+    education_materials["dvd"]=details.dvd 
+    # education_materials['maxCapacity']= details.dvd
+    # education_materials['visualAcc']= details.visualAcc
+    # education_materials['audioAcc']= details.audioAcc
+    # education_materials['physicalAcc']=details.physicalAcc
+    # education_materials['specializedEq']= details.specializedEq
+    # education_materials['movableFurniture']=details.movableFurniture
+    # education_materials['specialFeatures']=details.specialFeatures
+    
+    
+    
+   
+    return json.dumps(education_materials)
+    
+# We will add this on monday based on the room_details ^^^^
+
+
+    
     
     
     
@@ -98,4 +129,4 @@ def postPreference():
     
     
     
-    
+

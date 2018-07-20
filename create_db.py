@@ -619,7 +619,7 @@ room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomTy
 
 room = Rooms(building = 1, educationTech =1, number ="105", maxCapacity=15,roomType="Lecture",visualAcc= True, audioAcc=True, physicalAcc=True, movableFurniture= " The materials herea are movable").save()
 
-room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=True, physicalAcc=True, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
 
 # roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 # roompreference= RoomPreferences( course= 2, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
