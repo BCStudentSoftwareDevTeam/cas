@@ -38,6 +38,10 @@
 font-size : 11px; width: 100%; height: 100px;
 }
 
+  document.getElementById("OpenCourse").onclick = function () {
+        location.href = "www.yoursite.com";
+    };
+
 
 
 
