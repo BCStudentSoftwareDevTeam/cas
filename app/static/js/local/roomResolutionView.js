@@ -1,5 +1,9 @@
 console.log('I have been loaded!')
 
+var x = document.getElementById("redirectbutton");
+console.log('I got X!'+x)
+$("#redirectbutton").hide(); //default
+
 var roomID="";
 var ogCourse="";
 function assignflasher() { 
@@ -9,9 +13,10 @@ function assignflasher() {
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {
      roomID = $(this).data('id');
-     console.log(roomID);
+     console.log('this is roomID'+roomID);
      var linktoroom = document.getElementById("hiddenroom"+roomID);
      var linktocourse = document.getElementById("hiddencourse");
+     
     
     
      $("#assignroomdiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); //Need course name
@@ -38,6 +43,7 @@ $(document).on("click",".assignprefbutton", function () {
     console.log("room:"+ room)
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
     console.log("which_preference.value"+which_preference.value);
+    showredirectbutton();
    
     
     
@@ -55,8 +61,8 @@ $(document).on("click",".assignprefbutton", function () {
      console.log($("#assignroomdiv").innerHTML);
 });
 function submitorreplace(){
-    //TO DO: Add check for if Course has already been resolved (has an rid)
-    if(){
+   
+    // if(){
         if (ogCourse == ""){
             submitcoursetoroom();
         }
@@ -64,7 +70,7 @@ function submitorreplace(){
             replacecourseinroom();    
             }
         }
-    }
+    // }
 function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
     var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
@@ -118,10 +124,18 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
         });}
         
         
-// function RedirectURL()
-// {
-//     window.location= createDynamicURL();
+function showredirectbutton(){
+    $("#redirectbutton").hide(); //default
+    console.log('got inside redirectbutton function')
+    var x = document.getElementById("redirectbutton");
+    console.log("this is x"+x)
+    if (ogCourse != ""){ //if there is a conflicting course
+        console.log("ogCourse is not empty")
+        $("#redirectbutton").show(); //if there is a conlflictinf course
+
+    }
+}
+
+function resolvenextcourse(){ //functionality for redirect button
     
-    
-    
-// }
+}

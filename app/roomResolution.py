@@ -181,7 +181,7 @@ def assignRoom(cid=0):
             return json.dumps({"success": 1})
         
     else:
-        flash("An error has occurred. Please refresh your browser and try again.","error")
+        flash("An error has occurred. Please try again.","error")
         return json.dumps({"success":0})
     
     
@@ -205,7 +205,7 @@ def updateRoom(cid=0):
             return json.dumps({"success": 1})
             
     else:
-        flash("An error has occurred. Please refresh your browser and try again.","error")
+        flash("An error has occurred. Please try again.","error")
         return json.dumps({"success":0})
         
 
