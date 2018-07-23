@@ -17,11 +17,11 @@
     <div class="row">
         <div class="col-xs-4">
           <h3><strong>Unassigned Class</strong></h3>
-          <input id="hiddencourse" hidden value = "{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}} "></input>
+          <input id="hiddencourse" hidden value = "{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}} "></input>
               {%for instructor in instructors %}
               <label for="professor"><h4><strong>Professor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h4>
             {% endfor %}
-            <label for="courses"><h4><strong>Course: </strong></label>{{roompreference.course.prefix.prefix}}-{{roompreference.course.bannerRef.number}}</h4>
+            <label for="courses"><h4><strong>Course: </strong></label>{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}}</h4>
             <label for="time"><h4><strong>Time:</strong> </label> {{roompreference.course.schedule.startTime}} - {{roompreference.course.schedule.endTime}}</h4>
             <label for="title"><h4><strong>Title:</strong> </label> {{roompreference.course.bannerRef.ctitle}}</h4>
             <label for="capacity"><h4><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h4><br>
@@ -51,11 +51,11 @@
                     <div class="pre-scrollable" style="max-height: 40vh">
                       <div class="panel-group  w-50 p-3" style="overflow=auto" id="accordion">
                         {% for room in available_rooms %} 
-                        <!-- start of first accordion -->
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
+                        <!-- start of available room accordion -->
+                        <div class="panel panel-default clickable">
+                          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                             <h4 class="panel-title">
-                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
+                              <a  data-parent="#accordion" >{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
                             </h4>
                           </div>
                             <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
@@ -95,7 +95,7 @@
                                 {% endif %}
                                 <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
                                 <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br> 
-                                <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_1.visualAccessibility}} <br>
+                                <label for="visualaccessibility">Visual Accessibility:</label>  {{roompreference.pref_1.visualAccessibility}} <br>
                                 <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
                                 <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br> 
                                 <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from basanta{{roompreference.pref_1.educationtech}}<br>

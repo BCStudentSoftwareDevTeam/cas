@@ -6,9 +6,7 @@ $("#redirectbutton").hide(); //default
 
 var roomID="";
 var ogCourse="";
-function assignflasher() { 
-  document.getElementById("demo").innerHTML = "Hello World";
-}
+
 
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {
@@ -23,6 +21,7 @@ $(document).on("click", ".assignroombutton", function () {
      
     //  console.log($("#assignroomdiv"));
 });
+
  //Updating assign room modal for preferences tabs
 $(document).on("click",".assignprefbutton", function () {
     var prefID = $(this).data('id'); //Preference ID (1,2,or3)
@@ -44,25 +43,19 @@ $(document).on("click",".assignprefbutton", function () {
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
     console.log("which_preference.value"+which_preference.value);
     showredirectbutton();
-   
-    
-    
+ 
     // // var linktopref = document.getElementById("hidden"+prefID);
     // // console.log("link to pref"+linktopref);
     // // console.log("linktopref.value"+linktopref.value);
     var linktocourse = document.getElementById("hiddencourse"); //Course A
     
     // // console.log(linktocourse)
-    
-    
-    
     $("#assignroomdiv").html("Are you sure you would like to assign "+ which_preference.value + " to "+linktocourse.value + "?"); //Need course name
      
      console.log($("#assignroomdiv").innerHTML);
 });
 function submitorreplace(){
-   
-    // if(){
+
         if (ogCourse == ""){
             submitcoursetoroom();
         }
@@ -125,17 +118,47 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
         
         
 function showredirectbutton(){
-    $("#redirectbutton").hide(); //default
+    // $("#redirectbutton").hide(); //default
     console.log('got inside redirectbutton function')
     var x = document.getElementById("redirectbutton");
     console.log("this is x"+x)
     if (ogCourse != ""){ //if there is a conflicting course
         console.log("ogCourse is not empty")
-        $("#redirectbutton").show(); //if there is a conlflictinf course
+        $("#redirectbutton").show(); //if there is a conflicting course
 
     }
 }
 
-function resolvenextcourse(){ //functionality for redirect button
-    
+function resolvecourse(){ //Different redirect than previous: for redirect button
+     var oldurl = window.location.href.split("/");
+    var cid = oldurl[oldurl.length-1];
+    var termcode = oldurl[oldurl.length-2];
+    var url = '/updateRoom/'+cid;  
+        console.log("URL: " + url);
+        console.log("RoomID: " + roomID);
+        console.log("Inside replacecourseinroom")
+        $.ajax({  
+             type: "POST",
+                url: url,
+                data:{"roomID": roomID, "ogCourse": ogCourse},
+                dataType: 'json',
+                success: function(response){
+                    console.log(response)
+                    console.log("It worked")
+                    window.location = "/roomResolutionView/"+termcode+"/"+ogCourse
+                    },
+                    error: function(error){
+                        console.log("It didnt work")
+                        console.log(error);
+                    }
+                
+                
+        });}
+function resolvenextcourse(){ //Redirect user to fix the course that was displaced in the assignment
+    var oldurl = window.location.href.split("/");
+    var cid = oldurl[oldurl.length-1];
+    var termcode = oldurl[oldurl.length-2];
+    console.log('Got inside resolvenextcourse')
+    resolvecourse();
+    console.log('I replaced that there course in that there room fam')
 }

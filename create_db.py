@@ -191,16 +191,15 @@ bannercourse =  BannerCourses(  subject       = "CSC",
                                 ctitle        = "Data Structures",
                                 program       = 1,
                                 is_active     = True,
-           ).save()
+                                ).save()
 
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 135,
                                 ctitle        = "Calculus I",
                                 program       = 2,
                                 is_active     = True
-       ).save()
+                                ).save()
                         
-
 bannercourse =  BannerCourses(  subject       = "MAT",
                                 number        = 225,
                                 ctitle        = "Calculus II",
@@ -422,7 +421,7 @@ course = Course(  bannerRef         = 4, #Course 4
                   ).save()                  
                   
 course = Course(  bannerRef         = 8, #Course 5
-                  prefix            = "CHI",
+                  prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
                   capacity          = 20,
@@ -489,6 +488,7 @@ course = Course(  bannerRef         = 14, #Course 11
                   notes             = "Preference2",
                   crossListed       = 1,
                   section           = "A",
+                  
                 ).save()                
 
 course = Course(  bannerRef         = 15, #Course 12
@@ -558,7 +558,7 @@ course = Course(  bannerRef         = 19, #Course 16
 #                   section           = "A"
 #                   ).save() 
 course = Course(  bannerRef         = 20, #Course 19
-                  prefix            = "HHP",
+                  prefix            = "GER",
                   term              = 201611,
                   schedule          = "B",
                   capacity          = 20,
@@ -717,7 +717,7 @@ room = Rooms(building = 2, number ='302', maxCapacity=15, roomType="Lecture",   
 room = Rooms(building = 3, number ='303', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 4, number ='304', maxCapacity=15, roomType="Lecture",   educationTech = 3, visualAccessibility = "A",  audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 5, number ='305', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 6, number ='306', maxCapacity=12, roomType="Something", educationTech = 2, visualAccessibility = "A", audioAccessibility = "L", physicalAccessibility= "A").save()
+room = Rooms(building = 6, number ='306', maxCapacity=12, roomType="Something", educationTech = 2, visualAccessibility = "A", audioAccessibility = "D", physicalAccessibility= "A").save()
 room = Rooms(building = 7, number ='307', maxCapacity=15, roomType="Lecture",   educationTech = 1, visualAccessibility = "A",  audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 8, number ='308', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 9, number ='309', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
@@ -732,9 +732,9 @@ roompreference= RoomPreferences(course=4, pref_1=4, notes="I want these rooms ju
 roompreference= RoomPreferences(course=5, pref_1=11, pref_2=12, notes="My room needs good hearing access", any_Choice = "any").save()
 roompreference= RoomPreferences(course=6, pref_1=13, pref_2=14, pref_3=15, notes="I need 36 seats", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=7, pref_1=13, pref_2=14, pref_3=15, notes="I need things", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=8, pref_1=19, pref_2=20, pref_3=21, notes="Room notes", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=9, pref_1=22, pref_2=23, pref_3=24, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=10, pref_1=2, pref_2=23, pref_3=24, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=8, pref_1=19, pref_2=20, pref_3=21, notes="Gimme dis room i neeeeed it", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=9, pref_1=4, pref_2=8, pref_3=7, notes="I need a room with good visual access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=10, pref_1=2, pref_2=23, pref_3=24, notes="I prefer a room with good physical access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 
 # try:
 #   os.system('mysql-ctl start')

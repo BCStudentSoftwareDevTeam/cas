@@ -101,12 +101,12 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAcc      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAcc   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
+  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  # visualAcc     = CharField(null=True)
+  # audioAcc      = CharField(null=True)
+  # physicalAcc   = CharField(null=True)
   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
@@ -177,7 +177,7 @@ class BannerCourses(dbModel):
 
 class Course(dbModel):
   cId               = PrimaryKeyField()
-  prefix            = ForeignKeyField(Subject)
+  prefix            = ForeignKeyField(Subject) #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
