@@ -78,7 +78,69 @@ right now we just want to make sure that every website at least fits the Beginne
     2. Are captions provided for any video? **(Correct Answer: Yes)**
     3. Is there a second alternative for video with audio? **(Correct Answer: Yes)**     
 3. Does the page have a logical structure? **(Correct Answer: Yes)**  
-4. 
+4. Is everything presented in meaningful order? **(Correct Answer: Yes)**
+5. Is there more than one sense used for instructions? **(Correct Answer: Yes)**
+6. Is there any audio on the page? **If so,**    
+    1. Does the audio automatically play? **(Correct Answer: No)**    
+7. Does the presentation of any material rely solely on color? **(Correct Answer: No)**  
+8. Does the focus tab order make logical sense? **(Correct Answer: Yes)**  
+9. Does anything mouse operable not get keyboard focus? **(Correct Answer: Yes)**  
+10. Is there any keyboard traps? **(Correct Answer: No)**  
+11. When navigating using a keyboard, does any hidden item get focus? **(Correct Answer: No)**  
+12. Is there anything that is time limited? **If so,**    
+    1. Can time be adjusted for the user? **(Correct Answer: Yes)**    
+13. Is there any moving content?  **If so,**    
+    1. Is the user provided with controls for moving said content? **(Correct Answer: Yes)**  
+14. Is there any content that flashes more than three time per second? **(Correct Answer: No)** 
+15. Is a "Skip to Content" link provided? **(Correct Answer: Yes, N/A)** 
+16. Are the title pages helpful and clear? **(Correct Answer: Yes)**  
+17. Is everything presented in a logical order? **(Correct Answer: Yes)**  
+18. Is every link's purposed clear from it's context? **(Correct Answer: Yes)**  
+19. Is there any link that says "Read More", "Click here" or something of that nature? **(Correct Answer: No)**  
+20. Does the page have a lang attribute? **(Correct Answer: Yes)**  
+21. Do any elements change when they receive focus, excluding focus ring? **(Correct Answer: No)**  
+22. Do any elements change when they receive input? **(Correct Answer: No)**  
+23. Are any input errors clearly identified (not using color only)? **(Correct Answer: Yes)**  
+24. Are elements labeled, in a clear, logical, and meaningful way? **(Correct Answer: Yes)**  
+25. Are form elements labeled correctly? **(Correct Answer: Yes)**  
+26. Are instructions given in accessible ways? **(Correct Answer: Yes)**  
+27. Are there any major code errors? **(Correct Answer: No)**  
+28. Are the correct aria tags used (such as name, role, and value)? **(Correct Answer: Yes)**  
+29. Is the contrast ratio between text and background at least 4.5:1? **(Correct Answer: Yes)**  
+30. Are any images of text used to convey information (Logos do not count)? **(Correct Answer: No)**  
+
+## Intermediate  
+
+31. Is there any live video? If so,  
+32. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
