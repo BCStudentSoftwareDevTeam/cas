@@ -23,7 +23,7 @@ any point during the "Beginner" portion of the checklist
 A lot of you don't know how to do website accessibility testing. So below is a link of a video run through of a basic accessibility test. 
 
 **How to do accessibility checks:**
-- https://youtu.be/cOmehxAU_4s 
+*https://youtu.be/cOmehxAU_4s 
 
 One of the thing you will need to download is a screen reader. If you have a PC you will be using NVDA, 
 if you have a MAC you can just built in voice over. NVDA is a good screen reader, and I've been told by blind friend that 
