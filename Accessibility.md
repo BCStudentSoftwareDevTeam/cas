@@ -37,27 +37,27 @@ since there are shortcuts that you need to use, because you want to navigate the
 
 **NVDA Basics:**  
   
-*https://youtu.be/Jao3s_CwdRU 
-*https://webaim.org/articles/nvda/ 
-*https://youtu.be/Vx1vSd5uYS8 
+* https://youtu.be/Jao3s_CwdRU  
+* https://webaim.org/articles/nvda/   
+* https://youtu.be/Vx1vSd5uYS8  
 
 
 **Voice Over Basics:**  
   
-*https://youtu.be/5R-6WvAihms 
+* https://youtu.be/5R-6WvAihms   
 
 Screen readers are more compatible with certain browsers. For NVDA you need to use Firefox for testing and for Voice Over you need to use safari. 
 
 **Browsers: **  
   
-*Firefox 
-*Google Chrome
-*Internet Explorer/Edge 
-*Safari (Mac Only)
+* Firefox  
+* Google Chrome  
+* Internet Explorer/Edge  
+* Safari (Mac Only)  
 
 **Browser Extension (Works for both Chrome and Firefox):**  
   
-*AXE: https://www.deque.com/axe
+* AXE: https://www.deque.com/axe  
 
 Here is a [playlist] that is contains about 20 videos that are really helpful teaching web accessibility: 
 (https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW)
