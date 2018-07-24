@@ -1,7 +1,7 @@
 [TOC]
 
 # Accessibility Testing For All Systems and Checklist
-Created By: Sarah Watts and Scott Heggen 
+Created By: Sarah Watts and Scott Heggen  
 Version: 0
 Link to [Google Doc] (https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing)
 
@@ -23,6 +23,7 @@ any point during the "Beginner" portion of the checklist
 A lot of you don't know how to do website accessibility testing. So below is a link of a video run through of a basic accessibility test. 
 
 **How to do accessibility checks:**
+
 *https://youtu.be/cOmehxAU_4s 
 
 One of the thing you will need to download is a screen reader. If you have a PC you will be using NVDA, 
