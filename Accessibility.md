@@ -59,7 +59,26 @@ Screen readers are more compatible with certain browsers. For NVDA you need to u
   
 * AXE: https://www.deque.com/axe  
 
-Here is a [playlist] that is contains about 20 videos that are really helpful teaching web accessibility: 
-(https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW)
+Here is a playlist that is contains about 20 videos that are really helpful teaching web accessibility: 
+https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW
 
-The checliskt that pertains to all systems can be found at the following link: https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing
+Below is the checklist that pertains to all the websites. It is based on The Website Accessibility Guidelines version 2.0 created by the W3C. 
+There are three levels: Beginner, Intermediate, and Advanced. We are not expecting to reach the Advanced level, 
+right now we just want to make sure that every website at least fits the Beginner level and then work up from there.  
+
+**In order for your page to meet the minimum you need to have all the items on the Beginner checklist.**  
+
+## Checklists   
+
+### Beginner   
+
+1. Are there text alternative for non-text content that is not purely for decoration? **(Correct Answer: Yes, N/A)**  
+2. Is there any video present on the page? **If so,**    
+    1. Is there an alternative to video-only and audio-only content? **(Correct Answer: Yes)**   
+    2. Are captions provided for any video? **(Correct Answer: Yes)**
+    3. Is there a second alternative for video with audio? **(Correct Answer: Yes)**     
+3. Does the page have a logical structure? **(Correct Answer: Yes)**  
+4. 
+
+
+
