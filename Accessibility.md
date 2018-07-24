@@ -58,7 +58,7 @@ Screen readers are more compatible with certain browsers. For NVDA you need to u
   
 * [AXE](https://www.deque.com/axe )
 
-Here is a playlist that is contains about 20 videos that are really helpful teaching [web accessibility.](https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW)
+Here is a playlist that is contains about 20 videos that are really helpful teaching [web accessibility.](https://www.youtube.com/redirect?q=https%3A%2F%2Fgoo.gl%2F06qEUW&v=fGLp_gfMMGU&event=video_description&redir_token=TcZ0t5wyOC2uN8bQo6AVwGpyLAp8MTUzMjUzMjEyMUAxNTMyNDQ1NzIx)
 
 Below is the checklist that pertains to all the websites. It is based on The Website Accessibility Guidelines version 2.0 created by the W3C. 
 There are three levels: Beginner, Intermediate, and Advanced. We are not expecting to reach the Advanced level, 
