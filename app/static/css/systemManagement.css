@@ -29,8 +29,9 @@
 
 
 .green_btn{
-    color : green;
+    color : white !important;
     border: 1px solid black;
+    background-color: darkgreen !important;
 }
 
 
@@ -38,18 +39,16 @@
 font-size : 11px; width: 100%; height: 100px;
 }
 
-  document.getElementById("OpenCourse").onclick = function () {
-        location.href = "www.yoursite.com";
-    };
 
+.button-clicked {
+    background:red;
+}
 
-
-
-
-
-
-
-
+.new_color {
+    color : black !important;
+    border: 1px solid black;
+    background-color: white !important;
+}
 
 
 

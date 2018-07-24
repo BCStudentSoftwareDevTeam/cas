@@ -123,9 +123,8 @@ $(document).on('click', '#btn6', function(){
   $('#assign_room').collapse('hide');
   $('#open_course').collapse('hide');
   $('#finish').collapse('show');
+  $('#archive').collapse('hide');
 });
-
-
 
 
 function showPanel(termCode){
@@ -135,6 +134,124 @@ function showPanel(termCode){
     var subjectDiv = $("#allPanels");
     console.log("subject div: " + subjectDiv);
     subjectDiv.attr("hidden", false);
-    
     targetDiv.html(subjectDiv);
 }
+
+function disableAlltheButtons(){
+    var x = document.getElementsByClassName('theButtons'); 
+    console.log(x);
+    for (var i = 0; i < x.length; i++) {
+        x[i].disabled = true
+        console.log("Disabled button: " + x[i])
+    }
+}
+
+// Enables one button
+function enableTheOne() {
+    console.log(arguments);
+    disableAlltheButtons();
+    for (var i = 0; i < arguments.length; i++) {
+        console.log(arguments[i])
+        b = document.getElementById(arguments[i])
+        console.log(b)
+        b.disabled = false;
+        // var prev = document.getElementById(arguments[0])
+        // prev.className += ' green_btn ';
+    }
+}
+
+// Adds the color for the completed processes
+function prevcolor(i) { 
+        var prev = document.getElementById(i)
+        prev.className += ' green_btn ';
+    
+}
+
+function reverseFunc(i) {
+    disableAlltheButtons(arguments[i]);
+    console.log(arguments[i]);
+    var go_back = document.getElementById(arguments[0]);
+    go_back.disabled = false;
+    var reverse_color = document.getElementById(arguments[1]);
+    reverse_color.className += ' new_color ';
+     
+}
+
+$(document).on('click', '#finalize', function(){
+  $('#finish').collapse('hide');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

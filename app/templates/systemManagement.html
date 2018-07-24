@@ -24,13 +24,13 @@
             <button type="button" class="btn btn-primary terms_btn" data-toggle="modal" data-target="#addModal">{{term.name}} </button>
         </td>
         <td>
-          <div class = "btn-group hideextra">
-            <button class = "col-sm-2" type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "col-sm-2" type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="lock_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "col-sm-2" type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_room" onclick="showPanel({{term.termCode}})"> Open Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "col-sm-2" type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="lock_room" onclick="showPanel({{term.termCode}})"> Lock Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "col-sm-2" type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="assign_room" onclick="showPanel({{term.termCode}})"> Assign Rooms <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "col-sm-2" type = "button" id = "btn6" data-toggle="collapse" data-target="#finish"  aria-expanded="false" aria-controls="finish" onclick="showPanel({{term.termCode}})"> Finish <span class="glyphicon glyphicon-chevron-right"></span></button>
+          <div class = "btn-group hideextra"> <!-- creates the tabs for each term -->
+            <button class = "theButtons col-sm-2" type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "theButtons col-sm-2" type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="lock_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "theButtons col-sm-2" type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_room" onclick="showPanel({{term.termCode}})"> Open Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "theButtons col-sm-2" type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="lock_room" onclick="showPanel({{term.termCode}})"> Lock Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "theButtons col-sm-2" type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="assign_room" onclick="showPanel({{term.termCode}})"> Assign Rooms <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button class = "theButtons col-sm-2" type = "button" id = "btn6" data-toggle="collapse" data-target="#finish"  aria-expanded="false" aria-controls="finish" onclick="showPanel({{term.termCode}})"> Finish <span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
           
         </td>
@@ -58,13 +58,10 @@
             <p><b>Program and Division Chairs will be able to submit courses to this Term.</b></p>
             <p><i>Click the arrow to begin and open Course Scheduling.</i></p>
         </div>
-          <div class = "col-sm-2">
-            <!-- This buttob links to the next button-->
-              <button class="btn btn-sm btn-success" type = "button" id = "OpenCourse" data-toggle="collapse" data-target="#lock_course, #open_course" aria-expanded="false" aria-controls="lock_course"><span class="glyphicon glyphicon-chevron-right"></span>Open Scheduling </span></button>
-
-          <!--<a href="#" class="btn btn-sm btn-success" id = "OpenCourse">-->
-          <!--</a>-->
-          </div>
+        <div class = "col-sm-2">
+            <button class="btn btn-sm btn-success" type = "button" id = "OpenCourse" data-toggle="collapse" data-target="#lock_course, #open_course" aria-expanded="false" 
+            aria-controls="lock_course" onclick="enableTheOne('btn2'); prevcolor('btn1');">Open Scheduling <span class="glyphicon glyphicon-chevron-right"> </span></button>
+        </div>
       </div>
     </div>
     </div>
@@ -78,13 +75,8 @@
             <p><i>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</i></p>
           </div>
           <div class = "col-sm-2">
-              <button class="btn btn-sm btn-danger" type = "button" id = "LockCourse" data-toggle="collapse" data-target="#open_room, #lock_course"  aria-expanded="false" aria-controls="open_room"> <span class="glyphicon glyphicon-chevron-right"></span> Lock<br>Course Scheduling</span></button>
-            
-            
-            <!-- <a href="#" class="btn btn-sm btn-danger">-->
-               
-            <!--  <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Course Scheduling-->
-            <!--</a>-->
+              <button class="btn btn-sm btn-danger" type = "button" id = "LockCourse" data-toggle="collapse" data-target="#open_room, #lock_course"  
+              aria-expanded="false" aria-controls="open_room" onclick="enableTheOne('btn3'); prevcolor('btn2');">  Lock<br>Course Scheduling<span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
         </div>
     </div>
@@ -99,20 +91,13 @@
           <div class ="row">
             <div class = "col-sm-6">
                <p><br><i>Click the left arrow to unlock Course Scheduling. </i></p>
-                <button class="btn btn-sm btn-success" type = "button" id = "UnlockCourses" data-toggle="collapse" data-target="#open_course, #open_room" aria-expanded="false" aria-controls="open_course"><span class="glyphicon glyphicon-chevron-right"></span> UnLock<br> Course Scheduling</span></button>
-
-              <!--<a href="#" class="btn btn-sm btn-success">-->
-              <!--    <span class="glyphicon glyphicon-chevron-left"></span> Unlock<br> Course Scheduling-->
-              <!--  </a>-->
+                <button class="btn btn-sm btn-success" type = "button" id = "UnlockCourses" data-toggle="collapse" data-target="#open_course, #open_room" aria-expanded="false" 
+                aria-controls="open_course" onclick="enableTheOne('btn3'); reverseFunc('btn1', 'btn2', 'btn3');"> <span class="glyphicon glyphicon-chevron-left"></span> UnLock<br> Course Scheduling</span></button>
             </div>
             <div class = "col-sm-6 text-right">
                 <p><br><i>Click the right arrow to open Room Preferences for faculty.</i></p>
-                <button class="btn btn-sm btn-success" type = "button" id = "OpenRoom" data-toggle="collapse" data-target="#lock_room, #open_room"  aria-expanded="false" aria-controls="lock_room"> <span class="glyphicon glyphicon-chevron-right"></span>Open Room<br> Preferences</span></button>
-
-                
-                <!--<a href="#" class="btn btn-sm btn-success">-->
-                <!--  <span class="glyphicon glyphicon-chevron-right"></span> Open<br> Room Preferences-->
-                <!--</a>-->
+                <button class="btn btn-sm btn-success" type = "button" id = "OpenRoom" data-toggle="collapse" data-target="#lock_room, #open_room"  aria-expanded="false" 
+                aria-controls="lock_room" onclick ="enableTheOne('btn2','btn4'); prevcolor('btn3');" >Open Room<br> Preferences<span class="glyphicon glyphicon-chevron-right"></span></button>
                 <br><span><sub><br> (Course Scheduling will be permanelty locked)</sub></span>
             </div>
             <div class = "row text-center">
@@ -131,12 +116,8 @@
             <p><i>Click the arrow to lock room preferences submission.</i></p> 
           </div>
           <div class = "col-xs-2">
-              <button class="btn btn-sm btn-danger" type = "button" id = "LockRoom5" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" aria-controls="assign_room"><span class="glyphicon glyphicon-chevron-right"></span>Lock<br>Room Preferences </span></button>
-
-            
-            <!--<a href="#" class="btn btn-sm btn-danger">-->
-            <!--    <span class="glyphicon glyphicon-chevron-right"></span> Lock<br> Room Preferences-->
-            <!--</a>-->
+              <button class="btn btn-sm btn-danger" type = "button" id = "LockRoom5" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
+              aria-controls="assign_room" onclick = "enableTheOne('btn4','btn5'); prevcolor('btn4');">Lock<br>Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
         </div>
       </div>
@@ -150,19 +131,13 @@
           </div>
           <div class = "col-sm-6">
             <p><i>Click the left arrow to unlock room preferences. </i><br></p>
-                <button  class="btn btn-sm btn-danger" type = "button" id = "UnlockRoom" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" aria-controls="lock_room"><span class="glyphicon glyphicon-chevron-right"></span>Unlock<br>Room preferences</span></button>
-
-            <!--<a href="#" class="btn btn-sm btn-danger">-->
-            <!--    <span class="glyphicon glyphicon-chevron-left"></span> Unlock<br> Room Preferences-->
-            <!--</a>-->
+                <button  class="btn btn-sm btn-danger" type = "button" id = "UnlockRoom" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
+                aria-controls="lock_room" onclick = "enableTheOne('btn4')"><span class="glyphicon glyphicon-chevron-left"></span>Unlock<br>Room preferences</button>
           </div>
           <div class = "col-sm-6 text-right"> 
             <p><i>Click the right arrow to assign rooms</i><br></p>
-            <button  class="btn btn-sm btn-success" type = "button" id = "Assign" data-toggle="collapse" data-target="#finish,#assign_room"  aria-expanded="false" aria-controls="finish"><span class="glyphicon glyphicon-chevron-right"></span> Assign</span></span></button>
-
-            <!--<a href="#" class="btn btn-sm btn-success">-->
-            <!--    <span class="glyphicon glyphicon-chevron-right"></span> Assign<br> Rooms-->
-            <!--</a>-->
+            <button  class="btn btn-sm btn-success" type = "button" id = "Assign" data-toggle="collapse" data-target="#finish,#assign_room"  aria-expanded="false" 
+            aria-controls="finish" onclick = "enableTheOne('btn6'); prevcolor('btn5')"> Assign<span class="glyphicon glyphicon-chevron-right"></span></button>
             <p><sub><br>(Room preferences can no longer be unlocked!!!)</sub></p>
           </div>
         </div>
@@ -170,31 +145,59 @@
       
       <!--FINISH-->
        <div id="finish" class="collapse">
-        <div class = "panel-body">
-          <div class = "row text-center">
-            <p><b>Rooms have been assigned.</b></p>
-          </div>
-          <div class="row">
-            <div class = "col-sm-6"> 
-              <p><i>Click below to run the Room assignment algorithm again</i><br></p>
-              <button class = "btn btn-danger" type = "button" id = "ReAssign" data-toggle="collapse" data-target="#assign_room, #finish"  aria-expanded="false" aria-controls="assign_room"> <span class="glyphicon glyphicon-chevron-right"></span>Reassign</span></button>
-
-              <!--<button type="button" class="btn btn-danger">Reasign</button>-->
+          <div class = "panel-body">
+            <div class = "row text-center">
+              <p><b>Rooms have been assigned.</b></p>
             </div>
-            <div class = "col-sm-6 text-right"> 
-              <p><i>Click to Finish term.</i><br></p>
-              <button type="button" class="btn btn-success">Finish</button>
-              <p>
-                <sub><br>(This indicates that all courses <br><br> <br> and room assigments are finished)</sub>
-              </p>
+            <div class="row">
+              <div class = "col-sm-6"> 
+                <p><i>Click below to run the Room assignment algorithm again</i><br></p>
+                <button class = "btn btn-danger" type = "button" id = "ReAssign" data-toggle="collapse" data-target="#assign_room, #finish"  aria-expanded="false" 
+                aria-controls="assign_room" onclick = "enableTheOne('btn5')"> <span class="glyphicon glyphicon-chevron-left"></span>Reassign</span></button>
+              </div>
+              <div class = "col-sm-6 text-right"> 
+                  <p><i>Click to Finish term.</i><br></p>
+                  <button type="button" id ="finalize" class="btn btn-success" data-toggle="collapse" data-target= "#archive" aria-controls="archive" 
+                    onclick="enableTheOne('btn6'); prevcolor('btn6'); disable_afterfinish(); ">Finish
+                  </button>
+                  <p>
+                    <sub><br>(This indicates that all courses <br><br> <br> and room assigments are finished)</sub>
+                  </p>
+              </div>
+            </div>  
+            <div class= "row text-center">
+              <p><sub> click the link to go to room resolutions page</p></sub>
+              <a>Room Resolutions</a>
             </div>
-          </div>  
-          <div class= "row text-center">
-            <p><sub> click the link to go to room resolutions page</p></sub>
-            <a>Room Resolutions</a>
           </div>
         </div>
-      </div>
+      
+      <!--After FINISH-->
+    
+       <div id="archive" class="collapse" >
+          <div class = "panel-footer">
+            <div class = "row text-center">
+              <p><b>The term is complete</b></p><br>
+              <p>Couse and Room Preferences are no longer accepted, and rooms have been assigned.</p>
+            </div>
+          <div class = "row">
+              <div class = "col-sm-4" >
+                <br> 
+                <a>Download Courses</a>
+              </div>      
+              <div class = "col-sm-4">  
+                <br>
+                <a>Download Rooms </a>
+              </div>
+            <div class = "col-sm-4 text-right"> 
+                <button class = "btn btn-danger" type = "button" id = "Archive" data-toggle="collapse" aria-expanded="false" >Archive</button><br>
+                <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
+            </div>
+          </div>
+          </div>
+         </div>
+        </div>
+      
     
     
     
