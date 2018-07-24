@@ -3,7 +3,7 @@
 # Accessibility Testing For All Systems and Checklist
 Created By: Sarah Watts and Scott Heggen 
 Version: 0
-Link to Google Doc: https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing
+Link to [Google Doc] (https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing)
 
 ## Purpose
 
