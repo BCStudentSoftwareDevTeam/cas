@@ -104,13 +104,10 @@ class Rooms(dbModel):
   visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  # visualAcc     = CharField(null=True)
-  # audioAcc      = CharField(null=True)
-  # physicalAcc   = CharField(null=True)
   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(default=False)
+  movableFurniture = BooleanField(null=False)
 
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)

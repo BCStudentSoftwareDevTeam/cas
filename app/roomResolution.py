@@ -41,6 +41,7 @@ def roomResolutionView(termCode,cid):
     bannercourses = BannerCourses.select()
     courses = Course.get(Course.cId==cid)
     educationtech = EducationTech.select()
+    
     # Getting all available rooms for the first tab
     sql_query = """ SELECT r1.rID FROM rooms as r1 
                     LEFT OUTER JOIN 
