@@ -13,6 +13,7 @@
 
 
 <!-- Container for the Unassigned class and ?-->
+
 <div class="container">    
     <div class="row">
         <div class="col-xs-4">
@@ -30,8 +31,9 @@
             {{roompreference.notes}}
             </textarea> 
         </div>
-          
+      
         <!---Div for tabs--->
+        <span class="border border-secondary">
         <div class="col-xs-8">
           <ul class="nav nav-tabs">
            <ul class="nav nav-tabs" role="tablist">
@@ -168,7 +170,8 @@
           </ul>
             <br>
           
-        </div>       
+        </div>
+        </span>
     </div> 
     
 <button onclick="location.href='/roomResolution/{{termcode}}';" type="button" class="btn btn-secondary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>

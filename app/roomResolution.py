@@ -42,8 +42,14 @@ def roomResolutionView(termCode,cid):
     courses = Course.get(Course.cId==cid)
     educationtech = EducationTech.select()
     # Getting all available rooms for the first tab
-    sql_query = '''SELECT r1.rID FROM rooms as r1 LEFT OUTER JOIN (SELECT c1.rid_id as r2 FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 WHERE r2 IS NULL;'''.format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode)#Query of death
+    sql_query = """ SELECT r1.rID FROM rooms as r1 
+                    LEFT OUTER JOIN 
+                    (SELECT c1.rid_id as r2 FROM course c1 JOIN (SELECT sid FROM bannerschedule 
+                    WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 
+                    ON c1.schedule_id = bs1.sid WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 WHERE r2 IS NULL AND r1.maxCapacity >= {3};""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
     cursor = mainDB.execute_sql(sql_query)
+    print(sql_query)
+    
     # if cursor:
     #     print("Cursor worked: ", cursor)
     availablerooms = []
@@ -65,7 +71,7 @@ def roomResolutionView(termCode,cid):
     # print sch1startTime
     sch1endTime = confcourse.course.schedule.endTime                # grab the A course's schedule end time
     # print sch1endTime
-    rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferrences again (not needed, but used both variables)
+    rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferences again (not needed, but used both variables)
     
     print("this is confcourse", confcourse.course.cId)
     print("This is ssch1starttime", sch1startTime)
@@ -81,7 +87,7 @@ def roomResolutionView(termCode,cid):
                             INNER JOIN `bannerschedule` 
                             ON `bannerschedule`.sid = `course`.schedule_id 
                             WHERE `course`.rid_id = {0} AND `bannerschedule`.endTime > \"{1}\" AND `bannerschedule`.startTime < \"{2}\";"""  #For course B
-    cclist = []  # holds all conflicting courses queries to be executed later                                      
+    cclist = []  # holds all conflicting courses queries to be executed later
     
     # "A" course schedule
     aCourseSchedule = scheduleDays.day
@@ -89,9 +95,9 @@ def roomResolutionView(termCode,cid):
     # check which preference we're on, and append to cclist
     if rp.pref_1:
         cclist.append(conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime)) #comparing course A to B
-    elif rp.pref_2:
+    if rp.pref_2:
         cclist.append(conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime))
-    elif rp.pref_3:
+    if rp.pref_3:
         cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
     print (cclist , "This is the cc list")
     
@@ -100,7 +106,7 @@ def roomResolutionView(termCode,cid):
     
     #if there are conflicting courses
     if cclist != []:                
-    #cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
+        # cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
         for cc in cclist:
             cursor = mainDB.execute_sql(cc)             # execute each query
             print ("This is cursor", cursor)

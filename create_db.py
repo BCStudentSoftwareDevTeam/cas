@@ -144,7 +144,7 @@ banner = BannerSchedule(  letter        = "Standard B",
                         ).save(force_insert=True)
 banner = BannerSchedule(  letter        = "Standard C",
                           startTime     = datetime.time(8, 0, 0),
-                          endTime       = datetime.time(9, 50, 0),
+                          endTime       = datetime.time(9, 10, 0),
                           sid           = "C",
                           order         = 3
                         ).save(force_insert=True)
@@ -433,12 +433,12 @@ course = Course(  bannerRef         = 8, #Course 5
 course = Course(  bannerRef         = 9, #Course 6
                   prefix            = "CHI",
                   term              = 201611,
-                  schedule          = "C",
+                  schedule          = "E",
                   capacity          = 20,
                   notes             = "Course 6",
                   crossListed       = 1,
                   section           = "E",
-                  rid               = 13
+                  rid               = 7
                  
                   ).save() 
 course = Course(  bannerRef         = 10, #Course 7
@@ -454,11 +454,12 @@ course = Course(  bannerRef         = 10, #Course 7
 course = Course(  bannerRef         = 11, #Course 8
                   prefix            = "CHI",
                   term              = 201611,
-                  schedule          = "B",
+                  schedule          = "E",
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1,
-                  section           = "A"
+                  section           = "A",
+                  rid               = 13
                   ).save() 
 #I set all courses to be in the same term. Change the term code on twice listed courses (bannerRef == bannerRef)
 # course = Course(  bannerRef         = 11, #Course 9
@@ -478,16 +479,18 @@ course = Course(  bannerRef         = 13, #Course 10
                   notes             = "Preference1",
                   crossListed       = 1,
                   section           = "A",
+                  rid               = 13
                 ).save()
                 
 course = Course(  bannerRef         = 14, #Course 11
                   prefix            = "FRN",
                   term              = 201611,
-                  schedule          = "B",
+                  schedule          = "A",
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1,
                   section           = "A",
+                   rid               = 6
                   
                 ).save()                
 
@@ -498,7 +501,8 @@ course = Course(  bannerRef         = 15, #Course 12
                   capacity          = 20,
                   notes             = "Preference1",
                   crossListed       = 0,
-                  section           = "A"
+                  section           = "A",
+                   rid               = 5
                   ).save()
 #I set all courses to be in the same term. Change the term code on twice listed courses (bannerRef == bannerRef)
 # course = Course(  bannerRef         = 15, #Course 13
@@ -694,17 +698,17 @@ educationTech= EducationTech(
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='101', maxCapacity=12, roomType="Lecture",   educationTech = 1, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 2, number ='102', maxCapacity=15, roomType="Lecture",   educationTech = 2, visualAccessibility = "A",  audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 3, number ='103', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 4, number ='104', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 5, number ='105', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 6, number ='106', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 7, number ='107', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 8, number ='108', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 9, number ='109', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 1, number ='201', maxCapacity=12, roomType="Something", educationTech = 1, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 2, number ='202', maxCapacity=15, roomType="Lecture",   educationTech = 1, visualAccessibility = "A",  audioAccessibility = "D", physicalAccessibility= "A").save()
+room = Rooms(building = 1, number ='101', maxCapacity=24, roomType="Lecture",   educationTech = 1, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 2, number ='102', maxCapacity=24, roomType="Lecture",   educationTech = 2, visualAccessibility = "A",  audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 3, number ='103', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 4, number ='104', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 5, number ='105', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 6, number ='106', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 7, number ='107', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 8, number ='108', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 9, number ='109', maxCapacity=24, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 1, number ='201', maxCapacity=24, roomType="Something", educationTech = 1, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 2, number ='202', maxCapacity=24, roomType="Lecture",   educationTech = 1, visualAccessibility = "A",  audioAccessibility = "D", physicalAccessibility= "A").save()
 room = Rooms(building = 3, number ='203', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 4, number ='204', maxCapacity=15, roomType="Lecture",   educationTech = 3, visualAccessibility = "A",  audioAccessibility = "B", physicalAccessibility= "A").save()
 room = Rooms(building = 5, number ='205', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
@@ -727,14 +731,20 @@ room = Rooms(building = 9, number ='309', maxCapacity=18, roomType="Lecture",   
 #######
 roompreference= RoomPreferences(course=1, pref_1=1, pref_2=2, pref_3=3, notes="I want these rooms just bc pls", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=2, pref_1=2, pref_2=5, pref_3=6, notes="I need a room with tech", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-roompreference= RoomPreferences(course=3, pref_1=4, pref_2=8, pref_3=9, notes="I need a room with windows", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=3, pref_1=4, pref_2=5, pref_3=6, notes="I need a room with windows", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=4, pref_1=4, notes="I want these rooms just bc pls", any_Choice = "any").save()
-roompreference= RoomPreferences(course=5, pref_1=11, pref_2=12, notes="My room needs good hearing access", any_Choice = "any").save()
+roompreference= RoomPreferences(course=5, pref_1=7, pref_2=8, notes="My room needs good hearing access", any_Choice = "any").save()
 roompreference= RoomPreferences(course=6, pref_1=13, pref_2=14, pref_3=15, notes="I need 36 seats", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=7, pref_1=13, pref_2=14, pref_3=15, notes="I need things", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=8, pref_1=19, pref_2=20, pref_3=21, notes="Gimme dis room i neeeeed it", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=9, pref_1=4, pref_2=8, pref_3=7, notes="I need a room with good visual access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 roompreference= RoomPreferences(course=10, pref_1=2, pref_2=23, pref_3=24, notes="I prefer a room with good physical access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=13, pref_1=3, pref_2=5, notes="I prefer a room with good physical access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+roompreference= RoomPreferences(course=14, pref_1=4, notes="I prefer a room with good physical access", any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
+
+
+
+
 
 # try:
 #   os.system('mysql-ctl start')
