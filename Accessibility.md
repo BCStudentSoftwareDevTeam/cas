@@ -127,7 +127,51 @@ right now we just want to make sure that every website at least fits the Beginne
 ## Expert   
 
 1. Is there any video present on the page? **If so,**   
-    1. Is sign language translations provided for videos? **(Correct Answer: Yes)**
+    1. Is sign language translations provided for videos? **(Correct Answer: Yes)** 
+    2. Are extended audio descriptions provided for videos? **(Correct Answer: Yes)**
+    3. Are text alternatives provided for live videos? **(Correct Answer: Yes)**   
+2. Is there any live audio present on the website? **If so,**    
+    1. Are text alternatives provided? **(Correct Answer: Yes)**   
+3. Is there audio present on the page? **If so,**  
+    1. Is the audio clear for listeners to hear? **(Correct Answer: Yes)** 
+4. Can the contrast ratio between text and background be set to at least 7.1 without assistive technology? **(Correct Answer: Yes)**  
+5. Does the page offer users a range of presentation options? **(Correct Answer: Yes)** 
+6. Is the page accessible by keyboard only without exception? **(Correct Answer: Yes)**
+7. Is there any time limits on the website? **(Correct Answer: No)** 
+8. Is the user interrupted at any time? **(Correct Answer: No)** 
+9. Is the user's data saved when re-authenticating? **(Correct Answer: Yes)** 
+10. Does the website let users know where they are? **(Correct Answer: Yes)** 
+11. Is every link's purpose clear from it's text? **(Correct Answer: Yes)** 
+12. Is the website content broken up with headings? **(Correct Answer: Yes)** 
+13. Are any strange words explained? **(Correct Answer: Yes)** 
+14. Are any abbreviations explained? **(Correct Answer: Yes)** 
+15. Can a user with nine years of school read your content? **(Correct Answer: Yes)** 
+16. Are any words that are hard to pronounce explained? **(Correct Answer: Yes)** 
+17. Are any element changes without the user's permission? **(Correct Answer: Yes)** 
+18. Is detailed help and instructions provided? **(Correct Answer: Yes)** 
+19. Are the risk of all input errors reduced? **(Correct Answer: Yes)** 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
