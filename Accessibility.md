@@ -3,7 +3,7 @@
 # Accessibility Testing For All Systems and Checklist
 Created By: Sarah Watts and Scott Heggen  
 Version: 0  
-Link to Google Doc: https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing
+Link to [Google Doc](https://docs.google.com/document/d/1ru_5tNl0NFIq443DcMxYoFfNb4OXnO26HLHwI13vfdE/edit?usp=sharing)
 
 ## Purpose
 
@@ -31,9 +31,7 @@ if you have a MAC you can just built in voice over. NVDA is a good screen reader
 it's better than the paid one anyway. Anyway, below are links that should help you learn how to work the screen readers 
 since there are shortcuts that you need to use, because you want to navigate the sight a way a blind person would. 
 
-**NVDA Download Link**  
-
-* https://www.nvaccess.org/download/
+[NVDA Download Link](https://www.nvaccess.org/download/)
 
 **NVDA Basics:**  
   
@@ -44,7 +42,8 @@ since there are shortcuts that you need to use, because you want to navigate the
 
 **Voice Over Basics:**  
   
-* https://youtu.be/5R-6WvAihms   
+* https://youtu.be/5R-6WvAihms  
+* https://help.apple.com/voiceover/info/guide/10.8/English.lproj/index.html
 
 Screen readers are more compatible with certain browsers. For NVDA you need to use Firefox for testing and for Voice Over you need to use safari. 
 
@@ -57,10 +56,9 @@ Screen readers are more compatible with certain browsers. For NVDA you need to u
 
 **Browser Extension (Works for both Chrome and Firefox):**  
   
-* AXE: https://www.deque.com/axe  
+* [AXE](https://www.deque.com/axe )
 
-Here is a playlist that is contains about 20 videos that are really helpful teaching web accessibility: 
-https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW
+Here is a playlist that is contains about 20 videos that are really helpful teaching [web accessibility.](https://www.youtube.com/redirect?v=fGLp_gfMMGU&event=video_description&redir_token=VV0dWg1lvH1jnVJ5M_6JfXTj-6h8MTUyODIxNDMyOUAxNTI4MTI3OTI5&q=https%3A%2F%2Fgoo.gl%2F06qEUW)
 
 Below is the checklist that pertains to all the websites. It is based on The Website Accessibility Guidelines version 2.0 created by the W3C. 
 There are three levels: Beginner, Intermediate, and Advanced. We are not expecting to reach the Advanced level, 
@@ -109,7 +107,7 @@ right now we just want to make sure that every website at least fits the Beginne
 29. Is the contrast ratio between text and background at least 4.5:1? **(Correct Answer: Yes)**  
 30. Are any images of text used to convey information (Logos do not count)? **(Correct Answer: No)**  
 
-## Intermediate  
+### Intermediate  
 
 1. Is there any live video? **If so,**    
     1. Does the video have captions? **(Correct Answer: Yes)**  
@@ -124,7 +122,7 @@ right now we just want to make sure that every website at least fits the Beginne
 8. Are icon and buttons used consistently? **(Correct Answer: Yes)**
 9. Are fixes suggested when users make errors? **(Correct Answer: Yes)**
 
-## Expert   
+### Expert   
 
 1. Is there any video present on the page? **If so,**   
     1. Is sign language translations provided for videos? **(Correct Answer: Yes)** 
