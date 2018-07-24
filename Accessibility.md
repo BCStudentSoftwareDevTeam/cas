@@ -111,8 +111,32 @@ right now we just want to make sure that every website at least fits the Beginne
 
 ## Intermediate  
 
-31. Is there any live video? If so,  
-32. 
+1. Is there any live video? **If so,**    
+    1. Does the video have captions? **(Correct Answer: Yes)**  
+2. Is there a pre-recorded video? **If so,**    
+    1. Does the user have access to audio description for video content? **(Correct Answer: Yes)**  
+3. Can text be resized to 200% without loss of content of function? **(Correct Answer: Yes)**  
+4. Are there several ways to find pages? **(Correct Answer: Yes)**  
+5. Are heading and labels clear and easy to understand? **(Correct Answer: Yes)**
+6. Does the language on the page change at any time? **If so,**    
+    1. Do you tell the user when that change occurs? **(Correct Answer: Yes)**  
+7. Are menus used consistently? **(Correct Answer:Yes)**  
+8. Are icon and buttons used consistently? **(Correct Answer: Yes)**
+9. Are fixes suggested when users make errors? **(Correct Answer: Yes)**
+
+## Expert   
+
+1. Is there any video present on the page? **If so,**   
+    1. Is sign language translations provided for videos? **(Correct Answer: Yes)**
+
+
+
+
+
+
+
+
+
 
 
 
