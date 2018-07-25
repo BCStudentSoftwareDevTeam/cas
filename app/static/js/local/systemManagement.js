@@ -62,6 +62,10 @@ $(document).ready(function(){
 
 // for the menus for each term
 
+
+
+
+
 $(document).on('click', '#btn1', function(){
     console.log("Am I called?");
 //   $('.collapse').hide();
@@ -127,6 +131,7 @@ $(document).on('click', '#btn6', function(){
 });
 
 
+// Shows all the panels to the tab butons
 function showPanel(termCode){
     console.log("Term code: " + termCode);
     var targetDiv = $("#divForPanel"+termCode);
@@ -137,6 +142,7 @@ function showPanel(termCode){
     targetDiv.html(subjectDiv);
 }
 
+// Disenables all the buttons and then enable one at time in the enableTheOne function
 function disableAlltheButtons(){
     var x = document.getElementsByClassName('theButtons'); 
     console.log(x);
@@ -155,31 +161,49 @@ function enableTheOne() {
         b = document.getElementById(arguments[i])
         console.log(b)
         b.disabled = false;
-        // var prev = document.getElementById(arguments[0])
-        // prev.className += ' green_btn ';
+        
     }
 }
 
 // Adds the color for the completed processes
-function prevcolor(i) { 
-        var prev = document.getElementById(i)
+function prevcolor(btns) { 
+        console.log("color changed")
+        var remove_color = document.getElementById(btns) //Removes the color as a reult of the result fuction to ensure there is no overide
+        remove_color.classList.remove("new_color")
+        var prev = document.getElementById(btns)
         prev.className += ' green_btn ';
     
 }
 
-function reverseFunc(i) {
-    disableAlltheButtons(arguments[i]);
-    console.log(arguments[i]);
+// Reverses the color and the state of buttons when one clicks on unlock, applicable for two argumnets only for now uness adjusted
+function reverseFunc(btns) {
+    disableAlltheButtons(arguments[btns]);
+    console.log(arguments[btns]);
     var go_back = document.getElementById(arguments[0]);
     go_back.disabled = false;
-    var reverse_color = document.getElementById(arguments[1]);
+    var reverse_color = document.getElementById(arguments[0]);
     reverse_color.className += ' new_color ';
      
 }
 
+function change_btn_name(){
+    var elem = document.getElementById("Archive");
+    if (elem.value=="Archive"){ elem.value = "Unarchive";    $("#myModal .modal-body").text('Are you sure you want to unarchive the term');}
+
+    else if (elem.value == "Unarchive"){ 
+    elem.value = "Archive"; 
+    elem.disabled=true;
+}
+    else elem.value = "Archive";
+}
+
+// Hides the finish button
 $(document).on('click', '#finalize', function(){
   $('#finish').collapse('hide');
 });
+
+
+
 
 
 

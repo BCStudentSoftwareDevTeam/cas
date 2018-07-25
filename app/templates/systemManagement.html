@@ -21,7 +21,7 @@
       {% for term in terms %}
       <tr>
         <td>
-            <button type="button" class="btn btn-primary terms_btn" data-toggle="modal" data-target="#addModal">{{term.name}} </button>
+            <button type="button" class="btn btn-primary terms_btn" ta-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick=" showPanel({{term.termCode}});">{{term.name}} </button>
         </td>
         <td>
           <div class = "btn-group hideextra"> <!-- creates the tabs for each term -->
@@ -91,13 +91,13 @@
           <div class ="row">
             <div class = "col-sm-6">
                <p><br><i>Click the left arrow to unlock Course Scheduling. </i></p>
-                <button class="btn btn-sm btn-success" type = "button" id = "UnlockCourses" data-toggle="collapse" data-target="#open_course, #open_room" aria-expanded="false" 
-                aria-controls="open_course" onclick="enableTheOne('btn3'); reverseFunc('btn1', 'btn2', 'btn3');"> <span class="glyphicon glyphicon-chevron-left"></span> UnLock<br> Course Scheduling</span></button>
+                <button class="btn btn-sm btn-success" type = "button" id = "UnlockCourses" data-toggle="collapse" data-target="#lock_course, #open_room" aria-expanded="false" 
+                aria-controls="lock_course" onclick="enableTheOne('btn2'); reverseFunc('btn2', 'btn3');"> <span class="glyphicon glyphicon-chevron-left"></span> UnLock<br> Course Scheduling</span></button>
             </div>
             <div class = "col-sm-6 text-right">
                 <p><br><i>Click the right arrow to open Room Preferences for faculty.</i></p>
                 <button class="btn btn-sm btn-success" type = "button" id = "OpenRoom" data-toggle="collapse" data-target="#lock_room, #open_room"  aria-expanded="false" 
-                aria-controls="lock_room" onclick ="enableTheOne('btn2','btn4'); prevcolor('btn3');" >Open Room<br> Preferences<span class="glyphicon glyphicon-chevron-right"></span></button>
+                aria-controls="lock_room" onclick ="enableTheOne('btn4'); prevcolor('btn3');" >Open Room<br> Preferences<span class="glyphicon glyphicon-chevron-right"></span></button>
                 <br><span><sub><br> (Course Scheduling will be permanelty locked)</sub></span>
             </div>
             <div class = "row text-center">
@@ -117,7 +117,7 @@
           </div>
           <div class = "col-xs-2">
               <button class="btn btn-sm btn-danger" type = "button" id = "LockRoom5" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
-              aria-controls="assign_room" onclick = "enableTheOne('btn4','btn5'); prevcolor('btn4');">Lock<br>Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
+              aria-controls="assign_room" onclick = "enableTheOne('btn5'); prevcolor('btn4');">Lock<br>Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
           <div class = "col-sm-6">
             <p><i>Click the left arrow to unlock room preferences. </i><br></p>
                 <button  class="btn btn-sm btn-danger" type = "button" id = "UnlockRoom" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
-                aria-controls="lock_room" onclick = "enableTheOne('btn4')"><span class="glyphicon glyphicon-chevron-left"></span>Unlock<br>Room preferences</button>
+                aria-controls="lock_room" onclick = "enableTheOne('btn4'); reverseFunc( 'btn4', 'btn5');"><span class="glyphicon glyphicon-chevron-left"></span>Unlock<br>Room preferences</button>
           </div>
           <div class = "col-sm-6 text-right"> 
             <p><i>Click the right arrow to assign rooms</i><br></p>
@@ -158,7 +158,7 @@
               <div class = "col-sm-6 text-right"> 
                   <p><i>Click to Finish term.</i><br></p>
                   <button type="button" id ="finalize" class="btn btn-success" data-toggle="collapse" data-target= "#archive" aria-controls="archive" 
-                    onclick="enableTheOne('btn6'); prevcolor('btn6'); disable_afterfinish(); ">Finish
+                    onclick="enableTheOne('btn6'); prevcolor('btn6');"> Finish
                   </button>
                   <p>
                     <sub><br>(This indicates that all courses <br><br> <br> and room assigments are finished)</sub>
@@ -173,7 +173,6 @@
         </div>
       
       <!--After FINISH-->
-    
        <div id="archive" class="collapse" >
           <div class = "panel-footer">
             <div class = "row text-center">
@@ -190,23 +189,39 @@
                 <a>Download Rooms </a>
               </div>
             <div class = "col-sm-4 text-right"> 
-                <button class = "btn btn-danger" type = "button" id = "Archive" data-toggle="collapse" aria-expanded="false" >Archive</button><br>
+                <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick="change_btn_name1()"></input><br>
                 <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
             </div>
           </div>
           </div>
          </div>
-        </div>
-      
-    
-    
-    
+         
+         <!--This is the modal for onclick on archive button confrirmation-->
+         <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Archive term</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you are ready to archive the term?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name()">OK</button>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+         
+
   </div>
 </div>
 
-
-
-
+<!-- Modal -->
+          
 
 
 
