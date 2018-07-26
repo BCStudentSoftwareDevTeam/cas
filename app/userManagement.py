@@ -37,23 +37,18 @@ def user_insert():
     # request.form requests data from the front end on what the user has entered
     # for updating added users
     if request.form.get('adduser') == 'adduser' : 
-        if request.form.get('access') == "program_chair":
-            pch = ProgramChair.create(username = request.form.get("userToAdd"), pid =request.form.get("program"))
-            pch.save()
+        if request.form.get('access') == "program_chair":                     
+            pch = ProgramChair.get_or_create(username = request.form.get("userToAdd"), pid =request.form.get("program"))
             flash("Your changes have been successfully saved!")
-           
         elif request.form.get('access') == 'division_chair':
-            dc = DivisionChair.create(username = request.form.get("userToAdd"), did = request.form.get("division"))
-            dc.save()
+            dc = DivisionChair.get_or_create(username = request.form.get("userToAdd"), did = request.form.get("division"))
             flash("Your changes have been successfully saved!")
         elif request.form.get('access') == 'building_manager':
-            bm = BuildingManager.create(username = request.form.get("userToAdd"), bmid = request.form.get("building"))
-            bm.save()
+            bm = BuildingManager.get_or_create(username = request.form.get("userToAdd"), bmid = request.form.get("building"))
             flash("Your changes have been successfully saved!")
         elif request.form.get('access') == 'administrator' :
             user = User.get(username = request.form.get("userToAdd"))
             user.isAdmin = 1
-            user.save()
             
     #for updating removed users       
     elif request.form.get('removeuser') == 'removeuser':  
