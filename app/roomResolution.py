@@ -29,12 +29,12 @@ def roomResolutionView(termCode,cid):
        # Creating the UI
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
+        print("WEEEEEEEEEEEEE")
     except Exception as e:
         roompreference = RoomPreferences(course=cid, any_Choice = "any").save()
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
-        
-
         flash("Course has no preferences assigned.")
+        print("Awwww man :(")
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     print instructors
@@ -139,7 +139,7 @@ def roomResolutionView(termCode,cid):
                     pref_info['startTime']=cc.schedule.startTime
                     pref_info['endTime']=cc.schedule.endTime
                     pref_info['days']= bScheduleDays.day
-                    print("YERRRRRRRRR", bScheduleDays)
+                    # print("YERRRRRRRRR", bScheduleDays)
 
                     
                     print ("Conflicting course's preference notes",cc.cId)
