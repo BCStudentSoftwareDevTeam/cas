@@ -16,7 +16,7 @@ users = User(  firstName = "Jan",
                 lastName  = "Pearce",
                 username  = "pearcej",
                 email     = "jadudm@berea.edu",
-                isAdmin   = 0,
+                isAdmin   = 1,
                 bNumber   = "1239495"
             ).save(force_insert=True)     
 
@@ -296,7 +296,7 @@ bannercourse =  BannerCourses(  subject       = "HLT",
 term = Term(  name             = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
-              editable          = 0,
+            #   editable          = 0,
               termCode          = 201611,
               state             = 0
             ).save(force_insert = True)
@@ -305,14 +305,14 @@ term = Term(  name              = "Spring 2017",
               semester          = "Spring",
               year              = 2017,
               termCode          = 201612,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)  
 term = Term(  name              = "Fall 2017",
               semester          = "Fall",
               year              = 2017,
               termCode          = 201711,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)
             
@@ -320,14 +320,14 @@ term = Term(  name              = "Spring 2018",
               semester          = "Spring",
               year              = 2018,
               termCode          = 201712,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)      
 term = Term(  name              = "Fall 2018",
               semester          = "Fall",
               year              = 2018,
               termCode          = 201811,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)
             

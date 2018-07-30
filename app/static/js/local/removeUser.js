@@ -70,7 +70,7 @@ function retrievePrograms(obj){
           		    fillProgramChairs(response);
           			},
           			error: function(error){
-          				console.log(error); 
+          				console.log(error);
           			}
                 }); }
 }
@@ -85,6 +85,12 @@ function fillDivisionChairs(response){
     console.log(response)
     var divisionselect = document.getElementById("RemoveDropdown");
     $("#RemoveDropdown").empty();
+    var option = document.createElement("option");
+    option.disabled = true;
+    option.selected = true;
+    option.text="---";
+    option.value = "---";
+    divisionselect.appendChild(option);
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
@@ -125,6 +131,12 @@ function fillBuildingManagers(response){
     console.log(response)
     var buildingselect = document.getElementById("RemoveDropdown");
     $("#RemoveDropdown").empty();
+    var option = document.createElement("option");
+    option.disabled = true;
+    option.selected = true;
+    option.text="---";
+    option.value = "---";
+    buildingselect.appendChild(option);
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
@@ -167,15 +179,23 @@ function building_managers_show_names(s) {
 
 function fillAdmin(response){
     console.log(response)
-    var adminselect = document.getElementById("RemoveDropdown");
-    $("#RemoveDropdown").empty();
-    for (var key in response){
-        // console.log(response[key]['firstname']);
-        var option = document.createElement("option");
-        option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+ response[key]["username"].toString() + ")";
-        option.value = key;
-        adminselect.appendChild(option);
-    }
+    var adminselect = document.getElementById("RemoveDropdown")
+        $("#RemoveDropdown").empty();
+        var count = 0;
+        for (var key in response){
+            console.log(response[key]['firstname']);
+            count = count + 1;
+            var option = document.createElement("option");
+                option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+ response[key]["username"].toString() + ")";
+                option.value = key;
+                adminselect.appendChild(option);
+        }
+        if (count < 2) {
+            //disable button
+            var disable_btn = document.getElementById("adminbtn");
+            disable_btn.disabled = true;
+        }
+    
     // $('.selectpicker').selectpicker('refresh');
 }
 
@@ -192,8 +212,9 @@ function retrieveAdmins(){
           			error: function(error){
           				console.log(error); 
           			}
-                }); }    
-
+                }); }   
+                
+                
 
 /*global $ */
 // this creates the pop up for remove button
