@@ -14,8 +14,6 @@ $(document).on("click", ".assignroombutton", function () {
      console.log('this is roomID'+roomID);
      var linktoroom = document.getElementById("hiddenroom"+roomID);
      var linktocourse = document.getElementById("hiddencourse");
-     
-    
     
      $("#assignroomdiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); //Need course name
      
@@ -26,7 +24,6 @@ $(document).on("click", ".assignroombutton", function () {
 $(document).on("click",".assignprefbutton", function () {
     var prefID = $(this).data('id'); //Preference ID (1,2,or3)
     console.log(prefID);
-    //NEED TO GET ROOM INFO, PREF INFO, and CONFLICTING COURSE INFO
     var main_course = window.location.href.split("/").pop();
     console.log("main course: " + main_course)
     ogCourse = "";
@@ -43,7 +40,6 @@ $(document).on("click",".assignprefbutton", function () {
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
     console.log("which_preference.value"+which_preference.value);
     showredirectbutton();
- 
     // // var linktopref = document.getElementById("hidden"+prefID);
     // // console.log("link to pref"+linktopref);
     // // console.log("linktopref.value"+linktopref.value);
@@ -81,12 +77,17 @@ function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
                 dataType: 'json',
                 success: function(response){ 
                     console.log(response)
-                    console.log("It worked")
-                    window.location = "/roomResolution/"+termcode
+                    console.log("It worked in submitcoursetoroom")
+                     if (response['success'] == 1)
+                        window.location = "/roomResolution/"+termcode
+                        else
+                        window.location.assign("/roomResolution/"+ termcode)                    
+                    
           			},
           			error: function(error){
           			    console.log("It didnt work")
           				console.log(error); 
+                        window.location.assign("/roomResolution/"+ termcode)
           			}
                 }); }
                 
@@ -105,12 +106,17 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
                 dataType: 'json',
                 success: function(response){
                     console.log(response)
-                    console.log("It worked")
-                    window.location = "/roomResolution/"+ termcode
-                    },
+                    console.log("It worked in replacecourseinroom")
+                    if (response['success'] == 1)
+                        window.location = "/roomResolution/"+termcode
+                    else
+                        window.location.assign("/roomResolution/"+ termcode)                    
+                    
+                },
                     error: function(error){
                         console.log("It didnt work")
                         console.log(error);
+                        window.location.assign("/roomResolution/"+ termcode)
                     }
                 
                 
@@ -129,8 +135,8 @@ function showredirectbutton(){
     }
 }
 
-function resolvecourse(){ //Different redirect than previous: for redirect button
-     var oldurl = window.location.href.split("/");
+function resolvecourse(){ //Functionality for blue redirect button
+    var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
     var termcode = oldurl[oldurl.length-2];
     var url = '/updateRoom/'+cid;  
@@ -144,12 +150,17 @@ function resolvecourse(){ //Different redirect than previous: for redirect butto
                 dataType: 'json',
                 success: function(response){
                     console.log(response)
-                    console.log("It worked")
-                    window.location = "/roomResolutionView/"+termcode+"/"+ogCourse
+                    console.log("It worked inside resolvecourse")
+                    if (response['success'] == 1)
+                        window.location = "/roomResolutionView/"+termcode+"/"+ogCourse
+                    else
+                        window.location.assign("/roomResolution/"+ termcode)
                     },
                     error: function(error){
                         console.log("It didnt work")
                         console.log(error);
+                        window.location.assign("/roomResolution/"+ termcode)
+                        
                     }
                 
                 

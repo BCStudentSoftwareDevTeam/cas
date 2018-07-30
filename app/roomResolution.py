@@ -39,15 +39,14 @@ def roomResolutionView(termCode,cid):
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     print instructors
     bannercourses = BannerCourses.select()
-    courses = Course.get(Course.cId==cid)
+    courses = Course.get(Course.cId==cid) #Course A
+    schedule = courses.schedule.sid
+    days = ScheduleDays.get(ScheduleDays.schedule==schedule)
+    print ("These are DAYYYYYYSSS",days.day)
     educationtech = EducationTech.select()
     
     # Getting all available rooms for the first tab
-    sql_query = """ SELECT r1.rID FROM rooms as r1 
-                    LEFT OUTER JOIN 
-                    (SELECT c1.rid_id as r2 FROM course c1 JOIN (SELECT sid FROM bannerschedule 
-                    WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 
-                    ON c1.schedule_id = bs1.sid WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 WHERE r2 IS NULL AND r1.maxCapacity >= {3};""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
+    sql_query = """ SELECT r1.rID FROM rooms as r1 LEFT OUTER JOIN (SELECT c1.rid_id as r2 FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 WHERE r2 IS NULL AND r1.maxCapacity >= {3};""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
     cursor = mainDB.execute_sql(sql_query)
     print(sql_query)
     
@@ -56,13 +55,12 @@ def roomResolutionView(termCode,cid):
     availablerooms = []
     for room in cursor:
         availablerooms.append(room[0])
-        print("The room is: ", room[0])
-    
+        #print("The room is: ", room[0])
     rooms = []
     for rid in availablerooms: 
         room = Rooms.get(Rooms.rID==rid)
         rooms.append(room)
-        print rid
+        #print rid
 
 
     #For populating current occupant in course's preferences
@@ -74,12 +72,12 @@ def roomResolutionView(termCode,cid):
     # print sch1endTime
     rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferences again (not needed, but used both variables)
     
-    print("this is confcourse", confcourse.course.cId)
-    print("This is ssch1starttime", sch1startTime)
-    print("this is sch1endTime", sch1endTime)
+    # print("this is confcourse", confcourse.course.cId)
+    # print("This is ssch1starttime", sch1startTime)
+    # print("this is sch1endTime", sch1endTime)
     
     #This gets all conflicting courses
-    print("What is this schedule you speak of: ", confcourse.course.schedule.sid)
+    #print("What is this schedule you speak of: ", confcourse.course.schedule.sid)
     scheduleDays = ScheduleDays.get(ScheduleDays.schedule == confcourse.course.schedule.sid)
     
     
@@ -96,10 +94,10 @@ def roomResolutionView(termCode,cid):
     # check which preference we're on, and append to cclist
     if rp.pref_1:
         cclist.append(conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime)) #comparing course A to B
-    if rp.pref_2:
-        cclist.append(conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime))
-    if rp.pref_3:
-        cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
+        if rp.pref_2:
+            cclist.append(conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime))
+            if rp.pref_3:
+                cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
     print (cclist , "This is the cc list")
     
     conflictingroomdata = []        # data about one B Course
@@ -110,12 +108,12 @@ def roomResolutionView(termCode,cid):
         # cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
         for cc in cclist:
             cursor = mainDB.execute_sql(cc)             # execute each query
-            print ("This is cursor", cursor)
+            #print ("This is cursor", cursor)
             for conflict in cursor:
-                print("Conflict[0] is: ", conflict[0])      # conflict[0] is the B course ID (cId)
+                #print("Conflict[0] is: ", conflict[0])      # conflict[0] is the B course ID (cId)
                 conflictingroomdata.append(conflict[0])     # appends results of query to list of actual B courses 
     
-        print ("This is the conflictingroomdata" ,conflictingroomdata)
+        #print ("This is the conflictingroomdata" ,conflictingroomdata)
         
         #pulling specific data from conflicting course
         for idx in range(len(conflictingroomdata)):
@@ -137,6 +135,12 @@ def roomResolutionView(termCode,cid):
                     pref_info['course_name']=current_course         # add to pref_info
                     pref_info['instructor']=full_name               # add instructor to pref info
                     pref_info['cid']=cc.cId                         # add cId to pref_info
+                    
+                    pref_info['startTime']=cc.schedule.startTime
+                    pref_info['endTime']=cc.schedule.endTime
+                    pref_info['days']= bScheduleDays.day
+                    print("YERRRRRRRRR", bScheduleDays)
+
                     
                     print ("Conflicting course's preference notes",cc.cId)
                     (rp1, created) = RoomPreferences.get_or_create(course = cc.cId)
@@ -163,7 +167,8 @@ def roomResolutionView(termCode,cid):
                             bannercourses=bannercourses,
                             educationtech=educationtech,
                             preferences=preferences,
-                            termcode=termCode
+                            termcode=termCode,
+                            days=days
                             
                             
                         )
@@ -173,9 +178,8 @@ def roomResolutionView(termCode,cid):
 #Available rooms
 @app.route("/assignRoom/<cid>", methods=["POST"])
 
-#Add functionality that checks if room is still empty before the insert#
 def assignRoom(cid=0):
-    if Course.get(Course.cId==cid).rid == None: 
+    if Course.get(Course.cId==cid).rid == None: #If the course doesn't have a room
         if assignRoom:
             data = request.form
             print("ROOM ID: ", data['roomID'])
@@ -194,10 +198,10 @@ def assignRoom(cid=0):
     
 #Assign to an occupied room, remove current occupant
 @app.route("/updateRoom/<cid>", methods=["POST"])
-#TO DO: Add check for if Course has already been resolved (has an rid)
+
 def updateRoom(cid=0):
     print("YOOOOOOOOOOOOOOOOOOOOO",Course.get(Course.cId==cid).rid)
-    if Course.get(Course.cId==cid).rid == None:
+    if Course.get(Course.cId==cid).rid == None: #If the course doesn't have a room
         if updateRoom:
             data = request.form #data coming from POST
             print("Room ID: ", data['roomID'])
