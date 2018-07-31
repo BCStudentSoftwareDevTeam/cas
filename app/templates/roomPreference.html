@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set currentPage = "no" %} <!--This is used for the sidebar -->
+{% set currentPage = "no" %} <!--This is used for the sidebart-->
 <!--Page Content -->
 
 {% block body %}
@@ -105,97 +105,228 @@
                                         </select>
                                     </div>  
                                     <div class="row">
-                                        <div  id = "Details" class="collapse" id="collapseExample">
-                                            <div class="col-sm-6">
-                                                <!--THIS GIVES ALL THE INFORMATION PERTINENT TO THE ROOM SELECTED FOR THE COURSE-->
-                                                <div class="row">
+                                           <div  id = "Details" class="collapse" id="collapseExample">
+                                               <div class="col-sm-6">
+                                                    
+                                                   <div class="row">
                                                     <label  style="float: left;">Room Number :  </label><div id="roomNumber" >{{room.number}}</div>
-                                                </div>    
-                                                <div class="row">
-                                                    <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                   </div>    
+                                                    <div class="row">
+                                                        <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                    </div>
+                                                    <div class="row"> 
+                                                       <label  style="float:left;" >Visual Accessibility:</label><input id="visualAcc" type="checkbox" name="VisualAcc" value="VisualAcc" {% if room.visualAcc  == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" >Audio Accessibility   : </label> <input id="audioAcc" type="checkbox" name="Audio Acc" value="Audio Acc" {% if room.audioAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" >Physical Accessibilty :</label> <input id="physicalAcc" type="checkbox" name="Physical Acc" value="Physical Acc" {% if room.physicalAcc == True %} checked {% endif %} onclick="return false;"><br>
+                                                    </div>
+                                                    <div class="row">
+                                                      <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float: left;">Movable Furniture:</label> <div id="movableFurniture">  {{room.movableFurniture}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                         <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <label  style="float:left;" > Education tech: </label> <a href="#" id="openDialog"> View </a>
+                                                    </div>
+                                                
                                                 </div>
-                                                <div class="row">
-                                                    <label id="visualAccIcon" style="float:left;" ></label> <br> 
-                                                </div>
-                                                <div class="row">
-                                                    <label id="audioAccIcon" style="float:left;" ></label> <br> 
-                                                </div>
-                                                <div class="row">
-                                                    <label id="physicalAccIcon" style="float:left;" ></label> <br> 
-                                                </div>
-                                                <div class="row">
-                                                    <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
-                                                </div>
-                                                <div class="row">
-                                                <label  style="float: left;">Movable Furniture: </label> <div id="movableFurniture">  {{room.movableFurniture}}</div>
-                                                </div>
-                                                <div class="row">
-                                                <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
-                                                </div>
-                                                <div class="row">
-                                                <label  style="float:left;" > Education Tech: </label> <button 
-                                                type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
-                                                <a href="#">  View </a></button>                   
-                                                <!--THIS VIEW LEADS TO THE EDUCATION TECH EXTRA ROOM INFORMATION-->
-                                                </div>
-                                            </div>
-                                                <!--EDUCATION TECH MODAL -->
-                                                {% include "snips/educationTech.html" %}
-                                                <!--THIS POPULATES THE COURSE CONFLICT BOX TO THE RIGHT BOTTOM OF THE PAGE-->
-                                            <div class="row">
-                                                <div class="col-lg-5 " align="center" > 
-                                                    <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
+                                                 
+                                            
+                                              
+                                        
+                                    <div id ="dialog-modal" class="col-sm-4" title="Education Tech" style="display:none">
+                                        <table>
+                                        <tr>
+                                            {% for items in educationTech %}                                                   
+                                          <td>       
+                                                    Chalkboards: {{items.chalkboards}} <br> 
+                                                     Computers(instructors) : {{items.instructor_computers}}  <br>
+                                                     Projectors             : {{items.projectors}}  <br>
+                                                     Podium                 : {{items.podium}} <br> 
+                                                     Smartboards            : {{items.smartboards}} <br>
+                                                     Students Workstations  : {{items.student_workspace}} <br>
+                                                     Whiteboards            : {{items.whiteboards}} <br>
+                                                     <input type="checkbox" name="dvd" value="dvd" {% if items.audio == True %} 
+                                                    checked {% endif %} onclick="return false;">Audio<br>
+                                                     <input type="checkbox" name="dvd" value="dvd" {% if items.blu_ray == True %} 
+                                                    checked {% endif %} onclick="return false;">Blu-Ray<br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.doc_cam == True %} 
+                                                    checked {% endif %} onclick="return false;">DOC-Cam<br>            
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.dvd == True %} 
+                                                    checked {% endif %} onclick="return false;">DVD<br>
+                                                     <input type="checkbox" name="extro" value="extro" {% if items.extro == True %} 
+                                                    checked {% endif %} onclick="return false;">Extro <br> 
+                                                     <input type="checkbox" name="dvd" value="mondopad" {% if items.dvd == True %} 
+                                                    checked {% endif %} onclick="return false;">DV <br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.tech_chart == True %} 
+                                                    checked {% endif %} onclick="return false;">Tech-Chart<br>
+                                                    <input type="checkbox" name="dvd" value="dvd" {% if items.vhs == True %} 
+                                                    checked {% endif %} onclick="return false;">VHS<br>
+                                            </td>
+                                            {% endfor %}
+                                        
+                                        </tr>
+                                        </table>                                            
+                                    </div>
+                                    <div class="row">
+                                                  <div class="col-lg-5 " align="center" > 
+                                               
+                                                   <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
+                                                   
                                                     <table border=4>
-                                                        <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
-                                                        <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
-                                                    {% for instructor in instructors %}
-                                                        <tr>
-                                                            <td class="col-md-2">{{instructor.username.firstName}} {{instructor.username.lastName}} </td>
-                                                            <td class="col-md-1">{{instructor.course.bannerRef }}</td>
-                                                        </tr>
-                                                    {% endfor %}
+                                                        
+                                                      <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
+                                                      <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
+                                                    
+                                                      <tr>
+                                                         <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                       <tr>
+                                                           <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                           <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                         <tr> <td class="col-md-2">{{users.firstName}} {{users.lastName}} </td>
+                                                         <td class="col-md-1">{{course.bannerRef }}</td>
+                                                       </tr>
+                                                     
                                                     </table>
+                                                    
+                                                    
+                                                 </div>
+                                                   
+                                                 </div>
+                                                       <div class="row">
+                                                           <button name="assignButton" id="assignButton" value="" class="btn btn-primary" onclick="setButtonText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                                       </div>
+                                                       
+
+                                            
+
                                                 </div>
+
                                             </div>
-                                                <!--THIS IS THE SELECT BUTTON WHICH TRIGGERS A MODAL AND ACCOMPLISHES OTHER IMPORTANT TASKS (SEE ALL THE JAVASCRIPT RELATED TO IT)  -->
-                                            <div class="row">
-                                                <button name="assignButton" id="assignButton" value="" class="btn btn-primary" onclick="setButtonText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+
+                                            
                                             </div>
-                                                        <!--THIS IS THE MODAL LEADING TO ALL THE CHANGES ON THE PAGE, IT ALSO HAS A 'YES' BUTTON ALLOWING TO RECONSIDER THE CHOICE BEFORE THE DATA IS SENT TO THE DATABASE -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header" style="background-color: #2c3e50;">
+                                    </div>
+                                    
+                                    
+                                  
+                                                     Hamza added a Modal 
+                                                      <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header" style="background-color: #2c3e50;">
                                                             <h3 class="modal-title" style="color: white;" id="exampleModalLabel">Please read:</h3>
                                                             <button type="button" style="color: white; line-height: 0" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
+                                                              <span aria-hidden="true">&times;</span>
                                                             </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p id="modelRoom"></p> 
-                                                        </div>
-                                                        <div class="modal-footer" padding: "10px"> 
+                                                          </div>
+                                                          <div class="modal-body">
+                                                            <strong>Are you sure you want to assign ROOM to COURSE?</strong>
+                                                          </div>
+                                                          <div class="modal-footer" padding: "10px">
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                                                                <!--<button type="button" class="btn btn-primary" data-dismiss = "modal" onclick="setPrefButton()"> Yes </button>-->
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-title="Add Your Notes Here:" data-dismiss="modal"onclick="setPrefButton()">Yes</button>
+                                                            <button type="button" class="btn btn-primary">Yes</button>
+                                                          </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  
-                                </div>
-                            </div>  
+                                                      </div>  
+                                    
+                                    
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </form>
+                    </div>
+            </div>
+
+        </td>
+       
+    </tr>
+    
+    </table>
+    
 </div>
+        
+
+
+
+
+
+{% endblock %}
 
 {% block belowContainer %}
 <link rel="stylesheet" href="/static/cs/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
 {% endblock %} 
+                                                       <div class="row">
+                                                           <button name="assignButton" id="assignButton" value="" class="btn btn-primary" onclick="setButtonText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                                       </div>
+                                                       
+
+                                            
+
+                                                </div>
+
+                                            </div>
+
+                                            
+                                            </div>
+                                    </div>
+                                    
+                                    
+                                  
+                                                     Hamza added a Modal 
+                                                      <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                          <div class="modal-header" style="background-color: #2c3e50;">
+                                                            <h3 class="modal-title" style="color: white;" id="exampleModalLabel">Please read:</h3>
+                                                            <button type="button" style="color: white; line-height: 0" class="close" data-dismiss="modal" aria-label="Close">
+                                                              <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                            <strong>Are you sure you want to assign ROOM to COURSE?</strong>
+                                                          </div>
+                                                          <div class="modal-footer" padding: "10px">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                                            <button type="button" class="btn btn-primary">Yes</button>
+                                                          </div>
+                                                        </div>
+                                                      </div>  
+                                    
+                                    
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+        </td>
+       
+    </tr>
+    
+    </table>
+    
+</div>
+        
+
+
+
+
+
 {% endblock %}
+
+{% block belowContainer %}
+<link rel="stylesheet" href="/static/cs/roomPreference.css">
+<script type="application/javascript" src="/static/js/local/roompreference.js"></script>
+{% endblock %} 
+
