@@ -1,0 +1,78 @@
+
+<div class="modal fade" id="edTechModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="exampleModalCenterTitle"><font size="18"> Education Tech: </font></span>
+        <button type="button"  class="close" class="btn btn-primary"  style="color: red; line-height: 3" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+        <table>
+        <tr>
+            {% for items in educationTech %}    
+            <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SLEECTED WITH RESPECT TO EDUCATION TECH-->
+          <td>    
+                      <div class="row"><label style="float:left;" >
+                    
+                     Chalkboards: {{items.chalkboards}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Computers(instructors) : {{items.instructor_computers}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Projectors             : {{items.projectors}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Podium                 : {{items.podium}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Smartboards            : {{items.smartboards}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Students Workstations  : {{items.student_workspace}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Whiteboards            : {{items.whiteboards}}</label> <br>
+                      </div>
+                     <div class="row">
+                         <label id="dvdIcon" style="float:left;" ></label> 
+                     </div>
+                     <div class="row">
+                         <label id="audioIcon" style="float:left;"></label>
+                     </div>
+                     <div class="row">
+                         <label id="blu_rayIcon" style="float:left;" ></label> 
+                     </div>
+                     <div class="row">
+                         <label id="extroIcon" style="float:left;"></label>
+                     </div>
+                     <div class="row">
+                         <label id="doc_camIcon" style="float:left;" ></label> 
+                     </div>
+                     <div class="row">
+                         <label id="vhsIcon" style="float:left;"></label>
+                     </div>
+                     <div class="row">
+                         <label id="mondopadIcon" style="float:left;" ></label> 
+                     </div>
+                     <div class="row">
+                         <label id="tech_chartIcon" style="float:left;"></label>
+                     </div>
+            </td>
+            {% endfor %}
+        </tr>
+        </table> 
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+                                                        
+                                                        
