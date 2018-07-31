@@ -47,7 +47,7 @@ def roomPreference(rid=1):
 
 @app.route('/room_details/<rid>', methods = ["GET"])
 def room_details(rid):
-    print(rid)
+ 
     details = Rooms.get(Rooms.rID == rid)
     room_materials={}
 
@@ -59,6 +59,7 @@ def room_details(rid):
     room_materials['specializedEq']= details.specializedEq
     room_materials['movableFurniture']=details.movableFurniture
     room_materials['specialFeatures']=details.specialFeatures
+    room_materials['educationTech']=education_Tech(rid)
     
     
     
@@ -69,25 +70,26 @@ def room_details(rid):
 
 # We will add this on monday based on the room_details 
 
-@app.route('/education_materials/<eid>', methods = ["GET"])
-def education_Tech(eId):
-    print(eId)
-    details = EducationTech.get(EducationTech.eId == eid)
+@app.route('/education_Tech', methods = ["GET"])
+def education_Tech(rid):
+  
+    room = Rooms.get(Rooms.rID == rid)
+    tech_details = room.educationTech
     education_materials={}
 
-    education_materials["dvd"]=details.dvd 
-    # education_materials['maxCapacity']= details.dvd
-    # education_materials['visualAcc']= details.visualAcc
-    # education_materials['audioAcc']= details.audioAcc
-    # education_materials['physicalAcc']=details.physicalAcc
-    # education_materials['specializedEq']= details.specializedEq
-    # education_materials['movableFurniture']=details.movableFurniture
-    # education_materials['specialFeatures']=details.specialFeatures
-    
+    education_materials["dvd"]=tech_details.dvd 
+    education_materials["blu_ray"]= tech_details.blu_ray 
+    education_materials["audio"]= tech_details.audio
+    education_materials["extro"]=tech_details.extro  
+    education_materials["doc_cam"]=tech_details.doc_cam
+    education_materials["vhs"]= tech_details.vhs
+    education_materials["mondopad"]=tech_details.mondopad
+    education_materials["tech_chart"]=tech_details.tech_chart
     
     
    
-    return json.dumps(education_materials)
+   
+    return education_materials
     
 # We will add this on monday based on the room_details ^^^^
 
@@ -122,9 +124,34 @@ def postPreference():
         return json.dumps({"success  ": 0})
         
     return json.dumps({"success": 1})
- 
     
     
+    
+        
+# @app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
+# def postNotes():
+  
+#     # users= User.select().get()
+#     data = request.form
+#     instructors= InstructorCourse.select()
+#     auth_obj = AuthorizedUser()
+#     current_user = auth_obj.getUsername()
+#     educationTech= EducationTech.select()
+#     user = User.get(User.username == current_user)
+#     if not user:
+#         abort(403)
+        
+#     courses= InstructorCourse.select().where(InstructorCourse.username == user)
+#     roomPreferences = {}
+    
+    
+#     for course in courses:
+#         roomPreferences[course.course.cId] = RoomPreferences.get_or_create(roomPreferences.course=)
+#         print("is it?" + roomPreferences)
+        
+#         print(g)
+#     print("its whatever man 2")
+
     
     
     

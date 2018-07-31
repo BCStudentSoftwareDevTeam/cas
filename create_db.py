@@ -345,7 +345,7 @@ course = Course(  bannerRef         = 1,
                   notes             = "Preference1",
                   section           = "A",
                   crossListed       = 1,
-                  time              = "8:00 am"
+                  time              = "8:00 - 9:20 am"
                 ).save()
                 
 course = Course(  bannerRef         = 2,
@@ -355,7 +355,8 @@ course = Course(  bannerRef         = 2,
                   schedule          = "B",
                   capacity          = 25,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1,
+                  time             = "10:00 - 11:20 am"
                 ).save()                
 
 course = Course(  bannerRef         = 3,
@@ -597,14 +598,14 @@ educationTech= EducationTech(
   student_workspace    = 4,
   chalkboards          = 2,
   whiteboards          = 2,
-  dvd                  = True,
+  dvd                  = False,
   blu_ray              = False,
   audio                = True,
   extro                = True,
   doc_cam              = True,
   vhs                  = True,
-  mondopad             = True,
-  tech_chart           = True
+  mondopad           = True,
+  tech_chart           = False
   ).save()
 
 #####
@@ -621,6 +622,16 @@ room = Rooms(building = 1, educationTech =1, number ="105", maxCapacity=15,roomT
 
 room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
 
+room = Rooms(building = 2,educationTech=1, number ="202", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
+
+room = Rooms(building = 1, educationTech =1, number ="205", maxCapacity=15,roomType="Lecture",visualAcc= True, audioAcc=True, physicalAcc=True, movableFurniture= " The materials herea are movable").save()
+
+room = Rooms(building = 2,educationTech=1, number ="402", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+
+room = Rooms(building = 1,educationTech=1, number ="106", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+room = Rooms(building = 2,educationTech=1, number ="305", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+
+
 # roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 # roompreference= RoomPreferences( course= 2, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 #roompreference= RoomPreferences( course= 3, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
@@ -632,6 +643,8 @@ room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomTy
 
 # try:
 #   os.system('mysql-ctl start')
+
+
 #   os.system('python migrateDatabase.py')
 # except:
 #   print "Migration failed"

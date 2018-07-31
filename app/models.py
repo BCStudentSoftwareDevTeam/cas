@@ -249,7 +249,7 @@ class RoomPreferences(dbModel):
   pref_2        = ForeignKeyField(Rooms, related_name='preference2',null=True)
   pref_3        = ForeignKeyField(Rooms, related_name='preference3',null=True) #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
-  any_Choice    = CharField(null=False, default="any")
+  any_Choice    = CharField(null=False, default='Any room works')
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   
