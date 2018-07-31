@@ -62,6 +62,7 @@ class TermStates(dbModel):
   number        = IntegerField(null = False)
   name          = CharField(null = False)
   order         = IntegerField(null = False)
+  display_name  = CharField(null = False)
 
 """
 Possible States:

@@ -1,3 +1,7 @@
+
+
+
+
 {% extends "base.html" %} {% set currentPage = "systemManagement" %} {% block body %}
 {% include "snips/messages.html" %}
 <link rel="stylesheet" href="../static/css/systemManagement.css" >
@@ -9,170 +13,133 @@
   <div class="panel-heading">
     <h3 class="panel-title">Term Management</h3>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Term(s)</th>
-        <th></th>
-      </tr> 
-    </thead>
-    <tbody>
+  <table class="table" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
       {% for term in terms %}
       <tr>
-        <td>
-            <button type="button" class="btn btn-primary terms_btn" ta-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick=" showPanel({{term.termCode}});">{{term.name}} </button>
-        </td>
-        <td>
-          <div class = "btn-group hideextra"> <!-- creates the tabs for each term -->
-            <button class = "theButtons col-sm-2" type = "button" id = "btn1" data-toggle="collapse" data-target="#open_course" aria-expanded="false" aria-controls="open_course" onclick="showPanel({{term.termCode}})"> Open Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "theButtons col-sm-2" type = "button" id = "btn2" data-toggle="collapse" data-target="#lock_course" aria-expanded="false" aria-controls="lock_course" onclick="showPanel({{term.termCode}})"> Lock Scheduling <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "theButtons col-sm-2" type = "button" id = "btn3" data-toggle="collapse" data-target="#open_room"  aria-expanded="false" aria-controls="open_room" onclick="showPanel({{term.termCode}})"> Open Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "theButtons col-sm-2" type = "button" id = "btn4" data-toggle="collapse" data-target="#lock_room"  aria-expanded="false" aria-controls="lock_room" onclick="showPanel({{term.termCode}})"> Lock Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "theButtons col-sm-2" type = "button" id = "btn5" data-toggle="collapse" data-target="#assign_room"  aria-expanded="false" aria-controls="assign_room" onclick="showPanel({{term.termCode}})"> Assign Rooms <span class="glyphicon glyphicon-chevron-right"></span></button>
-            <button class = "theButtons col-sm-2" type = "button" id = "btn6" data-toggle="collapse" data-target="#finish"  aria-expanded="false" aria-controls="finish" onclick="showPanel({{term.termCode}})"> Finish <span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div>
-          
-        </td>
+        <td> 
+        {% for state in term_state %}
+            {% if state.number == 0 %}
+            <td style="margin-top:1px !important; padding-top: 1px !important;">
+              <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}} " aria-expanded="false" aria-controls="order{{state.order + 1}}" onclick=" showPanel({{term.termCode}},this);">{{term.name}} </button>
+            </td>      
+            {% else %}
+              {% if state.number != 7 %}
+              <td style="padding: 1px !important; margin: 1px !important;">
+                <button style="width:100%"class="theButtons btn btn-light" type = "button" id = "btn{{state.order}}" data-toggle="collapse" data-target="#order{{state.order}}" aria-expanded="false" aria-controls="order{{state.order}}" onclick="showPanel({{term.termCode}},this)" > {{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
+              </td>  
+              {% endif %}
+            {% endif %}
+        {% endfor %}
+      </td>
       </tr>
       <tr>
-        <td colspan="7" id = "divForPanel{{term.termCode}}"> <!-- Calls the panels for each button in  term-->
+        <td colspan="9" id = "divForPanel{{term.termCode}}"> <!-- Calls the panels for each button in  term-->
         </td>
       </tr>
       {% endfor %}
-      
-    </tbody>
   </table>
   </div>
-
-<!--------------------------------------------Data inside the panels for indvidual menus---------------------------------------->
-
 <div id = "allPanels"><!--This covers all the panels-->
   <div class="panel panel-default"> 
-  
-  <!-- OPEN COURSE SCHEDULING ROW-->
-  <div class = "row">
-    <div id="open_course" class="collapse"> 
-      <div class="panel-body">
-        <div class = "col-sm-10">
-            <p><b>Program and Division Chairs will be able to submit courses to this Term.</b></p>
-            <p><i>Click the arrow to begin and open Course Scheduling.</i></p>
-        </div>
-        <div class = "col-sm-2">
-            <button class="btn btn-sm btn-success" type = "button" id = "OpenCourse" data-toggle="collapse" data-target="#lock_course, #open_course" aria-expanded="false" 
-            aria-controls="lock_course" onclick="enableTheOne('btn2'); prevcolor('btn1');">Open Scheduling <span class="glyphicon glyphicon-chevron-right"> </span></button>
-        </div>
-      </div>
-    </div>
-    </div>
-    
-  <!--LOCK COURSE SCHEDULING ROW-->
-    <div class = "row">
-    <div id="lock_course" class="collapse">
-        <div class = "panel-body">
-          <div class = "col-sm-10">
-            <p><b>Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term</b>.</p>
-            <p><i>Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.</i></p>
-          </div>
-          <div class = "col-sm-2">
-              <button class="btn btn-sm btn-danger" type = "button" id = "LockCourse" data-toggle="collapse" data-target="#open_room, #lock_course"  
-              aria-expanded="false" aria-controls="open_room" onclick="enableTheOne('btn3'); prevcolor('btn2');">  Lock<br>Course Scheduling<span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div>
-        </div>
-    </div>
-    </div>
-    
-    <!--OPEN ROOM PREFERENCES ROW-->
-    <div id="open_room" class="collapse">
-        <div class = "panel-body">
-          <div class = "row text-center">
-              <p><b>Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. </b><br> </p>
-          </div>
-          <div class ="row">
-            <div class = "col-sm-6">
-               <p><br><i>Click the left arrow to unlock Course Scheduling. </i></p>
-                <button class="btn btn-sm btn-success" type = "button" id = "UnlockCourses" data-toggle="collapse" data-target="#lock_course, #open_room" aria-expanded="false" 
-                aria-controls="lock_course" onclick="enableTheOne('btn2'); reverseFunc('btn2', 'btn3');"> <span class="glyphicon glyphicon-chevron-left"></span> UnLock<br> Course Scheduling</span></button>
+  {% set format0 = [1,2,4] %}
+  {% set format1 = [3,5] %}
+  {% set format2 = [6] %}
+  {% for state in term_state %}
+    {% if state.number in format0 %}
+      <div class = "row">
+        <div id="order{{state.order}}" class="collapse"> 
+          <div class="panel-body">
+            <div class = "col-sm-10">
+              <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
+              <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
             </div>
-            <div class = "col-sm-6 text-right">
-                <p><br><i>Click the right arrow to open Room Preferences for faculty.</i></p>
-                <button class="btn btn-sm btn-success" type = "button" id = "OpenRoom" data-toggle="collapse" data-target="#lock_room, #open_room"  aria-expanded="false" 
-                aria-controls="lock_room" onclick ="enableTheOne('btn4'); prevcolor('btn3');" >Open Room<br> Preferences<span class="glyphicon glyphicon-chevron-right"></span></button>
-                <br><span><sub><br> (Course Scheduling will be permanelty locked)</sub></span>
-            </div>
-            <div class = "row text-center">
-              <a> Download Courses</a>
+            <div class = "col-sm-2">
+              <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
+            aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
             </div>
           </div>
         </div>
       </div>
-    
-    <!--LOCK ROOM PREFERENCES ROW -->
-    <div class = "row">
-      <div id="lock_room" class="collapse">
-        <div class = "panel-body">
-          <div class = "col-xs-10">
-            <p><b>Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses.</b></p>
-            <p><i>Click the arrow to lock room preferences submission.</i></p> 
-          </div>
-          <div class = "col-xs-2">
-              <button class="btn btn-sm btn-danger" type = "button" id = "LockRoom5" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
-              aria-controls="assign_room" onclick = "enableTheOne('btn5'); prevcolor('btn4');">Lock<br>Room Preferences <span class="glyphicon glyphicon-chevron-right"></span></button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-     <!--ASSIGN ROOMS-->
-      <div id="assign_room" class="collapse">
-        <div class = "panel-body">
-          <div class = "row text-center">
-            <p><b>Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences.</b></p>
-          </div>
-          <div class = "col-sm-6">
-            <p><i>Click the left arrow to unlock room preferences. </i><br></p>
-                <button  class="btn btn-sm btn-danger" type = "button" id = "UnlockRoom" data-toggle="collapse" data-target="#lock_room, #assign_room"  aria-expanded="false" 
-                aria-controls="lock_room" onclick = "enableTheOne('btn4'); reverseFunc( 'btn4', 'btn5');"><span class="glyphicon glyphicon-chevron-left"></span>Unlock<br>Room preferences</button>
-          </div>
-          <div class = "col-sm-6 text-right"> 
-            <p><i>Click the right arrow to assign rooms</i><br></p>
-            <button  class="btn btn-sm btn-success" type = "button" id = "Assign" data-toggle="collapse" data-target="#finish,#assign_room"  aria-expanded="false" 
-            aria-controls="finish" onclick = "enableTheOne('btn6'); prevcolor('btn5')"> Assign<span class="glyphicon glyphicon-chevron-right"></span></button>
-            <p><sub><br>(Room preferences can no longer be unlocked!!!)</sub></p>
-          </div>
-        </div>
-      </div>
-      
+    {% endif %}
+    {% if state.number in format1 %}
+          <div class="row">
+          <div id="order{{state.order}}" class="collapse">
+              <div class = "panel-body">
+                <div class = "row text-center">
+                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b><br> </p>
+                </div>
+                <div class ="row">
+                  <div class = "col-sm-6">
+                     <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
+                     <!-- this is for the unlock button --->
+                      <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
+                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
+                  </div>
+                  <div class = "col-sm-6 text-right">
+                      <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
+                      <!--- this is for the lock button --->
+                      <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
+                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');" >
+                        {{state.display_name}}
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                      </button>
+                      <br>
+                      <span>
+                        <sub>
+                          <br> 
+                            {{cfg['states'][state.number]['subtext']}}
+                        </sub>
+                      </span>
+                  </div>
+                  <div class = "row text-center">
+                    <a>{{cfg['states'][state.number]['download']}}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+      {% endif %}
+      {% if state.number in format2 %}
       <!--FINISH-->
-       <div id="finish" class="collapse">
+       <div class = "row">
+       <div id="order{{state.order}}" class="collapse">
           <div class = "panel-body">
             <div class = "row text-center">
-              <p><b>Rooms have been assigned.</b></p>
+              <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
             </div>
             <div class="row">
-              <div class = "col-sm-6"> 
-                <p><i>Click below to run the Room assignment algorithm again</i><br></p>
-                <button class = "btn btn-danger" type = "button" id = "ReAssign" data-toggle="collapse" data-target="#assign_room, #finish"  aria-expanded="false" 
-                aria-controls="assign_room" onclick = "enableTheOne('btn5')"> <span class="glyphicon glyphicon-chevron-left"></span>Reassign</span></button>
+              <div class = "col-sm-6 txt-left">
+            <!--<div class= "row text-center">-->
+              <!--Click below to go to Room resolutions page-->
+                <p><sub>{{cfg['states'][state.number]['goto_text']}}</p></sub>
+              
+              <!-- Room resolutions link-->
+                <a>{{cfg['states'][state.number]['goto_link']}}</a>
               </div>
-              <div class = "col-sm-6 text-right"> 
-                  <p><i>Click to Finish term.</i><br></p>
-                  <button type="button" id ="finalize" class="btn btn-success" data-toggle="collapse" data-target= "#archive" aria-controls="archive" 
-                    onclick="enableTheOne('btn6'); prevcolor('btn6');"> Finish
+            <div class = "col-sm-6 text-right"> 
+              <!-- Click to finish term-->
+                  <p><i>{{cfg['states'][state.number]['right_help_text']}}</i><br></p>
+                  <button type="button" id ="button{{state.order}}" class="btn btn-success" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
+                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');"> {{state.display_name}}
                   </button>
                   <p>
-                    <sub><br>(This indicates that all courses <br><br> <br> and room assigments are finished)</sub>
+                    <sub><br>{{cfg['states'][state.number]['text']}}</sub>
                   </p>
               </div>
-            </div>  
-            <div class= "row text-center">
-              <p><sub> click the link to go to room resolutions page</p></sub>
-              <a>Room Resolutions</a>
-            </div>
+              <div class= "row">
+               <button type = "button" id = "button{{state.order}}" class= "btn btn-success" data-toggle = "collapse" data-target="#order{{state.order}}"aria-controls="order{{state.order}}"
+               onclick ="enableTheOne('btn{{state.order}}')">
+              </button>
+              </div>
           </div>
         </div>
-      
+        </div>
+      </div>  
+        {% endif %}
+  {% endfor %}
       <!--After FINISH-->
+      <div class = "row">
        <div id="archive" class="collapse" >
           <div class = "panel-footer">
             <div class = "row text-center">
@@ -195,7 +162,7 @@
           </div>
           </div>
          </div>
-         
+         </div>
          <!--This is the modal for onclick on archive button confrirmation-->
          <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
             <div class="modal-dialog">
@@ -209,43 +176,16 @@
                   <p>Are you sure you are ready to archive the term?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name()">OK</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name()">Yes</button>
                 </div>
               </div>
           
             </div>
           </div>
-         
-
   </div>
 </div>
-
 <!-- Modal -->
           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!------------------------------------------------------------------------------------------------------------------------------------------>
 <!--<div class = container>-->
 <!--  <br>-->
@@ -280,7 +220,5 @@
 <!--    </form>-->
   
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
-
 </div>
-
 {% endblock %}

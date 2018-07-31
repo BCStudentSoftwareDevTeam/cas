@@ -1,56 +1,70 @@
-.btn-group button {
-    background-color: white; /* Green background */
-    border: 1px solid black; /* Green border */
-    color: black; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    float: left; /* Float the buttons side by side */
+/*.btn-group button {*/
+/*    background-color: white; */
+/*    border: 1px solid black; */
+/*    color: black; */
+    /*padding: 0px;*/
+    /*display:inline-block;*/
+    /*height: 10px;*/
+    /*padding-left:2px !important;*/
+    /*padding-right:0px!important;*/
+    /*margin-left: 0px !important;*/
+    /*margin-right: 0px !important;*/
+    /*cursor: pointer;*/
+    /*float: left; */
+/*}*/
+table {
+  border-collapse: collapse;
 }
 
-/* Clear floats (clearfix hack) */
-.btn-group:after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.btn-group button:not(:last-child) {
-    border-right: none; /* Prevent double borders*/ 
-}
-
- /*Add a background color on hover */
-.btn-group button:hover {
-    background-color: silver;
-}
-
-/* sets the standard enth for the terms column*/
-.terms_btn{
-    height:43px; width:105px; text-align:left;
-}
+/*tr td{*/
+/*  padding: 1px !important;*/
+/*  margin: 1px !important;*/
+/*}*/
 
 
-.green_btn{
-    color : white !important;
-    border: 1px solid black;
-    background-color: darkgreen !important;
-}
+/*.btn-group:after {*/
+/*    content: "";*/
+/*    clear: both;*/
+/*    display: table;*/
+/*}*/
+
+/*.btn-group button:not(:last-child) {*/
+/*    border-right: none; */
+/*}*/
 
 
-.hideextra { white-space: nowrap; overflow: hidden; text-overflow:ellipsis;
-font-size : 11px; width: 100%; height: 100px;
-}
+/*.btn-group button:hover {*/
+/*    background-color: silver;*/
+/*}*/
 
 
-.button-clicked {
-    background:red;
-}
+/*.terms_btn{*/
+/*    height:43px; width:105px; text-align:left;*/
+/*}*/
 
-/* Color for the unlocked buttons*/
-.new_color {
-    color : black !important;
-    border: 1px solid black;
-    background-color: white !important;
-}
+
+/*.green_btn{*/
+/*    color : white !important;*/
+/*    border: 1px solid black;*/
+/*    background-color: darkgreen !important;*/
+/*}*/
+
+
+/*.hideextra { white-space: nowrap; overflow: hidden; text-overflow:ellipsis;*/
+/*font-size : 11px; width: 100%/7; */
+/*}*/
+
+
+/*.button-clicked {*/
+/*    background:red;*/
+/*}*/
+
+
+/*.new_color {*/
+/*    color : black !important;*/
+/*    border: 1px solid black;*/
+/*    background-color: white !important;*/
+/*}*/
 
 
 

@@ -1,3 +1,4 @@
+/* global $ */
 //Checks whether there is currently an admin selected and enables/disables remove button accordingly
 function updateFormEnabled1() {
     if (verifyAdmin1()) {
@@ -60,79 +61,8 @@ $(document).ready(function(){
         $('[data-toggle="modal"]').modal({show:false}); 
 });
 
-// for the menus for each term
-
-
-
-
-
-$(document).on('click', '#btn1', function(){
-    console.log("Am I called?");
-//   $('.collapse').hide();
-  $('#lock_course').collapse('hide');
-  $('#open_room').collapse('hide');
-  $('#lock_room').collapse('hide');
-  $('#assign_room').collapse('hide');
-  $('#open_course').collapse('show');
-  $('#finish').collapse('hide');
-});
-
-
-
-$(document).on('click', '#btn2', function(){
-  //$('.collapse').collapse('hide');
-  $('#lock_course').collapse('show');
-  $('#open_room').collapse('hide');
-  $('#lock_room').collapse('hide');
-  $('#assign_room').collapse('hide');
-  $('#open_course').collapse('hide');
-  $('#finish').collapse('hide');
-});
-
-$(document).on('click', '#btn3', function(){
-  //$('.collapse').collapse('hide');
-  $('#lock_course').collapse('hide');
-  $('#open_room').collapse('show');
-  $('#lock_room').collapse('hide');
-  $('#assign_room').collapse('hide');
-  $('#open_course').collapse('hide');
-  $('#finish').collapse('hide');
-});
-
-$(document).on('click', '#btn4', function(){
-  //$('.collapse').collapse('hide');
-  $('#lock_course').collapse('hide');
-  $('#open_room').collapse('hide');
-  $('#lock_room').collapse('show');
-  $('#assign_room').collapse('hide');
-  $('#open_course').collapse('hide');
-  $('#finish').collapse('hide');
-});
-
-$(document).on('click', '#btn5', function(){
-  //$('.collapse').collapse('hide');
-  $('#lock_course').collapse('hide');
-  $('#open_room').collapse('hide');
-  $('#lock_room').collapse('hide');
-  $('#assign_room').collapse('show');
-  $('#open_course').collapse('hide');
-  $('#finish').collapse('hide');
-});
-
-$(document).on('click', '#btn6', function(){
-  //$('.collapse').collapse('hide');
-  $('#lock_course').collapse('hide');
-  $('#open_room').collapse('hide');
-  $('#lock_room').collapse('hide');
-  $('#assign_room').collapse('hide');
-  $('#open_course').collapse('hide');
-  $('#finish').collapse('show');
-  $('#archive').collapse('hide');
-});
-
-
 // Shows all the panels to the tab butons
-function showPanel(termCode){
+function showPanel(termCode,button){
     console.log("Term code: " + termCode);
     var targetDiv = $("#divForPanel"+termCode);
     console.log("target div: " + targetDiv);
@@ -140,9 +70,16 @@ function showPanel(termCode){
     console.log("subject div: " + subjectDiv);
     subjectDiv.attr("hidden", false);
     targetDiv.html(subjectDiv);
+    for (var i = 0; i <= 7; i++ ){
+        var build_id = '#order' + i.toString();
+        $(build_id).collapse('hide');
+    }
+    var show_id = button.dataset.target;
+    console.log(show_id);
+    $(show_id).collapse('show');
 }
 
-// Disenables all the buttons and then enable one at time in the enableTheOne function
+// Disables all the buttons and then enable one at time in the enableTheOne function
 function disableAlltheButtons(){
     var x = document.getElementsByClassName('theButtons'); 
     console.log(x);
@@ -161,7 +98,6 @@ function enableTheOne() {
         b = document.getElementById(arguments[i])
         console.log(b)
         b.disabled = false;
-        
     }
 }
 
@@ -183,99 +119,21 @@ function reverseFunc(btns) {
     go_back.disabled = false;
     var reverse_color = document.getElementById(arguments[0]);
     reverse_color.className += ' new_color ';
-     
 }
 
 function change_btn_name(){
     var elem = document.getElementById("Archive");
-    if (elem.value=="Archive"){ elem.value = "Unarchive";    $("#myModal .modal-body").text('Are you sure you want to unarchive the term');}
-
-    else if (elem.value == "Unarchive"){ 
-    elem.value = "Archive"; 
-    elem.disabled=true;
-}
+    if (elem.value=="Archive") elem.value = "Unarchive";
+    else if (elem.value == "Unarchive") elem.value = "Archive"; 
     else elem.value = "Archive";
 }
 
-// Hides the finish button
 $(document).on('click', '#finalize', function(){
   $('#finish').collapse('hide');
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function change_text() {
+    var elem = document.getElementById("btn1");
+    // console.log("Changed")
+    if (elem.value=="Open Scheduling") elem.value = "Opened";
+}
