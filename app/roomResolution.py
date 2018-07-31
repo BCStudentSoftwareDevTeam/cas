@@ -12,7 +12,6 @@ def roomResolutionTerm():
     #Brings up term modal
     terms = Term.select()
     dummy = True
-    
     return render_template("selectTerm.html", allTerms=terms, dummy=dummy)
     
 @app.route("/roomResolution/<termCode>", methods=["GET"])
@@ -21,34 +20,45 @@ def roomResolution(termCode):
     # Creating the UI
     courses = Course.select().where(Course.rid == None, Course.term==termCode)
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
-      
-      
 
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
 def roomResolutionView(termCode,cid):
        # Creating the UI
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
-        print("WEEEEEEEEEEEEE")
+        if (roompreference.pref_1 == None):
+            flash("Course has no preferences assigned.")
+        # print(roompreference.pref_1)
+        # print(roompreference.pref_2)
+        # print(roompreference.pref_3)
+        # print("WEEEEEEEEEEEEE")
     except Exception as e:
         roompreference = RoomPreferences(course=cid, any_Choice = "any").save()
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
         flash("Course has no preferences assigned.")
         print("Awwww man :(")
     buildings = Building.select()
+    print(buildings)
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
-    print instructors
+   # print instructors
     bannercourses = BannerCourses.select()
     courses = Course.get(Course.cId==cid) #Course A
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
-    print ("These are DAYYYYYYSSS",days.day)
+    #print ("These are DAYYYYYYSSS",days.day)
     educationtech = EducationTech.select()
     
     # Getting all available rooms for the first tab
-    sql_query = """ SELECT r1.rID FROM rooms as r1 LEFT OUTER JOIN (SELECT c1.rid_id as r2 FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 WHERE r2 IS NULL AND r1.maxCapacity >= {3};""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
+    sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
+                LEFT OUTER JOIN (SELECT c1.rid_id as r2 
+                FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) 
+                AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid 
+                WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 
+                INNER JOIN building ON r1.building_id = building.bID 
+                WHERE r2 IS NULL AND r1.maxCapacity >= {3} 
+                ORDER BY building.name;""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
     cursor = mainDB.execute_sql(sql_query)
-    print(sql_query)
+    #print(sql_query)
     
     # if cursor:
     #     print("Cursor worked: ", cursor)
@@ -61,8 +71,7 @@ def roomResolutionView(termCode,cid):
         room = Rooms.get(Rooms.rID==rid)
         rooms.append(room)
         #print rid
-
-
+        print(room)
     #For populating current occupant in course's preferences
     
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
@@ -141,7 +150,6 @@ def roomResolutionView(termCode,cid):
                     pref_info['days']= bScheduleDays.day
                     # print("YERRRRRRRRR", bScheduleDays)
 
-                    
                     print ("Conflicting course's preference notes",cc.cId)
                     (rp1, created) = RoomPreferences.get_or_create(course = cc.cId)
                     print(rp1.notes)
@@ -150,13 +158,7 @@ def roomResolutionView(termCode,cid):
                     preferences[pref] = pref_info
                     break
             
-           
-            
-            
-            
         print ("This is the conflicting course",preferences) #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-        
-   
     
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
@@ -169,8 +171,6 @@ def roomResolutionView(termCode,cid):
                             preferences=preferences,
                             termcode=termCode,
                             days=days
-                            
-                            
                         )
                         
 
