@@ -152,6 +152,7 @@ function resolvecourse(){ //Functionality for blue redirect button
                 
         });}
         
+//FIXME: make redirect to ogCourses's cid!!!!!!!!        
 function resolvenextcourse(){ //Redirect user to fix the course that was displaced in the assignment
     var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
@@ -168,11 +169,11 @@ function checkforbluebutton(id){//see if blue button needs to show up
     var check0 = document.getElementById(id);
     if (!!check0){
         $("#redirectbutton").show();
+        
     }
     else{
         $("#redirectbutton").hide();
     }   
-    console.log('id',id);
-    console.log('check0',check0);
+    
      
 }
