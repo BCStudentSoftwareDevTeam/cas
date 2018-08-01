@@ -263,7 +263,12 @@ states:
     left_help_text: 'Click below to run the Room assignment algorithm again.'
     right_help_text: 'Click to Finish term.'
     subtext: '(This indicates that all coursesand room assigments are finished)'
-    btn: 'Reassign Rooms'
-    goto_text: 'Click below to go to Room Resolutions Page' 
+    btn: 'Reassign'
+    goto_text: 'Click to go to Room Resolutions Page' 
     goto_link: 'Room Resolution'
-    
+  7:
+    mainInfo: 'The term is complete.'
+    mainInfo2: 'Course and room preferences are no longer accepted, and rooms have been assigned.'
+    link1:   'Download Courses'
+    link2: 'Download Rooms'
+    right_help_text: 'Archiving will hide the term from view in other CAS interfaces.'

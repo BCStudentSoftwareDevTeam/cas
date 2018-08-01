@@ -63,6 +63,9 @@ $(document).ready(function(){
 
 // Shows all the panels to the tab butons
 function showPanel(termCode,button){
+    var disable_btn = document.getElementsByClassName("theButtons");
+    disable_btn.disabled = true;
+    button.disabled = false; 
     console.log("Term code: " + termCode);
     var targetDiv = $("#divForPanel"+termCode);
     console.log("target div: " + targetDiv);
@@ -77,6 +80,7 @@ function showPanel(termCode,button){
     var show_id = button.dataset.target;
     console.log(show_id);
     $(show_id).collapse('show');
+    
 }
 
 // Disables all the buttons and then enable one at time in the enableTheOne function
@@ -102,12 +106,12 @@ function enableTheOne() {
 }
 
 // Adds the color for the completed processes
-function prevcolor(btns) { 
+function prevcolor(btn) { 
         console.log("color changed")
-        var remove_color = document.getElementById(btns) //Removes the color as a reult of the result fuction to ensure there is no overide
-        remove_color.classList.remove("new_color")
-        var prev = document.getElementById(btns)
-        prev.className += ' green_btn ';
+        var remove_color = document.getElementById(btn) //Removes the color of the previous process to ensure there is no overide
+        remove_color.classList.remove("btn-dark")
+        var prev = document.getElementById(btn)
+        prev.className += ' btn-success ';
     
 }
 
@@ -123,13 +127,20 @@ function reverseFunc(btns) {
 
 function change_btn_name(){
     var elem = document.getElementById("Archive");
-    if (elem.value=="Archive") elem.value = "Unarchive";
-    else if (elem.value == "Unarchive") elem.value = "Archive"; 
-    else elem.value = "Archive";
+    if (elem.value=="Archive"){ 
+        elem.value = "Unarchive";
+        $("#myModal .modal-body").text('Are you sure you want to unarchive the term');
+    }
+    else if (elem.value == "Unarchive"){
+        elem.value = "Archive";
+        $("#myModal .modal-body").text('Are you sure you want to archive the term');
+    }
 }
 
-$(document).on('click', '#finalize', function(){
-  $('#finish').collapse('hide');
+$(document).on('click', '.finalize', function(){
+    $('.finish').collapse('hide');
+    $('#archive').collapse('show');
+
 });
 
 function change_text() {
@@ -137,3 +148,11 @@ function change_text() {
     // console.log("Changed")
     if (elem.value=="Open Scheduling") elem.value = "Opened";
 }
+
+window.onload = function() {
+  document.getElementsByClassName("theButtons").disabled= true;
+}
+
+// $(document).on('click', '.terms_btn', function(){
+//       document.getElementById("theButtons").disabled=false;
+// });

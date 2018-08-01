@@ -578,12 +578,12 @@ roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="Non
 #   raise
 state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
 state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
-state_3 = TermStates(number = 2, order = 2, name = "schedule_closed",display_name = "Lock Scheduling").save()
-state_3 = TermStates(number = 3, order = 3, name = "roomprefrences_opened",display_name = "Open Room Preferences").save()
-state_4 = TermStates(number = 4, order = 4, name = "roomprefrences_closed",display_name = "Lock Room Preferences").save()
-state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned",display_name = "Assign Rooms").save()
-state_6 = TermStates(number = 6, order = 6, name = "term_finished",display_name = "Finish").save()
-state_7 = TermStates(number = 7, order = 7, name = "term_archived",display_name = "Archive").save()
+state_3 = TermStates(number = 2, order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
+state_3 = TermStates(number = 3, order = 3, name = "roomprefrences_opened", display_name = "Open Room Preferences").save()
+state_4 = TermStates(number = 4, order = 4, name = "roomprefrences_closed", display_name = "Lock Room Preferences").save()
+state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
+state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
+state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
 
 
 
