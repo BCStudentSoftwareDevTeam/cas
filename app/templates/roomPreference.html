@@ -7,7 +7,7 @@
 <!--THE ROOM PREFERENCE TABLE-->
 
 <h1 class="text-center"><strong>Room Preference</strong></h1>
-<div class="card">
+<!--<div class="card">-->
     <table class="table">
         <thead class="thead-dark">
             <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
@@ -19,10 +19,11 @@
             <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
             <!--<th scope="col"> <h4><strong>Notes </strong></h4></th>-->
         </thead>
+        <tbody>
             <!--LOOPING THROUGH THE NUMBER OF COURSES WE HAVE THAT NEED THE FOLLOWING DATA.-->
             {# Looping through each course in RoomPreference #}
             {% for roompreference in roompreferences %}
-                <tr class = "courseTablerow1" class="selectTermModal" id = "{{roompreference.pID}}">
+                <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {{roompreference.course.section}}</td> <br>
                     <td> {{roompreference.course.time}}</td>
@@ -51,9 +52,15 @@
                         </td>
                     {% endfor %}
                 </tr>
+                <tr class = "hiddenRow">
+                    <td colspan = "8">
+                        <div id="modalRowCourse{{roompreference.course.cId}}"></div>
+                    </td>
+                </tr>
             {% endfor %}
+        </tbody>
     </table>
-</div>
+<!--</div>-->
 <!-- Here is the modal for the notes-->
 <div id="myModal" class="modal fade">
         <div class="modal-dialog">

@@ -119,6 +119,7 @@ $("#Details").show();}
 function setPreference(pref, cID){ // This method serves to differentiate three preference and tells you which one you are looking at the moment
     //pref is the loop index from jinja
     //cID is the course info from room preference
+    
     var pID = $("#prefButton"+pref+"_"+cID).val();
     var new_value = pref + '_' + pID + "_" + cID;
     $("#assignButton").val(new_value);
@@ -128,8 +129,29 @@ function setPreference(pref, cID){ // This method serves to differentiate three 
     setSelectedRoom(pID);
         console.log("modal function cID", cID);
     disableRoom(p1, p2, p3); // 
+    
+    moveModal(cID);
 }
-   
+  
+  
+function moveModal(cID) {
+    // var hiddenRow = document.getElementsByClassName("hiddenRow");
+    [].forEach.call(document.querySelectorAll('.hiddenRow'), function (el) {
+        el.style.visibility = 'hidden';
+    });
+    // console.log("Hidden row: ");
+    // console.log(hiddenRow);
+    // hiddenRow[0].attr("hidden", "hidden");
+    var targetDiv = document.getElementById("modalRowCourse"+cID);
+    
+    console.log("target div");
+    console.log(targetDiv);
+    var sourceDiv = document.getElementById("collapseOne");
+    
+    targetDiv.innerHTML = sourceDiv.innerHTML;
+    targetDiv.style.visibility = 'visible';
+    
+}
     
 function setSelectedRoom(pID){
     
