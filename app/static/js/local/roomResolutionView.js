@@ -1,8 +1,8 @@
 console.log('I have been loaded!')
 
-var x = document.getElementById("redirectbutton");
-console.log('I got X!'+x)
-$("#redirectbutton").hide(); //default
+//var x = document.getElementById("redirectbutton");
+//console.log('I got X!'+x)
+// $("#redirectbutton").hide(); //default
 
 var roomID="";
 var ogCourse="";
@@ -39,7 +39,6 @@ $(document).on("click",".assignprefbutton", function () {
     console.log("room:"+ room)
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
     console.log("which_preference.value"+which_preference.value);
-    showredirectbutton();
     // // var linktopref = document.getElementById("hidden"+prefID);
     // // console.log("link to pref"+linktopref);
     // // console.log("linktopref.value"+linktopref.value);
@@ -121,43 +120,30 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
                 
                 
         });}
-        
-        
-function showredirectbutton(){
-    // $("#redirectbutton").hide(); //default
-    console.log('got inside redirectbutton function')
-    var x = document.getElementById("redirectbutton");
-    console.log("this is x"+x)
-    if (ogCourse != ""){ //if there is a conflicting course
-        console.log("ogCourse is not empty")
-        $("#redirectbutton").show(); //if there is a conflicting course
-
-    }
-}
 
 function resolvecourse(){ //Functionality for blue redirect button
     var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
     var termcode = oldurl[oldurl.length-2];
     var url = '/updateRoom/'+cid;  
-        console.log("URL: " + url);
-        console.log("RoomID: " + roomID);
-        console.log("Inside replacecourseinroom")
+        //console.log("URL: " + url);
+        //console.log("RoomID: " + roomID);
+        //console.log("Inside replacecourseinroom")
         $.ajax({  
              type: "POST",
                 url: url,
                 data:{"roomID": roomID, "ogCourse": ogCourse},
                 dataType: 'json',
                 success: function(response){
-                    console.log(response)
-                    console.log("It worked inside resolvecourse")
+                    //console.log(response)
+                    //console.log("It worked inside resolvecourse")
                     if (response['success'] == 1)
                         window.location = "/roomResolutionView/"+termcode+"/"+ogCourse
                     else
                         window.location.assign("/roomResolution/"+ termcode)
                     },
                     error: function(error){
-                        console.log("It didnt work")
+                        //console.log("It didnt work")
                         console.log(error);
                         window.location.assign("/roomResolution/"+ termcode)
                         
@@ -165,11 +151,28 @@ function resolvecourse(){ //Functionality for blue redirect button
                 
                 
         });}
+        
 function resolvenextcourse(){ //Redirect user to fix the course that was displaced in the assignment
     var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
+    //console.log()
     var termcode = oldurl[oldurl.length-2];
-    console.log('Got inside resolvenextcourse')
+    //console.log('Got inside resolvenextcourse')
     resolvecourse();
-    console.log('I replaced that there course in that there room fam')
+    //console.log('I replaced that there course in that there room fam')
+}
+
+
+function checkforbluebutton(id){//see if blue button needs to show up
+    var button = document.getElementById('redirectbutton');
+    var check0 = document.getElementById(id);
+    if (!!check0){
+        $("#redirectbutton").show();
+    }
+    else{
+        $("#redirectbutton").hide();
+    }   
+    console.log('id',id);
+    console.log('check0',check0);
+     
 }
