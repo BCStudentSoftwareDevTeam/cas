@@ -19,10 +19,11 @@
             <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
             <!--<th scope="col"> <h4><strong>Notes </strong></h4></th>-->
         </thead>
+        <tbody>
             <!--LOOPING THROUGH THE NUMBER OF COURSES WE HAVE THAT NEED THE FOLLOWING DATA.-->
             {# Looping through each course in RoomPreference #}
             {% for roompreference in roompreferences %}
-                <tr class = "courseTablerow1" class="selectTermModal" id = "{{roompreference.pID}}">
+                <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {{roompreference.course.section}}</td> <br>
                     <td> {{roompreference.course.time}}</td>
@@ -41,9 +42,9 @@
                                     class="btn btn-primary btn-md" 
                                     type="button" 
                                     data-toggle="collapse" 
-                                    data-target="#collapseExample" 
+                                    data-target="#firstCollapser" 
                                     aria-expanded="false" 
-                                    aria-controls="collapseExample">
+                                    aria-controls="firstCollapser">
                                         {% if pref != None %}{{pref.building.shortName}} 
                                             {{pref.number}} 
                                         {% else %} Any Room Works {% endif %} 
@@ -51,23 +52,63 @@
                         </td>
                     {% endfor %}
                 </tr>
+                <tr class = "hiddenRow">
+                    <td colspan = "8">
+                        <div class = "hiddenDiv panel-collapse collapse" id="modalRowCourse{{roompreference.course.cId}}">Trash</div>
+                    </td>
+                </tr>
             {% endfor %}
+        </tbody>
     </table>
 </div>
+
 <!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS-->
+
+
+
+<!-- Here is the modal for the notes-->
+<div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Modal Window</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Note:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class= "notes-button" align="left" style="margin-left:.4em;">
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="Add Another Preference" onclick="setNotePref()">Add Another Preference</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="No Other Rooms Work">No Other Rooms Work</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="Any Room works">Any Room works</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS-->
+
 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+<!--<div id="collapseOne" class="collapse"> -->
     <form>
-        <div class="collapse" id="collapseExample" >
+        <div class="collapse" id="firstCollapser" >
             <table class="table table-dark">
                 <tr>
                     <td>
                         <div class="modal-content" disabled>
                             <div class="modal-header">
-                               <h4><strong>Room Information:</strong></h4> 
+                               <h4><strong>Pick a Room:</strong></h4> 
                             </div>
                             <div class="modal-body">
                                 <div class="container">
-                                    <div class="row"> 
+                                    <div class="row" id = "roomSelectModalDiv"> 
                                         <select onchange= "goto_rdetails(this)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue">
                                             <option disabled="disabled" value = "-1" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option>
