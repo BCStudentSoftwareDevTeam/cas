@@ -128,32 +128,12 @@ def postPreference():
     
     
         
-# @app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
-# def postNotes():
-  
-#     # users= User.select().get()
-#     data = request.form
-#     instructors= InstructorCourse.select()
-#     auth_obj = AuthorizedUser()
-#     current_user = auth_obj.getUsername()
-#     educationTech= EducationTech.select()
-#     user = User.get(User.username == current_user)
-#     if not user:
-#         abort(403)
-        
-#     courses= InstructorCourse.select().where(InstructorCourse.username == user)
-#     roomPreferences = {}
+@app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
+def postNotes():
+    data = request.form
     
-    
-#     for course in courses:
-#         roomPreferences[course.course.cId] = RoomPreferences.get_or_create(roomPreferences.course=)
-#         print("is it?" + roomPreferences)
-        
-#         print(g)
-#     print("its whatever man 2")
-
-    
-    
-    
-    
-
+    var= {{ "pref_1": data['notes']}, {"pref_2":data["notes"]}, {"pref_3":data["notes"] }}
+    var= str(var)
+    notes= var
+    print(var)
+    # var.save()

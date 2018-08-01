@@ -173,6 +173,7 @@ function setPrefButton(){
                 success: function(response){
                     console.log("success" + response["success"] );
                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
+                    postNotes();
                    },
                      error: function(error){
                         console.log("Error: " + error);
@@ -217,33 +218,91 @@ $(document).ready(function(){
 
 
 
+function postNotes(){
+ 
+ 
+  var url= "/postNotes"
+  $.ajax({
+    type: "POST",
+     url: url,
+     data:{},
+    
+    dataType: 'json',
+    success: function(response){
+    console.log("success" + response);
+    
+                   },
+    error: function(error){
+        console.log("Error: " + error); 
+    }
+   
+        });
+         console.log("is this here?");
+}
 
 
-function setNotePref(){
+
+
+
+
+
+
+
+
+// this function was set up to trigger the options for second preference after the first preference is selected. // copied from SetPrefButton
+
+// function setNotePref(){
     
    
-    var info =  $("#assignButton").val();
-    var pref_id = info.split("_")[0];
-    var cid = info.split("_")[2];
-    var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
-    pref_button.value = roomNumber; //works
-    pref_button.innerHTML = room;
-    console.log('pref button');
-    console.log(pref_id);    // $(pref_button).click(function(){
-      var url= '/postPreference'
-        $.ajax({
-             type: "POST",
-                url: url,
-                data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
-                dataType: 'json',
-                success: function(response){
-                    console.log("success" + response["success"] );
-                    disableRoom(roomNumber); //does disableRoom belong inside of this function.
-                   },
-                     error: function(error){
-                        console.log("Error: " + error);
-                     }
-        });
+//     var info =  $("#assignButton").val();
+//     var pref_id = info.split("_")[0];
+//     var cid = info.split("_")[2];
+//     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
+//     pref_button.value = roomNumber; //works
+//     pref_button.innerHTML = room;
+//     console.log('pref button');
+//     console.log(pref_id);    // $(pref_button).click(function(){
+//       var url= '/postPreference'
+//         $.ajax({
+//              type: "POST",
+//                 url: url,
+//                 data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
+//                 dataType: 'json',
+//                 success: function(response){
+//                     console.log("success" + response["success"] );
+//                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
+//                   },
+//                      error: function(error){
+//                         console.log("Error: " + error);
+//                      }
+//         });
    
-    pref_button.click();
-}
+//     pref_button.click();
+// }
+
+
+// var info =  $("#assignButton").val();
+//     var pref_id = info.split("_")[0];
+//     var cid = info.split("_")[2];
+//     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
+//     pref_button.value = roomNumber; //works
+//     pref_button.innerHTML = room;
+//     console.log('pref button');
+//     console.log(pref_id);    // $(pref_button).click(function(){
+//       var url= '/postPreference'
+//         $.ajax({
+//              type: "POST",
+//                 url: url,
+//                 data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
+//                 dataType: 'json',
+//                 success: function(response){
+//                     console.log("success" + response["success"] );
+//                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
+//                   },
+//                      error: function(error){
+//                         console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }
