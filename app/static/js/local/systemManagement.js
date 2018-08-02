@@ -62,63 +62,89 @@ $(document).ready(function(){
 });
 
 // Shows all the panels to the tab butons
-function showPanel(termCode,button){
+var lastTerm = "";
+function showPanel(termCode, button){
+    var show_id = button.dataset.target;
     var disable_btn = document.getElementsByClassName("theButtons");
     disable_btn.disabled = true;
     button.disabled = false; 
-    console.log("Term code: " + termCode);
+    // console.log("Term code: " + termCode);
     var targetDiv = $("#divForPanel"+termCode);
-    console.log("target div: " + targetDiv);
+    // console.log("target div: " + targetDiv);
     var subjectDiv = $("#allPanels");
-    console.log("subject div: " + subjectDiv);
-    subjectDiv.attr("hidden", false);
+    // console.log("subject div: " + subjectDiv);
+    // subjectDiv.attr("hidden", false);
     targetDiv.html(subjectDiv);
     for (var i = 0; i <= 7; i++ ){
         var build_id = '#order' + i.toString();
         $(build_id).collapse('hide');
+        $(build_id).removeAttr("style")
+
     }
-    var show_id = button.dataset.target;
-    console.log(show_id);
-    $(show_id).collapse('show');
-    
+    // console.log(show_id);
+    // $(show_id).collapse('show');
+    if (lastTerm == "") {
+        // console.log("First click")
+        $(show_id).collapse('show');
+    }
+    if (lastTerm != termCode && lastTerm != "") {
+        // console.log($(show_id).attr('aria-expanded'))
+        $(show_id).collapse('show');
+        // console.log($(show_id).attr('aria-expanded'))
+        $(show_id).addClass("in");
+
+        // console.log("Toggling");
+    } else {
+        $(show_id).collapse('toggle');
+    }
+    // console.log("Last term: ", lastTerm)
+    lastTerm = termCode;
+    // console.log("Last term 2: ", lastTerm)
 }
 
 // Disables all the buttons and then enable one at time in the enableTheOne function
 function disableAlltheButtons(){
     var x = document.getElementsByClassName('theButtons'); 
-    console.log(x);
+    // console.log(x);
     for (var i = 0; i < x.length; i++) {
         x[i].disabled = true
-        console.log("Disabled button: " + x[i])
+        // console.log("Disabled button: " + x[i])
     }
 }
-
 // Enables one button
 function enableTheOne() {
-    console.log(arguments);
+    // console.log(arguments);
     disableAlltheButtons();
     for (var i = 0; i < arguments.length; i++) {
-        console.log(arguments[i])
+        // console.log(arguments[i])
         b = document.getElementById(arguments[i])
-        console.log(b)
+        // console.log(b)
         b.disabled = false;
     }
 }
 
 // Adds the color for the completed processes
-function prevcolor(btn) { 
-        console.log("color changed")
-        var remove_color = document.getElementById(btn) //Removes the color of the previous process to ensure there is no overide
-        remove_color.classList.remove("btn-dark")
-        var prev = document.getElementById(btn)
-        prev.className += ' btn-success ';
+function prevcolor(btn) {
+        var allPanelsDiv = $("#allPanels");
+        var theTR = allPanelsDiv.parent().parent()[0].id.split("_").pop();
+        // console.log(theTR);
+        // console.log("color changed");
+        // console.log("#"+theTR +" #" +btn);
+        var remove_color = $("#"+theTR +" #" +btn); //Removes the color of the previous process to ensure there is no overide
+        // console.log(remove_color);
+        remove_color.removeClass("btn-dark");
+        var prev = $("#"+theTR+" #" + btn);
+        prev.addClass('btn-success');
     
 }
 
-// Reverses the color and the state of buttons when one clicks on unlock, applicable for two argumnets only for now uness adjusted
+/** Reverses the color and the state of buttons when one clicks on unlock, 
+ * applicable for two argumnets only for now uness adjusted 
+ * @params {HTML Buttons} btns - all the buttons
+ */
 function reverseFunc(btns) {
     disableAlltheButtons(arguments[btns]);
-    console.log(arguments[btns]);
+    // console.log(arguments[btns]);
     var go_back = document.getElementById(arguments[0]);
     go_back.disabled = false;
     var reverse_color = document.getElementById(arguments[0]);
@@ -156,3 +182,4 @@ window.onload = function() {
 // $(document).on('click', '.terms_btn', function(){
 //       document.getElementById("theButtons").disabled=false;
 // });
+
