@@ -154,8 +154,6 @@ function setButtonText(button){
 
 
 function setPrefButton(){
-    
-   
     var info =  $("#assignButton").val();
     var pref_id = info.split("_")[0];
     var cid = info.split("_")[2];
@@ -171,18 +169,18 @@ function setPrefButton(){
                 data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
                 dataType: 'json',
                 success: function(response){
-                    console.log("success" + response["success"] );
+                    console.log("success in setPrefButton");
                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
-                    postNotes();
+                    postNotes(pref_id,cid);
                    },
-                     error: function(error){
-                        console.log("Error: " + error);
-                     }
+                    error: function(xhr, status, error) {
+                      var err = eval("(" + xhr.responseText + ")");
+                      alert(err.Message);
+                   }
         });
    
     pref_button.click();
 }
-
 
 function disableRoom() {
     //what should be passed as arguements
@@ -200,12 +198,6 @@ function disableRoom() {
     }
 }
 
-
-
-
-
-
-
 // This function takes the ID and then displays the Modal regarding the notes
 $(document).ready(function(){
 	$("#myModal").on('show.bs.modal', function(event){
@@ -215,26 +207,28 @@ $(document).ready(function(){
     });
 });
 
-
-
-
-function postNotes(){
- 
- 
-  var url= "/postNotes"
+function postNotes(pref_id,cid){
+  //console.log('the parameters pref_id then cid for postNotes');
+  //console.log(pref_id);
+  //console.log(cid);
+  var url = "/postNotes";
+  var textarea = document.getElementById('message-text');
+  //console.log(textarea);
+  var note = textarea.value;
+  //console.log('I am a note')
+  //console.log(note);
   $.ajax({
     type: "POST",
      url: url,
-     data:{},
-    
+     data:{"note": note, "cid": cid.toString(), "pref_id": pref_id.toString()},
     dataType: 'json',
     success: function(response){
-    console.log("success" + response);
-    
+        console.log("success" + response);
                    },
-    error: function(error){
-        console.log("Error: " + error); 
-    }
+    error: function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+        }
         });
 }
 

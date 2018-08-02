@@ -92,11 +92,6 @@ def education_Tech(rid):
     return education_materials
     
 # We will add this on monday based on the room_details ^^^^
-
-
-    
-    
-    
     
         #Assign to an occupied room, remove current occupant
 @app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
@@ -125,15 +120,23 @@ def postPreference():
         
     return json.dumps({"success": 1})
     
-    
-    
-        
 @app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postNotes():
     data = request.form
-    
-    var= {{ "pref_1": data['notes']}, {"pref_2":data["notes"]}, {"pref_3":data["notes"] }}
-    var= str(var)
-    notes= var
-    print(var)
-    # var.save()
+    key = 'pref_'+str(data['pref_id'])
+    try:
+        room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
+        old_notes = room_preference.notes
+        if room_preference.notes:
+            note_dict = eval(old_notes)
+            note_dict[key]=str(data['note'])
+        else:
+            note_dict = dict()
+            note_dict[key] = str(data['note'])
+        room_preference.notes = str(note_dict)
+        room_preference.save()
+        return json.dumps({"success":1})
+        # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
+    except Exception as e:
+        print (e)
+        return json.dumps({"error":1})
