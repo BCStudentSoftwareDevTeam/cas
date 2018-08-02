@@ -1,12 +1,7 @@
 console.log('I have been loaded!')
 
-//var x = document.getElementById("redirectbutton");
-//console.log('I got X!'+x)
-// $("#redirectbutton").hide(); //default
-
 var roomID="";
 var ogCourse="";
-
 
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {
@@ -15,41 +10,45 @@ $(document).on("click", ".assignroombutton", function () {
      var linktoroom = document.getElementById("hiddenroom"+roomID);
      var linktocourse = document.getElementById("hiddencourse");
     
-     $("#assignroomdiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); //Need course name
+     $("#assignroomdiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); 
      
     //  console.log($("#assignroomdiv"));
 });
 
  //Updating assign room modal for preferences tabs
 $(document).on("click",".assignprefbutton", function () {
+    console.log("Inside modal update for preferences")
     var prefID = $(this).data('id'); //Preference ID (1,2,or3)
-    console.log(prefID);
+    //console.log(prefID);
     var main_course = window.location.href.split("/").pop();
-    console.log("main course: " + main_course)
+    //console.log("main course: " + main_course)
     ogCourse = "";
     var conflictingcourse = document.getElementById("pref"+ prefID +"_confcourse");
-    console.log(conflictingcourse == null); //null
+    //console.log("is conflictingcourse null?",conflictingcourse == null); //null
     if (conflictingcourse != null){
         conflictingcourse = conflictingcourse.value;
-        console.log("conflicting course:" + conflictingcourse)
+        console.log("conflicting course is this:" + conflictingcourse)
         ogCourse = conflictingcourse;
     }
-    var room = document.getElementById("pref" + prefID + "_roominfo").value
+    //console.log("pref" + prefID + "_room")
+    var room = document.getElementById("pref" + prefID + "_room").value
+    //console.log("room",room)
     roomID = room
-    console.log("room:"+ room)
+    //console.log("room:"+ room)
     var which_preference = document.getElementById("hidden"+ room) //Which preference you have selected
-    console.log("which_preference.value"+which_preference.value);
-    // // var linktopref = document.getElementById("hidden"+prefID);
-    // // console.log("link to pref"+linktopref);
-    // // console.log("linktopref.value"+linktopref.value);
+    // console.log("which_preference.value"+which_preference.value)
+    // console.log("hidden"+prefID)
+    var linktopref = document.getElementById("hidden"+room);
+   // console.log("link to pref"+linktopref);
+    //console.log("linktopref.value"+linktopref.value);
     var linktocourse = document.getElementById("hiddencourse"); //Course A
     
-    // // console.log(linktocourse)
+    console.log("Link to course"+linktocourse)
     $("#assignroomdiv").html("Are you sure you would like to assign "+ which_preference.value + " to "+linktocourse.value + "?"); //Need course name
      
      console.log($("#assignroomdiv").innerHTML);
 });
-function submitorreplace(){
+function submitorreplace(){ //Checks if it should be a submit in db or a replace
 
         if (ogCourse == ""){
             submitcoursetoroom();

@@ -93,6 +93,7 @@ p {
                       <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
                   </div>
                     <div class="panel-body">
+                      <input id= "pref1_room" hidden value="{{roompreference.pref_1.rID}}"></input>
                       <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
                         <div class="row" style="display:flex;">
                           <div class="col-md-6 left">
@@ -131,6 +132,7 @@ p {
                         <h3><strong>{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</strong></h3>
                         </div> 
                         <div class="panel-body">
+                      <input id= "pref2_room" hidden value="{{roompreference.pref_2.rID}}"></input>
                       <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
                         <div class="row" style="display:flex;">
                           <div class="col-md-6 left">
@@ -153,7 +155,7 @@ p {
                             <p><strong>Schedule:</strong> {{preferences['pref2']['days']}} {{preferences['pref2']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref2']['endTime'].strftime('%I:%M  %p')}}</p>
                             <p><strong>Notes:</strong> {{preferences['pref2']['notes']}}</p>
                             {% endif %}
-                            <button type="button" onclick='checkforbluebutton("imnotempty2")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                            <button type="button" onclick='checkforbluebutton("imnotempty2")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
                           </div>
                         </div>
                     </div>
@@ -169,6 +171,7 @@ p {
                       <h3><strong>{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</strong></h3>
                     </div>
                         <div class="panel-body">
+                          <input id= "pref3_room" hidden value="{{roompreference.pref_3.rID}}"></input>
                           <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
                             <div class="row" style="display:flex;">
                               <div class="col-md-6 left">
@@ -190,7 +193,7 @@ p {
                                 <p><strong>Schedule:</strong> {{preferences['pref3']['days']}} {{preferences['pref3']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref3']['endTime'].strftime('%I:%M  %p')}}</p>
                                 <p><strong>Notes:</strong> {{preferences['pref3']['notes']}}</p>
                                 {% endif %}
-                                <button type="button" onclick='checkforbluebutton("imnotempty3")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=1 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                                <button type="button" onclick='checkforbluebutton("imnotempty3")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
                               </div>
                             </div>
                         </div>
