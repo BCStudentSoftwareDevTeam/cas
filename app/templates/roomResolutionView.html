@@ -110,7 +110,8 @@ p {
                           
                           <div class="col-md-6 right pref1check">
                             {% if preferences['pref1'] %} <!---If there is a conflicting course in pref---> 
-                            <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input><input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input>
+                            <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
+                            <input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input>
                             <p id="imnotempty1"><strong>Current Course in Room:</strong> {{preferences['pref1']['course_name']}}</p>
                             <p><strong>Instructor:</strong> {{preferences['pref1']['instructor']}}</p>
                             <p><strong>Schedule:</strong> {{preferences['pref1']['days']}} {{preferences['pref1']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref1']['endTime'].strftime('%I:%M  %p')}}</p>
@@ -222,7 +223,7 @@ p {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
           <button onclick="submitorreplace()" type="button" class="btn btn-success btn-md" data-dismiss="modal">Save Changes</button> <!---Actually updates db--->
-          <button onclick="resolvenextcourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
+          <button onclick="resolvecourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
         </div>
       </div>
     </div>
