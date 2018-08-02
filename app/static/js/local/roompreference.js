@@ -34,6 +34,7 @@ function room_detail(response){
 
   
 function goto_rdetails(r) { // this function serves to take data from the python file and dumps into html file 
+    // $("#Details").empty();
     var room_materials= r.value;
     if(room_materials){
          var url = '/room_details/'+room_materials;
@@ -47,7 +48,8 @@ function goto_rdetails(r) { // this function serves to take data from the python
                 console.log(error); 
                 }
             });
-$("#Details").show();}
+        $("#collapseOne #Details").show();
+    }
 }
 
 
@@ -112,13 +114,30 @@ function goto_educationTech(edu) { // this function serves to take data from the
                 console.log(error); 
                 }
             });
-$("#Details").show();}
+    $("#Details").show();}
 }
             
-
-function setPreference(pref, cID){ // This method serves to differentiate three preference and tells you which one you are looking at the moment
-    //pref is the loop index from jinja
-    //cID is the course info from room preference
+var lastButtonPressed = "";   // used in below function to track button select changes
+/** This method serves to differentiate three preferences 
+ *  and tells you which one you are looking at the moment.
+ *  @param {int} pref - the loop index from jinja (i.e., the preference being manipulated)
+ *  @param {int} cID - the course id from RoomPreferences
+*/
+function setPreference(pref, cID){ 
+    
+    var currentButton = "prefButton"+pref+"_"+cID;
+    if (lastButtonPressed != "") {
+        var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded"); 
+        if (lastButtonPressed == currentButton) {
+            currentAriaState = !currentAriaState;
+            $('#firstCollapser').collapse('show');      // seems counterintuitive to show; bootstrap hides it, then this line shows it again
+        } else {
+            $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
+        }
+    }
+    lastButtonPressed = currentButton;
+    
+    fixSelectPicker();
     var pID = $("#prefButton"+pref+"_"+cID).val();
     var new_value = pref + '_' + pID + "_" + cID;
     $("#assignButton").val(new_value);
@@ -126,21 +145,53 @@ function setPreference(pref, cID){ // This method serves to differentiate three 
     var p2 = $("#prefButton2_"+cID).val();
     var p3 = $("#prefButton3_"+cID).val();
     setSelectedRoom(pID);
-        console.log("modal function cID", cID);
+    // console.log("modal function cID", cID);
     disableRoom(p1, p2, p3); // 
+    
+    moveModal(cID);
 }
-   
+
+
+/** A function to clean up the selectpicker. 
+ *  Only needed because bootstrap selectpicker acts dumb without. 
+*/
+function fixSelectPicker() {
+    var realSelect = $("#selectedRoom");
+    var roomSelectModalDiv  = $("#roomSelectModalDiv ");
+    roomSelectModalDiv.empty();
+    roomSelectModalDiv.html(realSelect);
+    realSelect.selectpicker('refresh');
+}
+
+/** A function to move the modal into the hidden rows for each row of the table
+  * @params {int} cID - the course ID for that row
+*/
+function moveModal(cID) {
+    var targetDiv = document.getElementById("modalRowCourse"+cID);      // hidden row where content will be placed
+    var sourceDiv = document.getElementById("collapseOne");             // content to be placed in targetDiv
+    var targetDivs = $(".hiddenRow .hiddenDiv");                        // all hidden row divs (must be cleared first)
+    
+    for (var i = 0; i < targetDivs.length; i++) {
+        $(targetDivs[i]).empty();           // empty all the hiddenRows
+    }
+    
+    $(targetDiv).html($(sourceDiv));        // moves modal content into current row
+    $(targetDiv).collapse('show');
+    fixSelectPicker();
+    $("#selectedRoom").selectpicker('refresh');     // must refresh or causes UI issues
+}
     
 function setSelectedRoom(pID){
     
     $('#selectedRoom option[value="'+pID+'"]').prop("selected", true).selectpicker('refresh');
 }
+
 var room = 0;
 var roomNumber = 0
 
 
 function setButtonText(button){
-    
+ 
     //helps add accurate information to the button after the value is assigned, and replaces the value of any.
     var e = document.getElementById("selectedRoom");
     room = e.options[e.selectedIndex].text;
@@ -186,6 +237,7 @@ function disableRoom() {
     //what should be passed as arguements
     //roomids
     var selectRoom = document.getElementById('selectedRoom'); //get dropdown
+    // console.log(selectRoom.length)
     for(var i = 0; i < selectRoom.length; i++) { //enables everything and it works
         if(selectRoom[i].id != 'donotTouch') {
             selectRoom[i].disabled = false;
@@ -194,8 +246,9 @@ function disableRoom() {
     for (var i = 0; i < arguments.length; i++) { //disables options
         var option_val= arguments[i];;
         $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
-        $("#selectedRoom").selectpicker('refresh');      
+           
     }
+    $("#selectedRoom").selectpicker('refresh');   
 }
 
 // This function takes the ID and then displays the Modal regarding the notes
@@ -230,6 +283,7 @@ function postNotes(pref_id,cid){
             alert(err.Message);
         }
         });
+         console.log("is this here?");
 }
 
 
@@ -244,7 +298,9 @@ function postNotes(pref_id,cid){
 // this function was set up to trigger the options for second preference after the first preference is selected. // copied from SetPrefButton
 
 // function setNotePref(){
-    
+
+//function setNotePref(){
+
    
 //     var info =  $("#assignButton").val();
 //     var pref_id = info.split("_")[0];
