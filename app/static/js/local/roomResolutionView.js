@@ -48,7 +48,6 @@ $(document).on("click",".assignprefbutton", function () {
      console.log($("#assignroomdiv").innerHTML);
 });
 
-
 function submitorreplace(){ //Checks if it should be a submit in db or a replace
 
         if (ogCourse == ""){
@@ -81,7 +80,6 @@ function submitcoursetoroom(){  //Inserting data into db AVAILABLE ROOMS ONLY
                         window.location = "/roomResolution/"+termcode
                         else
                         window.location.assign("/roomResolution/"+ termcode)                    
-                    
           			},
           			error: function(error){
           			    console.log("It didnt work")
@@ -110,15 +108,12 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
                         window.location = "/roomResolution/"+termcode
                     else
                         window.location.assign("/roomResolution/"+ termcode)                    
-                    
                 },
                     error: function(error){
                         console.log("It didnt work")
                         console.log(error);
                         window.location.assign("/roomResolution/"+ termcode)
                     }
-                
-                
         });}
 
 function resolvecourse(){ //Functionality for blue redirect button
@@ -148,10 +143,7 @@ function resolvecourse(){ //Functionality for blue redirect button
                         window.location.assign("/roomResolution/"+ termcode)
                         
                     }
-                
-                
         });}
-        
 
 function checkforbluebutton(id){//see if blue button needs to show up
     var button = document.getElementById('redirectbutton');

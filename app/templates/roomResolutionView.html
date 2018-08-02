@@ -19,7 +19,7 @@ p {
   <!-- Container for the Unassigned class and ?-->
   <div class="container">    
     <div class="row">
-      <div class="col-xs-4 border-right">
+      <div class="col-xs-4" >
         <h3><strong>Course without room</strong></h3>
         <input id="hiddencourse" hidden value = "{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}} "></input>
         <label for="courses"><h5><strong>Course: </strong></label>{{roompreference.course.bannerRef.subject}} {{roompreference.course.bannerRef.number}} {{roompreference.course.bannerRef.ctitle}} Section {{roompreference.course.section}}</h5>
@@ -34,7 +34,7 @@ p {
         </textarea> 
       </div>
     <!---Div for tabs--->
-    <div class="col-xs-8">
+    <div class="col-xs-8" style="border-left:3px solid #2D3E50;">
       <ul class="nav nav-tabs">
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active nav-item"><a href="#tab-01" aria-controls="tab-01" role="tab" class="nav-link" class="tab-pane fade in active" data-toggle="tab"><h4>Available Rooms</h4></a></li>
@@ -52,7 +52,7 @@ p {
               <!-- start of available room accordion -->
               <div role="tabpanel" class="tab-pane active" id="tab-01">
                 <div class="pre-scrollable" style="max-height: 40vh">
-                  <div class="panel-group  w-50 p-3" style="overflow=auto" id="accordion">
+                  <div class="panel-group  w-25 p-3" style="overflow=auto" id="accordion">
                     {% for room in available_rooms %} 
                     <div class="panel panel-default clickable">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
@@ -71,15 +71,22 @@ p {
                               <p><strong>Special Features:</strong> {{room.specialFeatures}}</p>
                             </div>
                             <div class="col-md-6 right">
+                              <p><strong>Education Tech:</strong></p>
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
+                                Education Tech
+                              </button>
+                             
                               <p><strong>Visual Accessibility:</strong> {{room.visualAccessibility}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAccessibility}}</p> 
                               <p><strong>Physical Accessibility:</strong> {{room.physicalAccessibility}}</p>
                               <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
+                             
                             </div>
                           </div>
                         </div>
                     </div>
                     {% endfor %}
+                    {% include '/snips/educationTech.html' with context%}
                   <!-- end of accordion -->
                   </div>
                 </div>                                      
@@ -100,7 +107,9 @@ p {
                             <p><strong>Room Type:</strong> {{roompreference.pref_1.roomType}}</p>
                             <p><strong>Room Capacity:</strong> {{roompreference.pref_1.maxCapacity}}</p>
                             <p><strong>Movable Furniture:</strong> {{roompreference.pref_1.movableFurniture}}</p>
-                            <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_1.educationtech}}</p>
+                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal">
+                                Education Tech
+                              </button></p>
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>
                             <p><strong>Visual Accessibility:</strong> {{roompreference.pref_1.visualAccessibility}}</p>

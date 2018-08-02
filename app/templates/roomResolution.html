@@ -13,29 +13,29 @@ table, th, td {
 {% block body %}
 {% include 'snips/messages.html' %}
 <link rel="roomResolution" href="/static/css/roomResolution.css" type="text/css"/>
-
-        <div class="center">
+<div class="container">
+        <div>
             <h1 class="text-center"><b>Room Resolutions </b></h1>
         </div>
-      
-        <table class="table">
-                        <thead>
-                            <tr>
-                                  <th scope="col"><h3><strong>Courses without rooms</strong></h3></th>
-                                  <th scope="col"><h3><strong>Time</strong></h3></th>
-                                  <th scope="col"><h3><strong>Resolve conflicts</strong></h3></th>
-                            </tr>
-                        </thead>
-                        <tbody> </tbody>
-                  
-                        <tbody>
-                            {% for course in courses %}
-                                <tr>
-                                    <td>{{course.bannerRef.subject}} {{course.bannerRef.number}}-{{course.bannerRef.ctitle}}</td>
-                                    <td>{{course.schedule.startTime}} - {{course.schedule.endTime}}</td>
-                                    <td><a href="/roomResolutionView/{{termcode}}/{{course.cId}}"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="col-lg-5" >
+                <div class="row"><h3><strong>Courses Without Rooms</strong></h3></div>
+                    {%for course in courses%}
+                        <div class = row style="height:5%" ><h4>{{course.bannerRef.subject}} {{course.bannerRef.number}} - {{course.bannerRef.ctitle}}</h4></div>
+                    {% endfor %}
+            
+            </div>
+            <div class="col-lg-4">
+              <div class="row"><h3><strong>Time</strong></h3></div>
+                {%for course in courses %}
+                    <div class = row style="height:5%"><h4>{{course.schedule.startTime}} - {{course.schedule.endTime}}</h4></div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-3">
+                <div class="row"><h3><strong>Resolve</strong></strong></h3></div>
+                    {%for course in courses%}
+                        <div class=row style="height:5%"><a href="/roomResolutionView/{{termcode}}/{{course.cId}}"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></div>
+                    {% endfor %}
+            </div>
+</div>
+
 {% endblock %}

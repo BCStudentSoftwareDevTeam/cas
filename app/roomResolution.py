@@ -47,8 +47,6 @@ def roomResolutionView(termCode,cid):
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
     #print ("These are DAYYYYYYSSS",days.day)
-    educationtech = EducationTech.select()
-    
     # Getting all available rooms for the first tab
     sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
                 LEFT OUTER JOIN (SELECT c1.rid_id as r2 
@@ -163,7 +161,6 @@ def roomResolutionView(termCode,cid):
                             instructors = instructors, 
                             courses=courses, 
                             bannercourses=bannercourses,
-                            educationtech=educationtech,
                             preferences=preferences,
                             termcode=termCode,
                             days=days
