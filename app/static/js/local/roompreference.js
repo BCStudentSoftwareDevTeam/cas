@@ -229,8 +229,11 @@ function setPrefButton(){
                       alert(err.Message);
                    }
         });
-   
-    pref_button.click();
+    close_hidden_row();
+}
+
+function close_hidden_row(){
+    $('#firstCollapser').collapse('hide');
 }
 
 function disableRoom() {
@@ -252,13 +255,13 @@ function disableRoom() {
 }
 
 // This function takes the ID and then displays the Modal regarding the notes
-$(document).ready(function(){
-	$("#myModal").on('show.bs.modal', function(event){
-        var button = $(event.relatedTarget);  // Button that triggered the modal
-        var titleData = button.data('title'); // Extract value from data-* attributes
-        $(this).find('.modal-title').text(titleData );
-    });
-});
+// $(document).ready(function(){
+// 	$("#exampleModal").on('show.bs.modal', function(event){
+//         var button = $(event.relatedTarget);  // Button that triggered the modal
+//         var titleData = button.data('title'); // Extract value from data-* attributes
+//         $(this).find('.modal-title').text(titleData);
+//     });
+// });
 
 function postNotes(pref_id,cid){
   //console.log('the parameters pref_id then cid for postNotes');
@@ -290,9 +293,10 @@ function postNotes(pref_id,cid){
 
 
 
-
-
-
+// $(".btn").click(function() {
+//   // Instead of directly editing CSS, toggle a class
+//   $(this).toggleClass("clicked");
+// });
 
 
 // this function was set up to trigger the options for second preference after the first preference is selected. // copied from SetPrefButton
@@ -349,6 +353,76 @@ function postNotes(pref_id,cid){
 //                   },
 //                      error: function(error){
 //                         console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
+// }          console.log("Error: " + error);
 //                      }
 //         });
    

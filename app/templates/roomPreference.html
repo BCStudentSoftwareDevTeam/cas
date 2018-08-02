@@ -63,37 +63,8 @@
 </div>
 
 <!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS-->
-
-
-
 <!-- Here is the modal for the notes-->
-<div id="myModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Modal Window</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="message-text" class="control-label">Note:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class= "notes-button" align="left" style="margin-left:.4em;">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="Add Another Preference" onclick="setNotePref()">Add Another Preference</button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="No Other Rooms Work">No Other Rooms Work</button>
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-title="Any Room works">Any Room works</button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS-->
+<!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS-->
 
 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 <!--<div id="collapseOne" class="collapse"> -->
@@ -171,7 +142,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-<!--THIS IS THE SELECT BUTTON WHICH TRIGGERS A MODAL AND ACCOMPLISHES OTHER IMPORTANT TASKS (SEE ALL THE JAVASCRIPT RELATED TO IT)  -->
+                                            <!--THIS IS THE SELECT BUTTON WHICH TRIGGERS A MODAL AND ACCOMPLISHES OTHER IMPORTANT TASKS (SEE ALL THE JAVASCRIPT RELATED TO IT)  -->
                                             <div class="row">
                                                 <button name="assignButton" id="assignButton" value="" class="btn btn-primary" onclick="setButtonText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
                                             </div>
@@ -184,9 +155,6 @@
                                                                 <div class="modal-body">
                                                                     <p id="modelRoom"></p> 
                                                                 </div> 
-                                                                <button type="button" style="color: white; line-height: 0" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
                                                         </div>
                                                         <div class="modal-body" align="left">
                                                             <form role="form">
@@ -198,13 +166,16 @@
                                                         </div>      
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-title="Add Your Notes Here:" data-dismiss="modal"onclick="setPrefButton()">Save</button>
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPrefButton()">Save</button>
                                                         </div>                                                     
                                                         <div class="modal-footer">
                                                             <div class= "notes-button" align="center" style=" margin-bottom:.1em;">
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-title="Add Another Preference" data-dismiss="modal">Add Another Preference</button>
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-title="No Other Rooms Work"data-dismiss="modal">No Other Rooms Work</button>
-                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-title="Any Room works"data-dismiss="modal">Any Room works</button>
+                                                                <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Add Another Preference" data-dismiss="modal">Add Another Preference</button>
+                                                                <!--This really should take the user to the next preference-->
+                                                                <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="No Other Rooms Work" data-dismiss="modal">No Other Rooms Work</button>
+                                                                <!--This should make the notes section required-->
+                                                                <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Any Room works" data-dismiss="modal">Any Room works</button>
+                                                                <!--This should set the rest of the preferences to any-->
                                                             </div>
                                                         </div>                                                      
                                                     </div>
