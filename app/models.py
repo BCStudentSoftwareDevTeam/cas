@@ -62,14 +62,14 @@ Possible States:
     1 - tracked - tracking but not open
     2 - locked - not open and not tracked
 """
-class State(dbModel):#added
-  stateID         =PrimaryKeyField()
-  state_name      =CharField(null=False)
-  state_order     = IntegerField(null=False)
+# class State(dbModel):#added
+#   stateID         =PrimaryKeyField()
+#   state_name      =CharField(null=False)
+#   state_order     = IntegerField(null=False)
   
   
-  def __str__(self):
-    return self.state_name
+  # def __str__(self):
+  #   return self.state_name
 
 
 class Term(dbModel):
@@ -77,7 +77,7 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  state             = ForeignKeyField(State, null=False, related_name="terms")# should we make change on this one bc we used foreignKey for the state instead of IntegerField 
+  state             = IntegerField(default = 0)# should we make change on this one bc we used foreignKey for the state instead of IntegerField 
  
   
   def __str__(self):
@@ -133,26 +133,7 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)
   movableFurniture = CharField(default=True)
 
-# <<<<<<< HEAD
-#   visualAcc     = CharField(null=True)
-#   audioAcc      = CharField(null=True)
-#   physicalAcc   = CharField(null=True)
-# #educationTech        = ForeignKeyField(educationTech, related_name='rooms')
-#   specializedEq = CharField(null=True)
-#   specialFeatures = CharField(null=True)
-#   movableFurniture = BooleanField(default=False)
-  
-  
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Rooms, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=True)
+
   
  
 #added
@@ -287,9 +268,7 @@ class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-# class BuildingManager(dbModel):
-#   username     = ForeignKeyField(User)
-#   bmid         = ForeignKeyField(Building)
+
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
@@ -300,11 +279,7 @@ class InstructorSTCourse(dbModel):
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
 
-# class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
 
-# class InstructorSTCourse(dbModel):
-#   username     = ForeignKeyField(User)
-#   course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()
@@ -339,13 +314,4 @@ class CoursesInBanner(dbModel):
   
 
 
-# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
-# class newcrosslisted (dbModel): 
-#   clId                 = PrimaryKeyField()
-#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
-#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
-#   verified             = BooleanField() #Verified? = yes or no
-# We are not sure why it is not running when we have these uncommented
-# it says newcrosslisted is already in use by another foreign key
-  
 

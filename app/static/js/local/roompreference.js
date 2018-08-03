@@ -125,7 +125,7 @@ var cIDGlobal = '';
  *  @param {int} pref - the loop index from jinja (i.e., the preference being manipulated)
  *  @param {int} cID - the course id from RoomPreferences
 */
-function setPreference(){ 
+function setPreference(){ //This function serves to set up the value of each preference after you click it
     if (arguments.length > 0) {
         prefGlobal = arguments[0];
         cIDGlobal = arguments[1];
@@ -154,7 +154,6 @@ function setPreference(){
     var p2 = $("#prefButton2_"+cIDGlobal).val();
     var p3 = $("#prefButton3_"+cIDGlobal).val();
     setSelectedRoom(pID);
-    // console.log("modal function cID", cID);
     disableRoom(p1, p2, p3); // 
     moveModal(cIDGlobal);
     console.log("All done")
@@ -195,13 +194,10 @@ function setSelectedRoom(pID){
     $('#selectedRoom option[value="'+pID+'"]').prop("selected", true).selectpicker('refresh');
 }
 
+
 var room = 0;
 var roomNumber = 0
-
-
-function setButtonText(button){
- 
-    //helps add accurate information to the button after the value is assigned, and replaces the value of any.
+function setButtonText(button){ //helps add accurate information to the button after the value is assigned, and replaces the value of any.
     var e = document.getElementById("selectedRoom");
     room = e.options[e.selectedIndex].text;
     roomNumber= e.options[e.selectedIndex].value;
@@ -214,22 +210,18 @@ function setButtonText(button){
 
 
 function setPrefButton(){
-    // if (arguments.length > 0) {
-    //     var pref_id = arguments[0]; // should arguments[0]
-    //     var cid =arguments[1];    // should be arguemtns[1]
-    //     console.log("dar be arguments")
-    // } else {
+    
     var info =  $("#assignButton").val();    
     var pref_id = info.split("_")[0];
     var cid = info.split("_")[2];
     console.log("dar nay be arguments: ", pref_id, cid);
-    // }
+   
     
     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
-    pref_button.value = roomNumber; //works
+    pref_button.value = roomNumber;
     pref_button.innerHTML = room;
     console.log('pref button');
-    console.log(pref_id);    // $(pref_button).click(function(){
+    console.log(pref_id);    
       var url= '/postPreference'
         $.ajax({
              type: "POST",
@@ -246,9 +238,7 @@ function setPrefButton(){
                       alert(err.Message);
                    }
         });
-    // close_hidden_row();
-    // next_pref(pref_id,cid);
-    // setPreference();
+    
     var prefNum = parseInt(pref_id) + 1;
     console.log("Das button: ", "prefButton"+ prefNum + "_" +  cid)
     var nextButton = document.getElementById("prefButton"+ prefNum + "_" +  cid);
@@ -257,14 +247,9 @@ function setPrefButton(){
     
 }
 
-function close_hidden_row(){
-    $('#firstCollapser').collapse('hide');
-    
-}
 
 function disableRoom() {
-    //what should be passed as arguements
-    //roomids
+   
     var selectRoom = document.getElementById('selectedRoom'); //get dropdown
     for(var i = 0; i < selectRoom.length; i++) { //enables everything and it works
         if(selectRoom[i].id != 'donotTouch') {
@@ -278,11 +263,9 @@ function disableRoom() {
     $("#selectedRoom").selectpicker('refresh');   
 }
 
-// function next_pref(pref_id,cid){
-//     $('#option:selected').next().attr('selected', 'selected');
-// }
-
-function postNotes(pref_id,cid){
+function postNotes(pref_id,cid){ 
+/*this function access the preference and course id in order 
+to save and post the note of each preference to the database */
 
   var url = "/postNotes";
   var textarea = document.getElementById('message-text');
@@ -308,146 +291,7 @@ function postNotes(pref_id,cid){
 
 
 
-// $(".btn").click(function() {
-//   // Instead of directly editing CSS, toggle a class
-//   $(this).toggleClass("clicked");
-// });
 
-
-// this function was set up to trigger the options for second preference after the first preference is selected. // copied from SetPrefButton
-
-// function setNotePref(){
-
-//function setNotePref(){
-
-   
-//     var info =  $("#assignButton").val();
-//     var pref_id = info.split("_")[0];
-//     var cid = info.split("_")[2];
-//     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
-//     pref_button.value = roomNumber; //works
-//     pref_button.innerHTML = room;
-//     console.log('pref button');
-//     console.log(pref_id);    // $(pref_button).click(function(){
-//       var url= '/postPreference'
-//         $.ajax({
-//              type: "POST",
-//                 url: url,
-//                 data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
-//                 dataType: 'json',
-//                 success: function(response){
-//                     console.log("success" + response["success"] );
-//                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
-//                   },
-//                      error: function(error){
-//                         console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }
-
-
-// var info =  $("#assignButton").val();
-//     var pref_id = info.split("_")[0];
-//     var cid = info.split("_")[2];
-//     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
-//     pref_button.value = roomNumber; //works
-//     pref_button.innerHTML = room;
-//     console.log('pref button');
-//     console.log(pref_id);    // $(pref_button).click(function(){
-//       var url= '/postPreference'
-//         $.ajax({
-//              type: "POST",
-//                 url: url,
-//                 data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
-//                 dataType: 'json',
-//                 success: function(response){
-//                     console.log("success" + response["success"] );
-//                     disableRoom(roomNumber); //does disableRoom belong inside of this function.
-//                   },
-//                      error: function(error){
-//                         console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }          console.log("Error: " + error);
-//                      }
-//         });
-   
-//     pref_button.click();
-// }
 
 
 
