@@ -13,13 +13,17 @@ def roomResolutionTerm():
     terms = Term.select()
     dummy = True
     return render_template("selectTerm.html", allTerms=terms, dummy=dummy)
-#Room Resolution   
+    
+    
+#Room Resolution Page  
 @app.route("/roomResolution/<termCode>", methods=["GET"])
 @must_be_admin
 def roomResolution(termCode):
     # Creating the UI
     courses = Course.select().where(Course.rid == None, Course.term==termCode)
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
+    
+    
 #Room Resolution View
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
 def roomResolutionView(termCode,cid):
@@ -65,7 +69,7 @@ def roomResolutionView(termCode,cid):
         availablerooms.append(room[0])
         #print("The room is: ", room[0])
     rooms = []
-    for rid in availablerooms: 
+    for rid in availablerooms: #populates available rooms tab 
         room = Rooms.get(Rooms.rID==rid)
         rooms.append(room)
         #print rid

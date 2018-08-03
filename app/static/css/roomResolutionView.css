@@ -37,6 +37,8 @@
 /*    cursor: pointer;*/
 /*    text-align: center*/
 /*}*/
-  
+#foo {
+  resize: none;
+}  
     
     

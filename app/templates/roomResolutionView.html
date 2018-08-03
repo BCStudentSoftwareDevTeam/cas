@@ -29,7 +29,7 @@ p {
         <label for="schedule"><h5><strong>Schedule: </strong></label> {{days.day}} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
         <label for="capacity"><h5><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h5><br>
         <h5><strong>Notes:</strong> </h5>
-        <textarea rows="6" cols="40" readonly> 
+        <textarea rows="6" cols="40" id="#foo"> 
         {{roompreference.notes}}
         </textarea> 
       </div>
