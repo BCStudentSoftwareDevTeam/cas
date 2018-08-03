@@ -118,14 +118,22 @@ function goto_educationTech(edu) { // this function serves to take data from the
 }
             
 var lastButtonPressed = "";   // used in below function to track button select changes
+var prefGlobal = "";
+var cIDGlobal = '';
 /** This method serves to differentiate three preferences 
  *  and tells you which one you are looking at the moment.
  *  @param {int} pref - the loop index from jinja (i.e., the preference being manipulated)
  *  @param {int} cID - the course id from RoomPreferences
 */
-function setPreference(pref, cID){ 
-    
-    var currentButton = "prefButton"+pref+"_"+cID;
+function setPreference(){ 
+    if (arguments.length > 0) {
+        prefGlobal = arguments[0];
+        cIDGlobal = arguments[1];
+    } else {
+    // setPrefButton();
+    }
+    var currentButton = "prefButton"+prefGlobal+"_"+cIDGlobal;
+    console.log("Current button: ", currentButton)
     if (lastButtonPressed != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded"); 
         if (lastButtonPressed == currentButton) {
@@ -138,17 +146,18 @@ function setPreference(pref, cID){
     lastButtonPressed = currentButton;
     
     fixSelectPicker();
-    var pID = $("#prefButton"+pref+"_"+cID).val();
-    var new_value = pref + '_' + pID + "_" + cID;
+    console.log("Past fixSelectPicker")
+    var pID = $("#prefButton"+prefGlobal+"_"+cIDGlobal).val();
+    var new_value = prefGlobal + '_' + pID + "_" + cIDGlobal;
     $("#assignButton").val(new_value);
-    var p1 = $("#prefButton1_"+cID).val();
-    var p2 = $("#prefButton2_"+cID).val();
-    var p3 = $("#prefButton3_"+cID).val();
+    var p1 = $("#prefButton1_"+cIDGlobal).val();
+    var p2 = $("#prefButton2_"+cIDGlobal).val();
+    var p3 = $("#prefButton3_"+cIDGlobal).val();
     setSelectedRoom(pID);
     // console.log("modal function cID", cID);
     disableRoom(p1, p2, p3); // 
-    
-    moveModal(cID);
+    moveModal(cIDGlobal);
+    console.log("All done")
 }
 
 
@@ -205,9 +214,17 @@ function setButtonText(button){
 
 
 function setPrefButton(){
-    var info =  $("#assignButton").val();
+    // if (arguments.length > 0) {
+    //     var pref_id = arguments[0]; // should arguments[0]
+    //     var cid =arguments[1];    // should be arguemtns[1]
+    //     console.log("dar be arguments")
+    // } else {
+    var info =  $("#assignButton").val();    
     var pref_id = info.split("_")[0];
     var cid = info.split("_")[2];
+    console.log("dar nay be arguments: ", pref_id, cid);
+    // }
+    
     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
     pref_button.value = roomNumber; //works
     pref_button.innerHTML = room;
@@ -229,18 +246,26 @@ function setPrefButton(){
                       alert(err.Message);
                    }
         });
-    close_hidden_row();
+    // close_hidden_row();
+    // next_pref(pref_id,cid);
+    // setPreference();
+    var prefNum = parseInt(pref_id) + 1;
+    console.log("Das button: ", "prefButton"+ prefNum + "_" +  cid)
+    var nextButton = document.getElementById("prefButton"+ prefNum + "_" +  cid);
+    nextButton.click();
+    $("#exampleModal").modal('hide');
+    
 }
 
 function close_hidden_row(){
     $('#firstCollapser').collapse('hide');
+    
 }
 
 function disableRoom() {
     //what should be passed as arguements
     //roomids
     var selectRoom = document.getElementById('selectedRoom'); //get dropdown
-    // console.log(selectRoom.length)
     for(var i = 0; i < selectRoom.length; i++) { //enables everything and it works
         if(selectRoom[i].id != 'donotTouch') {
             selectRoom[i].disabled = false;
@@ -249,34 +274,24 @@ function disableRoom() {
     for (var i = 0; i < arguments.length; i++) { //disables options
         var option_val= arguments[i];;
         $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
-           
     }
     $("#selectedRoom").selectpicker('refresh');   
 }
 
-// This function takes the ID and then displays the Modal regarding the notes
-// $(document).ready(function(){
-// 	$("#exampleModal").on('show.bs.modal', function(event){
-//         var button = $(event.relatedTarget);  // Button that triggered the modal
-//         var titleData = button.data('title'); // Extract value from data-* attributes
-//         $(this).find('.modal-title').text(titleData);
-//     });
-// });
+// function next_pref(pref_id,cid){
+//     $('#option:selected').next().attr('selected', 'selected');
+// }
 
 function postNotes(pref_id,cid){
-  //console.log('the parameters pref_id then cid for postNotes');
-  //console.log(pref_id);
-  //console.log(cid);
+
   var url = "/postNotes";
   var textarea = document.getElementById('message-text');
-  //console.log(textarea);
   var note = textarea.value;
-  //console.log('I am a note')
-  //console.log(note);
   $.ajax({
     type: "POST",
      url: url,
      data:{"note": note, "cid": cid.toString(), "pref_id": pref_id.toString()},
+     
     dataType: 'json',
     success: function(response){
         console.log("success" + response);
@@ -427,4 +442,12 @@ function postNotes(pref_id,cid){
 //         });
    
 //     pref_button.click();
+// }          console.log("Error: " + error);
+//                      }
+//         });
+   
+//     pref_button.click();
 // }
+
+
+

@@ -31,15 +31,20 @@
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
                     {% for pref in p1 %}
                         <td>
+                            
                             <button {% if pref != None %} 
+                        
                                     value="{{pref.rID}}" 
+                                  
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})" 
+                                    
+                                    
                                 {% else %}
                                     value="0" 
                                     onclick = "setPreference({{loop.index}},{{roompreference.course.cId}})"     
                                 {% endif %} 
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-primary btn-md" 
+                                    class="btn btn-primary btn-md " 
                                     type="button" 
                                     data-toggle="collapse" 
                                     data-target="#firstCollapser" 
@@ -166,18 +171,21 @@
                                                         </div>      
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPrefButton()">Save</button>
-                                                        </div>                                                     
-                                                        <div class="modal-footer">
-                                                            <div class= "notes-button" align="center" style=" margin-bottom:.1em;">
-                                                                <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Add Another Preference" data-dismiss="modal">Add Another Preference</button>
+                                                            <!--<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setPrefButton()">Save</button>-->
+                                                             <button  type="button" class="btn btn-primary" data-title="Add Another Preference" data-dismiss="modal" aria-hidden="true" onclick="setPrefButton()">Add Another Preference</button>
                                                                 <!--This really should take the user to the next preference-->
                                                                 <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="No Other Rooms Work" data-dismiss="modal">No Other Rooms Work</button>
+                                                        </div>                                                     
+                                                        <!--<div class="modal-footer">-->
+                                                        <!--    <div class= "notes-button" align="center" style=" margin-bottom:.1em;">-->
+                                                                <!--<button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Add Another Preference" data-dismiss="modal" onclick="setPrefButton()">Add Another Preference</button>-->
+                                                                <!--This really should take the user to the next preference-->
+                                                                <!--<button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="No Other Rooms Work" data-dismiss="modal">No Other Rooms Work</button>-->
                                                                 <!--This should make the notes section required-->
-                                                                <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Any Room works" data-dismiss="modal">Any Room works</button>
+                                                                <!--<button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="Any Room works" data-dismiss="modal">Any Room works</button>-->
                                                                 <!--This should set the rest of the preferences to any-->
-                                                            </div>
-                                                        </div>                                                      
+                                                        <!--    </div>-->
+                                                        <!--</div>                                                      -->
                                                     </div>
                                                 </div>
                                             </div>              
@@ -198,3 +206,5 @@
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
 {% endblock %} 
 {% endblock %}
+
+//check the model for roompreferences for any and non reason datafields because they are not used

@@ -1,9 +1,10 @@
-from app.allImports import *
-from flask import render_template
+from allImports import *
+from flask import render_template,flash
 from app.logic.redirectBack import redirect_url
 from app import app
 import json
 from app.logic import course
+from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
 @app.route("/roomPreference/", methods = ["GET"])
 @app.route("/roomPreference/<rid>", methods = ["GET"])
@@ -119,6 +120,7 @@ def postPreference():
         return json.dumps({"success  ": 0})
         
     return json.dumps({"success": 1})
+
     
 @app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postNotes():
@@ -135,8 +137,12 @@ def postNotes():
             note_dict[key] = str(data['note'])
         room_preference.notes = str(note_dict)
         room_preference.save()
+        
+        flash("your message has been save!")
+        print("flash")
         return json.dumps({"success":1})
         # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
     except Exception as e:
         print (e)
+        flash("your message has been save!")
         return json.dumps({"error":1})
