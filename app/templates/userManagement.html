@@ -1,5 +1,6 @@
 <!--User Management HTML page -->
 <!--Deals with adding/removing Access Levels; Division Chairs, Program Chairs, Building Managers, and Administrators.-->
+<!-- THIS INTERFACE HAS TWO CONTROLLERS, RemoveUser.py and userMananagement-->
 {% extends "base.html" %} 
 {% set currentPage = "no" %} 
 {% block body %}
@@ -109,7 +110,7 @@
             <div id = "Remove" class="col-sm-4" >
                 <div >
                     <label for="Remove">Current User(s)</label>
-                        <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
+                        <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrsns--->
                             <select class="form-control" name="userToRemove" id="RemoveDropdown" style="float: right;">
                                 <option value="---"disabled selected>---</option>
                             </select>

@@ -1,4 +1,6 @@
 #Controller that talks to model for userManagement html file
+
+#THERE IS MORE OF THE CODE IN THE REMOVE USER PYTHON FILE AND REMOVE USER JS FILE
 from allImports import *
 from app.logic.authorization import must_be_admin
 from programManagement import *
@@ -49,6 +51,8 @@ def user_insert():
         elif request.form.get('access') == 'administrator' :
             user = User.get(username = request.form.get("userToAdd"))
             user.isAdmin = 1
+            user.save() # We add save() for admin because it is not adding a new record
+            
             
     #for updating removed users       
     elif request.form.get('removeuser') == 'removeuser':  

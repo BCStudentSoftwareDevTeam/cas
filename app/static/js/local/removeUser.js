@@ -191,7 +191,7 @@ function fillAdmin(response){
                 adminselect.appendChild(option);
         }
         if (count < 2) {
-            //disable button
+            //disables the remove button if there is only one admin
             var disable_btn = document.getElementById("adminbtn");
             disable_btn.disabled = true;
         }
