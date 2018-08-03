@@ -34,10 +34,12 @@ def userManagement():
                            
                            
 @app.route("/admin/userInsert", methods = ["POST"]) #'admin/userInsert points to the URL for the form in html file'                          
-def user_insert(): 
-    # this function is used to update and delete data from the user input
-    # request.form requests data from the front end on what the user has entered
-    # for updating added users
+def user_insert():
+    '''
+    this function is used to update and delete data from the user input
+    request.form requests data from the front end on what the user has entered
+    for updating added users, we use get_or_create to prevent duplication of data in the database when a user is added more than once
+    '''
     if request.form.get('adduser') == 'adduser' : 
         if request.form.get('access') == "program_chair":                     
             pch = ProgramChair.get_or_create(username = request.form.get("userToAdd"), pid =request.form.get("program"))
@@ -49,7 +51,7 @@ def user_insert():
             bm = BuildingManager.get_or_create(username = request.form.get("userToAdd"), bmid = request.form.get("building"))
             flash("Your changes have been successfully saved!")
         elif request.form.get('access') == 'administrator' :
-            user = User.get(username = request.form.get("userToAdd"))
+            user = User.get(username = request.form.get("userToAdd"))  
             user.isAdmin = 1
             user.save() # We add save() for admin because it is not adding a new record
             

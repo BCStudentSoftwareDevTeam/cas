@@ -79,10 +79,12 @@
                                 {% endfor %}
                         </select>
                     </div>
-                <div> <!--- creates a pop up for the user on clicking add button --->
+                <div> 
+                <!--- creates a pop up for the user on clicking add button --->
                     <div id = "add_btn">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
                     </div>
+                    <!----- the pop up on add buton click ---->
                         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -116,9 +118,11 @@
                             </select>
                         </div>
                     <div>
+                        <!----- remove button ---->
                         <div id = "remove_btn" class= "text-right">
                             <button id = "adminbtn" type="button" class="btn btn-Danger" data-toggle="modal" data-target="#removeModal">Remove</button>
                         </div>
+                        <!----- the pop up on remove buton click ---->
                             <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
