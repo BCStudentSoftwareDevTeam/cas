@@ -1,5 +1,64 @@
 /*global $*/
 
+var cIDGlobal = '';
+var prefIDGlobal = "";
+var rIDGlobal='';
+var termIDGlobal = '';
+var lastButtonPressed = "";   // used to track button select changes
+var buildingIDGlobal = "";
+
+
+function setPrefID(pref_id){// this function sets up the preference id of each preference
+    prefIDGlobal=pref_id; 
+}
+
+function getPrefId(){// this method gets the value of each preference that is used globally
+    return prefIDGlobal;
+}
+
+function setCourseId(cid){// this function sets the course id which is also the row id 
+    cIDGlobal= cid;
+}
+
+function getCourseId(){// this function serves to get the id of each course in order to access a particular a course 
+    return cIDGlobal;
+}
+
+function setRoomId(rid){// this function sets the room id globally 
+    rIDGlobal=rid; 
+}
+
+function getRoomId(){// this function gets the room ids so you can access each room independently 
+    return rIDGlobal;
+}
+
+function setTermId(tID){// This function serves to set the ids of each term  
+    termIDGlobal= tID;
+}
+
+function getTermId(){// This method serves to get the va
+    return termIDGlobal;
+}
+
+function buildingID(bID){
+    buildingIDGlobal=bID; 
+}
+
+function getBuildingId(){
+    return buildingIDGlobal;
+}
+
+function lastpressedButton(lastPressedButtonID){
+    lastButtonPressed= lastPressedButtonID;
+}
+
+function getlastPressedButton(){
+    return lastButtonPressed;
+}
+
+
+
+
 
 function room_detail(response){
     // this function accesses room details using its id and then printing it out
@@ -117,9 +176,6 @@ function goto_educationTech(edu) { // this function serves to take data from the
     $("#Details").show();}
 }
             
-var lastButtonPressed = "";   // used in below function to track button select changes
-var prefGlobal = "";
-var cIDGlobal = '';
 /** This method serves to differentiate three preferences 
  *  and tells you which one you are looking at the moment.
  *  @param {int} pref - the loop index from jinja (i.e., the preference being manipulated)
@@ -127,13 +183,14 @@ var cIDGlobal = '';
 */
 function setPreference(){ //This function serves to set up the value of each preference after you click it
     if (arguments.length > 0) {
-        prefGlobal = arguments[0];
-        cIDGlobal = arguments[1];
+        console.log('bad arguments')
+        setPrefID(arguments[0]);
+        setCourseId(arguments[1]);
     } else {
     // setPrefButton();
     }
-    var currentButton = "prefButton"+prefGlobal+"_"+cIDGlobal;
-    console.log("Current button: ", currentButton)
+    var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
+    console.log("Current button: ", currentButton);
     if (lastButtonPressed != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded"); 
         if (lastButtonPressed == currentButton) {
@@ -146,17 +203,16 @@ function setPreference(){ //This function serves to set up the value of each pre
     lastButtonPressed = currentButton;
     
     fixSelectPicker();
-    console.log("Past fixSelectPicker")
-    var pID = $("#prefButton"+prefGlobal+"_"+cIDGlobal).val();
-    var new_value = prefGlobal + '_' + pID + "_" + cIDGlobal;
+    var pID = $("#prefButton"+prefIDGlobal+"_"+cIDGlobal).val();
+    var new_value = prefIDGlobal + '_' + pID + "_" + cIDGlobal;
     $("#assignButton").val(new_value);
     var p1 = $("#prefButton1_"+cIDGlobal).val();
     var p2 = $("#prefButton2_"+cIDGlobal).val();
     var p3 = $("#prefButton3_"+cIDGlobal).val();
     setSelectedRoom(pID);
     disableRoom(p1, p2, p3); // 
-    moveModal(cIDGlobal);
-    console.log("All done")
+    moveModal(getCourseId());
+  
 }
 
 
@@ -175,7 +231,8 @@ function fixSelectPicker() {
   * @params {int} cID - the course ID for that row
 */
 function moveModal(cID) {
-    var targetDiv = document.getElementById("modalRowCourse"+cID);      // hidden row where content will be placed
+    var targetDiv = document.getElementById("modalRowCourse"+cID);
+    console.log("divetarget", targetDiv);// hidden row where content will be placed
     var sourceDiv = document.getElementById("collapseOne");             // content to be placed in targetDiv
     var targetDivs = $(".hiddenRow .hiddenDiv");                        // all hidden row divs (must be cleared first)
     
@@ -194,10 +251,10 @@ function setSelectedRoom(pID){
     $('#selectedRoom option[value="'+pID+'"]').prop("selected", true).selectpicker('refresh');
 }
 
-
 var room = 0;
-var roomNumber = 0
-function setButtonText(button){ //helps add accurate information to the button after the value is assigned, and replaces the value of any.
+var roomNumber = 0;
+
+function setModalText(button){ //helps add accurate information to the button after the value is assigned, and replaces the value of any.
     var e = document.getElementById("selectedRoom");
     room = e.options[e.selectedIndex].text;
     roomNumber= e.options[e.selectedIndex].value;
@@ -206,6 +263,7 @@ function setButtonText(button){ //helps add accurate information to the button a
     var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
     roomModel.innerHTML= modelSentence;
     document.getElementById("assignButton").value = button.value;
+    console.log("what is button", button);
 }
 
 
@@ -218,7 +276,7 @@ function setPrefButton(){
    
     
     var pref_button = document.getElementById("prefButton"+ pref_id + "_" +  cid);
-    pref_button.value = roomNumber;
+    pref_button.value =  roomNumber;
     pref_button.innerHTML = room;
     console.log('pref button');
     console.log(pref_id);    
@@ -226,11 +284,11 @@ function setPrefButton(){
         $.ajax({
              type: "POST",
                 url: url,
-                data:{"roomID": roomNumber, "ogCourse": cid, "pref_id": pref_id},
+                data:{"roomID":roomNumber, "ogCourse": cid, "pref_id": pref_id},
                 dataType: 'json',
                 success: function(response){
                     console.log("success in setPrefButton");
-                    disableRoom(roomNumber); //does disableRoom belong inside of this function.
+                    disableRoom(rIDGlobal); //does disableRoom belong inside of this function.
                     postNotes(pref_id,cid);
                    },
                     error: function(xhr, status, error) {
@@ -284,13 +342,8 @@ to save and post the note of each preference to the database */
             alert(err.Message);
         }
         });
-         console.log("is this here?");
+         
 }
-
-
-
-
-
 
 
 

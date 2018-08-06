@@ -137,8 +137,6 @@ def postNotes():
             note_dict[key] = str(data['note'])
         room_preference.notes = str(note_dict)
         room_preference.save()
-        
-        flash("your message has been save!")
         print("flash")
         return json.dumps({"success":1})
         # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
@@ -146,3 +144,5 @@ def postNotes():
         print (e)
         flash("your message has been save!")
         return json.dumps({"error":1})
+    flash("your notes has been saved")
+    return data 
