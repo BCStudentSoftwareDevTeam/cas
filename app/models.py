@@ -96,9 +96,9 @@ class Rooms(dbModel):
 class RoomPreferences(dbModel):
   rpID           = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1',null=True)
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2',null=True)
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3',null=True) #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
