@@ -146,3 +146,6 @@ def postNotes():
         return json.dumps({"error":1})
     flash("your notes has been saved")
     return data 
+    
+    
+    

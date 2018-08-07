@@ -157,9 +157,9 @@
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                                             <!-- THE FOLLOWING BUTTON SAVES THE ROOM FOR THE PREFERENCE AND THEN SWITCHES TO THE NEXT PREFERENCE -->                                                            
-                                                            <button  type="button" class="btn btn-primary" data-title="Add Another Preference" data-dismiss="modal" aria-hidden="true" onclick="setPrefButton()">Add Another Preference</button>
+                                                            <button  type="button" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="setPrefButton()" data-dismiss="modal">Add Another Preference</button>
                                                             <!-- SETS THE ROOM TO THE PREFERENCE SELECTED AND MAKLES THE REAMINING TABS DISABLED-->
-                                                            <button onclick="close_hidden_row()" type="button" class="btn btn-primary" data-title="No Other Rooms Work" data-dismiss="modal">No Other Rooms Work</button>
+                                                            <button  type="button" id="disablePref" class="btn btn-primary" data-title="No Other Rooms Work" data-dismiss="modal" onclick="disablePreference(); setPrefButton()">No Other Rooms Work</button>
                                                         </div>
                                                     </div>
                                                 </div>
