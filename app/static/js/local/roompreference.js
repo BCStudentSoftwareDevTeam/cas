@@ -229,21 +229,17 @@ function setPreference(){ //This function serves to set up the value of each pre
     var p1 = $("#prefButton1_"+getCourseId()).val();
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
-    
-    console.log("Values inside preferences",p1,p2, p3);
     setSelectedRoom(pID);
-    if (getPrefId() == 1) {
-        disableRoom(p1, p2, p3, -1); //     
-        console.log("No room disabled");
+    if (getPrefId() == 1) {     //Disables no other rooms work for the fist preference
+        disableRoom(p1, p2, p3, -1); //     // -1 is the value of the option for no rooms work
+       
     } else {
         disableRoom(p1, p2, p3);
-        console.log("Not pref 1");
+        
     } 
     
     
     moveModal(getCourseId());
-    disableNoRoom(getPrefId());
-    // console.log(getPrefId())
 }
 /** A function to clean up the selectpicker. 
  *  Only needed because bootstrap selectpicker acts dumb without. 
@@ -295,7 +291,7 @@ function setModalText(button){//helps add accurate information to the button aft
     var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
-    // console.log("what is button", button.value);S
+  
 }
 
 
@@ -386,22 +382,3 @@ to save and post the note of each preference to the database */
          
 }
 
-
-function disableNoRoom(pref_id){
-    console.log("disable no room");
-    setPrefID(pref_id);
-    console.log("ann says the Pref id is:", getPrefId());
-     
-    if(getPrefId()==1){
-        // $('#noRoom').prop('disabled',true);
-        // console.log("Pref id is 1 ");
-        
-        document.getElementById("selectedRoom").options[1].disabled = true;
-        // $("#noRoom option:selected").attr('disabled','disabled')
-        // .siblings().removeAttr('disabled');
-        // console.log(document.getElementById('noRoom').setAttribute("disabled","disabled"));
-        // document.getElementById('noRoom').setAttribute("disabled","disabled");
-        // console.log("we are her now");
-        // ;
-    }
-}
