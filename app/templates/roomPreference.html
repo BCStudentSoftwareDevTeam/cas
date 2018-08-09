@@ -65,21 +65,17 @@
             <table class="table table-dark">
                 <tr>
                     <td>
-                        <div class="modal-content" disabled>
+                        <div class="panel panel-default" disabled>
                             <div class="modal-header">
                                <h4><strong>Pick a Room:</strong></h4> 
                             </div>
-                            <div class="modal-body">
+                            <div class="panel-body">
                                 <div class="container">
                                     <div class="row" id = "roomSelectModalDiv"> 
                                         <select onchange= "goto_rdetails(this)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option>
-                                            {#<!--{% if roompreference.pref_id != 1: %}-->#}
-                                               <option id="noRoom" value = "-1">  No Other Rooms Work </option>
-                                           {# <!--{% else:%}-->
-                                                 <!--<option disabled = "disabled" id="-1" value = "-1">  No Other Rooms Work </option>-->
-                                            {% endif %} #}
+                                            <option id="noRoom" value = "-1">  No Other Rooms Work </option>
                                             <!--{# LOOPS THROUGH THE NUMBER OF ROOMS AVAILABLE IN THE DUMMY DATA AND POPULATES THE SELECT DROP DOWN SECTION #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>
