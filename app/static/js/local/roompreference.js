@@ -110,8 +110,6 @@ function room_detail(response){
 
   
 function goto_rdetails(r) { // this function serves to take data from the python file and dumps into html file 
-    // $("#Details").empty();
-    console.log("selected room: ", $("#selectedRoom").val())
     setRoomId($("#selectedRoom").val());
     var room_materials= r.value;
     if(room_materials){
@@ -225,6 +223,7 @@ function setPreference(){ //This function serves to set up the value of each pre
     fixSelectPicker();
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
+    console.log("new value",new_value);
     $("#selectButton").val(new_value);
     var p1 = $("#prefButton1_"+getCourseId()).val();
     var p2 = $("#prefButton2_"+getCourseId()).val();
@@ -324,7 +323,7 @@ function SaveValue(){//Sets button to values
         console.log("Itsa Any")
     } else {
         setprefList(getPrefId(), getRoomId());    
-        console.log("Itsa room: ", getRoomId())
+      
     }
    
 
