@@ -8,7 +8,7 @@ var rIDGlobal='';
 var termIDGlobal = '';
 var lastButtonPressed = "";   // used to track button select changes
 var buildingIDGlobal = "";
-var prefListGlobal = ['anyChoice','anyChoice' ,'anyChoice'];//default before setting in U
+var prefListGlobal = [0,0,0];//default before setting in U
 // if preflistGlobal[0] = None
 // setprefListGlobal([1]) = None//stores values of pref 1 2 and 3 Roompreferences.pref1, etc
 // setprefList([2]) = None
@@ -111,6 +111,7 @@ function room_detail(response){
   
 function goto_rdetails(r) { // this function serves to take data from the python file and dumps into html file 
     setRoomId($("#selectedRoom").val());
+    console.log("selected value",getPrefId($("#selectedRoom").val()));
     var room_materials= r.value;
     if(room_materials){
          var url = '/room_details/'+room_materials;
@@ -124,10 +125,10 @@ function goto_rdetails(r) { // this function serves to take data from the python
                 console.log(error); 
                 }
             });
-        $("#collapseOne #Details").show();
+        
     }
     
-   
+    
 }
 
 
@@ -201,12 +202,18 @@ function goto_educationTech(edu) { // this function serves to take data from the
  *  @param {int} cID - the course id from RoomPreferences
 */
 function setPreference(){ //This function serves to set up the value of each preference after you click it
+    
     if (arguments.length > 0) {
-        // console.log('bad arguments');
-        // console.log(arguments[0]);
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
+    var p1 = $("#prefButton1_"+getCourseId()).val();
+    console.log("pref1 value", p1);
+    var p2 = $("#prefButton2_"+getCourseId()).val();
+    var p3 = $("#prefButton3_"+getCourseId()).val();
+    setprefList(1,p1);
+    setprefList(2,p2);
+    setprefList(3,p3);
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     //console.log("Current button: ", currentButton);
     if (getLastPressedButton() != "") {
@@ -223,12 +230,10 @@ function setPreference(){ //This function serves to set up the value of each pre
     fixSelectPicker();
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
-    console.log("new value",new_value);
     $("#selectButton").val(new_value);
-    var p1 = $("#prefButton1_"+getCourseId()).val();
-    var p2 = $("#prefButton2_"+getCourseId()).val();
-    var p3 = $("#prefButton3_"+getCourseId()).val();
+    
     setSelectedRoom(pID);
+    
     if (getPrefId() == 1) {     //Disables no other rooms work for the fist preference
         disableRoom(p1, p2, p3, -1); //     // -1 is the value of the option for no rooms work
        
@@ -237,8 +242,13 @@ function setPreference(){ //This function serves to set up the value of each pre
         
     } 
     
-    
     moveModal(getCourseId());
+            $("#collapseOne #Details").hide();
+    console.log("Preflist",getprefList())
+    if (getprefList(getPrefId())!=0){
+        goto_rdetails(document.getElementById("selectedRoom"));
+        $("#collapseOne #Details").show();
+    }
 }
 /** A function to clean up the selectpicker. 
  *  Only needed because bootstrap selectpicker acts dumb without. 
@@ -255,7 +265,7 @@ function fixSelectPicker() {
   * @params {int} cID - the course ID for that row
 */
 function moveModal(cID) {
-    var targetDiv = document.getElementById("modalRowCourse"+getCourseId());      // hidden row where content will be placed
+    var targetDiv = document.getElementById("modalRowCourse"+getCourseId());// hidden row where content will be placed
     var sourceDiv = document.getElementById("collapseOne");             // content to be placed in targetDiv
     var targetDivs = $(".hiddenRow .hiddenDiv");                        // all hidden row divs (must be cleared first)
     
@@ -272,7 +282,7 @@ function moveModal(cID) {
 function setSelectedRoom(pID){
     // FIXME: This is wrong: setPrefID(pID);
     
-    $('#selectedRoom option[value="'+getPrefId()+'"]').prop("selected", true).selectpicker('refresh');
+    $('#selectedRoom option[value="'+getprefList(getPrefId())+'"]').prop("selected", true).selectpicker('refresh');
 }
 
 var room = 0; //bldg + number
@@ -282,19 +292,18 @@ function setModalText(button){//helps add accurate information to the button aft
     var e = document.getElementById("selectedRoom");
     room = e.options[e.selectedIndex].text;
     console.log('room + plus building', room);
-    //console.log("room is here", room);
     setRoomId(e.options[e.selectedIndex].value);
-    //console.log("roomIDddds", getRoomId());
     var roomModel= document.getElementById("modelRoom");
     var courseinfo= document.getElementById("courseInfo");
     var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
+    console.log("selected value ", document.getElementById("selectButton").value );
   
 }
 
 
-function SaveValue(){//Sets button to values
+function saveValue(){//Sets button to values
     console.log(getPrefId());
     var info =  $("#selectButton").val();    
     var pref_button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
@@ -319,8 +328,7 @@ function SaveValue(){//Sets button to values
         });
 
     if (getRoomId() == 0) {
-        setprefList(getPrefId(), "any_Choice");    
-        console.log("Itsa Any")
+        setprefList(getPrefId(),0);    
     } else {
         setprefList(getPrefId(), getRoomId());    
       
@@ -334,10 +342,7 @@ function goToNextPref() {// Go to the next preference
     if (getPrefId() < 3) {
         setPrefID(getPrefId() + 1);
     }
-    console.log("Das button: ", "prefButton"+ getPrefId() + "_" +  getCourseId());
     var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-    console.log('nextButton', nextButton);
-    
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
     nextButton.click();
@@ -371,7 +376,6 @@ to save and post the note of each preference to the database */
      
     dataType: 'json',
     success: function(response){
-        console.log("success" + response);
                    },
     error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
