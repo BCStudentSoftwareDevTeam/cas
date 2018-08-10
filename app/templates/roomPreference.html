@@ -18,8 +18,8 @@
         <tbody>
             <!--LOOPING THROUGH EACH COURSE IN ROOMPREFERENCE FOR THE FOLLOWING DATA -->
             {% for roompreference in roompreferences %}
-                <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
-                    <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                <tr class = "coursetable selecttermmodal" id = "{{roompreference.pID}}">
+                    <td id = "CourseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {{roompreference.course.section}}</td> <br>
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>
@@ -72,7 +72,7 @@
                             <div class="panel-body">
                                 <div class="container">
                                     <div class="row" id = "roomSelectModalDiv"> 
-                                        <select onchange= "goto_rdetails(this)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
+                                        <select onchange= "goto_rdetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option>
                                             <option id="noRoom" value = "-1">  No Other Rooms Work </option>
@@ -82,8 +82,9 @@
                                             {% endfor %}
                                         </select>
                                     </div>  
-                                    <div class="row">
+                                    <div class="row" >
                                         <div  id = "Details" class="collapse" id="collapseExample">
+                                            <div id= "withoutSelectButton">
                                             <div class="col-sm-6">
                                                 <!--THIS GIVES ALL THE INFORMATION PERTINENT TO THE ROOM SELECTED FOR THE COURSE-->
                                                 <div class="row">
@@ -134,7 +135,9 @@
                                                     {% endfor %}
                                                     </table>
                                                 </div>
+                                            </div> 
                                             </div>
+                                            <br>
                                             <!--THIS IS THE SELECT BUTTON WHICH TRIGGERS A MODAL AND ACCOMPLISHES A SET OF IMPORTANT TASKS SUCH AS DISABLING THE ROOM FOR FUTURE PREFERENCES IN THE SAME COURSE AND CALLING ANOTHER MODAL (SEE JAVASCRIPT RELATED TO IT)-->
                                             <div class="row">
                                                 <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
@@ -163,7 +166,7 @@
                                                             <button  type="button" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue()" style="text-align:center">Save & Add <br>Another Preference</button>
                                                             </div>
                                                             <div class="col-sm-6" align= "center">
-                                                            <button  type="button" id="disablePref" class="btn btn-primary" data-title="No Other Rooms Work" onclick="saveValue()" >Save & No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
+                                                            <button  type="button"  class="btn btn-primary" data-title="No Other Rooms Work" onclick="remainingToNone()" >Save & No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
                                                             </div>
                                                         </div>
                                                         <br>

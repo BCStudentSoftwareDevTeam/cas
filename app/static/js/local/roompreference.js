@@ -6,42 +6,39 @@ var cIDGlobal = '';
 var prefIDGlobal = "";
 var rIDGlobal='';
 var termIDGlobal = '';
-var lastButtonPressed = "";   // used to track button select changes
+var lastButtonPressed = "";   // USED TO TRACK BUTTOM SELECT CHANGES
 var buildingIDGlobal = "";
-var prefListGlobal = [0,0,0];//default before setting in U
-// if preflistGlobal[0] = None
-// setprefListGlobal([1]) = None//stores values of pref 1 2 and 3 Roompreferences.pref1, etc
-// setprefList([2]) = None
+var prefListGlobal = [0,0,0];//DEFAULT THE VALUE TO ANY
 
-function setPrefID(pref_id){// (DECLARATION OF VARIABLE) this function sets up the preference id of each preference: 1, 2, 3 only valid values
+function setPrefID(pref_id){// (DECLARATION OF VARIABLE) THIS FUNCTION SETS UP THE PREFRENCE ID OF EACH PREFERENCE 1, 2, 3 ONLY VALID VALUES:
     prefIDGlobal=parseInt(pref_id); 
 }
 
-function getPrefId(){// (PRINT VARIABLE)this method gets the value of each preference that is used globally
+function getPrefId(){// (PRINT VARIABLE) GLOBAL PREFRENCE ID
     return prefIDGlobal;
 }
 
-function setCourseId(cid){// this function sets the course id which is also the row id 
-    cIDGlobal= parseInt(cid);
+function setCourseId(cid){// THIS FUNCTION SETS THE COURSE ID WHICH IS ALSO THE ROW ID    
+cIDGlobal= parseInt(cid);
 }
 
-function getCourseId(){// this function serves to get the id of each course in order to access a particular a course 
+function getCourseId(){// GLOBAL COURSE ID FOR EACH COURSE
     return cIDGlobal;
 }
 
-function setRoomId(rid){// this function sets the room id globally 
+function setRoomId(rid){// GLOBAL ROOM ID 
     rIDGlobal=parseInt(rid); 
 }
 
-function getRoomId(){// this function gets the room ids so you can access each room independently 
+function getRoomId(){// THIS FUNCTION GETS THE ROOM IDS SO YOU CAN ACCESS EACH ROOM INDEPENDENTLY
     return rIDGlobal;
 }
 
-function setTermId(tID){// This function serves to set the ids of each term  
+function setTermId(tID){// THIS FUNCTION SERVES TO SET THE IDS OF EACH TERM  
     termIDGlobal= parseInt(tID);
 }
 
-function getTermId(){// This method serves to get the va
+function getTermId(){// THIS METHOD SERVES TO GET THE TERM ID
     return termIDGlobal;
 }
 
@@ -61,8 +58,8 @@ function getLastPressedButton(){
     return lastButtonPressed;
 }
 
-function setprefList(index,value){ //(location of value, actual value set on click)
-    prefListGlobal[index-1]=value; //pref 1 to index 0, pref 2 to index 1, 3 to index 2
+function setprefList(index,value){ //(LOCATION OF VALUE, ACTUAL VALUE SET ON CLICK)
+    prefListGlobal[index-1]=value; //PREF 1 TO INDEX 0, PREF 2 TO INDEX 1, PREF 3 TO INDEX
 }
 
 function getprefList(){
@@ -70,15 +67,15 @@ function getprefList(){
         return prefListGlobal;
     }
     else{
-        return prefListGlobal[arguments[0]-1]; //pref 1 to index 0, pref 2 to index 1, 3 to index 2
+        return prefListGlobal[arguments[0]-1]; PREF 1 TO INDEX 0, PREF 2 TO INDEX 1, PREF 3 TO INDEX 2
     }
 }
 
 
 
 
-function room_detail(response){
-    // this function accesses room details using its id and then printing it out
+function room_detail(response)
+    //  THIS FUNCTION ACCESSES ROOM DETAILS USING ITS ID AND THEN PRINTING IT OUT
      $("#roomCapacity").innerHTML=response["maxCapacity"];
      var my_div = document.getElementById('roomCapacity');
      my_div.innerHTML = response['maxCapacity'];
@@ -107,9 +104,12 @@ function room_detail(response){
     }
     education_detail(response);
 }
-
   
-function goto_rdetails(r) { // this function serves to take data from the python file and dumps into html file 
+function goto_rdetails(r,doishow) { 
+    // THIS SERVES TO TAKE DATA FROM PYTHON FILE AND DUMPS INTO HTML FILE
+    // DOISHOW HELPS IN SHOWING THE ROOM DETAILS
+    $("#collapseOne #Details #withoutSelectButton").show();
+    
     setRoomId($("#selectedRoom").val());
     console.log("selected value",getPrefId($("#selectedRoom").val()));
     var room_materials= r.value;
@@ -125,18 +125,18 @@ function goto_rdetails(r) { // this function serves to take data from the python
                 console.log(error); 
                 }
             });
-        
     }
-    
-    
+    if (doishow){ 
+        $("#collapseOne #Details").show();
+    }
+    if (getRoomId()==0){
+        console.log("Available rooms no details");
+        $("#collapseOne #Details #withoutSelectButton").hide();
+    }
 }
 
-
-// continue on monday based creating education tech materials 
 function education_detail(response){
-     
     if(response['educationTech']['dvd']){
-       
         document.getElementById("dvdIcon").innerHTML = "DVD : <span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("dvdIcon").innerHTML = "DVD: <span class='glyphicon glyphicon-remove'></span>";
@@ -177,9 +177,9 @@ function education_detail(response){
         document.getElementById("mondopadIcon").innerHTML = "Mondopad: <span class='glyphicon glyphicon-remove'></span>";
     }  
 }
-   
- 
-function goto_educationTech(edu) { // this function serves to take data from the python file and dumps into html file ;
+
+
+function goto_educationTech(edu) { // THIS FUNCTION TAKES DATA FROM THE PYTHON FILE AND DUMPS TO THE HTML FILE
     var educationTech= edu.value;
     if(educationTech){
          var url = '/education_Tech/'+educationTech;
@@ -201,21 +201,18 @@ function goto_educationTech(edu) { // this function serves to take data from the
  *  @param {int} pref - the loop index from jinja (i.e., the preference being manipulated)
  *  @param {int} cID - the course id from RoomPreferences
 */
-function setPreference(){ //This function serves to set up the value of each preference after you click it
-    
+function setPreference(){ // SETS UP THE VALUE OF EACH PREFERENCE AFTER EACH CLICK
     if (arguments.length > 0) {
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
-    var p1 = $("#prefButton1_"+getCourseId()).val();
-    console.log("pref1 value", p1);
+    var p1 = $("#prefButton1_"+getCourseId()).val(); //P1, P2, P3 ARE THE VALUES OF THE PREFERENCES
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
-    setprefList(1,p1);
+    setprefList(1,p1); // THE FIRS VALUES OF THE PREFLIST
     setprefList(2,p2);
     setprefList(3,p3);
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
-    //console.log("Current button: ", currentButton);
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded"); 
         if (getLastPressedButton() == currentButton) {
@@ -231,23 +228,23 @@ function setPreference(){ //This function serves to set up the value of each pre
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
     $("#selectButton").val(new_value);
-    
+
     setSelectedRoom(pID);
     
-    if (getPrefId() == 1) {     //Disables no other rooms work for the fist preference
-        disableRoom(p1, p2, p3, -1); //     // -1 is the value of the option for no rooms work
+    if (getPrefId() == 1) {     // DISABLES NO OTHER ROOMS WORK FOR THE FIRST PREFERENCE
+        disableRoom(p1, p2, p3, -1); //     // -1 IS THE VALUE OF THE OPTION FOR NO OTHER ROOMS-1 is the value of the option for no rooms work
        
     } else {
         disableRoom(p1, p2, p3);
-        
     } 
     
     moveModal(getCourseId());
-            $("#collapseOne #Details").hide();
+    $("#collapseOne #Details").hide();
     console.log("Preflist",getprefList())
+    
     if (getprefList(getPrefId())!=0){
-        goto_rdetails(document.getElementById("selectedRoom"));
-        $("#collapseOne #Details").show();
+        goto_rdetails(document.getElementById("selectedRoom"),true);
+        
     }
 }
 /** A function to clean up the selectpicker. 
@@ -304,6 +301,7 @@ function setModalText(button){//helps add accurate information to the button aft
 
 
 function saveValue(){//Sets button to values
+
     console.log(getPrefId());
     var info =  $("#selectButton").val();    
     var pref_button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
@@ -336,7 +334,10 @@ function saveValue(){//Sets button to values
    
 
     goToNextPref();
+    
+    
 }
+    
 
 function goToNextPref() {// Go to the next preference
     if (getPrefId() < 3) {
@@ -356,9 +357,12 @@ function disableRoom() {//disables selected room from other pref dropdowns
         }
      }
     for (var i = 0; i < arguments.length; i++) { //disables options
-        var option_val= arguments[i];;
+        var option_val= arguments[i];; //Remove the redudancy of the variable
+        if (option_val != 0){
         $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
+        }
     }
+    
     $("#selectedRoom").selectpicker('refresh');   
 }
 
@@ -385,3 +389,27 @@ to save and post the note of each preference to the database */
          
 }
 
+function remainingToNone(){
+    saveValue();
+    setprefList(getPrefId());
+     console.log("GETTTT",getprefList());
+     setPrefID(1,2,3,-1);
+    
+    if (getPrefId()==1){
+        
+        // setprefList(2,-1);
+        // setprefList(3,-1);
+       console.log("Clicked on pref 1",getPrefId());
+    }
+    else if (getPrefId()==2){
+        
+        setprefList(3,-1)
+    console.log("Clicked on pref 2",getPrefId());
+    }
+    // else if (getPrefId()==3){
+    //     console.log("Clicked on pref 3",getPrefId($("#selectedRoom").val()))
+    // }
+  //HIDE BUTTON ON THIRD ONE
+}
+  
+   
