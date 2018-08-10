@@ -414,3 +414,37 @@ function remainingToNone(){ //THS FUNCTION HANDLES NO OTHER ROOMS WORK BUTTON TO
   //HIDE BUTTON ON THIRD ONE
 }
  
+function setInstructions(destination) {
+    // What about the first time?
+        console.log("Starting set Instructions");
+
+    // temp
+    var noteId = 4;
+    // var destination = $("#NotesHolder_" + getCourseId());
+    var target = $("#Notes" + noteId);
+    console.log(target);
+    target.html().replace("||pref_1||", getPrefList(1));
+    target.html().replace("||pref_2||", getPrefList(2));
+    target.html().replace("||pref_3||", getPrefList(3));
+    target.show();
+    console.log(target.html());
+    destination.innerHTML = target.html();
+    
+    
+    
+}
+
+function firstPageLoad () {
+    // set notes for all courses on page load
+    var allCourses = $(".notesHolders");
+    
+    for (var i = 0; i < allCourses.length; i++) {
+        var divId = allCourses[i].id;
+        console.log(divId);
+        setInstructions(allCourses[i].id);
+    }
+}
+
+firstPageLoad();
+
+

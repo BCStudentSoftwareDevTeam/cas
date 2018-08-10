@@ -47,12 +47,13 @@
                                             {{pref.number}} 
                                         {% else %} Any Room Works {% endif %} 
                             </button>
-                            
                         </td>
                     {% endfor %}
-                    <td> Your course will be placed into {{roompreference.pref_1}}, 
-                    {{roompreference.pref_2}} if unable, or {{roompreference.pref_3}} if still unable.<br>
-                    Please note room placement is not guaranteed.</td>
+                    
+                    <td> 
+                    <!--This palce is to manage the not instructions-->
+                        <div class = "notesHolders"  id= "NotesHolder_{{roompreference.course.cId}}"></div>
+                    </td>
                 </tr>
                 <tr class = "hiddenRow">
                     <td colspan = "8">
@@ -199,9 +200,16 @@
         </div>
     </form>
 </div>
+<span id="Notes1" hidden>Your course will be placed in the first available room</span>
+<span id="Notes2" hidden>Your course will be place in ||pref_1|| if able, or the first available room</span>
+<span id="Notes3" hidden>Your course will be place in ||pref_1|| or ||pref_2|| if able, or the first available room</span> 
+<span id="Notes4" hidden>Your course will be place in ||pref_1|| or ||pref_2|| or ||pref_3|| if able, or the first available room</span> 
+<span id="Notes5" hidden>Your course will be placed in ||pref_1|| if able, and no other room works.</span>
+<span id="Notes6" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, and no other room works.</span>
 {% block belowContainer %}
 <link rel="stylesheet" href="/static/cs/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
 {% endblock %} 
 {% endblock %}
 <!--check the model for roompreferences for any and non reason datafields because they are not used yet-->
+
