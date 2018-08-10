@@ -18,8 +18,8 @@
         <tbody>
             <!--LOOPING THROUGH EACH COURSE IN ROOMPREFERENCE FOR THE FOLLOWING DATA -->
             {% for roompreference in roompreferences %}
-                <tr class = "coursetable selecttermmodal" id = "{{roompreference.pID}}">
-                    <td id = "CourseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
+                    <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {{roompreference.course.section}}</td> <br>
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>
@@ -75,7 +75,7 @@
                                         <select onchange= "goto_rdetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option>
-                                            <option id="noRoom" value = "-1">  No Other Rooms Work </option>
+                                            <option id="noRoom" value = "-1">  No Other Rooms Work  </option>
                                             <!--{# LOOPS THROUGH THE NUMBER OF ROOMS AVAILABLE IN THE DUMMY DATA AND POPULATES THE SELECT DROP DOWN SECTION #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>
@@ -163,10 +163,10 @@
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
                                                         <div class ="row">
                                                             <div class="col-sm-6" align ="center">
-                                                            <button  type="button" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue()" style="text-align:center">Save & Add <br>Another Preference</button>
+                                                            <button  type="button" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref()" style="text-align:center">Save & Add <br>Another Preference</button>
                                                             </div>
                                                             <div class="col-sm-6" align= "center">
-                                                            <button  type="button"  class="btn btn-primary" data-title="No Other Rooms Work" onclick="remainingToNone()" >Save & No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
+                                                            <button  type="button"  class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save & No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
                                                             </div>
                                                         </div>
                                                         <br>
