@@ -14,6 +14,7 @@
             <th scope="col"><h4><strong>Preference 1</strong></h4></th>
             <th scope="col"><h4><strong> Preference 2</strong></h4></th>
             <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
+            <th scope="col"><h4><strong>Notes </strong></h4></th>
         </thead>
         <tbody>
             <!--LOOPING THROUGH EACH COURSE IN ROOMPREFERENCE FOR THE FOLLOWING DATA -->
@@ -46,8 +47,12 @@
                                             {{pref.number}} 
                                         {% else %} Any Room Works {% endif %} 
                             </button>
+                            
                         </td>
                     {% endfor %}
+                    <td> Your course will be placed into {{roompreference.pref_1}}, 
+                    {{roompreference.pref_2}} if unable, or {{roompreference.pref_3}} if still unable.<br>
+                    Please note room placement is not guaranteed.</td>
                 </tr>
                 <tr class = "hiddenRow">
                     <td colspan = "8">

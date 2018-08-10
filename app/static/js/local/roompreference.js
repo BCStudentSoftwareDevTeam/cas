@@ -75,9 +75,6 @@ function getPrefList(){
     }
 }
 
-
-
-
 function room_detail(response){
     // this function accesses room details using its id and then printing it out
      $("#roomCapacity").innerHTML=response["maxCapacity"];
