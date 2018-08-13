@@ -43,7 +43,6 @@ def roomPreference(rid=1):
         instructors=instructors
     )
     
-    
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])
