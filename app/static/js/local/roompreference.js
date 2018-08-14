@@ -433,34 +433,42 @@ function getNoteId() {
     if (getPrefList(1)==0){//Notes1 Any available rooms, (0,0,0)
         console.log("Notes 1 case");
         noteId = 1;    
-    } else if  (getPrefList(1)>0 && getPrefList(2)==0){ //(#,0,0)
+    } 
+    else if  (getPrefList(1)>0 && getPrefList(2)==0){ //(#,0,0)
         console.log("notes2 Case");
         noteId = 2;
     }
-    // else if{ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
-        
-    // }
-    // else if(){ //Notes4 Pref 1 value, pref 2 value, pref 3 value(#,#,#)
-        
-    // }
-    // else if(){ //Notes5 Pref 1 value, No other rooms work(#,-1,-1)
-        
-    // }
-    // else if(){ //Notes6 Pref 1 value, pref 2 value, no other rooms work (#,#,-1)
-        
-    // }
+    else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)==0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
+        console.log("notes3 Case");
+        noteId = 3;
+    }
+    else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)>0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
+        console.log("notes4 Case");
+        noteId = 4;
+    }
+    //TODO: fix Saving No other rooms work (-1) in db, same issue
+    //as yesterday (weird state where we had to refresh???) case 5 and 6
+    //are not updating, but cases 1-4 are updating on reload
+    //Any is not saving on any of row 1s preferences either :((((-Kat
+    else if  (getPrefList(1)>0 && getPrefList(2)<0){ //(#,-1,-1)
+        console.log("notes5 Case");
+        noteId = 5; 
+    }
+    else if(getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)<0){ //Notes6 Pref 1 value, pref 2 value, no other rooms work (#,#,-1)
+        console.log("notes6 Case");
+        noteId = 6; 
+    }
      return noteId;
      
 }
 
 function setInstructions(course) { // MANAGES THE INSTRUCTION NOTES ON PREFERENE BUTTON CLICKS
-    var destination = $("#NotesHolder_" + course);
-    var target = $("#Notes" + getNoteId()).clone();
+    var destination = $("#NotesHolder_" + course); // LINKS THE SPAN IN HTML TO THE POSITION OF THE NOTES IN THE td FOR NOTES IN HTML
+    var target = $("#Notes" + getNoteId()).clone(); // GETS THE span id's
     var target_text = target.html();
     target_text = target_text.replace("||pref_1||", getRoomValueList(1));
     target_text = target_text.replace("||pref_2||", getRoomValueList(2));
     target_text = target_text.replace("||pref_3||", getRoomValueList(3));
-    console.log(target_text);
     target.html(target_text);
     target.show();
     destination.html(target.html());    
@@ -472,22 +480,19 @@ function setRoomValueListFirstTime(course) {
     setRoomValueList(1, $("#prefButton1" + "_" + course).html()); 
     setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
     setRoomValueList(3, $("#prefButton3" + "_" + course).html()); 
-    //console.log(getRoomValueList())
     setPrefList(1, $("#prefButton1" + "_" + course).val()); 
     setPrefList(2, $("#prefButton2" + "_" + course).val()); 
     setPrefList(3, $("#prefButton3" + "_" + course).val());
-    //console.log(getPrefList())
 }
 
 function firstPageLoad () {
-    // set notes for all courses on page load
+    //SET NOTES FOR ALL COURSES ON PAGE LOAD
     var allCourses = $(".notesHolders");
     for (var i = 0; i < allCourses.length; i++) {
         var course = allCourses[i].id.split("_")[1];
         setRoomValueListFirstTime(course);
         var divId = allCourses[i].id;
-        //console.log("H'ere it is")
-        console.log("course id",allCourses[i].id.split("_")[1]); // gross way of getting course id
+        // console.log("course id",allCourses[i].id.split("_")[1]); // gross way of getting course id
         setInstructions(course);
     }
 }

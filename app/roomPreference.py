@@ -47,21 +47,20 @@ def roomPreference(rid=1):
 
 @app.route('/room_details/<rid>', methods = ["GET"])
 def room_details(rid):
- 
-    details = Rooms.get(Rooms.rID == rid)
     room_materials={}
-
-    room_materials["number"]=details.number 
-    room_materials['maxCapacity']= details.maxCapacity
-    room_materials['visualAcc']= details.visualAcc
-    room_materials['audioAcc']= details.audioAcc
-    room_materials['physicalAcc']=details.physicalAcc
-    room_materials['specializedEq']= details.specializedEq
-    room_materials['movableFurniture']=details.movableFurniture
-    room_materials['specialFeatures']=details.specialFeatures
-    room_materials['educationTech']=education_Tech(rid)
-    
-    
+    print type(rid)
+    if int(rid) > 0:
+        
+        details = Rooms.get(Rooms.rID == rid)
+        room_materials["number"]=details.number 
+        room_materials['maxCapacity']= details.maxCapacity
+        room_materials['visualAcc']= details.visualAcc
+        room_materials['audioAcc']= details.audioAcc
+        room_materials['physicalAcc']=details.physicalAcc
+        room_materials['specializedEq']= details.specializedEq
+        room_materials['movableFurniture']=details.movableFurniture
+        room_materials['specialFeatures']=details.specialFeatures
+        room_materials['educationTech']=education_Tech(rid)
     
    
     return json.dumps(room_materials)
@@ -98,26 +97,51 @@ def education_Tech(rid):
 def postPreference():
     data = request.form #data coming from POST
     pref = int(data["pref_id"])
-    
+    room = int(data["roomID"])
+    print ("ROOM",room)
     rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
     
-    if (pref == 1):
-        print("what is up here:  ", pref)
-        rp.pref_1 = data["roomID"]
-        print("set pref 1: ", rp.pref_1.rID)
-        rp.save()
-        print("rp saved")
-    if (pref == 2):
-        rp.pref_2 = data["roomID"]
-        print("set pref 2: ", rp.pref_2.rID)
-        rp.save()
-    elif(pref == 3):
-        rp.pref_3 = data["roomID"]
-        print("set pref 3: ", rp.pref_3.rID)
-        rp.save()
-    else:
-        return json.dumps({"success  ": 0})
+    if room > 0: #If there is a room id
+        if (pref == 1):
+            print("what is up here:  ", pref)
+            rp.pref_1 = data["roomID"]
+            print("set pref 1: ", rp.pref_1.rID)
+            print("rp saved")
+        elif (pref == 2):
+            rp.pref_2 = data["roomID"]
+            print("set pref 2: ", rp.pref_2.rID)
+            
+        elif(pref == 3):
+            rp.pref_3 = data["roomID"]
+            print("set pref 3: ", rp.pref_3.rID)
+            
+        else:
+            flash("You tried to select a preference that doesn't exist!","error")
+            return json.dumps({"success  ": 0}) #Picked a preference outside of 1,2,or 3
+    elif room == 0:#Any case
+        if (pref == 1): 
+            rp.pref_1 = None
+            rp.any_Choice = 1
+        elif (pref == 2):
+            rp.pref_2 = None
+            rp.any_Choice = 2
+        elif(pref == 3):
+            rp.pref_3 = None
+            rp.any_Choice = 3
         
+    elif room < 0: #2 cases: Room, Room, none_choice OR Room, none_choice, none_choice, #No other rooms work case
+        if (pref == 1): 
+            rp.pref_1 = None
+            rp.none_Choice = 1
+            flash("WARNING: This indicates to the registrar that this course does not need a room","error")
+        elif (pref == 2):
+            rp.pref_2 = None
+            rp.none_Choice = 2
+        elif(pref == 3):
+            rp.pref_3 = None
+            rp.none_Choice = 3
+
+    rp.save()            
     return json.dumps({"success": 1})
 
     
@@ -141,7 +165,7 @@ def postNotes():
         # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
     except Exception as e:
         print (e)
-        flash("your message has been save!")
+        flash("your message has been saved!")
         return json.dumps({"error":1})
     flash("your notes has been saved")
     return data 
