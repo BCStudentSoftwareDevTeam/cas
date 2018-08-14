@@ -3,7 +3,7 @@
 <!--Page Content -->
 {% block body %}
 <!--THE FOLLOWING CODE RUNS TO CREATE THE ROOM PREFERENCE TABLE-->
-<h1 class="text-center"><strong>Room Preference</strong></h1>
+<h1 class="text-center"><strong>Room Preference Selection</strong></h1>
 <div class="card">
     <table class="table"> <!-- THE FIXED HEADINGS ON THE TOP OF TABLE ON THE FRONT -->
         <thead class="thead-dark">
@@ -80,7 +80,7 @@
                                     <div class="row" id = "roomSelectModalDiv"> 
                                         <select onchange= "goto_rdetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
-                                            <option id="0" value = "0">  Any Room Works </option>
+                                            <option id="0" value = "0">  Any Room Works </option> 
                                             <option id="noRoom" value = "-1">  No Other Rooms Work  </option>
                                             <!--{# LOOPS THROUGH THE NUMBER OF ROOMS AVAILABLE IN THE DUMMY DATA AND POPULATES THE SELECT DROP DOWN SECTION #}-->
                                             {% for r in room %}

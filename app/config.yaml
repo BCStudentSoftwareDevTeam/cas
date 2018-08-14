@@ -51,7 +51,7 @@ mainMenu:
     link: "/selectTerm"
   - title: "Sequence"
     link: "/selectProgram"
-  - title: "Room Preference"
+  - title: "Room Preferences"
     link: "/roomPreference"
   - title: "Log Out"
     link: "/logout"
