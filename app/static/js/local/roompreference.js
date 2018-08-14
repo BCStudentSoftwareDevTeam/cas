@@ -121,7 +121,7 @@ function room_detail(response){
     education_detail(response);
 }
 
-function goto_rdetails(r,doishow) { // this function serves to take data from the python file and dumps into html file
+function goToRDetails(r,doishow) { // this function serves to take data from the python file and dumps into html file
     $("#collapseOne #Details #withoutSelectButton").show();
 
     setRoomId($("#selectedRoom").val());
@@ -276,7 +276,7 @@ function setPreference(){ //This function serves to set up the value of each pre
     //console.log("Preflist",getPrefList())
 
     if (getPrefList(getPrefId())>0){
-        goto_rdetails(document.getElementById("selectedRoom"),true);
+        goToRDetails(document.getElementById("selectedRoom"),true);
     }
 }
 /** A function to clean up the selectpicker.
@@ -463,7 +463,12 @@ function getNoteId() {
         console.log("notes6 Case");
         noteId = 6; 
     }
-     return noteId;
+    
+    else if(getPrefList(1)<0){
+        console.log("notes7 Case");
+        noteId = 7; 
+    }
+    return noteId;
      
 }
 
@@ -500,6 +505,24 @@ function firstPageLoad () {
         // console.log("course id",allCourses[i].id.split("_")[1]); // gross way of getting course id
         setInstructions(course);
     }
+}
+
+function hideBlankPreferences(){
+    //Hides the preferences that shouldn't be able to be seen
+    
+    //Case 1: any, hidden, hidden
+    
+    //Case 2:  room, any, hidden
+    
+    //Case 3: room, room, any
+    
+    //Case 4: room, room, room
+    
+    //Case 5: 1 room, none_Choice, hidden
+    
+    //Case 6: room, room, none_choice
+    
+    //Case 7: none_choice, hidden, hidden
 }
 
 firstPageLoad();
