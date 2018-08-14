@@ -257,22 +257,22 @@ function setPreference(){ //This function serves to set up the value of each pre
 
     setSelectedRoom(pID);
 
-    if (getPrefId() == 1) {     //Disables no other rooms work for the fist preference
-        disableRoom(p1, p2, p3, -1); //     // -1 is the value of the option for no rooms work
-
-    } else {
-        disableRoom(p1, p2, p3);
+    if (getPrefId() == 1) {     //Changes text to "This course does not need a room" if on first preference
+        document.getElementById("noRoom").innerHTML = "This course does not need a room";
+    } 
+    else {     //Changes text to "This course does not need a room" if on first preference only
+        var no_room = document.getElementById("noRoom").innerHTML;
+        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
     }
-
+ 
+    disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
     //console.log("Preflist",getPrefList())
 
     if (getPrefList(getPrefId())!=0){
         goto_rdetails(document.getElementById("selectedRoom"),true);
-
     }
-
 }
 /** A function to clean up the selectpicker.
  *  Only needed because bootstrap selectpicker acts dumb without.
@@ -475,7 +475,7 @@ function setInstructions(course) { // MANAGES THE INSTRUCTION NOTES ON PREFERENE
 
 }
     
-function setRoomValueListFirstTime(course) {
+function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in firstPageload
     console.log("#prefButton1" + "_" + course);
     setRoomValueList(1, $("#prefButton1" + "_" + course).html()); 
     setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
