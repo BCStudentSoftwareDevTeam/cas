@@ -119,6 +119,7 @@ def postPreference():
             flash("You tried to select a preference that doesn't exist!","error")
             return json.dumps({"success  ": 0}) #Picked a preference outside of 1,2,or 3
     elif room == 0:#Any case
+        rp.none_Choice = None
         if (pref == 1): 
             rp.pref_1 = None
             rp.any_Choice = 1
@@ -129,7 +130,8 @@ def postPreference():
             rp.pref_3 = None
             rp.any_Choice = 3
         
-    elif room < 0: #2 cases: Room, Room, none_choice OR Room, none_choice, none_choice, #No other rooms work case
+    elif room < 0:  #No other rooms work case
+        rp.any_Choice = None
         if (pref == 1): 
             rp.pref_1 = None
             rp.none_Choice = 1
@@ -141,7 +143,9 @@ def postPreference():
             rp.pref_3 = None
             rp.none_Choice = 3
 
-    rp.save()            
+    rp.save()
+    print("None: ", rp.none_Choice)
+    print("Any: ", rp.any_Choice)
     return json.dumps({"success": 1})
 
     

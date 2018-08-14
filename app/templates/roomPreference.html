@@ -30,12 +30,15 @@
                         <td>
                             <!-- CHECKS THE VALUE OF THE PREFERENCE AND ACTS ACCORDINGLY TO ADD 1 TO THE SETPREFERENCE -->
                             <button {% if pref != None %}
-                                    value="{{pref.rID}}"
+                                        value="{{pref.rID}}"
+                                    {% else %}
+                                        {% if roompreference.any_Choice == loop.index %}
+                                            value="0"  {# Holds room ID, NOT pref ID #} 
+                                        {% elif roompreference.none_Choice == loop.index %}
+                                            value="-1"  {# Holds room ID, NOT pref ID #} 
+                                        {% endif %} 
+                                    {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
-                                {% else %}
-                                    value="0"  {# Holds room ID, NOT pref ID #} 
-                                    onclick = "setPreference({{loop.index}},{{roompreference.course.cId}})"     
-                                {% endif %} 
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
                                     class="btn btn-primary btn-md " 
                                     type="button" 
@@ -43,9 +46,17 @@
                                     data-target="#firstCollapser" 
                                     aria-expanded="false" 
                                     aria-controls="firstCollapser">
-                                        {% if pref != None %}{{pref.building.shortName}} 
-                                            {{pref.number}} 
-                                        {% else %} Any Room Works {% endif %} 
+                                        {% if pref != None %}
+                                            {{pref.building.shortName}} {{pref.number}} 
+                                        {% else %} 
+                                            {% if roompreference.any_Choice == loop.index %}
+                                                Any Room Works 
+                                            {% elif roompreference.none_Choice == loop.index and loop.index == 1 %}
+                                                This Course Does Not Require A Room
+                                            {% else %}
+                                                No Other Room Works
+                                            {% endif %}     
+                                        {% endif %} 
                             </button>
                         </td>
                     {% endfor %}
@@ -200,13 +211,13 @@
         </div>
     </form>
 </div>
-<span id="Notes1" hidden>Your course will be placed in the first available room</span>
-<span id="Notes2" hidden>Your course will be placed in ||pref_1|| if able, or the first available room</span>
-<span id="Notes3" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, or the first available room</span> 
-<span id="Notes4" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| or ||pref_3|| if able, or the first available room</span> 
+<span id="Notes1" hidden>Your course will be placed in the first available room. </span>
+<span id="Notes2" hidden>Your course will be placed in ||pref_1|| if able, or the first available room.</span>
+<span id="Notes3" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, or the first available room.</span> 
+<span id="Notes4" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| or ||pref_3|| if able, or the first available room.</span> 
 <span id="Notes5" hidden>Your course will be placed in ||pref_1|| if able, and no other room works.</span>
 <span id="Notes6" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, and no other room works.</span>
-<span id="Notes7" hidden>You have indicated that your course does not require a room</span>
+<span id="Notes7" hidden>You have indicated that your course does not require a room. </span>
 {% block belowContainer %}
 <link rel="stylesheet" href="/static/cs/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>

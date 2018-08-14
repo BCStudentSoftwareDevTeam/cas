@@ -263,7 +263,7 @@ function setPreference(){ //This function serves to set up the value of each pre
     setSelectedRoom(pID);
 
     if (getPrefId() == 1) {     //Changes text to "This course does not need a room" if on first preference
-        document.getElementById("noRoom").innerHTML = "This course does not need a room";
+        document.getElementById("noRoom").innerHTML = "This Course Does Not Require A Room";
     } 
     else {     //Changes text to "This course does not need a room" if on first preference only
         var no_room = document.getElementById("noRoom").innerHTML;

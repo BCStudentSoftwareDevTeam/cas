@@ -128,7 +128,7 @@ class Rooms(dbModel):
   visualAcc     =BooleanField(null=True)
   audioAcc      = BooleanField(null=True)
   physicalAcc   = BooleanField(null=True)
-  educationTech        = ForeignKeyField(EducationTech, related_name='educationTech')
+  educationTech = ForeignKeyField(EducationTech, related_name='educationTech')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = CharField(default=True)
@@ -230,9 +230,9 @@ class RoomPreferences(dbModel):
   pref_2        = ForeignKeyField(Rooms, related_name='preference2',null=True)
   pref_3        = ForeignKeyField(Rooms, related_name='preference3',null=True) #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
-  any_Choice    = IntegerField(null=False, default=1)
+  any_Choice    = IntegerField(null=True, default=1)
   none_Choice   = IntegerField(null=True) #none_choice saves which preference is set to none
-  none_Reason   = CharField(null=True)
+  none_Reason   = CharField(null=True)#Not used
   
 
 class SpecialTopicCourse(dbModel):
