@@ -2,10 +2,10 @@
 {% set currentPage = "no" %} <!--This is used for the sidebar -->
 <!--Page Content -->
 {% block body %}
-<!--THE FOLLOWING CODE RUNS TO CREATE THE ROOM PREFERENCE TABLE-->
+<!--The following code runs to create the room preference table-->
 <h1 class="text-center"><strong>Room Preference Selection</strong></h1>
 <div class="card">
-    <table class="table"> <!-- THE FIXED HEADINGS ON THE TOP OF TABLE ON THE FRONT -->
+    <table class="table"> <!-- the fixed healines on the top of the table-->
         <thead class="thead-dark">
             <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
             <th scope="col"> <h4><strong>Section </strong></h4></th>
@@ -17,7 +17,7 @@
             <th scope="col"><h4><strong>Notes </strong></h4></th>
         </thead>
         <tbody>
-            <!--LOOPING THROUGH EACH COURSE IN ROOMPREFERENCE FOR THE FOLLOWING DATA -->
+            <!-- looping through each course in roompreference for the following data -->
             {% for roompreference in roompreferences %}
                 <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
@@ -25,10 +25,10 @@
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
-                    
+                
                     {% for pref in p1 %}
                         <td>
-                            <!-- CHECKS THE VALUE OF THE PREFERENCE AND ACTS ACCORDINGLY TO ADD 1 TO THE SETPREFERENCE -->
+                            <!-- checks the value of the preference and acts accordingly to add 1 to the setPreference() -->
                             <button {% if pref != None %}
                                         value="{{pref.rID}}"
                                     {% else %}
@@ -62,7 +62,7 @@
                     {% endfor %}
                     
                     <td> 
-                    <!--THIS TABLE MANAGES NOTES INSTRUCTIONS ON SEEING ROOM PREFERENCE AT A TIME-->
+                    <!--This table manages notes instructions on seeing room preference-->
                         <div class = "notesHolders"  id= "NotesHolder_{{roompreference.course.cId}}"></div>
                     </td>
                 </tr>
@@ -75,7 +75,7 @@
         </tbody>
     </table>
 </div>
-<!--ROOM SELECTION COLLAPSE WHICH CONTAINS THE INFORMATION ABOUT THE ROOM AND LEADS INTO THE ROOM SELECTIONS UNDER THE PARTICULAR ROW-->
+<!--Room selection collapse which contains room inforamation and leads to the selections under particular row-->
 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" >
     <form>
         <div class="collapse" id="firstCollapser" >
@@ -93,7 +93,7 @@
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option> 
                                             <option id="noRoom" value = "-1">  No Other Rooms Work  </option>
-                                            <!--{# LOOPS THROUGH THE NUMBER OF ROOMS AVAILABLE IN THE DUMMY DATA AND POPULATES THE SELECT DROP DOWN SECTION #}-->
+                                            <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>
                                             {% endfor %}
@@ -103,7 +103,7 @@
                                         <div  id = "Details" class="collapse" id="collapseExample">
                                             <div id= "withoutSelectButton">
                                             <div class="col-sm-6">
-                                                <!--THIS GIVES ALL THE INFORMATION PERTINENT TO THE ROOM SELECTED FOR THE COURSE-->
+                                                <!--This gives the room details-->
                                                 <div class="row">
                                                     <label  style="float: left;"> Room Number: </label><div id="roomNumber" > {{room.number}}</div>
                                                 </div>    
@@ -132,12 +132,12 @@
                                                 <label  style="float:left;" > Education Tech: </label> <button 
                                                 type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
                                                 <a href="#">  View </a></button>                   
-                                                <!--THIS VIEW LEADS TO THE EDUCATION TECH EXTRA ROOM INFORMATION-->
+                                                <!--this view leads to the education tech exra room details-->
                                                 </div>
                                             </div>
-                                                <!--EDUCATION TECH MODAL WHICH USES A SNIP -->
+                                                <!--Education tech modal -->
                                                 {% include "snips/educationTech.html" %}
-                                                <!--THIS POPULATES THE COURSE CONFLICT BOX TO THE RIGHT BOTTOM OF THE PAGE-->
+                                                <!--This populates the course conflict box to the right bottom of the page-->
                                             <div class="row">
                                                 <div class="col-lg-5 " align="center" > 
                                                     <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
@@ -155,12 +155,12 @@
                                             </div> 
                                             </div>
                                             <br>
-                                            <!--THIS IS THE SELECT BUTTON WHICH TRIGGERS A MODAL AND ACCOMPLISHES A SET OF IMPORTANT TASKS SUCH AS DISABLING THE ROOM FOR FUTURE PREFERENCES IN THE SAME COURSE AND CALLING ANOTHER MODAL (SEE JAVASCRIPT RELATED TO IT)-->
+                                            <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for futire room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
                                             <div class="row">
                                                 <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
                                             </div>
-                                            <!-- THIS BRINGS IN THE NOTES MODAL-->
-                                            <!-- THIS IS THE MODAL LEADING TO ALL THE CHANGES ON THE PAGE, IT ALSO HAS A 'CANCEL' BUTTON ALLOWING TO CLOSE THE MODAL AND RECONSIDER THE CHOICE BEFORE THE DATA IS SENT TO THE DATABASE -->
+                                            <!-- this brings the preference notes modal-->
+                                            <!-- this is the modal leading to all the changes on the page, it has a cancel button for closing the modal -->
                                             </div>
                                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
