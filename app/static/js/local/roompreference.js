@@ -125,24 +125,25 @@ function goto_rdetails(r,doishow) { // this function serves to take data from th
     $("#collapseOne #Details #withoutSelectButton").show();
 
     setRoomId($("#selectedRoom").val());
-    //console.log("selected value",getPrefId($("#selectedRoom").val()));
-    var room_materials= r.value;
-    if(room_materials){
-         var url = '/room_details/'+room_materials;
-         $.ajax({
-                url: url,
-                dataType: 'json',
-                success: function(response){
-                    if (response["success"] != 0) {
-                        room_detail(response);
+    if (r.value > 0){
+        //console.log("selected value",getPrefId($("#selectedRoom").val()));
+        var room_materials= r.value;
+        if(room_materials){
+             var url = '/room_details/'+room_materials;
+             $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    success: function(response){
+                        if (response["success"] != 0) {
+                            room_detail(response);
+                        }
+                    },
+                    error: function(error) {
+                    console.log(error);
                     }
-                },
-                error: function(error) {
-                console.log(error);
-                }
-            });
+                });
+        }
     }
-
     if (doishow){
         $("#collapseOne #Details").show();
     }
@@ -150,7 +151,11 @@ function goto_rdetails(r,doishow) { // this function serves to take data from th
         //console.log("Available rooms no details");
         $("#collapseOne #Details #withoutSelectButton").hide();
     }
-
+    if (getRoomId()==-1){
+        //console.log("Available rooms no details");
+        $("#collapseOne #Details #withoutSelectButton").hide();
+    }
+   
 }
 
 
@@ -270,7 +275,7 @@ function setPreference(){ //This function serves to set up the value of each pre
     $("#collapseOne #Details").hide();
     //console.log("Preflist",getPrefList())
 
-    if (getPrefList(getPrefId())!=0){
+    if (getPrefList(getPrefId())>0){
         goto_rdetails(document.getElementById("selectedRoom"),true);
     }
 }
