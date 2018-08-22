@@ -26,11 +26,11 @@
           <h5>Room Requested</h5>
           <select class="form-control" name="room">
             <option value="">---</option>
-            {% for room in rooms %}
+            {% for room in rooms %} <!---TODO: create conditional that atriggers flash if room ic occupied--->
               <option value="{{room.rID}}"
               {% if course.rid is not none %}
                 {% if course.rid.rID == room.rID %}
-                  selected
+                  selected 
                 {% endif %}
               {% endif %}
               >
