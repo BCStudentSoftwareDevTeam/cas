@@ -42,7 +42,7 @@ models:
     - Rooms
     - ScheduleDays
     - RoomPreferences
-    - TermStates
+    - TermState
 # this makes the navigation bar
 mainMenu:
   - title: "Home"

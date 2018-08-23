@@ -298,7 +298,8 @@ term = Term(  name             = "Fall 2016",
               year              = 2016,
               editable          = 0,
               termCode          = 201611,
-              state             = 0
+              state             = 0,
+              new_state         = 2
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2017",
@@ -306,14 +307,17 @@ term = Term(  name              = "Spring 2017",
               year              = 2017,
               termCode          = 201612,
               editable          = 0,
-              state             = 0
+              state             = 0,
+              new_state         = 3
+              
             ).save(force_insert = True)  
 term = Term(  name              = "Fall 2017",
               semester          = "Fall",
               year              = 2017,
               termCode          = 201711,
               editable          = 0,
-              state             = 0
+              state             = 0,
+              new_state         = 4
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2018",
@@ -321,14 +325,16 @@ term = Term(  name              = "Spring 2018",
               year              = 2018,
               termCode          = 201712,
               editable          = 0,
-              state             = 0
+              state             = 0,
+              new_state         = 5
             ).save(force_insert = True)      
 term = Term(  name              = "Fall 2018",
               semester          = "Fall",
               year              = 2018,
               termCode          = 201811,
               editable          = 0,
-              state             = 0
+              state             = 0,
+              new_state         = 6
             ).save(force_insert = True)
             
 
@@ -576,14 +582,14 @@ roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="Non
 # except:
 #   print "Migration failed"
 #   raise
-state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
-state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
-state_3 = TermStates(number = 2, order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
-state_3 = TermStates(number = 3, order = 3, name = "roomprefrences_opened", display_name = "Open Room Preferences").save()
-state_4 = TermStates(number = 4, order = 4, name = "roomprefrences_closed", display_name = "Lock Room Preferences").save()
-state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
-state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
-state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
+state_1 = TermState( order = 0, name = "term_created", display_name = "Term Created").save()
+state_2 = TermState( order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
+state_3 = TermState( order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
+state_3 = TermState( order = 3, name = "roomprefrences_opened", display_name = "Open Room Preferences").save()
+state_4 = TermState( order = 4, name = "roomprefrences_closed", display_name = "Lock Room Preferences").save()
+state_5 = TermState( order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
+state_6 = TermState( order = 6, name = "term_finished", display_name = "Finish").save()
+state_7 = TermState( order = 7, name = "term_archived", display_name = "Archive").save()
 
 
 

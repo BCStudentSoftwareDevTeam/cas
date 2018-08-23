@@ -57,11 +57,10 @@ class ScheduleDays(dbModel):
   day           = CharField(null=True)
 
 
-class TermStates(dbModel):
-  csID          = PrimaryKeyField()
-  number        = IntegerField(null = False)
-  name          = CharField(null = False)
+class TermState(dbModel):
+  stateID       = PrimaryKeyField()
   order         = IntegerField(null = False)
+  name          = CharField(null = False)
   display_name  = CharField(null = False)
 
 """
@@ -75,7 +74,8 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  state             = ForeignKeyField(TermStates, related_name = "states")
+  state             = IntegerField(default=0)
+  new_state         = ForeignKeyField(TermState, related_name = "state")
   
   def __str__(self):
     return self.name

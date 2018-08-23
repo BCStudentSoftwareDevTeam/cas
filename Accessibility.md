@@ -7,13 +7,13 @@ Purpose
 
 Anywhere from 15 to 20% percent of people are disabled. If a website is not accessible then there are 
 literally millions of people that are unable to access your website. If you have a website you want to 
-make sure that everyone can us it, because you are proud of it, you want to make sure that it works. 
-It's also a legal issue. The college would be open to lawsuits if there's website in not accessible.
+make sure that everyone can use it, because you are proud of it, you want to make sure that it works. 
+It's also a legal issue. The college would be open to lawsuits if their website is not accessible.
 Website accessibility isn't that hard either, it just adds a couple of steps to your coding routine. 
  
 Before you issue a pull request that touches the front end (HTML, JAVASCRIPT, CSS) in any way, 
 you MUST go through accessibility testing. If you code fails at any time during the "Beginner" portion of 
-the checklist you must fix it before you're pull request can be accepted. You're pull request will not be accepted if it fails at at
+the checklist you must fix it before your pull request can be accepted. Your pull request will not be accepted if it fails at at
 any point during the "Beginner" portion of the checklist. 
 
 Background

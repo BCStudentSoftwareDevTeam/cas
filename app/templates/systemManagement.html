@@ -1,3 +1,4 @@
+
 <!--This is html file is made dynamically, most of the materials and the texts that appear on the interface are saved in the config file so that they can be changed only at one place in case anything chnanges in the future on the processes-->
 <!-- the button names are stored in the create_db-->
 {% extends "base.html" %} {% set currentPage = "systemManagement" %} {% block body %}
@@ -15,12 +16,12 @@
   <table class="table" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
       {% for term in terms %}
-      <tr  id = "{{ term.termCode }}">
+      <tr id = "{{ term.termCode }}">
         <td> 
         {% for state in term_state %}
             {% if state.number == 0 %}
             <td style="margin-top:1px !important; padding-top: 1px !important;">
-              <!-- Generates the term buttons-->
+               <!--Generates the term buttons-->
               <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
               aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('btn{{state.order + 1}}');">{{term.name}} 
               </button> 
@@ -38,7 +39,8 @@
       </td>
       </tr>
       <tr  id = "hidden_{{ term.termCode }}">
-        <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
+        <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term -->
+        </td>
       </tr>
       {% endfor %}
   </table>
@@ -69,7 +71,7 @@
         </div>
     {% endif %}
     {% if state.number in format1 %}
-          <!--<div class="row">-->
+          <div class="row">
           <div id="order{{state.order}}" class="collapse">
               <div class = "panel-body panel_color">
                 <div class = "row text-center">
@@ -78,13 +80,13 @@
                 <div class ="row">
                   <div class = "col-sm-6">
                      <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
-                     <!-- this is for the unlock button --->
+                      this is for the unlock button -
                       <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
                       aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
                   </div>
                   <div class = "col-sm-6 text-right">
                       <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
-                      <!--- this is for the lock button --->
+                      - this is for the lock button -
                       <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
                       aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');" >
                         {{state.display_name}}
@@ -104,7 +106,7 @@
                 </div>
               </div>
             </div>
-            <!--</div>-->
+            </div>
       {% endif %}
       {% if state.number in format2 %}
       <!--FINISH-->
@@ -130,7 +132,7 @@
                 </button>
               </div>
                 <div class = "col-sm-3 text-right"> 
-              <!-- Click to finish term-->
+               <!--Click to finish term-->
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
@@ -185,6 +187,12 @@
           </div>
   </div>
 </div>
+
+
+
+
+
+
 <!-- Modal -->
           
 <!------------------------------------------------------------------------------------------------------------------------------------------>
@@ -221,5 +229,5 @@
 <!--    </form>-->
   
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
-</div>
-{% endblock %}
+<!--</div>-->
+<!--{% endblock %}-->
