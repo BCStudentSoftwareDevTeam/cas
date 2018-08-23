@@ -318,7 +318,8 @@ function saveValue(){
                 dataType: 'json',
                     success: function(response);
                     disableRoom(getRoomId());//does disableRoom belong inside of this function.
-                    postNotes(getPrefId(),getCourseId());
+                    postNotes(getPrefId();
+                    getCourseId());
                    }
                     error: function(xhr, status, error) {
                       var err = eval("(" + xhr.responseText + ")");
