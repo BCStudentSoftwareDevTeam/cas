@@ -40,12 +40,12 @@
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-primary btn-md " 
+                                     class="active btn btn-primary"
                                     type="button" 
                                     data-toggle="collapse" 
                                     data-target="#firstCollapser" 
                                     aria-expanded="false" 
-                                    aria-controls="firstCollapser">
+                                    aria-controls="firstCollapser" >
                                         {% if pref != None %}
                                             {{pref.building.shortName}} {{pref.number}} 
                                         {% else %} 

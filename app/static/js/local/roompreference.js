@@ -316,11 +316,13 @@ function saveValue(){
                 url: url,
                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
-                    success: function(response);
+                    success: function(response){
+                        
+                    
                     disableRoom(getRoomId());//does disableRoom belong inside of this function.
-                    postNotes(getPrefId();
-                    getCourseId());
-                   }
+                    postNotes(getPrefId(),getCourseId());
+                    },
+                   
                     error: function(xhr, status, error) {
                       var err = eval("(" + xhr.responseText + ")");
                       alert(err.Message);
@@ -496,3 +498,7 @@ function hideBlankPreferences(){
 firstPageLoad();
 
 
+$(".btn-group > .btn").click(function(){
+    $(".btn-group > .btn").removeClass("active");
+    $(this).addClass("active");
+});
