@@ -81,10 +81,13 @@ adminMenu:
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
-    # we added
+  - title: "Building Management"
+    link:  "/buildingManagement"
+    page: ["buildingManagement"]
   - title: "Room Resolution"
     link:  "/roomResolution"
     page: ["roomResolution"]
+  
 
     
 #If you ever change the current states, you cannot duplicate the values, because
