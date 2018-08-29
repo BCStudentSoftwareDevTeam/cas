@@ -1,233 +1,31 @@
-
-<!--This is html file is made dynamically, most of the materials and the texts that appear on the interface are saved in the config file so that they can be changed only at one place in case anything chnanges in the future on the processes-->
-<!-- the button names are stored in the create_db-->
 {% extends "base.html" %} {% set currentPage = "systemManagement" %} {% block body %}
 {% include "snips/messages.html" %}
-<link rel="stylesheet" href="../static/css/systemManagement.css" >
+<link rel="stylesheet" href="/static/css/systemManagement.css">
 <script type="text/javascript" src="/static/js/local/systemManagement.js"></script>
 
-<div class="container">
-<div class="panel panel-default" >
-  <!--TERM MANAGEMENT-->
-  <div class="panel-heading" class = "panel_color">
-    <h3 class="panel-title">Term Management</h3>
-    <h5><i> Click below on the term to begin </i><h5>
-  </div>
-  <table class="table" cellspacing="0" cellpadding="0">
-      {% include "snips/termModal.html" %}
-      {% for term in terms %}
-      <tr id = "{{ term.termCode }}">
-        <td> 
-        {% for state in term_state %}
-            {% if state.number == 0 %}
-            <td style="margin-top:1px !important; padding-top: 1px !important;">
-               <!--Generates the term buttons-->
-              <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('btn{{state.order + 1}}');">{{term.name}} 
-              </button> 
-            </td>      
-            {% else %}
-            <!--This cater for the archiving state which is not the menu tab on the row, generates the other six menu tabs-->
-              {% if state.number != 7 %}
-              <td style="padding: 1px !important; margin: 1px !important;">
-                <button style="width:100%" class="theButtons btn btn-dark" type = "button" id = "btn{{state.order}}" data-target="#order{{state.order}}" aria-expanded="false" aria-controls="order{{state.order}}" disabled = "disabled"
-                onclick="showPanel({{term.termCode}},this)" >{{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
-              </td>  
-              {% endif %}
-            {% endif %}
-        {% endfor %}
-      </td>
-      </tr>
-      <tr  id = "hidden_{{ term.termCode }}">
-        <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term -->
-        </td>
-      </tr>
-      {% endfor %}
-  </table>
-  </div>
-<div id = "allPanels"><!--This covers all the panels-->
-  <div class="panel panel-default"> 
-  <!--Creates the variable for the states and loops through all the states and genrates the appropriate pannels as specified by the if statement-->
-  {% set format0 = [1,2,4] %}
-  {% set format1 = [3,5] %}
-  {% set format2 = [6] %}
-  {% for state in term_state %}
-    {% if state.number in format0 %}
-        <div id="order{{state.order}}" class="collapse"> 
-          <div class="panel-body panel_color">
-            <div class = "row text-center">
-               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p> <!-- Access the state number from the config file and then get the value of mainInfo-->
-            </div>
-            <div class = "row">
-            <div class = "col-sm-10">
-              <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
-            </div>
-            <div class = "col-sm-2">
-              <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
-            </div>
-            </div>
-          </div>
-        </div>
-    {% endif %}
-    {% if state.number in format1 %}
-          <div class="row">
-          <div id="order{{state.order}}" class="collapse">
-              <div class = "panel-body panel_color">
-                <div class = "row text-center">
-                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b><br> </p>
-                </div>
-                <div class ="row">
-                  <div class = "col-sm-6">
-                     <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
-                      this is for the unlock button -
-                      <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
-                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
-                  </div>
-                  <div class = "col-sm-6 text-right">
-                      <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
-                      - this is for the lock button -
-                      <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
-                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');" >
-                        {{state.display_name}}
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                      </button>
-                      <br>
-                      <span>
-                        <sub>
-                          <br> 
-                            {{cfg['states'][state.number]['subtext']}}
-                        </sub>
-                      </span>
-                  </div>
-                  <div class = "row text-center">
-                    <a>{{cfg['states'][state.number]['download']}}</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-      {% endif %}
-      {% if state.number in format2 %}
-      <!--FINISH-->
-       <div id="order{{state.order}}" class=" finish collapse">
-          <div class = "panel-body panel_color">
-            <div class = "row text-center">
-              <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
-            </div>
-            <div class="row">
-              <div class = "col-sm-3 text-left ">
-              <!--Click below to go to Room resolutions page-->
-                <p><sub>{{cfg['states'][state.number]['goto_text']}}</sub></p>
-                <a>{{cfg['states'][state.number]['goto_link']}}</a>
-              </div>
-              <div class= "col-sm-6 text-center">
-                  <p>
-                    <sub><br>{{cfg['states'][state.number]['left_help_text']}}</sub>
-                  </p>
-              <!--Reasign Button-->
-                <button type = "button" id = "button{{state.order}}" class= "btn btn-danger" data-toggle = "collapse" data-target= ""
-                 aria-controls="order{{state.order-1}}"
-                 onclick ="enableTheOne('btn{{state.order}}')"> {{cfg['states'][state.number]['btn']}}
-                </button>
-              </div>
-                <div class = "col-sm-3 text-right"> 
-               <!--Click to finish term-->
-                <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
-                <!--Finish button-->
-                  <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
-                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');"> {{state.display_name}}
-                  </button>
-                </div>
-          </div>
-        </div>
-        </div>
-        {% endif %}
-  {% endfor %}
-      <!--The archive panel and the button after finish-->
-       <div id="archive" class="collapse" >
-          <div class = "panel-footer">
-            <div class = "row text-center">
-              <p><b>The term is complete</b></p><br>
-              <p>Couse and Room Preferences are no longer accepted, and rooms have been assigned.</p>
-            </div>
-          <div class = "row">
-              <div class = "col-sm-4" >
-                <br> 
-                <a>Download Courses</a>
-              </div>      
-              <div class = "col-sm-4">  
-                <br>
-                <a>Download Rooms </a>
-              </div>
-            <div class = "col-sm-4 text-right"> 
-                <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick = " change_btn_name1()"></input><br>
-                <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
-            </div>
-          </div>
-          </div>
-         </div>
-         <!--This is the modal for onclick on archive button confrirmation-->
-         <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Archive term</h4>
-                </div>
-                <div class="modal-body">
-                  <p>Are you sure you are ready to archive the term?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name()">Yes</button>
-                </div>
-              </div>
-          
-            </div>
-          </div>
-  </div>
-</div>
-
-
-
-
-
-
-<!-- Modal -->
-          
-<!------------------------------------------------------------------------------------------------------------------------------------------>
-<!--<div class = container>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--</div>  -->
-
-<!--    <label for="newTerm">Create a new term</label>-->
-<!--    <form action="\newTerm" method="post" id="newTerm" class="form-inline">-->
-<!--      <div class="form-group">-->
-<!--        <select class="form-control" name="keyValue">-->
-<!--            {% for key in cfg['termInfo'] %}-->
-<!--              <option value="{{key}}" required>-->
-<!--                {{cfg['termInfo'][key]}}-->
-<!--              </option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--      </div>-->
-<!--      <div class="form-group">-->
-<!--        <select class="form-control" name="year">-->
-<!--            {% for year in years %}-->
-<!--              <option value="{{year}}" required>-->
-<!--                {{year}}-->
-<!--              </option>-->
-<!--            {% endfor %}-->
-<!--          </select>-->
-<!--      </div>-->
-<!--      <div class="form-group"-->
-<!--        <input type="submit" class="btn btn-success" value="Save">-->
-<!--      </div>-->
-<!--    </form>-->
   
-<!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
-<!--</div>-->
-<!--{% endblock %}-->
+<div class = "container">
+  <div class="panel-heading">
+    <h1 class="panel-title">Term Management</h1>
+  </div>
+ 
+    {% for term in terms %}
+      <h2 class="termName">{{term.name}} {{term.new_state.order}}</h2>
+      {% if term.new_state.order == 7 %}
+      <ul class="step-menu">
+        {% for state in term_states %}
+        <li role="button" class="complete" id = "{{term.termCode}}" onclick = "disable_btn({{term.termCode}})">{{state.display_name}}</li>
+        {% endfor %}
+      </ul>
+      {% else %} 
+      <ul class="step-menu">
+        {% for state in term_states %}
+        <li role="button" class="current" id = "{{term.termCode}}">{{state.display_name}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} 
+    {% endfor %} 
+</div> 
+
+{% endblock %}
+

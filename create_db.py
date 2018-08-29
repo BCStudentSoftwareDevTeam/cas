@@ -299,7 +299,7 @@ term = Term(  name             = "Fall 2016",
               editable          = 0,
               termCode          = 201611,
               state             = 0,
-              new_state         = 2
+              new_state         = 1
             ).save(force_insert = True)
             
 term = Term(  name              = "Spring 2017",
@@ -334,7 +334,7 @@ term = Term(  name              = "Fall 2018",
               termCode          = 201811,
               editable          = 0,
               state             = 0,
-              new_state         = 6
+              new_state         = 8
             ).save(force_insert = True)
             
 

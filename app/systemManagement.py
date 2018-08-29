@@ -11,10 +11,24 @@ def systemManagement():
       users          = User.select()
       program        = Program.get()
       today          = datetime.date.today()
-      # term_states     = TermState.select()
+      term_states     = TermState.select().order_by()
+      term_to_state  = {}
+      
+      for term in terms: 
+         term_to_state[term.termCode, term.name] = term.new_state.order
+         
+         
+      # print (term_to_state)
+      
+      
+      
+      
+      # for i in term_states:
+      #    print (i.display_name)
       # for i in terms:
-      #    print i.new_state.display_name
-
+      #    print (i.new_state.order)
+      # for i in terms:
+      #    print i.new_state.name
       #WE WANT THE USER TO HAVE THE ABILITY TO SELECT A YEAR AGO AND THREE YEARS PAST THE CURRENT YEAR
       years       = []
       #START WITH ONE YEAR AGO
@@ -32,5 +46,6 @@ def systemManagement():
                               program        = program,
                               users          = users,
                               isAdmin        = g.user.isAdmin,
-                              today          = today)
-                              # term_state     = term_state)
+                              today          = today,
+                              term_to_state   = term_to_state,
+                              term_states     = term_states)
