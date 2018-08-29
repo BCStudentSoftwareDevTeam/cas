@@ -3,6 +3,22 @@
 {% set currentPage = "no" %} 
 {% block body %}
 
-<h1>Building Management</h1>
+<div>
+    <h1 class="text-center">Building Management</h1>
+</div>
+
+<div class="container">
+    <div>
+        <h3 class = "text-center">Building</h3>
+    </div>
+    <div class="form-group" "center">
+        <select class="form control">
+            <option value="Danforth">Danforth</option>
+            <option value="Frost">Frost</option>
+        </select>
+    </div>
+</div>
+
+<!---hidden building details until user has selected the building that they manage--->
 
 {% endblock %}
