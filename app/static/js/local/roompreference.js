@@ -51,6 +51,7 @@ function getBuildingId(){       //gets the builiding id of each building
 }
 
 function setLastButtonPressed(lastPressedButtonID){     //sets the id of each last button pressed in the UI
+// console.log("Set to " + lastPressedButtonID)
     lastButtonPressed= lastPressedButtonID;
 }
 
@@ -217,6 +218,7 @@ tracks which button are pressed last
 managers the options in the room selecy drop down the first preferecne should have this room do not require a room while p2 and p3 have no other room works
 caters for managing the NONE option*/
 function setPreference(){
+    // console.log("Starting set preference")
     if (arguments.length > 0) {
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
@@ -225,16 +227,26 @@ function setPreference(){
     setPrefList(1, pref); 
     
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
+<<<<<<< HEAD
+=======
+    console.log( ("#"+getLastPressedButton()));
+>>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
+<<<<<<< HEAD
+=======
+    
+    // Expands the collapser area with all the room information inside it
+>>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
             currentAriaState = !currentAriaState;
             $('#firstCollapser').collapse('show');      // seems counterintuitive to show; bootstrap hides it, then this line shows it again
+            
         } else {
             $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
         }
@@ -477,7 +489,6 @@ function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called
 /*Sets the notes for all the courses on page load*/
 function firstPageLoad () {
     var allCourses = $(".notesHolders");
-    console.log("AAAAAAAAA");
     for (var i = 0; i < allCourses.length; i++) {
         var course = allCourses[i].id.split("_")[1];
         setRoomValueListFirstTime(course);
@@ -490,3 +501,14 @@ function firstPageLoad () {
 firstPageLoad();
 
 
+
+// var header = document.getElementById("activetbutton");
+// var btns = header.getElementsByClassName("btn btn-primary");
+// console.log("what is btn", btns);
+// for (var i = 0; i < btns.length; i++) {
+//   btns[i].addEventListener("click", function() {
+//     var current = document.getElementsByClassName("active");
+//     current[0].className = current[0].className.replace(" active", "");
+//     this.className += " active";
+//   })
+// }
