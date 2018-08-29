@@ -541,6 +541,14 @@ instructor = InstructorCourse(  username = "heggens",
 instructor = InstructorCourse(  username = "heggens",
                                 course   = 2
                               ).save()
+                
+instructor = InstructorCourse(  username = "heggens",
+                                course   = 3
+                              ).save()
+
+instructor = InstructorCourse(  username = "heggens",
+                                course   = 4
+                              ).save()
                               
 instructor = InstructorCourse(  username = "heggens",
                                 course   = 1

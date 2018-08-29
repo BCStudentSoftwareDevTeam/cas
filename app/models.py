@@ -232,7 +232,9 @@ class RoomPreferences(dbModel):
   notes         = CharField(null=True)
   any_Choice    = IntegerField(null=True, default=1)
   none_Choice   = IntegerField(null=True) #none_choice saves which preference is set to none
+  no_Other_room = IntegerField(null=True) 
   none_Reason   = CharField(null=True)#Not used
+  roomRequired  = IntegerField(null=True, default=1)
   
 
 class SpecialTopicCourse(dbModel):
@@ -277,9 +279,6 @@ class InstructorCourse(dbModel):
 class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
-  
-
-
   
 class Deadline(dbModel):
   description  = TextField()

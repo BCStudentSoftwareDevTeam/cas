@@ -153,44 +153,44 @@ function goToRDetails(r,doishow) {
 /*sets the glyhicicons for education tech for each room*/
 function education_detail(response){
     if(response['educationTech']['dvd']){
-        document.getElementById("dvdIcon").innerHTML = "DVD : <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-ok pull-left'> </span>";
     } else {
-        document.getElementById("dvdIcon").innerHTML = "DVD: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-remove'> </span>";
     }
     if(response['educationTech']['audio']){
-        document.getElementById("audioIcon").innerHTML = "  Audio: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("audioIcon").innerHTML = "  Audio: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['blu_ray']){
-        document.getElementById("blu_rayIcon").innerHTML = "BluRay: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("blu_rayIcon").innerHTML = "BluRay: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['extro']){
-        document.getElementById("extroIcon").innerHTML = "Extro: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("extroIcon").innerHTML = "Extro: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['doc_cam']){
-        document.getElementById("doc_camIcon").innerHTML = "DocCam : <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("doc_camIcon").innerHTML = "DocCam: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['vhs']){
-        document.getElementById("vhsIcon").innerHTML = "VHS: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("vhsIcon").innerHTML = "VHS: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['tech_chart']){
-        document.getElementById("tech_chartIcon").innerHTML = "TechChart: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("tech_chartIcon").innerHTML = "TechChart: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
     if(response['educationTech']['mondopad']){
-        document.getElementById("mondopadIcon").innerHTML = "Mondopad: <span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
-        document.getElementById("mondopadIcon").innerHTML = "Mondopad: <span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
 }
 
@@ -221,13 +221,15 @@ function setPreference(){
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
-    var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
-    var p2 = $("#prefButton2_"+getCourseId()).val();
-    var p3 = $("#prefButton3_"+getCourseId()).val();
-    setPrefList(1,p1);
-    setPrefList(2,p2);
-    setPrefList(3,p3);
+    var pref = $("#prefButton" + getPrefId()+ "_" +getCourseId()).val(); // setting the pref values
+    setPrefList(1, pref); 
+    
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
+    $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
+    $("#" + getLastPressedButton()).addClass("btn-secondary");
+    $("#"+currentButton).removeClass("btn-secondary");
+    $("#"+currentButton).addClass("btn-primary");
+    
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
@@ -239,20 +241,23 @@ function setPreference(){
     }
     setLastButtonPressed(currentButton);
     fixSelectPicker();
+    if(pref > 0){
+        var new_value = getPrefId() + '_' + pref + "_" + getCourseId();  //TODO: IT KEEPS ALL VALUES
+        $("#selectButton").val(new_value); 
+        setSelectedRoom(pref);
+    }
+    else{
+        
+    }
     
-    var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
-    var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
-    $("#selectButton").val(new_value);
-    setSelectedRoom(pID);
     
     if (getPrefId() == 1) {//Changes text to "This course does not need a room" if on first preference
         document.getElementById("noRoom").innerHTML = "This Course Does Not Require A Room";
     } 
     else { //Changes text to "This course does not need a room" if on first preference only
-        var no_room = document.getElementById("noRoom").innerHTML;
         document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
     }
-    disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
+    //disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
@@ -306,20 +311,21 @@ function setModalText(button){
 
 /* Saves values, and Sets button to value*/
 function saveValue(){
-    var info =  $("#selectButton").val();
     var pref_button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+    
     pref_button.value =  getRoomId();
     pref_button.innerHTML = room;
+    
       var url= '/postPreference';
         $.ajax({
              type: "POST",
                 url: url,
                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
-                    success: function(response);
+                    success: function(response){
                     disableRoom(getRoomId());//does disableRoom belong inside of this function.
                     postNotes(getPrefId(),getCourseId());
-                   }
+                    },
                     error: function(xhr, status, error) {
                       var err = eval("(" + xhr.responseText + ")");
                       alert(err.Message);
@@ -400,6 +406,10 @@ function remainingToNone(){
         pref_button.value =  -1;
         pref_button.innerHTML = "No Other Rooms Work";
     }
+    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+    button.click();
+    
+    
   //HIDE BUTTON ON THIRD ONE
 }
 
@@ -454,17 +464,20 @@ function setInstructions(course) {
 /* Connects with the setInstrucions function to initialize RoomValueList and PrefList on firstPageLoad() */    
 function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in firstPageload
     console.log("#prefButton1" + "_" + course);
-    setRoomValueList(1, $("#prefButton1" + "_" + course).html()); 
+    setRoomValueList(1, $("#prefButton1" + "_" + course).html());
     setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
     setRoomValueList(3, $("#prefButton3" + "_" + course).html()); 
     setPrefList(1, $("#prefButton1" + "_" + course).val()); 
     setPrefList(2, $("#prefButton2" + "_" + course).val()); 
     setPrefList(3, $("#prefButton3" + "_" + course).val());
+    console.log("ROOM VAL LIST", roomValueListGlobal);
+    console.log("PREF LIST", prefListGlobal);
 }
 
 /*Sets the notes for all the courses on page load*/
 function firstPageLoad () {
     var allCourses = $(".notesHolders");
+    console.log("AAAAAAAAA");
     for (var i = 0; i < allCourses.length; i++) {
         var course = allCourses[i].id.split("_")[1];
         setRoomValueListFirstTime(course);
@@ -472,24 +485,6 @@ function firstPageLoad () {
         // console.log("course id",allCourses[i].id.split("_")[1]); // gross way of getting course id
         setInstructions(course);
     }
-}
-
-function hideBlankPreferences(){
-    //Hides the preferences that shouldn't be able to be seen
-    
-    //Case 1: any, hidden, hidden
-    
-    //Case 2:  room, any, hidden
-    
-    //Case 3: room, room, any
-    
-    //Case 4: room, room, room
-    
-    //Case 5: 1 room, none_Choice, hidden
-    
-    //Case 6: room, room, none_choice
-    
-    //Case 7: none_choice, hidden, hidden
 }
 
 firstPageLoad();

@@ -36,11 +36,13 @@
                                             value="0"  {# Holds room ID, NOT pref ID #} 
                                         {% elif roompreference.none_Choice == loop.index %}
                                             value="-1"  {# Holds room ID, NOT pref ID #} 
+                                        {% else %}
+                                            value = "-2"
                                         {% endif %} 
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-primary btn-md " 
+                                    class="btn btn-secondary btn-md " 
                                     type="button" 
                                     data-toggle="collapse" 
                                     data-target="#firstCollapser" 
@@ -49,9 +51,9 @@
                                         {% if pref != None %}
                                             {{pref.building.shortName}} {{pref.number}} 
                                         {% else %} 
-                                            {% if roompreference.any_Choice == loop.index %}
+                                            {% if roompreference.any_Choice == loop.index %} <!-- MAYBE ADD OTHER DEFAULT FOR ANY? -->
                                                 Any Room Works 
-                                            {% elif roompreference.none_Choice == loop.index and loop.index == 1 %}
+                                            {% elif roompreference.none_Choice == loop.index %}
                                                 This Course Does Not Require A Room
                                             {% else %}
                                                 No Other Room Works

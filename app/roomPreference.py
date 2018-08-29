@@ -25,12 +25,11 @@ def roomPreference(rid=1):
         abort(403)
         
     courses= InstructorCourse.select().where(InstructorCourse.username == user)
-    
     roomPreferences = {}
     
     for course in courses:
         roomPreferences[course.course.cId] = RoomPreferences.get_or_create(course = course.course.cId)
-        
+    
    #We changed it and removed .get()
   
     return render_template(
@@ -118,8 +117,11 @@ def postPreference():
         else:
             flash("You tried to select a preference that doesn't exist!","error")
             return json.dumps({"success  ": 0}) #Picked a preference outside of 1,2,or 3
+    
     elif room == 0:#Any case
-        rp.none_Choice = None
+        if(rp.none_Choice == pref): rp.none_Choice = None 
+        if(rp.no_Other_room == pref): rp.no_Other_room = None
+        
         if (pref == 1): 
             rp.pref_1 = None
             rp.any_Choice = 1
@@ -130,8 +132,10 @@ def postPreference():
             rp.pref_3 = None
             rp.any_Choice = 3
         
-    elif room < 0:  #No other rooms work case
-        rp.any_Choice = None
+    elif room == -1:  #No other rooms work case
+        if(rp.any_Choice == pref): rp.any_Choice = None
+        if(rp.no_Other_room == pref): rp.no_Other_room = None
+        
         if (pref == 1): 
             rp.pref_1 = None
             rp.none_Choice = 1
@@ -142,10 +146,24 @@ def postPreference():
         elif(pref == 3):
             rp.pref_3 = None
             rp.none_Choice = 3
-
+            
+    elif room == -2:  #No other rooms work case
+        if(rp.any_Choice == pref): rp.any_Choice = None
+        if(rp.none_Choice == pref): rp.none_Choice = None
+        
+        if (pref == 1): 
+            rp.pref_1 = None
+            rp.no_Other_room = 1
+            flash("WARNING: This indicates to the registrar that this course does not need a room","error")
+        elif (pref == 2):
+            rp.pref_2 = None
+            rp.no_Other_room = 2
+        elif(pref == 3):
+            rp.pref_3 = None
+            rp.no_Other_room = 3
+            
     rp.save()
-    print("None: ", rp.none_Choice)
-    print("Any: ", rp.any_Choice)
+    
     return json.dumps({"success": 1})
 
     
