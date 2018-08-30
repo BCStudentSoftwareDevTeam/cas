@@ -42,7 +42,7 @@
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-secondary btn-md " 
+                                    class="btn btn-secondary btn-md" 
                                     type="button" 
                                     data-toggle="collapse" 
                                     data-target="#firstCollapser" 
@@ -95,6 +95,8 @@
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option> 
                                             <option id="noRoom" value = "-1">  No Other Rooms Work  </option>
+                                            <option id= "doesnotRe" value="-2"> This Course Does not Required A Room</option>
+                    
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>

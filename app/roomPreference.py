@@ -97,6 +97,7 @@ def postPreference():
     data = request.form #data coming from POST
     pref = int(data["pref_id"])
     room = int(data["roomID"])
+    print("pref", pref)
     print ("ROOM",room)
     rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
     
@@ -104,15 +105,15 @@ def postPreference():
         if (pref == 1):
             print("what is up here:  ", pref)
             rp.pref_1 = data["roomID"]
-            print("set pref 1: ", rp.pref_1.rID)
-            print("rp saved")
+            # print("set pref 1: ", rp.pref_1.rID)
+            # print("rp saved")
         elif (pref == 2):
             rp.pref_2 = data["roomID"]
-            print("set pref 2: ", rp.pref_2.rID)
+            # print("set pref 2: ", rp.pref_2.rID)
             
         elif(pref == 3):
             rp.pref_3 = data["roomID"]
-            print("set pref 3: ", rp.pref_3.rID)
+            # print("set pref 3: ", rp.pref_3.rID)
             
         else:
             flash("You tried to select a preference that doesn't exist!","error")

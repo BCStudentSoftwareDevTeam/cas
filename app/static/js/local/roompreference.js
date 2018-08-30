@@ -227,20 +227,19 @@ function setPreference(){
     setPrefList(1, pref); 
     
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
-<<<<<<< HEAD
-=======
+
+
     console.log( ("#"+getLastPressedButton()));
->>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
+
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
-<<<<<<< HEAD
-=======
-    
+
+
     // Expands the collapser area with all the room information inside it
->>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
+
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
@@ -264,10 +263,15 @@ function setPreference(){
     
     
     if (getPrefId() == 1) {//Changes text to "This course does not need a room" if on first preference
-        document.getElementById("noRoom").innerHTML = "This Course Does Not Require A Room";
+        document.getElementById("doesnotRe").innerHTML;
+        console.log("check the value now",document.getElementById("doesnotRe").innerHTML);// you had same id
     } 
+    
     else { //Changes text to "This course does not need a room" if on first preference only
         document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+        
+        
+        
     }
     //disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
     moveModal(getCourseId());
