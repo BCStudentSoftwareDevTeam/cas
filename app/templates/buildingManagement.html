@@ -2,58 +2,77 @@
 {% extends "base.html" %} 
 {% set currentPage = "no" %} 
 {% block body %}
-
 <div>
     <h1 class="text-center">Building Management</h1>
 </div>
 
-<div class="container">
-    <div>
-        <h3>Building</h3>
-    </div>
-    <div class="form-group">
-        <select class="form control">
-            <option value="Danforth">Danforth</option> <!---TODO: Pull buildings from database instead of hard coding--->
-            <option value="Frost">Frost</option>
-        </select>
-    </div>
-    <div>
-        <h4>Select a Room</h4>
-    </div>
-    <div class="form-group">
-        <select class="form control">
-            <option value="104">104</option> <!---TODO: Pull rooms from database instead of hard coding--->
-            <option value="104">204</option>
-        </select>
-    </div>
-    <div>
-        <p><strong>Room Number: </strong>NUMBER BASED ON SELECTION</p>
-        <p><strong>Room Type: </strong><input type=text></input></p>
-        <p><strong>Max Capacity: </strong><input type="number"></input></p>
-        <p><strong>Movable Furniture: </strong><input type="checkbox"></input></p>
-        <p><strong>Education Tech: </strong>in snip folder...</p>
-        <p><strong>Specialized Equipment: </strong><input type=text></input></p>
-        <p><strong>Special Features: </strong><input type=text></input</p>
-        <p><strong>Visual Accessibility: </strong><select class="form control">
-            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
-            <option value="B">B</option>
-            <option value="C">C</option>
-        </select></p>
-        <p><strong>Audio Accessibility: </strong><select class="form control">
-            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
-            <option value="B">B</option>
-            <option value="C">C</option>
-        </select></p>
-        <p><strong>Physical Accessibility: </strong><select class="form control">
-            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
-            <option value="C">C</option>
-        </select></p>
-    </div>
-    <div>
-        <button type="button" class="btn btn-success">Submit changes</button>
-    </div>
+<!--<h1 class="text-center"><strong>Building</strong></h1>-->
+<div>
+    <table class="table"> <!-- the fixed healines on the top of the table-->
+        <thead class="thead-dark">
+            <th scope="col"><h4><strong> Room(s)</strong></h4></th>
+            <th scope="col"> <h4><strong>Type </strong></h4></th>
+            <th scope="col"><h4> <strong>Last Modified</strong></h4></th>
+        </thead>
+        <tbody>
+            {% for room in room %}
+            <tr class = "room" = "{{building.bID}}">
+                    <td> {{room.building.shortName}}</td> <br>
+                    <td> {{room.roomType}}</td>
+                    <td> lastmodified</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-<!---hidden building details until user has selected the building that they manage--->
+<!--<div class="container">-->
+<!--    <div>-->
+<!--        <h3>Building</h3>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <select class="form control">-->
+<!--            <option value="Danforth">Danforth</option> <!---TODO: Pull buildings from database instead of hard coding--->
+<!--            <option value="Frost">Frost</option>-->
+<!--        </select>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <h4>Select a Room</h4>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <select class="form control">-->
+<!--            <option value="104">104</option> <!---TODO: Pull rooms from database instead of hard coding--->
+<!--            <option value="104">204</option>-->
+<!--        </select>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <p><strong>Room Number: </strong>NUMBER BASED ON SELECTION</p>-->
+<!--        <p><strong>Room Type: </strong><input type=text></input></p>-->
+<!--        <p><strong>Max Capacity: </strong><input type="number"></input></p>-->
+<!--        <p><strong>Movable Furniture: </strong><input type="checkbox"></input></p>-->
+<!--        <p><strong>Education Tech: </strong>in snip folder...</p>-->
+<!--        <p><strong>Specialized Equipment: </strong><input type=text></input></p>-->
+<!--        <p><strong>Special Features: </strong><input type=text></input</p>-->
+<!--        <p><strong>Visual Accessibility: </strong><select class="form control">-->
+<!--            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+<!--            <option value="B">B</option>-->
+<!--            <option value="C">C</option>-->
+<!--        </select></p>-->
+<!--        <p><strong>Audio Accessibility: </strong><select class="form control">-->
+<!--            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+<!--            <option value="B">B</option>-->
+<!--            <option value="C">C</option>-->
+<!--        </select></p>-->
+<!--        <p><strong>Physical Accessibility: </strong><select class="form control">-->
+<!--            <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+<!--            <option value="B">B</option>-->
+<!--            <option value="C">C</option>-->
+<!--        </select></p>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <button type="button" class="btn btn-success">Submit changes</button> <!---TODO: Save changes on click--->
+<!--    </div>-->
+<!--</div>-->
+</div>
 
 {% endblock %}
