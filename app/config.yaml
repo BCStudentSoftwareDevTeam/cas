@@ -66,6 +66,9 @@ accessLevel:
 
 
 adminMenu:
+  - title: "Building Management"
+    link:  "/buildingManagement"
+    page: ["buildingManagement"]
   - title: "Program Management" #Not needed after User Management
     link:  "/redirect/program_management"
     page: ["programManagement"]
@@ -81,9 +84,7 @@ adminMenu:
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
-  - title: "Building Management"
-    link:  "/buildingManagement"
-    page: ["buildingManagement"]
+  
   - title: "Room Resolution"
     link:  "/roomResolution"
     page: ["roomResolution"]
