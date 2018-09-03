@@ -32,7 +32,7 @@
                             <button {% if pref != None %}
                                         value="{{pref.rID}}"
                                     {% else %}
-                                        {% if roompreference.any_Choice == loop.index %}
+                                        {% if roompreference.any_Choice == loop.index or roompreference.initial_Preference == 1 %}
                                             value="0"  {# Holds room ID, NOT pref ID #} 
                                         {% elif roompreference.none_Choice == loop.index %}
                                             value="-1"  {# Holds room ID, NOT pref ID #} 
@@ -42,7 +42,7 @@
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-secondary btn-md " 
+                                    class="btn btn-secondary btn-md" 
                                     type="button" 
                                     disabled
                                     data-toggle="collapse" 
@@ -52,7 +52,7 @@
                                         {% if pref != None %}
                                             {{pref.building.shortName}} {{pref.number}} 
                                         {% else %} 
-                                            {% if roompreference.any_Choice == loop.index %} <!-- MAYBE ADD OTHER DEFAULT FOR ANY? -->
+                                            {% if roompreference.any_Choice == loop.index  or roompreference.initial_Preference == 1 %}
                                                 Any Room Works 
                                             {% elif roompreference.none_Choice == loop.index %}
                                                 This Course Does Not Require A Room
@@ -94,9 +94,10 @@
                                     <div class="row" id = "roomSelectModalDiv"> 
                                         <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
-                                            <option id="0" value = "0">  Any Room Works </option> 
-                                            <option id="noRoom" value = "-1">  This Course Does Not Require A Room  </option>
-                                            <option id="noneRoom" value = "-2">  No Other Rooms Work  </option>
+                                            <option id="anyVal" value = "0">  Any Room Works </option> 
+                                            <option id= "doesnotRe" value="-1"> This Course Does not Required A Room</option>
+                                            <option id="noRoom" value = "-2">  No Other Rooms Work  </option>
+                    
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>

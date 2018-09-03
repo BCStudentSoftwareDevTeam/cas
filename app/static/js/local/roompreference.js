@@ -11,7 +11,6 @@ var room = 0; // this gives bldg shortname + room number e.g DR200
 
 function setPrefID(pref_id){        // (set is used for the Declaration of the variable) this  sets up the preference id of each preference: 1, 2, 3 only valid values
     prefIDGlobal=parseInt(pref_id);
-    //console.log("SETTING PREF ID")
 }
 
 function getPrefId(){       //(get is used as a print for the declared variable)this method gets the value of each preference that is used globally
@@ -51,7 +50,6 @@ function getBuildingId(){       //gets the builiding id of each building
 }
 
 function setLastButtonPressed(lastPressedButtonID){     //sets the id of each last button pressed in the UI
-// console.log("Set to " + lastPressedButtonID)
     lastButtonPressed= lastPressedButtonID;
 }
 
@@ -122,7 +120,6 @@ function goToRDetails(r,doishow) {
     $("#collapseOne #Details #withoutSelectButton").show();
     setRoomId($("#selectedRoom").val());
     if (r.value > 0){
-        //console.log("selected value",getPrefId($("#selectedRoom").val()));
         var room_materials= r.value;
         if(room_materials){
              var url = '/room_details/'+room_materials;
@@ -226,13 +223,12 @@ function setPreference(){
     setPrefList(1, pref); 
     
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
+    
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
-    
-    // Expands the collapser area with all the room information inside it
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
@@ -249,7 +245,15 @@ function setPreference(){
     $("#selectButton").val(new_value); 
     setSelectedRoom(pref);
     
-    //disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
+    if (pref == "-1") {
+        document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
+    } 
+    
+    else if(pref == "-2") { //Changes text to "This course does not need a room" if on first preference only
+        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+    }
+    
+    
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
@@ -343,9 +347,10 @@ function goToNextPref() {
         nextButton.value = 0;
         nextButton.innerText  = "Any Room Works";
         nextButton.disabled = false;
-        nextButton.click();
-        
     }
+    
+    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+    button.click();
 }
 
 /*Disables selected room from other preference*/

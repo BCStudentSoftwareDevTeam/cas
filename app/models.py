@@ -224,17 +224,17 @@ class Course(dbModel):
   
   
 class RoomPreferences(dbModel):
-  pID           = PrimaryKeyField()
-  course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference1',null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='preference2',null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='preference3',null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = IntegerField(null=True, default=1)
-  none_Choice   = IntegerField(null=True) #none_choice saves which preference is set to none
-  no_Other_room = IntegerField(null=True) 
-  none_Reason   = CharField(null=True)#Not used
-  roomRequired  = IntegerField(null=True, default=1)
+  pID                = PrimaryKeyField()
+  course             = ForeignKeyField(Course, related_name='courses')
+  pref_1             = ForeignKeyField(Rooms, related_name='preference1',null=True)
+  pref_2             = ForeignKeyField(Rooms, related_name='preference2',null=True)
+  pref_3             = ForeignKeyField(Rooms, related_name='preference3',null=True) #We are making sure we have all the preferences jotted down.
+  notes              = CharField(null=True)
+  any_Choice         = IntegerField(null=True)
+  none_Choice        = IntegerField(null=True) #none_choice saves which preference is set to none
+  no_Other_room      = IntegerField(null=True) 
+  none_Reason        = CharField(null=True)#Not used
+  initial_Preference = IntegerField(null=True, default=1)
   
 
 class SpecialTopicCourse(dbModel):
