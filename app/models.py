@@ -104,9 +104,9 @@ class Rooms(dbModel):
   visualAcc     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   audioAcc      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   physicalAcc   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
+  # visualAcc     = CharField(null=True) #Its entered twice for whatever reason
+  # audioAcc      = CharField(null=True)
+  # physicalAcc   = CharField(null=True)
   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
