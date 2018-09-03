@@ -1,3 +1,13 @@
+# How to use this file
+# 1) First, enable your virtual envionment, which will give you most of the prerequisite libraries related to flask:
+#   source setup.sh
+# 2) Pip install ldap3, which will allow you to connect to the AD via LDAP:
+#   pip install ldap3
+# 3) Run this script, passing in the username and password to connect to the LDAP server:
+#   python sync_faculty.py --user <USERNAME> --password <PASSWORD>
+# If everything works, the script will end by telling you how many users were updated and created
+
+
 from ldap3 import Server, Connection, ALL
 from peewee import *
 from os import path, remove
