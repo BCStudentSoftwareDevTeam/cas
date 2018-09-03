@@ -63,7 +63,7 @@ def courses(tID, prefix, can_edit):
 
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
-    courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
+    courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
 
     return render_template(
