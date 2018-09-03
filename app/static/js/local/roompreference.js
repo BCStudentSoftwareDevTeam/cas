@@ -240,19 +240,18 @@ function setPreference(){
         }
     }
     setLastButtonPressed(currentButton);
-    fixSelectPicker();
-    var new_value = getPrefId() + '_' + pref + "_" + getCourseId();  //TODO: IT KEEPS ALL VALUES
+    fixSelectPicker();  //TODO: IT KEEPS ALL VALUES
     $("#selectButton").val(new_value); 
     setSelectedRoom(pref);
-    
+    console.log("pref here", pref)
     if (pref == "-1") {
         document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
     } 
     
     else if(pref == "-2") { //Changes text to "This course does not need a room" if on first preference only
         document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+     
     }
-    
     
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
@@ -362,6 +361,7 @@ function disableRoom() {
         }
      }
     for (var i = 0; i < arguments.length; i++) {// Disables options
+    console.log("i", i);
         if (arguments[i] != 0){
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
         }
