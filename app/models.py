@@ -153,8 +153,7 @@ class Course(dbModel):
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
-  crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True, related_name='courses')
+  crossListed       = ForeignKeyField(BannerCourses, null = True)
   section           = TextField(null = True)
   prereq            = CharField(null = True)
   
