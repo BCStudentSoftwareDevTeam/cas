@@ -102,17 +102,12 @@ def postPreference():
     
     if room > 0: #If there is a room id
         if (pref == 1):
-            print("what is up here:  ", pref)
             rp.pref_1 = data["roomID"]
-            print("set pref 1: ", rp.pref_1.rID)
-            print("rp saved")
         elif (pref == 2):
             rp.pref_2 = data["roomID"]
-            print("set pref 2: ", rp.pref_2.rID)
             
         elif(pref == 3):
             rp.pref_3 = data["roomID"]
-            print("set pref 3: ", rp.pref_3.rID)
             
         else:
             flash("You tried to select a preference that doesn't exist!","error")

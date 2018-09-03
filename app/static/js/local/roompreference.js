@@ -218,7 +218,6 @@ tracks which button are pressed last
 managers the options in the room selecy drop down the first preferecne should have this room do not require a room while p2 and p3 have no other room works
 caters for managing the NONE option*/
 function setPreference(){
-    // console.log("Starting set preference")
     if (arguments.length > 0) {
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
@@ -227,20 +226,13 @@ function setPreference(){
     setPrefList(1, pref); 
     
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
-<<<<<<< HEAD
-=======
-    console.log( ("#"+getLastPressedButton()));
->>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
-<<<<<<< HEAD
-=======
     
     // Expands the collapser area with all the room information inside it
->>>>>>> 59ac4075478851982d8a2b46debd6e7b31060485
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
@@ -253,22 +245,10 @@ function setPreference(){
     }
     setLastButtonPressed(currentButton);
     fixSelectPicker();
-    if(pref > 0){
-        var new_value = getPrefId() + '_' + pref + "_" + getCourseId();  //TODO: IT KEEPS ALL VALUES
-        $("#selectButton").val(new_value); 
-        setSelectedRoom(pref);
-    }
-    else{
-        
-    }
+    var new_value = getPrefId() + '_' + pref + "_" + getCourseId();  //TODO: IT KEEPS ALL VALUES
+    $("#selectButton").val(new_value); 
+    setSelectedRoom(pref);
     
-    
-    if (getPrefId() == 1) {//Changes text to "This course does not need a room" if on first preference
-        document.getElementById("noRoom").innerHTML = "This Course Does Not Require A Room";
-    } 
-    else { //Changes text to "This course does not need a room" if on first preference only
-        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
-    }
     //disableRoom(p1, p2, p3); //Disables selection(s) to prevent double selecting
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
@@ -276,6 +256,9 @@ function setPreference(){
     if (getPrefList(getPrefId())>0){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
+    
+    
+    
 }
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
 function fixSelectPicker() {
@@ -346,6 +329,7 @@ function saveValue(){
 
     setPrefList(getPrefId(), getRoomId());
     setInstructions(getCourseId());
+    
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
 }
@@ -355,11 +339,13 @@ function saveValue(){
 function goToNextPref() {
     if (getPrefId() < 3) {
         setPrefID(getPrefId() + 1);
+        var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+        nextButton.value = 0;
+        nextButton.innerText  = "Any Room Works";
+        nextButton.disabled = false;
+        nextButton.click();
+        
     }
-    var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-    $("#exampleModal").removeClass("fade");
-    $("#exampleModal").modal('hide');
-    nextButton.click();
 }
 
 /*Disables selected room from other preference*/
@@ -371,9 +357,8 @@ function disableRoom() {
         }
      }
     for (var i = 0; i < arguments.length; i++) {// Disables options
-        var option_val= arguments[i]; // Remove the redudancy of the variable
-        if (option_val != 0){
-        $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
+        if (arguments[i] != 0){
+            $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
         }
     }
     $("#selectedRoom").selectpicker('refresh');
@@ -402,27 +387,18 @@ function postNotes(pref_id,cid){
 
 /*This function hadles no other rooms work button to set the remaining preferences to NONE */
 function remainingToNone(){
-    if (getPrefId()==1){
-        setPrefList(2,-1);
-        setPrefList(3,-1);
-        var pref_button = document.getElementById("prefButton2" + "_" +  getCourseId());
-        pref_button.value =  -1;
-        pref_button.innerHTML = "No Other Rooms Work";
-        var pref_button = document.getElementById("prefButton3" + "_" +  getCourseId());
-        pref_button.value =  -1;
-        pref_button.innerHTML = "No Other Rooms Work";
+    
+    if (getPrefId() < 3) {
+        setPrefID(getPrefId() + 1);
+        var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+        nextButton.value = -2;
+        nextButton.innerText  = "No Other Rooms Work";
+        nextButton.disabled = false;
     }
-    else if (getPrefId()==2){
-        setPrefList(3,-1);
-        var pref_button = document.getElementById("prefButton3"+ "_" +  getCourseId());
-        pref_button.value =  -1;
-        pref_button.innerHTML = "No Other Rooms Work";
-    }
+    
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
     button.click();
     
-    
-  //HIDE BUTTON ON THIRD ONE
 }
 
 
@@ -475,15 +451,12 @@ function setInstructions(course) {
  
 /* Connects with the setInstrucions function to initialize RoomValueList and PrefList on firstPageLoad() */    
 function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in firstPageload
-    console.log("#prefButton1" + "_" + course);
     setRoomValueList(1, $("#prefButton1" + "_" + course).html());
     setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
     setRoomValueList(3, $("#prefButton3" + "_" + course).html()); 
     setPrefList(1, $("#prefButton1" + "_" + course).val()); 
     setPrefList(2, $("#prefButton2" + "_" + course).val()); 
     setPrefList(3, $("#prefButton3" + "_" + course).val());
-    console.log("ROOM VAL LIST", roomValueListGlobal);
-    console.log("PREF LIST", prefListGlobal);
 }
 
 /*Sets the notes for all the courses on page load*/
@@ -496,19 +469,32 @@ function firstPageLoad () {
         // console.log("course id",allCourses[i].id.split("_")[1]); // gross way of getting course id
         setInstructions(course);
     }
+    hideFirstPreferences();
+}
+
+function hideFirstPreferences(){
+    
+    var allCourses = $(".notesHolders");
+    
+    for(var i = 0; i < (allCourses.length); i++){
+        var course = allCourses[i].id.split("_")[1];
+        var pref1 = document.getElementById("prefButton1_" + course);
+        var pref2 = document.getElementById("prefButton2_" + course);
+        var pref3 = document.getElementById("prefButton3_" + course);
+        
+        pref1.disabled = false;
+        
+        if (pref1.value > 0){
+            pref2.disabled = false;
+            if (pref2.value >0){
+                pref3.disabled = false;
+            }
+        }    
+    }
+}
+
+function updateHidingPreferences(){
+    
 }
 
 firstPageLoad();
-
-
-
-// var header = document.getElementById("activetbutton");
-// var btns = header.getElementsByClassName("btn btn-primary");
-// console.log("what is btn", btns);
-// for (var i = 0; i < btns.length; i++) {
-//   btns[i].addEventListener("click", function() {
-//     var current = document.getElementsByClassName("active");
-//     current[0].className = current[0].className.replace(" active", "");
-//     this.className += " active";
-//   })
-// }

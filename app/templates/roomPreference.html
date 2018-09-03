@@ -44,6 +44,7 @@
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
                                     class="btn btn-secondary btn-md " 
                                     type="button" 
+                                    disabled
                                     data-toggle="collapse" 
                                     data-target="#firstCollapser" 
                                     aria-expanded="false" 
@@ -94,7 +95,8 @@
                                         <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="0" value = "0">  Any Room Works </option> 
-                                            <option id="noRoom" value = "-1">  No Other Rooms Work  </option>
+                                            <option id="noRoom" value = "-1">  This Course Does Not Require A Room  </option>
+                                            <option id="noneRoom" value = "-2">  No Other Rooms Work  </option>
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>
