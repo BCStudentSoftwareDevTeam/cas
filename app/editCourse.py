@@ -41,8 +41,18 @@ def editcourse(tid, prefix, page):
     data = request.form
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-    courses = Course.select()
+    courses = Course.select() # Selects all courses
+    sp_courses = SpecialTopicCourse.select() # Selects all special topics courses
     for course in courses:
+      if course.rid != None:
+        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+          flash("The room selected is occupied at that time. Please select another.")
+          if page == 'courses':
+            return redirect(url_for("courses", tID=tid, prefix=prefix))
+          else:
+            url = "/courseManagement/" + page + "/" + tid
+            return redirect(url)
+    for course in sp_courses:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
           flash("The room selected is occupied at that time. Please select another.")
