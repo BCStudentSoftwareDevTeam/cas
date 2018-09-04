@@ -114,6 +114,24 @@ def editSTcourse(tid, prefix, page):
   if data['submitbtn'] == "Submit":
     specialCourse.status = cfg['specialTopicLogic']['submitted']
   professors = request.form.getlist('professors[]')
+  for course in courses:
+      if course.rid != None:
+        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+          flash("The room selected is occupied at that time. Please select another.")
+          if page == 'courses':
+            return redirect(url_for("courses", tID=tid, prefix=prefix))
+          else:
+            url = "/courseManagement/" + page + "/" + tid
+            return redirect(url)
+    for course in sp_courses:
+      if course.rid != None:
+        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+          flash("The room selected is occupied at that time. Please select another.")
+          if page == 'courses':
+            return redirect(url_for("courses", tID=tid, prefix=prefix))
+          else:
+            url = "/courseManagement/" + page + "/" + tid
+            return redirect(url)
   if page1 == "/specialCourses":
       if data['statusChange']:
         databaseInterface.editSTCourse(data, prefix, professors, int(data['statusChange']),cfg)
