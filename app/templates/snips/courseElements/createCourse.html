@@ -38,15 +38,7 @@
         <div class="form-group col-md-6 offset_input right" id="newInput">
           <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
         </div>
-        {% include "snips/courseElements/addInstructors.html"%}
-        {% include "snips/courseElements/addSchedule.html" %}
-        {% include "snips/courseElements/addSection.html" %}
-        <div class="form-group col-md-4 offset_input right">
-          <div>
-            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
-          </div>
-        </div>
-        <div class=" col-md-2 offset_input right">
+        <div>
             <label id="radioLabel" for="radios">Crosslisted</label>
           <div class="radio-inline" id=radios>
             <label>
@@ -61,6 +53,16 @@
             </label>
           </div>
         </div>
+        {% include "snips/courseElements/addCrossListCourse.html"%}
+        {% include "snips/courseElements/addInstructors.html"%}
+        {% include "snips/courseElements/addSchedule.html" %}
+        {% include "snips/courseElements/addSection.html" %}
+        <div class="form-group col-md-4 offset_input right">
+          <div>
+            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
+          </div>
+        </div>
+        
         
         <div id = "specialTopicCourse" hidden>
           <div class="col-md-12 form-group">

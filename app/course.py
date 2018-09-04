@@ -30,6 +30,10 @@ def courses(tID, prefix, can_edit):
     curTermName = Term.get(Term.termCode == tID)
 
     terms = Term.select().order_by(-Term.termCode)
+    
+    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
+    for c in allCourses:
+        print(c)
 
     # We need these for populating add course
     courseInfo = (BannerCourses
@@ -64,10 +68,13 @@ def courses(tID, prefix, can_edit):
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
     courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
+    # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
+    print("here" + courseInfo)
 
     return render_template(
             "course.html",
+            allCourses= allCourses,
             courses=courses_prefetch,
             specialCourses=special_courses_prefetch,
             divisions = divisions_prefetch,

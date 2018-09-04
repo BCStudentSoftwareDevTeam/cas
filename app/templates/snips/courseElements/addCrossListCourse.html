@@ -1,0 +1,12 @@
+<div class="form-group col-md-6" id="roomSelectDiv">
+    <div>
+     <select title="Crosslisted Course" class="form-control selectpicker" id='crossListSelect' name="crossListedCourses" data-live-search="true" multiple>
+       <option value="">---</option>
+        {% for course in allCourses %}
+          <option value="{{course.cId}}"> 
+             {{course}} 
+          </option>
+        {% endfor %}
+     </select>
+    </div>
+  </div>
