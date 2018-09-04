@@ -23,7 +23,7 @@
           {# Pass in a hidden input to record the term #}
           <input type="hidden" id="term" value="{{currentTerm}}" >
           {# --Room Location-- #}
-          <h5>Room Requested</h5>
+          <h5>Room Selection</h5>
           <select class="form-control" name="room">
             <option value="">---</option>
             {% for room in rooms %} <!---TODO: create conditional that atriggers flash if room ic occupied--->
@@ -111,7 +111,7 @@
           {% else %}
             <a type="button" class="btn btn-primary btn-sm" href="/courseManagement/{{page}}/{{currentTerm}}">Close</a>
           {% endif %}            
-          <input  class="btn btn-success btn-sm pull-right" type="submit" value="Save"/>
+          <input  class="btn btn-success btn-sm pull-right" value = "Save" type ="submit" />
         </div>
       </div>
     </form>

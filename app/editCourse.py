@@ -41,7 +41,16 @@ def editcourse(tid, prefix, page):
     data = request.form
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-
+    courses = Course.select()
+    for course in courses:
+      if course.rid != None:
+        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+          flash("The room selected is occupied at that time. Please select another.")
+          if page == 'courses':
+            return redirect(url_for("courses", tID=tid, prefix=prefix))
+          else:
+            url = "/courseManagement/" + page + "/" + tid
+            return redirect(url)
     if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
     databaseInterface.editCourse(data, prefix, professors)
