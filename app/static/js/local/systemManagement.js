@@ -60,7 +60,8 @@ function enableTheOne() {
 }
 
 // Adds the color for the completed processes
-function prevcolor(btn) {
+function prevcolor(btn, update) {
+    // console.log(btn)
         var allPanelsDiv = $("#allPanels");
         var theTR = allPanelsDiv.parent().parent()[0].id.split("_").pop();
         // console.log(theTR);
@@ -114,6 +115,8 @@ function change_text() {
 window.onload = function() {
 
   document.getElementsByClassName("theButtons").disabled= true;
+
+    
 }
 
 function loadStateToTerm(){
@@ -123,19 +126,24 @@ function loadStateToTerm(){
         var btn_id = x[i].id;
         btn_arr.push(btn_id)
     }
-    for (var i = 0; btn_arr.length; i++){
-        term = btn_arr[i].slice(0,6)
-        state = btn_arr[i].slice(7)
-        for (var i = 0; i < state; i++){
-            prevcolor()
-        }
+    for (var i = 0; i < x.length; i++){
+    term = btn_arr[i].slice(0,6)
+    state = btn_arr[i].slice(7)
+    count = parseInt(state)
+    for (var c = 1; c < count +1; c++){
+    var btnToColor = $('#'+term +' #btn'+c.toString())
+    btnToColor.removeClass("btn-dark");
+    btnToColor.addClass('btn-success');
+   
     }
-    console.log(btn_arr)
+    }
+    }
     
     
     
     
-}
+    
+
 // $(document).on('click', '.terms_btn', function(){
 //       document.getElementById("theButtons").disabled=false;
 // });
@@ -206,7 +214,10 @@ $(document).ready(function(){
         loadStateToTerm();
 });
 
-
+// $(window).bind('load', function(){
+//     console.log('Here')
+//     loadStateToTerm();
+// });
 
 
 
