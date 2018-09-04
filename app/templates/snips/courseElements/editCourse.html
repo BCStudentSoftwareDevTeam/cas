@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% set currentPage = "editModal" %}
 {% block body %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    <div class="{{ category }}">{{ message }}</div>
+  {% endfor %}
+{% endwith %}
 <div class="modal fade" id="editModal{{course.cId}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-md">
     <form method="post" action="\editcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">

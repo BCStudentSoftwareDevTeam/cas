@@ -46,7 +46,7 @@ def editcourse(tid, prefix, page):
     for course in courses:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.")
+          flash("The room selected is occupied at that time. Please select another.", "error")
           if page == 'courses':
             return redirect(url_for("courses", tID=tid, prefix=prefix))
           else:
@@ -55,7 +55,7 @@ def editcourse(tid, prefix, page):
     for course in sp_courses:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.")
+          flash("The room selected is occupied at that time. Please select another.", "error")
           if page == 'courses':
             return redirect(url_for("courses", tID=tid, prefix=prefix))
           else:
@@ -117,16 +117,16 @@ def editSTcourse(tid, prefix, page):
   for course in courses:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.")
+          flash("The room selected is occupied at that time. Please select another.", "error")
           if page == 'courses':
             return redirect(url_for("courses", tID=tid, prefix=prefix))
           else:
             url = "/courseManagement/" + page + "/" + tid
             return redirect(url)
-    for course in sp_courses:
+  for course in sp_courses:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.")
+          flash("The room selected is occupied at that time. Please select another.", "error")
           if page == 'courses':
             return redirect(url_for("courses", tID=tid, prefix=prefix))
           else:
