@@ -15,6 +15,7 @@ def systemManagement():
       #WE WANT THE USER TO HAVE THE ABILITY TO SELECT A YEAR AGO AND THREE YEARS PAST THE CURRENT YEAR
       years       = []
       #START WITH ONE YEAR AGO
+     
       year  = int(time.strftime("%Y")) - 1   
       for x in range(5):
          if x == 0:

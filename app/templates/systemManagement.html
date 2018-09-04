@@ -15,14 +15,14 @@
   <table class="table" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
       {% for term in terms %}
-      <tr  id = "{{ term.termCode }}">
+      <tr  id = "{{ term.termCode }}" class = "row">
         <td> 
         {% for state in term_state %}
             {% if state.number == 0 %}
             <td style="margin-top:1px !important; padding-top: 1px !important;">
               <!-- Generates the term buttons-->
               <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('btn{{state.order + 1}}');">{{term.name}} 
+              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.state.order}}">{{term.name}} 
               </button> 
             </td>      
             {% else %}
