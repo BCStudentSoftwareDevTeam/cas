@@ -325,7 +325,7 @@ function saveValue(){
         });
 
     setPrefList(getPrefId(), getRoomId());
-   // setInstructions(getCourseId());
+    setInstructions(getCourseId());
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
 }
@@ -363,6 +363,7 @@ function disableRoom() {
     console.log("i", i);
         if (arguments[i] != 0){
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
+            console.log("kenny", arguments[i]);
         }
     }
     $("#selectedRoom").selectpicker('refresh');
@@ -442,12 +443,14 @@ function getNoteId() {
 
 /*Manages the instruction notes on the preference button clicks depending on the preferences the user picks */
 function setInstructions(course) {
+    console.log("here guys")
     var destination = $("#NotesHolder_" + course); //Links the span in the html to the td where notes are to appear for each course
     var target = $("#Notes" + getNoteId()).clone(); // gets the span id's
     var target_text = target.html();
-    target_text = target_text.replace("||pref_1||", getRoomValueList(1));
-    target_text = target_text.replace("||pref_2||", getRoomValueList(2));
-    target_text = target_text.replace("||pref_3||", getRoomValueList(3));
+    target_text = target_text.replace("||pref_1||", document.getElementById("prefButton1_" +  course).innerText);
+    target_text = target_text.replace("||pref_2||", document.getElementById("prefButton2_" +  course).innerText);
+    target_text = target_text.replace("||pref_3||", document.getElementById("prefButton3_" +  course).innerText);
+    
     target.html(target_text);
     target.show();
     destination.html(target.html());    
