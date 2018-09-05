@@ -333,7 +333,9 @@ function saveValue(){
 
 /* Goes to the next preference after one prefrence value is selected */
 function goToNextPref() {
-    if (getPrefId() < 3) {
+    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
+        
+    if (getPrefId() < 3 && (button > 0)) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
         nextButton.value = 0;
@@ -389,8 +391,9 @@ function postNotes(pref_id,cid){
 
 /*This function hadles no other rooms work button to set the remaining preferences to NONE */
 function remainingToNone(){
+    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
     
-    if (getPrefId() < 3) {
+    if (getPrefId() < 3 && (button > 0) ) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
         nextButton.value = -2;
