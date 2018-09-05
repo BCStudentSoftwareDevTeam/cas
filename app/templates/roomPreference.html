@@ -35,9 +35,9 @@
                                         {% if roompreference.any_Choice == loop.index or roompreference.initial_Preference == 1 %}
                                             value="0"  {# Holds room ID, NOT pref ID #} 
                                         {% elif roompreference.none_Choice == loop.index %}
-                                            value="-1"  {# Holds room ID, NOT pref ID #} 
+                                            value="-2"  {# Holds room ID, NOT pref ID #} 
                                         {% else %}
-                                            value = "-2"
+                                            value = "-1"
                                         {% endif %} 
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
@@ -197,7 +197,7 @@
                                                             <button type="button" class="btn btn-warning"  data-dismiss="modal">Cancel</button>
                                                             </div>
                                                             <div class="col-sm-6"> 
-                                                            <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick='saveValue()'> Save  &  Close </button>
+                                                            <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick='saveValue(),goToNextPref()'> Save  &  Close </button>
                                                             </div>
                                                         </div>
                                                             
