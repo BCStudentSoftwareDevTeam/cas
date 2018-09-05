@@ -44,23 +44,25 @@ def editcourse(tid, prefix, page):
     courses = Course.select() # Selects all courses
     sp_courses = SpecialTopicCourse.select() # Selects all special topics courses
     for course in courses:
-      if course.rid != None:
-        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.", "error")
-          if page == 'courses':
-            return redirect(url_for("courses", tID=tid, prefix=prefix))
-          else:
-            url = "/courseManagement/" + page + "/" + tid
-            return redirect(url)
+      if course.term.termCode != None and course.term.termCode == tid:
+        if course.rid != None:
+          if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+            flash("The room selected is occupied at that time. Please select another.", "error")
+            if page == 'courses':
+              return redirect(url_for("courses", tID=tid, prefix=prefix))
+            else:
+              url = "/courseManagement/" + page + "/" + tid
+              return redirect(url)
     for course in sp_courses:
-      if course.rid != None:
-        if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-          flash("The room selected is occupied at that time. Please select another.", "error")
-          if page == 'courses':
-            return redirect(url_for("courses", tID=tid, prefix=prefix))
-          else:
-            url = "/courseManagement/" + page + "/" + tid
-            return redirect(url)
+      if course.term.termCode != None and course.term.termCode == tid:
+        if course.rid != None:
+          if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
+            flash("The room selected is occupied at that time. Please select another.")
+            if page == 'courses':
+              return redirect(url_for("courses", tID=tid, prefix=prefix))
+            else:
+              url = "/courseManagement/" + page + "/" + tid
+              return redirect(url)
     if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
     databaseInterface.editCourse(data, prefix, professors)
@@ -115,6 +117,7 @@ def editSTcourse(tid, prefix, page):
     specialCourse.status = cfg['specialTopicLogic']['submitted']
   professors = request.form.getlist('professors[]')
   for course in courses:
+    if course.term.termCode != None and course.term.termCode == tid:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
           flash("The room selected is occupied at that time. Please select another.", "error")
@@ -124,6 +127,7 @@ def editSTcourse(tid, prefix, page):
             url = "/courseManagement/" + page + "/" + tid
             return redirect(url)
   for course in sp_courses:
+    if course.term.termCode != None and course.term.termCode == tid:
       if course.rid != None:
         if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
           flash("The room selected is occupied at that time. Please select another.", "error")
