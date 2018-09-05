@@ -140,10 +140,7 @@ function goToRDetails(r,doishow) {
     if (doishow){
         $("#collapseOne #Details").show();
     }
-    if (getRoomId()==0){
-        $("#collapseOne #Details #withoutSelectButton").hide();
-    }
-    if (getRoomId()==-1){
+    if (getRoomId()<=0){
         $("#collapseOne #Details #withoutSelectButton").hide();
     }
 }
@@ -239,29 +236,23 @@ function setPreference(){
             $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
         }
     }
+    
     setLastButtonPressed(currentButton);
-    fixSelectPicker();
-    var new_value = getPrefId() + '_' + pref + "_" + getCourseId();  //TODO: IT KEEPS ALL VALUES
+    var new_value = getPrefId() + '_' + pref + "_" + getCourseId();
     $("#selectButton").val(new_value); 
     setSelectedRoom(pref);
-    
-    if (pref == "-1") {
-        document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
-    } 
-    
-    else if(pref == "-2") { //Changes text to "This course does not need a room" if on first preference only
-        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
-    }
-    
     
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
-    if (getPrefList(getPrefId())>0){
+    if (pref>0){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
+    else{
+        goToRDetails(document.getElementById("selectedRoom"),false);
+    }
     
-    
+ 
     
 }
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
@@ -291,7 +282,7 @@ function moveModal(cID) {
 }
 
 function setSelectedRoom(pID){
-    $('#selectedRoom option[value="'+getPrefList(getPrefId())+'"]').prop("selected", true).selectpicker('refresh');
+    $('#selectedRoom option[value="'+pID+'"]').prop("selected", true).selectpicker('refresh');
 }
 
 
@@ -315,6 +306,8 @@ function saveValue(){
     pref_button.value =  getRoomId();
     pref_button.innerHTML = room;
     
+    console.log("SAVE VALUE ", getRoomId())
+    
       var url= '/postPreference';
         $.ajax({
              type: "POST",
@@ -332,8 +325,7 @@ function saveValue(){
         });
 
     setPrefList(getPrefId(), getRoomId());
-    setInstructions(getCourseId());
-    
+   // setInstructions(getCourseId());
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
 }
@@ -351,6 +343,10 @@ function goToNextPref() {
     
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
     button.click();
+}
+
+function updateNotes(){
+    
 }
 
 /*Disables selected room from other preference*/
@@ -403,7 +399,6 @@ function remainingToNone(){
     
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
     button.click();
-    
 }
 
 

@@ -47,7 +47,6 @@ def roomPreference(rid=1):
 @app.route('/room_details/<rid>', methods = ["GET"])
 def room_details(rid):
     room_materials={}
-    print type(rid)
     if int(rid) > 0:
         
         details = Rooms.get(Rooms.rID == rid)
@@ -97,8 +96,6 @@ def postPreference():
     data = request.form #data coming from POST
     pref = int(data["pref_id"])
     room = int(data["roomID"])
-    print("pref", pref)
-    print ("ROOM",room)
     rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
     rp.initial_Preference = 0
     
@@ -143,6 +140,7 @@ def postPreference():
             rp.none_Choice = 3
             
     elif room == -2:  #No other rooms work case
+        
         if(rp.any_Choice == pref): rp.any_Choice = None
         if(rp.none_Choice == pref): rp.none_Choice = None
         
