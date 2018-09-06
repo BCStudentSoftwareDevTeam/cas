@@ -29,11 +29,13 @@ class NullCheck():
     #THESE ARE ALL OF THE VALUES THAT COULD CONTAIN AN EMPTY STRING
     checkList = ['capacity','schedule','rid','requests','section'] 
     for item in checkList:
-      if (data[item].replace(" ",""))=="":
-        value[item]=None
-      else:
-        value[item]=data[item]
+      if item in data:
+        if (data[item].replace(" ",""))=="":
+          value[item]=None
+        else:
+          value[item]=data[item]
     '''CURRENT DICTIONARY KEYS:['subject','bannerRef','specialTopicName','capacity','schedule','rid']'''
+    print("here")
     return value
   
   #_ADD_COURSE_CHANGE#

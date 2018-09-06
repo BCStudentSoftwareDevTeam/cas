@@ -26,14 +26,22 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
+    print("This is data", data)
     # # instructors need to be a list
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
+    print("Yes0")
     nullCheck = NullCheck()
+    print("Yes1")
     values = nullCheck.add_course_form(data)
+    print("Yes2")
+    print(values)
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
+    print("Yes3")
     bannerNumber = str(banner.number)[-2:]
+    print("Yes4")
     cId = ""
+    print("Banner", bannerNumber)
     if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                     prefix=values['prefix'],
