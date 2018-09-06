@@ -57,7 +57,7 @@ def editcourse(tid, prefix, page):
       if course.term.termCode != None and course.term.termCode == tid:
         if course.rid != None:
           if data['schedule'] == course.schedule.sid and data['room'] == str(course.rid.rID):
-            flash("The room selected is occupied at that time. Please select another.")
+            flash("The room selected is occupied at that time. Please select another.", "error")
             if page == 'courses':
               return redirect(url_for("courses", tID=tid, prefix=prefix))
             else:
