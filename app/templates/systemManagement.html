@@ -22,7 +22,7 @@
             <td style="margin-top:1px !important; padding-top: 1px !important;">
               <!-- Generates the term buttons-->
               <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.state.order}}">{{term.name}} 
+              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.state.order}}">{{term.name}} 
               </button> 
             </td>      
             {% else %}
@@ -30,7 +30,7 @@
               {% if state.number != 7 %}
               <td style="padding: 1px !important; margin: 1px !important;">
                 <button style="width:100%" class="theButtons btn btn-dark" type = "button" id = "btn{{state.order}}" data-target="#order{{state.order}}" aria-expanded="false" aria-controls="order{{state.order}}" disabled = "disabled"
-                onclick="showPanel({{term.termCode}},this)" >{{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
+                onclick="showPanel({{term.termCode}},this);)" >{{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
               </td>  
               {% endif %}
             {% endif %}
@@ -62,7 +62,7 @@
             </div>
             <div class = "col-sm-2">
               <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
+              aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}});">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
             </div>
             </div>
           </div>
@@ -80,13 +80,13 @@
                      <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
                      <!-- this is for the unlock button --->
                       <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
-                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
+                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');submit_data({{state.order-1}});"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
                   </div>
                   <div class = "col-sm-6 text-right">
                       <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                       <!--- this is for the lock button --->
                       <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
-                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');" >
+                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}});" >
                         {{state.display_name}}
                         <span class="glyphicon glyphicon-chevron-right"></span>
                       </button>
@@ -134,7 +134,7 @@
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
-                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');"> {{state.display_name}}
+                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}})"> {{state.display_name}}
                   </button>
                 </div>
           </div>
@@ -188,37 +188,35 @@
 <!-- Modal -->
           
 <!------------------------------------------------------------------------------------------------------------------------------------------>
-<!--<div class = container>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--  <br>-->
-<!--</div>  -->
-
-<!--    <label for="newTerm">Create a new term</label>-->
-<!--    <form action="\newTerm" method="post" id="newTerm" class="form-inline">-->
-<!--      <div class="form-group">-->
-<!--        <select class="form-control" name="keyValue">-->
-<!--            {% for key in cfg['termInfo'] %}-->
-<!--              <option value="{{key}}" required>-->
-<!--                {{cfg['termInfo'][key]}}-->
-<!--              </option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--      </div>-->
-<!--      <div class="form-group">-->
-<!--        <select class="form-control" name="year">-->
-<!--            {% for year in years %}-->
-<!--              <option value="{{year}}" required>-->
-<!--                {{year}}-->
-<!--              </option>-->
-<!--            {% endfor %}-->
-<!--          </select>-->
-<!--      </div>-->
-<!--      <div class="form-group"-->
-<!--        <input type="submit" class="btn btn-success" value="Save">-->
-<!--      </div>-->
-<!--    </form>-->
+  <div class="panel-body">
+    <!--CREATE A NEW TERM-->
+    <label for="newTerm">Create a new term</label>
+    <form action="\newTerm" method="post" id="newTerm" class="form-inline">
+      <div class="form-group">
+        <select class="form-control" name="keyValue">
+            {% for key in cfg['termInfo'] %}
+              <option value="{{key}}" required>
+                {{cfg['termInfo'][key]}}
+              </option>
+            {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="year">
+            {% for year in years %}
+              <option value="{{year}}" required>
+                {{year}}
+              </option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Save">
+      </div>
+    </form>
+  </div>
+</div>
+   
   
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
 </div>

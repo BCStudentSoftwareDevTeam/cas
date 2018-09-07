@@ -32,3 +32,32 @@ def systemManagement():
                               isAdmin        = g.user.isAdmin,
                               today          = today,
                               term_state     = term_state)
+                              
+#Tomorrow: 
+# Once I update the state order, I ll need to check if the proper panel is being displayed 
+#Then I will start working on the reverse actions which occurs under open room preferences, assign rooms and finish panels
+
+#Thursday and Friday
+# In addition to updating the state for the terms I should also implement functionality that opens/locks scheduling, open/lock room preferences, assign rooms
+
+@app.route("/admin/systemManagement/updateTermState", methods=["POST"])
+@must_be_admin
+def updateTermState():
+   print("I made it to the back")
+   data = request.form
+
+   # Updates the term's state to the correct state ID based on state order
+   term = Term.get(Term.termCode == data['termCode'])
+   state = TermStates.get(TermStates.order == data['stateOrder'] )
+   term.state = state
+   term.save()
+   
+   # print("New term order", term.state.order, "; ", term.termCode)
+   # term = Term.update({Term.state: state}).where(Term.termCode == data['termCode']).execute()
+   
+   
+   # message = "Course: #{0} has been added".format(course.cId)
+   # flash("Course has successfully been added!")
+   # log.writer("INFO", current_page, message)
+   
+   return redirect(url_for("systemManagement")) 
