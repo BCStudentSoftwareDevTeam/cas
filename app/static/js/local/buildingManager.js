@@ -11,8 +11,9 @@ function getRoomId(){
     return rIDGlobal;
 }
 
-function setRoomClicked(){ //Sets room ID based on what room (row) Edit button was clicked
+function setRoomPanel(){ //Sets room ID based on what room (row) Edit button was clicked
     //TODO: Pull RID of room that was clicked (each row) to save the data changes to the appropriate room
+    // TODO:Add to this function so that it can show the  collapse and expand level for each room.
     moveModal()
 }
 
@@ -33,3 +34,5 @@ function moveModal(rid) { //Makes dropdown appear between rows
 function saveChanges(){ //Posts data to DB and reloads the page
     
 }
+
+    

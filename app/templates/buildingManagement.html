@@ -21,11 +21,11 @@
                 <td> {{room.building.shortName}} NUMBER{{room.rid}}</td>
                 <td> {{room.roomType}}</td>
                 <td> <button type="button" class="btn btn-primary" id="Edit{{room.rid}}" data-toggle="collapse" 
-                data-target="#roomData" aria-expanded="false" aria-controls="roomData" onclick="setRoomClicked">Edit</button></td>
+                data-target="#roomData" aria-expanded="false" aria-controls="roomData" onclick="setRoomPanel">Edit</button></td>
                 <td> lastmodified</td>
             </tr>
-            <tr class="hiddenRow">
-                <td colspan="8">
+                    <tr class="hiddenRow">
+                    <td colspan="8">
                     <div class="hiddenDiv panel-collapse collapse" id="modalRowRoom{{room.rid}}">Trash</div>
                 </td>
             </tr>
@@ -33,13 +33,15 @@
         </tbody>
     </table>
 </div>
-<div id="roomDataHolder" class="collapse show" data-parent="#accordion" aria-labelledby="headingOne" >
-    <form>
-        <div class="collapse" id="roomData">
-            <table class="table table-dark">
-                <tr>
-                    <td>
-                       <div class="container">
+<div id = "roomDetails"> <!-- this ID is to be used in Java script to make a function that calls the panels to show accordingly -->
+    <div class="panel panel-default"> <!-- we will use this panel instead of accprdion to create an expand and collapse on click of the edit button 
+<!--<div id="roomDataHolder" class="collapse show" data-parent="#accordion" aria-labelledby="headingOne"  WE DO NOT NEED THIS BECAUSE WE ARE USING PANEL>-->
+        <div class="panel-body panel_color">
+            <div class="collapse" id="roomData">
+                <table class="table table-dark">
+                    <tr>
+                        <td>
+                           <div class="container">
                             <div>
                                 <div class="col-md-6 left">
                                     <p><strong>Room Number: </strong>NUMBER BASED ON SELECTION</p>
@@ -68,7 +70,7 @@
                                     </select></p>
                                 </div>
                             </div>
-                            <div class="center">
+                            <div class="center" id = 'roomUpdate'>
                                 <button type="button" class="btn btn-success">Submit changes</button> <!---TODO: Save changes on click--->
                             </div>
                         </div>
@@ -76,7 +78,9 @@
                 </tr>
             </table>
         </div>
-    </form>
+    </div>
+</div>
+</div>
 </div>
 
 
