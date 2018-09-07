@@ -15,7 +15,7 @@ from app.logic.getAuthUser import AuthorizedUser
 def buildingManagement():
     building = Building.select()
     user = User.select()
-    room = Rooms.select()
+    rooms = Rooms.select()
     
     
    #TODO:Need for loop to generate buildings
@@ -24,7 +24,7 @@ def buildingManagement():
    
     return render_template("buildingManagement.html",
     building = building,
-    room = room,
+    rooms = rooms,
     user = user
     )
     
