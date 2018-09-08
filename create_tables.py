@@ -7,7 +7,8 @@ import os, sys
 import importlib
 import datetime
 
-# Don't forget to import your own models!
+# Don't forget to import your own models! 
+#If you created a new model in models.py, aslo make sure to put it in config.yaml file under models: mainDB
 from app.models import *
 conf = load_config(os.path.join(here,'config.yaml'))
 #onf = load_config('app/config.yaml')
@@ -46,6 +47,7 @@ def get_classes (db):
     print ("\tCreating model for '{0}'".format(str))
     c = class_from_name(sys.modules[__name__], str)
     classes.append(c)
+  print("Cilas", classes)
   return classes
 
   

@@ -28,14 +28,25 @@ class NullCheck():
     #CHECK DATA FOR EMPTY STRING
     #THESE ARE ALL OF THE VALUES THAT COULD CONTAIN AN EMPTY STRING
     checkList = ['capacity','schedule','rid','requests','section'] 
+    #data={crosslisted: 2, crosslisted: 3, crosslisted: 4}
+    crosslisted = []
+    print("This is type", type(data))
+    print(data.getlist("crossListedCourses"))
+    print("HelloWorld", data.getlist('crossListedCourses'))
     for item in checkList:
-      if item in data:
         if (data[item].replace(" ",""))=="":
           value[item]=None
         else:
           value[item]=data[item]
     '''CURRENT DICTIONARY KEYS:['subject','bannerRef','specialTopicName','capacity','schedule','rid']'''
     print("here")
+    crossListed_courses=data.getlist("crossListedCourses")
+    print("Yoo", crossListed_courses)
+    if crossListed_courses: 
+      value["crossListedCourses"]=crossListed_courses
+    else:
+      value["crossListedCourses"]=None
+      
     return value
   
   #_ADD_COURSE_CHANGE#

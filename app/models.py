@@ -153,7 +153,7 @@ class Course(dbModel):
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
   lastEditBy        = CharField(null = True)
-  allCourses        = ForeignKeyField(BannerCourses, null = True)
+  # crossListedCourses   = ForeignKeyField(BannerCourses, null = True)
   crossListed       = BooleanField()
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
@@ -161,6 +161,12 @@ class Course(dbModel):
   
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+    
+class CrossListed(dbModel):
+  cId       = IntegerField(primary_key = True)
+  courseId  = ForeignKeyField(BannerCourses, null = True)
+  crosslistedCourse = ForeignKeyField(Course, null= True)
+
 
 class SpecialTopicCourse(dbModel):
   stId                 = PrimaryKeyField()

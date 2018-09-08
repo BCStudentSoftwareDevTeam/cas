@@ -28,6 +28,7 @@ def addCourses(tid, prefix):
     data = request.form
     print("This is data", data)
     # # instructors need to be a list
+    
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
     print("Yes0")
@@ -35,7 +36,7 @@ def addCourses(tid, prefix):
     print("Yes1")
     values = nullCheck.add_course_form(data)
     print("Yes2")
-    print(values)
+    print("Values", values)
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     print("Yes3")
     bannerNumber = str(banner.number)[-2:]
@@ -43,6 +44,7 @@ def addCourses(tid, prefix):
     cId = ""
     print("Banner", bannerNumber)
     if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
+        print("saving1")
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                     prefix=values['prefix'],
                     term=int(tid),
@@ -79,7 +81,8 @@ def addCourses(tid, prefix):
             log.writer("INFO", current_page, message)
             flash("Course with section %s already exists" % (values['section']),"error")
             return redirect(redirect_url())
-
+        
+        # cross_courses=values["crossListed"]# [1,2,3]
         course = Course(bannerRef=values['bannerRef'],
                         prefix=values['prefix'],
                         term=int(tid),
@@ -92,9 +95,23 @@ def addCourses(tid, prefix):
                         section = values['section'],
                         prereq = convertPrereqs(prereqs)
                         )
-
         course.save()
+        print("What1", values)
+        #save crosslisted courses of the newly-created course in a database
         
+        crosslistedCourses=values["crossListedCourses"]
+        print("What", crosslistedCourses)
+        if crosslistedCourses:
+            for course_id in crosslistedCourses:
+                print(course_id, course.cId)
+                crosslisted = CrossListed(
+                            courseId=course.cId,
+                            crosslistedCourse=int(course_id)
+                            
+                        )
+                        
+                crosslisted.save()
+        print("final")
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
