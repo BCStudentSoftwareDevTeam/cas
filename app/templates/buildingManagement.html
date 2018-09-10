@@ -9,7 +9,7 @@
     <span class="border border-dark">
     <table class="table">
         <thead class="thead-dark">
-            <th scope="col"><h4><strong>Room(s)</strong></h4></th>
+            <th scope="col"><h4><strong>Room</strong></h4></th>
             <th scope="col"> <h4><strong>Type </strong></h4></th>
             <th scope="col"><h4><strong>Edit</strong></h4></th>
             <th scope="col"><h4><strong>Last Modified</strong></h4></th>
@@ -18,7 +18,7 @@
         <tbody>
             {% for room in rooms %}
             <tr>
-                <td> {{room.building.shortName}} NUMBER{{room.rid}}</td>
+                <td> {{room.building.shortName}} {{room.number}}</td>
                 <td> {{room.roomType}}</td>
                 <td> <button type="button" class="btn btn-primary" id="Edit{{room.rid}}" data-toggle="collapse" 
                 data-target="#roomData" aria-expanded="false" aria-controls="roomData" onclick="setRoomPanel">Edit</button></td>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="center" id = 'roomUpdate'>
-                                <button type="button" class="btn btn-success">Submit changes</button> <!---TODO: Save changes on click--->
+                                <button type="button" class="btn btn-success" onClick="saveChanges">Submit changes</button> <!---TODO: Save changes on click--->
                             </div>
                         </div>
                     </td>
