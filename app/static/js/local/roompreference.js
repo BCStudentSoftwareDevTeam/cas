@@ -385,7 +385,7 @@ function disableRoom() {
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
         }
     }
-    $("#selectedRoom").selectpicker('refresh');
+    // $("#selectedRoom").selectpicker('refresh'); // commented out this refresh to disable the selected room 
 }
 
 /*This function access the prefrence and course ID in order to save and post of each preference to the database */
