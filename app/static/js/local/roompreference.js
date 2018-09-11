@@ -216,8 +216,14 @@ function setPreference(){
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
-    var pref = $("#prefButton" + getPrefId()+ "_" +getCourseId()).val(); // setting the pref values
-    setPrefList(1, pref); 
+    var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
+   var p2 = $("#prefButton2_"+getCourseId()).val();
+   var p3 = $("#prefButton3_"+getCourseId()).val();
+   setPrefList(1,p1);
+   setPrefList(2,p2);
+   setPrefList(3,p3);
+    // var pref = $("#prefButton" + getPrefId()+ "_" +getCourseId()).val(); // setting the pref values
+    // setPrefList(1, pref); 
     
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     
@@ -236,21 +242,55 @@ function setPreference(){
             $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
         }
     }
+     setLastButtonPressed(currentButton);
+    fixSelectPicker();  //TODO: IT KEEPS ALL VALUES
+    // $("#selectButton").val(new_value); 
+    // setSelectedRoom(pref);
+    // console.log("pref here", pref)
+    var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
+   var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
+   $("#selectButton").val(new_value);
+   setSelectedRoom(pID);
+    if (getPrefId() == "-1") {
+        document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
+      
+    } 
     
-    setLastButtonPressed(currentButton);
+     else if (getPrefId()== 2 && getPrefId()==3){
+         document.getElementById('doesnotRe').setAttribute("disabled","disabled");
+     }
     
-    var new_value = getPrefId() + '_' + pref + "_" + getCourseId();
-       $("#selectButton").val(new_value); 
-    setSelectedRoom(pref);
+    else if(getPrefId()== "-2") { //Changes text to "This course does not need a room" if on first preference only
+        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+     
+    }
+    disableRoom(p1,p2, p3);
+    
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
-    if (pref>0){
+    if (getPrefList(getPrefId())>0){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
-    else{
-        goToRDetails(document.getElementById("selectedRoom"),false);
-    }
+    console.log("get course", getCourseId())
+    // setInstructions(getCourseId());
+    PageLoad();
+
+    // setLastButtonPressed(currentButton);
+    
+    
+    // var new_value = getPrefId() + '_' + pref + "_" + getCourseId();
+    //   $("#selectButton").val(new_value); 
+    // setSelectedRoom(pref);
+    // moveModal(getCourseId());
+    // $("#collapseOne #Details").hide();
+
+    // if (pref>0){
+    //     goToRDetails(document.getElementById("selectedRoom"),true);
+    // }
+    // else{
+    //     goToRDetails(document.getElementById("selectedRoom"),false);
+    // }
     
  
     
@@ -306,7 +346,7 @@ function saveValue(){
     pref_button.value =  getRoomId();
     pref_button.innerHTML = room;
     
-    console.log("SAVE VALUE ", getRoomId())
+    // console.log("SAVE VALUE ", getRoomId())
     
       var url= '/postPreference';
         $.ajax({
@@ -315,7 +355,7 @@ function saveValue(){
                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
                     success: function(response){
-                    disableRoom(getRoomId());//does disableRoom belong inside of this function.
+                    disableRoom(getRoomId());//does disableRooms belong inside of this function.
                     postNotes(getPrefId(),getCourseId());
                     },
                     error: function(xhr, status, error) {
@@ -328,6 +368,7 @@ function saveValue(){
     setInstructions(getCourseId());
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
+    
 }
 
 
@@ -357,13 +398,14 @@ function disableRoom() {
     for(var i = 0; i < selectRoom.length; i++) {// enables everything
         if(selectRoom[i].id != 'donotTouch') {
             selectRoom[i].disabled = false;
+            
         }
      }
     for (var i = 0; i < arguments.length; i++) {// Disables options
-    console.log("i", i);
+    // console.log("i", i);
         if (arguments[i] != 0){
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
-            console.log("kenny", arguments[i]);
+        //   console.log(" disable here")
         }
     }
     $("#selectedRoom").selectpicker('refresh');
@@ -411,31 +453,31 @@ function remainingToNone(){
 function getNoteId() {
     var noteId = 0;
     if (getPrefList(1)==0){//Caters for the case Notes1 Any available rooms, (0,0,0)
-        console.log("Notes 1 case");
+        // console.log("Notes 1 case");
         noteId = 1;    
     } 
     else if  (getPrefList(1)>0 && getPrefList(2)==0){ //(#,0,0)
-        console.log("notes2 Case");
+        // console.log("notes2 Case");
         noteId = 2;
     }
     else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)==0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
-        console.log("notes3 Case");
+        // console.log("notes3 Case");
         noteId = 3;
     }
     else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)>0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
-        console.log("notes4 Case");
+        // console.log("notes4 Case");
         noteId = 4;
     }
     else if  (getPrefList(1)>0 && getPrefList(2)<0){ //(#,-1,-1)
-        console.log("notes5 Case");
+        // console.log("notes5 Case");
         noteId = 5; 
     }
     else if(getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)<0){ //Notes6 Pref 1 value, pref 2 value, no other rooms work (#,#,-1)
-        console.log("notes6 Case");
+        // console.log("notes6 Case");
         noteId = 6; 
     }
     else if(getPrefList(1)<0){// handles case Notes7 where the professor chooses no room needed for the course
-        console.log("notes7 Case");
+        // console.log("notes7 Case");
         noteId = 7; 
     }
     return noteId;
@@ -443,21 +485,24 @@ function getNoteId() {
 
 /*Manages the instruction notes on the preference button clicks depending on the preferences the user picks */
 function setInstructions(course) {
-    console.log("here guys")
+    // console.log("here guys")
     var destination = $("#NotesHolder_" + course); //Links the span in the html to the td where notes are to appear for each course
     var target = $("#Notes" + getNoteId()).clone(); // gets the span id's
     var target_text = target.html();
-    target_text = target_text.replace("||pref_1||", document.getElementById("prefButton1_" +  course).innerText);
-    target_text = target_text.replace("||pref_2||", document.getElementById("prefButton2_" +  course).innerText);
-    target_text = target_text.replace("||pref_3||", document.getElementById("prefButton3_" +  course).innerText);
-    
+    // target_text = target_text.replace("||pref_1||", document.getElementById("prefButton1_" +  course).innerText);
+    // target_text = target_text.replace("||pref_2||", document.getElementById("prefButton2_" +  course).innerText);
+    // target_text = target_text.replace("||pref_3||", document.getElementById("prefButton3_" +  course).innerText);
+    target_text = target_text.replace("||pref_1||", getRoomValueList(1));
+    target_text = target_text.replace("||pref_2||", getRoomValueList(2));
+    target_text = target_text.replace("||pref_3||", getRoomValueList(3));
+    console.log("pref1 update note", target_text)
     target.html(target_text);
     target.show();
     destination.html(target.html());    
 }
  
-/* Connects with the setInstrucions function to initialize RoomValueList and PrefList on firstPageLoad() */    
-function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in firstPageload
+/* Connects with the setInstrucions function to initialize RoomValueList and PrefList on PageLoad() */    
+function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in Pageload
     setRoomValueList(1, $("#prefButton1" + "_" + course).html());
     setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
     setRoomValueList(3, $("#prefButton3" + "_" + course).html()); 
@@ -467,7 +512,7 @@ function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called
 }
 
 /*Sets the notes for all the courses on page load*/
-function firstPageLoad () {
+function PageLoad () {
     var allCourses = $(".notesHolders");
     for (var i = 0; i < allCourses.length; i++) {
         var course = allCourses[i].id.split("_")[1];
@@ -504,4 +549,4 @@ function updateHidingPreferences(){
     
 }
 
-firstPageLoad();
+PageLoad();
