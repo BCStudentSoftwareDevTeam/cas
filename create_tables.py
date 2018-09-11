@@ -47,7 +47,6 @@ def get_classes (db):
     print ("\tCreating model for '{0}'".format(str))
     c = class_from_name(sys.modules[__name__], str)
     classes.append(c)
-  print("Cilas", classes)
   return classes
 
   

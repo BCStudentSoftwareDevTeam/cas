@@ -2,6 +2,7 @@ from allImports import *
 from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.course import define_term_code_and_prefix
 from app.logic.course import save_last_visited
+from app.logic.course import find_crosslist_courses
 from app.logic.authorization import can_modify
 
 
@@ -32,9 +33,6 @@ def courses(tID, prefix, can_edit):
     terms = Term.select().order_by(-Term.termCode)
     
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
-    for c in allCourses:
-        print(c)
-
     # We need these for populating add course
     courseInfo = (BannerCourses
                         .select(BannerCourses, Subject)
@@ -70,10 +68,11 @@ def courses(tID, prefix, can_edit):
     courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
     # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
-    print("here" + courseInfo)
-
+    # get crosslisted for given courses
+    course_to_crosslist=find_crosslist_courses(courses_prefetch)
     return render_template(
             "course.html",
+            crosslisted=course_to_crosslist,
             allCourses= allCourses,
             courses=courses_prefetch,
             specialCourses=special_courses_prefetch,
@@ -90,4 +89,3 @@ def courses(tID, prefix, can_edit):
             page=page,
             rooms=rooms,
             key = key)
-

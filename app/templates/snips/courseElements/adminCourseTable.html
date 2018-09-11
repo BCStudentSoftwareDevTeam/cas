@@ -78,10 +78,22 @@
             </td>
             <!--CROSS LISTED-->
             <td>
-                {% if course.crossListed == 1 %}
-                    yes
+                {% if course.cId in crosslisted %}
+                    {% for cross_course in crosslisted[course.cId] %}
+                        {% if cross_course.1 == False %}
+                            <button type="button" data-toggle="tooltip" title="{{cross_course.0}} has not been verified." style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                  <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.0}}
+                            </button>
+                        {% else %}
+                            <button data-toggle="tooltip" title="{{cross_course.0}} has been verified." type="button" style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                  <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.0}}
+                            </button>
+        
+                        {% endif %}
+
+                    {% endfor %}
                 {% else %}
-                    no
+                    None
                 {% endif %}
             </td>
             <!--NOTES-->
@@ -242,3 +254,8 @@
         {% endfor %}
     </tbody>
 
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>

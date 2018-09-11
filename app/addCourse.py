@@ -26,25 +26,25 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
-    print("This is data", data)
+   
     # # instructors need to be a list
     
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
-    print("Yes0")
+   
     nullCheck = NullCheck()
-    print("Yes1")
+    
     values = nullCheck.add_course_form(data)
-    print("Yes2")
-    print("Values", values)
+   
+  
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
-    print("Yes3")
+   
     bannerNumber = str(banner.number)[-2:]
-    print("Yes4")
+    
     cId = ""
-    print("Banner", bannerNumber)
+   
     if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
-        print("saving1")
+        
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                     prefix=values['prefix'],
                     term=int(tid),
@@ -96,14 +96,11 @@ def addCourses(tid, prefix):
                         prereq = convertPrereqs(prereqs)
                         )
         course.save()
-        print("What1", values)
+       
         #save crosslisted courses of the newly-created course in a database
-        
         crosslistedCourses=values["crossListedCourses"]
-        print("What", crosslistedCourses)
         if crosslistedCourses:
             for course_id in crosslistedCourses:
-                print(course_id, course.cId)
                 crosslisted = CrossListed(
                             courseId=course.cId,
                             crosslistedCourse=int(course_id)
@@ -111,7 +108,7 @@ def addCourses(tid, prefix):
                         )
                         
                 crosslisted.save()
-        print("final")
+       
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()
