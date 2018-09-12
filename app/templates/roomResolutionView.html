@@ -86,7 +86,6 @@ p {
                         </div>
                     </div>
                     {% endfor %}
-                    {% include '/snips/educationTech.html'%}
                   <!-- end of accordion -->
                   </div>
                 </div>                                      
@@ -149,7 +148,9 @@ p {
                             <p><strong>Room Type:</strong> {{roompreference.pref_2.roomType}}</p>
                             <p><strong>Room Capacity:</strong> {{roompreference.pref_2.maxCapacity}}</p>
                             <p><strong>Movable Furniture:</strong> {{roompreference.pref_2.movableFurniture}}</p>
-                            <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_2.educationtech}}</p>
+                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_2.rID}}">
+                                Education Tech
+                              </button></p>
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_2.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_2.specialFeatures}}</p>
                             <p><strong>Visual Accessibility:</strong> {{roompreference.pref_2.visualAccessibility}}</p>
@@ -189,6 +190,9 @@ p {
                                 <p><strong>Room Capacity:</strong> {{roompreference.pref_3.maxCapacity}}</p>
                                 <p><strong>Movable Furniture:</strong> {{roompreference.pref_3.movableFurniture}}</p>
                                 <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_3.educationtech}}</p>
+                                <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_3.rID}}">
+                                Education Tech
+                              </button></p>
                                 <p><strong>Specialized Equipment:</strong> {{roompreference.pref_3.specializedEq}}</p>
                                 <p><strong>Specialized Features:</strong> {{roompreference.pref_3.specialFeatures}}</p>
                                 <p><strong>Visual Accessibility:</strong> {{roompreference.pref_3.visualAccessibility}}</p>
@@ -217,6 +221,7 @@ p {
     <button onclick="location.href='/roomResolution/{{termcode}}';" type="button" class="btn btn-primary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
   <br> 
 </div> 
+{% include '/snips/educationTech.html'%}
    
  
 <!-- Modal for room assignment fix to apply to preferences-->
