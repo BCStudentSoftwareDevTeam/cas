@@ -34,6 +34,7 @@
                                     {% else %}
                                         {% if roompreference.any_Choice == loop.index or roompreference.initial_Preference == 1 %}
                                             value="0"  {# Holds room ID, NOT pref ID #} 
+                                    
                                         {% elif roompreference.none_Choice == loop.index %}
                                             value="-2"  {# Holds room ID, NOT pref ID #} 
                                         {% else %}
@@ -42,7 +43,7 @@
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-secondary btn-md" 
+                                    class="btn btn-secondary btn-md {% if pref != None %} btn-success {% else %} btn-secondary {% endif %}" 
                                     type="button" 
                                     disabled
                                     data-toggle="collapse" 
@@ -143,8 +144,10 @@
                                                 <!--Education tech modal -->
                                                 {% include "snips/educationTech.html" %}
                                                 <!--This populates the course conflict box to the right bottom of the page-->
-                                            <div class="row">
-                                                <div class="col-lg-5 " align="center" > 
+                                            <div class="row" >
+                                            {# The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
+                                            getting for their course#}
+                                                <div class="col-lg-5 invisible" align="center" > 
                                                     <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
                                                     <table border=4>
                                                         <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>

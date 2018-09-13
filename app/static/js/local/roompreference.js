@@ -54,6 +54,7 @@ function setLastButtonPressed(lastPressedButtonID){     //sets the id of each la
 }
 
 function getLastPressedButton(){            //getthe value of each last button pressed in the UI
+    console.log(lastButtonPressed)
     return lastButtonPressed;
 }
 
@@ -228,6 +229,8 @@ function setPreference(){
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
+ 
+    
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
@@ -328,6 +331,7 @@ function saveValue(){
     
     pref_button.value =  getRoomId();
     pref_button.innerHTML = room;
+ 
       var url= '/postPreference';
         $.ajax({
              type: "POST",
@@ -348,6 +352,10 @@ function saveValue(){
     setInstructions(getCourseId());
     $("#exampleModal").removeClass("fade");
     $("#exampleModal").modal('hide');
+    $(pref_button).removeClass("btn-primary");
+    $(pref_button).addClass("btn-success");
+    
+    
 }
 
 
@@ -507,8 +515,8 @@ function hideFirstPreferences(){
     }
 }
 
-function updateHidingPreferences(){
+// function updateHidingPreferences(){
     
-}
+// }
 
 PageLoad();
