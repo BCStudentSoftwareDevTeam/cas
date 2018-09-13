@@ -252,23 +252,11 @@ function setPreference(){
         document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
       
     } 
-    
-     else if (getPrefId()== 2 && getPrefId()==3){
-         $('#selectedRoom option[value="'+'-1'+'"]').prop('disabled', true);
-     }
-    
-    
     else if(pID== "-2") { //Changes text to "This course does not need a room" if on first preference only
         document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
      
     }
-    else if(getPrefId()==1){
-          $('#selectedRoom option[value="'+'-2'+'"]').prop('disabled', true);
-        //   console.log("here ",  $('#selectedRoom option[value="'+'-2'+'"]').prop('disabled', true));
-          
-    }
     disableRoom(p1,p2, p3);
-    // console.log("getPrefId", getPrefId());
     
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
@@ -276,7 +264,23 @@ function setPreference(){
     if (getPrefList(getPrefId())>0){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
-    console.log("get course", getCourseId())
+    
+    if(getPrefId()==1){
+        var selectobject;
+        selectobject = document.getElementById("selectedRoom").getElementsByTagName("option");
+        selectobject[3].disabled = true;
+        $('#selectedRoom').selectpicker('render');
+        
+    }
+    
+    if (getPrefId()== 2 || getPrefId()==3){
+        var selectobject;
+        selectobject = document.getElementById("selectedRoom").getElementsByTagName("option");
+        selectobject[2].disabled = true;
+        $('#selectedRoom').selectpicker('render');
+     }
+    
+    
     PageLoad();
 
   
@@ -375,10 +379,6 @@ function goToNextPref() {
     button.click();
 }
 
-function updateNotes(){
-    
-}
-
 /*Disables selected room from other preference*/
 function disableRoom() {
     var selectRoom = document.getElementById('selectedRoom');// gets the dropdown for rooms
@@ -441,7 +441,6 @@ function getNoteId() {
         noteId = 1;    
     } 
     else if  (getPrefList(1)>0 && getPrefList(2)==0){ //(#,0,0)
-
         noteId = 2;
     }
     else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)==0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
@@ -515,8 +514,5 @@ function hideFirstPreferences(){
     }
 }
 
-// function updateHidingPreferences(){
-    
-// }
 
 PageLoad();
