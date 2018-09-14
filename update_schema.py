@@ -74,7 +74,7 @@ migrate(
     migrator.add_column('Rooms', 'visualAcc', CharField(null=True)),
     migrator.add_column('Rooms', 'audioAcc', CharField(null=True)),
     migrator.add_column('Rooms', 'physicalAcc',CharField(null=True)),
-    migrator.add_column('Rooms', 'educationTech',ForeignKeyField(EducationTech, field = 'eId', related_name='rooms', null=True)),
+    migrator.add_column('Rooms', 'educationTech', ForeignKeyField(ForeignKeyField(EducationTech, related_name='rooms'),
     migrator.add_column('Rooms', 'specializedEq', CharField(null=True)),
     migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
     migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
