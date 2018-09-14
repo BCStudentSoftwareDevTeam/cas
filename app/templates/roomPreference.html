@@ -32,11 +32,8 @@
                             <button {% if pref != None %}
                                         value="{{pref.rID}}"
                                     {% else %}
-                                        {% if roompreference.any_Choice == loop.index or roompreference.initial_Preference == 1 %}
+                                        {% if roompreference.any_Choice == loop.index|string or roompreference.initial_Preference == "1" %}
                                             value="0"  {# Holds room ID, NOT pref ID #} 
-                                    
-                                        {% elif roompreference.none_Choice == loop.index %}
-                                            value="-2"  {# Holds room ID, NOT pref ID #} 
                                         {% else %}
                                             value = "-1"
                                         {% endif %} 
@@ -53,12 +50,14 @@
                                         {% if pref != None %}
                                             {{pref.building.shortName}} {{pref.number}} 
                                         {% else %} 
-                                            {% if roompreference.any_Choice == loop.index  or roompreference.initial_Preference == 1 %}
+                                            {% if roompreference.any_Choice == loop.index|string  or roompreference.initial_Preference == "1" %}
                                                 Any Room Works 
-                                            {% elif roompreference.none_Choice == loop.index %}
-                                                This Course Does Not Require A Room
                                             {% else %}
-                                                No Other Room Works
+                                                {% if loop.index|string == 1 %}
+                                                    The course does not require a room
+                                                {% else %}
+                                                    No Other Room Works
+                                                {% endif %}
                                             {% endif %}     
                                         {% endif %} 
                             </button>
@@ -96,9 +95,8 @@
                                         <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="anyVal" value = "0">  Any Room Works </option> 
-                                            <option id= "doesnotRe" value="-1"> This Course Does not Required A Room</option>
-                                            <option id="noRoom" value = "-2">  No Other Rooms Work  </option>
-                    
+                                            <option id= "noRoom" value="-1"> This Course Does not Required A Room</option>
+                                            
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
                                                 <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>

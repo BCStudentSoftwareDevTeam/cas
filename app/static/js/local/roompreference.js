@@ -218,18 +218,25 @@ function setPreference(){
         setCourseId(arguments[1]);
     }
     var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
-   var p2 = $("#prefButton2_"+getCourseId()).val();
-   var p3 = $("#prefButton3_"+getCourseId()).val();
-   setPrefList(1,p1);
-   setPrefList(2,p2);
-   setPrefList(3,p3);
-   var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
+    var p2 = $("#prefButton2_"+getCourseId()).val();
+    var p3 = $("#prefButton3_"+getCourseId()).val();
+   
+    setPrefList(1,p1);
+    setPrefList(2,p2);
+    setPrefList(3,p3);
+   
+    var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
- 
+    if (getPrefId() == 1) {
+        document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
+    } 
+    else { //Changes text to "This course does not need a room" if on first preference only
+        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+    }
     
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
@@ -241,21 +248,15 @@ function setPreference(){
             $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
         }
     }
+    
     setLastButtonPressed(currentButton);
     fixSelectPicker();  
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     console.log("PID", pID)
-   var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
-   $("#selectButton").val(new_value);
-   setSelectedRoom(pID);
-    if (pID == "-1") {
-        document.getElementById("doesnotRe").innerHTML = "This Course Does not Required A Room";
-      
-    } 
-    else if(pID== "-2") { //Changes text to "This course does not need a room" if on first preference only
-        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
-     
-    }
+    var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
+    $("#selectButton").val(new_value);
+    setSelectedRoom(pID);
+   
     disableRoom(p1,p2, p3);
     
     moveModal(getCourseId());
@@ -265,25 +266,8 @@ function setPreference(){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
     
-    if(getPrefId()==1){
-        var selectobject;
-        selectobject = document.getElementById("selectedRoom").getElementsByTagName("option");
-        selectobject[3].disabled = true;
-        $('#selectedRoom').selectpicker('render');
-        
-    }
-    
-    if (getPrefId()== 2 || getPrefId()==3){
-        var selectobject;
-        selectobject = document.getElementById("selectedRoom").getElementsByTagName("option");
-        selectobject[2].disabled = true;
-        $('#selectedRoom').selectpicker('render');
-     }
-    
     
     PageLoad();
-
-  
 }
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
 function fixSelectPicker() {
@@ -358,8 +342,6 @@ function saveValue(){
     $("#exampleModal").modal('hide');
     $(pref_button).removeClass("btn-primary");
     $(pref_button).addClass("btn-success");
-    
-    
 }
 
 
@@ -424,7 +406,7 @@ function remainingToNone(){
     if (getPrefId() < 3 && (button > 0) ) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-        nextButton.value = -2;
+        nextButton.value = -1;
         nextButton.innerText  = "No Other Rooms Work";
         nextButton.disabled = false;
     }
@@ -504,6 +486,18 @@ function hideFirstPreferences(){
         var pref1 = document.getElementById("prefButton1_" + course);
         var pref2 = document.getElementById("prefButton2_" + course);
         var pref3 = document.getElementById("prefButton3_" + course);
+        if(pref1.value == -1){
+            pref1.innerText  = "This course does not require a room";
+        }
+        
+        else if(pref2.value == -1){
+            pref2.innerText  = "No other rooms work";
+        }
+        
+        else if(pref3.value == -1){
+            pref3.innerText  = "No other rooms work";
+        }
+        
         pref1.disabled = false;
         if (pref1.value > 0){
             pref2.disabled = false;

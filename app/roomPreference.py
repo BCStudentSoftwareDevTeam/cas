@@ -102,8 +102,10 @@ def postPreference():
     if room > 0: #If there is a room id
         if (pref == 1):
             rp.pref_1 = data["roomID"]
+            rp.any_Choice = 2
         elif (pref == 2):
             rp.pref_2 = data["roomID"]
+            rp.any_Choice = 3
         elif(pref == 3):
             rp.pref_3 = data["roomID"]
         else:
@@ -112,7 +114,6 @@ def postPreference():
     
     elif room == 0:#Any case
         if(rp.none_Choice == pref): rp.none_Choice = None 
-        if(rp.no_Other_room == pref): rp.no_Other_room = None
         
         if (pref == 1): 
             rp.pref_1 = None
@@ -126,7 +127,6 @@ def postPreference():
         
     elif room == -1:  #No other rooms work case
         if(rp.any_Choice == pref): rp.any_Choice = None
-        if(rp.no_Other_room == pref): rp.no_Other_room = None
         
         if (pref == 1): 
             rp.pref_1 = None
@@ -138,25 +138,9 @@ def postPreference():
         elif(pref == 3):
             rp.pref_3 = None
             rp.none_Choice = 3
-            
-    elif room == -2:  #No other rooms work case
-        
-        if(rp.any_Choice == pref): rp.any_Choice = None
-        if(rp.none_Choice == pref): rp.none_Choice = None
-        
-        if (pref == 1): 
-            rp.pref_1 = None
-            rp.no_Other_room = 1
-            flash("WARNING: This indicates to the registrar that this course does not need a room","error")
-        elif (pref == 2):
-            rp.pref_2 = None
-            rp.no_Other_room = 2
-        elif(pref == 3):
-            rp.pref_3 = None
-            rp.no_Other_room = 3
-            
+      
     rp.save()
-    
+    print("RP", rp.any_Choice)
     return json.dumps({"success": 1})
 
     
