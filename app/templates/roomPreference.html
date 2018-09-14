@@ -40,7 +40,7 @@
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-secondary btn-md {% if pref != None %} btn-success {% else %} btn-secondary {% endif %}" 
+                                    class="btn btn-md {% if pref != None %} btn-success {% else %} btn-default {% endif %}" 
                                     type="button" 
                                     disabled
                                     data-toggle="collapse" 
@@ -225,7 +225,7 @@
 <span id="Notes6" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, and no other room works.</span>
 <span id="Notes7" hidden>You have indicated that your course does not require a room. </span>
 {% block belowContainer %}
-<link rel="stylesheet" href="/static/cs/roomPreference.css">
+<link rel="stylesheet" href="/static/css/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
 {% endblock %} 
 {% endblock %}
