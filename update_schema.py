@@ -35,9 +35,9 @@ from app.models import  Rooms
 class RoomPreferences(dbModel):
   rpID          = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='course')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+  pref_1        = ForeignKeyField(Rooms, related_name='pref_1')
+  pref_2        = ForeignKeyField(Rooms, related_name='pref_2')
+  pref_3        = ForeignKeyField(Rooms, related_name='pref_3') #We are making sure we have all the preferences jotted down.
   notes         = CharField(null=True)
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)

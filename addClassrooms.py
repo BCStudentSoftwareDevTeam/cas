@@ -106,7 +106,7 @@ def addRoom(room):
                     specialFeatures = room[specialFeatures].strip()
                     
                 )
-    print(r.number)
+    # print(r.number)
     r.save()
                      
 
