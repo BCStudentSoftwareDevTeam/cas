@@ -42,6 +42,7 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
+  initial_Preference = CharField(null=True, default = 1)
 
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
