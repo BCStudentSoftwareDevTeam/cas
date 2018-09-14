@@ -44,7 +44,7 @@ class RoomPreferences(dbModel):
   none_Reason   = CharField(null=True)
 
 class EducationTech(dbModel):
-  eId                  = PrimaryKeyField()
+  e_id                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
   smartboards          = IntegerField(default = 0) #default of 0 in room
   instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
@@ -74,7 +74,7 @@ migrate(
     migrator.add_column('Rooms', 'visualAcc', CharField(null=True)),
     migrator.add_column('Rooms', 'audioAcc', CharField(null=True)),
     migrator.add_column('Rooms', 'physicalAcc',CharField(null=True)),
-    migrator.add_column('Rooms', 'educationTech', ForeignKeyField(EducationTech, to_field = 'eId', related_name='rooms', null=True)),
+    migrator.add_column('Rooms', 'educationTech', ForeignKeyField(EducationTech, to_field = 'e_id', related_name='rooms', null=True)),
     migrator.add_column('Rooms', 'specializedEq', CharField(null=True)),
     migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
     migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
