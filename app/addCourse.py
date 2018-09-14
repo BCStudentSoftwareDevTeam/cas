@@ -98,13 +98,18 @@ def addCourses(tid, prefix):
         course.save()
        
         #save crosslisted courses of the newly-created course in a database
+        #tID, prefix,
+        #int(tid)
         crosslistedCourses=values["crossListedCourses"]
         if crosslistedCourses:
             for course_id in crosslistedCourses:
+                #inefficient query
+                course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
                 crosslisted = CrossListed(
                             courseId=course.cId,
-                            crosslistedCourse=int(course_id)
-                            
+                            crosslistedCourse=int(course_id),
+                            prefix=course_prefix,
+                            term=int(tid)
                         )
                         
                 crosslisted.save()

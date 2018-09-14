@@ -162,11 +162,12 @@ class Course(dbModel):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
     
 class CrossListed(dbModel):
-  cId       = IntegerField(primary_key = True)
-  courseId  = ForeignKeyField(Course, null= True)
+  cId               = IntegerField(primary_key = True)
+  courseId          = ForeignKeyField(Course, null= True)
   crosslistedCourse = ForeignKeyField(BannerCourses, null = True)
-  verified = BooleanField(default=False)
-
+  verified          = BooleanField(default=False)
+  prefix            = CharField()
+  term              = ForeignKeyField(Term, null = False)
 
 class SpecialTopicCourse(dbModel):
   stId                 = PrimaryKeyField()

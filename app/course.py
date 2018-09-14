@@ -19,7 +19,6 @@ def courses(tID, prefix, can_edit):
 
     divisions_prefetch = getSidebarElements()
     subject = Subject.get(Subject.prefix == prefix)
-
     users = User.select(User.username, User.firstName, User.lastName)
 
     # THIS IS SO THAT WE CAN HAVE THE NAME OF THE PROGRAM AS A HEADER ON THE
@@ -53,27 +52,33 @@ def courses(tID, prefix, can_edit):
         key = int(tID[-1])
     except ValueError as error:
         log.writer("Unable to parse Term ID, course.py", e)
-
-
+   
+    #find crosslisted courses per department
+    query=CrossListed.select(CrossListed, Course.cId).where((CrossListed.prefix == prefix) & (CrossListed.term_id == tID)).join(Course)
+    res=[query_cross.cId for query_cross in query]
+    #unused variable: union this result with courses 
+    cross_courses=(Course.select(Course, BannerCourses).join(BannerCourses).where(Course.cId << res))
     courses = (Course.select(Course, BannerCourses).join(BannerCourses)
                      .where(Course.prefix == prefix)
                      .where(Course.term == tID))
-
+    
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
-
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
+    
     courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
     # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
+    
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
     # get crosslisted for given courses
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
+    
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
-            allCourses= allCourses,
+            allCourses= allCourses, #Courses,
             courses=courses_prefetch,
             specialCourses=special_courses_prefetch,
             divisions = divisions_prefetch,
@@ -89,3 +94,4 @@ def courses(tID, prefix, can_edit):
             page=page,
             rooms=rooms,
             key = key)
+    
