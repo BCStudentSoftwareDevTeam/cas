@@ -56,11 +56,9 @@ def courses(tID, prefix, can_edit):
     #find crosslisted courses per department
     query=CrossListed.select(CrossListed, Course.cId).where((CrossListed.prefix == prefix) & (CrossListed.term_id == tID)).join(Course)
     res=[query_cross.cId for query_cross in query]
-    #unused variable: union this result with courses 
-    cross_courses=(Course.select(Course, BannerCourses).join(BannerCourses).where(Course.cId << res))
-    courses = (Course.select(Course, BannerCourses).join(BannerCourses)
-                     .where(Course.prefix == prefix)
-                     .where(Course.term == tID))
+ 
+    courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
+        (Course.prefix == prefix) & (Course.term == tID) | (Course.cId << res)))
     
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
