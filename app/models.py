@@ -107,7 +107,7 @@ class Rooms(dbModel):
   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(default=False)
+  movableFurniture = BooleanField()
 
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)
