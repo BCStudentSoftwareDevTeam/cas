@@ -9,38 +9,37 @@ import os
 csvFileName = 'room-database.csv'
 
 ###### Room Model #######
-# Indices for the columns.
+# Indices for the columns. The first column is 0.
 
 # TODO Fix the column numbers to match Kenny's clean data
 
-roomNumber      = 0 
-seatingCapacity   = 1
-roomType   = 2
-moveableFurniture  = 3
-# educationTech = 4
-boardTypeNumber = 5
-specialFeatures  = 6
-visualAcessibility = 7
-physicalAccessibility = 8
-hearingAccessibility  = 9
-# nearestSafeSpace = 10
-projector = "???"
-smartboards = "???"
-instructor_computers = "???"
-podium = "???"
-student_workspace = "???"
-chalkboards = "???"
-whiteboards = "???"
-dvd = "???"
-blu_ray = "???"
-audio = "???"
-extro = "???"
-doc_cam = "???"
-vhs = "???"
-mondopad = "???"
-tech_chart = "???"
-name = "???"            # Building name
-shortName = "???"       # Building short name
+roomNumber          = 2 
+seatingCapacity     = 7
+roomType            = 8
+moveableFurniture   = 9
+boardTypeNumber     = 12
+specialFeatures     = 13
+specialEq           = 11
+visualAccessibility  = 14
+physicalAccessibility = 15
+hearingAccessibility  = 16
+projector = 18
+smartboards = 31
+instructor_computers = 32
+podium = 28
+student_workspace = 27
+chalkboards = 29
+whiteboards = 30
+dvd = 19
+blu_ray = 20
+audio = 21
+extro = 23
+doc_cam = 24
+vhs = 22
+mondopad = 25
+tech_chart = 26
+building_name = 1            # Building name
+shortName = 33       # Building short name
 
 
 def addEdTech(room):
@@ -51,14 +50,14 @@ def addEdTech(room):
     return: an EducationTech object
     """
     pass
-    e = EducationTech(
-                        projector = room[projector],
-                        smartboards = room[smartboards],
-                        instructor_computers = room[instructor_computers],
-                        podium = room[podium],
-                        student_workspace = room[student_workspace],
-                        chalkboards = room[chalkboards],
-                        whiteboards = room[whiteboards],
+    (e, created) = EducationTech.get_or_create(
+                        projector = int(room[projector]),
+                        smartboards = int(room[smartboards]),
+                        instructor_computers = int(room[instructor_computers]),
+                        podium = int(room[podium]),
+                        student_workspace = int(room[student_workspace]),
+                        chalkboards = int(room[chalkboards]),
+                        whiteboards = int(room[whiteboards]),
                         dvd = room[dvd],
                         blu_ray = room[blu_ray],
                         audio = room[audio],
@@ -67,7 +66,8 @@ def addEdTech(room):
                         vhs = room[vhs],
                         mondopad = room[mondopad],
                         tech_chart = room[tech_chart]
-                    ).save()
+                    )
+    e.save()
     return e
 
 def addBuilding(room):
@@ -77,10 +77,11 @@ def addBuilding(room):
     param room: a row from the spreadsheet
     return: a Building object
     """
-    b = Building(
+    (b, created) = Building.get_or_create(
                     name = room[building_name],
                     shortName = room[shortName]
-        ).save()
+        )
+    b.save()
     return b
 
 def addRoom(room):
@@ -91,30 +92,33 @@ def addRoom(room):
     return: None
     """
     r = Rooms(
+                    movableFurniture = room[moveableFurniture], 
                     building = addBuilding(room), 
                     number = room[roomNumber].strip(), 
                     # TODO: room[roomNumber] needs to be split and used for building & number. Make a relationship to the Building table using the name. 
                     maxCapacity = room[seatingCapacity].strip(),
                     roomType = room[roomType].strip(),
-                    visualAcc = room[visualAcessibility].strip(),
+                    visualAcc = room[visualAccessibility].strip(),
                     audioAcc = room[hearingAccessibility].strip(),
                     physicalAcc = room[physicalAccessibility].strip(),
                     educationTech = addEdTech(room),
-                    specializedEq = None, # TODO: Check what needs to be done for this. I couldn't find specializedEq column in the csv 
-                    specialFeatures = room[specialFeatures].strip(),
-                    movableFurniture = room[moveableFurniture].strip()
-                ).save()
+                    specializedEq = room[specialEq].strip(),
+                    specialFeatures = room[specialFeatures].strip()
+                    
+                )
+    print(r.number)
+    r.save()
                      
 
 def main():
-    try:
-        with open(csvFileName, 'rb') as csvfile: #Open CSV file
-            roomData = csv.reader(csvfile)
-            next(courses) #Disregard the first line because it is the header
-            print "Adding classroom data, this may take a moment."
-            for room in roomData: #Iterating through each line
-                addRoom(room)
-    except e:
-        print("You are a failure: ", e)
+    # try:
+    with open(csvFileName, 'rb') as csvfile: #Open CSV file
+        roomData = csv.reader(csvfile)
+        next(roomData) #Disregard the first line because it is the header
+        print "Adding classroom data, this may take a moment."
+        for room in roomData: #Iterating through each line
+            addRoom(room)
+    # except Exception as e:
+    #     print("You are a failure: ", e)
         
 main()
