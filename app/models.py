@@ -69,8 +69,8 @@ class Term(dbModel):
   name              = CharField()
   state             = IntegerField(default=0)
   
-  def __str__(self):
-    return self.name
+#  def __str__(self):
+#    return self.name
   
 class Building(dbModel):
   bID           = PrimaryKeyField()

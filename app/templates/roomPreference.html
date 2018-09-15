@@ -7,7 +7,8 @@
 <div class="card">
     <table class="table"> <!-- the fixed healines on the top of the table-->
         <thead class="thead-dark">
-            <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
+             <th scope="col"><h4><strong> Term </strong></h4></th>
+           <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
             <th scope="col"> <h4><strong>Section </strong></h4></th>
             <th scope="col"><h4> <strong>Time</strong> </h4></th>
             <th scope="col"><h4><strong> # of Students</strong></h4> </th>
@@ -21,8 +22,9 @@
             
             {% for roompreference in roompreferences %}
                 <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
+		    <td>{{roompreference.course.term.name}}</td>
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
-                    <td> {{roompreference.course.section}}</td> <br>
+                    <td> {{roompreference.course.section}}</td> <!--<br>-->
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}

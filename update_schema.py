@@ -1,7 +1,7 @@
 from peewee import *
 from playhouse.migrate import *
-#from app.models import Rooms, Building, Course
-from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
+from app.models import Rooms, Building, Course, SpecialTopicCourse
+#from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
 
 from app.loadConfig import *
 here = os.path.dirname(__file__)
@@ -32,8 +32,8 @@ from app.models import  Rooms
 
 """
 
-#my_db.drop_tables([Building, Rooms])
-my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+my_db.drop_tables([Building, Rooms])
+#my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
 
   
   

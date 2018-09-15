@@ -22,10 +22,16 @@ def roomPreference(term):
     educationTech= EducationTech.select()
 
     # FIXME used for conflicting courses UI, which is hidden
-    courses = Course.select().join(InstructorCourse, on=(InstructorCourse.course == Course.cId)).where(InstructorCourse.username == current_user and Course.term == current_term)
-    # for course in courses:
+    print(current_user)
+    print(current_term)
+    #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
+    term = Term.get(Term.termCode == current_term)
+    print(term)
+    courses = Course.select().join(InstructorCourse, on= (InstructorCourse.course == Course.cId)).where(InstructorCourse.username == current_user)#.where(Course.term.termCode == int(current_term))
+    #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
+    for course in courses:
         # print("Hi Sher")
-        # print(course.term)
+        print(course.cId)
     # for rp in roompreferences:
     #     print(rp.course.cId)
     # roomPreferences = {}
@@ -33,10 +39,10 @@ def roomPreference(term):
     
     # Constructs RoomPreferences if they don't exist
     for course in courses:
-        print("adding ", course.cId, "to ", current_user)
+        # print("adding ", course.cId, "to ", current_user)
         RoomPreferences.get_or_create(course = course.cId)
     
-    roompreferences= RoomPreferences.select().join(InstructorCourse).where(RoomPreferences.course.cId and RoomPreferences.course.cId == InstructorCourse.course and RoomPreferences.course.term == current_term and InstructorCourse.username == current_user).distinct()
+    roompreferences= RoomPreferences.select().join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course)).where(RoomPreferences.course == InstructorCourse.course and InstructorCourse.username == current_user).distinct()
     # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
   
     return render_template(
