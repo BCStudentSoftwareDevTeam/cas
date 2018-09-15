@@ -16,19 +16,20 @@ def roomPreference(term):
     current_user = AuthorizedUser().getUsername()
 
     # Used to populate dropdowns and stuff
-    room = Rooms.select()
+    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building))
     users= User.select()
-    instructors= InstructorCourse.select()
+    instructors = InstructorCourse.select()
     educationTech= EducationTech.select()
 
     # FIXME used for conflicting courses UI, which is hidden
     courses = Course.select().join(InstructorCourse, on=(InstructorCourse.course == Course.cId)).where(InstructorCourse.username == current_user and Course.term == current_term)
-    for course in courses:
-        print("Hi Sher")
-        print(course.term)
-    roompreferences = RoomPreferences.select().join(Course, on = (InstructorCourse.course == Course.cId)).join(InstructorCourse, on=(RoomPreferences.course == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term)
-    # print(roompreferences[0].course.cId)
-    roomPreferences = {}
+    # for course in courses:
+        # print("Hi Sher")
+        # print(course.term)
+    roompreferences = RoomPreferences.select().join(Course, on = (InstructorCourse.course == Course.cId)).join(InstructorCourse, on=(RoomPreferences.course == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+    # for rp in roompreferences:
+    #     print(rp.course.cId)
+    # roomPreferences = {}
   
     return render_template(
         "roomPreference.html",

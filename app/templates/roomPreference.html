@@ -18,6 +18,7 @@
         </thead>
         <tbody>
             <!-- looping through each course in roompreference for the following data -->
+            
             {% for roompreference in roompreferences %}
                 <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
@@ -143,8 +144,8 @@
                                                 {% include "snips/educationTech.html" %}
                                                 <!--This populates the course conflict box to the right bottom of the page-->
                                             <div class="row" >
-                                            {# The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
-                                            getting for their course#}
+                                            {# FIXME The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
+                                            getting for their course
                                                 <div class="col-lg-5 invisible" align="center" > 
                                                     <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
                                                     <table border=4>
@@ -157,7 +158,7 @@
                                                         </tr>
                                                     {% endfor %}
                                                     </table>
-                                                </div>
+                                                </div>#} {# END FIXME #}
                                             </div> 
                                             </div>
                                             <br>

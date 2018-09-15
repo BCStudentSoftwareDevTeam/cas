@@ -32,6 +32,10 @@ from app.models import  Rooms
 
 """
 
+my_db.drop_tables([Building, Rooms])
+
+  
+  
 class RoomPreferences(dbModel):
   rpID          = PrimaryKeyField()
   course        = ForeignKeyField(Rooms, related_name='course')
@@ -61,32 +65,47 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-my_db.create_tables([RoomPreferences, EducationTech])
+
+
+class Building(dbModel):
+  bID           = PrimaryKeyField()
+  name          = CharField()
+  shortName     = CharField()
+
+  
+class Rooms(dbModel):
+  rID            = PrimaryKeyField()
+  building       = ForeignKeyField(Building, related_name='rooms')
+  number         = CharField(null=False)
+  maxCapacity    = IntegerField(null=False)
+  roomType       = CharField(null=False)
+  visualAcc     = CharField(null=True)
+  audioAcc      = CharField(null=True)
+  physicalAcc   = CharField(null=True)
+  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
+  specializedEq = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField()
+
+
+
+my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
 #Add these columns to existing tables in the production
 #Building column add
 
-migrate(
-    migrator.add_column('Building', 'shortName', TextField(default='')),
-)
+# migrate(
+#     migrator.add_column('Building', 'shortName', TextField(default='')),
+# )
 
-#Rooms Column Add
-migrate(
-    #migrator.add_column('Rooms', 'maxCapacity', IntegerField(null=False)),  #update already exists
-    migrator.add_column('Rooms', 'visualAcc', CharField(null=True)),
-    migrator.add_column('Rooms', 'audioAcc', CharField(null=True)),
-    migrator.add_column('Rooms', 'physicalAcc',CharField(null=True)),
-    migrator.add_column('Rooms', 'educationTech_id', ForeignKeyField(EducationTech, to_field = EducationTech.eId, related_name='rooms', null=True)),
-    migrator.add_column('Rooms', 'specializedEq', CharField(null=True)),
-    migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
-    migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
-    )
+# #Rooms Column Add
+# migrate(
+#     #migrator.add_column('Rooms', 'maxCapacity', IntegerField(null=False)),  #update already exists
+#     migrator.add_column('Rooms', 'visualAcc', CharField(null=True)),
+#     migrator.add_column('Rooms', 'audioAcc', CharField(null=True)),
+#     migrator.add_column('Rooms', 'physicalAcc',CharField(null=True)),
+#     migrator.add_column('Rooms', 'educationTech_id', ForeignKeyField(EducationTech, to_field = EducationTech.eId, related_name='rooms', null=True)),
+#     migrator.add_column('Rooms', 'specializedEq', CharField(null=True)),
+#     migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
+#     migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
+#     )
     
-#to_field="rID"
-#Course rid column add
-
-#CourseChange rid               = ForeignKeyField(Rooms, null = False)
-"""
-migrate(
-    migrator.add_column('CourseChange', 'rid', ForeignKeyField(Rooms, null = False, to_field='rID'))
-    )
-"""
