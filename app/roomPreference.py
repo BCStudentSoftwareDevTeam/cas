@@ -26,7 +26,6 @@ def roomPreference(term):
     # for course in courses:
         # print("Hi Sher")
         # print(course.term)
-    roompreferences = RoomPreferences.select().join(Course, on = (InstructorCourse.course == Course.cId)).join(InstructorCourse, on=(RoomPreferences.course == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
     # for rp in roompreferences:
     #     print(rp.course.cId)
     # roomPreferences = {}
@@ -34,8 +33,10 @@ def roomPreference(term):
     
     # Constructs RoomPreferences if they don't exist
     for course in courses:
+        print("adding ", course.cId, "to ", current_user)
         RoomPreferences.get_or_create(course = course.cId)
     
+    roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
   
     return render_template(
         "roomPreference.html",
