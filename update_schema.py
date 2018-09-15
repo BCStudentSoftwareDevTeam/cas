@@ -1,7 +1,7 @@
 from peewee import *
 from playhouse.migrate import *
-from app.models import Rooms, Building
-#from app.models import Rooms, Building, EducationTech, RoomPreferences
+#from app.models import Rooms, Building
+from app.models import Rooms, Building, EducationTech, RoomPreferences, Course
 
 from app.loadConfig import *
 here = os.path.dirname(__file__)
@@ -32,8 +32,8 @@ from app.models import  Rooms
 
 """
 
-my_db.drop_tables([Building, Rooms])
-#my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+#my_db.drop_tables([Building, Rooms])
+my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
 
   
   
@@ -111,7 +111,16 @@ my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
 #     )
   
   
-migrate(
-  migrator.drop_column("Course", "rid_id"),
-  migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
-  )
+# migrate(
+#   migrator.drop_column("Course", "rid"),
+#   migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
+#   )
+
+
+q = Course.select()
+for course in q:
+  course.rid = None
+  course.save()
+  
+  
+  
