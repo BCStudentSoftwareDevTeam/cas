@@ -34,6 +34,7 @@ from app import addCourse
 from app import excelDownload
 from app import databaseAdmin
 from app import selectTerm
+from app import selectTermForRoomPreferences
 from app import contributors
 from app import editActiveCourses
 from app import selectProgram

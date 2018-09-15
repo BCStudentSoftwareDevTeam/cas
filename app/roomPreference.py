@@ -6,31 +6,29 @@ import json
 from app.logic import course
 from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
-@app.route("/roomPreference/", methods = ["GET"])
-@app.route("/roomPreference/<rid>", methods = ["GET"])
+from app.models import InstructorCourse, Course
 
+@app.route("/roomPreference/<term>", methods = ["GET"])
+def roomPreference(term):
+    # FIXME bring current_term in via URL, and add the modal to select current term used on courses.html
+    # print(term)
+    current_term = term
+    current_user = AuthorizedUser().getUsername()
 
-def roomPreference(rid=1):
-    page="Room Preference"
+    # Used to populate dropdowns and stuff
     room = Rooms.select()
-    users= User.select().get()
-  
+    users= User.select()
     instructors= InstructorCourse.select()
-    auth_obj = AuthorizedUser()
-    current_user = auth_obj.getUsername()
-    roompreferences = RoomPreferences.select()
     educationTech= EducationTech.select()
-    user = User.get(User.username == current_user)
-    if not user:
-        abort(403)
-        
-    courses= InstructorCourse.select().where(InstructorCourse.username == user)
-    roomPreferences = {}
-    
+
+    # FIXME used for conflicting courses UI, which is hidden
+    courses = Course.select().join(InstructorCourse, on=(InstructorCourse.course == Course.cId)).where(InstructorCourse.username == current_user and Course.term == current_term)
     for course in courses:
-        roomPreferences[course.course.cId] = RoomPreferences.get_or_create(course = course.course.cId)
-    
-   #We changed it and removed .get()
+        print("Hi Sher")
+        print(course.term)
+    roompreferences = RoomPreferences.select().join(Course, on = (InstructorCourse.course == Course.cId)).join(InstructorCourse, on=(RoomPreferences.course == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term)
+    # print(roompreferences[0].course.cId)
+    roomPreferences = {}
   
     return render_template(
         "roomPreference.html",
@@ -41,7 +39,7 @@ def roomPreference(rid=1):
         educationTech=educationTech,
         instructors=instructors
     )
-    
+
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])
