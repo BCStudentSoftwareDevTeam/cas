@@ -36,7 +36,8 @@ def roomPreference(term):
         print("adding ", course.cId, "to ", current_user)
         RoomPreferences.get_or_create(course = course.cId)
     
-    roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+    roompreferences= RoomPreferences.select().join(InstructorCourse).where(RoomPreferences.course.cId and RoomPreferences.course.cId == InstructorCourse.course and RoomPreferences.course.term == current_term and InstructorCourse.username == current_user).distinct()
+    # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
   
     return render_template(
         "roomPreference.html",
