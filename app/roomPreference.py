@@ -30,6 +30,12 @@ def roomPreference(term):
     # for rp in roompreferences:
     #     print(rp.course.cId)
     # roomPreferences = {}
+    
+    
+    # Constructs RoomPreferences if they don't exist
+    for course in courses:
+        RoomPreferences.get_or_create(course = course.cId)
+    
   
     return render_template(
         "roomPreference.html",
