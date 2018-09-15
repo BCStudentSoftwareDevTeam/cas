@@ -1,7 +1,7 @@
 from peewee import *
 from playhouse.migrate import *
 #from app.models import Rooms, Building, Course
-from app.models import Rooms, Building, EducationTech, RoomPreferences, Course
+from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
 
 from app.loadConfig import *
 here = os.path.dirname(__file__)
@@ -123,4 +123,8 @@ for course in q:
   course.save()
   
   
+q = SpecialTopicCourse.select()
+for course in q:
+  course.rid = None
+  course.save()
   
