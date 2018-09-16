@@ -97,7 +97,12 @@ function room_detail(response){
     var my_div = document.getElementById('specialFeatures')
     my_div.innerHTML = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
-    my_div.innerHTML = response['movableFurniture'];
+    if (response['movableFurniture']) {
+        var check_or_x = '<span class="glyphicon glyphicon-ok"></span>';
+    } else {
+        var check_or_x = '<span class="glyphicon glyphicon-remove"></span>';
+    }
+    my_div.innerHTML = check_or_x;
     if(response['audioAcc']){
         document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : <span class='glyphicon glyphicon-font'></span>";
     } else {

@@ -102,7 +102,14 @@
                                             
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
-                                                <option id="{{r['rID']}}" value = "{{r['rID']}}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" >{{r['building']['shortName']}} {{r['number']}}</option>
+                                                <option id="{{r['rID']}}" 
+                                                        value = "{{r['rID']}}" 
+                                                        data-toggle="collapse" 
+                                                        data-target="#collapseExample" 
+                                                        aria-expanded="false" 
+                                                        aria-controls="collapseExample" >
+                                                            {{r['building']['name']}} {{r['number']}} {# ({{r['building']['shortName']}} {{r['number']}}) #}
+                                                        </option>
                                             {% endfor %}
                                         </select>
                                     </div>  
@@ -130,7 +137,14 @@
                                                     <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
                                                 </div>
                                                 <div class="row">
-                                                <label  style="float: left;">Movable Furniture: </label> <div id="movableFurniture">  {{room.movableFurniture}}</div>
+                                                        <label  style="float: left;">Movable Furniture: </label> 
+                                                        <div id="movableFurniture">
+                                                            {% if room.movableFurniture %} 
+                                                                <span class="glyphicon glyphicon-ok"></span> 
+                                                            {% else %}
+                                                                <span class="glyphicon glyphicon-remove"></span> 
+                                                            {% endif %}
+                                                        </div>
                                                 </div>
                                                 <div class="row">
                                                 <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
