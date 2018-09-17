@@ -80,7 +80,7 @@
                      <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
                      <!-- this is for the unlock button --->
                       <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
-                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', 'btn{{state.order}}');submit_data({{state.order-1}});"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
+                      aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}');submit_data({{state.order-1}});"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
                   </div>
                   <div class = "col-sm-6 text-right">
                       <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>

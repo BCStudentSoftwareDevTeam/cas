@@ -82,15 +82,22 @@ function prevcolor(btn) {
  * applicable for two argumnets only for now uness adjusted 
  * @params {HTML Buttons} btns - all the buttons
  */
-function reverseFunc(btns) {
+function reverseFunc(btn) {
     // disableAlltheButtons(arguments[btns]);
     // console.log(arguments[btns]);
     // var go_back = document.getElementById(arguments[0]);
     // console.log(go_back)
     // go_back.disabled = false;
-    // var reverse_color = document.getElementById(arguments[0]);
-    // console.log('reverse_color', reverse_color)
-    // reverse_color.className += ' new_color ';
+    // var reverse_btn = document.getElementById(arguments[0]);
+    // reverse_btn.className = 'theButtons btn btn-dark';
+    var allPanelsDiv = $("#allPanels");
+    var theTR = allPanelsDiv.parent().parent()[0].id.split("_").pop();
+    var remove_color = $("#"+theTR +" #" +btn); //Removes the color of the previous process to ensure there is no overide
+    // console.log(remove_color);
+    remove_color.removeClass("btn-success");
+    var prev = $("#"+theTR+" #" + btn);
+    prev.addClass('btn-dark');
+    
 }
 
 function change_btn_name(){
@@ -149,6 +156,7 @@ function loadStateToTerm(){
     }
 
 function updateStateDataTarget(termCode,termState){
+    console.log("This is the termState returned", termState)
     var next_state = parseInt(termState)+1;        // shift to the next state\
     var previous_state = (parseInt(termState)-1)
     var term_btn = $('#' + termCode+'_' + previous_state.toString());
@@ -164,7 +172,7 @@ function submit_data(stateOrder){
     var allPanelsDiv = $("#allPanels");
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
     // console.log('termcode', termCode)
-    // console.log('stateOrder passed', stateOrder)
+    console.log('stateOrder passed', stateOrder)
     // console.log(theTR)
     $.ajax({
         url:'/admin/systemManagement/updateTermState',

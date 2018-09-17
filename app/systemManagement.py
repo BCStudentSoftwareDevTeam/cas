@@ -34,7 +34,7 @@ def systemManagement():
                               term_state     = term_state)
                               
 #Tomorrow: 
-# Once I update the state order, I ll need to check if the proper panel is being displayed 
+
 #Then I will start working on the reverse actions which occurs under open room preferences, assign rooms and finish panels
 
 #Thursday and Friday
@@ -43,17 +43,19 @@ def systemManagement():
 @app.route("/admin/systemManagement/updateTermState", methods=["POST"])
 @must_be_admin
 def updateTermState():
-   print("I made it to the back")
    data = request.form
 
    # Updates the term's state to the correct state ID based on state order
    term = Term.get(Term.termCode == data['termCode'])
    state = TermStates.get(TermStates.order == data['stateOrder'] )
-   term.state = state
-   term.save()
-   
-   # print("New term order", term.state.order, "; ", term.termCode)
-   # term = Term.update({Term.state: state}).where(Term.termCode == data['termCode']).execute()
+   print("This is the state", state.order)
+   # term.state = state.csID
+   print ('state csID', state.csID)
+   term = Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute()
+   # print("Updated state again", term.state.order)
+   # print("State again id", term.state.csID)
+   # term.save()
+
    
    
    # message = "Course: #{0} has been added".format(course.cId)
