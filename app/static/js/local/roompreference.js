@@ -54,7 +54,7 @@ function setLastButtonPressed(lastPressedButtonID){     //sets the id of each la
 }
 
 function getLastPressedButton(){            //getthe value of each last button pressed in the UI
-    console.log(lastButtonPressed)
+    // console.log(lastButtonPressed)
     return lastButtonPressed;
 }
 
@@ -118,13 +118,17 @@ function room_detail(response){
     } else {
         document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : <span class='glyphicon glyphicon-bold'></span>";
     }
-    education_detail(response);
+    // education_detail(response);
 }
 
 /* The function below serves to take data from the python file and dumps it into the html file*/
 function goToRDetails(r,doishow) {
     $("#collapseOne #Details #withoutSelectButton").show();
-    setRoomId($("#selectedRoom").val());
+    if($("#selectedRoom").val() > 0) {
+       setRoomId($("#selectedRoom").val()); 
+    }
+
+    // console.log("inside RDets", getRoomId());
     if (r.value > 0){
         var room_materials= r.value;
         if(room_materials){
@@ -138,7 +142,7 @@ function goToRDetails(r,doishow) {
                         }
                     },
                     error: function(error) {
-                    console.log(error);
+                        console.log(error);
                     }
                 });
         }
@@ -153,7 +157,7 @@ function goToRDetails(r,doishow) {
 
 /*sets the glyphicons for education tech for each room*/
 function education_detail(response){
-    console.log('response', response['projector'])
+    // console.log('response', response)
     
     
     document.getElementById("projectors").innerHTML = response['projector'];
@@ -210,11 +214,15 @@ function education_detail(response){
 
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
 function goto_educationTech() {
-    var room_id= $("#selectedRoom").val()
-    console.log(room_id)
+    // var room_id= $("#selectedRoom").val()
+    selected_value = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
+    // console.log("goTo_edtech rID: ", getRoomId());
+    // setRoomId(selected_value);
+    var room_id = getRoomId();
+    // console.log("room id: ", room_id);
     if(room_id){
          var url = '/education_Tech/'+room_id;
-         console.log(url)
+        //  console.log(url)
          $.ajax({
                 url: url,
                 dataType: 'json',
@@ -271,11 +279,17 @@ function setPreference(){
     
     setLastButtonPressed(currentButton);
     fixSelectPicker();  
-    var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
+    
+    // This section sets the value of the Select button used after a user chooses a room
+    var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();     // THIS IS A ROOM ID!!!!
+    // console.log("Inside SetPrefs", getRoomId(), "/", pID);
+    setRoomId(pID);
+    // console.log("Inside SetPrefs, after setroomid", getRoomId(), "/", pID);
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
     $("#selectButton").val(new_value);
-    setSelectedRoom(pID);
    
+    setSelectedRoom(pID);
+    
     disableRoom(p1,p2, p3);
     
     moveModal(getCourseId());
@@ -314,8 +328,10 @@ function moveModal(cID) {
     $("#selectedRoom").selectpicker('refresh');// must refresh or causes UI issues
 }
 
-function setSelectedRoom(pID){
-    $('#selectedRoom option[value="'+pID+'"]').prop("selected", true).selectpicker('refresh');
+function setSelectedRoom(rID){
+    // console.log("Setting selected room to ", rID)
+    sr = $('#selectedRoom option[value="'+rID+'"]').prop("selected", "selected");
+    sr.selectpicker('refresh');
 }
 
 
