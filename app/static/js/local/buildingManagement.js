@@ -4,14 +4,6 @@ console.log("Javascript loaded!")
 
 var rIDGlobal = "";
 
-// //added by skrt skrt group
-// function set_datetime(){
-//     var date_time = new Date(2018, 11, 24, 10);
-//     document.getElementById("datetime").innerHTML = date_time.toDateString();
-// }
-
-//end added by skrt skrt group
-
 function setRoomId(rid){
     rIDGlobal=parseInt(rid);
 }
@@ -20,19 +12,16 @@ function getRoomId(){
     return rIDGlobal;
 }
 
-function setRoomPanel(){ //Sets room ID based on what room (row) Edit button was clicked
-    //TODO: Pull RID of room that was clickd (each row) to save the data changes to the appropriate room
+function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) Edit button was clicked
     console.log("setRoomPanel is called")
-    //var roomID = setRoomId($("#selectedRoom").val());
-    
+    var RoomID = setRoomId($("#selectedRoom").val());
     console.log("RoomID:", roomID )
-    // TODO:Add to this function so that it can show the  collapse and expand level for each room.
-    moveModal();
+    moveModal(roomID);
     $("#roomDetails #Details").hide();
 }
 
 function moveModal(rID) { //Makes dropdown appear between rows
-    var targetDiv = document.getElementById("modalRowRoom"+getRoomId());// hidden row where content will be placed
+    var targetDiv = document.getElementById(""+getRoomId());// hidden row where content will be placed
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     var targetDivs = $(".hiddenRow .hiddenDiv");// all hidden row divs (must be cleared first)
     

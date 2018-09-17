@@ -21,12 +21,13 @@
                 <td> {{room.building.shortName}} {{room.number}}</td>
                 <td> {{room.roomType}}</td>
                 <td> <button type="button" class="btn btn-primary" id="Edit{{room.rid}}" data-toggle="collapse" 
-                data-target="#roomData" aria-expanded="false" aria-controls="roomData" onclick="setRoomPanel()">Edit</button></td>
+                data-target="#roomData" aria-expanded="false" aria-controls="roomData" onclick="setRoomPanel({{room.rID}},this)">Edit</button></td>
                 <td><p id="datetime"> </p></td>
             </tr>
-            <tr class="hiddenRow"> 
+            <tr class="hidden_{{room.rID}}"> 
                 <td colspan="8">
-                    <div class="hiddenDiv panel-collapse collapse" id="modalRowRoom{{room.rid}}">Hidden Div</div>
+                    <td colspan="8" id = "divForPanel{{room.rID}}" > </td>
+                    <!--<div class="hiddenDiv panel-collapse collapse" id="modalRowRoom{{room.rid}}">Hidden Div</div>-->
                 </td>
             </tr>
             {% endfor %}
@@ -43,7 +44,7 @@
                            <div class="container">
                             <div id="selectedRoom" class=>        
                                 <div class="col-md-6 left">
-                                    <p><strong>Room Number: </strong>NUMBER BASED ON SELECTION</p>
+                                    <p><strong>Room Number: </strong>{{rooms.rID}}</p>
                                     <p><strong>Max Capacity: </strong><input type="number"></input></p>
                                     <p><strong>Room Type: </strong><input type=text></input></p>
                                     <p><strong>Specialized Equipment: </strong><input type=text></input></p>
