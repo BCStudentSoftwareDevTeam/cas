@@ -7,6 +7,7 @@ from app.logic import course
 from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
 from app.models import InstructorCourse, Course
+from string import strip
 
 @app.route("/roomPreference/<term>", methods = ["GET"])
 def roomPreference(term):
@@ -154,7 +155,7 @@ def postPreference():
             rp.any_Choice = 3
         
     elif room == -1:  #No other rooms work case
-        if(rp.any_Choice == pref): rp.any_Choice = None
+        if(rp.any_Choice == str(pref).decode("utf-8")): rp.any_Choice = None
         
         if (pref == 1): 
             rp.pref_1 = None
@@ -168,7 +169,6 @@ def postPreference():
             rp.none_Choice = 3
       
     rp.save()
-    print("RP", rp.any_Choice)
     return json.dumps({"success": 1})
 
     

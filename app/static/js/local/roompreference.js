@@ -321,7 +321,6 @@ function setModalText(button){
 /* Saves values, and Sets button to value*/
 function saveValue(){
     var pref_button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-    
     pref_button.value =  getRoomId();
     pref_button.innerHTML = room;
  
@@ -414,6 +413,23 @@ function remainingToNone(){
         nextButton.value = -1;
         nextButton.innerText  = "No Other Rooms Work";
         nextButton.disabled = false;
+        setRoomId(-1);
+        
+        var url= '/postPreference';
+        $.ajax({
+             type: "POST",
+                url: url,
+                data:{"roomID":"-1", "ogCourse": getCourseId(), "pref_id": getPrefId()},
+                dataType: 'json',
+                    success: function(response){
+                    disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                    postNotes(getPrefId(),getCourseId());
+                    },
+                    error: function(xhr, status, error) {
+                      var err = eval("(" + xhr.responseText + ")");
+                      alert(err.Message);
+                   }
+        });
     }
     
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
