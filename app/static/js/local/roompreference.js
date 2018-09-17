@@ -290,7 +290,7 @@ function setPreference(){
    
     setSelectedRoom(pID);
     
-    disableRoom(p1,p2, p3);
+    // disableRoom(p1, p2, p3);
     
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
@@ -361,7 +361,7 @@ function saveValue(){
                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
                     success: function(response){
-                    disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                    // disableRoom(getRoomId());//does disableRooms belong inside of this function.
                     postNotes(getPrefId(),getCourseId());
                     },
                     error: function(xhr, status, error) {
@@ -449,10 +449,10 @@ function remainingToNone(){
         $.ajax({
              type: "POST",
                 url: url,
-                data:{"roomID":"-1", "ogCourse": getCourseId(), "pref_id": getPrefId()},
+                data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
                     success: function(response){
-                    disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                    // disableRoom(getRoomId());//does disableRooms belong inside of this function.
                     postNotes(getPrefId(),getCourseId());
                     },
                     error: function(xhr, status, error) {

@@ -145,18 +145,22 @@ def postPreference():
             return json.dumps({"success  ": 0}) #Picked a preference outside of 1,2,or 3
     
     elif room == 0:#Any case
-        if(rp.none_Choice == pref): rp.none_Choice = None 
-        
         if (pref == 1): 
+            print("pref 1 to any")
             rp.pref_1 = None
+            rp.pref_2 = None
+            rp.pref_3 = None
             rp.any_Choice = 1
+            rp.none_Choice = None
         elif (pref == 2):
             rp.pref_2 = None
+            rp.pref_3 = None
             rp.any_Choice = 2
+            rp.none_Choice = None 
         elif(pref == 3):
             rp.pref_3 = None
             rp.any_Choice = 3
-        
+            rp.none_Choice = None
     elif room == -1:  #No other rooms work case
         if(rp.any_Choice == str(pref).decode("utf-8")): rp.any_Choice = None
         
