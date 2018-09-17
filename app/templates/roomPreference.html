@@ -25,7 +25,7 @@
             {% for roompreference in roompreferences %}
                 <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
 		    <td>{{roompreference.course.term.name}}</td>
-                    <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                    <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>

@@ -290,7 +290,7 @@ function setPreference(){
    
     setSelectedRoom(pID);
     
-    // disableRoom(p1, p2, p3);
+    
     
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
@@ -338,10 +338,11 @@ function setSelectedRoom(rID){
 /*helps add accurate information to the button after the value is assigned, and replaces the value of any*/
 function setModalText(button){
     var e = document.getElementById("selectedRoom");
+    var course_id = getCourseId();
     room = e.options[e.selectedIndex].text;
     setRoomId(e.options[e.selectedIndex].value);
     var roomModel= document.getElementById("modelRoom");
-    var courseinfo= document.getElementById("courseInfo");
+    var courseinfo= document.getElementById("courseInfo_"+course_id.toString());
     var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
