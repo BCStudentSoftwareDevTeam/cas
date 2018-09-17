@@ -4,6 +4,8 @@
 {% block body %}
 <!--The following code runs to create the room preference table-->
 <h1 class="text-center"><strong>Room Preference Selection</strong></h1>
+<p class="text-center">The selection of room preferences does not guarantee that a class will be placed in certain room
+</p>
 <div class="card">
     <table class="table"> <!-- the fixed healines on the top of the table-->
         <thead class="thead-dark">
@@ -24,7 +26,7 @@
                 <tr class = "courseTablerow1 selectTermModal" id = "{{roompreference.pID}}">
 		    <td>{{roompreference.course.term.name}}</td>
                     <td id = "courseInfo">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
-                    <td> {{roompreference.course.section}}</td> <!--<br>-->
+                    <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
                     <td> {{roompreference.course.time}}</td>
                     <td> {{roompreference.course.capacity}} </td>
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}

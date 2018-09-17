@@ -257,7 +257,6 @@ function setPreference(){
     setLastButtonPressed(currentButton);
     fixSelectPicker();  
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
-    console.log("PID", pID)
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
     $("#selectButton").val(new_value);
     setSelectedRoom(pID);
