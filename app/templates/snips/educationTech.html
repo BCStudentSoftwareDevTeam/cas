@@ -12,22 +12,22 @@
        <div class="table-responsive">
         <table class="table table-striped">
             <tbody>
-            {% for items in educationTech %}     <!-- Shall be a list -->
+            {# {% for items in educationTech %}     <!-- Shall be a list -->#}
             <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SLEECTED WITH RESPECT TO EDUCATION TECH-->  
                     <tr>
-                          <td class="col-md-2">
-                               Chalkboard(s): 
+                          <td>
+                                Chalkboard(s): 
                           </td>
-                          <td class="col-md-10">
-                               {{items.chalkboards}} 
+                          <td>
+                            <span id="chalkboards" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td class="">
-                               Instructor Computer(s):
+                              Instructor Computer(s):
                           </td>
-                          <td class="">
-                               {{items.instructor_computers}} 
+                          <td>
+                            <span id="instructor_computers" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -35,39 +35,40 @@
                                Projector(s): 
                           </td>
                           <td>
-                               {{items.projectors}} 
+                            <span id="projectors" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Podium: 
+                            Podium:
+                               
                           </td>
                           <td>
-                               {{items.podium}} 
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                               Smartboard(s): 
-                          </td>
-                          <td>
-                               {{items.smartboards}} 
+                            <span id="podiums" style="float:left;" > </span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Students Workstation(s): 
+                               Smartboard(s):
                           </td>
                           <td>
-                               {{items.student_workspace}} 
+                            <span id="smartboards" style="float:left;" > </span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Whiteboard(s): 
+                            Students Workstation(s): 
                           </td>
                           <td>
-                               {{items.whiteboards}} 
+                            <span id="student_workstations" style="float:left;" ></span>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                               Whiteboards: 
+                          </td>
+                          <td>
+                            <span id="whiteboards" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -75,7 +76,7 @@
                                DVD: 
                           </td>
                           <td>
-                               <label id="dvdIcon" style="float:left;" ></label> 
+                               <span id="dvdIcon" style="float:left;" ></span> 
                           </td>
                       </tr>
                       <tr>
@@ -83,7 +84,7 @@
                                Audio: 
                           </td>
                           <td>
-                               <label id="audioIcon" style="float:left;" ></label>
+                               <span id="audioIcon" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -91,7 +92,7 @@
                                Blu-Ray: 
                           </td>
                           <td>
-                               <label id="blu_rayIcon" style="float:left;" ></label>
+                               <span id="blu_rayIcon" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -99,7 +100,7 @@
                                Extro: 
                           </td>
                           <td>
-                               <label id="extroIcon" style="float:left;"></label>
+                               <span id="extroIcon" style="float:left;"></span>
                           </td>
                       </tr>
                       <tr>
@@ -107,7 +108,7 @@
                                Doc Cam: 
                           </td>
                           <td>
-                               <label id="doc_camIcon" style="float:left;"></label>
+                               <span id="doc_camIcon" style="float:left;"></span>
                           </td>
                       </tr>
                       <tr>
@@ -115,7 +116,7 @@
                                VHS: 
                           </td>
                           <td>
-                               <label id="vhsIcon" style="float:left;" ></label>
+                               <span id="vhsIcon" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -123,7 +124,7 @@
                                Mondopad: 
                           </td>
                           <td>
-                               <label id="mondopadIcon" style="float:left;" ></label>
+                               <span id="mondopadIcon" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -131,10 +132,10 @@
                                Technology Cart: 
                           </td>
                           <td>
-                               <label id="tech_chartIcon" style="float:left;" ></label>
+                               <span id="tech_chartIcon" style="float:left;" ></span>
                           </td>
                       </tr>
-            {% endfor %}
+            {# {% endfor %} #}
             </tbody>
         </table> 
        </div>

@@ -20,7 +20,7 @@ def roomPreference(term):
     room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.desc())
     users= User.select()
     instructors = InstructorCourse.select()
-    educationTech= EducationTech.select()
+    # educationTech= EducationTech.select()
 
     # FIXME used for conflicting courses UI, which is hidden
     # print(current_user)
@@ -67,7 +67,7 @@ def roomPreference(term):
         room=room,
         users=users,
         course=courses,
-        educationTech=educationTech,
+        # educationTech=educationTech,
         instructors=instructors
     )
 
@@ -96,13 +96,19 @@ def room_details(rid):
 
 # We will add this on monday based on the room_details 
 
-@app.route('/education_Tech', methods = ["GET"])
+@app.route('/education_Tech/<rid>', methods = ["GET"])
 def education_Tech(rid):
   
     room = Rooms.get(Rooms.rID == rid)
     tech_details = room.educationTech
     education_materials={}
-
+    education_materials["projector"] = tech_details.projector
+    education_materials["smartboards"] = tech_details.smartboards
+    education_materials["instructor_computers"] = tech_details.instructor_computers
+    education_materials["podium"] = tech_details.podium
+    education_materials["student_workspace"] = tech_details.student_workspace
+    education_materials["chalkboards"] = tech_details.chalkboards
+    education_materials["whiteboards"] = tech_details.whiteboards
     education_materials["dvd"]=tech_details.dvd 
     education_materials["blu_ray"]= tech_details.blu_ray 
     education_materials["audio"]= tech_details.audio
@@ -111,11 +117,8 @@ def education_Tech(rid):
     education_materials["vhs"]= tech_details.vhs
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
-    
-    
    
-   
-    return education_materials
+    return json.dumps(education_materials)
     
 # We will add this on monday based on the room_details ^^^^
     

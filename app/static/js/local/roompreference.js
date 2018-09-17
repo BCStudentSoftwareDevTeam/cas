@@ -151,60 +151,75 @@ function goToRDetails(r,doishow) {
     }
 }
 
-/*sets the glyhicicons for education tech for each room*/
+/*sets the glyphicons for education tech for each room*/
 function education_detail(response){
-    if(response['educationTech']['dvd']){
+    console.log('response', response['projector'])
+    
+    
+    document.getElementById("projectors").innerHTML = response['projector'];
+    document.getElementById("smartboards").innerHTML = response['smartboards'];
+    document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
+    document.getElementById("podiums").innerHTML = response['podium'];
+    document.getElementById("student_workstations").innerHTML = response['student_workspace'];
+    document.getElementById("chalkboards").innerHTML = response['chalkboards'];
+    document.getElementById("whiteboards").innerHTML = response['whiteboards'];
+    
+    
+    if(response['dvd']){
         document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-ok pull-left'> </span>";
     } else {
         document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-remove'> </span>";
     }
-    if(response['educationTech']['audio']){
+    
+    if(response['audio']){
         document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['blu_ray']){
+    if(response['blu_ray']){
         document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['extro']){
+    if(response['extro']){
         document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['doc_cam']){
+    if(response['doc_cam']){
         document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['vhs']){
+    if(response['vhs']){
         document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['tech_chart']){
+    if(response['tech_chart']){
         document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
-    if(response['educationTech']['mondopad']){
+    if(response['mondopad']){
         document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
     } else {
         document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
     }
 }
 
-/*This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
-function goto_educationTech(edu) {
-    var educationTech= edu.value;
-    if(educationTech){
-         var url = '/education_Tech/'+educationTech;
+/* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
+function goto_educationTech() {
+    var room_id= $("#selectedRoom").val()
+    console.log(room_id)
+    if(room_id){
+         var url = '/education_Tech/'+room_id;
+         console.log(url)
          $.ajax({
                 url: url,
                 dataType: 'json',
                 success: function(response){
-                    education_detail(response); //a function with eduation tech details
+                    education_detail(response); //a function with education tech details
                 },
                 error: function(error) {
                 console.log(error);
