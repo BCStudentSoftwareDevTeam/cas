@@ -387,9 +387,13 @@ function goToNextPref() {
     if (getPrefId() < 3 && (button > 0)) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+        if(nextButton.value < 1)
+        {
         nextButton.value = 0;
         nextButton.innerText  = "Any Room Works";
         nextButton.disabled = false;
+            
+        }
     }
     
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
