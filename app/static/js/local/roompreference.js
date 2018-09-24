@@ -290,8 +290,6 @@ function setPreference(){
    
     setSelectedRoom(pID);
     
-    
-    
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
@@ -340,6 +338,12 @@ function setModalText(button){
     var e = document.getElementById("selectedRoom");
     var course_id = getCourseId();
     room = e.options[e.selectedIndex].text;
+    
+    if (e.options[e.selectedIndex].value < 1){
+        document.getElementById("selectAny").disabled = true;
+        document.getElementById("selectNone").disabled = true;
+    }
+    
     setRoomId(e.options[e.selectedIndex].value);
     var roomModel= document.getElementById("modelRoom");
     var courseinfo= document.getElementById("courseInfo_"+course_id.toString());
@@ -387,7 +391,7 @@ function goToNextPref() {
     if (getPrefId() < 3 && (button > 0)) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-        if(nextButton.value < 1)
+        if(nextButton.value != 0)
         {
         nextButton.value = 0;
         nextButton.innerText  = "Any Room Works";

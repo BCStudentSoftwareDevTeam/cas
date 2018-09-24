@@ -205,10 +205,10 @@
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
                                                         <div class ="row">
                                                             <div class="col-sm-6" align ="center">
-                                                            <button  type="button" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
+                                                            <button  type="button" id="selectAny" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
                                                             </div>
                                                             <div class="col-sm-6" align= "center">
-                                                            <button  type="button"  class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
+                                                            <button  type="button" id="selectNone" class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
                                                             </div>
                                                         </div>
                                                         <br>
