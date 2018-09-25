@@ -320,39 +320,61 @@ function stateZero(pref_num, val){// This function handles the functionalities o
     
 }
 
-function stateOne(pref_num, val){
+function stateOne(pref_num, val){ // State One is: 'RAA'
     if (val == 0){
        currentStateGlobal = states[0] // 'AAA'
     }
     else if (val == -1){
-        currentStateGlobal = states[6] // 'NNN'
+        if (pref_num == 1) {
+            currentStateGlobal = states[6] // 'NNN'
+        }
+        else if (pref_num == 2){
+            currentStateGlobal = states[2] // 'RNN'
+        }
     }
     else{
-        currentStateGlobal = states[4] // 'RRA'
+        if (pref_num == 1){
+            return; // State One returns to itself
+        }
+        else if (pref_num == 2){
+            currentStateGlobal = states[4] // 'RRA'
         }
 }
 
-function stateTwo(pref_num, val){
+function stateTwo(pref_num, val){ // State Two is: 'RNN'
     if (val == 0 ){
-        currentStateGlobal = states[0] // 'AAA'
+        if (pref_num == 1){
+            currentStateGlobal = states[0] // 'AAA'
+        }    
+        else if (pref_num == 2){
+            currentStateGlobal = states[1] // 'RAA'
+        }
     }
     else if (val == -1){
-        currentStateGlobal = states[6] // 'NNN'
+        if (pref_num == 1){
+            currentStateGlobal = states[6] // 'NNN'
+        }
+        else if (pref_num == 2){
+            return; // It returns to itself
+        }
+        else{
+            currentStateGlobal = states[3] // 'RRN'
+        }
     }
     else{
         currentStateGlobal = states [3] // 'RRN'
     }
 }
 
-function stateThree(pref_num, val){
+function stateThree(pref_num, val){ //State Three is 'RRN'
     if (val == 0) {
-        currentStateGlobal = states[0]
+        currentStateGlobal = states[0] // 'AAA'
     }
     else if (val == -1){
-        currentStateGlobal = states[6]
+        currentStateGlobal = states[6] // 'NNN'
     }
     else{
-        currentStateGlobal = states [5]
+        currentStateGlobal = states [5] // 'RRR'
     }
 }
 
