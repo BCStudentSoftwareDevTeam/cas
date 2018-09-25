@@ -18,7 +18,15 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
     movePanel(roomID);
     //$("#roomDetails #Details").hide();
     var roomNumber = document.getElementById("roomNumber");
+    change_roomnum();
     
+    
+}
+
+function change_roomnum(){
+    var x = document.getElementById("roomNumber").value;
+    console.log('hello');
+    console.log(x);
 }
 
 function movePanel(rID) { //Makes dropdown appear between rows
