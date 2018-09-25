@@ -107,9 +107,9 @@
             </div>
             <!--</div>-->
       {% endif %}
-      {% if state.number in format2 %}
+    {% if state.number in format2 %} 
       <!--FINISH-->
-       <div id="order{{state.order}}" class=" finish collapse">
+       <div id="order{{state.order}}" class=" collapse">
           <div class = "panel-body panel_color">
             <div class = "row text-center">
               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
@@ -141,19 +141,18 @@
           </div>
         </div>
         </div>
-        {% endif %}
-  {% endfor %}
-      <!--The archive panel and the button after finish-->
-       <div id="archive" class="collapse" >
+     {% endif %}
+        <!--The archive panel and the button after finish-->
+       <div id="order7" class="collapse" >
           <div class = "panel-footer">
             <div class = "row text-center">
-              <p><b>The term is complete</b></p><br>
-              <p>Couse and Room Preferences are no longer accepted, and rooms have been assigned.</p>
+              <p><b>This term is complete</b></p><br>
+              <p>(Couse and Room Preferences are no longer accepted, and rooms have been assigned.)</p>
             </div>
           <div class = "row">
               <div class = "col-sm-4" >
                 <br> 
-                <a>Download Courses</a>
+                <a onclick = "downloadCourses()">Download Courses</a>
               </div>      
               <div class = "col-sm-4">  
                 <br>
@@ -166,7 +165,9 @@
           </div>
           </div>
          </div>
-         <!--This is the modal for onclick on archive button confrirmation-->
+  {% endfor %}
+      
+         <!--This is the modal for onclick on archive button confirmation-->
          <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
             <div class="modal-dialog">
               <div class="modal-content">

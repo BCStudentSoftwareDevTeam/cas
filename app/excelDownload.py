@@ -13,6 +13,7 @@ def makeMainExcel(tid):
     term = Term.get(Term.termCode == tid)
     excel = ExcelMaker()
     completePath = excel.make_master_file(term)
+    print("I am not sure what is happening")
     return send_file(completePath,as_attachment=True)
 
 # @app.route('/excel/crossListed/<tid>', methods=["GET"])

@@ -280,7 +280,33 @@ function submit_data(stateOrder, reverseStatus){
 //       document.getElementById("theButtons").disabled=false;
 // });
 
-
+function downloadCourses(){
+    // This function will make an ajax call to the controller that will handle the downloading of all the courses to an excel file
+    var allPanelsDiv = $("#allPanels");
+    
+    var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
+    
+    $.ajax({
+        
+        url:'/excel/'+termCode, // This is the link to the controller
+        
+        type: "GET",
+        
+        cache: false,
+        
+        success: function () {
+            console.log('Success')
+        
+          
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+           console.log("Course Download Failed")
+        }
+        
+    })
+    
+    
+}
 
 /* global $ */
 //Checks whether there is currently an admin selected and enables/disables remove button accordingly
