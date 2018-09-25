@@ -8,7 +8,8 @@ var buildingIDGlobal = "";
 var prefListGlobal = [0,0,0];       //default before setting in U
 var roomValueListGlobal = ["","",""] //for room value html, not values like in setPrefList
 var room = 0; // this gives bldg shortname + room number e.g DR200
-
+var states= ['AAA', 'RAA', 'RNN', 'RRN', 'RRA', 'RRR', 'NNN']
+var currentStateGlobal= states[0];
 function setPrefID(pref_id){        // (set is used for the Declaration of the variable) this  sets up the preference id of each preference: 1, 2, 3 only valid values
     prefIDGlobal=parseInt(pref_id);
 }
@@ -124,7 +125,7 @@ function room_detail(response){
 /* The function below serves to take data from the python file and dumps it into the html file*/
 function goToRDetails(r,doishow) {
     $("#collapseOne #Details #withoutSelectButton").show();
-    if($("#selectedRoom").val() > 0) {
+    if($("#selectedRoom").val()) {
        setRoomId($("#selectedRoom").val()); 
     }
 
@@ -153,6 +154,7 @@ function goToRDetails(r,doishow) {
     if (getRoomId()<=0){
         $("#collapseOne #Details #withoutSelectButton").hide();
     }
+    
 }
 
 /*sets the glyphicons for education tech for each room*/
@@ -252,6 +254,8 @@ function setPreference(){
     setPrefList(1,p1);
     setPrefList(2,p2);
     setPrefList(3,p3);
+    disableRoom(p1, p2, p3); // selected rooms are being disabled here 
+    
    
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
@@ -300,6 +304,130 @@ function setPreference(){
     
     PageLoad();
 }
+
+function stateZero(pref_num, val){// This function handles the functionalities of the first state which is 'AAA'= any room works in all three  preferences
+    
+    if (val == 0 ){
+        return; // 'AAA'
+    }
+    
+    else if (val==-1){
+        currentStateGlobal=states[6]; // 'NNN'
+    }
+    else{
+        currentStateGlobal= states[1]; // 'RAA'
+    }
+    
+}
+
+function stateOne(pref_num, val){
+    if (val == 0){
+       currentStateGlobal = states[0] // 'AAA'
+    }
+    else if (val == -1){
+        currentStateGlobal = states[6] // 'NNN'
+    }
+    else{
+        currentStateGlobal = states[4] // 'RRA'
+        }
+}
+
+function stateTwo(pref_num, val){
+    if (val == 0 ){
+        currentStateGlobal = states[0] // 'AAA'
+    }
+    else if (val == -1){
+        currentStateGlobal = states[6] // 'NNN'
+    }
+    else{
+        currentStateGlobal = states [3] // 'RRN'
+    }
+}
+
+function stateThree(pref_num, val){
+    if (val == 0) {
+        currentStateGlobal = states[0]
+    }
+    else if (val == -1){
+        currentStateGlobal = states[6]
+    }
+    else{
+        currentStateGlobal = states [5]
+    }
+}
+
+
+
+function stateFour(pref_num, val){
+    if (val == 0){
+        currentStateGlobal = states[0]
+    }
+    else if (val = -1){
+        currentStateGlobal = states[6]
+    }
+    else{
+        currentStateGlobal = states[5]
+    }
+}
+
+
+function stateFive(pref_num, val){
+    if(val == 0){
+        currentStateGlobal = states[0]
+    }
+    else if (val == -1){
+        currentStateGlobal = states[6]
+    }
+    else{
+        return; // Do nothing becaus e the state is already in state RRR
+    }
+    
+}
+
+function stateSix(pref_num, val){
+    if (val == 0){
+        currentStateGlobal = states[0]
+    }
+    else if (val == -1) {
+        currentStateGlobal = states[6]
+    }
+    else {
+        currentStateGlobal = states[2]
+    }
+    
+    
+    
+}
+
+function preferenceHandler(pref_num, val){ /* -determines states of the course, handles all the activities performed on preferences*/
+    
+    if (currentStateGlobal==states[0]){
+        stateZero(pref_num, val);
+        
+    }
+    else if (currentStateGlobal == states[1]){
+        stateOne(pref_num, val);
+    }
+    else if (currentStateGlobal == states[2]){
+        stateTwo(pref_num, val);
+    }
+    else if (currentStateGlobal == states[3]){
+        stateThree(pref_num, val);
+    }
+    else if (currentStateGlobal == states[4]){
+        stateFour(pref_num, val);
+    }
+    else if (currentStateGlobal == states[5]){
+        stateFive(pref_num, val);
+    }
+    else if (currentStateGlobal == states[6]){
+        stateSix(pref_num, val);
+    }
+    
+}
+
+
+
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
 function fixSelectPicker() {
     var realSelect = $("#selectedRoom");
@@ -381,6 +509,7 @@ function saveValue(){
     $("#exampleModal").modal('hide');
     $(pref_button).removeClass("btn-primary");
     $(pref_button).addClass("btn-success");
+   
 }
 
 
