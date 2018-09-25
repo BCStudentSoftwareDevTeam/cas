@@ -328,7 +328,7 @@ function moveModal(cID) {
 
 function setSelectedRoom(rID){
     // console.log("Setting selected room to ", rID)
-    sr = $('#selectedRoom option[value="'+rID+'"]').prop("selected", "selected");
+   var  sr = $('#selectedRoom option[value="'+rID+'"]').prop("selected", "selected");
     sr.selectpicker('refresh');
 }
 
