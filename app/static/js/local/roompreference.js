@@ -322,7 +322,12 @@ function stateZero(pref_num, val){// This function handles the functionalities o
 
 function stateOne(pref_num, val){ // State One is: 'RAA'
     if (val == 0){
-       currentStateGlobal = states[0] // 'AAA'
+        if (pref_num == 1){
+            currentStateGlobal = states[0] // 'AAA'
+        } 
+        else if (pref_num == 2 || pref_number == 3){
+            return; // Returns to itself
+        }
     }
     else if (val == -1){
         if (pref_num == 1) {
@@ -357,68 +362,125 @@ function stateTwo(pref_num, val){ // State Two is: 'RNN'
         else if (pref_num == 2){
             return; // It returns to itself
         }
-        else{
-            currentStateGlobal = states[3] // 'RRN'
-        }
     }
     else{
-        currentStateGlobal = states [3] // 'RRN'
+        if (pref_num == 1){
+            return; // It returns to itself
+        }
+        else if (pref_num == 2){
+            currentStateGlobal = states [3] // 'RRN'
+        }
     }
 }
 
 function stateThree(pref_num, val){ //State Three is 'RRN'
     if (val == 0) {
-        currentStateGlobal = states[0] // 'AAA'
+        if (pref_num == 1){
+            currentStateGlobal = states[0] // 'AAA'
+        } 
+        else if (pref_num == 2){
+            currentStateGlobal = states[1] // 'RAA'
+        }
+        else if (pref_num == 3){
+            currentStateGlobal = states[4] //'RRA'
+        }
     }
     else if (val == -1){
-        currentStateGlobal = states[6] // 'NNN'
+        if (pref_num == 1){
+            currentStateGlobal = states[6] // 'NNN'    
+        }
+        else if (pref_num == 2){
+            currentStateGlobal = states[2] // 'RNN'
+        }
+        else if (pref_num == 3) {
+            return; // It returns to itself
+        }
     }
-    else{
-        currentStateGlobal = states [5] // 'RRR'
+    else {
+        if (pref_num == 1 || pref_num == 2) {
+            return; // It returns to itself
+        }
+        else if (pref_num = 3){
+            currentStateGlobal = states [5] // 'RRR'
+        }
     }
 }
 
 
 
-function stateFour(pref_num, val){
+function stateFour(pref_num, val){  // State Four: 'RRA'
     if (val == 0){
-        currentStateGlobal = states[0]
+        if (pref_num == 1){
+            currentStateGlobal = states[0] // 'AAA'
+        } 
+        else if (pref_num == 2){
+            currentStateGlobal = states[1] // 'RAA'
+        }
+        else if (pref_num == 3){
+            return; // It returns to itself
+        }
     }
     else if (val = -1){
-        currentStateGlobal = states[6]
+        if (pref_num == 1){
+            currentStateGlobal = states[6] // 'NNN'
+        } 
+        else if (pref_num == 2){
+            currentStateGlobal = states[2] // 'RNN'
+        }
+        else if (pref_num == 3){
+            currentStateGlobal = states[3] // 'RRN'
+        }
     }
     else{
-        currentStateGlobal = states[5]
+        if (pref_num == 1 || pref_num == 2){
+            return; // It returns to itself
+        }
+        else if (pref_num == 3){
+            currentStateGlobal = states[5] // 'RRR'
+        }
     }
 }
 
 
-function stateFive(pref_num, val){
+function stateFive(pref_num, val){ // State Five is RRR
     if(val == 0){
-        currentStateGlobal = states[0]
+        if (pref_num == 1){
+            currentStateGlobal = states[0] // 'AAA'
+        }
+        else if(pref_num == 2){
+            currentStateGlobal = states[1] // 'RAA'
+        }
+        else if (pref_num == 3){
+            currentStateGlobal = states[4] // 'RRA'
+        }
     }
     else if (val == -1){
-        currentStateGlobal = states[6]
+        if (pref_num == 1){
+            currentStateGlobal = states[6] // 'NNN'
+        }
+        else if (pref_num == 2){
+            currentStateGlobal = states[2] //'RNN'
+        }
+        else if (pref_num  == 3){
+            currentStateGlobal = states[3] // 'RRN'
+        }
     }
     else{
-        return; // Do nothing becaus e the state is already in state RRR
+        return; // Do nothing because the state is already in state RRR
     }
     
 }
 
-function stateSix(pref_num, val){
+function stateSix(pref_num, val){ // State 6 is 'NNN'
     if (val == 0){
-        currentStateGlobal = states[0]
+        currentStateGlobal = states[0] // 'AAA'
     }
     else if (val == -1) {
-        currentStateGlobal = states[6]
+        return; // Returns to itself 
     }
     else {
         currentStateGlobal = states[2]
     }
-    
-    
-    
 }
 
 function preferenceHandler(pref_num, val){ /* -determines states of the course, handles all the activities performed on preferences*/
