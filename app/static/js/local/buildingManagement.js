@@ -23,9 +23,9 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
     
 }
 
-function change_roomnum(){
+function changeRoomNum(){
     var x = document.getElementById("roomNumber").value;
-    console.log('hello');
+    console.log('inside changeRoomNum');
     console.log(x);
 }
 

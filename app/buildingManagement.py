@@ -10,17 +10,15 @@ from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
 
 @app.route("/buildingManagement", methods=["GET"])
-@must_be_admin #Should be a requirement for a building manager, not admin!
+@must_be_admin #TODO:Should be a requirement for a building manager, not admin!
+
+#TODO: Should only pull rooms from a cetain building associated with user's login
 
 def buildingManagement():
     building = Building.select()
     user = User.select()
     rooms = Rooms.select()
     
-    
-   #TODO:Need for loop to generate buildings
-   
-   #TODO: Need for loop to pull rooms
    
     return render_template("buildingManagement.html",
     building = building,
