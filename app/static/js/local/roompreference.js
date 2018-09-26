@@ -479,7 +479,7 @@ function stateSix(pref_num, val){ // State 6 is 'NNN'
         return; // Returns to itself 
     }
     else {
-        currentStateGlobal = states[2]
+        currentStateGlobal = states[2] // 'RNN'
     }
 }
 
