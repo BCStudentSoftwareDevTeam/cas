@@ -49,13 +49,14 @@
                     <tr>
                         <td>
                            <div class="container">
-                            <div id="selectedRoom" class=>        
+                            <div id="selectedRoom">        
                                 <div class="col-md-6 left">
-                                    <p id="roomNumberP"><strong>Room Number:</strong></p>
-                                    <p><strong>Max Capacity: </strong><input type="number"></input></p>
+                                    <p id="roomNumberP"><strong>Room Number:</strong></p> <!--- TODO: Fill this in based on User Click--->
+                                    <p><strong>Max Capacity: </strong><input type="number"></input></p> <!---TODO: PREFILL all  input form data with current room data--->
                                     <p><strong>Room Type: </strong><input type=text></input></p>
                                     <p><strong>Specialized Equipment: </strong><input type=text></input></p>
-                                    <p><strong>Movable Furniture: </strong><input type="checkbox"></input></p>
+                                    <p><strong>Special Features: </strong><input type=text></input></p>
+                                    
                                 </div>
                                 
                                 <div class="col-md-6 right">
@@ -67,28 +68,26 @@
                                     <!--        </div>-->
                                     <!--    </form>-->
                                     <!--</div>-->
-                                    <p><strong>Special Features: </strong><input type=text></input></p>
+                                    <p><strong>Movable Furniture: </strong><input type="checkbox"></input></p>
                                     {% include "snips/editableEducationTech.html" %}
                                     <p><strong>Education Tech: </strong>
-                                    
                                         <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
                                         class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
-                                        <a href="#">  View </a></button>
-                                         
+                                        <a href="#">Open</a></button>
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </p>
                                     <p><strong>Visual Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
                                         <option value="B">B</option>
                                         <option value="C">C</option>
                                     </select></p>
                                     <p><strong>Audio Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
                                         <option value="B">B</option>
                                         <option value="C">C</option>
                                     </select></p>
                                     <p><strong>Physical Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB--->
+                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
                                         <option value="B">B</option>
                                         <option value="C">C</option>
                                     </select></p>
