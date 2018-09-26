@@ -8,10 +8,21 @@ var buildingIDGlobal = "";
 var prefListGlobal = [0,0,0];       //default before setting in U
 var roomValueListGlobal = ["","",""] //for room value html, not values like in setPrefList
 var room = 0; // this gives bldg shortname + room number e.g DR200
-var states= ['AAA', 'RAA', 'RNN', 'RRN', 'RRA', 'RRR', 'NNN']
+var states= ['AAA', 'RAA', 'RNN', 'RRN', 'RRA', 'RRR', 'NNN'];
 var currentStateGlobal= states[0];
+
+function getCurrentState() {
+    return $("#row_state_" + getCourseId()).val();
+}
+
+function setCurrentState(the_state) {
+    // console.log(the_state);    
+    $("#row_state_" + getCourseId()).attr('value', the_state);
+    // console.log($("#row_state_" + getCourseId()).val());
+}
+
 function setPrefID(pref_id){        // (set is used for the Declaration of the variable) this  sets up the preference id of each preference: 1, 2, 3 only valid values
-    prefIDGlobal=parseInt(pref_id);
+    prefIDGlobal = parseInt(pref_id);
 }
 
 function getPrefId(){       //(get is used as a print for the declared variable)this method gets the value of each preference that is used globally
@@ -19,7 +30,7 @@ function getPrefId(){       //(get is used as a print for the declared variable)
 }
 
 function setCourseId(cid){      //this sets the course id which is also the row id
-    cIDGlobal= parseInt(cid);
+    cIDGlobal = parseInt(cid);
 }
 
 function getCourseId(){     //this gets the id of each course in order to access a particular a course
@@ -247,6 +258,7 @@ function setPreference(){
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
+    
     var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
@@ -255,7 +267,9 @@ function setPreference(){
     setPrefList(2,p2);
     setPrefList(3,p3);
     disableRoom(p1, p2, p3); // selected rooms are being disabled here 
-    
+
+    // Setting the current state in into the UI for future reference
+    currentStateInitializer(p1, p2, p3);
    
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
@@ -337,13 +351,15 @@ function stateOne(pref_num, val){ // State One is: 'RAA'
             currentStateGlobal = states[2] // 'RNN'
         }
     }
-    else{
+    else {
         if (pref_num == 1){
             return; // State One returns to itself
         }
         else if (pref_num == 2){
             currentStateGlobal = states[4] // 'RRA'
         }
+    
+    }
 }
 
 function stateTwo(pref_num, val){ // State Two is: 'RNN'
@@ -400,7 +416,7 @@ function stateThree(pref_num, val){ //State Three is 'RRN'
         if (pref_num == 1 || pref_num == 2) {
             return; // It returns to itself
         }
-        else if (pref_num = 3){
+        else if (pref_num == 3){
             currentStateGlobal = states [5] // 'RRR'
         }
     }
@@ -420,7 +436,7 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
             return; // It returns to itself
         }
     }
-    else if (val = -1){
+    else if (val == -1){
         if (pref_num == 1){
             currentStateGlobal = states[6] // 'NNN'
         } 
@@ -487,7 +503,6 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
     
     if (currentStateGlobal==states[0]){
         stateZero(pref_num, val);
-        
     }
     else if (currentStateGlobal == states[1]){
         stateOne(pref_num, val);
@@ -507,9 +522,37 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
     else if (currentStateGlobal == states[6]){
         stateSix(pref_num, val);
     }
-    
 }
 
+function currentStateInitializer(pref_button1,pref_button2,pref_button3){
+    if (pref_button1 == 0) {
+        // AAA
+        setCurrentState(states[0]);
+    } else if (pref_button1 == -1) {
+        // NNN
+        setCurrentState(states[6]);
+    } else {
+        if (pref_button2 == 0)  {
+            /// RAA
+            setCurrentState(states[1]);
+        } else if (pref_button2 == -1) {
+            // RNN
+            setCurrentState(states[2]);
+        } else {
+            if (pref_button3 == 0) {
+                // RRA
+                setCurrentState(states[4]);
+            } else if (pref_button3 == -1) {
+                // RRN
+                setCurrentState(states[3]);
+            } else {
+                // RRR
+                setCurrentState(states[5]);
+            }
+        }
+    }
+    
+}
 
 
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
@@ -578,21 +621,27 @@ function saveValue(){
                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
                 dataType: 'json',
                     success: function(response){
-                    // disableRoom(getRoomId());//does disableRooms belong inside of this function.
-                    postNotes(getPrefId(),getCourseId());
+                        // disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                        postNotes(getPrefId(),getCourseId());
+                        setPrefList(getPrefId(), getRoomId());
+                        setInstructions(getCourseId());
+                        
+                        // Changes the color of the buttons
+                        $("#exampleModal").removeClass("fade");
+                        $("#exampleModal").modal('hide');
+                        $(pref_button).removeClass("btn-primary");
+                        $(pref_button).addClass("btn-success");
+                        
+                        // update the current state value in the hidden UI element
+                        preferenceHandler(getPrefId(), getRoomId());
                     },
                     error: function(xhr, status, error) {
-                      var err = eval("(" + xhr.responseText + ")");
-                      alert(err.Message);
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
                    }
         });
 
-    setPrefList(getPrefId(), getRoomId());
-    setInstructions(getCourseId());
-    $("#exampleModal").removeClass("fade");
-    $("#exampleModal").modal('hide');
-    $(pref_button).removeClass("btn-primary");
-    $(pref_button).addClass("btn-success");
+    
    
 }
 
@@ -750,7 +799,11 @@ function PageLoad () {
         setInstructions(course);
     }
     hideFirstPreferences();
+    
+    // Set hidden input to correct state on page load
 }
+
+PageLoad();
 
 function hideFirstPreferences(){
     var allCourses = $(".notesHolders");
@@ -774,12 +827,9 @@ function hideFirstPreferences(){
         pref1.disabled = false;
         if (pref1.value > 0){
             pref2.disabled = false;
-            if (pref2.value >0){
+            if (pref2.value > 0){
                 pref3.disabled = false;
             }
         }    
     }
 }
-
-
-PageLoad();
