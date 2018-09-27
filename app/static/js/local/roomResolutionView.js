@@ -117,33 +117,22 @@ function replacecourseinroom(){ //Removing current occupant and putting the curr
         });}
 
 function resolvecourse(){ //Functionality for blue redirect button
+    console.log("here");
     var oldurl = window.location.href.split("/");
     var cid = oldurl[oldurl.length-1];
     var termcode = oldurl[oldurl.length-2];
     var url = '/updateRoom/'+cid;  
-        //console.log("URL: " + url);
-        //console.log("RoomID: " + roomID);
-        //console.log("Inside replacecourseinroom")
-        $.ajax({  
-             type: "POST",
-                url: url,
-                data:{"roomID": roomID, "ogCourse": ogCourse},
-                dataType: 'json',
-                success: function(response){
-                    //console.log(response)
-                    //console.log("It worked inside resolvecourse")
-                    if (response['success'] == 1)
-                        window.location = "/roomResolutionView/"+termcode+"/"+ogCourse
-                    else
-                        window.location.assign("/roomResolution/"+ termcode)
-                    },
-                    error: function(error){
-                        //console.log("It didnt work")
-                        console.log(error);
-                        window.location.assign("/roomResolution/"+ termcode)
-                        
-                    }
-        });}
+    $.ajax({  
+         type: "POST",
+            url: url,
+            data:{"roomID": roomID, "ogCourse": ogCourse},
+            dataType: 'json'})
+            .done(function(data)
+                {
+                window.location.reload(false);        
+                }
+            );
+    }
 
 function checkforbluebutton(id){//see if blue button needs to show up
     var button = document.getElementById('redirectbutton');

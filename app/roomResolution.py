@@ -196,25 +196,22 @@ def assignRoom(cid=0):
 #Assign to an OCCUPIED room, remove current occupant
 @app.route("/updateRoom/<cid>", methods=["POST"])
 
-def updateRoom(cid=0):
-    # print("YOOOOOOOOOOOOOOOOOOOOO",Course.get(Course.cId==cid).rid)
-    if Course.get(Course.cId==cid).rid == None: #If the course doesn't have a room
-        if updateRoom:
-            data = request.form #data coming from POST
-            # print("Room ID: ", data['roomID'])
-            course = Course.get(Course.cId == cid) #Gets original course ID from database
-            course.rid = data['roomID']
-            course.save()
-            course = Course.get(Course.cId == data['ogCourse']) #Gets conflicting course ID from database
-            # print("course rid:", course.rid)
-            course.rid = None  #Sets room to None
-            course.save()
-            flash("Your changes have been saved!") 
-            return json.dumps({"success": 1})
-            
-    else:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"success":0})
+def updateRoom(cid):
+    #If the course doesn't have a room
+    if Course.get(Course.cId==cid).rid == None: 
+        data = request.form 
+        course = Course.get(Course.cId == cid) 
+        course.rid = data['roomID']
+        course.save()
+        #course = Course.get(Course.cId == data['ogCourse']) #Gets conflicting course ID from database
+        # print("course rid:", course.rid)
+        #course.rid = None  #Sets room to None
+        #course.save()
+        flash("Your changes have been saved!") 
+        return json.dumps({"success": 1})
+    
+    flash("An error has occurred. Please try again.","error")
+    return json.dumps({"success":0})
         
 
 
