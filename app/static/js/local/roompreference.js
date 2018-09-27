@@ -9,7 +9,7 @@ var prefListGlobal = [0,0,0];       //default before setting in U
 var roomValueListGlobal = ["","",""] //for room value html, not values like in setPrefList
 var room = 0; // this gives bldg shortname + room number e.g DR200
 var states= ['AAA', 'RAA', 'RNN', 'RRN', 'RRA', 'RRR', 'NNN'];
-var currentStateGlobal= states[0];
+// var getCurrentState()= states[0];
 
 function getCurrentState() {
     return $("#row_state_" + getCourseId()).val();
@@ -262,14 +262,18 @@ function setPreference(){
     var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
-   
+    
+    // Setting the current state in into the UI for future reference
+    currentStateInitializer(p1, p2, p3);
+    
+    
     setPrefList(1,p1);
     setPrefList(2,p2);
     setPrefList(3,p3);
-    disableRoom(p1, p2, p3); // selected rooms are being disabled here 
+   
+    // disableRoom(p1, p2, p3); // selected rooms are being disabled here 
 
-    // Setting the current state in into the UI for future reference
-    currentStateInitializer(p1, p2, p3);
+    
    
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
@@ -277,12 +281,12 @@ function setPreference(){
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
-    if (getPrefId() == 1) {
-        document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
-    } 
-    else { //Changes text to "This course does not need a room" if on first preference only
-        document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
-    }
+    // if (getPrefId() == 1) {
+    //     document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
+    // } 
+    // else { //Changes text to "This course does not need a room" if on first preference only
+    //     document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
+    // }
     
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
@@ -320,16 +324,17 @@ function setPreference(){
 }
 
 function stateZero(pref_num, val){// This function handles the functionalities of the first state which is 'AAA'= any room works in all three  preferences
-    
-    if (val == 0 ){
+    console.log("Going to ", states[6]);
+    console.log("Val ", val);
+    if (val == 0){
         return; // 'AAA'
     }
     
-    else if (val==-1){
-        currentStateGlobal=states[6]; // 'NNN'
+    else if (val == -1){
+        setCurrentState(states[6]); // 'NNN'
     }
     else{
-        currentStateGlobal= states[1]; // 'RAA'
+        setCurrentState(states[1]); // 'RAA'
     }
     
 }
@@ -337,18 +342,18 @@ function stateZero(pref_num, val){// This function handles the functionalities o
 function stateOne(pref_num, val){ // State One is: 'RAA'
     if (val == 0){
         if (pref_num == 1){
-            currentStateGlobal = states[0] // 'AAA'
+            setCurrentState(states[0]); // 'AAA'
         } 
-        else if (pref_num == 2 || pref_number == 3){
+        else if (pref_num == 2 || pref_num == 3){
             return; // Returns to itself
         }
     }
     else if (val == -1){
         if (pref_num == 1) {
-            currentStateGlobal = states[6] // 'NNN'
+            setCurrentState(states[6]); // 'NNN'
         }
         else if (pref_num == 2){
-            currentStateGlobal = states[2] // 'RNN'
+            setCurrentState(states[2]); // 'RNN'
         }
     }
     else {
@@ -356,7 +361,7 @@ function stateOne(pref_num, val){ // State One is: 'RAA'
             return; // State One returns to itself
         }
         else if (pref_num == 2){
-            currentStateGlobal = states[4] // 'RRA'
+            setCurrentState(states[4]); // 'RRA'
         }
     
     }
@@ -365,15 +370,15 @@ function stateOne(pref_num, val){ // State One is: 'RAA'
 function stateTwo(pref_num, val){ // State Two is: 'RNN'
     if (val == 0 ){
         if (pref_num == 1){
-            currentStateGlobal = states[0] // 'AAA'
+            setCurrentState(states[0]); // 'AAA'
         }    
         else if (pref_num == 2){
-            currentStateGlobal = states[1] // 'RAA'
+            setCurrentState(states[1]); // 'RAA'
         }
     }
     else if (val == -1){
         if (pref_num == 1){
-            currentStateGlobal = states[6] // 'NNN'
+            setCurrentState(states[6]); // 'NNN'
         }
         else if (pref_num == 2){
             return; // It returns to itself
@@ -384,7 +389,7 @@ function stateTwo(pref_num, val){ // State Two is: 'RNN'
             return; // It returns to itself
         }
         else if (pref_num == 2){
-            currentStateGlobal = states [3] // 'RRN'
+            setCurrentState(states [3]); // 'RRN'
         }
     }
 }
@@ -392,21 +397,21 @@ function stateTwo(pref_num, val){ // State Two is: 'RNN'
 function stateThree(pref_num, val){ //State Three is 'RRN'
     if (val == 0) {
         if (pref_num == 1){
-            currentStateGlobal = states[0] // 'AAA'
+            setCurrentState(states[0]); // 'AAA'
         } 
         else if (pref_num == 2){
-            currentStateGlobal = states[1] // 'RAA'
+            setCurrentState(states[1]); // 'RAA'
         }
         else if (pref_num == 3){
-            currentStateGlobal = states[4] //'RRA'
+            setCurrentState(states[4]); //'RRA'
         }
     }
     else if (val == -1){
         if (pref_num == 1){
-            currentStateGlobal = states[6] // 'NNN'    
+            setCurrentState(states[6]); // 'NNN'    
         }
         else if (pref_num == 2){
-            currentStateGlobal = states[2] // 'RNN'
+            setCurrentState(states[2]); // 'RNN'
         }
         else if (pref_num == 3) {
             return; // It returns to itself
@@ -417,7 +422,7 @@ function stateThree(pref_num, val){ //State Three is 'RRN'
             return; // It returns to itself
         }
         else if (pref_num == 3){
-            currentStateGlobal = states [5] // 'RRR'
+            setCurrentState(states [5]); // 'RRR'
         }
     }
 }
@@ -427,10 +432,10 @@ function stateThree(pref_num, val){ //State Three is 'RRN'
 function stateFour(pref_num, val){  // State Four: 'RRA'
     if (val == 0){
         if (pref_num == 1){
-            currentStateGlobal = states[0] // 'AAA'
+            setCurrentState(states[0]); // 'AAA'
         } 
         else if (pref_num == 2){
-            currentStateGlobal = states[1] // 'RAA'
+            setCurrentState(states[1]); // 'RAA'
         }
         else if (pref_num == 3){
             return; // It returns to itself
@@ -438,13 +443,13 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
     }
     else if (val == -1){
         if (pref_num == 1){
-            currentStateGlobal = states[6] // 'NNN'
+            setCurrentState(states[6]); // 'NNN'
         } 
         else if (pref_num == 2){
-            currentStateGlobal = states[2] // 'RNN'
+            setCurrentState(states[2]); // 'RNN'
         }
         else if (pref_num == 3){
-            currentStateGlobal = states[3] // 'RRN'
+            setCurrentState(states[3]); // 'RRN'
         }
     }
     else{
@@ -452,7 +457,7 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
             return; // It returns to itself
         }
         else if (pref_num == 3){
-            currentStateGlobal = states[5] // 'RRR'
+            setCurrentState(states[5]); // 'RRR'
         }
     }
 }
@@ -461,24 +466,24 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
 function stateFive(pref_num, val){ // State Five is RRR
     if(val == 0){
         if (pref_num == 1){
-            currentStateGlobal = states[0] // 'AAA'
+            setCurrentState(states[0]); // 'AAA'
         }
         else if(pref_num == 2){
-            currentStateGlobal = states[1] // 'RAA'
+            setCurrentState(states[1]); // 'RAA'
         }
         else if (pref_num == 3){
-            currentStateGlobal = states[4] // 'RRA'
+            setCurrentState(states[4]); // 'RRA'
         }
     }
     else if (val == -1){
         if (pref_num == 1){
-            currentStateGlobal = states[6] // 'NNN'
+            setCurrentState(states[6]); // 'NNN'
         }
         else if (pref_num == 2){
-            currentStateGlobal = states[2] //'RNN'
+            setCurrentState(states[2]); //'RNN'
         }
         else if (pref_num  == 3){
-            currentStateGlobal = states[3] // 'RRN'
+            setCurrentState(states[3]); // 'RRN'
         }
     }
     else{
@@ -488,40 +493,45 @@ function stateFive(pref_num, val){ // State Five is RRR
 }
 
 function stateSix(pref_num, val){ // State 6 is 'NNN'
+    console.log("Going to ", states[0]);
+    console.log("Val ", val);
     if (val == 0){
-        currentStateGlobal = states[0] // 'AAA'
+        setCurrentState(states[0]); // 'AAA'
     }
     else if (val == -1) {
         return; // Returns to itself 
     }
     else {
-        currentStateGlobal = states[2] // 'RNN'
+        setCurrentState(states[2]); // 'RNN'
     }
 }
 
 function preferenceHandler(pref_num, val){ /* -determines states of the course, handles all the activities performed on preferences*/
-    
-    if (currentStateGlobal==states[0]){
+    console.log("State before handler. ||", getCurrentState(), "||", states[0], "||");
+    console.log("Same as 0? ", getCurrentState() == states[0]);
+    console.log("Same as 6? ", getCurrentState() == states[6]);
+    if (getCurrentState() == states[0]){
         stateZero(pref_num, val);
     }
-    else if (currentStateGlobal == states[1]){
+    else if (getCurrentState() == states[1]){
         stateOne(pref_num, val);
     }
-    else if (currentStateGlobal == states[2]){
+    else if (getCurrentState() == states[2]){
         stateTwo(pref_num, val);
     }
-    else if (currentStateGlobal == states[3]){
+    else if (getCurrentState() == states[3]){
         stateThree(pref_num, val);
     }
-    else if (currentStateGlobal == states[4]){
+    else if (getCurrentState() == states[4]){
         stateFour(pref_num, val);
     }
-    else if (currentStateGlobal == states[5]){
+    else if (getCurrentState() == states[5]){
         stateFive(pref_num, val);
     }
-    else if (currentStateGlobal == states[6]){
+    else if (getCurrentState() == states[6]){
         stateSix(pref_num, val);
     }
+    console.log("State after prefhandler", getCurrentState());
 }
 
 function currentStateInitializer(pref_button1,pref_button2,pref_button3){
@@ -552,7 +562,104 @@ function currentStateInitializer(pref_button1,pref_button2,pref_button3){
         }
     }
     
+    // console.log(getCurrentState());
 }
+
+function updateUIButtonStates(){ // Get the state of the course from the hidden input and update the values on the pref buttons accordingly - allow cascading 
+    
+    // updates the preference that was changed
+    var pref_button_1 = document.getElementById("prefButton1_" +  getCourseId());
+    var pref_button_2 = document.getElementById("prefButton2_" +  getCourseId());
+    var pref_button_3 = document.getElementById("prefButton3_" +  getCourseId());
+    
+    if (getPrefId() == 1) {
+        // if preference 1 changed
+        pref_button_1.value =  getRoomId();
+        pref_button_1.innerHTML = room;
+        
+        // pref 2 and 3 need to be updated if necessary
+        // updates the other two, if necessary
+    
+        for (var i = 1; i < getCurrentState().length; i++) {
+            // go through each state and update UI
+            // console.log(getCurrentState()[i]);
+            var j = i++;
+            var pref_button = document.getElementById("prefButton"+ j.toString()+"_" +  getCourseId())
+            if (getCurrentState([i]) == "A") {
+                pref_button.value  = 0;
+                pref_button.innerHTML = 'Any Room Works';
+            } else if (getCurrentState([i]) == "N") {
+                pref_button.value  = -1;
+                pref_button.innerHTML = 'This Course Does not Require A Room.';
+            }
+            // } else if (getCurrentState([i]) == "R") {
+                
+            // }
+    }
+        
+        
+    } else if (getPrefId() == 2) {
+        // if preference 1 changed
+        pref_button_2.value =  getRoomId();
+        pref_button_2.innerHTML = room;
+        
+        // pref 3 needs to be updated if necessary
+        var currentState = getCurrentState().pop()
+         for (var i = 1; i < currentState.length; i++) {
+            if (currentState[i] == "A") {
+                
+            } else if (currentState[i]== "N") {
+                
+            } 
+         }
+    } else if (getPrefId() == 3) {
+        // if preference 1 changed
+        pref_button_3.value =  getRoomId();
+        pref_button_3.innerHTML = room;
+    }
+    
+    
+    
+}
+
+
+/* Saves values, and Sets button to value*/
+function saveValue(){
+    // preferenceHandler(getPrefId(), getRoomId());
+    console.log("Before save value: ", getRoomId());
+      var url= '/postPreference';
+        $.ajax({
+             type: "POST",
+                url: url,
+                data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
+                dataType: 'json',
+                    success: function(response){
+                        // disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                        postNotes(getPrefId(),getCourseId());
+                        setPrefList(getPrefId(), getRoomId());
+                        setInstructions(getCourseId());
+                        // update the current state value in the hidden UI element
+                        console.log("After saving: ", getRoomId());
+                        preferenceHandler(getPrefId(), getRoomId());
+                        updateUIButtonStates();
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                   }
+        });
+
+     // Changes the color of the buttons
+     
+    $("#exampleModal").removeClass("fade");
+    $("#exampleModal").modal('hide');
+    // FIXME
+    // $(pref_button).removeClass("btn-primary");
+    // $(pref_button).addClass("btn-success");
+   
+}
+
 
 
 /** /** The function below, helps generating the mode in the right course row, move it up and down depending on which row you are on **/
@@ -608,45 +715,10 @@ function setModalText(button){
 }
 
 
-/* Saves values, and Sets button to value*/
-function saveValue(){
-    var pref_button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-    pref_button.value =  getRoomId();
-    pref_button.innerHTML = room;
- 
-      var url= '/postPreference';
-        $.ajax({
-             type: "POST",
-                url: url,
-                data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
-                dataType: 'json',
-                    success: function(response){
-                        // disableRoom(getRoomId());//does disableRooms belong inside of this function.
-                        postNotes(getPrefId(),getCourseId());
-                        setPrefList(getPrefId(), getRoomId());
-                        setInstructions(getCourseId());
-                        
-                        // Changes the color of the buttons
-                        $("#exampleModal").removeClass("fade");
-                        $("#exampleModal").modal('hide');
-                        $(pref_button).removeClass("btn-primary");
-                        $(pref_button).addClass("btn-success");
-                        
-                        // update the current state value in the hidden UI element
-                        preferenceHandler(getPrefId(), getRoomId());
-                    },
-                    error: function(xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.Message);
-                   }
-        });
-
-    
-   
-}
 
 
-/* Goes to the next preference after one prefrence value is selected */
+/* Goes to the next preference after one preference value is selected */
+// FIXME Delete?
 function goToNextPref() {
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
         
