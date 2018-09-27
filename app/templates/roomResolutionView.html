@@ -21,6 +21,7 @@ p {
     <div class="row">
       <div class="col-xs-4" >
         <h3><strong>Course without room</strong></h3>
+        <h2>{{roompreference.course_id}}</h2>
         <input id="hiddencourse" hidden value = "{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}} "></input>
         <label for="courses"><h5><strong>Course: </strong></label>{{roompreference.course.bannerRef.subject}} {{roompreference.course.bannerRef.number}} {{roompreference.course.bannerRef.ctitle}} Section {{roompreference.course.section}}</h5>
         {%for instructor in instructors %}

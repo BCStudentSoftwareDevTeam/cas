@@ -28,14 +28,11 @@ def roomResolution(termCode):
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
 def roomResolutionView(termCode,cid):
        # Creating the UI
+       #when clicked on CSC226: roomResolutionView/201611/5
     try:
-        roompreference = RoomPreferences.get(RoomPreferences.course==cid)
+        roompreference = RoomPreferences.get(RoomPreferences.course==cid)  #cid==5
         if (roompreference.pref_1 == None):
             flash("Course has no preferences assigned.") #If course has no preferences indicated
-        # print(roompreference.pref_1)
-        # print(roompreference.pref_2)
-        # print(roompreference.pref_3)
-        # print("WEEEEEEEEEEEEE")
     except Exception as e:
         roompreference = RoomPreferences(course=cid, any_Choice = "any").save()
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
@@ -64,10 +61,13 @@ def roomResolutionView(termCode,cid):
     #print(sql_query)
     # if cursor:
     #     print("Cursor worked: ", cursor)
+    print("This is cursor", cursor)
     availablerooms = [] #Empty list
     for room in cursor:
+        print("yo", room)
         availablerooms.append(room[0])
         #print("The room is: ", room[0])
+    #available rooms
     rooms = []
     for rid in availablerooms: #populates available rooms tab 
         room = Rooms.get(Rooms.rID==rid)
@@ -157,7 +157,7 @@ def roomResolutionView(termCode,cid):
                     break
             
         print ("This is the conflicting course",preferences) #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-    
+        print("N1B", roompreference.pref_1, roompreference.pref_2, roompreference.pref_3)
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms, 
