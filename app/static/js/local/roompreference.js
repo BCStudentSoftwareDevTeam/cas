@@ -510,8 +510,8 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
     console.log("State before handler. ||", getCurrentState(), "||", states[0], "||");
     console.log("Same as 0? ", getCurrentState() == states[0]);
     console.log("Same as 6? ", getCurrentState() == states[6]);
-    if (getCurrentState() == states[0]){
-        stateZero(pref_num, val);
+    if (getCurrentState() == states[0]){ // If the current state is state zero, call the stateZero function that will determine based on the choice the user made, what the next state will be for a course
+        stateZero(pref_num, val); 
     }
     else if (getCurrentState() == states[1]){
         stateOne(pref_num, val);
@@ -535,6 +535,7 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
 }
 
 function currentStateInitializer(pref_button1,pref_button2,pref_button3){
+    // This function initializes the state of a course whenever the user clicks on a preference button. 
     if (pref_button1 == 0) {
         // AAA
         setCurrentState(states[0]);
@@ -565,62 +566,54 @@ function currentStateInitializer(pref_button1,pref_button2,pref_button3){
     // console.log(getCurrentState());
 }
 
-function updateUIButtonStates(){ // Get the state of the course from the hidden input and update the values on the pref buttons accordingly - allow cascading 
-    
-    // updates the preference that was changed
-    var pref_button_1 = document.getElementById("prefButton1_" +  getCourseId());
-    var pref_button_2 = document.getElementById("prefButton2_" +  getCourseId());
-    var pref_button_3 = document.getElementById("prefButton3_" +  getCourseId());
-    
-    if (getPrefId() == 1) {
-        // if preference 1 changed
-        pref_button_1.value =  getRoomId();
-        pref_button_1.innerHTML = room;
-        
-        // pref 2 and 3 need to be updated if necessary
-        // updates the other two, if necessary
-    
-        for (var i = 1; i < getCurrentState().length; i++) {
+function updateUIButtonStates(){ 
+    // Goes through all three states and updates the text in the three buttons to match the state.  
+    // Assumes currentState has the correct value
+    for (var i = 0; i < getCurrentState().length; i++) {
             // go through each state and update UI
             // console.log(getCurrentState()[i]);
-            var j = i++;
-            var pref_button = document.getElementById("prefButton"+ j.toString()+"_" +  getCourseId())
-            if (getCurrentState([i]) == "A") {
+            var pref_button = document.getElementById("prefButton"+ (i+1).toString() + "_" +  getCourseId());
+           
+            if (getCurrentState()[i] == "A") {
                 pref_button.value  = 0;
                 pref_button.innerHTML = 'Any Room Works';
-            } else if (getCurrentState([i]) == "N") {
+                // console.log("A");
+                // console.log(pref_button);
+            } else if (getCurrentState()[i] == "N") {
+                if (i == 0) {
+                    pref_button.innerHTML = 'This Course Does not Require A Room.';
+                } else {
+                    pref_button.innerHTML = 'No other rooms work.';
+                }
                 pref_button.value  = -1;
-                pref_button.innerHTML = 'This Course Does not Require A Room.';
-            }
-            // } else if (getCurrentState([i]) == "R") {
+                // console.log("N");
+                // console.log(pref_button);
+            } else if (getCurrentState()[i] == "R") {
+                if (i + 1 == getPrefId()) {
+                    pref_button.value  = getRoomId();
+                    pref_button.innerHTML = room;
+                    // console.log("R");
+                    // console.log(pref_button);
                 
-            // }
-    }
-        
-        
-    } else if (getPrefId() == 2) {
-        // if preference 1 changed
-        pref_button_2.value =  getRoomId();
-        pref_button_2.innerHTML = room;
-        
-        // pref 3 needs to be updated if necessary
-        var currentState = getCurrentState().pop()
-         for (var i = 1; i < currentState.length; i++) {
-            if (currentState[i] == "A") {
-                
-            } else if (currentState[i]== "N") {
-                
-            } 
-         }
-    } else if (getPrefId() == 3) {
-        // if preference 1 changed
-        pref_button_3.value =  getRoomId();
-        pref_button_3.innerHTML = room;
+                    if (i < 2) { // This enables the next button once you've set a preference
+                        var next_button = document.getElementById("prefButton"+ (i+2).toString() + "_" +  getCourseId());
+                        $(next_button).prop('disabled', false);
+                    }
+                }
+        }
     }
     
-    
-    
+    PageLoad();
+
 }
+
+// No longer needed
+// function updateUIButtonClickability() {
+//     for (var i = 0; i < getCurrentState().length; i++) {
+        
+//     }
+    
+// }
 
 
 /* Saves values, and Sets button to value*/
@@ -641,7 +634,8 @@ function saveValue(){
                         // update the current state value in the hidden UI element
                         console.log("After saving: ", getRoomId());
                         preferenceHandler(getPrefId(), getRoomId());
-                        updateUIButtonStates();
+                        updateUIButtonStates();// Update the text and the value of the pref buttons based on the new state
+                        // updateUIButtonClickability();
                         
                     },
                     error: function(xhr, status, error) {
@@ -784,7 +778,7 @@ function remainingToNone(){
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
         nextButton.value = -1;
-        nextButton.innerText  = "No Other Rooms Work";
+        nextButton.innerText  = "No other room works";
         nextButton.disabled = false;
         setRoomId(-1);
         
@@ -812,7 +806,7 @@ function remainingToNone(){
 
 /*sets the conditions for the note instruction ids in html span from note1-7*/
 function getNoteId() {
-    var noteId = 0;
+    var noteId = 1;
     if (getPrefList(1)==0){//Caters for the case Notes1 Any available rooms, (0,0,0)
         noteId = 1;    
     } 
@@ -823,7 +817,6 @@ function getNoteId() {
         noteId = 3;
     }
     else if (getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)>0){ //Notes3 Pref 1 value, pref 2 value, any (#,#,0)
-
         noteId = 4;
     }
     else if  (getPrefList(1)>0 && getPrefList(2)<0){ //(#,-1,-1)
@@ -842,6 +835,7 @@ function getNoteId() {
 function setInstructions(course) {
     var destination = $("#NotesHolder_" + course); //Links the span in the html to the td where notes are to appear for each course
     var target = $("#Notes" + getNoteId()).clone(); // gets the span id's
+    // console.log(target);
     var target_text = target.html();
     target_text = target_text.replace("||pref_1||", getRoomValueList(1));
     target_text = target_text.replace("||pref_2||", getRoomValueList(2));
@@ -870,38 +864,40 @@ function PageLoad () {
         var divId = allCourses[i].id;
         setInstructions(course);
     }
-    hideFirstPreferences();
-    
+    // hideFirstPreferences();
+    enableButtonsOnPageLoad();    
     // Set hidden input to correct state on page load
 }
 
 PageLoad();
 
-function hideFirstPreferences(){
-    var allCourses = $(".notesHolders");
+function enableButtonsOnPageLoad(){
+    var allCourses = $(".notesHolders");            // weird  choice... but works (Grabs Course ID from notesholder)
     for(var i = 0; i < (allCourses.length); i++){
         var course = allCourses[i].id.split("_")[1];
         var pref1 = document.getElementById("prefButton1_" + course);
         var pref2 = document.getElementById("prefButton2_" + course);
         var pref3 = document.getElementById("prefButton3_" + course);
+        
+        // Sets correct language based on which preference button
         if(pref1.value == -1){
             pref1.innerText  = "This course does not require a room";
         }
-        
         else if(pref2.value == -1){
             pref2.innerText  = "No other rooms work";
         }
-        
         else if(pref3.value == -1){
             pref3.innerText  = "No other rooms work";
         }
         
+        // Enables disabled buttons as long as 
         pref1.disabled = false;
         if (pref1.value > 0){
             pref2.disabled = false;
-            if (pref2.value > 0){
+        }
+        if (pref2.value > 0){
                 pref3.disabled = false;
-            }
-        }    
+        }
+            
     }
 }

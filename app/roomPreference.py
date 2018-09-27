@@ -176,6 +176,11 @@ def postPreference():
             rp.none_Choice = 3
       
     rp.save()
+    print('RP_any', rp.any_Choice)
+    print("RP_None", rp.none_Choice )
+    print("RP-Pref1", rp.pref_1)
+    print("RP-Pref2", rp.pref_2)
+    print("RP-Pref3", rp.pref_3)
     return json.dumps({"success": 1})
 
     
