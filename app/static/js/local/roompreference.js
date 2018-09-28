@@ -640,7 +640,8 @@ function saveValue(){
                         preferenceHandler(getPrefId(), getRoomId());
                         updateUIButtonStates();// Update the text and the value of the pref buttons based on the new state
                         // updateUIButtonClickability();
-                        
+                        var targetDiv = document.getElementById("modalRowCourse"+getCourseId());// hidden row where content will be placed
+                        $(targetDiv).collapse('hide');
                     },
                     error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
@@ -720,6 +721,8 @@ function setModalText(button){
     // console.log(room)
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
+    
+    getNotes()
 }
 
 
@@ -763,7 +766,7 @@ function disableRoom() {
     // $("#selectedRoom").selectpicker('refresh'); // commented out this refresh to disable the selected room 
 }
 
-/*This function access the prefrence and course ID in order to save and post of each preference to the database */
+/*This function access the preference and course ID in order to save and post of each preference to the database */
 function postNotes(pref_id,cid){
   var url = "/postNotes";
   var textarea = document.getElementById('message-text');
@@ -783,6 +786,27 @@ function postNotes(pref_id,cid){
         });
 }
 
+/*This function retrieves the notes from the DB for a room preference */
+function getNotes(){
+  var url = "/getNotes/" + getCourseId();
+  var textarea = document.getElementById('message-text');
+  
+  $.ajax({
+    type: "GET",
+     url: url,
+     data:{},
+
+    dataType: 'json',
+    success: function(response){
+            textarea.value = response["notes"];
+            console.log("Got response: ", response["notes"]);
+                   },
+    error: function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+        }
+        });
+}
 
 /*This function hadles no other rooms work button to set the remaining preferences to NONE */
 function remainingToNone(){

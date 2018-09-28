@@ -252,35 +252,43 @@ def postPreference():
    
     return json.dumps({"success": 1}) 
 
+@app.route("/getNotes/<cid>", methods=["GET"])
+def getNotes(cid):
+    
+    print (RoomPreferences.get(RoomPreferences.notes).where(RoomPreferences.course == cid))
+    return json.dumps({"notes": RoomPreferences.get(RoomPreferences.notes).where(RoomPreferences.course == cid)})
     
 @app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postNotes():
     
     data = request.form
     
-    key = 'pref_'+str(data['pref_id'])
+    # key = 'pref_'+str(data['pref_id'])
     
-    try:
+    # try:
     
-        room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
+    room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
+    room_preference.notes = data['note']
+    room_preference.save()
     
-        old_notes = room_preference.notes
+        # old_notes = room_preference.notes
     
-        if room_preference.notes:
-            note_dict = eval(old_notes)
-            note_dict[key]=str(data['note'])
-        else:
-            note_dict = dict()
-            note_dict[key] = str(data['note'])
-        room_preference.notes = str(note_dict)
-        room_preference.save()
-        print("flash")
-        return json.dumps({"success":1})
-        # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
-    except Exception as e:
-        print (e)
-        flash("your message has been saved!")
-        return json.dumps({"error":1})
+    #     # if room_preference.notes:
+    #     #     note_dict = eval(old_notes)
+    #     #     note_dict[key]=str(data['note'])
+    #     # else:
+    #     #     note_dict = dict()
+    #     #     note_dict[key] = str(data['note'])
+    #     # room_preference.notes = str(note_dict)
+    #     # room_preference.save()
+    #     # print("flash")
+    #     return json.dumps({"success":1})
+    #     # for the get you would return json.dumps(eval(old_notes)) if room_preference.notes:
+    # except Exception as e:
+    #     print (e)
+    #     flash("your message has been saved!")
+    #     return json.dumps({"error":1})
+    
     flash("your notes has been saved")
     return data 
     
