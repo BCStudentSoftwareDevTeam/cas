@@ -71,11 +71,9 @@ p {
                               <p><strong>Special Features:</strong> {{room.specialFeatures}}</p>
                             </div>
                             <div class="col-md-6 right">
-                              <h1><strong>Education Tech:</strong></h1>
                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
                                 Education Tech
                               </button>
-                             
                               <p><strong>Visual Accessibility:</strong> {{room.visualAccessibility}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAccessibility}}</p> 
                               <p><strong>Physical Accessibility:</strong> {{room.physicalAccessibility}}</p>
@@ -106,17 +104,17 @@ p {
                             <p><strong>Room Type:</strong> {{roompreference.pref_1.roomType}}</p>
                             <p><strong>Room Capacity:</strong> {{roompreference.pref_1.maxCapacity}}</p>
                             <p><strong>Movable Furniture:</strong> {{roompreference.pref_1.movableFurniture}}</p>
-                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}">
-                                Education Tech
-                              </button></p>
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>
                             <p><strong>Visual Accessibility:</strong> {{roompreference.pref_1.visualAccessibility}}</p>
                             <p><strong>Audio Accessibility:</strong> {{roompreference.pref_1.audioAccessibility}}</p>
-                            <p><strong>Physical Accessibility:</strong> {{roompreference.pref_1.physicalAccessibility}}
+                            <p><strong>Physical Accessibility:</strong> {{roompreference.pref_1.physicalAccessibility}}</p>
                           </div>
                           
                           <div class="col-md-6 right pref1check">
+                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}">
+                                Education Tech
+                              </button></p>
                             {% if preferences['pref1'] %} <!---If there is a conflicting course in pref---> 
                             <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
                             <input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input>
@@ -125,7 +123,7 @@ p {
                             <p><strong>Schedule:</strong> {{preferences['pref1']['days']}} {{preferences['pref1']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref1']['endTime'].strftime('%I:%M  %p')}}</p>
                             <p><strong>Notes:</strong> {{preferences['pref1']['notes']}}</p>
                              {% endif %}
-                            <button type="button" onclick='checkforbluebutton("imnotempty1")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                            <p> <button type="button" onclick='checkforbluebutton("imnotempty1")' class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom">Assign course to room</button></p>
                           </div>
                         </div>
                     </div>
@@ -146,19 +144,18 @@ p {
                         <div class="row" style="display:flex;">
                           <div class="col-md-6 left">
                             <p><strong>Room Type:</strong> {{roompreference.pref_2.roomType}}</p>
-                            <p><strong>Room Capacity:</strong> {{roompreference.pref_2.maxCapacity}}</p>
-                            <p><strong>Movable Furniture:</strong> {{roompreference.pref_2.movableFurniture}}</p>
-                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_2.rID}}">
-                                Education Tech
-                              </button></p>
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_2.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_2.specialFeatures}}</p>
-                            <p><strong>Visual Accessibility:</strong> {{roompreference.pref_2.visualAccessibility}}</p>
+                             <p><strong>Visual Accessibility:</strong> {{roompreference.pref_2.visualAccessibility}}</p>
                             <p><strong>Audio Accessibility:</strong> {{roompreference.pref_2.audioAccessibility}}</p>
                             <p><strong>Physical Accessibility:</strong> {{roompreference.pref_2.physicalAccessibility}}
                           </div>
                           
                           <div class="col-md-6 right pref2check"> 
+                           <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_2.rID}}">
+                                Education Tech
+                              </button></p>
+                           
                             {% if preferences['pref2'] %} <!---If there is a conflicting course in pref--->
                             <input id="pref2_roominfo" hidden value = "{{roompreference.pref_2.rID}}"></input><input id="pref2_confcourse" hidden value = "{{preferences['pref2']['cid']}}"></input>
                             <p id="imnotempty2"><strong>Current Course in Room:</strong> {{preferences['pref2']['course_name']}}</p>
@@ -166,7 +163,7 @@ p {
                             <p><strong>Schedule:</strong> {{preferences['pref2']['days']}} {{preferences['pref2']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref2']['endTime'].strftime('%I:%M  %p')}}</p>
                             <p><strong>Notes:</strong> {{preferences['pref2']['notes']}}</p>
                             {% endif %}
-                            <button type="button" onclick='checkforbluebutton("imnotempty2")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                            <p> <button type="button" onclick='checkforbluebutton("imnotempty2")' class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button></p>
                           </div>
                         </div>
                     </div>
@@ -189,17 +186,17 @@ p {
                                 <p><strong>Room Type:</strong> {{roompreference.pref_3.roomType}}</p>
                                 <p><strong>Room Capacity:</strong> {{roompreference.pref_3.maxCapacity}}</p>
                                 <p><strong>Movable Furniture:</strong> {{roompreference.pref_3.movableFurniture}}</p>
-                                <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_3.educationtech}}</p>
-                                <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_3.rID}}">
-                                Education Tech
-                              </button></p>
                                 <p><strong>Specialized Equipment:</strong> {{roompreference.pref_3.specializedEq}}</p>
                                 <p><strong>Specialized Features:</strong> {{roompreference.pref_3.specialFeatures}}</p>
                                 <p><strong>Visual Accessibility:</strong> {{roompreference.pref_3.visualAccessibility}}</p>
                                 <p><strong>Audio Accessibility:</strong> {{roompreference.pref_3.audioAccessibility}}</p>
-                                <p><strong>Physical Accessibility:</strong> {{roompreference.pref_3.physicalAccessibility}}
+                                <p><strong>Physical Accessibility:</strong> {{roompreference.pref_3.physicalAccessibility}}</p>
                               </div>
                               <div class="col-md-6 right pref3check">
+                                <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_3.rID}}">
+                                Education Tech
+                                </button></p>
+                                
                                 {%if preferences['pref3'] %} <!---If there is a conflicting course in pref--->
                                 <input id="pref3_roominfo" hidden value = "{{roompreference.pref_3.rID}}"></input><input id="pref1_confcourse" hidden value = "{{preferences['pref3']['cid']}}"></input>
                                 <p id="imnotempty3"><strong>Current Course in Room:</strong> {{preferences['pref3']['course_name']}}</p>
@@ -207,7 +204,7 @@ p {
                                 <p><strong>Schedule:</strong> {{preferences['pref3']['days']}} {{preferences['pref3']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref3']['endTime'].strftime('%I:%M  %p')}}</p>
                                 <p><strong>Notes:</strong> {{preferences['pref3']['notes']}}</p>
                                 {% endif %}
-                                <button type="button" onclick='checkforbluebutton("imnotempty3")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                                <p> <button type="button" onclick='checkforbluebutton("imnotempty3")' class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button></p>
                               </div>
                             </div>
                         </div>
