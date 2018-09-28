@@ -263,6 +263,8 @@ function setPreference(){
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
     
+    // console.log(p1, p2, p3)
+    
     // Setting the current state in into the UI for future reference
     currentStateInitializer(p1, p2, p3);
     
@@ -319,6 +321,7 @@ function setPreference(){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
     
+    $('#roomPickHeader').text('Pick a Room for Preference '+getPrefId()+":").data('text'); // Updates the 'Pick a room ' text for each preference
     
     PageLoad();
 }
@@ -507,9 +510,10 @@ function stateSix(pref_num, val){ // State 6 is 'NNN'
 }
 
 function preferenceHandler(pref_num, val){ /* -determines states of the course, handles all the activities performed on preferences*/
-    console.log("State before handler. ||", getCurrentState(), "||", states[0], "||");
-    console.log("Same as 0? ", getCurrentState() == states[0]);
-    console.log("Same as 6? ", getCurrentState() == states[6]);
+    // console.log("State before handler. ||", getCurrentState(), "||", states[0], "||");
+    console.log("State before handler. ||", getCurrentState());
+   // console.log("Same as 0? ", getCurrentState() == states[0]);
+  //  console.log("Same as 6? ", getCurrentState() == states[6]);
     if (getCurrentState() == states[0]){ // If the current state is state zero, call the stateZero function that will determine based on the choice the user made, what the next state will be for a course
         stateZero(pref_num, val); 
     }
@@ -563,7 +567,7 @@ function currentStateInitializer(pref_button1,pref_button2,pref_button3){
         }
     }
     
-    // console.log(getCurrentState());
+    console.log("Initializing State", getCurrentState());
 }
 
 function updateUIButtonStates(){ 
@@ -695,15 +699,25 @@ function setModalText(button){
     var course_id = getCourseId();
     room = e.options[e.selectedIndex].text;
     
-    if (e.options[e.selectedIndex].value < 1){
-        document.getElementById("selectAny").disabled = true;
-        document.getElementById("selectNone").disabled = true;
-    }
+    // FIXME: This is for the two buttons in the select/confirmation modal besides the Save & Close button at the bottomm
+    // if (e.options[e.selectedIndex].value < 1){
+    //     document.getElementById("selectAny").disabled = true;
+    //     document.getElementById("selectNone").disabled = true;
+    // }
     
     setRoomId(e.options[e.selectedIndex].value);
     var roomModel= document.getElementById("modelRoom");
     var courseinfo= document.getElementById("courseInfo_"+course_id.toString());
-    var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
+    if (room == 'This Course Does not Required A Room'){
+        var modelSentence = "Are you sure you do not want a room for " + courseinfo.innerHTML + " ?";
+    }
+    else if (room =='Any Room Works' ){
+        var modelSentence = "Are you sure you that any room works for" + courseinfo.innerHTML + " ?";
+    }
+    else{
+        var modelSentence = "Are you sure you want to assign " + room + " to " + courseinfo.innerHTML + " ?";
+    }
+    // console.log(room)
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
 }

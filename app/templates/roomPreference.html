@@ -7,7 +7,7 @@
 <p class="text-center">The selection of room preferences does not guarantee that a class will be placed in certain room
 </p>
 <div class="card">
-    <table class="table"> <!-- the fixed healines on the top of the table-->
+    <table class="table "> <!-- the fixed healines on the top of the table-->
         <thead class="thead-dark">
             <th scope="col"><h4><strong> Term </strong></h4></th>
             <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
@@ -41,7 +41,7 @@
                                     {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
                                         value = "-1"
                                     {% else %}
-                                        value="default"
+                                        value="0"
                                     {% endif %} 
                                     onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
                                     id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
@@ -92,11 +92,13 @@
                     <td>
                         <div class="panel panel-default" disabled>
                             <div class="panel-header">
-                               <h4><strong>Pick a Room:</strong></h4> 
+                               <h4 id= 'roomPickHeader' class = "col-md-6" align = 'center' style = 'padding-left: 40px;'><strong>Pick a Room: </strong></h4> 
+                               <!--<h4 id= 'roomPickHeader'  style ="padding-left: 355px;"><strong>Pick a Room: </strong></h4>-->
                             </div>
                             <div class="panel-body">
                                 <div class="container">
                                     <div class="row" id = "roomSelectModalDiv"> 
+                                  
                                         <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="anyVal" value = "0">  Any Room Works </option> 
@@ -115,7 +117,8 @@
                                             {% endfor %}
                                         </select>
                                     </div>  
-                                    <div class="row" >
+                                      <!--<br>-->
+                                    <div class="row">
                                         <div  id = "Details" class="collapse" id="collapseExample">
                                             <div id= "withoutSelectButton">
                                             <div class="col-sm-6">
@@ -203,14 +206,14 @@
                                                             </form>
                                                         </div>      
                                                         <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
-                                                        <div class ="row">
+                                                        {# <div class ="row">
                                                             <div class="col-sm-6" align ="center">
                                                             <button  type="button" id="selectAny" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
                                                             </div>
                                                             <div class="col-sm-6" align= "center">
                                                             <button  type="button" id="selectNone" class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
                                                             </div>
-                                                        </div>
+                                                        </div> #}
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-sm-6" align = "left">
