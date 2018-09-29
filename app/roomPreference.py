@@ -17,7 +17,7 @@ def roomPreference(term):
     current_user = AuthorizedUser().getUsername()
 
     # Used to populate dropdowns and stuff
-    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.desc())
+    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
     users= User.select()
     instructors = InstructorCourse.select()
     # educationTech= EducationTech.select()
@@ -122,9 +122,13 @@ def education_Tech(rid):
     
 # We will add this on monday based on the room_details ^^^^
     
-        #Assign to an occupied room, remove current occupant
+        
 @app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postPreference():
+    """
+    State handler for adding preferences, updating any_Choice, and none_Choice
+    
+    """
     data = request.form #data coming from POST
     
     pref = int(data["pref_id"]) # Preference to be updated for a course
@@ -249,28 +253,35 @@ def postPreference():
     # print("RP-Pref1", rp.pref_1)
     # print("RP-Pref2", rp.pref_2)
     # print("RP-Pref3", rp.pref_3)
-   
+    postNotes(data["ogCourse"], data['note'])
     return json.dumps({"success": 1}) 
 
 @app.route("/getNotes/<cid>", methods=["GET"])
 def getNotes(cid):
+    """
+    Gets the notes for a course, to add into the UI textarea in the modal
+    """
+    # print ("Getted", RoomPreferences.get(RoomPreferences.course == cid).notes)
+    return json.dumps({"notes": RoomPreferences.get(RoomPreferences.course == cid).notes})
     
-    print (RoomPreferences.get(RoomPreferences.notes).where(RoomPreferences.course == cid))
-    return json.dumps({"notes": RoomPreferences.get(RoomPreferences.notes).where(RoomPreferences.course == cid)})
     
-@app.route("/postNotes", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
-def postNotes():
+# @app.route("/postNotes/<note>", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
+def postNotes(cid, note):
+    # Disabled all ability to track notes per preference; now all notes are just one thing everywhere (for a course)
     
-    data = request.form
+    # data = request.form
     
     # key = 'pref_'+str(data['pref_id'])
     
     # try:
-    
-    room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
-    room_preference.notes = data['note']
+    # print("Data sent to notes", data['note'])
+    # room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
+    room_preference = RoomPreferences.get(RoomPreferences.course == cid)
+    # room_preference.notes = data['note']
+    room_preference.notes = note
     room_preference.save()
-    
+    # print("Saved: ", room_preference.notes, "to", room_preference.course.cId)
+
         # old_notes = room_preference.notes
     
     #     # if room_preference.notes:
@@ -289,8 +300,11 @@ def postNotes():
     #     flash("your message has been saved!")
     #     return json.dumps({"error":1})
     
-    flash("your notes has been saved")
-    return data 
+    # flash("your notes has been saved")
+    
+    
+    
+    # return json.dumps({"success": 1}) 
     
     
     

@@ -154,7 +154,7 @@ function goToRDetails(r,doishow) {
                         }
                     },
                     error: function(error) {
-                        console.log(error);
+                        // console.log(error);
                     }
                 });
         }
@@ -249,7 +249,16 @@ function goto_educationTech() {
     $("#Details").show();}
 }
 
-/*This function serves to set up the value of each preference after the user clicks on each prefrence
+/* Removes background color on all rows */
+function removeAllStriping() {
+    ctr = $(".courseTableRow1");
+    for (var i = 0; i < ctr.length; i++) {
+        ctr.removeClass("bg-cas");
+    }
+ }
+ 
+ 
+ /*This function serves to set up the value of each preference after the user clicks on each prefrence
 tracks which button are pressed last
 managers the options in the room selecy drop down the first preferecne should have this room do not require a room while p2 and p3 have no other room works
 caters for managing the NONE option*/
@@ -258,7 +267,8 @@ function setPreference(){
         setPrefID(arguments[0]);
         setCourseId(arguments[1]);
     }
-    
+    removeAllStriping();
+    $("#courseTableRow_"+getCourseId()).addClass("bg-cas");
     var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
@@ -269,12 +279,22 @@ function setPreference(){
     currentStateInitializer(p1, p2, p3);
     
     
+    
     setPrefList(1,p1);
     setPrefList(2,p2);
     setPrefList(3,p3);
    
-    // disableRoom(p1, p2, p3); // selected rooms are being disabled here 
-
+    enableAllRooms();
+    // Disable three rooms if it's a room only
+    if (p1 > 0) {
+        disableRoom(p1); // selected rooms are being disabled here 
+    }
+    if (p2 > 0) {
+        disableRoom(p2); // selected rooms are being disabled here 
+    }
+    if (p3 > 0) {
+        disableRoom(p3); // selected rooms are being disabled here 
+    }
     
    
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
@@ -283,12 +303,12 @@ function setPreference(){
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
     
-    // if (getPrefId() == 1) {
-    //     document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
-    // } 
-    // else { //Changes text to "This course does not need a room" if on first preference only
-    //     document.getElementById("noRoom").innerHTML = "No Other Rooms Work";
-    // }
+    if (getPrefId() == 1) {
+        document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
+    } 
+    else { //Changes text to "This course does not need a room" if on first preference only
+        document.getElementById("noRoom").innerHTML = "No other rooms work";
+    }
     
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
@@ -496,8 +516,8 @@ function stateFive(pref_num, val){ // State Five is RRR
 }
 
 function stateSix(pref_num, val){ // State 6 is 'NNN'
-    console.log("Going to ", states[0]);
-    console.log("Val ", val);
+    // console.log("Going to ", states[0]);
+    // console.log("Val ", val);
     if (val == 0){
         setCurrentState(states[0]); // 'AAA'
     }
@@ -511,7 +531,7 @@ function stateSix(pref_num, val){ // State 6 is 'NNN'
 
 function preferenceHandler(pref_num, val){ /* -determines states of the course, handles all the activities performed on preferences*/
     // console.log("State before handler. ||", getCurrentState(), "||", states[0], "||");
-    console.log("State before handler. ||", getCurrentState());
+    // console.log("State before handler. ||", getCurrentState());
    // console.log("Same as 0? ", getCurrentState() == states[0]);
   //  console.log("Same as 6? ", getCurrentState() == states[6]);
     if (getCurrentState() == states[0]){ // If the current state is state zero, call the stateZero function that will determine based on the choice the user made, what the next state will be for a course
@@ -535,7 +555,7 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
     else if (getCurrentState() == states[6]){
         stateSix(pref_num, val);
     }
-    console.log("State after prefhandler", getCurrentState());
+    // console.log("State after prefhandler", getCurrentState());
 }
 
 function currentStateInitializer(pref_button1,pref_button2,pref_button3){
@@ -567,7 +587,7 @@ function currentStateInitializer(pref_button1,pref_button2,pref_button3){
         }
     }
     
-    console.log("Initializing State", getCurrentState());
+    // console.log("Initializing State", getCurrentState());
 }
 
 function updateUIButtonStates(){ 
@@ -575,23 +595,31 @@ function updateUIButtonStates(){
     // Assumes currentState has the correct value
     for (var i = 0; i < getCurrentState().length; i++) {
             // go through each state and update UI
-            // console.log(getCurrentState()[i]);
+            // console.log("State ", i, ":", getCurrentState()[i]);
             var pref_button = document.getElementById("prefButton"+ (i+1).toString() + "_" +  getCourseId());
            
             if (getCurrentState()[i] == "A") {
                 pref_button.value  = 0;
                 pref_button.innerHTML = 'Any Room Works';
-                // console.log("A");
+                // console.log("Set A to ", i);
                 // console.log(pref_button);
             } else if (getCurrentState()[i] == "N") {
+                // console.log("Da funny state", i)
                 if (i == 0) {
                     pref_button.innerHTML = 'This Course Does not Require A Room.';
+                    var next_button = document.getElementById("prefButton2_" +  getCourseId());
+                    // console.log($(next_button));
+                    $(next_button).prop('disabled', true);
+                    var next_button = document.getElementById("prefButton3_" +  getCourseId());
+                    // console.log($(next_button));
+                    $(next_button).prop('disabled', true);
                 } else {
                     pref_button.innerHTML = 'No other rooms work.';
                 }
                 pref_button.value  = -1;
                 // console.log("N");
                 // console.log(pref_button);
+                
             } else if (getCurrentState()[i] == "R") {
                 if (i + 1 == getPrefId()) {
                     pref_button.value  = getRoomId();
@@ -622,41 +650,51 @@ function updateUIButtonStates(){
 
 /* Saves values, and Sets button to value*/
 function saveValue(){
+    
     // preferenceHandler(getPrefId(), getRoomId());
-    console.log("Before save value: ", getRoomId());
-      var url= '/postPreference';
-        $.ajax({
-             type: "POST",
-                url: url,
-                data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
-                dataType: 'json',
-                    success: function(response){
-                        // disableRoom(getRoomId());//does disableRooms belong inside of this function.
-                        postNotes(getPrefId(),getCourseId());
-                        setPrefList(getPrefId(), getRoomId());
-                        setInstructions(getCourseId());
-                        // update the current state value in the hidden UI element
-                        console.log("After saving: ", getRoomId());
-                        preferenceHandler(getPrefId(), getRoomId());
-                        updateUIButtonStates();// Update the text and the value of the pref buttons based on the new state
-                        // updateUIButtonClickability();
-                        var targetDiv = document.getElementById("modalRowCourse"+getCourseId());// hidden row where content will be placed
-                        $(targetDiv).collapse('hide');
-                    },
-                    error: function(xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.Message);
-                   }
-        });
-
-     // Changes the color of the buttons
-     
-    $("#exampleModal").removeClass("fade");
-    $("#exampleModal").modal('hide');
-    // FIXME
-    // $(pref_button).removeClass("btn-primary");
-    // $(pref_button).addClass("btn-success");
-   
+    var textarea = document.getElementById('message-text');
+    var note = textarea.value.trim();
+    // console.log("Note: ", note.length);
+    if (note.length > 0) {
+        // console.log("Before save value: ", getRoomId());
+        // console.log({"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()})
+          var url= '/postPreference';
+            $.ajax({
+                 type: "POST",
+                    url: url,
+                    data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId(), "note": note},
+                    dataType: 'json',
+                        success: function(response){
+                            // disableRoom(getRoomId());//does disableRooms belong inside of this function.
+                            // postNotes();
+                            setPrefList(getPrefId(), getRoomId());
+                            setInstructions(getCourseId());
+                            // update the current state value in the hidden UI element
+                            // console.log("After saving: ", getRoomId());
+                            preferenceHandler(getPrefId(), getRoomId());
+                            updateUIButtonStates();// Update the text and the value of the pref buttons based on the new state
+                            // updateUIButtonClickability();
+                            var targetDiv = document.getElementById("modalRowCourse"+getCourseId());// hidden row where content will be placed
+                            $(targetDiv).collapse('hide');
+                            // $('#exampleModal').dismiss();
+                        },
+                        error: function(xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                       }
+            });
+    
+         // Changes the color of the buttons
+         
+        $("#exampleModal").removeClass("fade");
+        $("#exampleModal").modal('hide');
+        // FIXME
+        // $(pref_button).removeClass("btn-primary");
+        // $(pref_button).addClass("btn-success");
+    } else {
+        // console.log("Alert time!");
+        $(".alert").show();
+    }
 }
 
 
@@ -696,6 +734,7 @@ function setSelectedRoom(rID){
 
 /*helps add accurate information to the button after the value is assigned, and replaces the value of any*/
 function setModalText(button){
+    $(".alert").hide();     // Always hides the alert that appears if the Notes: field is empty
     var e = document.getElementById("selectedRoom");
     var course_id = getCourseId();
     room = e.options[e.selectedIndex].text;
@@ -729,7 +768,7 @@ function setModalText(button){
 
 
 /* Goes to the next preference after one preference value is selected */
-// FIXME Delete?
+// FIXME Delete? Probably 
 function goToNextPref() {
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
         
@@ -749,15 +788,21 @@ function goToNextPref() {
     button.click();
 }
 
-/*Disables selected room from other preference*/
-function disableRoom() {
+/* Enables all the room in the dropdown */
+function enableAllRooms() {
     var selectRoom = document.getElementById('selectedRoom');// gets the dropdown for rooms
     for(var i = 0; i < selectRoom.length; i++) {// enables everything
         if(selectRoom[i].id != 'donotTouch') {
             selectRoom[i].disabled = false;
             
         }
-     }
+    }
+}
+
+/*Disables selected room from other preference*/
+function disableRoom() {
+    var selectRoom = document.getElementById('selectedRoom');// gets the dropdown for rooms
+     
     for (var i = 0; i < arguments.length; i++) {// Disables options
         if (arguments[i] != 0){
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
@@ -767,10 +812,11 @@ function disableRoom() {
 }
 
 /*This function access the preference and course ID in order to save and post of each preference to the database */
-function postNotes(pref_id,cid){
+function postNotes(){
   var url = "/postNotes";
   var textarea = document.getElementById('message-text');
   var note = textarea.value;
+//   console.log("Note: ", note);
   $.ajax({
     type: "POST",
      url: url,
@@ -778,10 +824,12 @@ function postNotes(pref_id,cid){
 
     dataType: 'json',
     success: function(response){
+        // console.log("Notes successfully posted");
                    },
     error: function(xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
+            // var err = eval("(" + xhr.responseText + ")");
+            // alert(err.Message);
+            // console.log("Notes failed to save");
         }
         });
 }
@@ -790,6 +838,7 @@ function postNotes(pref_id,cid){
 function getNotes(){
   var url = "/getNotes/" + getCourseId();
   var textarea = document.getElementById('message-text');
+  textarea.value = "";
   
   $.ajax({
     type: "GET",
@@ -799,7 +848,7 @@ function getNotes(){
     dataType: 'json',
     success: function(response){
             textarea.value = response["notes"];
-            console.log("Got response: ", response["notes"]);
+            // console.log("Got response: ", response["notes"]);
                    },
     error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
@@ -808,38 +857,40 @@ function getNotes(){
         });
 }
 
-/*This function hadles no other rooms work button to set the remaining preferences to NONE */
-function remainingToNone(){
-    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
+
+// REMOVED by SAH & KLN because it is not needed anymore
+// /*This function hadles no other rooms work button to set the remaining preferences to NONE */
+// function remainingToNone(){
+//     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
     
-    if (getPrefId() < 3 && (button > 0) ) {
-        setPrefID(getPrefId() + 1);
-        var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-        nextButton.value = -1;
-        nextButton.innerText  = "No other room works";
-        nextButton.disabled = false;
-        setRoomId(-1);
+//     if (getPrefId() < 3 && (button > 0) ) {
+//         setPrefID(getPrefId() + 1);
+//         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+//         nextButton.value = -1;
+//         nextButton.innerText  = "No other room works";
+//         nextButton.disabled = false;
+//         setRoomId(-1);
         
-        var url= '/postPreference';
-        $.ajax({
-             type: "POST",
-                url: url,
-                data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
-                dataType: 'json',
-                    success: function(response){
-                    // disableRoom(getRoomId());//does disableRooms belong inside of this function.
-                    postNotes(getPrefId(),getCourseId());
-                    },
-                    error: function(xhr, status, error) {
-                      var err = eval("(" + xhr.responseText + ")");
-                      alert(err.Message);
-                   }
-        });
-    }
+//         var url= '/postPreference';
+//         $.ajax({
+//              type: "POST",
+//                 url: url,
+//                 data:{"roomID":getRoomId(), "ogCourse": getCourseId(), "pref_id": getPrefId()},
+//                 dataType: 'json',
+//                     success: function(response){
+//                     // disableRoom(getRoomId());//does disableRooms belong inside of this function.
+//                     postNotes(getPrefId(),getCourseId());
+//                     },
+//                     error: function(xhr, status, error) {
+//                       var err = eval("(" + xhr.responseText + ")");
+//                       alert(err.Message);
+//                   }
+//         });
+//     }
     
-    var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
-    button.click();
-}
+//     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
+//     button.click();
+// }
 
 
 /*sets the conditions for the note instruction ids in html span from note1-7*/
@@ -869,7 +920,7 @@ function getNoteId() {
     return noteId;
 }
 
-/*Manages the instruction notes on the preference button clicks depending on the preferences the user picks */
+/* Manages the instruction notes on the preference button clicks depending on the preferences the user picks */
 function setInstructions(course) {
     var destination = $("#NotesHolder_" + course); //Links the span in the html to the td where notes are to appear for each course
     var target = $("#Notes" + getNoteId()).clone(); // gets the span id's
@@ -909,6 +960,7 @@ function PageLoad () {
 
 PageLoad();
 
+/* Sets text on buttons, enables and disables according to values in button */
 function enableButtonsOnPageLoad(){
     var allCourses = $(".notesHolders");            // weird  choice... but works (Grabs Course ID from notesholder)
     for(var i = 0; i < (allCourses.length); i++){
