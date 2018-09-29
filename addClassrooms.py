@@ -6,40 +6,40 @@ import os
 
 #The csv file which we are parsing
 # TODO Update filepath
-csvFileName = 'room-database.csv'
+csvFileName = 'roomdbver4_1.csv'
 
 ###### Room Model #######
 # Indices for the columns. The first column is 0.
 
 # TODO Fix the column numbers to match Kenny's clean data
 
-roomNumber          = 2 
-seatingCapacity     = 7
-roomType            = 8
-moveableFurniture   = 9
-boardTypeNumber     = 12
-specialFeatures     = 13
-specialEq           = 11
-visualAccessibility  = 14
-physicalAccessibility = 15
-hearingAccessibility  = 16
-projector = 18
-smartboards = 31
-instructor_computers = 32
-podium = 28
-student_workspace = 27
-chalkboards = 29
-whiteboards = 30
-dvd = 19
-blu_ray = 20
-audio = 21
-extro = 23
-doc_cam = 24
-vhs = 22
-mondopad = 25
-tech_chart = 26
-building_name = 1            # Building name
-shortName = 33       # Building short name
+roomNumber          = 1 -1
+seatingCapacity     = 3-1
+roomType            = 4-1
+moveableFurniture   = 5-1
+boardTypeNumber     = 7-1
+specialFeatures     = 8-1
+specialEq           = 13-1
+visualAccessibility  = 9-1
+physicalAccessibility = 10-1
+hearingAccessibility  = 11-1
+projector = 15-1
+smartboards = 28-1
+instructor_computers = 29-1
+podium = 25-1
+student_workspace = 24-1
+chalkboards = 26-1
+whiteboards = 27-1
+dvd = 16-1
+blu_ray = 17-1
+audio = 18-1
+extro = 20-1
+doc_cam = 21-1
+vhs = 19-1
+mondopad = 22-1
+tech_chart = 23-1
+building_name = 14-1            # Building name
+shortName = 30-1       # Building short name
 
 
 def addEdTech(room):
@@ -114,9 +114,10 @@ def main():
     # try:
     with open(csvFileName, 'rb') as csvfile: #Open CSV file
         roomData = csv.reader(csvfile)
-        next(roomData) #Disregard the first line because it is the header
+	next(roomData) #Disregard the first line because it is the header
         print "Adding classroom data, this may take a moment."
         for room in roomData: #Iterating through each line
+	    print room
             addRoom(room)
     # except Exception as e:
     #     print("You are a failure: ", e)
