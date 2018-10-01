@@ -9,6 +9,12 @@ var prefListGlobal = [0,0,0];       //default before setting in U
 var roomValueListGlobal = ["","",""] //for room value html, not values like in setPrefList
 var room = 0; // this gives bldg shortname + room number e.g DR200
 
+// tooltip
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+// tooltip
+
 function setPrefID(pref_id){        // (set is used for the Declaration of the variable) this  sets up the preference id of each preference: 1, 2, 3 only valid values
     prefIDGlobal=parseInt(pref_id);
 }
