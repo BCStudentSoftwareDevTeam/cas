@@ -77,7 +77,6 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
-
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
@@ -93,16 +92,7 @@ class Rooms(dbModel):
   movableFurniture = BooleanField(default=False)
   
   
-class RoomPreferences(dbModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1',null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2',null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3',null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
+
   
 #MODELS WITH A FOREIGN KEY
 class Program(dbModel):
@@ -110,7 +100,6 @@ class Program(dbModel):
   name          = CharField()
   division      = ForeignKeyField(Division, related_name='programs')
 
-  
   def __str__(self):
     return str(self.name)
     
@@ -277,6 +266,18 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
+  
+class RoomPreferences(dbModel):
+  rpID          = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=True)
+  priority    = IntegerField(default = 6)  # We should update the preference with every selection on the UI
 
 # #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
 # class newcrosslisted (dbModel): 
