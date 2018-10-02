@@ -91,18 +91,14 @@ class RoomAssigner:
         #The current query is still setup for my testing suite. 
         #This should query the RoomPreferences table, not the course table
         
-        preferences = RoomPreferences.select(
-                                    ).join(Course, on = (RoomPreferences.course == Course.cId)
-                                    ).join(BannerSchedule, on = (Course.schedule == BannerSchedule.sid)
-                                    ).join(Term, on = (Course.term == Term.termCode)
-                                    ).where(
-                                        Course.rid == None
-                                    ).where(
-                                        Term.termCode == self.default_semester
-                                    ).order_by(BannerSchedule.order)
-                                    
+        # This query retrieves all courses with no rooms assigned yet
+        preferences = RoomPreferences.select().join(Course).where(RoomPreferences.course == Course.cId
+                                    ).where(Course.term == self.default_semester).where(Course.rid == None
+                                    ).join(BannerSchedule, on = (BannerSchedule.sid == Course.schedule
+                                    )).order_by(BannerSchedule.order).distinct()
+                                
         for i in preferences:
-            print(i.rpID)
+            print(i.rpID, i.course.cId, i.course.schedule.letter)
                                     
         # courses = Course.select(
         #               ).join(Rooms, JOIN.LEFT_OUTER, on = (Course.rid == Rooms.rID)
@@ -318,11 +314,12 @@ class RoomAssigner:
 if __name__ == "__main__":
     test_semester = '201612'
     room_assigner = RoomAssigner(test_semester)
+    room_assigner.courses_query()
     global DATA_SET 
     DATA_SET = room_assigner.create_data_set()
     print(DATA_SET)
-    room_assigner.create_priority_map()
-    room_assigner.assign_room()      
+    # room_assigner.create_priority_map()
+    # room_assigner.assign_room()      
     
     
 '''Testing Data'''

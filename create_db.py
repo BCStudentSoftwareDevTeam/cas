@@ -354,7 +354,8 @@ course = Course(  bannerRef         = 2,
                   schedule          = "B",
                   capacity          = 20,
                   notes             = "Preference2",
-                  crossListed       = 1
+                  crossListed       = 1, 
+                  rid               = 1
                 ).save()                
 
 course = Course(  bannerRef         = 3,
@@ -555,6 +556,17 @@ instructor = InstructorSTCourse(  username = "myersco",
                               
 building     = Building(name = 'Ag Building', shortName = "AG").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
+building     = Building(name = 'Draper', shortName = "DRA").save()
+building     = Building(name = 'Knapp Hall', shortName = "KH").save()
+building     = Building(name = 'Emery', shortName = "EMY").save()
+building     = Building(name = 'Nursing', shortName = "NUR").save()
+building     = Building(name = 'Science', shortName = "SC").save()
+building     = Building(name = 'Frost', shortName = "FR").save()
+
+building     = Building(name = 'Seabury', shortName = "SEA").save()
+building     = Building(name = 'Theater', shortName = "THR").save()
+building     = Building(name = 'Bingham', shortName = "BING").save()
+building     = Building(name = 'Library', shortName = "LIB").save()
 
 ###############
 #Building Manager#
@@ -568,8 +580,32 @@ building     = Building(name = 'Tech Building', shortName = "DFT").save()
 #ROOMS#
 ######
 room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
+room = Rooms(building = 2, number ='103', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 3, number ='104', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, number ='106', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6, number ='107', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 7, number ='108', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 8, number ='109', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 9, number ='110', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 10, number ='111', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 11, number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 12, number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+
+roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=3,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=3, pref_1=2,pref_2=3,pref_3=4,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=8, pref_1=3,pref_2=4,pref_3=5,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 4, pref_1=4,pref_2=5,pref_3=6,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 2, pref_1=5,pref_2=6,pref_3=7,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 6, pref_1=6,pref_2=7,pref_3=8,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 7, pref_1=7,pref_2=8,pref_3=9,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 5, pref_1=8,pref_2=9,pref_3=10,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 9, pref_1=9,pref_2=10,pref_3=11,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 10, pref_1=10,pref_2=11,pref_3=12,notes="None",any_Choice = "any").save()
 # try:
 #   os.system('mysql-ctl start')
 #   os.system('python migrateDatabase.py')
