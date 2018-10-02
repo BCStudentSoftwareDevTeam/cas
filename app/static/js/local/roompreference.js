@@ -180,49 +180,14 @@ function education_detail(response){
     document.getElementById("student_workstations").innerHTML = response['student_workspace'];
     document.getElementById("chalkboards").innerHTML = response['chalkboards'];
     document.getElementById("whiteboards").innerHTML = response['whiteboards'];
-    
-    
-    if(response['dvd']){
-        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-ok pull-left'> </span>";
-    } else {
-        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-remove'> </span>";
-    }
-    
-    if(response['audio']){
-        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['blu_ray']){
-        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['extro']){
-        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['doc_cam']){
-        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['vhs']){
-        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['tech_chart']){
-        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
-    if(response['mondopad']){
-        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
-    } else {
-        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
-    }
+    document.getElementById("dvd").innerHTML = response['dvd'];
+    document.getElementById("audio").innerHTML = response['audio'];
+    document.getElementById("blu_ray").innerHTML = response['blu_ray'];
+    document.getElementById("extro").innerHTML = response['extro'];
+    document.getElementById("doc_cam").innerHTML = response['doc_cam'];
+    document.getElementById("vhs").innerHTML = response['vhs'];
+    document.getElementById("tech_chart").innerHTML = response['tech_chart'];
+    document.getElementById("mondopad").innerHTML = response['mondopad']
 }
 
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
