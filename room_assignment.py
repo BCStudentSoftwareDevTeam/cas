@@ -1,4 +1,4 @@
-from allImports import *
+from app.allImports import *
 import random
 import pdb
 import json
@@ -89,15 +89,20 @@ class RoomAssigner:
         '''This method will grab all of the courses that need to be scheduled.'''
         #TODO: This query will need to be modified to grab all of the unscheduled courses.
         #The current query is still setup for my testing suite. 
+        #This should query the RoomPreferences table, not the course table
         
-        # This should query the RoomPreferences table, not the course table
         preferences = RoomPreferences.select(
                                     ).join(Course, on = (RoomPreferences.course == Course.cId)
-                                    ).join(BannerSchedule, on = (RoomPreferences.course.schedule == BannerSchedule.sid)
+                                    ).join(BannerSchedule, on = (Course.schedule == BannerSchedule.sid)
+                                    ).join(Term, on = (Course.term == Term.termCode)
                                     ).where(
-                                        Term.termCode == self.default_semester,
-                                        RoomPreferences.course.rid == null
+                                        Course.rid == None
+                                    ).where(
+                                        Term.termCode == self.default_semester
                                     ).order_by(BannerSchedule.order)
+                                    
+        for i in preferences:
+            print(i.rpID)
                                     
         # courses = Course.select(
         #               ).join(Rooms, JOIN.LEFT_OUTER, on = (Course.rid == Rooms.rID)
@@ -131,7 +136,7 @@ class RoomAssigner:
         data_set         = dict()
         preferences      = self.courses_query()
         if self.debug:
-            self.lazy_print('Courses query:',courses)
+            self.lazy_print('Courses query:',preferences)
         for course_preferences in preferences:
             # pdb.set_trace()
             # priority = random.choice(PRIORITY) 
