@@ -21,6 +21,7 @@ $(document).on("click",".assignprefbutton", function () {
         conflictingcourse = conflictingcourse.value;
         ogCourse = conflictingcourse;
     }
+    $("#redirectbutton").hide();
     let room = document.getElementById("pref" + prefID + "_room").value //Pulls room from hidden value from html
     roomID = room
     let which_preference = document.getElementById("hidden"+ room)       //Which preference you have selected
@@ -79,9 +80,11 @@ function checkforbluebutton(id) {//see if blue button needs to show up
     let check0 = document.getElementById(id);
     if (!!check0){
         $("#redirectbutton").show();
+        $('.hide-btn').hide();
     }
     else{
         $("#redirectbutton").hide();
+        $('.hide-btn').show();
     }   
 }
 
