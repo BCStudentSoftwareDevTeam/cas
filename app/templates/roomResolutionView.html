@@ -79,7 +79,7 @@ p {
                               <p><strong>Visual Accessibility:</strong> {{room.visualAccessibility}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAccessibility}}</p> 
                               <p><strong>Physical Accessibility:</strong> {{room.physicalAccessibility}}</p>
-                              <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
+                              <th><button type="button" class="btn btn-primary btn-sm assignroombutton" onclick='hidebutton()' data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
                              
                             </div>
                           </div>
@@ -207,7 +207,7 @@ p {
                                 <p><strong>Schedule:</strong> {{preferences['pref3']['days']}} {{preferences['pref3']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref3']['endTime'].strftime('%I:%M  %p')}}</p>
                                 <p><strong>Notes:</strong> {{preferences['pref3']['notes']}}</p>
                                 {% endif %}
-                                <button type="button" onclick='checkforbluebutton("imnotempty3")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
                               </div>
                             </div>
                         </div>
@@ -236,8 +236,8 @@ p {
         </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-          <button onclick="submitorreplace()" type="button" class="btn btn-success btn-md" data-dismiss="modal">Save Changes</button> <!---Actually updates db--->
-          <button onclick="resolvecourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
+          <button onclick="assignRoomCourse()" type="button" class="btn btn-success btn-md" data-dismiss="modal">Save Changes</button> <!---Actually updates db--->
+          <button onclick="resolveCourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
         </div>
       </div>
     </div>

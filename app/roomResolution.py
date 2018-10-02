@@ -27,8 +27,6 @@ def roomResolution(termCode):
 #Room Resolution View
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
 def roomResolutionView(termCode,cid):
-       # Creating the UI
-       #when clicked on CSC226: roomResolutionView/201611/5
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)  #cid==5
         if (roompreference.pref_1 == None):
@@ -37,18 +35,13 @@ def roomResolutionView(termCode,cid):
         roompreference = RoomPreferences(course=cid, any_Choice = "any").save()
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)
         flash("Course has no preferences assigned.")
-        
     #Pulling data
     buildings = Building.select()
-    # print(buildings)
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
-    #print instructors
     bannercourses = BannerCourses.select()
     courses = Course.get(Course.cId==cid) #Course A
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
-    #print ("These are DAYYYYYYSSS",days.day)
-    # Getting all available rooms for the first tab
     sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
                 LEFT OUTER JOIN (SELECT c1.rid_id as r2 
                 FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) 
@@ -57,36 +50,20 @@ def roomResolutionView(termCode,cid):
                 INNER JOIN building ON r1.building_id = building.bID 
                 WHERE r2 IS NULL AND r1.maxCapacity >= {3} 
                 ORDER BY building.name;""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
+
     cursor = mainDB.execute_sql(sql_query)
-    #print(sql_query)
-    # if cursor:
-    #     print("Cursor worked: ", cursor)
-    print("This is cursor", cursor)
-    availablerooms = [] #Empty list
+    availablerooms = [] 
     for room in cursor:
-        print("yo", room)
         availablerooms.append(room[0])
-        #print("The room is: ", room[0])
-    #available rooms
     rooms = []
     for rid in availablerooms: #populates available rooms tab 
         room = Rooms.get(Rooms.rID==rid)
         rooms.append(room)
-        #print rid
-        print(room)
-        
-        
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
-    # print sch1startTime
     sch1endTime = confcourse.course.schedule.endTime                # grab the A course's schedule end time
-    # print sch1endTime
     rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferences again (not needed, but used both variables)
-    # print("this is confcourse", confcourse.course.cId)
-    # print("This is ssch1starttime", sch1startTime)
-    # print("this is sch1endTime", sch1endTime)
-    #print("What is this schedule you speak of: ", confcourse.course.schedule.sid)
     scheduleDays = ScheduleDays.get(ScheduleDays.schedule == confcourse.course.schedule.sid)
     
     conflicts_query = """   SELECT cid 
@@ -106,23 +83,17 @@ def roomResolutionView(termCode,cid):
             cclist.append(conflicts_query.format(rp.pref_2.rID,sch1startTime,sch1endTime))
             if rp.pref_3:
                 cclist.append(conflicts_query.format(rp.pref_3.rID,sch1startTime,sch1endTime))
-    # print (cclist , "This is the cc list")
     
     conflictingroomdata = []        # data about one B Course
     preferences = dict()            # dictionary to hold all B courses
     
     
-    if cclist != []:                                        #if there are conflicting courses             
+    if cclist:                                        #if there are conflicting courses             
         # cclist = [conflictingcoursequery1, conflictingcoursequery2, conflictingcoursequery3]
         for cc in cclist:
             cursor = mainDB.execute_sql(cc)                 # execute each query
-            #print ("This is cursor", cursor)
             for conflict in cursor:
-                #print("Conflict[0] is: ", conflict[0])     # conflict[0] is the B course ID (cId)
                 conflictingroomdata.append(conflict[0])     # append results of query to list of actual B courses 
-    
-        #print ("This is the conflictingroomdata" ,conflictingroomdata)
-        
         #pulling specific data from conflicting course to populate preference tabs
         for idx in range(len(conflictingroomdata)):
             pref_info = dict()                                          # to hold course info
@@ -138,7 +109,6 @@ def roomResolutionView(termCode,cid):
                         full_name = inst.username.firstName + " " +inst.username.lastName       # if there's an instructor, add name to full_name
                         
                     pref = 'pref'+ str(idx + 1)         # which pref?
-                    # print ("This is cc", cc)            
                     current_course = str(cc.prefix.prefix) + " " + str(cc.bannerRef.number) + " " + str(cc.bannerRef.ctitle) # String of info about B course
                     pref_info['course_name']=current_course         # add to pref_info
                     pref_info['instructor']=full_name               # add instructor to pref info
@@ -147,17 +117,14 @@ def roomResolutionView(termCode,cid):
                     pref_info['startTime']=cc.schedule.startTime    #adds course B's times and days to pref_info
                     pref_info['endTime']=cc.schedule.endTime
                     pref_info['days']= bScheduleDays.day
-                    # print("YERRRRRRRRR", bScheduleDays)
 
-                    print ("Conflicting course's preference notes",cc.cId)
                     (rp1, created) = RoomPreferences.get_or_create(course = cc.cId)
-                    # print(rp1.notes)
                     pref_info['notes']=rp1.notes
                     preferences[pref] = pref_info
                     break
             
-        print ("This is the conflicting course",preferences) #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-        print("N1B", roompreference.pref_1, roompreference.pref_2, roompreference.pref_3)
+    #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
+        
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms, 
@@ -175,44 +142,58 @@ def roomResolutionView(termCode,cid):
 #Assign to AVAILABLE ROOMS ONLY
 @app.route("/assignRoom/<cid>", methods=["POST"])
 
-def assignRoom(cid=0):
-    if Course.get(Course.cId==cid).rid == None: #If the course doesn't have a room
-        if assignRoom:
-            data = request.form
-            # print("ROOM ID: ", data['roomID'])
-            # room = data["assignroombutton"]
-            course = Course.get(Course.cId == cid) #Gets course ID from database
+def assignRoom(cid):
+    '''
+    Assign General Available room to a course
+    params:
+       int: cid: Course_Id
+
+    '''
+    try:
+        data = request.form
+        course=Course.get(Course.cId==cid)
+        #already has a room
+        if course.rid:
             course.rid = data['roomID']
             course.save()
             # print course.rid
             flash("Your changes have been saved!") 
             return json.dumps({"success": 1})
-        
-    else:
+        else:
+            #If the course doesn't have a room
+            course.rid = data['roomID']
+            course.save()
+            flash("Your changes have been saved!") 
+            return json.dumps({"success": 1})
+    except:
         flash("An error has occurred. Please try again.","error")
         return json.dumps({"success":0})
     
     
-#Assign to an OCCUPIED room, remove current occupant
+#Assign to an OCCUPIED room, remove current occupant: Save and go to displayed course 
 @app.route("/updateRoom/<cid>", methods=["POST"])
 
 def updateRoom(cid):
-    #If the course doesn't have a room
-    if Course.get(Course.cId==cid).rid == None: 
-        data = request.form 
-        course = Course.get(Course.cId == cid) 
+    '''Assign preference room to a course. 
+       Update the room id of previous course (i.e. conflict_course) to None.
+       
+       params:
+         int: cid: Course_Id
+    '''
+    try:
+        course = Course.get(Course.cId==cid)
+        data = request.form
         course.rid = data['roomID']
         course.save()
-        #course = Course.get(Course.cId == data['ogCourse']) #Gets conflicting course ID from database
-        # print("course rid:", course.rid)
-        #course.rid = None  #Sets room to None
-        #course.save()
-        flash("Your changes have been saved!") 
-        return json.dumps({"success": 1})
-    
-    flash("An error has occurred. Please try again.","error")
-    return json.dumps({"success":0})
-        
+        conflict_course = Course.get(Course.cId == data['ogCourse'])
+        conflict_course.rid=None
+        conflict_course.save()
+        response={"url":conflict_course.cId}
+        return json.dumps(response)
+    except:
+        flash("An error has occurred. Please try again.","error")
+        return json.dumps({"error":0})
+            
 
 
     
