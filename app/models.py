@@ -36,6 +36,7 @@ For more information look at peewee documentation
 
 #MODELS WITHOUT A FOREIGN KEY
 class Division(dbModel):
+  
   dID           = PrimaryKeyField()
   name          = CharField()
   
