@@ -183,14 +183,46 @@ function education_detail(response){
     document.getElementById("student_workstations").innerHTML = response['student_workspace'];
     document.getElementById("chalkboards").innerHTML = response['chalkboards'];
     document.getElementById("whiteboards").innerHTML = response['whiteboards'];
-    document.getElementById("dvd").innerHTML = response['dvd'];
-    document.getElementById("audio").innerHTML = response['audio'];
-    document.getElementById("blu_ray").innerHTML = response['blu_ray'];
-    document.getElementById("extro").innerHTML = response['extro'];
-    document.getElementById("doc_cam").innerHTML = response['doc_cam'];
-    document.getElementById("vhs").innerHTML = response['vhs'];
-    document.getElementById("tech_chart").innerHTML = response['tech_chart'];
-    document.getElementById("mondopad").innerHTML = response['mondopad']
+    if(response['dvd']){
+        document.getElementById("dvd").innerHTML = "Yes";
+    } else {
+        document.getElementById("dvd").innerHTML = "No";
+    }
+    if(response['audio']){
+        document.getElementById("audio").innerHTML = "Yes";
+    } else {
+        document.getElementById("audio").innerHTML = "No";
+    }
+    if(response['blu_ray']){
+        document.getElementById("blu_ray").innerHTML = "Yes";
+    } else {
+        document.getElementById("blu_ray").innerHTML = "No";
+    }
+    if(response['extro']){
+        document.getElementById("extro").innerHTML = "Yes";
+    } else {
+        document.getElementById("extro").innerHTML = "No";
+    }
+    if(response['doc_cam']){
+        document.getElementById("doc_cam").innerHTML = "Yes";
+    } else {
+        document.getElementById("doc_cam").innerHTML = "No";
+    }
+    if(response['vhs']){
+        document.getElementById("vhs").innerHTML = "Yes";
+    } else {
+        document.getElementById("vhs").innerHTML = "No";
+    }
+    if(response['tech_chart']){
+        document.getElementById("tech_chart").innerHTML = "Yes";
+    } else {
+        document.getElementById("tech_chart").innerHTML = "No";
+    }
+    if(response['mondopad']){
+        document.getElementById("mondopad").innerHTML = "Yes";
+    } else {
+        document.getElementById("mondopad").innerHTML = "No";
+    }
 }
 
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
