@@ -17,20 +17,23 @@ $(document).on("click",".assignprefbutton", function () {
     let main_course = window.location.href.split("/").pop();            //Grabbing Course A's ID
     ogCourse = "";
     let conflictingcourse = document.getElementById("pref"+ prefID +"_confcourse"); //Seeing if there is a conflicting course
-    if (conflictingcourse != null){                                     //If there is a conflicting course set it to ogCourse
-        conflictingcourse = conflictingcourse.value;
-        ogCourse = conflictingcourse;
-    }
-    $("#redirectbutton").hide();
     let room = document.getElementById("pref" + prefID + "_room").value //Pulls room from hidden value from html
     roomID = room
     let which_preference = document.getElementById("hidden"+ room)       //Which preference you have selected
     let linktopref = document.getElementById("hidden"+room);
     let linktocourse = document.getElementById("hiddencourse");         //Course A
+    if (conflictingcourse != null){                                     //If there is a conflicting course set it to ogCourse
+        conflictingcourse = conflictingcourse.value;
+        ogCourse = conflictingcourse;
+        $("#assignConflictingDiv").html("<p>Are you sure you would like to assign "+ which_preference.value + " to "+linktocourse.value + "?</p>"); //Need course name);
+    }
+    else
+    {
+    
+        $("#assignroomdiv").html("<p>Are you sure you would like to assign "+ which_preference.value + " to "+linktocourse.value + "?</p>"); //Need course name);  
+    }
         
-    $("#assignroomdiv").html("<p>Are you sure you would like to assign "+ which_preference.value + " to "+linktocourse.value + "?</p>"); //Need course name
-     
-});
+    });
 
 //assign room to a course
 function assignRoomCourse() {  //Inserting data into db AVAILABLE ROOMS ONLY
@@ -74,21 +77,3 @@ function resolveCourse() {
                     alert("Please, try again.");});
 }
         
-
-function checkforbluebutton(id) {//see if blue button needs to show up
-    let button = document.getElementById('redirectbutton');
-    let check0 = document.getElementById(id);
-    if (!!check0){
-        $("#redirectbutton").show();
-        $('.hide-btn').hide();
-    }
-    else{
-        $("#redirectbutton").hide();
-        $('.hide-btn').show();
-    }   
-}
-
-//hide redirectbutton for available courses
-function hidebutton() {
-    $("#redirectbutton").hide();
-}

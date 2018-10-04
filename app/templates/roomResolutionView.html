@@ -79,7 +79,7 @@ p {
                               <p><strong>Visual Accessibility:</strong> {{room.visualAccessibility}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAccessibility}}</p> 
                               <p><strong>Physical Accessibility:</strong> {{room.physicalAccessibility}}</p>
-                              <th><button type="button" class="btn btn-primary btn-sm assignroombutton" onclick='hidebutton()' data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
+                              <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
                              
                             </div>
                           </div>
@@ -124,8 +124,10 @@ p {
                             <p><strong>Instructor:</strong> {{preferences['pref1']['instructor']}}</p>
                             <p><strong>Schedule:</strong> {{preferences['pref1']['days']}} {{preferences['pref1']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref1']['endTime'].strftime('%I:%M  %p')}}</p>
                             <p><strong>Notes:</strong> {{preferences['pref1']['notes']}}</p>
-                             {% endif %}
-                            <button type="button" onclick='checkforbluebutton("imnotempty1")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
+                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
+                            {%else%}
+                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom" >Assign course to room</button>
+                            {% endif %}
                           </div>
                         </div>
                     </div>
@@ -165,9 +167,11 @@ p {
                             <p><strong>Instructor:</strong> {{preferences['pref2']['instructor']}}</p>
                             <p><strong>Schedule:</strong> {{preferences['pref2']['days']}} {{preferences['pref2']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref2']['endTime'].strftime('%I:%M  %p')}}</p>
                             <p><strong>Notes:</strong> {{preferences['pref2']['notes']}}</p>
+                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
+                            {%else%}
+                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
                             {% endif %}
-                            <button type="button" onclick='checkforbluebutton("imnotempty2")' style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
-                          </div>
+                                </div>
                         </div>
                     </div>
                       </div>
@@ -206,9 +210,14 @@ p {
                                 <p><strong>Instructor:</strong> {{preferences['pref3']['instructor']}}</p>
                                 <p><strong>Schedule:</strong> {{preferences['pref3']['days']}} {{preferences['pref3']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref3']['endTime'].strftime('%I:%M  %p')}}</p>
                                 <p><strong>Notes:</strong> {{preferences['pref3']['notes']}}</p>
+                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
+                                {%else%}
+                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
                                 {% endif %}
-                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
-                              </div>
+                            
+                                
+                        
+                                </div>
                             </div>
                         </div>
                   </div>
@@ -237,6 +246,22 @@ p {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
           <button onclick="assignRoomCourse()" type="button" class="btn btn-success btn-md hide-btn" data-dismiss="modal">Save Changes</button> <!---Actually updates db--->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Assign conflicting room to the course Modal-->
+  <div class="modal fade" id="assignConflictingRoom" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Caution <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button></h5>
+      </div>
+        <div class="modal-body" id="assignConflictingDiv"> 
+        </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
           <button onclick="resolveCourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
         </div>
       </div>
