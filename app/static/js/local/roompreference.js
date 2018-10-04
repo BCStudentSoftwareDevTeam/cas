@@ -115,20 +115,23 @@ function room_detail(response){
         var check_or_x = '<span class="glyphicon glyphicon-remove"></span>';
     }
     my_div.innerHTML = check_or_x;
+    
+   
     if(response['audioAcc']){
-        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : <span class='glyphicon glyphicon-font'></span>";
+        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : " + (response['audioAcc']).toString();
     } else {
-        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : <span class='glyphicon glyphicon-bold'></span>";
+        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : ";
     }
      if(response['visualAcc']){
-        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : <span class='glyphicon glyphicon-font'></span>";
+        
+        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : " + (response['visualAcc']).toString();
     } else {
-        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : <span class='glyphicon glyphicon-bold'></span>";
+        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : ";
     }
     if(response['physicalAcc']){
-        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : <span class='glyphicon glyphicon-font'></span>";
+        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : " + (response['physicalAcc']).toString()/*<span class='glyphicon glyphicon-font'></span>"*/;
     } else {
-        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : <span class='glyphicon glyphicon-bold'></span>";
+        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : ";
     }
     // education_detail(response);
 }
