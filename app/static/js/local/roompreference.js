@@ -229,15 +229,12 @@ function education_detail(response){
     }
 }
 
-$("#viewEdTech").click(function(event){
-    event.preventDefault();
-});
 
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
 function goto_educationTech() {
-   
+  
     // var room_id= $("#selectedRoom").val()
-    console.log('Hello')
+   
     selected_value = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     // console.log("goTo_edtech rID: ", getRoomId());
     // setRoomId(selected_value);
@@ -251,7 +248,7 @@ function goto_educationTech() {
                 dataType: 'json',
                 type:'GET',
                 success: function(response){
-                    console.log("Hello", response)
+                    // console.log("Hello", response)
                     education_detail(response); //a function with education tech details
                 },
                 error: function(error) {
