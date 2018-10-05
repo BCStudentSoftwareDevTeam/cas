@@ -110,9 +110,9 @@ function room_detail(response){
     my_div.innerHTML = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
     if (response['movableFurniture']) {
-        var check_or_x = '<span class="glyphicon glyphicon-ok"></span>';
+        var check_or_x = ' Yes';
     } else {
-        var check_or_x = '<span class="glyphicon glyphicon-remove"></span>';
+        var check_or_x = ' No';
     }
     my_div.innerHTML = check_or_x;
     
