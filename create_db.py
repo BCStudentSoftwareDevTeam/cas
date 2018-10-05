@@ -664,7 +664,25 @@ building     = Building(name = 'Art', shortName="Art").save()
 #####
 
 
-
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 1,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
+  
+  
 educationTech= EducationTech( 
   projectors           = 1,
   smartboards          = 2,
@@ -672,6 +690,24 @@ educationTech= EducationTech(
   podium               = 3,
   student_workspace    = 4,
   chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
+
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 3,
   whiteboards          = 2,
   dvd                  = False,
   blu_ray              = False,

@@ -57,7 +57,7 @@ p {
                     <div class="panel panel-default clickable">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
-                          <a  data-parent="#accordion" >{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
+                          <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
                         </h4>
                       </div>
                         <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
@@ -75,10 +75,9 @@ p {
                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
                                 Education Tech
                               </button>
-                             
-                              <p><strong>Visual Accessibility:</strong> {{room.visualAccessibility}}</p>
-                              <p><strong>Hearing Accessibility:</strong> {{room.audioAccessibility}}</p> 
-                              <p><strong>Physical Accessibility:</strong> {{room.physicalAccessibility}}</p>
+                              <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
+                              <p><strong>Hearing Accessibility:</strong> {{room.audioAcc}}</p> 
+                              <p><strong>Physical Accessibility:</strong> {{room.physicalAcc}}</p>
                               <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
                              
                             </div>

@@ -55,10 +55,8 @@ def roomResolutionView(termCode,cid):
     availablerooms = [] 
     for room in cursor:
         availablerooms.append(room[0])
-    rooms = []
-    for rid in availablerooms: #populates available rooms tab 
-        room = Rooms.get(Rooms.rID==rid)
-        rooms.append(room)
+    rooms=Rooms.select().where(Rooms.rID << availablerooms)
+    
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -75,7 +73,6 @@ def roomResolutionView(termCode,cid):
     
     # "A" course's schedule
     aCourseSchedule = scheduleDays.day
-    
     #check which preference we're on, and append to cclist
     if rp.pref_1:
         cclist.append(conflicts_query.format(rp.pref_1.rID,sch1startTime,sch1endTime)) #comparing course A to B
