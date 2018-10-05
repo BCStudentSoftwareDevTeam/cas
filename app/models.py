@@ -288,10 +288,8 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
-<<<<<<< HEAD
-=======
   initial_Preference = CharField(null=True, default = 1)
->>>>>>> c4a4ddae75900f514f8fdacea78d406003bdbee1
+
     
 
 #Begin education tech class
