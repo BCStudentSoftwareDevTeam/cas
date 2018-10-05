@@ -69,8 +69,8 @@ class Term(dbModel):
   name              = CharField()
   state             = IntegerField(default=0)
   
-  def __str__(self):
-    return self.name
+#  def __str__(self):
+#    return self.name
   
 class Building(dbModel):
   bID           = PrimaryKeyField()
@@ -101,6 +101,14 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
+  visualAcc     = CharField(null=True)
+  audioAcc      = CharField(null=True)
+  physicalAcc   = CharField(null=True)
+  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
+  specializedEq = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField()
+  """
   visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
@@ -108,7 +116,7 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField(null=False)
-
+  """
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)
 
@@ -280,6 +288,10 @@ class RoomPreferences(dbModel):
   any_Choice    = CharField(null=True)
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
+<<<<<<< HEAD
+=======
+  initial_Preference = CharField(null=True, default = 1)
+>>>>>>> c4a4ddae75900f514f8fdacea78d406003bdbee1
     
 
 #Begin education tech class

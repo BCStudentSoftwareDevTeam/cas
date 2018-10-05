@@ -41,7 +41,7 @@ def grab_faculty(connection):
     return grab_data(connection, "Faculty")
 
 def grab_staff(connection):
-    return grab_data(connection,"Staff")
+    return grab_data(connection, "Staff")
 
 def grab_data(connection, description):
     # search_base and search_filter are the parameters
@@ -49,7 +49,7 @@ def grab_data(connection, description):
       '(description=%s)' % (description),
       attributes = ['samaccountname', 'givenname', 'sn', 'employeeid']
       )
-
+    print("Found {0} {1} in the AD".format(len(connection.entries), description))
     return connection.entries
 
 def grab_key(entry, key):
@@ -60,6 +60,7 @@ def grab_key(entry, key):
 
 
 def dump_to_database(entries, Table):
+    print("Inserting {0} new records into {1}".format(len(entries), database_path))
     for entry in entries:
         if grab_key(entry,"samaccountname") == "ldapfaculty":
             continue
@@ -71,45 +72,45 @@ def dump_to_database(entries, Table):
         )
         row.save()
 
-
-def main(user,password):
-    pull_database(user, password)
-    print("Adding new members")
-    add_members()
-    
+   
 def add_members():
-    current_users = User.select(User.username)
-    user_list = list()
-    for user in current_users:
-        user_list.append(user.username)
-    users = Faculty.select().where( (Faculty.username << user_list))
-    print("Updating %s users" %(str(len(users))))
-    for user in users:
-        if user.bnumber is None:
-            print(user.username)
-            continue
-        updated_user = User.get(User.username == user.username)
-        updated_user.bNumber = user.bnumber
-        updated_user.email = user.username+ "@berea.edu"
-        updated_user.save()
+    for usertype in [Faculty, Staff]:
+        # Creates list of current users in CAS
+        current_users = User.select(User.username)
+        user_list = list()
+        for user in current_users:
+            user_list.append(user.username)
+        users = usertype.select().where( (usertype.username << user_list))
+        print("%s existing users in CAS" %(str(len(users))))
+        for user in users:
+            if user.bnumber is None:
+                print(user.username)
+                continue
+            updated_user = User.get(User.username == user.username)
+            updated_user.bNumber = user.bnumber
+            updated_user.email = user.username+ "@berea.edu"
+            updated_user.save()
         
-    users = Faculty.select().where(~(Faculty.username << user_list))
-    print("Adding %s users" %(str(len(users))))
-    for user in users:
-        if user.firstname is None or user.lastname is None:
-            print(user.username + " has null fields skipping")
-            continue
-        new_user = User.create(
-                username = user.username,
-                bNumber = user.bnumber,
-                lastName = user.lastname,
-                firstName = user.firstname,
-                isAdmin = False,
-                email = user.username + "@berea.edu",
-            )
-        new_user.save()
+        # Finds new users not in CAS already and adding
+        users = usertype.select().where(~(usertype.username << user_list))
+        print("Adding %s new users" %(str(len(users))))
+        for user in users:
+            if user.firstname is None or user.lastname is None:
+                print(user.username + " has null fields skipping")
+                continue
+            new_user = User.create(
+                    username = user.username,
+                    bNumber = user.bnumber,
+                    lastName = user.lastname,
+                    firstName = user.firstname,
+                    isAdmin = False,
+                    email = user.username + "@berea.edu",
+                )
+            new_user.save()
+
+
 def pull_database(user,password):
-    print("Connecting to Database")
+    print("Connecting to SQLite Database: {0}".format(database_path))
     database.connect()
     print("Dropping and creating tables")
     if path.isfile(database_path):
@@ -118,14 +119,27 @@ def pull_database(user,password):
         except Exception:
             pass
     database.create_tables([Faculty, Staff])
-    print("Connecting to server")
+
+    print("Connecting to LDAP server")
     connection = connect_to_server(user,password)
-    print("Grabbing data")
+
+    print("Grabbing LDAP faculty data")
     faculty = grab_faculty(connection)
-    # staff = grab_staff(connection)
-    print("Dumping Data")
+    print("Dumping LDAP faculty data to SQLite")
     dump_to_database(faculty, Faculty)
-    # dump_to_database(Staff, Staff)
+
+    print("Grabbing LDAP staff data")
+    staff = grab_staff(connection)
+    print("Dumping LDAP faculty data to SQLite")
+    dump_to_database(staff, Staff)
+
+
+def main(user,password):
+    print("Pulling existing data")
+    pull_database(user, password)
+    print("Adding new members")
+    add_members()
+ 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Pull and Sync Faculty from LDAP')
