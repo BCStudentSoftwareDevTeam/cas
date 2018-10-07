@@ -96,7 +96,7 @@ class RoomAssigner:
                                     ).where(Course.term == self.default_semester).where(Course.rid == None
                                     ).join(BannerSchedule, on = (BannerSchedule.sid == Course.schedule
                                     )).order_by(BannerSchedule.order).distinct()
-                                
+        print (preferences)          
         for i in preferences:
             print(i.rpID, i.course.cId, i.course.schedule.letter)
                                     
@@ -155,9 +155,9 @@ class RoomAssigner:
                 elif course_preferences.priority == 5:
                     room_list = [course_preferences.pref_1.rID, course_preferences.pref_2.rID, "*"]
                 elif course_preferences.priority == 6:
-                    room_list = [course_preferences.pref_1.rID, course_preferences.pref_2.rID, course_preferences.pref_3.rID, "*"]
+                    room_list = ["*"]
                 
-                data_set[course.cId] = room_list
+                data_set[course_preferences.rpID] = room_list
             
             except Exception as e:
                 print(e)
@@ -190,6 +190,7 @@ class RoomAssigner:
         if self.debug:
             self.lazy_print('The Complete data_set: ',data_set)
         
+        print(data_set)
         return data_set
             
     #FUTURE: Will the layout of the new database there may be a way to combine
