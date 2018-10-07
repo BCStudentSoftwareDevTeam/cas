@@ -34,9 +34,8 @@ dict:
 class RoomAssigner:
     def __init__(self, semester):
         self.default_semester = semester 
-        self.priority_map     = None
+        self.priority_map     = defaultdict(list)
         self.preference_map   = dict()
-        self.rooms_scheduled  = dict()
         self.anywhere         = []
         self.unhappy          = []
         self.cid_num          = 0
@@ -131,6 +130,7 @@ class RoomAssigner:
         the algorithm. This method is essentially the middleware.'''
         data_set         = dict()
         preferences      = self.courses_query()
+        
         if self.debug:
             self.lazy_print('Courses query:',preferences)
         for course_preferences in preferences:
@@ -158,7 +158,12 @@ class RoomAssigner:
                     room_list = ["*"]
                 
                 data_set[course_preferences.rpID] = room_list
+<<<<<<< HEAD
             
+=======
+                self.priority_map[course_preferences.priority].append(course_preferences.rpID)
+                print()
+>>>>>>> 2f792800b035a4c5d744b7a4df49efcf38d07139
             except Exception as e:
                 print(e)
                 
@@ -189,40 +194,45 @@ class RoomAssigner:
             #     data_set[course.cId] = [WILDCARD]
         if self.debug:
             self.lazy_print('The Complete data_set: ',data_set)
+<<<<<<< HEAD
         
         print(data_set)
+=======
+        print("data_set", data_set)
+        print("priority_map", self.priority_map)
+>>>>>>> 2f792800b035a4c5d744b7a4df49efcf38d07139
         return data_set
             
     #FUTURE: Will the layout of the new database there may be a way to combine
     # the create_priority_map & the create_data_set method.
-    def create_priority_map(self):
-        '''This method will create the priority_map data structure, listed in 
-        the notes above.
-        '''
-        #the following query will order based off of time. 
-        courses = self.courses_query()
-        priority_list = []
-        for course in courses:
-            days = list(str(t.day) for t in course.schedule.days)
-            self.cid_num += 1
-            CID         = course.cId
-            prefs       = DATA_SET[CID]
-            course_info = (CID, course.schedule.startTime, course.schedule.endTime, days) 
-            if len(prefs) == 1:
-                priority_list.append((6, course_info))
-            else:
-                if NONE in prefs:
-                    priority_list.append((len(prefs) - 1, course_info))
-                elif WILDCARD in prefs:
-                    priority_list.append((len(prefs) + 2, course_info))
-                else:
-                    priority_list.append((len(prefs), course_info))
-        priority_map = defaultdict(list)
-        for priority, course in priority_list:
-            priority_map[priority].append(course)
-        self.priority_map = priority_map
-        if self.debug:
-            self.lazy_print('priority_map:',self.priority_map)
+    # def create_priority_map(self):
+    #     '''This method will create the priority_map data structure, listed in 
+    #     the notes above.
+    #     '''
+    #     #the following query will order based off of time. 
+    #     courses = self.courses_query()
+    #     priority_list = []
+    #     for course in courses:
+    #         days = list(str(t.day) for t in course.schedule.days)
+    #         self.cid_num += 1
+    #         CID         = course.cId
+    #         prefs       = DATA_SET[CID]
+    #         course_info = (CID, course.schedule.startTime, course.schedule.endTime, days) 
+    #         if len(prefs) == 1:
+    #             priority_list.append((6, course_info))
+    #         else:
+    #             if NONE in prefs:
+    #                 priority_list.append((len(prefs) - 1, course_info))
+    #             elif WILDCARD in prefs:
+    #                 priority_list.append((len(prefs) + 2, course_info))
+    #             else:
+    #                 priority_list.append((len(prefs), course_info))
+    #     priority_map = defaultdict(list)
+    #     for priority, course in priority_list:
+    #         priority_map[priority].append(course)
+    #     self.priority_map = priority_map
+    #     if self.debug:
+    #         self.lazy_print('priority_map:',self.priority_map)
     
     def check_room_availability(self,choice,course):
         ''' course & taken_time = (cid, start_time, endtime, [days]) '''
@@ -319,6 +329,7 @@ if __name__ == "__main__":
     global DATA_SET 
     DATA_SET = room_assigner.create_data_set()
     print(DATA_SET)
+    print("here")
     # room_assigner.create_priority_map()
     # room_assigner.assign_room()      
     
