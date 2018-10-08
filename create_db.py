@@ -579,22 +579,47 @@ building     = Building(name = 'Library', shortName = "LIB").save()
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 2, number ='103', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 3, number ='104', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 4, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 5, number ='106', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 6, number ='107', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 7, number ='108', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 8, number ='109', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 9, number ='110', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 10, number ='111', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 11, number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 12, number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 4, number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 5, number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 6, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+
+
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
+
+
+
+
+
+
+room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 2,educationTech=1, number ='103', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, educationTech=1,number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, educationTech=1,number ='106', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6, educationTech=1,number ='107', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 7,educationTech=1, number ='108', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 8, educationTech=1,number ='109', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 9,educationTech=1, number ='110', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 10, educationTech=1,number ='111', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 11, educationTech=1,number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 12, educationTech=1,number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 1,educationTech=1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, educationTech=1,number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, educationTech=1,number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6,educationTech=1, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
 
 roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=3,notes="None",any_Choice = "any").save()
 roompreference= RoomPreferences(course=3, pref_1=2,pref_2=3,pref_3=4,notes="None",any_Choice = "any").save()
