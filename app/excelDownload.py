@@ -2,7 +2,7 @@ from allImports import *
 from app.logic.authorization import must_be_admin
 from app.logic.redirectBack import redirect_url
 from app.logic.excelMaker import ExcelMaker
-from flask import send_file
+from flask import send_file, send_from_directory
 from os.path import basename
 import os
 
@@ -11,10 +11,18 @@ import os
 def makeMainExcel(tid):
     page        = "/" + request.url.split("/")[-1]
     term = Term.get(Term.termCode == tid)
-    excel = ExcelMaker()
+    
+    excel = ExcelMaker() # Creates a class object 
+    
     completePath = excel.make_master_file(term)
-    print("I am not sure what is happening")
-    return send_file(completePath,as_attachment=True)
+    
+    filename = completePath.split('/').pop()
+    # print(filename)
+    # print (completePath)
+  
+    return send_file(completePath,as_attachment=True, attachment_filename=filename)
+    # return send_file(completePath,attachment_filename=filename, as_attachment=True)
+    # return send_from_directory(completePath,filename)
 
 # @app.route('/excel/crossListed/<tid>', methods=["GET"])
 # @must_be_admin
@@ -22,7 +30,7 @@ def makeMainExcel(tid):
 #   page = "/" + request.url.split("/")[-1]
 #   term = Term.get(Term.termCode == tid)
 #   excel = ExcelMaker()
-#   completePath = excel.make_cross_listed_file(term)
+#   completePath = excel.make_cross_listed_file(term)3
 #   return send_file(completePath,as_attachment=True)
   
 @app.route('/excel/<excel_type>/<tid>', methods=["GET"])

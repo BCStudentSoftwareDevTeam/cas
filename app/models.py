@@ -177,6 +177,7 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
+  scheduleDays      = ForeignKeyField(ScheduleDays, null = True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -233,9 +234,9 @@ class InstructorSTCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
-  username     = ForeignKeyField(User)
-  course       = ForeignKeyField(SpecialTopicCourse)
+# class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
+#   username     = ForeignKeyField(User)
+#   course       = ForeignKeyField(SpecialTopicCourse)
   
 class Deadline(dbModel):
   description  = TextField()

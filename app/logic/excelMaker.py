@@ -43,10 +43,13 @@ class ExcelMaker:
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
         #Course Schedule
+        # print('About to enter course.schedule')
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
-            days = course.schedule.days.get().day
+            # print('About to get days')
+            days = course.scheduleDays.day
+            # print("Days", days)
             if days is None:
                 days = "TBD"
             time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
@@ -108,23 +111,31 @@ class ExcelMaker:
 
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
+      
+      
+        # Create worksheets and set headers for each program
         for program in programs:
+           
             self.program_row = 2 #reset the program row
             program_sheet = workbook.add_worksheet(program.prefix)
             self.writeHeaders(program_sheet)
-
+                
             #Loop through Courses in that program
             courses = Course.select().where(Course.prefix == program.prefix).where(Course.term == term).order_by(Course.bannerRef)
+            
             for course in courses:
+             
                 sheet_matrix = [[master_sheet,self.master_row],[program_sheet,self.program_row]]
+                # print(course.cId, course.schedule.letter, course.prefix.prefix, sheet_matrix)
                 if course.crossListed:
                     sheet_matrix.append([cross_sheet,self.cross_row])
                 for sheet_list in sheet_matrix:
                     self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
+          
         workbook.close()
         return path
-
+        
     def make_cross_listed_file(self, term):
         #set excel parameters variables
         filename = "cas-{}-crossListed.xlsx".format(term.termCode)

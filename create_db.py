@@ -142,6 +142,26 @@ banner = BannerSchedule(  letter        = "Standard B",
                           sid           = "B",
                           order         = 2
                         ).save(force_insert=True)
+                        
+                        
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+                        
+schedule = ScheduleDays(schedule = 2, day = "M").save(force_insert=True)
+
+                        
+schedule = ScheduleDays(schedule = 2, day = "T").save(force_insert=True)
+
+                        
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+
+                        
+schedule = ScheduleDays(schedule = 2, day = "W").save(force_insert=True)
+
+                        
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+
+                        
+schedule = ScheduleDays(schedule = 1, day = "M").save(force_insert=True)
 ##############
 #BANNERCOURSE#
 ##############
@@ -341,6 +361,7 @@ course = Course(  bannerRef         = 1,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
+                  scheduleDays      = 1,
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
@@ -352,6 +373,7 @@ course = Course(  bannerRef         = 2,
                   term              = 201612,
                   section           = "A",
                   schedule          = "B",
+                  scheduleDays      = 1,
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -361,6 +383,7 @@ course = Course(  bannerRef         = 3,
                   prefix            = "TAD",
                   term             = 201612,
                   schedule          = "A",
+                  scheduleDays      = 2,
                   section           = "A",
                   capacity          = 20,
                   notes          = "Preference1",
@@ -371,6 +394,7 @@ course = Course(  bannerRef         = 8,
                   term              = 201612,
                   section           = "D",
                   schedule          = "A",
+                  scheduleDays      = 3,
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -380,6 +404,7 @@ course = Course(  bannerRef         = 9,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
+                  scheduleDays      = 4,
                   capacity          = 20,
                   section           = "E",
                   notes             = "Preference2",
@@ -390,6 +415,7 @@ course = Course(  bannerRef         = 10,
                   term              = 201711,
                   section           = "A",
                   schedule          = "B",
+                  scheduleDays      = 5,
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -398,6 +424,7 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201712,
                   schedule          = "B",
+                  scheduleDays      = 6,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -407,6 +434,7 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201811,
                   schedule          = "B",
+                  scheduleDays      = 7,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -416,6 +444,7 @@ course = Course(  bannerRef         = 13,
                   prefix            = "FRN",
                   term              = 201611,
                   schedule          = "A",
+                  scheduleDays      = 1,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference1",
@@ -426,6 +455,7 @@ course = Course(  bannerRef         = 14,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
+                  scheduleDays      = 3,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -436,6 +466,7 @@ course = Course(  bannerRef         = 15,
                   prefix            = "FRN",
                   term              = 201712,
                   schedule          = "A",
+                  scheduleDays      = 6,
                   capacity          = 20,
                   section           = "A",
                   notes          = "Preference1",
@@ -445,6 +476,7 @@ course = Course(  bannerRef         = 15,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
+                  scheduleDays      = 3,
                   capacity          = 20,
                   notes             = "Preference2",
                   section           = "A",
@@ -455,6 +487,7 @@ course = Course(  bannerRef         = 17,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
+                  scheduleDays      = 6,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -464,6 +497,7 @@ course = Course(  bannerRef         = 18,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
+                  scheduleDays      = 1,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -473,6 +507,7 @@ course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201712,
                   schedule          = "B",
+                  scheduleDays      = 1,
                   capacity          = 20,
                   section           = "A",
                   notes             = "Preference2",
@@ -482,6 +517,7 @@ course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201811,
                   schedule          = "B",
+                  scheduleDays      = 1,
                   capacity          = 20,
                   section           = "A",
                   notes             = "Preference2",
@@ -491,6 +527,7 @@ course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201612,
                   schedule          = "B",
+                  scheduleDays      = 4,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -500,6 +537,7 @@ course = Course(  bannerRef         = 20,
                   prefix            = "HHP",
                   term              = 201712,
                   schedule          = "B",
+                  scheduleDays      = 1,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -510,10 +548,218 @@ course = Course(  bannerRef         = 21,
                   term              = 201811,
                   section           = "A",
                   schedule          = "B",
+                  scheduleDays      = 1,
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save() 
+
+
+
+
+
+
+
+
+
+course = Course(  bannerRef         = 21,
+                  prefix            = "CSC",
+                  term              = 201611,
+                  schedule          = "A",
+                  scheduleDays      = 1,
+                  capacity          = 20,
+                  notes             = "Preference1",
+                  section           = "A",
+                  crossListed       = 1
+                ).save()
+                
+course = Course(  bannerRef         = 22,
+                  prefix            = "MAT",
+                  term              = 201612,
+                  section           = "A",
+                  schedule          = "B",
+                  scheduleDays      = 1,
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                ).save()                
+
+course = Course(  bannerRef         = 23,
+                  prefix            = "TAD",
+                  term             = 201612,
+                  schedule          = "A",
+                  scheduleDays      = 3,
+                  section           = "A",
+                  capacity          = 20,
+                  notes          = "Preference1",
+                  crossListed       = 0
+                  ).save()
+course = Course(  bannerRef         = 28,
+                  prefix            = "CHI",
+                  term              = 201612,
+                  section           = "D",
+                  schedule          = "A",
+                  scheduleDays      = 6,
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save()       
+                              
+course = Course(  bannerRef         = 29,
+                  prefix            = "CHI",
+                  term              = 201711,
+                  schedule          = "A",
+                  scheduleDays      = 6,
+                  capacity          = 20,
+                  section           = "E",
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 30,
+                  prefix            = "CHI",
+                  term              = 201711,
+                  section           = "A",
+                  schedule          = "B",
+                  scheduleDays      = 6,
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 11,
+                  prefix            = "CHI",
+                  term              = 201712,
+                  schedule          = "B",
+                  scheduleDays      = 6,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 11,
+                  prefix            = "CHI",
+                  term              = 201811,
+                  schedule          = "B",
+                  scheduleDays      = 5,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 13,
+                  prefix            = "FRN",
+                  term              = 201611,
+                  schedule          = "A",
+                  scheduleDays      = 5,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference1",
+                  crossListed       = 1
+                ).save()
+                
+course = Course(  bannerRef         = 14,
+                  prefix            = "FRN",
+                  term              = 201612,
+                  schedule          = "B",
+                  scheduleDays      = 5,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                ).save()                
+
+course = Course(  bannerRef         = 15,
+                  prefix            = "FRN",
+                  term              = 201712,
+                  schedule          = "A",
+                  scheduleDays      = 5,
+                  capacity          = 20,
+                  section           = "A",
+                  notes          = "Preference1",
+                  crossListed       = 0
+                  ).save()
+course = Course(  bannerRef         = 15,
+                  prefix            = "FRN",
+                  term              = 201612,
+                  schedule          = "B",
+                  scheduleDays      = 5,
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  section           = "A",
+                  crossListed       = 1
+                  ).save()       
+                              
+course = Course(  bannerRef         = 17,
+                  prefix            = "GER",
+                  term              = 201711,
+                  schedule          = "B",
+                  scheduleDays      = 5,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 18,
+                  prefix            = "GER",
+                  term              = 201711,
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201712,
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  capacity          = 20,
+                  section           = "A",
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201811,
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  capacity          = 20,
+                  section           = "A",
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 19,
+                  prefix            = "GER",
+                  term              = 201612,
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 20,
+                  prefix            = "HHP",
+                  term              = 201712,
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  section           = "A",
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+course = Course(  bannerRef         = 21,
+                  prefix            = "HLT",
+                  term              = 201811,
+                  section           = "A",
+                  schedule          = "B",
+                  scheduleDays      = 3,
+                  capacity          = 20,
+                  notes             = "Preference2",
+                  crossListed       = 1
+                  ).save() 
+
+
 
 
 ########
@@ -584,7 +830,6 @@ state_4 = TermStates(number = 4, order = 4, name = "roomprefrences_closed", disp
 state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
 state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
 state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
-
 
 
 
