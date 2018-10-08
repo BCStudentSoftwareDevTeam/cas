@@ -160,9 +160,8 @@ class RoomAssigner:
                 
                 
                 data_set[course_preferences.rpID] = room_list
-                self.priority_map[course_preferences.priority].append(course_preferences.rpID)
-                print()
-
+                self.priority_map[course_preferences.priority].append(course_preferences)
+                
             except Exception as e:
                 print(e)
                 
@@ -254,13 +253,18 @@ class RoomAssigner:
                     else:
                         can_schedule = False
             if can_schedule == True:
-                unavailable_times.append(course)
+                unavailable_times.append(roomPref)
+                roomPref.course.rid = choice
+                roomPref.course.save()
                 self.rooms_scheduled[choice] = unavailable_times
+                roomPref.update()
                 return True
             else: 
                 return False
         else:
-            self.rooms_scheduled[choice] = [course]
+            roomPref.course.rid= choice
+            roomPref.course.save()
+            self.rooms_scheduled[choice] = [roomPref]
             return True
     
     def assign_room(self):
@@ -310,6 +314,7 @@ class RoomAssigner:
         the course.rid field with the rid number.'''
         #This was not done yet, because there are still some process questions
         #hanging around out there. 
+     
         pass
     
     def assign_anywhere(self):
@@ -345,10 +350,8 @@ if __name__ == "__main__":
     room_assigner.courses_query()
     global DATA_SET 
     DATA_SET = room_assigner.create_data_set()
-    print(DATA_SET)
-    print("here")
     # room_assigner.create_priority_map()
-    # room_assigner.assign_room()      
+    room_assigner.assign_room()      
     
     
 '''Testing Data'''
