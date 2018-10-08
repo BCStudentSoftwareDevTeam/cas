@@ -18,7 +18,7 @@
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
             <tr>
-                <td id="roomNumber"> {{room.building.shortName}} {{room.number}}</td>
+                <td id="room_{{room.number}}"> {{room.building.shortName}} {{room.number}}</td>
                 <td> {{room.roomType}}</td>
                 <td> 
                     <button type="button" 
@@ -51,15 +51,15 @@
                            <div class="container">
                             <div id="selectedRoom">        
                                 <div class="col-md-6 left">
-                                    <div id="roomNumber"><strong>Room Number:</strong></div> <!--- TODO: Fill this in based on User Click--->
-                                    <div id="roomCapacity"><strong>Room Capacity:</strong><input type="number"></input></div> <!---TODO: PREFILL all  input form data with current room data--->
-                                    <div id="roomType"><strong>Room Type: </strong><input type=text></input></div>
-                                    <div id="specializedEq"><strong>Specialized Equipment: </strong><input type=text></input></div>
-                                    <div id="specialFeatures"><strong>Special Features: </strong><input type=text></input></div>
+                                    <div><strong>Room Number:</strong><span id="roomNumber" ></span></div> <!--- TODO: Fill this in based on User Click--->
+                                    <div><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div> <!---TODO: PREFILL all  input form data with current room data--->
+                                    <div><strong>Room Type: </strong><input id="roomType" type=text></input></div>
+                                    <div><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div>
+                                    <div><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div>
                                 </div>
                                 
                                 <div class="col-md-6 right">
-                                    <p id="movableFurniture"><strong>Movable Furniture: </strong><input type="checkbox"></input></p>
+                                    <div ><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input></div>
                                     {% include "snips/editableEducationTech.html" %}
                                     <div id="educationTech"><strong>Education Tech: </strong>
                                         <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
@@ -67,20 +67,20 @@
                                         <a href="#">Open</a></button>
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
-                                    <div id="visualAcc"><strong>Visual Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
+                                    <div ><strong>Visual Accessibility: </strong><select id="visualAcc" class="form control">
+                                        <!--<option value="A">A</option>
+                                        <!--<option value="B">B</option>-->
+                                        <!--<option value="C">C</option>-->
                                     </select></div>
-                                    <div id="audioAcc"><strong>Audio Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
+                                    <div><strong>Audio Accessibility: </strong><select  id="audioAcc" class="form control">
+                                        <!--<option value="A">A</option>
+                                        <!--<option value="B">B</option>-->
+                                        <!--<option value="C">C</option>-->
                                     </select></div>
-                                    <div id="physicalAcc"><strong>Physical Accessibility: </strong><select class="form control">
-                                        <option value="A">A</option> <!---TODO: PULL OPTIONS FROM DB & PREFILL--->
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
+                                    <div ><strong>Physical Accessibility: </strong><select id="physicalAcc" class="form control">
+                                        <!--<option value="A">A</option>-->
+                                        <!--<option value="B">B</option>-->
+                                        <!--<option value="C">C</option>-->
                                     </select></div>
                                 </div>
                             </div>

@@ -35,7 +35,7 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
                     type: "GET",
                     success: function(response){
                         if (response["success"] != 0) {
-                            // room_detail(response);
+                            updateHtml(response);
                             console.log(response)
                         }
                     },
@@ -46,26 +46,7 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
         // }
     }
 }
-//     $.ajax({
-//          type: "POST",
-//             url: getRoomData,
-//             data: {"":};
-//             dataType: 'json',
-//             success: function(response){ 
-//                 console.log(response)
-//                 console.log("I updated the room data")
-//                  if (response['success'] == 1)
-//                     window.location = "/buildingManagement"
-//                     else
-//                     window.location.assign("/buildingManagement")                    
-//       			},
-//       			error: function(error){
-//       			    console.log("It didnt work")
-//       				console.log(error); 
-//                     window.location.assign("/buildingManagement")
-//       			}
-//     }
-//  }
+
     //json dumps to controller
 
 function movePanel(rID) { //Makes dropdown appear between rows
@@ -76,6 +57,29 @@ function movePanel(rID) { //Makes dropdown appear between rows
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
     
+}
+
+function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of setRoomPanel
+    //Modeling after roompreferences jamal_basanta
+    $('#roomNumber').text((response['number']).toString()).data('text');
+    var my_div = document.getElementById('roomCapacity'); 
+    my_div.value = response['capacity'];
+    var my_div = document.getElementById('roomType');
+    my_div.value = response['type'];
+    var my_div = document.getElementById('specializedEq');
+    my_div.value = response['specializedEq'];
+    var my_div = document.getElementById('specialFeatures')
+    my_div.value = response['specialFeatures'];
+    var my_div = document.getElementById('movableFurniture');
+    my_div.value = response['movableFurniture'];
+    //var my_div = document.getElementById('educationTech'); //Will this be any different?
+    //my_div.innerHTML = response['educationTech'];
+    var my_div = document.getElementById('visualAcc');
+    my_div.value = response['visualAcc'];
+    var my_div = document.getElementById('audioAcc');
+    my_div.value = response['audioAcc'];
+    var my_div = document.getElementById('physicalAcc');
+    my_div.value = response['physicalAcc'];
 }
 
 function saveChanges(){ //Posts data to DB and reloads the page

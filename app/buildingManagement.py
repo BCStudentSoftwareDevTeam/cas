@@ -41,7 +41,7 @@ def getRoomData(rID):
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
     room_details["movableFurniture"] = room.movableFurniture
-    #room_details["educationTech"] = room.movableFurniture #TODO: Fix, it is looped through in RoomPreferences controller i think -kat
+    #room_details["educationTech"] = room.educationTech #TODO: Fix, it is looped through in RoomPreferences controller i think -kat
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc

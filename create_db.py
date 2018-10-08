@@ -608,7 +608,7 @@ educationTech= EducationTech(
   ).save()
 
 educationTech= EducationTech( 
-  projector           = 8,
+  projector            = 8,
   smartboards          = 3,
   instructor_computers = 1,
   podium               = 4,
@@ -628,12 +628,12 @@ educationTech= EducationTech(
 ######
 #ROOMS#
 ######
-room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lecture",   educationTech = 1, visualAccessibility = "Good", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture",   educationTech = 2, visualAccessibility = "Bad",  audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Lab",       educationTech = 1, visualAccessibility = "checkingifworks", audioAccessibility = "B", physicalAccessibility= "A").save()
-room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture",   educationTech = 1, visualAccessibility = "Bad",  audioAccessibility = "D", physicalAccessibility= "A").save()
-room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Lecture",   educationTech = 1, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A", specializedEq= "Electronics").save()
+room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture",   educationTech = 2, visualAccessibility = "A",  audioAccessibility = "C", physicalAccessibility= "B").save()
+room = Rooms(building = 3, number ='108', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "B", audioAccessibility = "B", physicalAccessibility= "A").save()
+room = Rooms(building = 1, number ='202', maxCapacity=12, roomType="Lab",       educationTech = 1, visualAccessibility = "C", audioAccessibility = "B", physicalAccessibility= "C").save()
+room = Rooms(building = 2, number ='205', maxCapacity=15, roomType="Lecture",   educationTech = 1, visualAccessibility = "B",  audioAccessibility = "A", physicalAccessibility= "A").save()
+room = Rooms(building = 3, number ='208', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "A", audioAccessibility = "B", physicalAccessibility= "A").save()
 # room = Rooms(building = 2, number ='305', maxCapacity=15, roomType="Lab",       educationTech = 3, visualAccessibility = "Bad",  audioAccessibility = "B", physicalAccessibility= "A").save()
 # room = Rooms(building = 3, number ='308', maxCapacity=18, roomType="Lecture",   educationTech = 3, visualAccessibility = "Fine", audioAccessibility = "B", physicalAccessibility= "A").save()
 # room = Rooms(building = 1, number ='402', maxCapacity=12, roomType="Studio",    educationTech = 2, visualAccessibility = "Good", audioAccessibility = "L", physicalAccessibility= "A").save()
