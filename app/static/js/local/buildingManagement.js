@@ -13,35 +13,69 @@ function getRoomId(){
 }
 
 function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) Edit button was clicked
-    setRoomId(roomID);
-    console.log("RoomID:", roomID )
-    movePanel(roomID);
-    //$("#roomDetails #Details").hide();
-    var roomNumber = document.getElementById("roomNumber");
-    change_roomnum();
+     setRoomId(roomID);
+    // console.log("RoomID:", roomID )
+     movePanel(roomID);
     
-    
+    //ajax call to pull room data into panel
+    $("#roomDetails #selectedRoom").show();
+    if($("#selectedRoom").val() > 0) {
+        setRoomId($("#selectedRoom").val());
+        //movePanel(roomID);
+        console.log("Room data", getRoomId());
+        
+    }
+     if (roomID > 0){
+        // var room_materials= r.value;
+        // if(room_materials){
+             var url = '/getRoomData/'+roomID;
+             $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: "GET",
+                    success: function(response){
+                        if (response["success"] != 0) {
+                            // room_detail(response);
+                            console.log(response)
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+        // }
+    }
 }
-
-function changeRoomNum(){
-    var x = document.getElementById("roomNumber").value;
-    console.log('inside changeRoomNum');
-    console.log(x);
-}
+//     $.ajax({
+//          type: "POST",
+//             url: getRoomData,
+//             data: {"":};
+//             dataType: 'json',
+//             success: function(response){ 
+//                 console.log(response)
+//                 console.log("I updated the room data")
+//                  if (response['success'] == 1)
+//                     window.location = "/buildingManagement"
+//                     else
+//                     window.location.assign("/buildingManagement")                    
+//       			},
+//       			error: function(error){
+//       			    console.log("It didnt work")
+//       				console.log(error); 
+//                     window.location.assign("/buildingManagement")
+//       			}
+//     }
+//  }
+    //json dumps to controller
 
 function movePanel(rID) { //Makes dropdown appear between rows
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
     console.log("Target");
     console.log("hiddenRow_"+getRoomId());
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
-    // var targetDivs = $(".hiddenRow .hiddenDiv");// all hidden row divs (must be cleared first)
-    // for (var i = 0; i < targetDivs.length; i++) {
-    //     $(targetDivs[i]).empty();// empty all the hiddenRows
-    // }
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
-    //fixSelectPicker();
-    //$("#selectedRoom").selectpicker('refresh');// must refresh or causes UI issues
+    
 }
 
 function saveChanges(){ //Posts data to DB and reloads the page
