@@ -17,7 +17,9 @@ def roomPreference(term):
     current_user = AuthorizedUser().getUsername()
 
     # Used to populate dropdowns and stuff
-    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
+    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
+
+#    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
     users= User.select()
     instructors = InstructorCourse.select()
     # educationTech= EducationTech.select()

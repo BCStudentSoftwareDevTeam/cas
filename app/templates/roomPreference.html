@@ -102,7 +102,7 @@
                                         <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
                                             <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
                                             <option id="anyVal" value = "0">  Any Room Works </option> 
-                                            <option id= "noRoom" value="-1"> This Course Does not Required A Room</option>
+                                            <option id= "noRoom" value="-1"> This course does not require a room</option>
                                             
                                             <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
                                             {% for r in room %}
@@ -130,13 +130,13 @@
                                                     <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
                                                 </div>
                                                 <div class="row">
-                                                    <label id="visualAccIcon" style="float:left;" ></label> <br> 
+                                                    <label id="visualAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="A"></label><br> 
                                                 </div>
                                                 <div class="row">
-                                                    <label id="audioAccIcon" style="float:left;" ></label> <br> 
+                                                    <label id="audioAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="B"></label><br> 
                                                 </div>
                                                 <div class="row">
-                                                    <label id="physicalAccIcon" style="float:left;" ></label> <br> 
+                                                    <label id="physicalAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="C"></label><br> 
                                                 </div>
                                                 <div class="row">
                                                     <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>

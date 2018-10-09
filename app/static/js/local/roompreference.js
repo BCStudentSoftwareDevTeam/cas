@@ -21,6 +21,12 @@ function setCurrentState(the_state) {
     // console.log($("#row_state_" + getCourseId()).val());
 }
 
+// tooltip
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+// tooltip
+
 function setPrefID(pref_id){        // (set is used for the Declaration of the variable) this  sets up the preference id of each preference: 1, 2, 3 only valid values
     prefIDGlobal = parseInt(pref_id);
 }
