@@ -82,9 +82,9 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
   
-class ScheduleDays(dbModel):
-  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
-  day         = CharField(null=True)
+# class ScheduleDays(dbModel):
+#   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
+#   day         = CharField(null=True)
   
 # class Course(dbModel):
 #   cId               = PrimaryKeyField()
@@ -159,10 +159,20 @@ class CourseChange(dbModel):
 #   migrator.drop_column("Course", "rid"),
 #   migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
 #   )
+my_db.drop_tables([ScheduleDays])
 
+class ScheduleDays(dbModel):
+  sdID = PrimaryKeyField()
+  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule_days')
+  day         = CharField(null=True)
+  
+  
+my_db.create_tables([ScheduleDays])
 migrate(
     migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
-    migrator.drop_not_null('CourseChange','rid')
+    migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+     
+    # migrator.drop_not_null('CourseChange','rid')
 )
 
 

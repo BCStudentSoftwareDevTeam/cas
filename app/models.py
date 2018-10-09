@@ -53,6 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
+  sdID    = PrimaryKeyField()
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 

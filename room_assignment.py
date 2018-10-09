@@ -90,16 +90,19 @@ class RoomAssigner:
         #TODO: This query will need to be modified to grab all of the unscheduled courses.
         #The current query is still setup for my testing suite. 
         #This should query the RoomPreferences table, not the course table
-        
+        # print("Before the query", self.default_semester)
+        # preferences = RoomPreferences.select().join(Course).where(Course.term == self.default_semester
+                            # ).where(RoomPreferences.course == Course.cId
+                                        # )
         # This query retrieves all courses with no rooms assigned yet
         preferences = RoomPreferences.select().join(Course).where(RoomPreferences.course == Course.cId
                                     ).where(Course.term == self.default_semester).where(Course.rid == None
                                     ).join(BannerSchedule, on = (BannerSchedule.sid == Course.schedule
                                     )).order_by(BannerSchedule.order).distinct()
-        print (preferences)          
-        for i in preferences:
-            print(i.rpID, i.course.cId, i.course.schedule.letter)
-                                    
+        # print (preferences)          
+        # for i in preferences:
+            # print(i.rpID, i.course.cId, i.course.schedule.letter)
+                                  
         # courses = Course.select(
         #               ).join(Rooms, JOIN.LEFT_OUTER, on = (Course.rid == Rooms.rID)
         #               ).join(BannerSchedule, on = (Course.schedule == BannerSchedule.sid)
@@ -131,6 +134,7 @@ class RoomAssigner:
         the algorithm. This method is essentially the middleware.'''
         data_set         = dict()
         preferences      = self.courses_query()
+        
         
         if self.debug:
             self.lazy_print('Courses query:',preferences)
@@ -194,7 +198,7 @@ class RoomAssigner:
         
         return data_set
             
-    #FUTURE: Will the layout of the new database there may be a way to combine
+    # FUTURE: Will the layout of the new database there may be a way to combine
     # the create_priority_map & the create_data_set method.
     # def create_priority_map(self):
     #     '''This method will create the priority_map data structure, listed in 
@@ -264,9 +268,12 @@ class RoomAssigner:
     def assign_room(self):
          for priority in PRIORITY:
              preferences = self.priority_map[priority]
+          
              for roomPref in preferences:
                  prefs = DATA_SET[roomPref.rpID]
+                 print("prefs",prefs)
                  for choice in prefs:
+                    #  print('Choice', choice)
                      if choice == "*":
                          self.anywhere.append(roomPref)
                      elif choice == None:
@@ -316,7 +323,7 @@ class RoomAssigner:
     the unhappy group. '''
 
 if __name__ == "__main__":
-    test_semester = '201612'
+    test_semester = '201812'
     room_assigner = RoomAssigner(test_semester)
     room_assigner.courses_query()
     global DATA_SET 
