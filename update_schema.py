@@ -1,7 +1,7 @@
 from peewee import *
 from playhouse.migrate import *
-from app.models import Rooms, Building, Course, SpecialTopicCourse
-#from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
+from app.models import *
+# from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
 
 from app.loadConfig import *
 here = os.path.dirname(__file__)
@@ -31,24 +31,25 @@ from app.models import  Rooms
 
 
 """
+#TODO: make a function & wrap it up in try/catch statement so it doesn't break when tables are already there/aren't there
+# my_db.drop_tables([Rooms, Building, ])
 
-my_db.drop_tables([Building, Rooms])
-#my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+def dropTables():
+  tables = [Rooms, Building, EducationTech, RoomPreferences, CourseChange, ScheduleDays, Course]
+  for table in tables:
+    try:
+        my_db.drop_tables([table])
+    except:
+        pass
+
+# dropTables()
 
   
+class Building(dbModel):
+  bID           = PrimaryKeyField()
+  name          = CharField()
+  shortName     = CharField()
   
-class RoomPreferences(dbModel):
-  rpID          = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='course')
-  pref_1        = ForeignKeyField(Rooms, related_name='pref_1', null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='pref_2', null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='pref_3', null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
-  initial_Preference = CharField(null=True, default = 1)
-
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
@@ -66,13 +67,6 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-
-
-class Building(dbModel):
-  bID           = PrimaryKeyField()
-  name          = CharField()
-  shortName     = CharField()
-
   
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
@@ -87,10 +81,60 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
+  
+class ScheduleDays(dbModel):
+  schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
+  day         = CharField(null=True)
+  
+# class Course(dbModel):
+#   cId               = PrimaryKeyField()
+#   prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
+#   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
+#   term              = ForeignKeyField(Term, null = False, related_name='course_term')
+#   schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
+#   days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
+#   capacity          = IntegerField(null = True)
+#   specialTopicName  = CharField(null = True)
+#   notes             = TextField(null = True)
+#   lastEditBy        = CharField(null = True)
+#   crossListed       = BooleanField()
+#   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
+#   section           = TextField(null = True)
+#   prereq            = CharField(null = True) 
+  
+# class RoomPreferences(dbModel):
+#   rpID           = PrimaryKeyField()
+#   course        = ForeignKeyField(Course, related_name='courses')
+#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
+#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
+#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=True)
+#   initial_Preference = CharField(null=True, default = 1)
+#   priority = IntegerField(default = 6)  
+
+class CourseChange(dbModel):
+  cId               = IntegerField(primary_key = True)
+  prefix            = ForeignKeyField(Subject, related_name='courseChange_prefix')
+  bannerRef         = ForeignKeyField(BannerCourses, related_name='courseChange_bannerRef')
+  term              = ForeignKeyField(Term, null = False, related_name='courseChange_term')
+  schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='courseChange_schedule')
+  capacity          = IntegerField(null = True)
+  specialTopicName  = CharField(null = True)
+  notes             = TextField(null = True)
+  lastEditBy        = CharField(null = True)
+  changeType        = CharField(null = True)
+  verified          = BooleanField(default = False)
+  crossListed       = BooleanField()
+  rid               = ForeignKeyField(Rooms, null = True, related_name='courseChange_rid')
+  tdcolors          = CharField(null = False)
+  section           = TextField(null = True)
 
 
+#my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms, Course, CourseChange, ScheduleDays])
 
-my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
 #Add these columns to existing tables in the production
 #Building column add
 
@@ -115,6 +159,11 @@ my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
 #   migrator.drop_column("Course", "rid"),
 #   migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
 #   )
+
+migrate(
+    migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+    migrator.drop_not_null('CourseChange','rid')
+)
 
 
 q = Course.select()
