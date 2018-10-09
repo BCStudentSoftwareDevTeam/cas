@@ -256,7 +256,7 @@ class CourseChange(dbModel):
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False)
+  rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
