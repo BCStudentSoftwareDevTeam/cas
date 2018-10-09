@@ -115,7 +115,7 @@ def get_buildings_with_conflicts(term_id):
     return buildings_with_conflicts
     
 def get_special_times(term_id):
-    special_times = (Course.select(Course, BannerSchedule).join(BannerSchedule).where(BannerSchedule.sid=='A1'))
+    special_times = (Course.select(Course, BannerSchedule).join(BannerSchedule).where(Course.term == term_id, (BannerSchedule.sid=='ZZZ') | (BannerSchedule.sid=='A1')))
     return special_times
 
 '''
