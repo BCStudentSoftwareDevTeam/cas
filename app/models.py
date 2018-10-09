@@ -178,7 +178,11 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
+<<<<<<< HEAD
   days              = ForeignKeyField(ScheduleDays, null= True)
+=======
+  # days              = ForeignKeyField(ScheduleDays, null= False)
+>>>>>>> c4a4ddae75900f514f8fdacea78d406003bdbee1
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -267,7 +271,6 @@ class InstructorCourseChange(dbModel):
 class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
-  
   instructor   = ForeignKeyField(User, null=True)
   
 class RoomPreferences(dbModel):

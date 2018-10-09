@@ -35,8 +35,7 @@ class RoomAssigner:
     def __init__(self, semester):
         self.default_semester = semester 
         self.priority_map     = defaultdict(list)
-        # self.preference_map   = dict()
-        self.rooms_scheduled  = defaultdict(list)
+        self.preference_map   = dict()
         self.anywhere         = []
         self.unhappy          = []
         self.cid_num          = 0
@@ -158,10 +157,10 @@ class RoomAssigner:
                 elif course_preferences.priority == 6:
                     room_list = ["*"]
                 
-                
                 data_set[course_preferences.rpID] = room_list
                 self.priority_map[course_preferences.priority].append(course_preferences)
-                
+                print()
+            
             except Exception as e:
                 print(e)
                 
@@ -192,11 +191,7 @@ class RoomAssigner:
             #     data_set[course.cId] = [WILDCARD]
         if self.debug:
             self.lazy_print('The Complete data_set: ',data_set)
-
-
-        print("data_set", data_set)
-        print("priority_map", self.priority_map)
-
+        
         return data_set
             
     #FUTURE: Will the layout of the new database there may be a way to combine
@@ -230,83 +225,58 @@ class RoomAssigner:
     #     if self.debug:
     #         self.lazy_print('priority_map:',self.priority_map)
     
-    def check_room_availability(self,choice, roomPref):
+    def check_room_availability(self,choice,course):
         ''' course & taken_time = (cid, start_time, endtime, [days]) '''
         #print self.rooms_scheduled
         if choice in self.rooms_scheduled:
             can_schedule = True
             unavailable_times = self.rooms_scheduled[choice] #All of the courses currently scheduled into to the room
-            start_timeA = roomPref.course.schedule.startTime
-            end_timeA   = roomPref.course.schedule.endTime
-            A_days      = roomPref.course.days.day
+            start_timeA = course[1]
+            end_timeA   = course[2]
+            A_days      = course[3]
             for taken_time in unavailable_times:
-                B_days      = taken_time.course.days.day
+                B_days      = taken_time[3]
                 all_days = A_days + B_days
                 duplicates = set([x for x in all_days if all_days.count(x) > 1]) 
                 #duplicates: Check to see if the two courses have days in common
                 if len(duplicates) != 0: 
                     #Check the specific times only if they have days in common
-                    start_timeB = taken_time.course.schedule.startTime
-                    end_timeB   = taken_time.course.schedule.endTime
+                    start_timeB = taken_time[1]
+                    end_timeB   = taken_time[2]
                     if end_timeA <= start_timeB or start_timeA >= end_timeB:
                         pass
                     else:
                         can_schedule = False
             if can_schedule == True:
-                unavailable_times.append(roomPref)
-                roomPref.course.rid = choice
-                roomPref.course.save()
+                unavailable_times.append(course)
                 self.rooms_scheduled[choice] = unavailable_times
-                roomPref.update()
                 return True
             else: 
                 return False
         else:
-            roomPref.course.rid= choice
-            roomPref.course.save()
-            self.rooms_scheduled[choice] = [roomPref]
+            self.rooms_scheduled[choice] = [course]
             return True
     
     def assign_room(self):
-        
         for priority in PRIORITY:
-            preferences = self.priority_map[priority]
-            for roomPref in preferences:
-                prefs = DATA_SET[roomPref.rpID]
+            courses = self.priority_map[priority]
+            for course in courses:
+                prefs = DATA_SET[course[0]]
                 for choice in prefs:
-                    if choice == "*":
-                        self.anywhere.append(roomPref)
-                    elif choice == None:
-                        self.unhappy.append(roomPref)
+                    if choice == WILDCARD:
+                        self.anywhere.append(course)
+                    elif choice == NONE:
+                        self.unhappy.append(course)
                     else: 
-                        available = self.check_room_availability(choice, roomPref)
+                        available = self.check_room_availability(choice,course)
                         if available == True:
                             break
                         else:
                             if choice == prefs[-1]: #if this is the last element in a list
-                                self.unhappy.append(roomPref)
+                                self.unhappy.append(course)
                                 break
-        
-        
-        # for priority in PRIORITY:
-        #     courses = self.priority_map[priority]
-        #     for course in courses:
-        #         prefs = DATA_SET[course[0]]
-        #         for choice in prefs:
-        #             if choice == WILDCARD:
-        #                 self.anywhere.append(course)
-        #             elif choice == NONE:
-        #                 self.unhappy.append(course)
-        #             else: 
-        #                 available = self.check_room_availability(choice,course)
-        #                 if available == True:
-        #                     break
-        #                 else:
-        #                     if choice == prefs[-1]: #if this is the last element in a list
-        #                         self.unhappy.append(course)
-        #                         break
-        # if self.debug:
-        #     self.lazy_print(None,None,True)
+        if self.debug:
+            self.lazy_print(None,None,True)
             
     def assign_happy(self):
         '''This method should assign the rooms for the courses that were in the
@@ -314,7 +284,6 @@ class RoomAssigner:
         the course.rid field with the rid number.'''
         #This was not done yet, because there are still some process questions
         #hanging around out there. 
-     
         pass
     
     def assign_anywhere(self):
@@ -350,8 +319,10 @@ if __name__ == "__main__":
     room_assigner.courses_query()
     global DATA_SET 
     DATA_SET = room_assigner.create_data_set()
+    print(DATA_SET)
+    print("here")
     # room_assigner.create_priority_map()
-    room_assigner.assign_room()      
+    # room_assigner.assign_room()      
     
     
 '''Testing Data'''
