@@ -20,7 +20,7 @@ def roomResolutionTerm():
 @must_be_admin
 def roomResolution(termCode):
     # Creating the UI
-    courses = Course.select().where(Course.rid == None, Course.term==termCode)
+    courses = Course.select().where(Course.rid == None, Course.term==termCode, Course.schedule.is_null(False))
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
     
     
@@ -40,23 +40,26 @@ def roomResolutionView(termCode,cid):
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     bannercourses = BannerCourses.select()
     courses = Course.get(Course.cId==cid) #Course A
+    #will give an error if schedule.sid is None
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
+    course_capacity = 30 if not courses.capacity  else courses.capacity 
+    #this query gets all the room ids for the course if the room is free during a course schedule
     sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
                 LEFT OUTER JOIN (SELECT c1.rid_id as r2 
-                FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) < CAST(bannerschedule.endTime as TIME) 
+                FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) 
+                < CAST(bannerschedule.endTime as TIME) 
                 AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid 
                 WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 
                 INNER JOIN building ON r1.building_id = building.bID 
                 WHERE r2 IS NULL AND r1.maxCapacity >= {3} 
-                ORDER BY building.name;""".format(courses.schedule.startTime, courses.schedule.endTime, courses.term.termCode, courses.capacity)
-
+                ORDER BY building.name;""".format(courses.schedule.startTime, courses.schedule.endTime,
+                courses.term.termCode, course_capacity)
     cursor = mainDB.execute_sql(sql_query)
     availablerooms = [] 
     for room in cursor:
         availablerooms.append(room[0])
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
-    
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
