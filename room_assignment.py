@@ -84,6 +84,32 @@ class RoomAssigner:
             print 'Duplicate CIDs: {}\n'.format(duplicates)
             print '#DATA_SET_C = {0}'.format(DATA_SET)
             print '#Results: Total: {0}, Scheduled: {1}, Unhappy: {2}, Anywhere: {3}'.format(self.cid_num,len(scheduled_values),len(unhappy_values),len(anywhere_values))
+    def calculate_priority(self, roomPref):
+            priorityScore = 0
+            if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3):
+                return 3
+            if(roomPref.pref_1 and roomPref.pref_2):
+                if(roomPref.none_Choice == 3):
+                    return 2
+                else:
+                    return 5
+            if(roomPref.pref_1):
+                if(roomPref.none_Choice):
+                    return 1
+                else:
+                    return 4
+            else:
+                return 6
+        
+    def set_priority(self):
+        ''' This method will grab all of the room preferences and set the correct priority since the 
+            room preferences on prod have already been set. In the future, this should be handled by the
+            roomPreference.py file as the users make changes through the Room Preferences UI.'''
+        preferences = RoomPreferences.select() 
+        for preference in preferences:
+            prefPriority = self.calculate_priority(preference)
+            preference.priority = prefPriority
+            preference.save()
             
     def courses_query(self):
         '''This method will grab all of the courses that need to be scheduled.'''
@@ -95,10 +121,12 @@ class RoomAssigner:
                             # ).where(RoomPreferences.course == Course.cId
                                         # )
         # This query retrieves all courses with no rooms assigned yet
+        self.set_priority()
+        
         preferences = RoomPreferences.select().join(Course).where(RoomPreferences.course == Course.cId
                                     ).where(Course.term == self.default_semester).where(Course.rid == None
                                     ).join(BannerSchedule, on = (BannerSchedule.sid == Course.schedule
-                                    )).order_by(BannerSchedule.order).distinct()
+                                    )).where(Course.schedule != 'ZZZ').order_by(BannerSchedule.order).distinct()
         # print (preferences)          
         # for i in preferences:
             # print(i.rpID, i.course.cId, i.course.schedule.letter)
@@ -195,7 +223,7 @@ class RoomAssigner:
             #     data_set[course.cId] = [WILDCARD]
         if self.debug:
             self.lazy_print('The Complete data_set: ',data_set)
-        
+        print(self.priority_map)
         return data_set
             
     # FUTURE: Will the layout of the new database there may be a way to combine
@@ -271,9 +299,7 @@ class RoomAssigner:
           
              for roomPref in preferences:
                  prefs = DATA_SET[roomPref.rpID]
-                 print("prefs",prefs)
                  for choice in prefs:
-                    #  print('Choice', choice)
                      if choice == "*":
                          self.anywhere.append(roomPref)
                      elif choice == None:
