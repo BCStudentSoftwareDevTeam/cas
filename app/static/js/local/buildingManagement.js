@@ -16,18 +16,14 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
      setRoomId(roomID);
     // console.log("RoomID:", roomID )
      movePanel(roomID);
-    
+    //  Dont think the code commented below plays a key part in getting loading the data.
     //ajax call to pull room data into panel
-    $("#roomDetails #selectedRoom").show();
-    if($("#selectedRoom").val() > 0) {
-        setRoomId($("#selectedRoom").val());
-        //movePanel(roomID);
-        console.log("Room data", getRoomId());
-        
-    }
+    // $("#roomDetails #selectedRoom").show();
+    // if($("#selectedRoom").val() > 0) {
+    //     setRoomId($("#selectedRoom").val());
+    //     console.log("Room data", getRoomId());
+    // }
      if (roomID > 0){
-        // var room_materials= r.value;
-        // if(room_materials){
              var url = '/getRoomData/'+roomID;
              $.ajax({
                     url: url,
@@ -47,7 +43,25 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
     }
 }
 
-    //json dumps to controller
+function educationTech(){
+    var room_id = getRoomId();
+    if(room_id){
+        var url = '/education_Tech'+ room_id;
+        $.ajax({
+            url = url;
+            dataType: 'json',
+                success: function(response){
+                    education_detail(response); //a function with education tech details
+                },
+                error: function(error) {
+                console.log(error);
+                }
+            });
+    $("#Details").show();}
+        })
+    }
+    
+}
 
 function movePanel(rID) { //Makes dropdown appear between rows
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
@@ -60,7 +74,6 @@ function movePanel(rID) { //Makes dropdown appear between rows
 }
 
 function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of setRoomPanel
-    //Modeling after roompreferences jamal_basanta
     $('#roomNumber').text((response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity'); 
     my_div.value = response['capacity'];
@@ -71,7 +84,10 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     var my_div = document.getElementById('specialFeatures')
     my_div.value = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
-    my_div.value = response['movableFurniture'];
+    my_div.removeAttribute("checked");
+    if (response['movableFurniture']) {
+        my_div.setAttribute("checked", "checked");
+    }
     //var my_div = document.getElementById('educationTech'); //Will this be any different?
     //my_div.innerHTML = response['educationTech'];
     var my_div = document.getElementById('visualAcc');

@@ -51,37 +51,37 @@
                            <div class="container">
                             <div id="selectedRoom">        
                                 <div class="col-md-6 left">
-                                    <div><strong>Room Number:</strong><span id="roomNumber" ></span></div> <!--- TODO: Fill this in based on User Click--->
-                                    <div><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div> <!---TODO: PREFILL all  input form data with current room data--->
-                                    <div><strong>Room Type: </strong><input id="roomType" type=text></input></div>
-                                    <div><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div>
-                                    <div><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div>
+                                    <div><strong>Room Number:</strong><span id="roomNumber" ></span></div><br> <!--- TODO: Fill this in based on User Click--->
+                                    <div><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div><br> <!---TODO: PREFILL all  input form data with current room data--->
+                                    <div><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
+                                    <div><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
+                                    <div><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
                                 </div>
-                                
                                 <div class="col-md-6 right">
-                                    <div ><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input></div>
+                                    <div ><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
+                                    </div><br>
                                     {% include "snips/editableEducationTech.html" %}
-                                    <div id="educationTech"><strong>Education Tech: </strong>
+                                    <div id="educationTech"><strong>Education Tech: </strong><br>
                                         <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
                                         class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
-                                        <a href="#">Open</a></button>
+                                        <a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roomprecerences on jamal_basanta--->
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
                                     <div ><strong>Visual Accessibility: </strong><select id="visualAcc" class="form control">
                                         <!--<option value="A">A</option>
                                         <!--<option value="B">B</option>-->
                                         <!--<option value="C">C</option>-->
-                                    </select></div>
+                                    </select></div><br>
                                     <div><strong>Audio Accessibility: </strong><select  id="audioAcc" class="form control">
                                         <!--<option value="A">A</option>
                                         <!--<option value="B">B</option>-->
                                         <!--<option value="C">C</option>-->
-                                    </select></div>
+                                    </select></div><br>
                                     <div ><strong>Physical Accessibility: </strong><select id="physicalAcc" class="form control">
                                         <!--<option value="A">A</option>-->
                                         <!--<option value="B">B</option>-->
                                         <!--<option value="C">C</option>-->
-                                    </select></div>
+                                    </select></div><br>
                                 </div>
                             </div>
                             <div id="submitChangesDiv">
