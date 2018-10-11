@@ -43,7 +43,7 @@ def roomResolutionView(termCode,cid):
     #will give an error if schedule.sid is None
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
-    course_capacity = 30 if not courses.capacity  else courses.capacity 
+    course_capacity = 1 if not courses.capacity  else courses.capacity 
     #this query gets all the room ids for the course if the room is free during a course schedule
     sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
                 LEFT OUTER JOIN (SELECT c1.rid_id as r2 
