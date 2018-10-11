@@ -17,12 +17,10 @@ def makeMainExcel(tid):
     completePath = excel.make_master_file(term)
     
     filename = completePath.split('/').pop()
-    # print(filename)
-    # print (completePath)
+   
   
     return send_file(completePath,as_attachment=True, attachment_filename=filename)
-    # return send_file(completePath,attachment_filename=filename, as_attachment=True)
-    # return send_from_directory(completePath,filename)
+    
 
 # @app.route('/excel/crossListed/<tid>', methods=["GET"])
 # @must_be_admin

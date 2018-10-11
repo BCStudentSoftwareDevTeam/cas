@@ -21,10 +21,13 @@ class ExcelMaker:
         sheet.write('F1', 'Time')
         sheet.write('G1', 'Capacity')
         sheet.write('H1', 'Notes')
-        sheet.write('I1', 'Room Preference')
-        sheet.write('J1','Section')
-        sheet.write('K1','Instructors')
-        self.intr_letter = 'K'
+        sheet.write('I1','Section')
+        sheet.write('J1', 'Assigned Room')
+        sheet.write('K1', 'Preference 1')
+        sheet.write('L1','Preference 2')
+        sheet.write('M1','Preference 3')
+        sheet.write('N1','Instructors')
+        self.intr_letter = 'N'
         
     def writeSpecialHeaders(self,sheet):
         sheet.write('K1','credits')
@@ -36,6 +39,7 @@ class ExcelMaker:
         sheet.write('Q1', 'Perspectives Request')
         sheet.write('R1', 'Instructors')
         self.intr_letter = 'R'
+       
         
     def write_course_info(self,sheet,row,course):
         # Course Information
@@ -61,13 +65,35 @@ class ExcelMaker:
         room_name = ""
         if course.rid:
             room_name = course.rid.building.name + ' ' + course.rid.number
-        sheet.write('I{0}'.format(row),room_name)
+        sheet.write('J{0}'.format(row),room_name)
+        sheet.write('I{0}'.format(row),course.section)
+        
+        room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
+     
+        preference_1 = ""
+        preference_2 = ""
+        preference_3 = ""
+        
+        if room_preferences: 
+            for room_preference in room_preferences:
+                preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
+                preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
+                preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
+                print('Course', room_preference.course.cId, room_preference.pref_1.number, room_preference.pref_2.number, room_preference.pref_3.number)
+            
+                sheet.write('K{0}'.format(row),preference_1)
+                sheet.write('L{0}'.format(row),preference_2)
+                sheet.write('M{0}'.format(row),preference_3)
+        
+        
+       
+        
         #Instructor Information
-        if self.intr_letter == 'K':
+        if self.intr_letter == 'N':
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
         else:
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.course)
-        sheet.write('J{0}'.format(row),course.section)
+       
         colNum = ord(self.intr_letter)
         for  instructor in instructors:
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)

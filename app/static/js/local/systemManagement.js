@@ -286,25 +286,8 @@ function downloadCourses(){
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
     
-    $.ajax({
-        
-        url:'/excel/'+termCode, // This is the link to the controller
-        
-        type: "GET",
-        
-        cache: false,
-        
-        success: function () {
-            console.log('Success')
-        
-          
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-           console.log("Course Download Failed")
-        }
-        
-    })
-    
+    window.location.href = '/excel/'+termCode;
+
     
 }
 
@@ -321,7 +304,7 @@ function verifyAdmin1() {
     if ($('#adminPicker1').val() != "None") {
         return true;
     } else {
-        return false
+        return false;
     }
 }
 function updateFormEnabled() {
