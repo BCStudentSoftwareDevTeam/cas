@@ -53,7 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
-  sdID    = PrimaryKeyField()
+  # sdID    = PrimaryKeyField()
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
@@ -179,7 +179,7 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
-  days              = ForeignKeyField(ScheduleDays, null= True)
+  # days              = ForeignKeyField(ScheduleDays, null= True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)

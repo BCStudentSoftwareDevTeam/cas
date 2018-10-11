@@ -84,6 +84,7 @@ class RoomAssigner:
             print 'Duplicate CIDs: {}\n'.format(duplicates)
             print '#DATA_SET_C = {0}'.format(DATA_SET)
             print '#Results: Total: {0}, Scheduled: {1}, Unhappy: {2}, Anywhere: {3}'.format(self.cid_num,len(scheduled_values),len(unhappy_values),len(anywhere_values))
+    
     def calculate_priority(self, roomPref):
             priorityScore = 0
             if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3):
@@ -265,10 +266,20 @@ class RoomAssigner:
              unavailable_times = self.rooms_scheduled[choice] #All of the courses currently scheduled into to the room
              start_timeA = roomPref.course.schedule.startTime
              end_timeA   = roomPref.course.schedule.endTime
-             A_days      = roomPref.course.days.day
+        
+             
+             A_days = []
+             schedule_days_A = ScheduleDays.select().where(ScheduleDays.schedule == roomPref.course.schedule.sid)
+             for i in schedule_days_A:
+                 A_days.append(i.day)
+       
              for taken_time in unavailable_times:
-                 B_days      = taken_time.course.days.day
+                 B_days = []
+                 schedule_days_B =  ScheduleDays.select().where(ScheduleDays.schedule == taken_time.course.schedule.sid)
+                 for i in schedule_days_B:
+                    B_days.append(i.day)
                  all_days = A_days + B_days
+                
                  duplicates = set([x for x in all_days if all_days.count(x) > 1]) 
                  #duplicates: Check to see if the two courses have days in common
                  if len(duplicates) != 0: 
