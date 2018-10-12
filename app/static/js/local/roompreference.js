@@ -179,7 +179,8 @@ function goToRDetails(r,doishow) {
 
 /*sets the glyphicons for education tech for each room*/
 function education_detail(response){
-    // console.log('response', response)
+    console.log('response', response)
+    
     
     
     document.getElementById("projectors").innerHTML = response['projector'];
@@ -234,9 +235,12 @@ function education_detail(response){
     }
 }
 
+
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
 function goto_educationTech() {
+  
     // var room_id= $("#selectedRoom").val()
+   
     selected_value = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     // console.log("goTo_edtech rID: ", getRoomId());
     // setRoomId(selected_value);
@@ -248,7 +252,9 @@ function goto_educationTech() {
          $.ajax({
                 url: url,
                 dataType: 'json',
+                type:'GET',
                 success: function(response){
+                    // console.log("Hello", response)
                     education_detail(response); //a function with education tech details
                 },
                 error: function(error) {
