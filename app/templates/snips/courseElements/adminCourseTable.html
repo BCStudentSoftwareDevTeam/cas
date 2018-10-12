@@ -58,9 +58,9 @@
                         <p>See Notes</p>                            
                     {% else %}
                         {% for day in course.schedule.days %} 
-                            {{ day.day }} 
+                            {{ day.day }}
                         {% endfor %}
-                        {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                         {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                     {% endif %}
                 {% endif %}
             </td>

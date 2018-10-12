@@ -13,11 +13,11 @@ databaseAdmin:
   
 #You have to use the - to keep the order
 scheduleDays:
-   Monday: 'M'
-   Tuesday: 'T'
-   Wednesday: 'W'
-   Thursday: 'R'
-   Friday: 'F'
+   Monday: 'Mon'
+   Tuesday: 'Tues'
+   Wednesday: 'Wed'
+   Thursday: 'Thurs'
+   Friday: 'Fri'
 
 # For every table in the database, add an item here
 models:
@@ -158,10 +158,11 @@ columnColor:
   
 DEBUG:
   user: "heggens" #Admin Access
-  #user: "pearcej" #Division Chair Access
-  #user: "nakazawam"  #Program Chair Access
+  # user: "pearcej" #Division Chair Access
+  # user: "nakazawam"  #Program Chair Access
   #user: "lovelle" #Professor Access
-  #user: "sldkjfalsdkfj;" #for production
+  # user: "sldkjfalsdkfj;" #for production
+
   
 filepath:
   tmp: 'data/tmp'
