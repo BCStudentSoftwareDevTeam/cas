@@ -58,12 +58,3 @@
   <!-- /.navbar-static-side -->
 </nav>
 
-<script>
-//sorts drop down elements after page loads
-$("#sort").html(
-    $("#sort").children ("li").sort(function (a, b) {
-        return $(a).text().toUpperCase().localeCompare(
-            $(b).text().toUpperCase());
-    }) 
-); 
-</script>
