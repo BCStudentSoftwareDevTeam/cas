@@ -81,20 +81,21 @@ class ExcelMaker:
         preference_2 = ""
         preference_3 = ""
         
+        preferences = []
         if room_preferences: 
             for room_preference in room_preferences:
                 preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
                 preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
                 preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
                 print('Course', room_preference.course.cId, room_preference.pref_1.number, room_preference.pref_2.number, room_preference.pref_3.number)
-            
+                preferences.append(preference_1)
+                preferences.append(preference_2)
+                preferences.append(preference_3)
                 sheet.write('K{0}'.format(row),preference_1)
                 sheet.write('L{0}'.format(row),preference_2)
                 sheet.write('M{0}'.format(row),preference_3)
         
-        
-       
-        
+        print(preferences)
         #Instructor Information
         if self.intr_letter == 'N':
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
