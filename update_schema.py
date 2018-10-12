@@ -30,7 +30,7 @@ class dbModel (Model):
 migrator = SqliteMigrator(my_db)
 
 
-my_db.drop_tables([RoomPreferences])
+# my_db.drop_tables([RoomPreferences])
 
 # my_db.drop_tables([Building, EducationTech])
 # my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
@@ -87,14 +87,18 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
   
+
+# class ScheduleDays(dbModel):
+#   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
+#   day         = CharField(null=True)
   
 class Course(dbModel):
   cId               = PrimaryKeyField()
-  prefix            = ForeignKeyField(Subject) #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
-  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
-  term              = ForeignKeyField(Term, null = False)
-  schedule          = ForeignKeyField(BannerSchedule, null = True)
-  # days              = ForeignKeyField(ScheduleDays, null= True)
+  prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
+  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
+  term              = ForeignKeyField(Term, null = False, related_name='course_term')
+  schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
+  # days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -103,27 +107,6 @@ class Course(dbModel):
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
-  
-  
-# class ScheduleDays(dbModel):
-#   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
-#   day         = CharField(null=True)
-  
-# class Course(dbModel):
-#   cId               = PrimaryKeyField()
-#   prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
-#   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
-#   term              = ForeignKeyField(Term, null = False, related_name='course_term')
-#   schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
-#   days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
-#   capacity          = IntegerField(null = True)
-#   specialTopicName  = CharField(null = True)
-#   notes             = TextField(null = True)
-#   lastEditBy        = CharField(null = True)
-#   crossListed       = BooleanField()
-#   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
-#   section           = TextField(null = True)
-#   prereq            = CharField(null = True) 
   
 # class RoomPreferences(dbModel):
 #   rpID           = PrimaryKeyField()
@@ -255,13 +238,13 @@ class RoomPreferences(dbModel):
 # my_db.create_tables([ScheduleDays])
 
 
-my_db.create_tables([RoomPreferences])
-migrate(
-    migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6))
-    # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+# my_db.create_tables([RoomPreferences])
+# migrate(
+#     migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6))
+#     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
      
-    # migrator.drop_not_null('CourseChange','rid')
-)
+#     # migrator.drop_not_null('CourseChange','rid')
+# )
 
 # my_db.drop_tables([ScheduleDays])
 
@@ -272,13 +255,13 @@ migrate(
   
   
 
-# migrate(
-    # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+migrate(
+    migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.drop_column("Term", "state"),
     # migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states'))
      
     # migrator.drop_not_null('CourseChange','rid')
-# )
+)
 
 
 q = Course.select()

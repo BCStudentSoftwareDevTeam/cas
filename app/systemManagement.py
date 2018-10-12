@@ -2,6 +2,7 @@ from allImports import *
 from updateCourse import DataUpdate
 import datetime 
 from app.logic.authorization import must_be_admin
+from app.logic.room_assignment import RoomAssigner
 
 
 @app.route("/admin/systemManagement", methods=["GET"])
@@ -57,7 +58,15 @@ def updateTermState():
 
    Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute() # update the state of the specific term retrieved
    
-   if data['stateOrder'] == 5: 
-      pass
-      # Call the Room Assignment Algorithm
+   print('State Order', data['stateOrder'])
+   if data['stateOrder'] == str(5): # Call the Room Assignment Algorithm
+      print('In the assign if')
+      room_assigner = RoomAssigner(data['termCode'])
+      room_assigner.courses_query()
+      global DATA_SET 
+      DATA_SET = room_assigner.create_data_set()
+      print(DATA_SET)
+      print("here")
+      room_assigner.assign_room(DATA_SET)      
+    
    return redirect(url_for("systemManagement")) 

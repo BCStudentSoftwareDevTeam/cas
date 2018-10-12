@@ -304,7 +304,7 @@ class RoomAssigner:
              self.rooms_scheduled[choice] = [roomPref]
              return True
     
-    def assign_room(self):
+    def assign_room(self, DATA_SET):
          for priority in PRIORITY:
              preferences = self.priority_map[priority]
           
@@ -359,16 +359,16 @@ class RoomAssigner:
     Therefore, for now it may be better to assign the anywhere group before 
     the unhappy group. '''
 
-if __name__ == "__main__":
-    test_semester = '201812'
-    room_assigner = RoomAssigner(test_semester)
-    room_assigner.courses_query()
-    global DATA_SET 
-    DATA_SET = room_assigner.create_data_set()
-    print(DATA_SET)
-    print("here")
-    # room_assigner.create_priority_map()
-    room_assigner.assign_room()      
+# if __name__ == "__main__":
+#     test_semester = '201812'
+#     room_assigner = RoomAssigner(test_semester)
+#     room_assigner.courses_query()
+#     global DATA_SET 
+#     DATA_SET = room_assigner.create_data_set()
+#     print(DATA_SET)
+#     print("here")
+#     # room_assigner.create_priority_map()
+#     room_assigner.assign_room()      
     
     
 '''Testing Data'''
