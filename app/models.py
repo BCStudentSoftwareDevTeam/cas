@@ -69,8 +69,8 @@ class Term(dbModel):
   name              = CharField()
   state             = IntegerField(default=0)
   
-  def __str__(self):
-    return self.name
+#  def __str__(self):
+#    return self.name
   
 class Building(dbModel):
   bID           = PrimaryKeyField()
@@ -101,30 +101,16 @@ class Rooms(dbModel):
   number         = CharField(null=False)
   maxCapacity    = IntegerField(null=False)
   roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAcc      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAcc   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
   visualAcc     = CharField(null=True)
   audioAcc      = CharField(null=True)
   physicalAcc   = CharField(null=True)
   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(default=False)
-  
-  
-class RoomPreferences(dbModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
-  
- 
+  movableFurniture = BooleanField()
+
+  # def __str__(self):
+  #   return str(self.rID)+str(self.building.name)+str(self.number)
 
   
 #MODELS WITH A FOREIGN KEY
@@ -188,10 +174,11 @@ class BannerCourses(dbModel):
 
 class Course(dbModel):
   cId               = PrimaryKeyField()
-  prefix            = ForeignKeyField(Subject)
+  prefix            = ForeignKeyField(Subject) #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
+  # days              = ForeignKeyField(ScheduleDays, null= False)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -283,6 +270,19 @@ class CoursesInBanner(dbModel):
   
   instructor   = ForeignKeyField(User, null=True)
   
+class RoomPreferences(dbModel):
+  rpID           = PrimaryKeyField()
+  course        = ForeignKeyField(Course, related_name='courses')
+  pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
+  pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
+  pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+  notes         = CharField(null=True)
+  any_Choice    = CharField(null=True)
+  none_Choice   = CharField(null=True)
+  none_Reason   = CharField(null=True)
+  initial_Preference = CharField(null=True, default = 1)
+    
+
 #Begin education tech class
 
 
@@ -306,3 +306,4 @@ class CoursesInBanner(dbModel):
 #   any_Choice    = CharField(null=True)
 #   none_Choice   = CharField(null=True)
 #   none_Reason   = CharField(null=False)
+
