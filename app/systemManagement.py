@@ -59,11 +59,12 @@ def updateTermState():
    Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute() # update the state of the specific term retrieved
    
    print('State Order', data['stateOrder'])
+   
    if data['stateOrder'] == str(5): # Call the Room Assignment Algorithm
       print('In the assign if')
       room_assigner = RoomAssigner(data['termCode'])
       room_assigner.courses_query()
-      global DATA_SET 
+      
       DATA_SET = room_assigner.create_data_set()
       print(DATA_SET)
       print("here")

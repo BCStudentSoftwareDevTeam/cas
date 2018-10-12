@@ -127,7 +127,7 @@
               <!--Reasign Button-->
                 <button type = "button" id = "button{{state.order}}" class= "btn btn-danger" data-toggle = "collapse" data-target= ""
                  aria-controls="order{{state.order-1}}"
-                 onclick ="enableTheOne('btn{{state.order}}')"> {{cfg['states'][state.number]['btn']}}
+                 onclick ="enableTheOne('btn{{state.order}}'), submit_data({{state.order}}-1)"> {{cfg['states'][state.number]['btn']}}
                 </button>
               </div>
                 <div class = "col-sm-3 text-right"> 

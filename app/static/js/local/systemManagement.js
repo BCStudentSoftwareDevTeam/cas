@@ -238,6 +238,8 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     term_btn.attr('aria-controls', 'order'+next_state.toString())
  
 }
+
+
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
