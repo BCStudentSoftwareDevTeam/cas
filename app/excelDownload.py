@@ -2,7 +2,7 @@ from allImports import *
 from app.logic.authorization import must_be_admin
 from app.logic.redirectBack import redirect_url
 from app.logic.excelMaker import ExcelMaker
-from flask import send_file, send_from_directory
+from flask import send_file
 from os.path import basename
 import os
 
@@ -21,6 +21,7 @@ def makeMainExcel(tid):
   
     return send_file(completePath,as_attachment=True, attachment_filename=filename)
     
+
 
 # @app.route('/excel/crossListed/<tid>', methods=["GET"])
 # @must_be_admin

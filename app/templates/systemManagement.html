@@ -87,7 +87,7 @@
                       <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                       <!--- this is for the lock button --->
                       <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
-                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}});" >
+                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}});" >
                         {{state.display_name}}
                         <span class="glyphicon glyphicon-chevron-right"></span>
                       </button>
@@ -100,7 +100,7 @@
                       </span>
                   </div>
                   <div class = "row text-center">
-                    <a>{{cfg['states'][state.number]['download']}}</a>
+                    <a onclick = 'downloadCourses()' >{{cfg['states'][state.number]['download']}}</a>
                   </div>
                 </div>
               </div>
@@ -137,6 +137,7 @@
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
                     onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}})"> {{state.display_name}}
                   </button>
+                  
                 </div>
           </div>
         </div>
@@ -154,9 +155,10 @@
                 <br> 
                 <a onclick = "downloadCourses()">Download Courses</a>
               </div>      
+              {# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}
               <div class = "col-sm-4">  
                 <br>
-                <a>Download Rooms </a>
+                <!--<a>Download Rooms </a>-->
               </div>
             <div class = "col-sm-4 text-right"> 
                 <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick = " change_btn_name1()"></input><br>

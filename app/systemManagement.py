@@ -57,4 +57,7 @@ def updateTermState():
 
    Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute() # update the state of the specific term retrieved
    
+   if data['stateOrder'] == 5: 
+      pass
+      # Call the Room Assignment Algorithm
    return redirect(url_for("systemManagement")) 

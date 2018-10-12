@@ -52,13 +52,15 @@ class ExcelMaker:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
             # print('About to get days')
+                 
             schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule.sid)
-            print (schedule_days, "ScheduleDays")
+            # print (schedule_days, "ScheduleDays")
             days = ""
             for i in schedule_days:
-                days += schedule_days.day
-            
-            print("Days", days)
+                days += str(i.day)
+          
+            # print("Days", days)
+          
             if days is None:
                 days = "TBD"
             time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)

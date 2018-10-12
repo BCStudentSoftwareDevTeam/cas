@@ -33,58 +33,58 @@ migrator = SqliteMigrator(my_db)
 """
 
 # my_db.drop_tables([Building, EducationTech])
-my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+# my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
 
-class Rooms(dbModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms_building')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms_educationTech')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField()
+# class Rooms(dbModel):
+#   rID            = PrimaryKeyField()
+#   building       = ForeignKeyField(Building, related_name='rooms_building')
+#   number         = CharField(null=False)
+#   maxCapacity    = IntegerField(null=False)
+#   roomType       = CharField(null=False)
+#   visualAcc     = CharField(null=True)
+#   audioAcc      = CharField(null=True)
+#   physicalAcc   = CharField(null=True)
+#   educationTech = ForeignKeyField(EducationTech, related_name='rooms_educationTech')
+#   specializedEq = CharField(null=True)
+#   specialFeatures = CharField(null=True)
+#   movableFurniture = BooleanField()
   
   
-class RoomPreferences(dbModel):
-  rpID          = PrimaryKeyField()
-  course        = ForeignKeyField(Course, related_name='course')
-  pref_1        = ForeignKeyField(Rooms, related_name='pref_1', null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='pref_2', null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='pref_3', null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
-  initial_Preference = CharField(null=True, default = 1)
+# class RoomPreferences(dbModel):
+#   rpID          = PrimaryKeyField()
+#   course        = ForeignKeyField(Course, related_name='course')
+#   pref_1        = ForeignKeyField(Rooms, related_name='pref_1', null=True)
+#   pref_2        = ForeignKeyField(Rooms, related_name='pref_2', null=True)
+#   pref_3        = ForeignKeyField(Rooms, related_name='pref_3', null=True) #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=True)
+#   initial_Preference = CharField(null=True, default = 1)
 
-class EducationTech(dbModel):
-  eId                  = PrimaryKeyField()
-  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-  smartboards          = IntegerField(default = 0) #default of 0 in room
-  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-  podium               = IntegerField(default = 0) #default of 0 no. of podium
-  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-  dvd                  = BooleanField()  #has or doesnt have dvd player
-  blu_ray              = BooleanField()  #has or doesnt have blu ray player
-  audio                = BooleanField()  #has or doesnt have audio hookup
-  extro                = BooleanField()
-  doc_cam              = BooleanField()
-  vhs                  = BooleanField()
-  mondopad             = BooleanField()
-  tech_chart           = BooleanField()
+# class EducationTech(dbModel):
+#   eId                  = PrimaryKeyField()
+#   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
+#   smartboards          = IntegerField(default = 0) #default of 0 in room
+#   instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
+#   podium               = IntegerField(default = 0) #default of 0 no. of podium
+#   student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
+#   chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
+#   whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
+#   dvd                  = BooleanField()  #has or doesnt have dvd player
+#   blu_ray              = BooleanField()  #has or doesnt have blu ray player
+#   audio                = BooleanField()  #has or doesnt have audio hookup
+#   extro                = BooleanField()
+#   doc_cam              = BooleanField()
+#   vhs                  = BooleanField()
+#   mondopad             = BooleanField()
+#   tech_chart           = BooleanField()
 
 
-class Building(dbModel):
-  bID           = PrimaryKeyField()
-  name          = CharField()
-  shortName     = CharField()
+# class Building(dbModel):
+#   bID           = PrimaryKeyField()
+#   name          = CharField()
+#   shortName     = CharField()
 
 
 
@@ -96,9 +96,9 @@ class TermStates(dbModel):
   display_name  = CharField(null = False)
 
 
-my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
+# my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
 
-
+my_db.create_tables([TermStates])
 # To add states to Temstates table
 state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
 state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
