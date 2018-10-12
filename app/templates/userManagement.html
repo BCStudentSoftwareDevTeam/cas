@@ -1,129 +1,158 @@
 <!--User Management HTML page -->
 <!--Deals with adding/removing Access Levels; Division Chairs, Program Chairs, Building Managers, and Administrators.-->
+<!-- THIS INTERFACE HAS TWO CONTROLLERS, RemoveUser.py and userMananagement-->
 {% extends "base.html" %} 
 {% set currentPage = "no" %} 
 {% block body %}
 
+{% include "snips/messages.html" %}
 
-<h1>User Management</h1> <!---- The title of the page ---->
-
-
-
-<!---First Box--->
-<h3>Add User</h3>
+<h3 style="text-align: center">User Management</h3>
+<form method="POST" action="/admin/userInsert">
 <div class = "container">
-<div class = "jumbotron"> <!--- Add User Panel--->
-<label for="Access Level">Access Level</label> <!---First dropdown--->
-    <div class = "form-group">
-    <select class="form control" name= "keyValue">
-        {% for access in cfg['accessLevel'] %}
-             <option value="{{access['id']}}">{{access['name']}}</option>
-        {% endfor %}
-    </select>
-    </div
-
-<!--- the following nine lines is just for an illusytration on how to call various attributes of classes in models.py--->
-<!--{{programchairs}}-->
-<!--<br />-->
-<!--{{programchairs[0]}}-->
-<!--<br />-->
-<!--{{programchairs[0].username}}-->
-<!--<br />-->
-<!--{{programchairs[0].username.username}}-->
-<!--<br />-->
-<!--{{programchairs[0].username.lastName}}-->
-
-<div id="Divisions">    
-<label for="Divisions">Divisions</label>
-     <div class = "form-group"> <!--Second dropdown for program/division/building--->
-        <select class="from control" name= "keyValue">
-            {% for division in divisions %}
-            <option value="1" required> {{division.name}}</option> == $0
-            {% endfor %}
-        </select>
-    </div>
-</div>
-<label for="Programs">Programs</label>
-     <div class = "form-group"> <!--Second dropdown for program/division/building--->
-        <select class="from control" name= "keyValue">
-            {% for program in programs %}
-            <option value="1" required>{{program.name}} </option> == $0
-            {% endfor %}
-        </select>
-    </div>
-    
-<label for="Buildings">Buildings</label>
-     <div class = "form-group"> <!--Second dropdown for program/division/building--->
-        <select class="from control" name= "keyValue">
-            {% for building in buildings %}
-            <option value="1" required> {{building.name}}</option> == $0
-            {% endfor %}
-        </select>
-    </div>
-    
-    
-    
-    <!---testing program chair names dropdown--->
-<label for="Add names of chair/manager/admin">Add names of chair/manager/admin</label>
- <div class = "form-group"> <!---Third drop down form--->
-
-        <select class="from control" name= "keyValue">
-            {% for user in users %} <!--- displays names--->
+    <!--<div class = "jumbotron">-->
+        <div class="row">
+        <!--ACCESS LEVEL DROPDOWN-->
+            <div id = "center_block" class="col-sm-6 center-block" style ="text-align:center;" >
+                <label for="Access Level">Access Level </label> 
+                    <div class = "form-group">
+                        <select class = "form-control" onchange="show_access_level(this)" name= "access">
+                            <option value = "---" disabled selected>---</option>
+                            {% for access in cfg['accessLevel'] %} <!---Jinja --->
+                                 <option value="{{access['id']}}">{{access['name']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
             
-            <option value="{{1}}"> {{user.lastName}} </option>  <!---Green is what we see, white is what user sees--->
-            <!--<option value="1" required> Anne Otieno</option> == $0-->
-            <!--<option value ="2" required> Kat Adams</option>-->
-            <!--<option value = "3" required> Scott Heggen</option>-->
-            {% endfor %}
-        </select>
+        <!--PROGRAMS DROPDOWN-->
+                    <div id="Programs">
+                        <label for="Programs">Programs</label>
+                            <div class = "form-group">
+                                <select onchange="program_chairs_show_names(this)" class="form-control" name= "program">
+                                <option value = "---" disabled selected>---</option>
+                                {% for program in programs %}
+                                <option value="{{program.pID}}" required>{{program.name}} </option> == $0
+                                {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    
+            <!--DIVIONS DROPDOWN-->
+                        <div id="Divisions">    
+                            <label for="Divisions">Divisions</label>
+                                <div class = "form-group">
+                                    <select onchange="division_chairs_show_names(this)" class="form-control" name= "division">
+                                    <option value = "---" disabled selected>---</option>
+                                        {% for division in divisions %}
+                                        <option value="{{division.dID}}" required>{{division.name}}</option> == $0
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                        </div>
+                        
+            <!--BUILDINGS DROPDOWN-->
+                        <div id="Buildings">
+                            <label for="Buildings">Buildings</label>
+                                 <div class = "form-group">
+                                    <select onchange="building_managers_show_names(this)" class="form-control" name= "building">
+                                            <option value = "---" disabled selected>---</option>
+                                            {% for building in buildings %}
+                                            <option value="{{building.bID}}" required> {{building.name}}</option> == $0
+                                            {% endfor %}
+                                    </select>
+                                </div>
+                        </div>
+            </div>
+        </div>
+        
+    <!-- Encloses the remove and the add buttons and dropdowns in a row class -->        
+    <div class = "row">
+        <!--ADD NAMES BUTTON AND BUTTON-->
+         <div class = "row">
+            <div id="Add" class="col-sm-4">
+                <label for="Users">Users</label>
+                     <div class = "form-group">
+                        <select class="form-control col-md-4" name= "userToAdd" id="AddDropdown">
+                            <option value = "---" disabled selected>---</option>
+                                {% for user in users %} <!--- displays names--->
+                                    <option value="{{user.username}}"> {{user.firstName}} {{user.lastName}} ({{user.username}})</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                <div> 
+                <!--- creates a pop up for the user on clicking add button --->
+                    <div id = "add_btn">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add</button>
+                    </div>
+                    <!----- the pop up on add buton click ---->
+                        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                              </div>
+                              <div class="modal-body">
+                                 <p>Are you sure you want to add the selected user?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                <button name ="adduser" value = "adduser" type="Submit" class="btn btn-success"> Yes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                </div>
+            </div>
+            
+            <!--Empty div to align the add and remove divs --->
+            <div class="col-sm-4">
+            </div>
+            
+            <!--REMOVE NAMES DROPDOWN AND BUTTON--->
+            <div id = "Remove" class="col-sm-4" >
+                <div >
+                    <label for="Remove">Current User(s)</label>
+                        <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrsns--->
+                            <select class="form-control" name="userToRemove" id="RemoveDropdown" style="float: right;">
+                                <option value="---"disabled selected>---</option>
+                            </select>
+                        </div>
+                    <div>
+                        <!----- remove button ---->
+                        <div id = "remove_btn" class= "text-right">
+                            <button id = "adminbtn" type="button" class="btn btn-Danger" data-toggle="modal" data-target="#removeModal">Remove</button>
+                        </div>
+                        <!----- the pop up on remove buton click ---->
+                            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove User</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                     <p>Are you sure you want to remove the selected user?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                    <button name = "removeuser" value = "removeuser" type="Submit" class="btn btn-success" >Yes</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                     </div>
+                </div>
+            </div>
     </div>
-<div>
-    <label for="Add Button">Add (Button)</label>
-</div> <!---Add Button in bottom right--->
-    <button type="button">Add</button>
-</div>
+    
+<!--</div>-->
 </div>
 
-
-<!---SECOND BOX--->
-<h3>Remove User</h3>
-<div class = "container">
-<div class = "jumbotron"> <!---Remove User--->
-
-<label for="Access Level">Access Level</label>
-<div> <!--- first drop down--->
-  <select class="form control" name= "keyValue">
-        {% for access in cfg['accessLevel']%}
-             <option value="{{access['id']}}">{{access['name']}}</option>
-        {% endfor %}
-    </select>
-</div>
-
-
-
-<label for="Remove">Remove</label>
- <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrs/admins--->
- <select class="from control" name= "keyValue">
-            <option value="1" required> Anne Otieno</option> == $0
-            <option value ="2" required> Kat Adams</option>
-            <option value = "3" required> Scott Heggen</option>
-        </select>
-    </div>
-<label for="Remove">Remove (button)</label>
-<div><!---Remove button--->
-    <button type="button">Remove</button>
-</div>
-</div>
-</div>
-
-
-
-
-
-
- {% endblock %}
+{% endblock %}
   
-  
+{% block belowContainer %}
+    <link rel="stylesheet" href="../static/css/userManagement.css">
+    <script src="../static/js/local/removeUser.js" />
+{% endblock %}
   
   
   
