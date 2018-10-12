@@ -1,7 +1,7 @@
 from peewee import *
 from playhouse.migrate import *
-from app.models import Rooms, Building, Course, SpecialTopicCourse
-#from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
+# from app.models import Rooms, Building, Course, SpecialTopicCourse, EducationTech
+from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
 
 from app.loadConfig import *
 here = os.path.dirname(__file__)
@@ -24,7 +24,7 @@ class dbModel (Model):
 
 migrator = SqliteMigrator(my_db)
 
-from app.models import  Rooms
+# from app.models import  Rooms
 
 #Create these two tables first 
 """
@@ -32,14 +32,27 @@ from app.models import  Rooms
 
 """
 
-my_db.drop_tables([Building, Rooms])
-#my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+# my_db.drop_tables([Building, EducationTech])
+my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
 
+class Rooms(dbModel):
+  rID            = PrimaryKeyField()
+  building       = ForeignKeyField(Building, related_name='rooms_building')
+  number         = CharField(null=False)
+  maxCapacity    = IntegerField(null=False)
+  roomType       = CharField(null=False)
+  visualAcc     = CharField(null=True)
+  audioAcc      = CharField(null=True)
+  physicalAcc   = CharField(null=True)
+  educationTech = ForeignKeyField(EducationTech, related_name='rooms_educationTech')
+  specializedEq = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField()
   
   
 class RoomPreferences(dbModel):
   rpID          = PrimaryKeyField()
-  course        = ForeignKeyField(Rooms, related_name='course')
+  course        = ForeignKeyField(Course, related_name='course')
   pref_1        = ForeignKeyField(Rooms, related_name='pref_1', null=True)
   pref_2        = ForeignKeyField(Rooms, related_name='pref_2', null=True)
   pref_3        = ForeignKeyField(Rooms, related_name='pref_3', null=True) #We are making sure we have all the preferences jotted down.
@@ -73,24 +86,30 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
-  
-class Rooms(dbModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField()
 
 
+class TermStates(dbModel):
+  csID          = PrimaryKeyField()
+  number        = IntegerField(null = False)
+  name          = CharField(null = False)
+  order         = IntegerField(null = False)
+  display_name  = CharField(null = False)
 
-my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
+
+my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
+
+
+# To add states to Temstates table
+state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
+state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
+state_3 = TermStates(number = 2, order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
+state_3 = TermStates(number = 3, order = 3, name = "roomprefrences_opened", display_name = "Open Room Preferences").save()
+state_4 = TermStates(number = 4, order = 4, name = "roomprefrences_closed", display_name = "Lock Room Preferences").save()
+state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
+state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
+state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
+
+
 #Add these columns to existing tables in the production
 #Building column add
 
@@ -116,15 +135,32 @@ my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms])
 #   migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
 #   )
 
+# my_db.drop_tables([ScheduleDays])
 
-q = Course.select()
-for course in q:
-  course.rid = None
-  course.save()
+# class ScheduleDays(dbModel):
+#   sdID = PrimaryKeyField()
+#   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule_days')
+#   day         = CharField(null=True)
   
   
-q = SpecialTopicCourse.select()
-for course in q:
-  course.rid = None
-  course.save()
+
+migrate(
+    # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+    # migrator.drop_column("Term", "state"),
+    migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states'))
+     
+    # migrator.drop_not_null('CourseChange','rid')
+)
+
+
+# q = Course.select()
+# for course in q:
+#   course.rid = None
+#   course.save()
+  
+  
+# q = SpecialTopicCourse.select()
+# for course in q:
+#   course.rid = None
+#   course.save()
   

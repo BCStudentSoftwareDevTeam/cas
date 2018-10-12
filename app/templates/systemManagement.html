@@ -24,7 +24,7 @@
             <td style="margin-top:1px !important; padding-top: 1px !important;">
               <!-- Generates the term buttons-->
               <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.state.order}}">{{term.name}} 
+              aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.term_state.order}}">{{term.name}} 
               </button> 
             </td>      
             {% else %}

@@ -7,8 +7,15 @@ from app.logic.authorization import must_be_admin
 @app.route("/admin/systemManagement", methods=["GET"])
 @must_be_admin
 def systemManagement():
+   
       terms          = Term.select() # Select all the terms for the terms table with the state buttons
       
+      for term in terms:
+          # Update the term_state column in the term table from the state column 
+          # FIX-ME: The state column was not deleted in a measure not to destroy existing data in that column when updating the schema of the database
+          term.term_state = term.state
+          term.save()
+          
       today          = datetime.date.today() 
       
       term_state     = TermStates.select().order_by(TermStates.order)

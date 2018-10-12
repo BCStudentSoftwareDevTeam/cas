@@ -24,8 +24,8 @@ else:
   IP = '0.0.0.0'
 
 if os.getenv('PORT'):
-  pass
-  # PORT = int(os.getenv('PORT'))
+  # pass
+  PORT = int(os.getenv('PORT'))
 else:
   PORT = 8081
 

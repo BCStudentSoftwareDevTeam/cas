@@ -75,7 +75,8 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  state             = ForeignKeyField(TermStates, related_name = "states")
+  state             = IntegerField(null = False)
+  term_state             = ForeignKeyField(TermStates, null = True, related_name = "states")
   
 #  def __str__(self):
 #    return self.name
@@ -303,6 +304,7 @@ class RoomPreferences(dbModel):
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
+  # priority      = IntegerField(default = 6)
     
 
 #Begin education tech class

@@ -42,11 +42,9 @@ models:
     - Rooms
     - ScheduleDays
     - RoomPreferences
-<<<<<<< HEAD
     - TermStates
-=======
     - EducationTech
->>>>>>> jamal_basanta
+
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
