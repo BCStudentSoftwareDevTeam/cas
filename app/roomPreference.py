@@ -29,6 +29,7 @@ def roomPreference(term):
     # print(current_term)
     #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     term = Term.get(Term.termCode == current_term)
+<<<<<<<<< saved version
     # print(term)
     courses = ( Course.select()
                     .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
@@ -43,6 +44,11 @@ def roomPreference(term):
     # # for rp in roompreferences:
     #     print(rp.course.cId)
     # roomPreferences = {}
+=========
+    print("TermState", term.term_state.number)
+    if term.term_state.number == 3:
+        current_user = AuthorizedUser().getUsername() 
+>>>>>>>>> local version
     
     
     # Constructs RoomPreferences if they don't exist
@@ -51,28 +57,56 @@ def roomPreference(term):
         (rp, c) = RoomPreferences.get_or_create(course = course.cId)
         # print(rp.course.term.termCode)
     
-    roompreferences= (  RoomPreferences.select()
-                                    .join(InstructorCourse, 
-                                        on = (InstructorCourse.course == RoomPreferences.course))
-                                    .join(Course, on = (RoomPreferences.course == Course.cId))
-                                    .join(Term, on = (Course.term == Term.termCode))
-                                    .where(RoomPreferences.course == InstructorCourse.course 
-                                            and InstructorCourse.username == current_user)
-                                    .where(Course.term == current_term)
-                                    .distinct()
-                        )
-    # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
-  
-    return render_template(
-        "roomPreference.html",
-        roompreferences= roompreferences,
-        room=room,
-        users=users,
-        course=courses,
-        # educationTech=educationTech,
-        instructors=instructors
-    )
-
+        # FIXME used for conflicting courses UI, which is hidden
+        # print(current_user)
+        # print(current_term)
+        #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
+        
+        # print(term)
+        courses = ( Course.select()
+                        .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
+                        .join(Term, on=(Term.termCode == Course.term))
+                        .where(InstructorCourse.username == current_user)
+                        .where(Course.term == int(current_term))
+                    )
+        #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
+        # for course in courses:
+        #     print("Hi Sher")
+        #     print(course.cId)
+        # # for rp in roompreferences:
+        #     print(rp.course.cId)
+        # roomPreferences = {}
+        
+        
+        # Constructs RoomPreferences if they don't exist
+        for course in courses:
+            # print("adding ", course.cId, "to ", current_user)
+            (rp, c) = RoomPreferences.get_or_create(course = course.cId)
+            # print(rp.course.term.termCode)
+        
+        roompreferences= (  RoomPreferences.select()
+                                        .join(InstructorCourse, 
+                                            on = (InstructorCourse.course == RoomPreferences.course))
+                                        .join(Course, on = (RoomPreferences.course == Course.cId))
+                                        .join(Term, on = (Course.term == Term.termCode))
+                                        .where(RoomPreferences.course == InstructorCourse.course 
+                                                and InstructorCourse.username == current_user)
+                                        .where(Course.term == current_term)
+                                        .distinct()
+                            )
+        # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+      
+        return render_template(
+            "roomPreference.html",
+            roompreferences= roompreferences,
+            room=room,
+            users=users,
+            course=courses,
+            # educationTech=educationTech,
+            instructors=instructors
+        )
+    else:
+        return render_template("roomPreferencesLocked.html")
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])
@@ -246,8 +280,12 @@ def postPreference():
         
             rp.any_Choice = None
     
-    print("Time to save ", rp.none_Choice)  
-    print("Time to save ", rp.any_Choice)  
+<<<<<<<<< saved version
+
+=========
+    # print("Time to save ", rp.none_Choice)  
+    # print("Time to save ", rp.any_Choice)  
+>>>>>>>>> local version
     rp.save() # Save the room preference in the database for the course
    
     # print('RP_any', rp.any_Choice)
