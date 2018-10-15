@@ -29,7 +29,7 @@ def roomPreference(term):
     # print(current_term)
     #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     term = Term.get(Term.termCode == current_term)
-<<<<<<<<< saved version
+
     # print(term)
     courses = ( Course.select()
                     .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
@@ -44,11 +44,6 @@ def roomPreference(term):
     # # for rp in roompreferences:
     #     print(rp.course.cId)
     # roomPreferences = {}
-=========
-    print("TermState", term.term_state.number)
-    if term.term_state.number == 3:
-        current_user = AuthorizedUser().getUsername() 
->>>>>>>>> local version
     
     
     # Constructs RoomPreferences if they don't exist
@@ -280,12 +275,7 @@ def postPreference():
         
             rp.any_Choice = None
     
-<<<<<<<<< saved version
 
-=========
-    # print("Time to save ", rp.none_Choice)  
-    # print("Time to save ", rp.any_Choice)  
->>>>>>>>> local version
     rp.save() # Save the room preference in the database for the course
    
     # print('RP_any', rp.any_Choice)

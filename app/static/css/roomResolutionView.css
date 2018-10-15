@@ -1,40 +1,44 @@
 /* for our Room resolutions UI*/
 
-.header {
-    background-color:black;
-    color:green;
-    text-align:center;
-    padding:5px;
-}
-.nav {
-    line-height:30px;
-    background-color:#eeeeee;
-    height:300px;
-    width:100px;
-    float:left;
-    padding:5px; 
-}
-.section {
-    width:350px;
-    float:left;
-    padding:10px; 
-}
-.footer {
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:center;
-    padding:5px; 
-}
+/*.header {*/
+/*    background-color:black;*/
+/*    color:green;*/
+/*    text-align:center;*/
+/*    padding:5px;*/
+/*}*/
+/*.nav {*/
+/*    line-height:30px;*/
+/*    background-color:#eeeeee;*/
+/*    height:300px;*/
+/*    width:100px;*/
+/*    float:left;*/
+/*    padding:5px; */
+/*}*/
+/*.section {*/
+/*    width:350px;*/
+/*    float:left;*/
+/*    padding:10px; */
+/*}*/
+/*.footer {*/
+/*    background-color:black;*/
+/*    color:white;*/
+/*    clear:both;*/
+/*    text-align:center;*/
+/*    padding:5px; */
+/*}*/
 
-.block {
-    display: block;
-    width: 100%;
-    border: none;
-    background-color: #4CAF50;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
+/*.block {*/
+/*    display: block;*/
+/*    width: 100%;*/
+/*    border: none;*/
+/*    background-color: #4CAF50;*/
+/*    padding: 14px 28px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    text-align: center*/
+/*}*/
+#foo {
+  resize: none;
+}  
     
     

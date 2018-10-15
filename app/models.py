@@ -109,7 +109,15 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
-
+  """
+  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
+  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
+  specializedEq = CharField(null=True)
+  specialFeatures = CharField(null=True)
+  movableFurniture = BooleanField(null=False)
+  """
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)
 
@@ -224,9 +232,9 @@ class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-# class BuildingManager(dbModel):
-#   username     = ForeignKeyField(User)
-#   bmid         = ForeignKeyField(Building)
+class BuildingManager(dbModel):
+  username     = ForeignKeyField(User)
+  bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')

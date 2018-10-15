@@ -116,9 +116,9 @@ function room_detail(response){
     my_div.innerHTML = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
     if (response['movableFurniture']) {
-        var check_or_x = '<span class="glyphicon glyphicon-ok"></span>';
+        var check_or_x = ' Yes';
     } else {
-        var check_or_x = '<span class="glyphicon glyphicon-remove"></span>';
+        var check_or_x = ' No';
     }
     my_div.innerHTML = check_or_x;
     
@@ -190,48 +190,45 @@ function education_detail(response){
     document.getElementById("student_workstations").innerHTML = response['student_workspace'];
     document.getElementById("chalkboards").innerHTML = response['chalkboards'];
     document.getElementById("whiteboards").innerHTML = response['whiteboards'];
-    
-    
     if(response['dvd']){
-        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-ok pull-left'> </span>";
+        document.getElementById("dvd").innerHTML = "Yes";
     } else {
-        document.getElementById("dvdIcon").innerHTML = "<span class='glyphicon glyphicon-remove'> </span>";
+        document.getElementById("dvd").innerHTML = "No";
     }
-    
     if(response['audio']){
-        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("audio").innerHTML = "Yes";
     } else {
-        document.getElementById("audioIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("audio").innerHTML = "No";
     }
     if(response['blu_ray']){
-        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("blu_ray").innerHTML = "Yes";
     } else {
-        document.getElementById("blu_rayIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("blu_ray").innerHTML = "No";
     }
     if(response['extro']){
-        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("extro").innerHTML = "Yes";
     } else {
-        document.getElementById("extroIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("extro").innerHTML = "No";
     }
     if(response['doc_cam']){
-        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("doc_cam").innerHTML = "Yes";
     } else {
-        document.getElementById("doc_camIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("doc_cam").innerHTML = "No";
     }
     if(response['vhs']){
-        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("vhs").innerHTML = "Yes";
     } else {
-        document.getElementById("vhsIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("vhs").innerHTML = "No";
     }
     if(response['tech_chart']){
-        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("tech_chart").innerHTML = "Yes";
     } else {
-        document.getElementById("tech_chartIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("tech_chart").innerHTML = "No";
     }
     if(response['mondopad']){
-        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-ok'></span>";
+        document.getElementById("mondopad").innerHTML = "Yes";
     } else {
-        document.getElementById("mondopadIcon").innerHTML = "<span class='glyphicon glyphicon-remove'></span>";
+        document.getElementById("mondopad").innerHTML = "No";
     }
 }
 
