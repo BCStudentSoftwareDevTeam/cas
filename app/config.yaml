@@ -33,6 +33,7 @@ models:
     - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
+    - BuildingManager
     - InstructorCourse
     - InstructorSTCourse
     - Deadline
@@ -159,11 +160,11 @@ columnColor:
   verified: 'verified'
   
 DEBUG:
-  #user: "heggens" #Admin Access
+  user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
   #user: "lovelle" #Professor Access
-  user: "sldkjfalsdkfj;" #for production
+  # user: "sldkjfalsdkfj;" #for production
   
 filepath:
   tmp: 'data/tmp'

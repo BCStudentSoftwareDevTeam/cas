@@ -16,7 +16,7 @@ users = User(  firstName = "Jan",
                 lastName  = "Pearce",
                 username  = "pearcej",
                 email     = "jadudm@berea.edu",
-                isAdmin   = 0,
+                isAdmin   = 1,
                 bNumber   = "1239495"
             ).save(force_insert=True)     
 
@@ -336,7 +336,7 @@ bannercourse =  BannerCourses(  subject       = "HLT",
 term = Term(  name             = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
-              editable          = 0,
+            #   editable          = 0,
               termCode          = 201611,
               state             = 0
             ).save(force_insert = True)
@@ -345,14 +345,14 @@ term = Term(  name              = "Spring 2017",
               semester          = "Spring",
               year              = 2017,
               termCode          = 201612,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)  
 term = Term(  name              = "Fall 2017",
               semester          = "Fall",
               year              = 2017,
               termCode          = 201711,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)
             
@@ -360,14 +360,14 @@ term = Term(  name              = "Spring 2018",
               semester          = "Spring",
               year              = 2018,
               termCode          = 201712,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)      
 term = Term(  name              = "Fall 2018",
               semester          = "Fall",
               year              = 2018,
               termCode          = 201811,
-              editable          = 0,
+            #   editable          = 0,
               state             = 0
             ).save(force_insert = True)
             
@@ -588,13 +588,26 @@ course = Course(  bannerRef         = 21, #Course 20
 chair = ProgramChair(  username  = "jadudm",
                         pid       = 1
                     ).save()
+chair = ProgramChair(  username = "pearcej",
+                        pid = 1
+                    ).save()
+chair = ProgramChair(  username = "myersco",
+                        pid = 2
+                    ).save()
+
                     
 ########
 #DCHAIR#
 ########
 dchair = DivisionChair(  username  = "pearcej",
-                        did       = 2
+                        did       = 3
                       ).save()
+dchair = DivisionChair(  username  = "myersco",
+                        did       = 2
+                      ).save()  
+dchair = DivisionChair(  username  = "heggens",
+                        did       = 1
+                      ).save()                      
 ############
 #INSTRUCTOR#
 ############
@@ -633,10 +646,9 @@ instructor = InstructorCourse(  username = "myersco",
 instructor = InstructorSTCourse(  username = "myersco",
                                 course   = 1
                               ).save()  
-######
-#Buildings
-
-######                             
+###########
+#Buildings#
+###########                          
 
                               
 building     = Building(name = 'Ag Building', shortName = 'Ag').save()
@@ -650,18 +662,20 @@ building     = Building(name = 'Presser Hall', shortName="Pre").save()
 building     = Building(name = 'Nursing', shortName="Nur").save()
 building     = Building(name = 'Art', shortName="Art").save()
 
-###############
-#Building Manager#
-##################
+###################
+#Building Managers#
+###################
 
+bmanager = BuildingManager( username = "heggens",
+                            bmid = 1
+                          ).save()
+bmanager = BuildingManager( username = "myersco",
+                            bmid = 2
+                          ).save()
+bmanager = BuildingManager( username = "pearcej",
+                            bmid = 3
+                          ).save()
 
-# bmanager = BuildingManager( username = "heggens",
-#                             bmid = 1
-#                           ).save()
-
-####
-#Education Tech for Rooms
-#####
 
 
 educationTech= EducationTech( 
@@ -683,6 +697,10 @@ educationTech= EducationTech(
   ).save()
   
   
+###################
+#Education Tech#
+###################
+
 educationTech= EducationTech( 
   projectors           = 1,
   smartboards          = 2,

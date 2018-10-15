@@ -231,9 +231,9 @@ class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-# class BuildingManager(dbModel):
-#   username     = ForeignKeyField(User)
-#   bmid         = ForeignKeyField(Building)
+class BuildingManager(dbModel):
+  username     = ForeignKeyField(User)
+  bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
