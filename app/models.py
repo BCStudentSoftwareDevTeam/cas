@@ -53,6 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
+  # sdID    = PrimaryKeyField()
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
@@ -178,7 +179,7 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
-  # days              = ForeignKeyField(ScheduleDays, null= False)
+  # days              = ForeignKeyField(ScheduleDays, null= True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -256,7 +257,7 @@ class CourseChange(dbModel):
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False)
+  rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
@@ -267,7 +268,6 @@ class InstructorCourseChange(dbModel):
 class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
-  
   instructor   = ForeignKeyField(User, null=True)
   
 class RoomPreferences(dbModel):
@@ -281,7 +281,7 @@ class RoomPreferences(dbModel):
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-    
+  priority = IntegerField(default = 6)  
 
 #Begin education tech class
 
