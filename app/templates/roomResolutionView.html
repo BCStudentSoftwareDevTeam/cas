@@ -1,275 +1,218 @@
 {% extends "base.html" %}
 {% set currentPage = "no" %}
-<style>
-p {
-    border-right: 6px solid gray;
-    background-color: lightgrey;
-}
-</style>
+{% block aboveContainer %}
 
+{% endblock %}
 <!--Page Content -->
-
 {% block body %}
-<script scr = "/static/js/local/roomResolutionView.js"></script>
-{% include 'snips/messages.html' %}
-<html>
-  <body>
-    <div class="center">
-      <h1 class="text-center"> <b>Room Resolutions View </b> </h1> <br>
-  <!-- Container for the Unassigned class and ?-->
-  <div class="container">    
-    <div class="row">
-      <div class="col-xs-4" >
-        <h3><strong>Course without room</strong></h3>
-        <input id="hiddencourse" hidden value = "{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}} "></input>
-        <label for="courses"><h5><strong>Course: </strong></label>{{roompreference.course.bannerRef.subject}} {{roompreference.course.bannerRef.number}} {{roompreference.course.bannerRef.ctitle}} Section {{roompreference.course.section}}</h5>
-        {%for instructor in instructors %}
-          <label for="insctructor"><h5><strong>Instructor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h5>
-        {% endfor %}
-        <label for="schedule"><h5><strong>Schedule: </strong></label> {{days.day}} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
-        <label for="capacity"><h5><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h5><br>
-        <h5><strong>Notes:</strong> </h5>
-        <textarea rows="6" cols="40" id="#foo"> 
-        {{roompreference.notes}}
-        </textarea> 
-      </div>
-    <!---Div for tabs--->
-    <div class="col-xs-8" style="border-left:3px solid #2D3E50;">
-      <ul class="nav nav-tabs">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active nav-item"><a href="#tab-01" aria-controls="tab-01" role="tab" class="nav-link" class="tab-pane fade in active" data-toggle="tab"><h4>Available Rooms</h4></a></li>
-           {% if roompreference.pref_1 %}
-          <li role="presentation" class= "nav-item"><a href="#tab-02" aria-controls="tab-02" role="tab" data-toggle="tab" class="nav-link"><h4>Preference One</h4></a></li>
-           {%endif%}
-          {% if roompreference.pref_2 %}
-          <li role="presentation" class= "nav-item"><a href="#tab-03" aria-controls="tab-03" role="tab" data-toggle="tab" class="nav-link"><h4>Preference Two</h4></a></li>
-          {% endif%}
-          {% if roompreference.pref_3 %}
-          <li role="presentation" class= "nav-item"><a href="#tab-04" aria-controls="tab-04" role="tab" data-toggle="tab" class="nav-link"><h4>Preference Three</h4></a></li>
-          {% endif%}
-        </ul>
-            <div class="tab-content">
-              <!-- start of available room accordion -->
-              <div role="tabpanel" class="tab-pane active" id="tab-01">
-                <div class="pre-scrollable" style="max-height: 40vh">
-                  <div class="panel-group  w-25 p-3" style="overflow=auto" id="accordion">
-                    {% for room in available_rooms %} 
-                    <div class="panel panel-default clickable">
-                      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
-                        <h4 class="panel-title">
-                          <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
-                        </h4>
-                      </div>
-                        <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
-                          <div class="panel-body">
-                            <div class="col-md-6 left">
-                              <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
-                              <p><strong>Room Type:</strong> {{room.roomType}}</p>
-                              <p><strong>Room Capacity:</strong> {{room.maxCapacity}}</p>
-                              <p><strong>Movable Furniture:</strong> {{room.movableFurniture}}</p>
-                              <p><strong>Specialized Equipment:</strong> {{room.specializedEq}}</p>
-                              <p><strong>Special Features:</strong> {{room.specialFeatures}}</p>
-                            </div>
-                            <div class="col-md-6 right">
-                              <h1><strong>Education Tech:</strong></h1>
-                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
-                                Education Tech
-                              </button>
-                              <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
-                              <p><strong>Hearing Accessibility:</strong> {{room.audioAcc}}</p> 
-                              <p><strong>Physical Accessibility:</strong> {{room.physicalAcc}}</p>
-                              <th><button type="button" class="btn btn-primary btn-sm assignroombutton" data-toggle="modal"data-target="#assignRoom" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
-                             
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                  <!-- end of accordion -->
-                  </div>
-                </div>                                      
-              </div>
-              <!---First preference tab--->
-              {% if roompreference.pref_1%} <!---If Current course has a preference 1--->
-              <div role="tabpanel" class="tab-pane" id="tab-02">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3> <!---Find the course that got the room that prof wanted--->
-                      <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
-                  </div>
-                    <div class="panel-body">
-                      <input id= "pref1_room" hidden value="{{roompreference.pref_1.rID}}"></input>
-                      <input id="hidden{{roompreference.pref_1.rID}}" hidden value = "{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}"></input>
-                        <div class="row" style="display:flex;">
-                          <div class="col-md-6 left">
-                            <p><strong>Room Type:</strong> {{roompreference.pref_1.roomType}}</p>
-                            <p><strong>Room Capacity:</strong> {{roompreference.pref_1.maxCapacity}}</p>
-                            <p><strong>Movable Furniture:</strong> {{roompreference.pref_1.movableFurniture}}</p>
-                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}">
-                                Education Tech
-                              </button></p>
-                            <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
-                            <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>
-                            <p><strong>Visual Accessibility:</strong> {{roompreference.pref_1.visualAcc}}</p>
-                            <p><strong>Audio Accessibility:</strong> {{roompreference.pref_1.audioAcc}}</p>
-                            <p><strong>Physical Accessibility:</strong> {{roompreference.pref_1.physicalAcc}}
-                          </div>
-                          
-                          <div class="col-md-6 right pref1check">
-                            {% if preferences['pref1'] %} <!---If there is a conflicting course in pref---> 
-                            <input id="pref1_roominfo" hidden value = "{{roompreference.pref_1.rID}}"></input>
-                            <input id="pref1_confcourse" hidden value = "{{preferences['pref1']['cid']}}"></input>
-                            <p id="imnotempty1"><strong>Current Course in Room:</strong> {{preferences['pref1']['course_name']}}</p>
-                            <p><strong>Instructor:</strong> {{preferences['pref1']['instructor']}}</p>
-                            <p><strong>Schedule:</strong> {{preferences['pref1']['days']}} {{preferences['pref1']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref1']['endTime'].strftime('%I:%M  %p')}}</p>
-                            <p><strong>Notes:</strong> {{preferences['pref1']['notes']}}</p>
-                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
-                            {%else%}
-                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom" >Assign course to room</button>
-                            {% endif %}
-                          </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            
-              {% endif %}
-              <!---Second preference tab--->
-              {% if roompreference.pref_2 %}<!---If course A has preference 2 --->
-              <div role="tabpanel" class="tab-pane" id="tab-03">
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        <h3><strong>{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</strong></h3>
-                        </div> 
-                        <div class="panel-body">
-                      <input id= "pref2_room" hidden value="{{roompreference.pref_2.rID}}"></input>
-                      <input id="hidden{{roompreference.pref_2.rID}}" hidden value = "{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}"></input>
-                        <div class="row" style="display:flex;">
-                          <div class="col-md-6 left">
-                            <p><strong>Room Type:</strong> {{roompreference.pref_2.roomType}}</p>
-                            <p><strong>Room Capacity:</strong> {{roompreference.pref_2.maxCapacity}}</p>
-                            <p><strong>Movable Furniture:</strong> {{roompreference.pref_2.movableFurniture}}</p>
-                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_2.rID}}">
-                                Education Tech
-                              </button></p>
-                            <p><strong>Specialized Equipment:</strong> {{roompreference.pref_2.specializedEq}}</p>
-                            <p><strong>Specialized Features:</strong> {{roompreference.pref_2.specialFeatures}}</p>
-                            <p><strong>Visual Accessibility:</strong> {{roompreference.pref_2.visualAcc}}</p>
-                            <p><strong>Audio Accessibility:</strong> {{roompreference.pref_2.audioAcc}}</p>
-                            <p><strong>Physical Accessibility:</strong> {{roompreference.pref_2.physicalAcc}}
-                          </div>
-                          
-                          <div class="col-md-6 right pref2check"> 
-                            {% if preferences['pref2'] %} <!---If there is a conflicting course in pref--->
-                            <input id="pref2_roominfo" hidden value = "{{roompreference.pref_2.rID}}"></input><input id="pref2_confcourse" hidden value = "{{preferences['pref2']['cid']}}"></input>
-                            <p id="imnotempty2"><strong>Current Course in Room:</strong> {{preferences['pref2']['course_name']}}</p>
-                            <p><strong>Instructor:</strong> {{preferences['pref2']['instructor']}}</p>
-                            <p><strong>Schedule:</strong> {{preferences['pref2']['days']}} {{preferences['pref2']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref2']['endTime'].strftime('%I:%M  %p')}}</p>
-                            <p><strong>Notes:</strong> {{preferences['pref2']['notes']}}</p>
-                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=2 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
-                            {%else%}
-                            <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=2 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
-                            {% endif %}
-                                </div>
-                        </div>
-                    </div>
-                      </div>
-                                                       
-              </div>
-              {% endif %}
-              <!---Third preference tab, if that pref exists--->
-               {%if roompreference.pref_3%}
-               <div role="tabpanel" class="tab-pane" id="tab-04">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3><strong>{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</strong></h3>
-                    </div>
-                        <div class="panel-body">
-                          <input id= "pref3_room" hidden value="{{roompreference.pref_3.rID}}"></input>
-                          <input id="hidden{{roompreference.pref_3.rID}}" hidden value = "{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}"></input>
-                            <div class="row" style="display:flex;">
-                              <div class="col-md-6 left">
-                                <p><strong>Room Type:</strong> {{roompreference.pref_3.roomType}}</p>
-                                <p><strong>Room Capacity:</strong> {{roompreference.pref_3.maxCapacity}}</p>
-                                <p><strong>Movable Furniture:</strong> {{roompreference.pref_3.movableFurniture}}</p>
-                                <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_3.educationtech}}</p>
-                                <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_3.rID}}">
-                                Education Tech
-                              </button></p>
-                                <p><strong>Specialized Equipment:</strong> {{roompreference.pref_3.specializedEq}}</p>
-                                <p><strong>Specialized Features:</strong> {{roompreference.pref_3.specialFeatures}}</p>
-                                <p><strong>Visual Accessibility:</strong> {{roompreference.pref_3.visualAcc}}</p>
-                                <p><strong>Audio Accessibility:</strong> {{roompreference.pref_3.audioAcc}}</p>
-                                <p><strong>Physical Accessibility:</strong> {{roompreference.pref_3.physicalAcc}}
-                              </div>
-                              <div class="col-md-6 right pref3check">
-                                {%if preferences['pref3'] %} <!---If there is a conflicting course in pref--->
-                                <input id="pref3_roominfo" hidden value = "{{roompreference.pref_3.rID}}"></input><input id="pref1_confcourse" hidden value = "{{preferences['pref3']['cid']}}"></input>
-                                <p id="imnotempty3"><strong>Current Course in Room:</strong> {{preferences['pref3']['course_name']}}</p>
-                                <p><strong>Instructor:</strong> {{preferences['pref3']['instructor']}}</p>
-                                <p><strong>Schedule:</strong> {{preferences['pref3']['days']}} {{preferences['pref3']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref3']['endTime'].strftime('%I:%M  %p')}}</p>
-                                <p><strong>Notes:</strong> {{preferences['pref3']['notes']}}</p>
-                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton" data-id=3 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
-                                {%else%}
-                                <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=3 data-toggle="modal"data-target="#assignRoom">Assign course to room</button>
-                                {% endif %}
-                            
-                                
-                        
-                                </div>
-                            </div>
-                        </div>
-                  </div>
-                </div>
-              {%endif%}
-              </div>
-        </ul>
-      </div>
-    </div>
-    <button onclick="location.href='/roomResolution/{{termcode}}';" type="button" class="btn btn-primary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
-  <br> 
-</div> 
-{% include '/snips/educationTech.html'%}
-   
- 
-<!-- Modal for room assignment fix to apply to preferences-->
 
+<html>
+<body>
+<div class="center">
+  <h1 class="text-center"> <b>Room Resolutions View </b> </h1>
+  <!--<h2 class="text-center"><label for="changes"> Your changes have been saved !</label></h2><br>-->
+</div>
+
+<!--<link rel="stylesheet" href="/static/css/roomResolutionView.css">-->
+<!-- -->
+<!-- Container for the Unassigned class and -->
+<div class="container-fluid">
+    <div class = "row">
+      <h3><strong>Unassigned Class</strong></h3>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <label for="professor"><h4><strong>Professor: </strong></label> Dr. {{instructor.username.firstName}} {{instructor.username.lastName}}</h4>
+            <label for="courses"><h4><strong>Course: </strong></label>{{courses.prefix.prefix}}-{{courses.bannerRef.number}}</h4>
+            <label for="time"><h4><strong>Time:</strong> </label> {{courses.schedule.startTime}} - {{courses.schedule.endTime}}</h4>
+            <label for="title"><h4><strong>Title:</strong> </label> {{courses.bannerRef.ctitle}}</h4>
+            <label for="capacity"><h4><strong>Capacity:</strong> </label> {{courses.capacity}} </h4><br>
+            <h4><strong>Notes:</strong> </h4>
+            <textarea rows="6" cols="40">
+            I need this room for very important reasons.
+            </textarea> 
+            <div>
+                <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th>
+            </div>
+        </div>
+          
+
+        <div class="col-xs-8">
+          <ul class="nav nav-tabs">
+
+                             <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#tab-01" aria-controls="tab-01" role="tab" data-toggle="tab"><h4>Available Rooms</h4></a></li>
+                                    <li role="presentation"><a href="#tab-02" aria-controls="tab-02" role="tab" data-toggle="tab"><h4>Preference One</h4></a></li>
+                                    <li role="presentation"><a href="#tab-03" aria-controls="tab-03" role="tab" data-toggle="tab"><h4>Preference Two</h4></a></li>
+                                    <li role="presentation"><a href="#tab-03" aria-controls="tab-03" role="tab" data-toggle="tab"><h4>Preference Three</h4></a></li>
+                                  </ul>
+                                  <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="tab-01">
+                                      <div class="container pre-scrollable">
+                                        <div class="panel-group" style="border= 1px; overflow=auto" id="accordion">
+                                          {% for room in available_rooms %}
+                                          <!-- start of first according -->
+                                          <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                              <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
+                                              </h4>
+                                            </div>
+                                              <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide")>
+                                                <div class="panel-body">
+                                                  <label for="resources">Resources: </label> Projectors: {{room.educationTech.projector}}<br>
+                                                  <label for="roomcapacity">Room Capacity: </label> {{room.maxCapacity}} <br>
+                                                  <label for="visualaccessibility">Visual Accessibility:</label> {{room.visualAccessibility}} <br>
+                                                  <label for="hearingaccessibility">Hearing Accessibility: </label> {{room.audioAccessibility}} <br> 
+                                                  <label for="physicalaccessibility">Physical Accessibility: </label> {{room.physicalAccessibility}}<br>
+                                                  <th><button type="button" class="btn btn-primary btn-sm" data-toggle="modal"data-target="#assignRoom">Assign</button></th><br> 
+                                                </div>
+                                              </div>
+                                          </div>
+                                          {% endfor %}
+                                        <!-- end of accordion -->
+                                        </div>
+                                      </div>                                      
+                                    </div>
+                                    
+                                  
+                                    <div role="tabpanel" class="tab-pane" id="tab-02">
+                                      
+                                     
+                                        
+                                          
+                                          <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                              <h3>
+                                                <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
+                                          
+                                                <div class="panel-body">
+                                                  <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_1.maxCapacity}} <br>
+                                                  <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_1.visualAccessibility}} <br>
+                                                  <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_1.audioAccessibility}} <br> 
+                                                  <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_1.physicalAccessibility}}<br>
+                                                  <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jamal&basanta{{roompreference.pref_1.educationtech}}<br>
+                                                  <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> 
+                                                  <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br> 
+                                            
+                                                </div>
+                                            </div>
+                                          </div>
+                                        
+                                                                            
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="tab-03">
+
+                                          <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                              <h3>
+                                                <strong>{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</strong></h3>
+                                          
+                                                <div class="panel-body">
+                                                  <label for="roomcapacity">Room Capacity: </label> {{roompreference.pref_2.maxCapacity}} <br>
+                                                  <label for="visualaccessibility">Visual Accessibility:</label> {{roompreference.pref_2.visualAccessibility}} <br>
+                                                  <label for="hearingaccessibility">Hearing Accessibility: </label> {{roompreference.pref_2.audioAccessibility}} <br> 
+                                                  <label for="physicalaccessibility">Physical Accessibility: </label> {{roompreference.pref_2.physicalAccessibility}}<br>
+                                                  <label for="resources">Resources: </label> Education Tech: We are planning to borrow it from jamal&basanta{{roompreference.pref_2.educationtech}}<br>
+                                                  <label for="hearingaccessibility">Notes: </label> {{roompreference.notes}} <br> 
+                                                  <th><button type="button" class="btn btn-primary btn-sm">Assign</button></th><br> 
+                                            
+                                                </div>
+                                            </div>
+                                          </div>                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                     
+                                    </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </ul>
+            <br>
+          
+        </div>       
+    </div>    
+ </div>
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ <!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
+<!--  Launch demo modal-->
+<!--</button>-->
+
+<!-- Modal for room assignment -->
 <div class="modal fade" id="assignRoom" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Caution <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button></h5>
+        <h5 class="modal-title" id="exampleModalLabel">Caution</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-        <div class="modal-body" id="assignroomdiv"> 
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-          <button onclick="assignRoomCourse()" type="button" class="btn btn-success btn-md hide-btn" data-dismiss="modal">Save Changes</button> <!---Actually updates db--->
-        </div>
+      <div class="modal-body">
+       Are you sure you want to assign {{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}} course {{courses.prefix.prefix}}-{{courses.bannerRef.number}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="changesSaved">Save changes</button>
       </div>
     </div>
   </div>
-  
-  <!-- Assign conflicting room to the course Modal-->
-  <div class="modal fade" id="assignConflictingRoom" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+</div>
+
+
+
+
+
+<!-- Modal for changes saved -->
+<div class="modal fade" id="changesSaved" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Caution <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-        <div class="modal-body" id="assignConflictingDiv"> 
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-          <button onclick="resolveCourse()" class="btn btn-info btn-md" id="redirectbutton">Save and go to displaced course</button><!--- Saves changes and goes to the course that has just been unassigned-->
-        </div>
+      <div class="modal-body">
+        Changes have been saved!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-
-<script src = "/static/js/local/roomResolutionView.js"></script>
+</div>
+ 
 {% endblock %}
-
+</div>
 
 
 

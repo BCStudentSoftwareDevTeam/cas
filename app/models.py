@@ -108,15 +108,7 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
-  """
-  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(null=False)
-  """
+
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)
 
@@ -289,7 +281,6 @@ class RoomPreferences(dbModel):
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-
     
 
 #Begin education tech class
