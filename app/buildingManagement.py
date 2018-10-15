@@ -68,6 +68,7 @@ def education_Tech(rid):
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
     print("Sending response to front end", education_materials)
+    
     return json.dumps(education_materials) 
 
     
