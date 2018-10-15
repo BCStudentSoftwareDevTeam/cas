@@ -33,6 +33,7 @@ models:
     - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
+    - BuildingManager
     - InstructorCourse
     - InstructorSTCourse
     - Deadline
@@ -51,6 +52,8 @@ mainMenu:
     link: "/selectTerm"
   - title: "Sequence"
     link: "/selectProgram"
+  - title: "Room Preferences"
+    link: "/selectTermRP"
   - title: "Log Out"
     link: "/logout"
 
@@ -86,7 +89,7 @@ adminMenu:
     page: ["userManagement"]
   
   - title: "Room Resolution"
-    link:  "/roomResolution"
+    link:  "/roomResolutionTerm"
     page: ["roomResolution"]
   
 
@@ -162,10 +165,10 @@ columnColor:
   
 DEBUG:
   user: "heggens" #Admin Access
-  #user: "pearcej" #Division Chair Access
-  #user: "nakazawam"  #Program Chair Access
+  # user: "pearcej" #Division Chair Access
+  # user: "nakazawam"  #Program Chair Access
   #user: "lovelle" #Professor Access
-  #user: "sldkjfalsdkfj;" #for production
+  # user: "sldkjfalsdkfj;" #for production
   
 filepath:
   tmp: 'data/tmp'
@@ -220,6 +223,13 @@ contributors:
   - name: "Anne Otieno"
     username: "otienoa"
     year: 2020
+  - name: "Basanta Phuyal"
+    username: "phuyalb"
+    year: 2020
+  - name: "Muhammad Hamza Khattak"
+    username: "khattakm"
+    year: 2020
+    
 
 # The log file location   
 log:

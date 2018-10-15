@@ -21,16 +21,12 @@
                     {% endfor %}
                 </select>
                 <div class="modal-footer">
-                    {% if dummy %} 
-                     <button onclick="redirectTerm()" class="btn btn-success">Submit</button>
-                    {% else %}
-                    <button onclick="redirectCourses('{{prefix}}')" class="btn btn-success">Submit</button>
-                    {% endif %}
+                    <button onclick="redirectRP()" class="btn btn-success">Submit</button>
                 </div>  
                 
             </div>
         </div>
     </div>
 </div>
-<script src="/static/js/local/selectTerm.js"></script>
+<script src="/static/js/local/selectTermForRoomPreferences.js"></script>
 {% endblock %}

@@ -1,0 +1,49 @@
+[1mdiff --git a/app/static/js/local/roompreference.js b/app/static/js/local/roompreference.js[m
+[1mindex c93636a..f7188e8 100644[m
+[1m--- a/app/static/js/local/roompreference.js[m
+[1m+++ b/app/static/js/local/roompreference.js[m
+[36m@@ -229,15 +229,15 @@[m [mfunction education_detail(response){[m
+     }[m
+ }[m
+ [m
+[31m-$("#viewEdTech").click(function(event){[m
+[31m-    event.preventDefault();[m
+[31m-});[m
+[32m+[m[32m// $("#viewEdTech").click(function(event){[m
+[32m+[m[32m//     event.preventDefault();[m
+[32m+[m[32m// });[m
+ [m
+ /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/[m
+ function goto_educationTech() {[m
+[31m-   [m
+[32m+[m[41m  [m
+     // var room_id= $("#selectedRoom").val()[m
+[31m-    console.log('Hello')[m
+[32m+[m[41m   [m
+     selected_value = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();[m
+     // console.log("goTo_edtech rID: ", getRoomId());[m
+     // setRoomId(selected_value);[m
+[36m@@ -251,7 +251,7 @@[m [mfunction goto_educationTech() {[m
+                 dataType: 'json',[m
+                 type:'GET',[m
+                 success: function(response){[m
+[31m-                    console.log("Hello", response)[m
+[32m+[m[32m                    // console.log("Hello", response)[m
+                     education_detail(response); //a function with education tech details[m
+                 },[m
+                 error: function(error) {[m
+[1mdiff --git a/app/templates/roomPreference.html b/app/templates/roomPreference.html[m
+[1mindex dc37292..afb5278 100644[m
+[1m--- a/app/templates/roomPreference.html[m
+[1m+++ b/app/templates/roomPreference.html[m
+[36m@@ -156,8 +156,8 @@[m
+                                                 </div>[m
+                                                 <div class="row">[m
+                                                 <label  style="float:left;" > Education Tech: </label> <button [m
+[31m-                                                type="button" id = "viewEdTech" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> [m
+[31m-                                                <a href="#" onclick = "goto_educationTech()">  View </a></button>                   [m
+[32m+[m[32m                                                type="button" id = "viewEdTech" onclick = "goto_educationTech()" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal">[m[41m [m
+[32m+[m[32m                                                <a href="#" >  View </a></button>[m[41m                   [m
+                                                 <!--this view leads to the education tech exra room details-->[m
+                                                 </div>[m
+                                             </div>[m

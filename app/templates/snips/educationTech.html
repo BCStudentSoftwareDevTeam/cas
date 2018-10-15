@@ -1,0 +1,161 @@
+{% set url = request.path %}
+{% set url_chunks = url.split('/') %}
+{% set html = url_chunks[1] + '.html' %}
+{#{% extends html %}#}
+
+{% for room in available_rooms %}
+
+<div class="modal fade" id="edTechModal{{room.rID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="exampleModalCenterTitle"><font size="18"> EducationTech </font></span>
+        <button type="button"  class="close" class="btn btn-primary"  style="color: red; line-height: 3" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+        <table>
+        <tr>
+          <td>    
+                      <div class="row"><label style="float:left;" >
+                    
+                     Chalkboards: {{room.educationTech.chalkboards}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Computers(instructors) : {{room.educationTech.instructor_computers}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Projectors             : {{room.educationTech.projectors}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Podium                 : {{room.educationTech.podium}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Smartboards            : {{room.educationTech.smartboards}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Students Workstations  : {{room.educationTech.student_workspace}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Whiteboards            : {{room.educationTech.whiteboards}}</label> <br>
+                      </div> 
+                     <div class="row">
+                         <label id="dvdIcon" style="float:left;" > DVD  : {{room.educationTech.dvd}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="audioIcon" style="float:left;"> Audio : {{room.educationTech.audio}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="blu_rayIcon" style="float:left;" >Blue_Ray: {{ room.educationTech.blu_ray}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="extroIcon" style="float:left;"> Extro: {{room.educationTech.extro}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="doc_camIcon" style="float:left;" > Doc_Cam: {{room.educationTech.doc_cam}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="vhsIcon" style="float:left;"> VHS: {{ room.educationTech.vhs}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="mondopadIcon" style="float:left;" > mondopad: {{ room.educationTech.mondopad}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="tech_chartIcon" style="float:left;">Tech_Chart: {{ room.educationTech.tech_chart}}</label>
+                     </div>
+            </td>
+        </tr>
+        </table> 
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+                                   
+{% endfor %}                       
+
+{% set options = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
+{% for room in options %}
+ {% if room %}
+  <div class="modal fade" id="edTechModal{{room.rID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="exampleModalCenterTitle"><font size="18"> EducationTech</font></span>
+        <button type="button"  class="close" class="btn btn-primary"  style="color: red; line-height: 3" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+        <table>
+        <tr>
+          <td>    
+          
+                      <div class="row"><label style="float:left;" >
+                    
+                     Chalkboards: {{room.educationTech.chalkboards}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Computers(instructors) : {{room.educationTech.instructor_computers}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Projectors             : {{room.educationTech.projector}}  </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Podium                 : {{room.educationTech.podium}} </label><br> 
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Smartboards            : {{room.educationTech.smartboards}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Students Workstations  : {{room.educationTech.student_workspace}} </label><br>
+                      </div>
+                      <div class="row"><label style="float:left;" >
+                     Whiteboards            : {{room.educationTech.whiteboards}}</label> <br>
+                      </div> 
+                     <div class="row">
+                         <label id="dvdIcon" style="float:left;" >DVD  : {{room.educationTech.dvd}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="audioIcon" style="float:left;"> Audio : {{room.educationTech.audio}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="blu_rayIcon" style="float:left;" >Blue_Ray: {{ room.educationTech.blu_ray}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="extroIcon" style="float:left;">Extro: {{room.educationTech.extro}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="doc_camIcon" style="float:left;" >Doc_Cam: {{room.educationTech.doc_cam}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="vhsIcon" style="float:left;">VHS: {{ room.educationTech.vhs}}</label>
+                     </div>
+                     <div class="row">
+                         <label id="mondopadIcon" style="float:left;" >mondopad: {{ room.educationTech.mondopad}}</label> 
+                     </div>
+                     <div class="row">
+                         <label id="tech_chartIcon" style="float:left;">Tech_Chart: {{ room.educationTech.tech_chart}}</label>
+                     </div>
+            </td>
+            
+        </tr>
+        </table> 
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}

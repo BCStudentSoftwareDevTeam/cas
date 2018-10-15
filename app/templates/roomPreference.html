@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %} <!--This is used for the sidebar -->
+<!--Page Content -->
+{% block body %}
+<!--The following code runs to create the room preference table-->
+<h1 class="text-center"><strong>Room Preference Selection</strong></h1>
+<p class="text-center">The selection of room preferences does not guarantee that a class will be placed in certain room
+</p>
+<div class="card">
+    <table class="table"> <!-- the fixed healines on the top of the table-->
+        <thead class="thead-dark">
+            <th scope="col"><h4><strong> Term </strong></h4></th>
+            <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
+            <th scope="col"> <h4><strong>Section </strong></h4></th>
+            <th scope="col"><h4> <strong>Time</strong> </h4></th>
+            <th scope="col"><h4><strong> # of Students</strong></h4> </th>
+            <th scope="col"><h4><strong>Preference 1</strong></h4></th>
+            <th scope="col"><h4><strong> Preference 2</strong></h4></th>
+            <th scope="col"><h4><strong>Preference 3 </strong></h4></th>
+            <th scope="col"><h4><strong>Notes </strong></h4></th>
+        </thead>
+        <tbody>
+            <!-- looping through each course in roompreference for the following data -->
+            
+            {% for roompreference in roompreferences %}
+                <tr class = "courseTablerow1 selectTermModal" id = "courseTableRow_{{roompreference.course.cId}}">
+		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
+                    <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                    <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
+                    <td> {{roompreference.course.time}}</td>
+                    <td> {{roompreference.course.capacity}} </td>
+                    {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
+                
+                    {% for pref in p1 %}
+                        <td>
+                            <!-- checks the value of the preference and acts accordingly to add 1 to the setPreference() -->
+                            <button {% if pref != None %}
+                                        value="{{pref.rID}}"
+                                    {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
+                                        value="0"  {# Holds room ID, NOT pref ID #} 
+                                    {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
+                                        value = "-1"
+                                    {% else %}
+                                        value="0"
+                                    {% endif %} 
+                                    onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
+                                    id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
+                                    class="btn btn-md {% if pref != None %} btn-success {% else %} btn-default {% endif %}" 
+                                    type="button" 
+                                    disabled
+                                    data-toggle="collapse" 
+                                    data-target="#firstCollapser" 
+                                    aria-expanded="false" 
+                                    aria-controls="firstCollapser" >
+                                        {% if pref != None %}
+                                            {{pref.building.shortName}} {{pref.number}} 
+                                        {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
+                                                Any Room Works 
+                                        {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
+                                                {% if loop.index|string == 1 %}
+                                                    The course does not require a room
+                                                {% else %}
+                                                    No Other Room Works
+                                                {% endif %}
+                                        {% else %}
+                                            Any Room Works 
+                                        {% endif %}     
+                            </button>
+                        </td>
+                    {% endfor %}
+                    
+                    <td> 
+                    <!--This table manages notes instructions on seeing room preference-->
+                        <div class = "notesHolders"  id= "NotesHolder_{{roompreference.course.cId}}"></div>
+                    </td>
+                </tr>
+                <tr class = "hiddenRow">
+                    <td colspan = "9">
+                        <div class = "hiddenDiv panel-collapse collapse" id="modalRowCourse{{roompreference.course.cId}}">Trash</div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!--Room selection collapse which contains room inforamation and leads to the selections under particular row-->
+<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" >
+    <form>
+        <div class="collapse" id="firstCollapser" >
+            <table class="table table-dark">
+                <tr>
+                    <td>
+                        <div class="panel panel-default" disabled>
+                            <div class="panel-header">
+                               <h4 id= 'roomPickHeader' class = "col-md-6" align = 'center' style = 'padding-left: 40px;'><strong>Pick a Room: </strong></h4> 
+                               <!--<h4 id= 'roomPickHeader'  style ="padding-left: 355px;"><strong>Pick a Room: </strong></h4>-->
+                            </div>
+                            <div class="panel-body">
+                                <div class="container">
+                                    <div class="row" id = "roomSelectModalDiv"> 
+                                  
+                                        <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
+                                            <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
+                                            <option id="anyVal" value = "0">  Any Room Works </option> 
+                                            <option id= "noRoom" value="-1"> This course does not require a room</option>
+                                            
+                                            <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
+                                            {% for r in room %}
+                                                <option id="{{r['rID']}}" 
+                                                        value = "{{r['rID']}}" 
+                                                        data-toggle="collapse" 
+                                                        data-target="#collapseExample" 
+                                                        aria-expanded="false" 
+                                                        aria-controls="collapseExample" >
+                                                            {{r['building']['name']}} {{r['number']}} {# ({{r['building']['shortName']}} {{r['number']}}) #}
+                                                        </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>  
+                                      <!--<br>-->
+                                    <div class="row">
+                                        <div  id = "Details" class="collapse" id="collapseExample">
+                                            <div id= "withoutSelectButton">
+                                            <div class="col-sm-6">
+                                                <!--This gives the room details-->
+                                                <div class="row">
+                                                    <label  style="float: left;"> Room Number: </label><div id="roomNumber" > {{room.number}}</div>
+                                                </div>    
+                                                <div class="row">
+                                                    <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <label id="visualAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="A"></label><br> 
+                                                </div>
+                                                <div class="row">
+                                                    <label id="audioAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="B"></label><br> 
+                                                </div>
+                                                <div class="row">
+                                                    <label id="physicalAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="C"></label><br> 
+                                                </div>
+                                                <div class="row">
+                                                    <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
+                                                </div>
+                                                <div class="row">
+                                                        <label  style="float: left;">Movable Furniture: </label> 
+                                                        <div id="movableFurniture">
+                                                            {% if room.movableFurniture %} 
+                                                                <span class="glyphicon glyphicon-ok"></span> 
+                                                            {% else %}
+                                                                <span class="glyphicon glyphicon-remove"></span> 
+                                                            {% endif %}
+                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
+                                                </div>
+                                                <div class="row">
+                                                <label  style="float:left;" > Education Tech: </label> <button 
+                                                type="button" id = "viewEdTech" onclick = "goto_educationTech()" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
+                                                <a href="#" >  View </a></button>                   
+                                                <!--this view leads to the education tech exra room details-->
+                                                </div>
+                                            </div>
+                                                <!--Education tech modal -->
+                                                {% include "snips/educationTech.html" %}
+                                                <!--This populates the course conflict box to the right bottom of the page-->
+                                            <div class="row" >
+                                            {# FIXME The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
+                                            getting for their course
+                                                <div class="col-lg-5 invisible" align="center" > 
+                                                    <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
+                                                    <table border=4>
+                                                        <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
+                                                        <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
+                                                    {% for instructor in instructors %}
+                                                        <tr>
+                                                            <td class="col-md-2">{{instructor.username.firstName}} {{instructor.username.lastName}} </td>
+                                                            <td class="col-md-1">{{instructor.course.bannerRef }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </table>
+                                                </div>#} {# END FIXME #}
+                                            </div> 
+                                            </div>
+                                            <br>
+                                            <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for futire room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
+                                            <div class="row">
+                                                <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                            </div>
+                                            <!-- this brings the preference notes modal-->
+                                            <!-- this is the modal leading to all the changes on the page, it has a cancel button for closing the modal -->
+                                            </div>
+                                            <form role="form">
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content"> 
+                                                            <div class="modal-header" style="background-color: #2c3e50;">
+                                                                <p style="color: white;" id="modelRoom"></p> 
+                                                            </div>
+                                                            <div class="modal-body" align="left">
+                                                                <div class="alert alert-warning alert-dismissible" hidden role="alert">
+                                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                  </button>
+                                                                  Please indicate why you selected these room preferences.
+                                                                </div>
+                                                                <div class="form-group">Indicate why you need these preferences: </label>
+                                                                    <textarea class="form-control" id="message-text" name="message-text" required="true"></textarea>
+                                                                </div>
+                                                                
+                                                            </div>      
+                                                            <div class="modal-footer" padding: "10px" style="margin-right:.4em;"> 
+                                                    
+                                                    
+                                                            {# <div class ="row">
+                                                                <div class="col-sm-6" align ="center">
+                                                                    <button  type="button" id="selectAny" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
+                                                                </div>
+                                                                <div class="col-sm-6" align= "center">
+                                                                    <button  type="button" id="selectNone" class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
+                                                                </div>
+                                                            </div> #}
+                                                    
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-sm-6" align = "left">
+                                                                    <button type="button" class="btn btn-warning"  data-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                                <div class="col-sm-6"> 
+                                                                    {# <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick='saveValue(),goToNextPref()'> Save & Close </button> #}
+                                                                    <button type="button" class="btn btn-primary" onclick='saveValue()'> Save & Close </button>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div> 
+                                            
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>  
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<span id="Notes1" hidden>Your course will be placed in the first available room. </span>
+<span id="Notes2" hidden>Your course will be placed in ||pref_1|| if able, or the first available room.</span>
+<span id="Notes3" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able, or the first available room.</span> 
+<span id="Notes4" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| or ||pref_3|| if able, or the first available room.</span> 
+<span id="Notes5" hidden>Your course will be placed in ||pref_1|| if able.</span>
+<span id="Notes6" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able.</span>
+<span id="Notes7" hidden>You have indicated that your course does not require a room. </span>
+{% block belowContainer %}
+<link rel="stylesheet" href="/static/css/roomPreference.css">
+<script type="application/javascript" src="/static/js/local/roompreference.js"></script>
+{% endblock %} 
+
+{% endblock %}
+<!--check the model for roompreferences for any and non reason datafields because they are not used yet-->
+
