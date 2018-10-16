@@ -86,7 +86,7 @@ adminMenu:
     page: ["userManagement"]
     # we added
   - title: "Room Resolution"
-    link:  "/roomResolution"
+    link:  "/selectTermRR"
     page: ["roomResolution"]
 
     

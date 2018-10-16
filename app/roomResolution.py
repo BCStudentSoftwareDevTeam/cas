@@ -7,12 +7,12 @@ from app.logic import functions
 import json
 
 #Term modal
-@app.route("/roomResolutionTerm", methods=["GET"])
-@must_be_admin
-def roomResolutionTerm():
-    terms = Term.select()
-    dummy = True
-    return render_template("selectTerm.html", allTerms=terms, dummy=dummy)
+# @app.route("/roomResolutionTerm", methods=["GET"])
+# @must_be_admin
+# def roomResolutionTerm():
+#     terms = Term.select()
+#     dummy = True
+#     return render_template("selectTerm.html", allTerms=terms, dummy=dummy)
     
     
 #Room Resolution Page  
@@ -20,7 +20,7 @@ def roomResolutionTerm():
 @must_be_admin
 def roomResolution(termCode):
     # Creating the UI
-    courses = Course.select().where(Course.rid == None, Course.term==termCode, Course.schedule.is_null(False))
+    courses = Course.select().where(Course.rid == None, Course.term==termCode, Course.schedule.is_null(False)).order_by(Course.prefix.asc())
     return render_template("roomResolution.html",  isAdmin=g.user.isAdmin, courses=courses, termcode=termCode)
     
     
