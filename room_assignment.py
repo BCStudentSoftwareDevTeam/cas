@@ -89,23 +89,23 @@ class RoomAssigner:
     def calculate_priority(self, roomPref):
         ''' This method defines a priority value to a roomPref object based on the preferences chosen by the user'''
         
-            priorityScore = 0
-            
-            if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3): # If a room was selected for all three preference options
-                return 3
-            if(roomPref.pref_1 and roomPref.pref_2): # If a room was selected only for pref 1 and pref 2
-                if(roomPref.none_Choice == 3): # If 'no other room works' was selected for pref 3
-                    return 2
-                else:
-                    return 5
-            if(roomPref.pref_1): # If a room was selected only for pref 1
-                if(roomPref.none_Choice): # If 'no other room works was selected for pref 2 , 3'
-                    return 1
-                else:
-                    return 4
-            else:
-                return 6
+        priorityScore = 0
         
+        if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3): # If a room was selected for all three preference options
+            return 3
+        if(roomPref.pref_1 and roomPref.pref_2): # If a room was selected only for pref 1 and pref 2
+            if(roomPref.none_Choice == 3): # If 'no other room works' was selected for pref 3
+                return 2
+            else:
+                return 5
+        if(roomPref.pref_1): # If a room was selected only for pref 1
+            if(roomPref.none_Choice): # If 'no other room works was selected for pref 2 , 3'
+                return 1
+            else:
+                return 4
+        else:
+            return 6
+    
     def set_priority(self):
         ''' This method will grab all of the room preferences and set the correct priority since the 
             room preferences on prod have already been set. '''
@@ -180,74 +180,84 @@ class RoomAssigner:
   
     
     def check_room_availability(self, choice, roomPref):
-        ''' This method checks if a room is available for scheduling for a particular time slot. If the room is available, a course is scheduled there for the time. Else it leaves the room alone #deuces. '''
-        
+        ''' This method checks if a room is available for scheduling for a particular time slot. 
+            If the room is available, a course is scheduled there for the time. 
+            Else it leaves the room alone #deuces. 
+            A - course we're trying to schedule based on the room preference (roomPref)
+            B - Potentially conflicting course we're currently comparing against
+            param choice: a room object
+            param roomPref: a RoomPreference object
+            
+            return: ???
+            '''
+            
+            
         ''' course & taken_time = (cid, start_time, endtime, [days]) '''
          
-         if choice in self.rooms_scheduled:
-             can_schedule = True
-             unavailable_times = self.rooms_scheduled[choice] #All of the courses currently scheduled into to the room
-             start_timeA = roomPref.course.schedule.startTime
-             end_timeA   = roomPref.course.schedule.endTime
-             A_days = [] # A days are the days for the course we are trying to put in a room  
-             
-             schedule_days_A = ScheduleDays.select().where(ScheduleDays.schedule == roomPref.course.schedule.sid)
-             for i in schedule_days_A:
-                 A_days.append(i.day)
+        if choice in self.rooms_scheduled:         # if the room I'm trying to schedule is in the dictionary of rooms which already have scheduled times
+            can_schedule = True
+            unavailable_times = self.rooms_scheduled[choice]   # All of the schedules currently used in this room ("choice")
+            start_timeA = roomPref.course.schedule.startTime   # Start time of the roomPreference we're trying to schedule
+            end_timeA   = roomPref.course.schedule.endTime     # End time of the roomPreference we're trying to schedule
+            A_days = []                                        # A days are the days for the course we are trying to put in a room  
+            
+            schedule_days_A = ScheduleDays.select().where(ScheduleDays.schedule == roomPref.course.schedule.sid)
+            for i in schedule_days_A:
+                A_days.append(i.day)
        
-             for taken_time in unavailable_times:
+            for taken_time in unavailable_times:
                  
-                 B_days = [] # These are the days for the courses already scheduled in a particular room 
-                 
-                 schedule_days_B =  ScheduleDays.select().where(ScheduleDays.schedule == taken_time.course.schedule.sid)
-                 for i in schedule_days_B:
-                    B_days.append(i.day)
-                 all_days = A_days + B_days
+                B_days = []                                    # These are the days for the courses already scheduled in a particular room 
                 
-                 duplicates = set([x for x in all_days if all_days.count(x) > 1]) 
-                 #duplicates: Check to see if the two courses have days in common
-                 if len(duplicates) != 0: 
-                     #Check the specific times only if they have days in common
-                     start_timeB = taken_time.course.schedule.startTime
-                     end_timeB   = taken_time.course.schedule.endTime
-                     if end_timeA <= start_timeB or start_timeA >= end_timeB:
-                         pass
-                     else:
-                         can_schedule = False
-             if can_schedule == True:
-                 unavailable_times.append(roomPref)
-                 roomPref.course.rid = choice
-                 roomPref.course.save()
-                 self.rooms_scheduled[choice] = unavailable_times
-                 return True
-             else: 
-                 return False
-         else:
-             roomPref.course.rid= choice
-             roomPref.course.save()
-             self.rooms_scheduled[choice] = [roomPref]
-             return True
+                schedule_days_B =  ScheduleDays.select().where(ScheduleDays.schedule == taken_time.course.schedule.sid)
+                for i in schedule_days_B:
+                    B_days.append(i.day)
+                all_days = A_days + B_days                     # We're gonna check all the days for both A and B
+                
+                duplicates = set([x for x in all_days if all_days.count(x) > 1])       # Removes any day that only has 0 or 1 entry in all_days
+                #duplicates: Check to see if the two courses have days in common
+                if len(duplicates) != 0: 
+                    #Check the specific times only if they have days in common
+                    start_timeB = taken_time.course.schedule.startTime
+                    end_timeB   = taken_time.course.schedule.endTime
+                    if end_timeA <= start_timeB or start_timeA >= end_timeB:
+                        pass
+                    else:
+                        can_schedule = False
+            if can_schedule == True:
+                unavailable_times.append(roomPref)         # Add the room to unavailable_times
+                roomPref.course.rid = choice               # Saves room to course for this pref               
+                roomPref.course.save()                     
+                self.rooms_scheduled[choice] = unavailable_times       # Updates schedules taken for this room
+                return True
+            else:               
+                return False
+        else:                      # No courses have been scheduled in this room ("choice") yet; create it
+            roomPref.course.rid= choice
+            roomPref.course.save()
+            self.rooms_scheduled[choice] = [roomPref]
+            return True
     
     def assign_room(self):
         ''' This method simply assigns rooms to courses based on their priority granted that the rooms are already found available. '''
         
-         for priority in PRIORITY:
-             preferences = self.priority_map[priority]
-             for roomPref in preferences:
-                 prefs = DATA_SET[roomPref.rpID]
-                 for choice in prefs:
-                     if choice == "*":
-                         self.anywhere.append(roomPref)
-                     elif choice == None:
-                         self.unhappy.append(roomPref)
-                     else: 
-                         available = self.check_room_availability(choice, roomPref)
-                         if available == True:
-                             break
-                         else:
-                             if choice == prefs[-1]: #if this is the last element in a list
-                                 self.unhappy.append(roomPref)
-                                 break
+        for priority in PRIORITY:
+            preferences = self.priority_map[priority]
+            for roomPref in preferences:
+                prefs = DATA_SET[roomPref.rpID]
+                for choice in prefs:
+                    if choice == "*":
+                        self.anywhere.append(roomPref)
+                    elif choice == None:
+                        self.unhappy.append(roomPref)
+                    else: 
+                        available = self.check_room_availability(choice, roomPref)
+                        if available == True:
+                            break
+                        else:
+                            if choice == prefs[-1]: #if this is the last element in a list
+                                self.unhappy.append(roomPref)
+                                break
             
    
 
