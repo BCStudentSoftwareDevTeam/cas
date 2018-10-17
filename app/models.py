@@ -78,6 +78,10 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
+  def __repr__(self):
+    return self.name 
+
+
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
@@ -95,7 +99,9 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-  
+
+  def __repr__(self):
+    return str(self.eId)
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
