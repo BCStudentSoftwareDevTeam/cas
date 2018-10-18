@@ -53,6 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
+  # sdID    = PrimaryKeyField()
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
@@ -77,6 +78,10 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
+  def __repr__(self):
+    return self.name 
+
+
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
@@ -94,7 +99,9 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-  
+
+  def __repr__(self):
+    return str(self.eId)
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
@@ -108,15 +115,7 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
-  """
-  visualAccessibility     = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  audioAccessibility      = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  physicalAccessibility   = CharField(null=True) #Has to be false, we added it just because we wanted  to run the files
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField(null=False)
-  """
+
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)
 
@@ -186,7 +185,7 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
-  # days              = ForeignKeyField(ScheduleDays, null= False)
+  # days              = ForeignKeyField(ScheduleDays, null= True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -231,9 +230,9 @@ class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-# class BuildingManager(dbModel):
-#   username     = ForeignKeyField(User)
-#   bmid         = ForeignKeyField(Building)
+class BuildingManager(dbModel):
+  username     = ForeignKeyField(User)
+  bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
@@ -264,7 +263,7 @@ class CourseChange(dbModel):
   changeType        = CharField(null = True)
   verified          = BooleanField(default = False)
   crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = False)
+  rid               = ForeignKeyField(Rooms, null = True)
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
@@ -275,7 +274,6 @@ class InstructorCourseChange(dbModel):
 class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
-  
   instructor   = ForeignKeyField(User, null=True)
   
 class RoomPreferences(dbModel):
@@ -289,8 +287,7 @@ class RoomPreferences(dbModel):
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-
-    
+  priority = IntegerField(default = 6)  
 
 #Begin education tech class
 
