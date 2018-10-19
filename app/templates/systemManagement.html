@@ -107,9 +107,10 @@
             </div>
             <!--</div>-->
       {% endif %}
-    {% if state.number in format2 %} 
+    <!--{% if state.number in format2 %} -->
       <!--FINISH-->
-       <div id="order{{state.order}}" class=" collapse">
+       <div id="order{{state.order}}" class="collapse">
+       <!--<div id="order6" class="collapse">-->
           <div class = "panel-body panel_color">
             <div class = "row text-center">
               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
@@ -118,7 +119,7 @@
               <div class = "col-sm-3 text-left ">
               <!--Click below to go to Room resolutions page-->
                 <p><sub>{{cfg['states'][state.number]['goto_text']}}</sub></p>
-                <a>{{cfg['states'][state.number]['goto_link']}}</a>
+                <a onclick = "goto_roomResolution()">{{cfg['states'][state.number]['goto_link']}}</a>
               </div>
               <div class= "col-sm-6 text-center">
                   <p>
@@ -135,14 +136,14 @@
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
-                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}})"> {{state.display_name}}
+                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}}); collapser();"> {{state.display_name}}
                   </button>
                   
                 </div>
           </div>
         </div>
         </div>
-     {% endif %}
+     <!--{% endif %}-->
         <!--The archive panel and the button after finish-->
        <div id="order7" class="collapse" >
           <div class = "panel-footer">

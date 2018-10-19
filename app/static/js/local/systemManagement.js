@@ -54,8 +54,9 @@ function showPanel(termCode, button){
     
         // console.log($(show_id).attr('aria-expanded'))
     
-        $(show_id).addClass("in");      
-
+        $(show_id).addClass("in");  
+        
+        
         // console.log("Toggling");
     } else {
      
@@ -154,12 +155,9 @@ function change_btn_name(){
         $("#myModal .modal-body").text('Are you sure you want to archive the term');
     }
 }
-
-$(document).on('click', '.finalize', function(){
-    $('.finish').collapse('hide');
-    $('#archive').collapse('show');
-
-});
+function collapser(){
+    $('#order6').removeClass("in"); 
+}
 
 function change_text() {
     var elem = document.getElementById("btn1");
@@ -290,6 +288,15 @@ function downloadCourses(){
     
     window.location.href = '/excel/'+termCode;
 
+    
+}
+
+function goto_roomResolution(){
+    var allPanelsDiv = $("#allPanels");
+    
+    var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
+    
+    window.location.href = '/roomResolution/'+termCode;
     
 }
 
