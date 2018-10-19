@@ -61,7 +61,7 @@ def updateTermState():
    print('State Order', data['stateOrder'])
    
    if data['stateOrder'] == str(5): # Call the Room Assignment Algorithm
-      print('In the assign if')
+      # print('In the assign if')
       room_assigner = RoomAssigner(data['termCode'])
       room_assigner.courses_query()
       

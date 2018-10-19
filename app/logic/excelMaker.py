@@ -46,20 +46,21 @@ class ExcelMaker:
         sheet.write('A{0}'.format(row),course.prefix.prefix)
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
+        
+        
         #Course Schedule
-        # print('About to enter course.schedule')
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
             # print('About to get days')
                  
             schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule.sid)
-            # print (schedule_days, "ScheduleDays")
+      
             days = ""
             for i in schedule_days:
                 days += str(i.day)
           
-            # print("Days", days)
+   
           
             if days is None:
                 days = "TBD"
@@ -75,27 +76,28 @@ class ExcelMaker:
         sheet.write('J{0}'.format(row),room_name)
         sheet.write('I{0}'.format(row),course.section)
         
+        
+        # Room Information
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
      
         preference_1 = ""
         preference_2 = ""
         preference_3 = ""
         
-        preferences = []
         if room_preferences: 
             for room_preference in room_preferences:
-                preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
-                preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
-                preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
-                print('Course', room_preference.course.cId, room_preference.pref_1.number, room_preference.pref_2.number, room_preference.pref_3.number)
-                preferences.append(preference_1)
-                preferences.append(preference_2)
-                preferences.append(preference_3)
-                sheet.write('K{0}'.format(row),preference_1)
-                sheet.write('L{0}'.format(row),preference_2)
-                sheet.write('M{0}'.format(row),preference_3)
-        
-        print(preferences)
+                if room_preference.pref_1:
+                    preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
+                    sheet.write('K{0}'.format(row),preference_1)
+                if room_preference.pref_2:
+                    preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
+                    sheet.write('L{0}'.format(row),preference_2)
+                if room_preference.pref_3:
+                    preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
+                    sheet.write('M{0}'.format(row),preference_3)
+                  
+       
+       
         #Instructor Information
         if self.intr_letter == 'N':
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)

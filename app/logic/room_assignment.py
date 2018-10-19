@@ -43,6 +43,7 @@ class RoomAssigner:
         self.debug            = True
         
     def lazy_print(self, info=None, variable=None, results=False):
+        '''This method prints the values of all the class variables'''
         if results == False:
             message = '{0}: {1}'.format(info, variable)
             print message
@@ -86,97 +87,70 @@ class RoomAssigner:
             print '#Results: Total: {0}, Scheduled: {1}, Unhappy: {2}, Anywhere: {3}'.format(self.cid_num,len(scheduled_values),len(unhappy_values),len(anywhere_values))
     
     def calculate_priority(self, roomPref):
-            priorityScore = 0
-            if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3):
-                return 3
-            if(roomPref.pref_1 and roomPref.pref_2):
-                if(roomPref.none_Choice == 3):
-                    return 2
-                else:
-                    return 5
-            if(roomPref.pref_1):
-                if(roomPref.none_Choice):
-                    return 1
-                else:
-                    return 4
-            else:
-                return 6
+        ''' This method defines a priority value to a roomPref object based on the preferences chosen by the user'''
         
+        priorityScore = 0
+        
+        if(roomPref.pref_1 and roomPref.pref_2 and roomPref.pref_3): # If a room was selected for all three preference options
+            return 3
+        if(roomPref.pref_1 and roomPref.pref_2): # If a room was selected only for pref 1 and pref 2
+            if(roomPref.none_Choice == 3): # If 'no other room works' was selected for pref 3
+                return 2
+            else:
+                return 5
+        if(roomPref.pref_1): # If a room was selected only for pref 1
+            if(roomPref.none_Choice): # If 'no other room works was selected for pref 2 , 3'
+                return 1
+            else:
+                return 4
+        else:
+            return 6
+    
     def set_priority(self):
         ''' This method will grab all of the room preferences and set the correct priority since the 
-            room preferences on prod have already been set. In the future, this should be handled by the
-            roomPreference.py file as the users make changes through the Room Preferences UI.'''
+            room preferences on prod have already been set. '''
+            
         preferences = RoomPreferences.select() 
+        
         for preference in preferences:
-            prefPriority = self.calculate_priority(preference)
-            preference.priority = prefPriority
+            pref_priority = self.calculate_priority(preference) # This the priority value for a specific roomPref object
+            preference.priority = pref_priority
             preference.save()
             
     def courses_query(self):
-        '''This method will grab all of the courses that need to be scheduled.'''
-        #TODO: This query will need to be modified to grab all of the unscheduled courses.
-        #The current query is still setup for my testing suite. 
-        #This should query the RoomPreferences table, not the course table
-        # print("Before the query", self.default_semester)
-        # preferences = RoomPreferences.select().join(Course).where(Course.term == self.default_semester
-                            # ).where(RoomPreferences.course == Course.cId
-                                        # )
-        # This query retrieves all courses with no rooms assigned yet
+        '''This method will grab all of the courses that need to be scheduled.
+        We are excluding the ZZZ scheduling because it is a special case time that is scheduled from 12 A - 12 A'''
+  
         self.set_priority()
         
-        preferences = RoomPreferences.select().join(Course).where(RoomPreferences.course == Course.cId
-                                    ).where(Course.term == self.default_semester).where(Course.rid == None
+        preferences = RoomPreferences.select().join(Course).where(Course.rid == None
+                                    ).where(RoomPreferences.course == Course.cId
+                                    ).where(Course.term == self.default_semester
                                     ).join(BannerSchedule, on = (BannerSchedule.sid == Course.schedule
-                                    )).where(Course.schedule != 'ZZZ').order_by(BannerSchedule.order).distinct()
-        # print (preferences)          
-        # for i in preferences:
-            # print(i.rpID, i.course.cId, i.course.schedule.letter)
-                                  
-        # courses = Course.select(
-        #               ).join(Rooms, JOIN.LEFT_OUTER, on = (Course.rid == Rooms.rID)
-        #               ).join(BannerSchedule, on = (Course.schedule == BannerSchedule.sid)
-        #               ).join(Term, on = (Course.term == Term.termCode)
-        #               ).where(
-        #                   Term.termCode == self.default_semester,
-        #                   Course.schedule != 'ZZZ'
-        #               ).order_by(BannerSchedule.order)        
-        
+                                    )).where(Course.schedule != 'ZZZ'
+                                    ).order_by(BannerSchedule.order).distinct()
+     
         return preferences
     
-    def pick_random_room(self,building_id,room_list):
-        '''FIXME: This method will need to be removed from the class. This was
-        only meant to be used during the algorithm testing phase. '''
-        query = Rooms.select(Rooms.rID).where(Rooms.building == building_id)
-        rooms = list(t.rID for t in query)
-        pick = random.choice(rooms)
-        if len(rooms) > 3:
-            pick = random.choice(rooms)
-            while (pick in room_list):
-                pick = random.choice(rooms)
-        room_list.append(pick)
-        return room_list
+  
     
     def create_data_set(self):
         '''This method was built with the intention to convert the data within
-        the model to the data structure used by the algorithm. Therefore, the
-        method should convert the models data to the data structure needed for
-        the algorithm. This method is essentially the middleware.'''
+        the model to the data structure used by the algorithm. This method is essentially the middleware.'''
         data_set         = dict()
         preferences      = self.courses_query()
         
+        # if self.debug:
+        #     self.lazy_print('Courses query:',preferences)
         
-        if self.debug:
-            self.lazy_print('Courses query:',preferences)
         for course_preferences in preferences:
-            # pdb.set_trace()
-            # priority = random.choice(PRIORITY) 
-            #TODO: The priority should live inside of the database now.
-            #We can add it to the RoomPreferences table
+      
             try:
-                #TODO: The room list will now need to be built based off of 
-                #pref_1, pref_2 & pref_3.
-                #building_id = course.rid.building
-                room_list = []
+              
+                room_list = [] # This list has the  preference values for a roomPref object Ex: [102, 108, *]
+                 
+                # * stands for 'any room works' | None stands for 'This course does not require a room' or 'No other room works'
+                
                 
                 if course_preferences.priority == 1:
                     room_list = [course_preferences.pref_1.rID, None]
@@ -193,212 +167,109 @@ class RoomAssigner:
                 
                 data_set[course_preferences.rpID] = room_list
                 self.priority_map[course_preferences.priority].append(course_preferences)
-            
+                
+                
+         
             except Exception as e:
                 print(e)
                 
-                #building_id = random.choice([3,5]) #3 is the id for drapper, 5 is the id for frost
-                #room_list = self.pick_random_room(building_id,[])
-                #TODO: Remove the building_id this was used to help with the testing
-            #FUTURE: We could keep the building_idit could be used later to help try to assign
-            # courses to a similar room
-            # if priority == 1:
-            #     room_list.append(NONE)
-            #     data_set[course.cId] = room_list
-            # elif priority == 2:
-            #     room_list = self.pick_random_room(building_id,room_list)
-            #     room_list.append(NONE)
-            #     data_set[course.cId] = room_list
-            # elif priority == 3:
-            #     room_list = self.pick_random_room(building_id,room_list)
-            #     room_list = self.pick_random_room(building_id,room_list)
-            #     data_set[course.cId] = room_list
-            # elif priority == 4:
-            #     room_list.append(WILDCARD)
-            #     data_set[course.cId] = room_list
-            # elif priority == 5: 
-            #     room_list = self.pick_random_room(building_id,room_list)
-            #     room_list.append(WILDCARD)
-            #     data_set[course.cId] = room_list
-            # else:
-            #     data_set[course.cId] = [WILDCARD]
-        if self.debug:
-            self.lazy_print('The Complete data_set: ',data_set)
-        print(self.priority_map)
+            
+        # if self.debug:
+        #     self.lazy_print('The Complete data_set: ',data_set)
+      
         return data_set
             
-    # FUTURE: Will the layout of the new database there may be a way to combine
-    # the create_priority_map & the create_data_set method.
-    # def create_priority_map(self):
-    #     '''This method will create the priority_map data structure, listed in 
-    #     the notes above.
-    #     '''
-    #     #the following query will order based off of time. 
-    #     courses = self.courses_query()
-    #     priority_list = []
-    #     for course in courses:
-    #         days = list(str(t.day) for t in course.schedule.days)
-    #         self.cid_num += 1
-    #         CID         = course.cId
-    #         prefs       = DATA_SET[CID]
-    #         course_info = (CID, course.schedule.startTime, course.schedule.endTime, days) 
-    #         if len(prefs) == 1:
-    #             priority_list.append((6, course_info))
-    #         else:
-    #             if NONE in prefs:
-    #                 priority_list.append((len(prefs) - 1, course_info))
-    #             elif WILDCARD in prefs:
-    #                 priority_list.append((len(prefs) + 2, course_info))
-    #             else:
-    #                 priority_list.append((len(prefs), course_info))
-    #     priority_map = defaultdict(list)
-    #     for priority, course in priority_list:
-    #         priority_map[priority].append(course)
-    #     self.priority_map = priority_map
-    #     if self.debug:
-    #         self.lazy_print('priority_map:',self.priority_map)
+  
     
-    def check_room_availability(self,choice,roomPref):
-         ''' course & taken_time = (cid, start_time, endtime, [days]) '''
-         #print self.rooms_scheduled
-         if choice in self.rooms_scheduled:
-             can_schedule = True
-             unavailable_times = self.rooms_scheduled[choice] #All of the courses currently scheduled into to the room
-             start_timeA = roomPref.course.schedule.startTime
-             end_timeA   = roomPref.course.schedule.endTime
-        
-             
-             A_days = []
-             schedule_days_A = ScheduleDays.select().where(ScheduleDays.schedule == roomPref.course.schedule.sid)
-             for i in schedule_days_A:
-                 A_days.append(i.day)
+    def check_room_availability(self, choice, roomPref):
+        ''' This method checks if a room is available for scheduling for a particular time slot. 
+            If the room is available, a course is scheduled there for the time. 
+            Else it leaves the room alone #deuces. 
+            A - course we're trying to schedule based on the room preference (roomPref)
+            B - Potentially conflicting course we're currently comparing against
+            param choice: a room object
+            param roomPref: a RoomPreference object
+            
+            return: ???
+            '''
+            
+            
+        ''' course & taken_time = (cid, start_time, endtime, [days]) '''
+         
+        if choice in self.rooms_scheduled:         # if the room I'm trying to schedule is in the dictionary of rooms which already have scheduled times
+            can_schedule = True
+            unavailable_times = self.rooms_scheduled[choice]   # All of the schedules currently used in this room ("choice")
+            start_timeA = roomPref.course.schedule.startTime   # Start time of the roomPreference we're trying to schedule
+            end_timeA   = roomPref.course.schedule.endTime     # End time of the roomPreference we're trying to schedule
+            A_days = []                                        # A days are the days for the course we are trying to put in a room  
+            
+            schedule_days_A = ScheduleDays.select().where(ScheduleDays.schedule == roomPref.course.schedule.sid)
+            for i in schedule_days_A:
+                A_days.append(i.day)
        
-             for taken_time in unavailable_times:
-                 B_days = []
-                 schedule_days_B =  ScheduleDays.select().where(ScheduleDays.schedule == taken_time.course.schedule.sid)
-                 for i in schedule_days_B:
-                    B_days.append(i.day)
-                 all_days = A_days + B_days
+            for taken_time in unavailable_times:
+                 
+                B_days = []                                    # These are the days for the courses already scheduled in a particular room 
                 
-                 duplicates = set([x for x in all_days if all_days.count(x) > 1]) 
-                 #duplicates: Check to see if the two courses have days in common
-                 if len(duplicates) != 0: 
-                     #Check the specific times only if they have days in common
-                     start_timeB = taken_time.course.schedule.startTime
-                     end_timeB   = taken_time.course.schedule.endTime
-                     if end_timeA <= start_timeB or start_timeA >= end_timeB:
-                         pass
-                     else:
-                         can_schedule = False
-             if can_schedule == True:
-                 unavailable_times.append(roomPref)
-                 roomPref.course.rid = choice
-                 roomPref.course.save()
-                 self.rooms_scheduled[choice] = unavailable_times
-                 return True
-             else: 
-                 return False
-         else:
-             roomPref.course.rid= choice
-             roomPref.course.save()
-             self.rooms_scheduled[choice] = [roomPref]
-             return True
+                schedule_days_B =  ScheduleDays.select().where(ScheduleDays.schedule == taken_time.course.schedule.sid)
+                for i in schedule_days_B:
+                    B_days.append(i.day)
+                all_days = A_days + B_days                     # We're gonna check all the days for both A and B
+                
+                duplicates = set([x for x in all_days if all_days.count(x) > 1])       # Removes any day that only has 0 or 1 entry in all_days
+                #duplicates: Check to see if the two courses have days in common
+                if len(duplicates) != 0: 
+                    #Check the specific times only if they have days in common
+                    start_timeB = taken_time.course.schedule.startTime
+                    end_timeB   = taken_time.course.schedule.endTime
+                    if end_timeA <= start_timeB or start_timeA >= end_timeB:
+                        pass
+                    else:
+                        can_schedule = False
+            if can_schedule == True:
+                unavailable_times.append(roomPref)         # Add the room to unavailable_times
+                roomPref.course.rid = choice               # Saves room to course for this pref               
+                roomPref.course.save()                     
+                self.rooms_scheduled[choice] = unavailable_times       # Updates schedules taken for this room
+                return True
+            else:               
+                return False
+        else:                      # No courses have been scheduled in this room ("choice") yet; create it
+            roomPref.course.rid= choice
+            roomPref.course.save()
+            self.rooms_scheduled[choice] = [roomPref]
+            return True
     
     def assign_room(self, DATA_SET):
-         for priority in PRIORITY:
-             preferences = self.priority_map[priority]
-          
-             for roomPref in preferences:
-                 prefs = DATA_SET[roomPref.rpID]
-                 for choice in prefs:
-                     if choice == "*":
-                         self.anywhere.append(roomPref)
-                     elif choice == None:
-                         self.unhappy.append(roomPref)
-                     else: 
-                         available = self.check_room_availability(choice, roomPref)
-                         if available == True:
-                             break
-                         else:
-                             if choice == prefs[-1]: #if this is the last element in a list
-                                 self.unhappy.append(roomPref)
-                                 break
+        ''' This method simply assigns rooms to courses based on their priority granted that the rooms are already found available. '''
+        
+        for priority in PRIORITY:
+            preferences = self.priority_map[priority]
+            for roomPref in preferences:
+                prefs = DATA_SET[roomPref.rpID]
+                for choice in prefs:
+                    if choice == "*":
+                        self.anywhere.append(roomPref)
+                    elif choice == None:
+                        self.unhappy.append(roomPref)
+                    else: 
+                        available = self.check_room_availability(choice, roomPref)
+                        if available == True:
+                            break
+                        else:
+                            if choice == prefs[-1]: #if this is the last element in a list
+                                self.unhappy.append(roomPref)
+                                break
             
-    def assign_happy(self):
-        '''This method should assign the rooms for the courses that were in the
-        scheduled category. The way that you will assign the room is by modifing
-        the course.rid field with the rid number.'''
-        #This was not done yet, because there are still some process questions
-        #hanging around out there. 
-        pass
-    
-    def assign_anywhere(self):
-        '''This method should assign the courses that stated that they were okay
-        with being placed "anywhere".'''
-        pass
-    
-    '''
-    FUTURE: Process Question 
-    There still needs to be a discussion to whether the unhappy people should be
-    assigned by Jolena Prior to running the assign_anywhere method.
-    
-    Pros:
-    1) I think that if we run the assign_anywhere method after Jolena has
-    cleared all of the unhappy people.
-    
-    2) If we were to assign the scheduled & anywhere group there would be no way
-    within the interface to distinguish between the two groups. Therefore, Jolena
-    may think that she is causes conflicts by reassigning anywhere courses when
-    in actually it is no issue at all. 
-    
-    Cons: 
-    1) Unfortunately, I believe that our current UI design for the "resolving 
-    conflicts" page is to grab all courses where rid is null. Which means that if
-    we don't run the assign_anywhere group, the anywhere group would then be 
-    merged with the unhappy group making Jolena thing there is a 100+ conflicts.
-    Therefore, for now it may be better to assign the anywhere group before 
-    the unhappy group. '''
+   
 
 # if __name__ == "__main__":
+#     ''' This is just for testing purposes'''
+    
 #     test_semester = '201812'
 #     room_assigner = RoomAssigner(test_semester)
 #     room_assigner.courses_query()
 #     global DATA_SET 
 #     DATA_SET = room_assigner.create_data_set()
-#     print(DATA_SET)
-#     print("here")
-#     # room_assigner.create_priority_map()
 #     room_assigner.assign_room()      
     
-    
-'''Testing Data'''
-
-''' HOW TO:
-Currently the algorithm is not set up for the new database changes. There are
-functions that are meant to act as middleware, but have not been implemented 
-with new changes. Therefore, there are some steps you will need to take in order
-to test the data.
-
-1) Rename data/algorith.data to data/db.sqlite
-2) Move the room_assignment.py to the top level so that it can access app.models
-3) It will be helpful to turn on the debuging mode in the __init__ so that you
-can see what is happening. 
-
-Additionally, I have listed out TODO, FIXME, FUTURE tags throughout the algorithm. 
-
-'''
-
-#The current testing setup is to put all of 201612 into 
-#two building in order to setup a worse case scenerio 
-
-#past results
-#test0: Total: 383, Scheduled: 246, Unhappy: 21, Anywhere: 116
-#test1: Total: 383, Scheduled: 250, Unhappy: 21, Anywhere: 112
-#test2: Total: 383, Scheduled: 250 , Unhappy: 18, Anywhere: 115
-#test3: Total: 383, Scheduled: 257, Unhappy: 14, Anywhere: 112
-#test4: Total: 383, Scheduled: 262, Unhappy: 11, Anywhere: 110
-#test5: Total: 383, Scheduled: 249, Unhappy: 12, Anywhere: 122
-#test6: Total: 383, Scheduled: 256, Unhappy: 20, Anywhere: 107
-#test7: Total: 383, Scheduled: 259, Unhappy: 16, Anywhere: 108
-#test8: Total: 383, Scheduled: 252, Unhappy: 18, Anywhere: 113
-#test9: Total: 383, Scheduled: 254, Unhappy: 16, Anywhere: 113
