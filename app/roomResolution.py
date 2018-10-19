@@ -113,7 +113,7 @@ def roomResolutionView(termCode,cid):
                     pref_info['course_name']=current_course         # add to pref_info
                     pref_info['instructor']=full_name               # add instructor to pref info
                     pref_info['cid']=cc.cId                         # add cId to pref_info
-                    
+                    pref_info["course_notes"]=cc.notes if cc.notes else None              # course notes
                     pref_info['startTime']=cc.schedule.startTime    #adds course B's times and days to pref_info
                     pref_info['endTime']=cc.schedule.endTime
                     pref_info['days']= bScheduleDays.day
@@ -124,7 +124,7 @@ def roomResolutionView(termCode,cid):
                     break
             
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-        
+    print(preferences)
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms, 

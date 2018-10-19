@@ -28,10 +28,9 @@ p {
         {% endfor %}
         <label for="schedule"><h5><strong>Schedule: </strong></label> {{days.day}} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
         <label for="capacity"><h5><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h5><br>
-        <h5><strong>Notes:</strong> </h5>
-        <textarea rows="6" cols="40" id="#foo"> 
-        {{roompreference.notes}}
-        </textarea> 
+        <label ><h5><strong>Course Notes:</strong> </label> {{roompreference.course.notes}} </h5><br>
+        <label ><h5><strong>Preference Notes:</strong> </label> {{roompreference.notes}}</h5><br>
+        
       </div>
     <!---Div for tabs--->
     <div class="col-xs-8" style="border-left:3px solid #2D3E50;">
@@ -122,7 +121,9 @@ p {
                             <p id="imnotempty1"><strong>Current Course in Room:</strong> {{preferences['pref1']['course_name']}}</p>
                             <p><strong>Instructor:</strong> {{preferences['pref1']['instructor']}}</p>
                             <p><strong>Schedule:</strong> {{preferences['pref1']['days']}} {{preferences['pref1']['startTime'].strftime('%I:%M  %p')}} - {{preferences['pref1']['endTime'].strftime('%I:%M  %p')}}</p>
-                            <p><strong>Notes:</strong> {{preferences['pref1']['notes']}}</p>
+                            <p><strong>Course Notes:</strong> {{preferences['pref1']['course_notes']}}</p>
+                            <p><strong>Preference Notes:</strong> {{preferences['pref1']['notes']}}</p>
+                            
                             <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignConflictingRoom">Assign course to room</button>
                             {%else%}
                             <button type="button" style="position:absolute;bottom:5%;left:20%" class="btn btn-primary btn-sm assignprefbutton"  data-id=1 data-toggle="modal"data-target="#assignRoom" >Assign course to room</button>
