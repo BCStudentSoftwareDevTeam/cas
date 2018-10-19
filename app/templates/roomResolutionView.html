@@ -74,6 +74,10 @@ p {
                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
                                 Education Tech
                               </button>
+                              {% with room=room %}
+                              {% include '/snips/educationTech.html' %}
+                              {% endwith %}
+                  
                               <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAcc}}</p> 
                               <p><strong>Physical Accessibility:</strong> {{room.physicalAcc}}</p>
@@ -107,6 +111,9 @@ p {
                             <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}">
                                 Education Tech
                               </button></p>
+                               {% with room=roompreference.pref_1 %}
+                              {% include '/snips/educationTech.html' %}
+                              {% endwith %}
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>
                             <p><strong>Visual Accessibility:</strong> {{roompreference.pref_1.visualAcc}}</p>
@@ -182,7 +189,7 @@ p {
                {%if roompreference.pref_3%}
                <div role="tabpanel" class="tab-pane" id="tab-04">
                   <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-headi ng">
                       <h3><strong>{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</strong></h3>
                     </div>
                         <div class="panel-body">
@@ -230,7 +237,6 @@ p {
     <button onclick="location.href='/roomResolution/{{termcode}}';" type="button" class="btn btn-primary btn-lg" data-dismiss="modal"><strong>Back</strong></button> </div>
   <br> 
 </div> 
-{% include '/snips/educationTech.html'%}
    
  
 <!-- Modal for room assignment fix to apply to preferences-->

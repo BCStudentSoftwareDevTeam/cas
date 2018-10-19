@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="edTechModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="edTechModal{{room.rID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,14 +12,12 @@
        <div class="table-responsive">
         <table class="table table-striped">
             <tbody>
-            {# {% for items in educationTech %}     <!-- Shall be a list -->#}
-            <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SLEECTED WITH RESPECT TO EDUCATION TECH-->  
                     <tr>
                           <td>
-                                Chalkboard(s): 
+                                Chalkboard(s):
                           </td>
                           <td>
-                            <span id="chalkboards" style="float:left;" ></span>
+                            <span id="chalkboards" style="float:left;" > {{room.educationTech.chalkboards}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -27,7 +25,7 @@
                               Instructor Computer(s):
                           </td>
                           <td>
-                            <span id="instructor_computers" style="float:left;" ></span>
+                            <span id="instructor_computers" style="float:left;" > {{room.educationTech.instructor_computers}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -35,7 +33,7 @@
                                Projector(s): 
                           </td>
                           <td>
-                            <span id="projectors" style="float:left;" ></span>
+                            <span id="projectors" style="float:left;" > {{room.educationTech.projector}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -44,7 +42,7 @@
                                
                           </td>
                           <td>
-                            <span id="podiums" style="float:left;" > </span>
+                            <span id="podiums" style="float:left;" >  {{room.educationTech.podium}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -52,7 +50,7 @@
                                Smartboard(s):
                           </td>
                           <td>
-                            <span id="smartboards" style="float:left;" > </span>
+                            <span id="smartboards" style="float:left;" >  {{room.educationTech.smartboards}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -60,7 +58,7 @@
                             Students Workstation(s): 
                           </td>
                           <td>
-                            <span id="student_workstations" style="float:left;" ></span>
+                            <span id="student_workstations" style="float:left;" > {{room.educationTech.student_workspace}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -68,7 +66,7 @@
                                Whiteboards: 
                           </td>
                           <td>
-                            <span id="whiteboards" style="float:left;" ></span>
+                            <span id="whiteboards" style="float:left;" > {{room.educationTech.whiteboards}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -76,7 +74,7 @@
                                DVD: 
                           </td>
                           <td>
-                               <span id="dvdIcon" style="float:left;" ></span> 
+                               <span id="dvdIcon" style="float:left;" > {{"Yes" if room.educationTech.dvd else None}}</span> 
                           </td>
                       </tr>
                       <tr>
@@ -84,7 +82,7 @@
                                Audio: 
                           </td>
                           <td>
-                               <span id="audioIcon" style="float:left;" ></span>
+                               <span id="audioIcon" style="float:left;" > {{"Yes" if room.educationTech.audio else None}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -92,7 +90,7 @@
                                Blu-Ray: 
                           </td>
                           <td>
-                               <span id="blu_rayIcon" style="float:left;" ></span>
+                               <span id="blu_rayIcon" style="float:left;" > {{"Yes" if room.educationTech.blu_ray else None}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -100,7 +98,7 @@
                                Extro: 
                           </td>
                           <td>
-                               <span id="extroIcon" style="float:left;"></span>
+                               <span id="extroIcon" style="float:left;"> {{"Yes" if room.educationTech.extro else None}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -108,15 +106,15 @@
                                Doc Cam: 
                           </td>
                           <td>
-                               <span id="doc_camIcon" style="float:left;"></span>
+                               <span id="doc_camIcon" style="float:left;"> {{"Yes" if room.educationTech.doc_cam else None}}</span>
                           </td>
                       </tr>
                       <tr>
-                          <td>
+                          <td> 
                                VHS: 
                           </td>
                           <td>
-                               <span id="vhsIcon" style="float:left;" ></span>
+                               <span id="vhsIcon" style="float:left;" > {{"Yes" if room.educationTech.vhs else None }}</span>
                           </td>
                       </tr>
                       <tr>
@@ -124,7 +122,7 @@
                                Mondopad: 
                           </td>
                           <td>
-                               <span id="mondopadIcon" style="float:left;" ></span>
+                               <span id="mondopadIcon" style="float:left;" > {{"Yes" if room.educationTech.mondopad else None}}</span>
                           </td>
                       </tr>
                       <tr>
@@ -132,10 +130,9 @@
                                Technology Cart: 
                           </td>
                           <td>
-                               <span id="tech_chartIcon" style="float:left;" ></span>
+                               <span id="tech_chartIcon" style="float:left;" > {{"Yes" if room.educationTech.tech_chart else None}}</span>
                           </td>
                       </tr>
-            {# {% endfor %} #}
             </tbody>
         </table> 
        </div>
