@@ -264,10 +264,10 @@ migrate(
 )
 
 
-q = Course.select()
-for course in q:
-  course.rid = None
-  course.save()
+# q = Course.select()
+# for course in q:
+#   course.rid = None
+#   course.save()
   
   
 # q = SpecialTopicCourse.select()

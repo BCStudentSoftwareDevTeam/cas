@@ -22,30 +22,21 @@ def roomPreference(term):
         # Used to populate dropdowns and stuff
         room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
     
-    #    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
         users= User.select()
         instructors = InstructorCourse.select()
-        # educationTech= EducationTech.select()
+        educationTech= EducationTech.select()
     
         # FIXME used for conflicting courses UI, which is hidden
         # print(current_user)
         # print(current_term)
-        #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
-        
-        # print(term)
+    
         courses = ( Course.select()
                         .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
                         .join(Term, on=(Term.termCode == Course.term))
                         .where(InstructorCourse.username == current_user)
                         .where(Course.term == int(current_term))
                     )
-        #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
-        # for course in courses:
-        #     print("Hi Sher")
-        #     print(course.cId)
-        # # for rp in roompreferences:
-        #     print(rp.course.cId)
-        # roomPreferences = {}
+
         
         
         # Constructs RoomPreferences if they don't exist
@@ -55,8 +46,7 @@ def roomPreference(term):
             # print(rp.course.term.termCode)
         
         roompreferences= (  RoomPreferences.select()
-                                        .join(InstructorCourse, 
-                                            on = (InstructorCourse.course == RoomPreferences.course))
+                                        .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
                                         .join(Course, on = (RoomPreferences.course == Course.cId))
                                         .join(Term, on = (Course.term == Term.termCode))
                                         .where(RoomPreferences.course == InstructorCourse.course 
@@ -250,8 +240,7 @@ def postPreference():
         
             rp.any_Choice = None
     
-    # print("Time to save ", rp.none_Choice)  
-    # print("Time to save ", rp.any_Choice)  
+
     rp.save() # Save the room preference in the database for the course
    
     # print('RP_any', rp.any_Choice)
@@ -311,6 +300,3 @@ def postNotes(cid, note):
     
     
     # return json.dumps({"success": 1}) 
-    
-    
-    
