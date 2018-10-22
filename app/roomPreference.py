@@ -15,7 +15,7 @@ def roomPreference(term):
     # print(term)
     current_term = term
     term = Term.get(Term.termCode == current_term)
-    print("TermState", term.term_state.number)
+    # print("TermState", term.term_state.number)
     if term.term_state.number == 3:
         current_user = AuthorizedUser().getUsername()
     
@@ -56,17 +56,17 @@ def roomPreference(term):
                             )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
       
-        return render_template(
-            "roomPreference.html",
-            roompreferences= roompreferences,
-            room=room,
-            users=users,
-            course=courses,
-            # educationTech=educationTech,
-            instructors=instructors
-        )
-    else:
-        return render_template("roomPreferencesLocked.html")
+    return render_template(
+        "roomPreference.html",
+        roompreferences= roompreferences,
+        room=room,
+        users=users,
+        course=courses,
+        educationTech=educationTech,
+        instructors=instructors
+    )
+    # else:
+    #     return render_template("roomPreferencesLocked.html")
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])

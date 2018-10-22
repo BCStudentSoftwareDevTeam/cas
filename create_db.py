@@ -16,7 +16,7 @@ users = User(  firstName = "Jan",
                 lastName  = "Pearce",
                 username  = "pearcej",
                 email     = "jadudm@berea.edu",
-                isAdmin   = 0,
+                isAdmin   = 1,
                 bNumber   = "1239495"
             ).save(force_insert=True)     
 
@@ -316,7 +316,7 @@ bannercourse =  BannerCourses(  subject       = "HLT",
 term = Term(  name             = "Fall 2016",
               semester          = "Fall",
               year              = 2016,
-              editable          = 0,
+            #   editable          = 0,
               termCode          = 201611,
               state             = 4
             ).save(force_insert = True)
@@ -399,161 +399,12 @@ course = Course(  bannerRef         = 8,
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save()       
-                              
+
 course = Course(  bannerRef         = 9,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
-                  scheduleDays      = 4,
-                  capacity          = 20,
-                  section           = "E",
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 10,
-                  prefix            = "CHI",
-                  term              = 201711,
-                  section           = "A",
-                  schedule          = "B",
-                 
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 11,
-                  prefix            = "CHI",
-                  term              = 201712,
-                  schedule          = "B",
-                
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 11,
-                  prefix            = "CHI",
-                  term              = 201811,
-                  schedule          = "B",
-                 
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 13,
-                  prefix            = "FRN",
-                  term              = 201611,
-                  schedule          = "A",
-                 
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference1",
-                  crossListed       = 1
-                ).save()
-                
-course = Course(  bannerRef         = 14,
-                  prefix            = "FRN",
-                  term              = 201612,
-                  schedule          = "B",
-                
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                ).save()                
-
-course = Course(  bannerRef         = 15,
-                  prefix            = "FRN",
-                  term              = 201712,
-                  schedule          = "A",
-              
-                  capacity          = 20,
-                  section           = "A",
-                  notes          = "Preference1",
-                  crossListed       = 0
-                  ).save()
-course = Course(  bannerRef         = 15,
-                  prefix            = "FRN",
-                  term              = 201612,
-                  schedule          = "B",
-                  
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  section           = "A",
-                  crossListed       = 1
-                  ).save()       
-                              
-course = Course(  bannerRef         = 17,
-                  prefix            = "GER",
-                  term              = 201711,
-                  schedule          = "B",
-              
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 18,
-                  prefix            = "GER",
-                  term              = 201711,
-                  schedule          = "B",
-           
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 19,
-                  prefix            = "GER",
-                  term              = 201712,
-                  schedule          = "B",
-                 
-                  capacity          = 20,
-                  section           = "A",
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 19,
-                  prefix            = "GER",
-                  term              = 201811,
-                  schedule          = "B",
-             
-                  capacity          = 20,
-                  section           = "A",
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 19,
-                  prefix            = "GER",
-                  term              = 201612,
-                  schedule          = "B",
-                 
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 20,
-                  prefix            = "HHP",
-                  term              = 201712,
-                  schedule          = "B",
-                 
-                  section           = "A",
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-course = Course(  bannerRef         = 21,
-                  prefix            = "HLT",
-                  term              = 201811,
-                  section           = "A",
-                  schedule          = "B",
-                
-                  capacity          = 20,
-                  notes             = "Preference2",
-                  crossListed       = 1
-                  ).save() 
-
+=======
 
 
 
@@ -609,18 +460,34 @@ course = Course(  bannerRef         = 29,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
+<<<<<<< HEAD
                   
+=======
+                   days      = 6,
+>>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
+>>>>>>> f0fc4bde5cb579db7bb53797b79201ef1fe5a4e1
                   capacity          = 20,
                   section           = "E",
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save() 
+<<<<<<< HEAD
+course = Course(  bannerRef         = 10,
+=======
 course = Course(  bannerRef         = 30,
+>>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   prefix            = "CHI",
                   term              = 201711,
                   section           = "A",
                   schedule          = "B",
+<<<<<<< HEAD
                  
+=======
+<<<<<<< HEAD
+=======
+                  days      = 6,
+>>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
+>>>>>>> f0fc4bde5cb579db7bb53797b79201ef1fe5a4e1
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -649,7 +516,6 @@ course = Course(  bannerRef         = 13,
                   prefix            = "FRN",
                   term              = 201611,
                   schedule          = "A",
-
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference1",
@@ -702,7 +568,7 @@ course = Course(  bannerRef         = 18,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
-               
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -768,13 +634,26 @@ course = Course(  bannerRef         = 21,
 chair = ProgramChair(  username  = "jadudm",
                         pid       = 1
                     ).save()
+chair = ProgramChair(  username = "pearcej",
+                        pid = 1
+                    ).save()
+chair = ProgramChair(  username = "myersco",
+                        pid = 2
+                    ).save()
+
                     
 ########
 #DCHAIR#
 ########
 dchair = DivisionChair(  username  = "pearcej",
-                        did       = 2
+                        did       = 3
                       ).save()
+dchair = DivisionChair(  username  = "myersco",
+                        did       = 2
+                      ).save()  
+dchair = DivisionChair(  username  = "heggens",
+                        did       = 1
+                      ).save()                      
 ############
 #INSTRUCTOR#
 ############
@@ -813,6 +692,26 @@ instructor = InstructorCourse(  username = "myersco",
 instructor = InstructorSTCourse(  username = "myersco",
                                 course   = 1
                               ).save()  
+
+                              
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+
+schedule = ScheduleDays(schedule = 2, day = "M").save(force_insert=True)
+
+
+schedule = ScheduleDays(schedule = 2, day = "T").save(force_insert=True)
+
+
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+
+
+schedule = ScheduleDays(schedule = 2, day = "W").save(force_insert=True)
+
+
+schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+
+
+schedule = ScheduleDays(schedule = 1, day = "M").save(force_insert=True)
 ######
 #Buildings
 
@@ -822,6 +721,39 @@ instructor = InstructorSTCourse(  username = "myersco",
 
 building     = Building(name = 'Ag Building', shortName = "DR").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
+
+building     = Building(name = 'Emory Building', shortName="EMR").save()
+building     = Building(name = 'Frost Building', shortName="FR").save()
+
+
+###################
+#Building Managers#
+###################
+
+bmanager = BuildingManager( username = "heggens",
+                            bmid = 1
+                          ).save()
+bmanager = BuildingManager( username = "myersco",
+                            bmid = 2
+                          ).save()
+bmanager = BuildingManager( username = "pearcej",
+                            bmid = 3
+                          ).save()
+
+
+building     = Building(name = 'Ag Building', shortName = "DR").save()
+building     = Building(name = 'Tech Building', shortName = "DFT").save()
+building     = Building(name = 'Draper', shortName = "DRA").save()
+building     = Building(name = 'Knapp Hall', shortName = "KH").save()
+building     = Building(name = 'Emery', shortName = "EMY").save()
+building     = Building(name = 'Nursing', shortName = "NUR").save()
+building     = Building(name = 'Science', shortName = "SC").save()
+building     = Building(name = 'Frost', shortName = "FR").save()
+
+building     = Building(name = 'Seabury', shortName = "SEA").save()
+building     = Building(name = 'Theater', shortName = "THR").save()
+building     = Building(name = 'Bingham', shortName = "BING").save()
+building     = Building(name = 'Library', shortName = "LIB").save()
 
 building     = Building(name = 'Emory Building', shortName="EMR").save()
 building     = Building(name = 'Frost Building', shortName="FR").save()
@@ -840,7 +772,9 @@ building     = Building(name = 'Frost Building', shortName="FR").save()
 #Education Tech for Rooms
 #####
 
-
+###################
+#Education Tech#
+###################
 
 educationTech= EducationTech( 
   projectors           = 1,
@@ -861,12 +795,6 @@ educationTech= EducationTech(
   ).save()
 
 #####
-                              
-
-
-######
-#ROOMS#
-######
 
 
 room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
