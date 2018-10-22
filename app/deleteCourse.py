@@ -16,7 +16,6 @@ def deletecourse(prefix, tid):
     dataUpdateObj = DataUpdate()
     data = request.form
     cid = int(data['cid'])
-    print("HI", cid)
     # START PROCESSING THE DELETION OF THE COURSE
     course = Course.get(Course.cId == cid)
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
@@ -43,12 +42,9 @@ def deletecourse(prefix, tid):
     for instructor in instructors:
         instructor.delete_instance()
         
-    #delete course instructor relationship
-    course_instructor = InstructorCourse.get(InstructorCourse.course_id == cid)
-    course_instructor.delete_instance()
-    #delete course itself
-    course.delete_instance()
     message = "Course: course {} has been deleted".format(course.cId)
+    course.delete_instance()
+    
     log.writer("INFO", current_page, message)
 
     flash("Course has been successfully deleted")

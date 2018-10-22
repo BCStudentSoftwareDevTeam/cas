@@ -9,7 +9,9 @@ class AuthenticatedUser(ModelView):
                 access = True
         return access
         
-    
+admin.add_view(AuthenticatedUser(Building))
+admin.add_view(AuthenticatedUser(RoomPreferences))
+admin.add_view(AuthenticatedUser(EducationTech)) 
 admin.add_view(AuthenticatedUser(Division))
 admin.add_view(AuthenticatedUser(BannerSchedule))
 admin.add_view(AuthenticatedUser(Term))

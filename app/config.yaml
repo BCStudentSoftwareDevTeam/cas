@@ -89,7 +89,7 @@ adminMenu:
     page: ["userManagement"]
   
   - title: "Room Resolution"
-    link:  "/roomResolutionTerm"
+    link:  "/roomResolution"
     page: ["roomResolution"]
   
 
