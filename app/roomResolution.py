@@ -4,6 +4,7 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
+from app.logic.functions import get_unavailable_rooms
 import json
 
 #Term modal
@@ -60,6 +61,11 @@ def roomResolutionView(termCode,cid):
     for room in cursor:
         availablerooms.append(room[0])
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
+    curr_course=courses       
+    
+    #unavailable rooms mapped with their courses
+    unavailable_to_course=get_unavailable_rooms(curr_course, availablerooms)
+    
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -127,7 +133,8 @@ def roomResolutionView(termCode,cid):
     print(preferences)
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
-                            available_rooms=rooms, 
+                            available_rooms=rooms,
+                            unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
                             courses=courses, 
@@ -196,5 +203,24 @@ def updateRoom(cid):
             
 
 
-    
+@app.route("/addSecond/<cid>", methods=["POST"])
+def addSecond(cid):
+    '''
+    Assign General Available room to a course
+    params:
+       int: cid: Course_Id
+
+    '''
+    try:
+        course = Course.get(Course.cId==cid)
+        data = request.form
+        course.rid = data['roomID']
+        course.save()
+        response={"success":1}
+        flash("Your changes have been saved!") 
+        return json.dumps({"success": 1})
+    except:
+        flash("An error has occurred. Please try again.","error")
+        return json.dumps({"error":0})
+        
     

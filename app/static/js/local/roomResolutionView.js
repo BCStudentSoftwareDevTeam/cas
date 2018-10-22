@@ -11,6 +11,17 @@ $(document).on("click", ".assignroombutton", function () {
   
 });
 
+//Assign second room to conflict room  
+$(document).on("click", ".assignconflicting", function () {
+     console.log("here");
+     roomID = $(this).data('id');
+     let linktoroom = document.getElementById("hiddenroom"+roomID);
+     let linktocourse = document.getElementById("hiddencourse");
+     console.log()
+     $("#assignConfDiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); 
+  
+});
+
  //Updating assign room modal for preferences tabs
 $(document).on("click",".assignprefbutton", function () {
     let prefID = $(this).data('id');                                    //Preference ID (1,2,or3)
@@ -76,4 +87,27 @@ function resolveCourse() {
            .fail(function(response){
                     alert("Please, try again.");});
 }
-        
+      
+function addSecond(){
+    let oldurl = window.location.href.split("/");
+    let cid = oldurl[oldurl.length-1];
+    let termcode = oldurl[oldurl.length-2];
+    let url = '/addSecond/'+cid;    
+    $.ajax({  
+            type: "POST",
+            url: url,
+            data:{"roomID": roomID},
+            dataType: 'json'
+         })
+           .done(function(response){
+                if (response['success'] == 1)
+                        window.location = "/roomResolution/"+termcode
+                    else{
+                        window.location.assign("/roomResolution/"+ termcode)                    
+                        }         
+               
+           }) 
+           .fail(function(response){
+                     window.location.assign("/roomResolution/"+ termcode);});
+}
+    
