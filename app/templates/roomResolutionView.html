@@ -77,7 +77,7 @@ p {
                                 Education Tech
                               </button>
                               {% with room=room %}
-                              {% include '/snips/educationTech.html' %}
+                              {% include '/snips/educationTech2.html' %}
                               {% endwith %}
                   
                               <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
@@ -134,7 +134,7 @@ p {
                                 Education Tech
                               </button>
                               {% with room=room %}
-                              {% include '/snips/educationTech.html' %}
+                              {% include '/snips/educationTech2.html' %}
                               {% endwith %}
                   
                               <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
@@ -174,7 +174,7 @@ p {
                                 Education Tech
                               </button></p>
                                {% with room=roompreference.pref_1 %}
-                              {% include '/snips/educationTech.html' %}
+                              {% include '/snips/educationTech2.html' %}
                               {% endwith %}
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>
@@ -262,7 +262,7 @@ p {
                                 <p><strong>Room Type:</strong> {{roompreference.pref_3.roomType}}</p>
                                 <p><strong>Room Capacity:</strong> {{roompreference.pref_3.maxCapacity}}</p>
                                 <p><strong>Movable Furniture:</strong> {{roompreference.pref_3.movableFurniture}}</p>
-                                <p><strong>Education Tech:</strong> Gimme dat snip{{roompreference.pref_3.educationtech}}</p>
+                                <p><strong>Education Tech:</strong> {{roompreference.pref_3.educationtech}}</p>
                                 <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_3.rID}}">
                                 Education Tech
                               </button></p>
