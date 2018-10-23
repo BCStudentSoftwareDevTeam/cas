@@ -1,16 +1,16 @@
 <!--This is html file is made dynamically, most of the materials and the texts that appear on the interface are saved in the config file so that they can be changed only at one place in case anything chnanges in the future on the processes-->
 <!-- the button names are stored in the create_db-->
-{% extends "base.html" %} {% set currentPage = "systemManagement" %} {% block body %}
+{% extends "base.html" %} {% set currentPage = "termManagement" %} {% block body %}
 {% include "snips/messages.html" %}
-<link rel="stylesheet" href="../static/css/systemManagement.css" >
-<script type="text/javascript" src="/static/js/local/systemManagement.js"></script>
+<link rel="stylesheet" href="../static/css/termManagement.css" >
+<script type="text/javascript" src="/static/js/local/termManagement.js"></script>
 
 <div class="container">
 <div class="panel panel-default" style = 'display:inline-block;'>
   <!--TERM MANAGEMENT-->
  
-  <div class="panel-heading" class = "panel_color" >
-    <h3 class="panel-title">Term Management</h3>
+  <div class="panel-heading" class = "panel_color" style = 'text-align:center;'>
+    <h1 class="panel-title" ><bold>Term Management</bold></h1>
     <h5><i> Click below on the term to begin </i><h5>
   </div>
    <br>
@@ -64,7 +64,7 @@
             </div>
             <div class = "col-sm-2">
               <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
-              aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}});">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
+              aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}},'false');">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
             </div>
             </div>
           </div>
@@ -87,7 +87,7 @@
                       <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                       <!--- this is for the lock button --->
                       <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
-                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}});" >
+                      aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}}, 'false');" >
                         {{state.display_name}}
                         <span class="glyphicon glyphicon-chevron-right"></span>
                       </button>
@@ -128,7 +128,7 @@
               <!--Reasign Button-->
                 <button type = "button" id = "button{{state.order}}" class= "btn btn-danger" data-toggle = "collapse" data-target= ""
                  aria-controls="order{{state.order-1}}"
-                 onclick ="enableTheOne('btn{{state.order}}'), submit_data({{state.order}}-1)"> {{cfg['states'][state.number]['btn']}}
+                 onclick ="enableTheOne('btn{{state.order}}'), submit_data({{state.order}}-1,'false')"> {{cfg['states'][state.number]['btn']}}
                 </button>
               </div>
                 <div class = "col-sm-3 text-right"> 
@@ -136,7 +136,7 @@
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
-                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}}); collapser();"> {{state.display_name}}
+                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}},'false'); collapser();"> {{state.display_name}}
                   </button>
                   
                 </div>
@@ -182,7 +182,7 @@
                   <p>Are you sure you are ready to archive the term?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name()">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false')">Yes</button>
                 </div>
               </div>
           
@@ -193,9 +193,9 @@
 <!-- Modal -->
           
 <!------------------------------------------------------------------------------------------------------------------------------------------>
-  <div class="panel-body">
+  <div class="panel-body" style = 'text-align:center;'>
     <!--CREATE A NEW TERM-->
-    <label for="newTerm">Create a new term</label>
+    <label for="newTerm"><bold>Create a new term</bold></label>
     <form action="\newTerm" method="post" id="newTerm" class="form-inline">
       <div class="form-group">
         <select class="form-control" name="keyValue">

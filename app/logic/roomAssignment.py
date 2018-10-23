@@ -260,8 +260,18 @@ class RoomAssigner:
                             if choice == prefs[-1]: #if this is the last element in a list
                                 self.unhappy.append(roomPref)
                                 break
+        
             
-   
+    # def run_algorithm(self):
+    #     # room_assigner = RoomAssigner(termCode)
+    #     self.courses_query()
+    #     DATA_SET = self.create_data_set()
+    #     # print(DATA_SET)
+    #     # print("here")
+    #     self.assign_room(DATA_SET)
+    #     return 1
+  
+        
 
 # if __name__ == "__main__":
 #     ''' This is just for testing purposes'''

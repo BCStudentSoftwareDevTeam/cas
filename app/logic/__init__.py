@@ -6,3 +6,4 @@ from app.logic.TrackerEdit import TrackerEdit
 from app.logic import excelMaker
 from app.logic import course
 from app.logic import authorization
+from app.logic.roomAssignment import RoomAssigner

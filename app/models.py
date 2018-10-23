@@ -78,6 +78,7 @@ class Term(dbModel):
   name              = CharField()
   state             = IntegerField(null = False)
   term_state             = ForeignKeyField(TermStates, null = True, related_name = "states")
+  # algorithm_ready   = BooleanField(null = True)
   
 #  def __str__(self):
 #    return self.name

@@ -258,8 +258,8 @@ state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name
 migrate(
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.drop_column("Term", "state"),
-    migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states'))
-     
+    migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
+    # migrator.add_column('Term', 'algorithm_ready', BooleanField(null = True))
     # migrator.drop_not_null('CourseChange','rid')
 )
 

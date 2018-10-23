@@ -248,7 +248,73 @@ function submit_data(stateOrder, reverseStatus){
    
     $.ajax({
         
-        url:'/admin/systemManagement/updateTermState', // This is the link to the controller
+        url:'/admin/termManagement/updateTermState', // This is the link to the controller
+        
+        data:{'stateOrder':stateOrder,'termCode':termCode},
+        
+        type: "POST",
+        
+        cache: false,
+        
+        success: function () {
+            //console.log('Success')
+            
+            updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
+            if (stateOrder == 5){
+                disableFinishButton();
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+           console.log("saving data to database failed from submit data")
+        }
+        
+    })
+    
+} 
+function disableFinishButton(){
+     $('#button6').prop('disabled', true);
+}
+
+// function remove_class(finishButton){
+//     // This function is  to cause the finish panel to disappear. 
+//     var finish_id = button.dataset.target;  
+//     $(finish_id).removeClass("in");
+// }
+
+// $(document).on('click', '.terms_btn', function(){
+//       document.getElementById("theButtons").disabled=false;
+// });
+function getTermCode(){
+    var allPanelsDiv = $("#allPanels");
+    
+    var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
+    
+    return termCode
+}
+function downloadCourses(){
+    // This function will go to the controller that will handle the downloading of all the courses to an excel file
+    var termCode = getTermCode();
+    
+    window.location.href = '/excel/'+termCode;
+
+    
+}
+
+function goto_roomResolution(){
+    var termCode = getTermCode();
+    
+    window.location.href = '/roomResolution/'+termCode;
+    
+}
+
+function archiveTerm(reverseStatus){
+    var termCode = getTermCode();
+    
+    var stateOrder = 7
+    
+    $.ajax ({
+        
+        url:'/admin/termManagement/updateTermState', // This is the link to the controller
         
         data:{'stateOrder':stateOrder,'termCode':termCode},
         
@@ -263,40 +329,10 @@ function submit_data(stateOrder, reverseStatus){
           
         },
         error: function (xhr, ajaxOptions, thrownError) {
-           console.log("saving data to database failed")
+           console.log("saving data to database failed from archive")
         }
         
     })
-    
-} 
-
-// function remove_class(finishButton){
-//     // This function is  to cause the finish panel to disappear. 
-//     var finish_id = button.dataset.target;  
-//     $(finish_id).removeClass("in");
-// }
-
-// $(document).on('click', '.terms_btn', function(){
-//       document.getElementById("theButtons").disabled=false;
-// });
-
-function downloadCourses(){
-    // This function will make an ajax call to the controller that will handle the downloading of all the courses to an excel file
-    var allPanelsDiv = $("#allPanels");
-    
-    var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
-    
-    window.location.href = '/excel/'+termCode;
-
-    
-}
-
-function goto_roomResolution(){
-    var allPanelsDiv = $("#allPanels");
-    
-    var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
-    
-    window.location.href = '/roomResolution/'+termCode;
     
 }
 

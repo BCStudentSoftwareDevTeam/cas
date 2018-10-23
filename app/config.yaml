@@ -77,9 +77,9 @@ adminMenu:
   - title: "Division Management" # we do not need this anymore after adding the user mgmt
     link:  "/redirect/division_management"
     page: ["divisionManagement"]
-  - title: "System Management" #Change to term management
-    link:  "/admin/systemManagement"
-    page: ["systemManagement"]
+  - title: "Term Management" #Change to term management
+    link:  "/admin/termManagement"
+    page: ["termManagement"]
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
