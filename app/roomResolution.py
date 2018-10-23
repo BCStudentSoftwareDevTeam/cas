@@ -206,7 +206,7 @@ def updateRoom(cid):
 @app.route("/addSecond/<cid>", methods=["POST"])
 def addSecond(cid):
     '''
-    Assign General Available room to a course
+    Assign Course to a room that already has courses in it. 
     params:
        int: cid: Course_Id
 

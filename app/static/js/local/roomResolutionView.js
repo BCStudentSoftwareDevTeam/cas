@@ -13,11 +13,9 @@ $(document).on("click", ".assignroombutton", function () {
 
 //Assign second room to conflict room  
 $(document).on("click", ".assignconflicting", function () {
-     console.log("here");
      roomID = $(this).data('id');
      let linktoroom = document.getElementById("hiddenroom"+roomID);
      let linktocourse = document.getElementById("hiddencourse");
-     console.log()
      $("#assignConfDiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); 
   
 });
