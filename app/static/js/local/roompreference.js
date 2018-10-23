@@ -1003,3 +1003,14 @@ function enableButtonsOnPageLoad(){
             
     }
 }
+
+
+
+$('#edTechModal').keydown(function(e) /*This function enables the screen readers to scroll scrallbar on 
+Education Modal by using the keyboard up and down arrows */
+{ 
+    if(e.keyCode == 40){$('.modal-body').scrollTop($('.modal-body').scrollTop()+10);}
+    if(e.keyCode == 38){$('.modal-body').scrollTop($('.modal-body').scrollTop()-10);}
+    $("#edTechModal").focus();
+
+});
