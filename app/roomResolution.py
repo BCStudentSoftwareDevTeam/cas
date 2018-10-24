@@ -107,7 +107,6 @@ def roomResolutionView(termCode,cid):
             bScheduleDays = ScheduleDays.get(ScheduleDays.schedule == cc.schedule)
             for letter in aCourseSchedule:
                 if letter in bScheduleDays.day:
-                    print("A course day: {0} conflicted with B course day: {1}".format(letter, bScheduleDays.day))
                     pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])  # get instructor information
                     full_name = None
                     
@@ -130,7 +129,6 @@ def roomResolutionView(termCode,cid):
                     break
             
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-    print(preferences)
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms,
@@ -163,7 +161,6 @@ def assignRoom(cid):
         if course.rid:
             course.rid = data['roomID']
             course.save()
-            # print course.rid
             flash("Your changes have been saved!") 
             return json.dumps({"success": 1})
         else:
