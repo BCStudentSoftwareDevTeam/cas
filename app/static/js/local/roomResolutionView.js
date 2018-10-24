@@ -2,6 +2,7 @@
 let roomID="";
 let ogCourse="";
 
+
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {
      roomID = $(this).data('id');
@@ -16,7 +17,7 @@ $(document).on("click", ".assignconflicting", function () {
      roomID = $(this).data('id');
      let linktoroom = document.getElementById("hiddenroom"+roomID);
      let linktocourse = document.getElementById("hiddencourse");
-     $("#assignConfDiv").html("Are you sure you would like to assign "+ linktoroom.value + " to "+linktocourse.value); 
+     $("#assignConfDiv").html("WARNING: Are you sure you want to assign "+ linktoroom.value + " to "+linktocourse.value+"? The room will have more than one course in it."); 
   
 });
 

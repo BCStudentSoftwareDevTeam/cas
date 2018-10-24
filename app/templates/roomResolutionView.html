@@ -53,15 +53,15 @@ p {
               <!-- start of available room accordion -->
               <div role="tabpanel" class="tab-pane active" id="tab-01">
                 <div class="pre-scrollable" style="max-height: 40vh">
-                  <div class="panel-group  w-25 p-3" style="overflow=auto" id="accordion">
+                  <div class="panel-group  w-25 p-3"  role="tablist"style="overflow=auto" id="accordion">
                     {% for room in available_rooms %} 
-                    <div class="panel panel-default clickable">
-                      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
+                    <div  tabindex="0" class="panel panel-default clickable">
+                      <div class="panel-heading" tabindex="0" role="tab" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
                           <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
                         </h4>
                       </div>
-                        <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
+                        <div id="collapse{{room.rID}}"  role="tabpanel" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
                           <div class="panel-body">
                             <div class="col-md-6 left">
                               <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
@@ -101,7 +101,7 @@ p {
                   <div class="panel-group  w-25 p-3" style="overflow=auto" id="accordion">
                     {% for room, courses in unavailable_to_course.items()%} 
                     <div class="panel panel-default clickable">
-                      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
+                      <div class="panel-heading"  tabindex="0" tab data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
                           <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}
                              ({{courses|length}} course)
@@ -158,7 +158,7 @@ p {
               {% if roompreference.pref_1%} <!---If Current course has a preference 1--->
               <div role="tabpanel" class="tab-pane" id="tab-03">
                 <div class="panel panel-default">
-                  <div class="panel-heading">
+                  <div class="panel-heading" tabindex="0">
                     <h3> <!---Find the course that got the room that prof wanted--->
                       <strong>{{roompreference.pref_1.building.name}} : {{roompreference.pref_1.building.shortName}}-{{roompreference.pref_1.number}}</strong></h3>
                   </div>
@@ -208,7 +208,7 @@ p {
               {% if roompreference.pref_2 %}<!---If course A has preference 2 --->
               <div role="tabpanel" class="tab-pane" id="tab-04">
                     <div class="panel panel-default">
-                      <div class="panel-heading">
+                      <div class="panel-heading" tabindex="0">
                         <h3><strong>{{roompreference.pref_2.building.name}} : {{roompreference.pref_2.building.shortName}}-{{roompreference.pref_2.number}}</strong></h3>
                         </div> 
                         <div class="panel-body">
@@ -251,7 +251,7 @@ p {
                {%if roompreference.pref_3%}
                <div role="tabpanel" class="tab-pane" id="tab-05">
                   <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading" tabindex="0">
                       <h3><strong>{{roompreference.pref_3.building.name}} : {{roompreference.pref_3.building.shortName}}-{{roompreference.pref_3.number}}</strong></h3>
                     </div>
                         <div class="panel-body">
