@@ -39,29 +39,28 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
                         console.log(error);
                     }
                 });
-        // }
     }
 }
 
-function educationTech(){
-    var room_id = getRoomId();
-    if(room_id){
-        var url = '/education_Tech'+ room_id;
-        $.ajax({
-            url = url;
-            dataType: 'json',
-                success: function(response){
-                    education_detail(response); //a function with education tech details
-                },
-                error: function(error) {
-                console.log(error);
-                }
-            });
-    $("#Details").show();}
-        })
-    }
+// function educationTech(){
+//     var room_id = getRoomId();
+//     if(room_id){
+//         var url = '/education_Tech'+ room_id;
+//         $.ajax({
+//             url = url;
+//             dataType: 'json',
+//                 success: function(response){
+//                     education_detail(response); //a function with education tech details
+//                 },
+//                 error: function(error) {
+//                 console.log(error);
+//                 }
+//             });
+//     $("#Details").show();{
+//         })
+//     }
     
-}
+// }
 
 function movePanel(rID) { //Makes dropdown appear between rows
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed

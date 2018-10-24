@@ -851,14 +851,23 @@ schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
 schedule = ScheduleDays(schedule = 1, day = "M").save(force_insert=True)
 ######
 #Buildings
-
 ######                             
-
-                              
-
 building     = Building(name = 'Ag Building', shortName = "DR").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
-
+building     = Building(name = 'Emory Building', shortName="EMR").save()
+building     = Building(name = 'Frost Building', shortName="FR").save()
+building     = Building(name = 'Ag Building', shortName = "DR").save()
+building     = Building(name = 'Tech Building', shortName = "DFT").save()
+building     = Building(name = 'Draper', shortName = "DRA").save()
+building     = Building(name = 'Knapp Hall', shortName = "KH").save()
+building     = Building(name = 'Emery', shortName = "EMY").save()
+building     = Building(name = 'Nursing', shortName = "NUR").save()
+building     = Building(name = 'Science', shortName = "SC").save()
+building     = Building(name = 'Frost', shortName = "FR").save()
+building     = Building(name = 'Seabury', shortName = "SEA").save()
+building     = Building(name = 'Theater', shortName = "THR").save()
+building     = Building(name = 'Bingham', shortName = "BING").save()
+building     = Building(name = 'Library', shortName = "LIB").save()
 building     = Building(name = 'Emory Building', shortName="EMR").save()
 building     = Building(name = 'Frost Building', shortName="FR").save()
 
@@ -876,35 +885,8 @@ bmanager = BuildingManager( username = "myersco",
 bmanager = BuildingManager( username = "pearcej",
                             bmid = 3
                           ).save()
-
-
-building     = Building(name = 'Ag Building', shortName = "DR").save()
-building     = Building(name = 'Tech Building', shortName = "DFT").save()
-building     = Building(name = 'Draper', shortName = "DRA").save()
-building     = Building(name = 'Knapp Hall', shortName = "KH").save()
-building     = Building(name = 'Emery', shortName = "EMY").save()
-building     = Building(name = 'Nursing', shortName = "NUR").save()
-building     = Building(name = 'Science', shortName = "SC").save()
-building     = Building(name = 'Frost', shortName = "FR").save()
-
-building     = Building(name = 'Seabury', shortName = "SEA").save()
-building     = Building(name = 'Theater', shortName = "THR").save()
-building     = Building(name = 'Bingham', shortName = "BING").save()
-building     = Building(name = 'Library', shortName = "LIB").save()
-
-building     = Building(name = 'Emory Building', shortName="EMR").save()
-building     = Building(name = 'Frost Building', shortName="FR").save()
-
-
-###############
-#Building Manager#
-##################
-
-
-# bmanager = BuildingManager( username = "heggens",
-#                             bmid = 1
-#                           ).save()
-
+                          
+                          
 ####
 #Education Tech for Rooms
 #####
@@ -932,18 +914,7 @@ building     = Building(name = 'Frost Building', shortName="FR").save()
 #   tech_chart           = False
 #   ).save()
 
-#####
-
-                              
-
-
-######
-#ROOMS#
-######
-
-#ROOMS#
-
-
+##### THERE WERE TWO FOR SOME REASON. DELETE ONE
 # educationTech= EducationTech( 
 #   projectors           = 1,
 #   smartboards          = 2,
@@ -962,39 +933,35 @@ building     = Building(name = 'Frost Building', shortName="FR").save()
 #   tech_chart           = False
 #   ).save()
 
-room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 2,educationTech=1, number ='103', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+
+                              
+
+
+#######
+#ROOMS#
+#######
+# TODO: ADD THIS TO ROOMS BELOW, MISSING ATTRIBUTES visualAcc= , audioAcc= ,physicalAcc= , educationTech= , specializedEq= , specialFeatures= ,
+
+room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Lab", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=1).save()
+room = Rooms(building = 2,educationTech=1, number ='103', maxCapacity=15, roomType="Lecture",  visualAcc= "A", audioAcc= "B" ,physicalAcc= "A",  specializedEq= "Kiln", specialFeatures= "Throwing wheels", movableFurniture= 1).save()
+room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Lab", movableFurniture=1).save()
 room = Rooms(building = 4, educationTech=1,number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 5, educationTech=1,number ='106', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 5, educationTech=1,number ='106', maxCapacity=12, roomType="Lab", movableFurniture=1).save()
 room = Rooms(building = 6, educationTech=1,number ='107', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 7,educationTech=1, number ='108', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 7,educationTech=1, number ='108', maxCapacity=12, roomType="Workshop", movableFurniture=1).save()
 room = Rooms(building = 8, educationTech=1,number ='109', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 9,educationTech=1, number ='110', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 9,educationTech=1, number ='110', maxCapacity=12, roomType="Workshop", movableFurniture=1).save()
 room = Rooms(building = 10, educationTech=1,number ='111', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 11, educationTech=1,number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 12, educationTech=1,number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 1,educationTech=1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 4, educationTech=1,number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-room = Rooms(building = 5, educationTech=1,number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-room = Rooms(building = 6,educationTech=1, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# room = Rooms(building = 11, educationTech=1,number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 12, educationTech=1,number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# room = Rooms(building = 1,educationTech=1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 4, educationTech=1,number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# room = Rooms(building = 5, educationTech=1,number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 6,educationTech=1, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
 
-
-
-room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
-
-room = Rooms(building = 1, educationTech =1, number ="105", maxCapacity=15,roomType="Lecture",visualAcc= True, audioAcc=True, physicalAcc=True, movableFurniture= " The materials herea are movable").save()
-
-room = Rooms(building = 2,educationTech=1, number ="302", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
-
-room = Rooms(building = 2,educationTech=1, number ="202", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
-
-room = Rooms(building = 1, educationTech =1, number ="205", maxCapacity=15,roomType="Lecture",visualAcc= True, audioAcc=True, physicalAcc=True, movableFurniture= " The materials herea are movable").save()
-
-room = Rooms(building = 2,educationTech=1, number ="402", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
-
-room = Rooms(building = 1,educationTech=1, number ="106", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
-room = Rooms(building = 2,educationTech=1, number ="305", maxCapacity=22, roomType="System", audioAcc=False, physicalAcc=False, specializedEq="Very important things", specialFeatures="Nothing", movableFurniture="there are chairs and tables").save()
+#################
+#Room Preference#
+#################
 
 roompreference= RoomPreferences(course= 1, priority=1, pref_1=1,pref_2=2,pref_3=3,notes="None",any_Choice = "any").save()
 roompreference= RoomPreferences(course=3, priority=2, pref_1=2,pref_2=3,pref_3=4,notes="None",any_Choice = "any").save()
@@ -1007,15 +974,6 @@ roompreference= RoomPreferences(course= 5, priority=2,pref_1=8,pref_2=9,pref_3=1
 roompreference= RoomPreferences(course= 9, priority=3,pref_1=9,pref_2=10,pref_3=11,notes="None",any_Choice = "any").save()
 roompreference= RoomPreferences(course= 10, priority=1,pref_1=10,pref_2=11,pref_3=12,notes="None",any_Choice = "any").save()
 
-
-# roompreference= RoomPreferences( course= 1, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-# roompreference= RoomPreferences( course= 2, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-#roompreference= RoomPreferences( course= 3, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
-
-
-# room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-# room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-# roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
 
 
 # try:
