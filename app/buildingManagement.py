@@ -47,29 +47,29 @@ def getRoomData(rID):
     
     return json.dumps(room_details)
  
-@app.route('/education_Tech/<rid>', methods = ["GET"])
-def education_Tech(rid):
-    room = Rooms.get(Rooms.rID == rid)
-    tech_details = room.educationTech
-    education_materials={}
-    education_materials["projector"] = tech_details.projector
-    education_materials["smartboards"] = tech_details.smartboards
-    education_materials["instructor_computers"] = tech_details.instructor_computers
-    education_materials["podium"] = tech_details.podium
-    education_materials["student_workspace"] = tech_details.student_workspace
-    education_materials["chalkboards"] = tech_details.chalkboards
-    education_materials["whiteboards"] = tech_details.whiteboards
-    education_materials["dvd"]=tech_details.dvd 
-    education_materials["blu_ray"]= tech_details.blu_ray 
-    education_materials["audio"]= tech_details.audio
-    education_materials["extro"]=tech_details.extro  
-    education_materials["doc_cam"]=tech_details.doc_cam
-    education_materials["vhs"]= tech_details.vhs
-    education_materials["mondopad"]=tech_details.mondopad
-    education_materials["tech_chart"]=tech_details.tech_chart
-    print("Sending response to front end", education_materials)
+# @app.route('/education_Tech/<rid>', methods = ["GET"])
+# def education_Tech(rid):
+#     room = Rooms.get(Rooms.rID == rid)
+#     tech_details = room.educationTech
+#     education_materials={}
+#     education_materials["projector"] = tech_details.projector
+#     education_materials["smartboards"] = tech_details.smartboards
+#     education_materials["instructor_computers"] = tech_details.instructor_computers
+#     education_materials["podium"] = tech_details.podium
+#     education_materials["student_workspace"] = tech_details.student_workspace
+#     education_materials["chalkboards"] = tech_details.chalkboards
+#     education_materials["whiteboards"] = tech_details.whiteboards
+#     education_materials["dvd"]=tech_details.dvd 
+#     education_materials["blu_ray"]= tech_details.blu_ray 
+#     education_materials["audio"]= tech_details.audio
+#     education_materials["extro"]=tech_details.extro  
+#     education_materials["doc_cam"]=tech_details.doc_cam
+#     education_materials["vhs"]= tech_details.vhs
+#     education_materials["mondopad"]=tech_details.mondopad
+#     education_materials["tech_chart"]=tech_details.tech_chart
+#     print("Sending response to front end", education_materials)
     
-    return json.dumps(education_materials) 
+#     return json.dumps(education_materials) 
 
     
     
