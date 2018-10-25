@@ -5,7 +5,7 @@
 <!--Page Content -->
 {% block body %}
 <link rel="stylesheet" href="/static/css/selectTerm.css" type="text/css" />
-<div class="modal fade" id="selectTermModal" role="dialog" data-backdrop = "static">
+<div class="modal fade" id="selectTermModal" role="dialog" data-backdrop = "static" style= "margin-top:10%">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,13 +13,15 @@
                 <a type="button" class="close"  aria-label="Close" href = "/"><span aria-hidden="true">&times;</span></a>
             </div>
             <div class="modal-body">
-                <select name = "term-select" class="selectpicker form-control" data-live-search="true" name="title" id="termInfo"  required>
+                <div style="overflow: visible">
+                <select name = "term-select" class="selectpicker form-control dropdown" data-live-search="true" data-container="body" name="title" id="termInfo"  required>
                     {% for term in allTerms %}
                         <option value ={{term.termCode}} >
                             {{term.name}}
                         </option>
                     {% endfor %}
                 </select>
+                </div>
                 <div class="modal-footer">
                     <button onclick="redirectCourses('{{prefix}}')" class="btn btn-success">Submit</button>
                 </div>  

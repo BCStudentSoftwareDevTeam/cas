@@ -5,7 +5,7 @@
 <!--Page Content -->
 {% block body %}
 
-<div class="modal fade" id="selectProgramModal" role="dialog" data-backdrop = "static">
+<div class="modal fade" id="selectProgramModal" role="dialog" data-backdrop = "static" style="margin-top:10%;">
    <div class="modal-dialog">
        <div class="modal-content">
            <div class="modal-header">
@@ -14,25 +14,29 @@
 		       
            </div>
            <div class="modal-body">
-               <select name = "program-select" class="selectpicker form-control" data-live-search="true" name="ptitle" id="programInfo"  required>
-                   {% for program in allPrograms %}
-                       <optgroup>
-                            <optgroup label= "{{program.name}}">
-                                {% for subject in subjects %} 
-                                    {% if subject.pid.pID== program.pID %}
-                                         <option value = {{subject.prefix}}>
-                                             {{subject.prefix}}
-                                         </option>
-                                    {% endif %}
-                                {% endfor %}
-                        </optgroup>
-                   {% endfor %}
-               </select>
-               <div class="modal-footer">
-                   <button onclick="redirectCourses()" class="btn btn-success">Submit</button>
-               </div>  
+               <div style="overflow: visible">
+                   <select name = "program-select" class="selectpicker form-control dropdown" data-live-search="true" data-container="body" name="ptitle" id="programInfo" required>
+                       {% for program in allPrograms %}
+                           <optgroup>
+                                <optgroup label= "{{program.name}}">
+                                    {% for subject in subjects %} 
+                                        {% if subject.pid.pID== program.pID %}
+                                             <option value = {{subject.prefix}}>
+                                                 {{subject.prefix}}
+                                             </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </optgroup>
+                            </optgroup>
+                       {% endfor %}
+                   </select>
+               </div>
+            </div>   
+            <div class="modal-footer">
+                <button onclick="redirectCourses()" class="btn btn-success">Submit</button>
+            </div>  
                
-           </div>
+           
        </div>
    </div>
 </div>
