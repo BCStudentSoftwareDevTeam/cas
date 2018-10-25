@@ -33,6 +33,7 @@ models:
     - SpecialTopicCourse
     - ProgramChair
     - DivisionChair
+    - BuildingManager
     - InstructorCourse
     - InstructorSTCourse
     - Deadline
