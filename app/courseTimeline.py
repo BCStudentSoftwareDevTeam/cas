@@ -51,3 +51,8 @@ def timelineJson(tid):
   return jsonify(json_str)
  
   
+
+@app.route('/codereview',methods=["GET"])
+def reviewChecklist():
+  return render_template('documentation.html')
+  
