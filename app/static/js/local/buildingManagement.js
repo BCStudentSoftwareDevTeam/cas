@@ -16,13 +16,6 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
      setRoomId(roomID);
     // console.log("RoomID:", roomID )
      movePanel(roomID);
-    //  Dont think the code commented below plays a key part in getting loading the data.
-    //ajax call to pull room data into panel
-    // $("#roomDetails #selectedRoom").show();
-    // if($("#selectedRoom").val() > 0) {
-    //     setRoomId($("#selectedRoom").val());
-    //     console.log("Room data", getRoomId());
-    // }
      if (roomID > 0){
              var url = '/getRoomData/'+roomID;
              $.ajax({
@@ -42,6 +35,7 @@ function setRoomPanel(roomID, button){ //Sets room ID based on what room (row) E
     }
 }
 
+//TODO Create an ajax call that populates the data to the education tech
 // function educationTech(){
 //     var room_id = getRoomId();
 //     if(room_id){
@@ -90,6 +84,14 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     //var my_div = document.getElementById('educationTech'); //Will this be any different?
     //my_div.innerHTML = response['educationTech'];
     var my_div = document.getElementById('visualAcc');
+    console.log("#"+response['visualAcc']);
+    console.log(my_div.val("#"+response['visualAcc']));
+    //select option with id == response["VisualAcc"]
+    //let child =querySelector("#"+response['visualAcc']);
+    //let child=my_div.children("#"+response['visualAcc']);
+    //insert selected in the tag of child
+    //console.log("HIII", child)
+    console.log("123", response['visualAcc']);
     my_div.value = response['visualAcc'];
     var my_div = document.getElementById('audioAcc');
     my_div.value = response['audioAcc'];
@@ -100,6 +102,7 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
 function saveChanges(){ //Posts data to DB and reloads the page
     // var submitChangesButton = document.getElementById("submitChanges");
     document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
+    document.getElementById("submitChanges").value
     
     //TODO: FIX AJAX CALL TO POST CHANGES TO DB
 //     $.ajax({

@@ -68,26 +68,64 @@
                                         <a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roomprecerences on jamal_basanta--->
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
-                                    <div ><strong>Visual Accessibility: </strong><select id="visualAcc" class="form control">
-                                        <!--<option value="A">A</option>
-                                        <!--<option value="B">B</option>-->
-                                        <!--<option value="C">C</option>-->
-                                    </select></div><br>
-                                    <div><strong>Audio Accessibility: </strong><select  id="audioAcc" class="form control">
-                                        <!--<option value="A">A</option>
-                                        <!--<option value="B">B</option>-->
-                                        <!--<option value="C">C</option>-->
-                                    </select></div><br>
-                                    <div ><strong>Physical Accessibility: </strong><select id="physicalAcc" class="form control">
-                                        <!--<option value="A">A</option>-->
-                                        <!--<option value="B">B</option>-->
-                                        <!--<option value="C">C</option>-->
-                                    </select></div><br>
+                                    <div ><strong>Visual Accessibility: </strong>
+                        
+                                        <select id="visualAcc" class="form control">
+                                            {% for room in rooms %}
+                                            <option value="{{room.visualAcc }}">{{ room.visualAcc }}</option>
+                                             {% endfor %}
+                                        </select>
+                                   
+                                    </div><br>
+                                    
+                                    <div><strong>Audio Accessibility: </strong>
+                                    <select  id="audioAcc" class="form control">
+                                        <!--{% for room in rooms %}-->
+                                        <!--<select  id="audioAcc" class="form contro">-->
+                                        <!--    <option value="{{room.audioAcc }}">{{ room.audioAcc }}</option>-->
+                                        </select>
+                                        <!--{% endfor %}-->
+                                    </div><br>
+                                    
+                                    <div><strong>Physical Accessibility: </strong>
+                                    <select  id="audioAcc" class="form control">
+                                        <!--{% for room in rooms %}-->
+                                        <!--<select  id="audioAcc" class="form contro">-->
+                                        <!--    <option value="{{room.audioAcc }}">{{ room.audioAcc }}</option>-->
+                                        </select>
+                                        <!--{% endfor %}-->
+                                    </div><br>
+                                    
+                                    <!--<div ><strong>Physical Accessibility: </strong>-->
+                                    <!--{% for room in rooms %}-->
+                                    <!--    <select id="physicalAcc" class="form control">-->
+                                    <!--        <option value= "{{ rooms.visualAcc }}"> {{ rooms.physicalAcc }}</option>-->
+                                    <!--    </select>-->
+                                    <!--{% endfor %}-->
+                                    <!--</div><br>-->
                                 </div>
                             </div>
                             <div id="submitChangesDiv">
-                                <button type="button" class="btn btn-success" onclick="saveChanges()" id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges" onclick="saveChanges()" id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
                             </div>
+                            
+                            <!--pop-up for the onclick of submit changes button-->
+                            <div class="modal fade" id="makeChanges" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                     <p>Are you sure you want to update the information for this room?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                                    <button name ="adduser" value = "adduser" type="Submit" class="btn btn-success"> Yes</button>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
                         </div>
                          
                     </td>
