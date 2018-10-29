@@ -31,3 +31,4 @@ pip install "flask-admin==$FLASK_ADMIN_VERSION"
 pip install "wtf-peewee==$WTF_PEEWEE_VERSION"
 pip install "flask_login==$FLASK_LOGIN_VERSION"
 pip install git+https://github.com/memo330179/migrant-cli.git
+# pip install libsqlite3-dev

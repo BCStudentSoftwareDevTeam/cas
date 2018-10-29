@@ -76,9 +76,10 @@ class Term(dbModel):
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
+  algorithm_running   = BooleanField(null = False, default = False)
   state             = IntegerField(null = False)
-  term_state             = ForeignKeyField(TermStates, null = True, related_name = "states")
-  # algorithm_ready   = BooleanField(null = True)
+  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
+  
   
 #  def __str__(self):
 #    return self.name
