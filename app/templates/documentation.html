@@ -28,30 +28,30 @@
 
 <!-- Multiple Radios (inline) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Did you check for reusable code or utility methods inside logic folder?</label>
+  <label class="col-md-4 control-label" for="reusable">Did you check for reusable code or utility methods inside logic folder?</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="reusable-1">
+      <input name="reusable" id="reusable-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="reusable-2">
+      <input name="reusable" id="reusable-2" type="radio" value="0">
       No
     </label>
   </div>
 </div>
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Did you remove debugger statements?</label>
+  <label class="col-md-4 control-label" for="debug">Did you remove debugger statements?</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="debug-1">
+      <input name="debug" id="debug-1" type="radio" value="1">
       Yes
     </label> 
     <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+      <input name="debug" id="debug-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -59,15 +59,15 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Are there clear commit messages?</label>
+  <label class="col-md-4 control-label" for="commit">Are there clear commit messages?</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="commit-1">
+      <input name="commit" id="commit-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="commit-2">
+      <input name="commit" id="commit-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -75,23 +75,23 @@
 
 <!-- Multiple Checkboxes -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="iPhone">Naming Conventions. To learn more, <a href="https://www.python.org/dev/peps/pep-0008/#naming-conventions">visit</a>.</label>
+  <label class="col-md-4 control-label" for="conventions">Naming Conventions. To learn more, <a href="https://www.python.org/dev/peps/pep-0008/#naming-conventions">visit</a>.</label>
   <div class="col-md-4">
   <div class="checkbox">
-    <label for="iPhone-0">
-      <input name="iPhone" id="iPhone-0" type="checkbox" value="Word">
+    <label for="func_name">
+      <input name="conventions" id="func_name" type="checkbox" value="function_name">
       function_name, function_parameter_name
     </label>
 	</div>
 	<div class="checkbox">
-    <label for="iPhone-1">
-      <input name="iPhone" id="iPhone-1" type="checkbox" value="Excel">
+    <label for="varname-1">
+      <input name="conventions" id="varname-1" type="checkbox" value="Var_name">
       instance_var_name, global_var_name, local_var_name
     </label>
 	</div>
 	<div>
-    <label for="iPhone-0">
-      <input name="iPhone" id="iPhone-0" type="checkbox" value="Word">
+    <label for="classname-1">
+      <input name="conventions" id="classname-1" type="checkbox" value="classname">
       ClassName, module_name, package_name, GLOBAL_CONSTANT_NAME
     </label>
 	</div>
@@ -101,14 +101,14 @@
 </div>
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="hardware"> Are your variable, function, class, module names descriptive?</label>
+  <label class="col-md-4 control-label" for="variable"> Are your variable, function, class, module names descriptive?</label>
   <div class="col-md-4"> 
-    <label class="radio-inline" for="hardware-1">
-      <input name="hardware" id="hardware-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="variable-1">
+      <input name="variable" id="variable-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="hardware-2">
-      <input name="hardware" id="hardware-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="variable-2">
+      <input name="variable" id="variable-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -118,17 +118,17 @@
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="Connectivity">Run this command on modified Python files: 
-  autopep8 --in-place --aggressive --aggressive <filename.py> </br>Autopep8 automatically formats your file based on PEP8 standards.
+  <code>autopep8 --in-place --aggressive --aggressive filename.py</code> </br>Autopep8 automatically formats your file based on PEP8 standards.
   To learn more, <a href="https://github.com/hhatto/autopep8">visit</a>.
   </label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="command-1">
+      <input name="command" id="command-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="command-2">
+      <input name="command" id="command-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -141,14 +141,14 @@
   fixing as needed. Run setup.sh to install pylint</label>
   <div class="col-md-4">
   <div class="checkbox">
-    <label for="Desktop-0">
-      <input name="Desktop" id="Desktop-0" type="checkbox" value="Word">
+    <label for="formatted-0">
+      <input name="formatted" id="formatted-0" type="checkbox" value="1">
       Yes
     </label>
     </div>
   <div class="checkbox">
-    <label for="Desktop-1">
-      <input name="Desktop" id="Desktop-1" type="checkbox" value="Excel">
+    <label for="formatted-1">
+      <input name="formatted" id="formatted-1" type="checkbox" value="0">
       No
     </label>
 	</div>
@@ -160,20 +160,20 @@
 
 <!-- Multiple Checkboxes -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Desktop">Write docstrings for all public modules, functions, classes, and methods. 
+  <label class="col-md-4 control-label" for="docstrings">Write docstrings for all public modules, functions, classes, and methods. 
   Docstrings are not necessary for non-public methods, but you should have a comment that describes what the method does.
   This comment should appear after the def line. To learn more, <a href="https://www.python.org/dev/peps/pep-0008/#documentation-strings">visit</a>.
   </label>
   <div class="col-md-4">
   <div class="checkbox">
-    <label for="Desktop-0">
-      <input name="Desktop" id="Desktop-0" type="checkbox" value="Word">
+    <label for="docstring-2">
+      <input name="docstrings" id="docstring-2" type="checkbox" value="1">
       Yes
     </label>
     </div>
   <div class="checkbox">
-    <label for="Desktop-1">
-      <input name="Desktop" id="Desktop-1" type="checkbox" value="Excel">
+    <label for="docstring-1">
+      <input name="docstrings" id="docstring-1" type="checkbox" value="0">
       No
     </label>
 	</div>
@@ -183,32 +183,32 @@
 
 <!-- Multiple Radios (inline) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Limit all lines to a maximum of 79 characters? To break the line, use Python's 
+  <label class="col-md-4 control-label" for="lines">Limit all lines to a maximum of 79 characters? To break the line, use Python's 
   implied <a href="https://stackoverflow.com/questions/53162/how-can-i-do-a-line-break-line-continuation-in-python">
   line continuation</a> inside parentheses, brackets and braces.
   </label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="lines-1">
+      <input name="lines" id="lines-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="lines-2">
+      <input name="lines" id="lines-2" type="radio" value="0">
       No
     </label>
   </div>
 </div>
 <!-- Multiple Radios (inline) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="hardware"> Did you pull development and fix merge conflicts?</label>
+  <label class="col-md-4 control-label" for="merge"> Did you pull development and fix merge conflicts?</label>
   <div class="col-md-4"> 
-    <label class="radio-inline" for="hardware-1">
-      <input name="hardware" id="hardware-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="merge-1">
+      <input name="merge" id="merge-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="hardware-2">
-      <input name="hardware" id="hardware-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="merge-2">
+      <input name="merge" id="merge-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -217,15 +217,15 @@
 
 <!-- Multiple Radios (inline) -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Did it pass the tests?</label>
+  <label class="col-md-4 control-label" for="test">Did it pass the tests?  (optional for now)</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="test-1">
+      <input name="test" id="test-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="test-2">
+      <input name="test" id="test-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -233,15 +233,15 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Is my code secure?</label>
+  <label class="col-md-4 control-label" for="secure">Is my code secure?</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="secure-1">
+      <input name="secure" id="secure-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="secure-2">
+      <input name="secure" id="secure-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -249,15 +249,15 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Is it maintainable?</label>
+  <label class="col-md-4 control-label" for="maintain">Is it maintainable? (optional for now)</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="maintain-1">
+      <input name="maintain" id="maintain-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="maintain-2">
+      <input name="maintain" id="maintain-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -266,15 +266,15 @@
 
 
 <div class="form-group">
-  <label class="col-md-4 control-label" for="Connectivity">Will it scale?</label>
+  <label class="col-md-4 control-label" for="scale">Will it scale? (optional for now)</label>
   <div class="col-md-4"> 
    
-    <label class="radio-inline" for="Connectivity-1">
-      <input name="Connectivity" id="Connectivity-1" type="radio" value="More than a minute">
+    <label class="radio-inline" for="scale-1">
+      <input name="scale" id="scale-1" type="radio" value="1">
       Yes
     </label> 
-    <label class="radio-inline" for="Connectivity-2">
-      <input name="Connectivity" id="Connectivity-2" type="radio" value="Less than a minute">
+    <label class="radio-inline" for="scale-2">
+      <input name="scale" id="scale-2" type="radio" value="0">
       No
     </label>
   </div>
@@ -321,7 +321,7 @@ This makes the reviewer's job easier.
 
 </div>
 <ul class="list-group">
-  <code>Feedbacks to expect at this point:</code>
+  <code>Feedbacks to expect after this point:</code>
   <li class="list-group-item">  Nit picks</li>
   <li class="list-group-item">  Variable Names</li>
   <li class="list-group-item">  Documentation and Comments</li>
