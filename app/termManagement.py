@@ -5,6 +5,7 @@ from app.logic.authorization import must_be_admin
 from app.logic.roomAssignment import RoomAssigner
 # import threading
 from threading import Thread, Event
+from models import *
 
 
 @app.route("/admin/termManagement", methods=["GET"])
@@ -49,8 +50,8 @@ def run_algorithm(termCode):
    room_assigner = RoomAssigner(termCode)
    room_assigner.courses_query()
    DATA_SET = room_assigner.create_data_set()
-   # print(DATA_SET)
-   # print("here")
+   print(DATA_SET)
+   print("here")
    room_assigner.assign_room(DATA_SET)
    return 1
 
@@ -66,25 +67,35 @@ def updateTermState():
 
    term   = Term.get(Term.termCode == data['termCode']) # Retrieve from the database the term whose state was changed by the user and that needs to be updated
    
-   state  = TermStates.get(TermStates.order == data['stateOrder'] ) # Retrieve the state that will be associated with the term
-
-   Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute() # update the state of the specific term retrieved
    
-   print('State Order', data['stateOrder'])
+   state  = TermStates.get(TermStates.order == data['stateOrder'] ) # Retrieve the state that will be associated with the term
+  
+   
+   
+   if data['stateOrder'] == str(6):
+   
+      print("My db is closed: ", mainDB.is_closed())
+      db_status = mainDB.is_closed() 
+      while db_status is not True:
+         time.sleep(1)
+         db_status = mainDB.is_closed() 
+         print("My db is closed: ", mainDB.is_closed())
+         
+ 
+   # print('State Order', data['stateOrder'])
    
    if data['stateOrder'] == str(5): # Call the Room Assignment Algorithm
-      # term.algorithm_ready = False
-      # term.save()
-      # print("Term Ready", term.algorithm_ready)
-      ready = Event()
-      ready.set()
-      algorithm_thread = Thread(target = run_algorithm, args = (data['termCode'],))
-      # print(algorithm_thread)
-      algorithm_thread.start()
-      ready.wait()
-      # algorithm_thread.join()
-      # result = RoomAssigner(data['termCode'])
-      # result.run_algorithm() 
- 
+
+      print("My db is closed: ", mainDB.is_closed())
+      
+      db_status = mainDB.is_closed() 
+      
+      while db_status is not True:
+         time.sleep(1)
+         db_status = mainDB.is_closed() 
+         print("My db is closed: ", mainDB.is_closed())
+   
+   Term.update({Term.state: state.csID}).where(Term.termCode == data['termCode']).execute() # update the state of the specific term retrieved
+   print("Done Updating")
    return redirect(url_for("termManagement")) 
    
