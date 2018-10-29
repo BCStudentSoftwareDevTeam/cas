@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+{% endblock %}
+<!--Page Content -->
+
+
+{% block body %}
+{% include 'snips/messages.html' %}
+<div class="container" table-layout: fixed>
+  <p hidden>
+    
+    
+  </p>
+  
+<form class="form-horizontal">
+<fieldset>
+<!-- Form Name -->
+
+<div class="text-center">
+<h2>Checklist</h2>
+<h4>Are you a Code Reviewer or Submitter? Read your responsibilities first!!! Click one:</h4>
+<button type="button" onClick="document.getElementById('reviewer').scrollIntoView();"  class="btn btn-success">Reviewer</button>
+<button type="button" class="btn btn-primary" onClick="document.getElementById('submitter').scrollIntoView();" >Submitter</button>
+</div></br>
+<code>Note: before going through this checklist, run ./setup.sh to install required packages for codeReview. </br>
+</code>
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="reusable">Did you check for reusable code or utility methods inside logic folder?</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="reusable-1">
+      <input name="reusable" id="reusable-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="reusable-2">
+      <input name="reusable" id="reusable-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="debug">Did you remove debugger statements?</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="debug-1">
+      <input name="debug" id="debug-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="Connectivity-2">
+      <input name="debug" id="debug-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="commit">Are there clear commit messages?</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="commit-1">
+      <input name="commit" id="commit-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="commit-2">
+      <input name="commit" id="commit-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+<!-- Multiple Checkboxes -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="conventions">Naming Conventions. To learn more, <a href="https://www.python.org/dev/peps/pep-0008/#naming-conventions">visit</a>.</label>
+  <div class="col-md-4">
+  <div class="checkbox">
+    <label for="func_name">
+      <input name="conventions" id="func_name" type="checkbox" value="function_name">
+      function_name, function_parameter_name
+    </label>
+	</div>
+	<div class="checkbox">
+    <label for="varname-1">
+      <input name="conventions" id="varname-1" type="checkbox" value="Var_name">
+      instance_var_name, global_var_name, local_var_name
+    </label>
+	</div>
+	<div>
+    <label for="classname-1">
+      <input name="conventions" id="classname-1" type="checkbox" value="classname">
+      ClassName, module_name, package_name, GLOBAL_CONSTANT_NAME
+    </label>
+	</div>
+  
+	
+</div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="variable"> Are your variable, function, class, module names descriptive?</label>
+  <div class="col-md-4"> 
+    <label class="radio-inline" for="variable-1">
+      <input name="variable" id="variable-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="variable-2">
+      <input name="variable" id="variable-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Connectivity">Run this command on modified Python files: 
+  <code>autopep8 --in-place --aggressive --aggressive filename.py</code> </br>Autopep8 automatically formats your file based on PEP8 standards.
+  To learn more, <a href="https://github.com/hhatto/autopep8">visit</a>.
+  </label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="command-1">
+      <input name="command" id="command-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="command-2">
+      <input name="command" id="command-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+<!-- Multiple Checkboxes -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Desktop">Are the Python files you modified well formatted? Run `pylint filename.py`. Use `autopep8 command` and manual
+  fixing as needed. Run setup.sh to install pylint</label>
+  <div class="col-md-4">
+  <div class="checkbox">
+    <label for="formatted-0">
+      <input name="formatted" id="formatted-0" type="checkbox" value="1">
+      Yes
+    </label>
+    </div>
+  <div class="checkbox">
+    <label for="formatted-1">
+      <input name="formatted" id="formatted-1" type="checkbox" value="0">
+      No
+    </label>
+	</div>
+  </div>
+</div>
+
+
+
+
+<!-- Multiple Checkboxes -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="docstrings">Write docstrings for all public modules, functions, classes, and methods. 
+  Docstrings are not necessary for non-public methods, but you should have a comment that describes what the method does.
+  This comment should appear after the def line. To learn more, <a href="https://www.python.org/dev/peps/pep-0008/#documentation-strings">visit</a>.
+  </label>
+  <div class="col-md-4">
+  <div class="checkbox">
+    <label for="docstring-2">
+      <input name="docstrings" id="docstring-2" type="checkbox" value="1">
+      Yes
+    </label>
+    </div>
+  <div class="checkbox">
+    <label for="docstring-1">
+      <input name="docstrings" id="docstring-1" type="checkbox" value="0">
+      No
+    </label>
+	</div>
+  </div>
+</div>
+
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="lines">Limit all lines to a maximum of 79 characters? To break the line, use Python's 
+  implied <a href="https://stackoverflow.com/questions/53162/how-can-i-do-a-line-break-line-continuation-in-python">
+  line continuation</a> inside parentheses, brackets and braces.
+  </label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="lines-1">
+      <input name="lines" id="lines-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="lines-2">
+      <input name="lines" id="lines-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="merge"> Did you pull development and fix merge conflicts?</label>
+  <div class="col-md-4"> 
+    <label class="radio-inline" for="merge-1">
+      <input name="merge" id="merge-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="merge-2">
+      <input name="merge" id="merge-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="test">Did it pass the tests?  (optional for now)</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="test-1">
+      <input name="test" id="test-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="test-2">
+      <input name="test" id="test-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="secure">Is my code secure?</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="secure-1">
+      <input name="secure" id="secure-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="secure-2">
+      <input name="secure" id="secure-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="maintain">Is it maintainable? (optional for now)</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="maintain-1">
+      <input name="maintain" id="maintain-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="maintain-2">
+      <input name="maintain" id="maintain-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="scale">Will it scale? (optional for now)</label>
+  <div class="col-md-4"> 
+   
+    <label class="radio-inline" for="scale-1">
+      <input name="scale" id="scale-1" type="radio" value="1">
+      Yes
+    </label> 
+    <label class="radio-inline" for="scale-2">
+      <input name="scale" id="scale-2" type="radio" value="0">
+      No
+    </label>
+  </div>
+</div>
+
+<div id="submitter">
+<ul class="list-group">
+  <h3>HOW TO BE A GOOD SUBMITTER? </h3>
+  <li class="list-group-item">  In your PR description, provide the why (context!). What problem is your code trying to solve?</li>
+  <li class="list-group-item">  Expect Conversation</li>
+  <li class="list-group-item">  Accept Defeat</li>
+  <li class="list-group-item">  Use Automated Tools</li>
+  <li class="list-group-item">  Submit In Progess Work</li>
+  <li class="list-group-item">  Review Your Own Code</li>
+  
+</ul>
+
+
+<div class="alert alert-info" role="alert">
+  Submit WIP/Work-In-Progress Pull Request if you are working on bigger features even if when you're not completely done with your issue. 
+  Notify reviewer that your code is 30%-50% done.
+This makes the reviewer's job easier.
+</div>
+
+<ul class="list-group">
+  <code>Feedbacks to expect after submitting WIP pull request:</code>
+  <li class="list-group-item">  Architectural Issues</li>
+  <li class="list-group-item">  Problems with overall design</li>
+  <li class="list-group-item">  Design Pattern Suggestions</li>
+</ul>
+
+
+<ul class="list-group">
+  <code>Things to keep in mind:</code>
+  <li class="list-group-item">  Solving Multiple Problems? Break them into multiple branch/pull requests for ease of review.</li>
+  <li class="list-group-item">  If you wrote more than 500 lines of code, break it up and make multiple pull requests.</li>
+  <li class="list-group-item">  Documentation and Comments</li>
+  <li class="list-group-item">  Small Optimization</li>
+  <li class="list-group-item">  Talk to reviewers if you want to talk about Code Review process. Don't take feedback personally. It's an opportunity for growth.</li>
+
+</ul>
+
+
+
+</div>
+<ul class="list-group">
+  <code>Feedbacks to expect after this point:</code>
+  <li class="list-group-item">  Nit picks</li>
+  <li class="list-group-item">  Variable Names</li>
+  <li class="list-group-item">  Documentation and Comments</li>
+  <li class="list-group-item">  Small Optimization</li>
+</ul>
+
+<div id="reviewer">
+<ul class="list-group">
+  <h3>HOW TO BE A GOOD REVIEWER:</h3>
+    <li class="list-group-item">BE OBJECTIVE: "This method is missing a docstring"
+  INSTEAD OF "You forgot to write a docstring"</li>
+  <li class="list-group-item">  ASK QUESTIONS DON'T GIVE ANSWERS "Would it make more sense if..?
+  "Did you think about ..?</li>
+
+  <li class="list-group-item">  OFFER SUGGESTIONS: "It might be easier to ...", "We tend to do it this way..."</li>
+    <li class="list-group-item"> AVOID THESE TERMS: simply, easily, just, obviously, well actually</li>
+  <li class="list-group-item">  HAVE CLEAR FEEDBACK: </br>
+  >Strongly support your opinions </br> >Share How & Why </br> >Link to supporting documentation,
+  blog post, or stackoverflow examples
+  
+  </li>
+  <li class="list-group-item">COMPLIMENT GOOD WORKS AND GREAT IDEAS</li>
+  <li class="list-group-item">DON'T BE A PERFECTONIST </br> >The goal is better code, not "exactly 
+  the code you would have written"</li>
+  <li class="list-group-item">IT'S OK TO NIT-PICK </br>
+  >Syntax Issues </br> >Spelling Errors </br> >Poor variable names </br> >Missing Corner Cases
+  > Specify: Are your nitpicks blocking merge </br>
+  Save the nit-picks for last, after any pressing architechture, design or other large scale issues
+  have been addressed.
+  
+  </li>
+<li class="list-group-item">AVOID BURN OUT: MAXIMUM 200-400 lines at a time</li>
+
+<li class="list-group-item">COMPLETE PR REVIEW AS SOON AS POSSIBLE</li>
+<li class="list-group-item">TRY TO PAIR REVIEW IF YOU ARE NEW TO THIS</li>
+
+<li class="list-group-item">YOU BECOME BUCH BETTER PROGRAMMER BY PARTICIPATING IN CODE REVIEWS</li>
+  
+</ul>
+
+<code>Source: Code Review for <a href="https://www.slideshare.net/nnja/code-review-skills-for-pythonistas-nina-zakharenko-europython">"Pythonistas"</a></code>
+</div>
+  </div>
+</div>
+
+  
+</fieldset>
+</form>
+
+</div>
+
+{% endblock %}
