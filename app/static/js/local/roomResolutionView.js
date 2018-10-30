@@ -2,6 +2,29 @@
 let roomID="";
 let ogCourse="";
 
+$('.accordion').keydown(function(event) {
+   var keyCode = event.which; // Capture which key was pressed
+   switch(keyCode){
+                
+      case 13: case 32:
+         // Either the enter key or space bar was pressed
+         // You should toggle the focused accordion.
+         // If it is open, close it now; if it is closed, open it now.
+        row = $($(this)[0]).attr("id").split("row")[1];
+        allDivs = $("#accordion")
+        for (divs in allDivs) {
+            if (($("#collapse"+row).addClass('in'))){
+                $(this).collapse('show');
+            }
+            $(this).collapse('hide');                                   
+        }
+        break;
+
+      default:
+         // A key was pressed, but it is not actionable
+   }
+});
+
 
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {

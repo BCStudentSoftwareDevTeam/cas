@@ -55,7 +55,7 @@ p {
                 <div class="pre-scrollable" style="max-height: 40vh">
                   <div class="panel-group  w-25 p-3"  role="tablist"style="overflow=auto" id="accordion">
                     {% for room in available_rooms %} 
-                    <div  tabindex="0" class="panel panel-default clickable">
+                    <div  tabindex="0" class="panel panel-default clickable accordion" role="button" id = "row{{room.rID}}">
                       <div class="panel-heading" tabindex="0" role="tab" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
                           <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
@@ -355,9 +355,8 @@ p {
 
 
 <script src = "/static/js/local/roomResolutionView.js"></script>
+
 {% endblock %}
-
-
 
 
 
