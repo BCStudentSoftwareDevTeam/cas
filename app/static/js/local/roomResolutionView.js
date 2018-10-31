@@ -1,6 +1,5 @@
 
-let roomID="";
-let ogCourse="";
+
 
 $('.accordion').keydown(function(event) {
    var keyCode = event.which; // Capture which key was pressed
@@ -23,8 +22,21 @@ $('.accordion').keydown(function(event) {
       default:
          // A key was pressed, but it is not actionable
    }
+   
+   if ($("#edTechModal").hasClass('in') && (e.keycode == 13 || e.which == 13)) { // this code is not working please 
+       $('#edTechModal').modal('show');
+       condole.log("show me the money now")
+       
+   }
+   
+     $('#edTechModal').modal('hide');
+       
+    
 });
 
+
+// let roomID="";
+// let ogCourse="";
 
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {
