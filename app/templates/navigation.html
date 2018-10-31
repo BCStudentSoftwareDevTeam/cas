@@ -26,11 +26,12 @@
     {% endfor %}
   </ul>
   
-  <ul class="nav navbar-top-links navbar-right">
+  <ul class="nav navbar-nav navbar-top-links navbar-right">
+    
     {% if isAdmin %}
-      <li class="dropdown">
+      <li class=" nav dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" > Administration <span class="caret"></span></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu"  id ="sort">
           {% for menuItem in cfg['adminMenu'] %}
             <li
               {% for pageName in menuItem['page'] %}
@@ -57,3 +58,12 @@
   <!-- /.navbar-static-side -->
 </nav>
 
+<script>
+//sorts drop down elements after page loads
+$("#sort").html(
+    $("#sort").children ("li").sort(function (a, b) {
+        return $(a).text().toUpperCase().localeCompare(
+            $(b).text().toUpperCase());
+    }) 
+); 
+</script>

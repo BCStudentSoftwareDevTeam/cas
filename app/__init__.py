@@ -6,6 +6,7 @@ It also includes all the application files that are used as "pages" in the app
 (e.g., "from app import start" imports all the code in start.py that is behind the start.html webpage)
 '''
 
+
 from app import allImports
 from allImports import *
 
@@ -33,10 +34,14 @@ from app import addCourse
 from app import excelDownload
 from app import databaseAdmin
 from app import selectTerm
+from app import selectTermForRoomPreferences
 from app import contributors
 from app import editActiveCourses
 from app import selectProgram
 from app import courseTable
 from app import courseTimeline
 from app import login_logout
-
+from app import roomPreference
+from app import roomResolution
+from app import userManagement
+from app import removeUser

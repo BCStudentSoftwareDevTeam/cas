@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+{% endblock %}
+<!--Page Content -->
+
+
+{% block body %}
+{% include 'snips/messages.html' %}
+<link rel="roomResolution" href="/static/css/roomResolution.css" type="text/css"/>
+<div class="container" table-layout: fixed>
+        <div>
+            <h1 class="text-center"><b>Room Resolutions </b></h1>
+        </div>
+            <div class="col-lg-5" >
+                <div class="row"><h3><strong>Courses Without Rooms</strong></h3></div>
+                    {%for course in courses%}
+                        <div class = row style="height:7%" ><h4>{{course.bannerRef.subject}} {{course.bannerRef.number}} - {{course.bannerRef.ctitle}}</h4></div>
+                    {% endfor %}
+            
+            </div>
+            <div class="col-lg-4">
+              <div class="row"><h3><strong>Time</strong></h3></div>
+                {%for course in courses %}
+                    <div class = row style="height:7%"><h4>{{course.schedule.startTime}} - {{course.schedule.endTime}}</h4></div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-3">
+                <div class="row"><h3><strong>Resolve</strong></strong></h3></div>
+                    {%for course in courses%}
+                        <div class=row style="height:7%"><a href="/roomResolutionView/{{termcode}}/{{course.cId}}"><button type="button" class="btn btn-primary btn-md">Resolve</button></a></div>
+                    {% endfor %}
+            </div>
+</div>
+
+{% endblock %}

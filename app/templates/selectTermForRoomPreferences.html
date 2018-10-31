@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %}
+{% block aboveContainer %}
+{% endblock %}
+<!--Page Content -->
+{% block body %}
+<link rel="stylesheet" href="/static/css/selectTerm.css" type="text/css" />
+<div class="modal fade" id="selectTermModal" role="dialog" data-backdrop = "static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Select a Term to Work on </span>
+                <a type="button" class="close"  aria-label="Close" href = "/"><span aria-hidden="true">&times;</span></a>
+            </div>
+            <div class="modal-body">
+                <select name = "term-select" class="selectpicker form-control" data-live-search="true" name="title" id="termInfo"  required>
+                    {% for term in allTerms %}
+                        <option value ={{term.termCode}} >
+                            {{term.name}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="modal-footer">
+                    <button onclick="redirectRP()" class="btn btn-success">Submit</button>
+                </div>  
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/local/selectTermForRoomPreferences.js"></script>
+{% endblock %}

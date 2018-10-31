@@ -4,7 +4,7 @@
 {% endblock %}
 <!--Page Content -->
 {% block body %}
-
+<link rel="stylesheet" href="/static/css/courseTable.css" type="text/css" />
 <h1 style = "text-align: center;"><strong>{{program.name}}: {{subject.prefix}}</strong></h1>
 <div class = 'container'>
     <table class="table table-striped table-hover table-bordered table-condensed">
@@ -12,7 +12,7 @@
             <tr>
                 <th name = "courses">Courses</th>
                 {% for term in terms %}
-                    <th name ="term">{{term}}</th>
+                    <th name ="term">{{term.name}}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -22,11 +22,14 @@
                 <th scope = "row" >{{dict_item[0]}} </th> 
                     {% for term in terms %}
                         {% if term.termCode in courseName_to_term[dict_item] %}
-                            <td> 
-                            <span class="glyphicon glyphicon-ok" style = "margin:auto;display:table; border:1px;"></span>
+                            <td>
+                            <span class = "sr-only">{{dict_item[0]}} is offered in {{term}}</span>
+                            <span name = "checked" class="glyphicon glyphicon-ok"  style = "margin:auto;display:table; border:1px;" aria-hidden = "true"></span>
                             </td>
                         {% else %}
-                            <td></td>
+                            <td>
+                            <span class = "sr-only">{{dict_item[0]}} is not offered in {{term}}</span>
+                            </td>
                         {% endif %}
                     {% endfor %}
             </tr>

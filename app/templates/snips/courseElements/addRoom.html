@@ -2,9 +2,14 @@
     <div>
      <select title="Select room" class="form-control selectpicker" id='roomSelect' name="rid" data-live-search="true">
        <option value="">---</option>
-        {% for room in rooms %}
+        {% set currentbuilding = namespace(cb='') %}
+        {% for room in rooms %} 
+          {% if room.building.name != currentbuilding.cb %}
+            {% set currentbuilding.cb = room.building.name %}
+            <option class="optionLine" disabled> </option>
+          {% endif %}
           <option value="{{room.rID}}"> 
-             {{room.building.name}}-{{room.number}} 
+            {{room.building.name}}-{{room.number}} 
           </option>
         {% endfor %}
      </select>

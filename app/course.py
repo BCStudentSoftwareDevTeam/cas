@@ -30,7 +30,7 @@ def courses(tID, prefix, can_edit):
     curTermName = Term.get(Term.termCode == tID)
 
     terms = Term.select().order_by(-Term.termCode)
-    
+
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
     # We need these for populating add course
     courseInfo = (BannerCourses
