@@ -10,29 +10,21 @@ $('.accordion').keydown(function(event) {
          // You should toggle the focused accordion.
          // If it is open, close it now; if it is closed, open it now.
         row = $($(this)[0]).attr("id").split("row")[1];
+       
         allDivs = $("#accordion")
+        // console.log(allDivs)
         for (divs in allDivs) {
-            if (($("#collapse"+row).addClass('in'))){
-                $(this).collapse('show');
+            if($("#collapse"+row).addClass('in')){
+            $(this).collapse('hide');
             }
-            $(this).collapse('hide');                                   
+            // $(this).collapse('show');
         }
         break;
 
-      default:
-         // A key was pressed, but it is not actionable
+      default:     // A key was pressed, but it is not actionable
    }
-   
-   if ($("#edTechModal").hasClass('in') && (e.keycode == 13 || e.which == 13)) { // this code is not working please 
-       $('#edTechModal').modal('show');
-       condole.log("show me the money now")
-       
-   }
-   
-     $('#edTechModal').modal('hide');
-       
-    
 });
+
 
 
 // let roomID="";
