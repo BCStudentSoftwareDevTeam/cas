@@ -102,13 +102,39 @@ def addCourses(tid, prefix):
         #int(tid)
         crosslistedCourses=values["crossListedCourses"]
         if crosslistedCourses:
+            #CrossListed.create(course=course, tid=tid)
+            
+            crosslisted = CrossListed(courseId = course.cId,crosslistedCourse = course.cId,
+                prefix = course.prefix,
+                verified = True,
+                term=int(tid)
+            )
+            crosslisted.save()
+       
             for course_id in crosslistedCourses:
                 #inefficient query
+                #TODO: Check with Scott on what data needs to be stored
+                #TODO: Add crosslisted course as crosslisted to itself to support our verify column
                 course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
+                print("CP  {}".format(course_prefix))
+                cc_course = Course(bannerRef=course_id,
+                        prefix = course_prefix,
+                        term = int(tid),
+                        schedule = values['schedule'],
+                        capacity = values['capacity'],
+                        specialTopicName = values['specialTopicName'],
+                        notes = values['requests'],
+                        crossListed = True,
+                        parentCourse = course.cId,
+                        section = values['section'],
+                        prereq = convertPrereqs(prereqs)
+                        )
+                cc_course.save()
                 crosslisted = CrossListed(
                             courseId=course.cId,
-                            crosslistedCourse=int(course_id),
+                            crosslistedCourse=int(cc_course.cId),
                             prefix=course_prefix,
+                            verified = False,
                             term=int(tid)
                         )
                         

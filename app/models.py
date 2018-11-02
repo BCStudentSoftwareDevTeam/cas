@@ -194,16 +194,25 @@ class Course(dbModel):
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
+  parentCourse      = ForeignKeyField('self', null=True)
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
     
 class CrossListed(dbModel):
   cId               = IntegerField(primary_key = True)
-  courseId          = ForeignKeyField(Course, null= True)
-  crosslistedCourse = ForeignKeyField(BannerCourses, null = True)
+  courseId          = ForeignKeyField(Course, null= True, related_name="parent_course")
+  crosslistedCourse = ForeignKeyField(Course, null = True, related_name="cross_course")
   verified          = BooleanField(default=False)
   prefix            = CharField()
   term              = ForeignKeyField(Term, null = False)
+  
+  
+  @staticmethod
+  def create(**kwargs):
+    print("works")
+    CrossListed(courseId = course.cId, crosslistedCourse = course.cId,
+    prefix = course.prefix,verify = True,term=int(tid)).save()
+        
 
 class SpecialTopicCourse(dbModel):
   stId                 = PrimaryKeyField()

@@ -4,7 +4,7 @@ from app.logic.course import define_term_code_and_prefix
 from app.logic.course import save_last_visited
 from app.logic.course import find_crosslist_courses
 from app.logic.authorization import can_modify
-
+import json
 
 @app.route("/courses/", methods=["GET"] )
 @app.route("/courses/<tID>/<prefix>", methods=["GET"])
@@ -53,12 +53,8 @@ def courses(tID, prefix, can_edit):
     except ValueError as error:
         log.writer("Unable to parse Term ID, course.py", e)
    
-    #find crosslisted courses per department
-    query=CrossListed.select(CrossListed, Course.cId).where((CrossListed.prefix == prefix) & (CrossListed.term_id == tID)).join(Course)
-    res=[query_cross.cId for query_cross in query]
- 
     courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
-        (Course.prefix == prefix) & (Course.term == tID) | (Course.cId << res)))
+        (Course.prefix == prefix) & (Course.term == tID)))
     
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
@@ -72,7 +68,6 @@ def courses(tID, prefix, can_edit):
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
     # get crosslisted for given courses
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
-    
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
@@ -92,4 +87,51 @@ def courses(tID, prefix, can_edit):
             page=page,
             rooms=rooms,
             key = key)
+            
+       
+@app.route("/verifycrosslisted/<intValue>", methods=["POST"])
+def verifycrosslisted(intValue):
+    '''
+    Assign Course to a room that already has courses in it. 
+    params:
+       int: cid: Course_Id
+
+    '''
+    try:
+        print("here", intValue)
+        course = Course.get(Course.cId==int(intValue))
+        parentCourse = course.parentCourse
+        print("before")
+        clicked = request.json['data']
+        print("newenwewnen")
+        print("CK", clicked)
+        #if child is crosslisted
+        if parentCourse:
+            crosslisted = CrossListed.update(verified=True).where(
+                (CrossListed.courseId == parentCourse) &
+                (CrossListed.crosslistedCourse == course.cId)
+                )
+            print("updated")
+            print(crosslisted.execute())
+        else:
+            crosslisted = CrossListed.update(verified=True).where(
+                (CrossListed.courseId == course.cId) &
+                (CrossListed.crosslistedCourse == course.cId)
+                )
+            print("updated")
+            print(crosslisted.execute())
+            
+            
+            
+        #course = Course.get(Course.cId==cid)
+        #data = request.form
+        #course.rid = data['roomID']
+        #course.save()
+        #response={"success":1}
+        #flash("Your changes have been saved!") 
+        return json.dumps({"success": 1})
+    except:
+        print("is eccept")
+        flash("An error has occurred. Please try again.","error")
+        return json.dumps({"error":0})
     
