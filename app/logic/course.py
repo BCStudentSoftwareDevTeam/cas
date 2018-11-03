@@ -40,6 +40,9 @@ def find_crosslist_courses(courses_prefetch):
                     #skip the child itself
                     if cross_course.crosslistedCourse.cId != curr_course.cId:
                         course_to_crosslisted[curr_course].append(cross_course)
+                    else:
+                        course_to_crosslisted[curr_course].insert(0, cross_course.verified)
+                        
             
             #if the course is crosslisted_parent
             else:
@@ -50,6 +53,8 @@ def find_crosslist_courses(courses_prefetch):
                     #skip the parent itself
                     if cross_course.crosslistedCourse.cId != curr_course.cId:
                         course_to_crosslisted[curr_course].append(cross_course)
+                    else:
+                        course_to_crosslisted[curr_course].insert(0, cross_course.verified)
         print(course_to_crosslisted)
         return course_to_crosslisted
     

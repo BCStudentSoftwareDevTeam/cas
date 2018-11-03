@@ -91,47 +91,22 @@ def courses(tID, prefix, can_edit):
        
 @app.route("/verifycrosslisted/<intValue>", methods=["POST"])
 def verifycrosslisted(intValue):
-    '''
-    Assign Course to a room that already has courses in it. 
-    params:
-       int: cid: Course_Id
-
-    '''
+ 
     try:
-        print("here", intValue)
         course = Course.get(Course.cId==int(intValue))
         parentCourse = course.parentCourse
-        print("before")
-        clicked = request.json['data']
-        print("newenwewnen")
-        print("CK", clicked)
-        #if child is crosslisted
-        if parentCourse:
-            crosslisted = CrossListed.update(verified=True).where(
-                (CrossListed.courseId == parentCourse) &
+        data = request.form
+        clicked = data['check']
+        cond = True if clicked == u'true' else False
+        parent_or_child = parentCourse if parentCourse else course.cId
+        crosslisted = CrossListed.select().where(
+                (CrossListed.courseId == parent_or_child) &
                 (CrossListed.crosslistedCourse == course.cId)
-                )
-            print("updated")
-            print(crosslisted.execute())
-        else:
-            crosslisted = CrossListed.update(verified=True).where(
-                (CrossListed.courseId == course.cId) &
-                (CrossListed.crosslistedCourse == course.cId)
-                )
-            print("updated")
-            print(crosslisted.execute())
-            
-            
-            
-        #course = Course.get(Course.cId==cid)
-        #data = request.form
-        #course.rid = data['roomID']
-        #course.save()
-        #response={"success":1}
-        #flash("Your changes have been saved!") 
+                ).get()
+        crosslisted.verified=cond
+        crosslisted.save()    
         return json.dumps({"success": 1})
     except:
-        print("is eccept")
         flash("An error has occurred. Please try again.","error")
         return json.dumps({"error":0})
     

@@ -83,11 +83,16 @@
             <!--CROSS LISTED-->
             <td>
                 {% if course in crosslisted %}
-                <div class="form-check">
+                <div class="form-check" id="checkcross">
+                    {% if crosslisted[course][0] %}
+                    <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
+                    <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                    {% else %}
                     <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
                     <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                    {% endif %}
                 </div>
-                    {% for cross_course in crosslisted[course] %}
+                    {% for cross_course in crosslisted[course][1:] %}
                         {% if cross_course.verified == False %}
                             <button type="button" data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} HAS NOT BEEN VERIFIED." style="margin-bottom:2px;"class="btn btn-default btn-sm">
                                   <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
@@ -270,24 +275,23 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
 
+
 function verifyCrosslisted(intValue)
 {   
+    let oldurl = window.location.href.split("/");
+    let termcode = oldurl[oldurl.length-2];
+    console.log(termcode)
     let checked = document.getElementById("coursestatus").checked;
     let url = '/verifycrosslisted/'+intValue;
     console.log(intValue);
     $.ajax({  
             type: "POST",
             url: url,
-            contentType: 'application.json;charset=UTF-8',
-            dataType: 'json',
-            data:{"data": checked},
+            data:{'check': checked},
+            dataType: 'json'
          })
-           .done(function(response){
-                       alert("Please, try again.") ;}) //window.location=response.url;}) 
            .fail(function(response){
-                    alert("Please, try again.");});
-    
-
+                    location.reload(); });
 }
 
 

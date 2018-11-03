@@ -91,7 +91,6 @@ def addCourses(tid, prefix):
                         specialTopicName=values['specialTopicName'],
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
-                        rid=values['rid'],
                         section = values['section'],
                         prereq = convertPrereqs(prereqs)
                         )
