@@ -11,10 +11,10 @@
     <span class="border border-dark">
     <table class="table">
         <thead class="thead-dark">
-            <th scope="col"><h4><strong>Room</strong></h4></th>
-            <th scope="col"> <h4><strong>Type </strong></h4></th>
-            <th scope="col"><h4><strong>Edit</strong></h4></th>
-            <th scope="col"><h4><strong>Last Modified</strong></h4></th>
+            <th scope="col" aria-labelledby="Room Header"><h4><strong>Room</strong></h4></th>
+            <th scope="col" aria-labelledby="Type Header"> <h4><strong>Type </strong></h4></th>
+            <th scope="col" aria-labelledby="Edit Header"><h4><strong>Edit</strong></h4></th>
+            <th scope="col" aria-labelledby="Last Modified Header"><h4><strong>Last Modified</strong></h4></th>
         </thead>
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
@@ -28,8 +28,9 @@
                             data-toggle="collapse" 
                             data-target="#roomData" 
                             aria-expanded="false" 
-                            aria-controls="roomData" 
-                            onclick="setRoomPanel({{room.rID}}, this)">Edit
+                            aria-controls="roomData"
+                            aria-labelledby="Edit Button"
+                            onclick="setRoomInfo({{room.rID}}, this)">Edit
                     </button>
                 </td>
                 <td><p id="datetime"> </p></td>
@@ -42,7 +43,7 @@
         </tbody>
     </table>
 </div>
-<div id = "roomDetails" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+<div id = "roomDetails" class="collapse show" aria-labelledby="roomDetails div" data-parent="#accordion">
     <div class="panel panel-default"> <!--panel for room information -->
         <div class="panel-body panel_color">
             <div class="collapse" id="roomData">
@@ -52,65 +53,48 @@
                            <div class="container">
                             <div id="selectedRoom">        
                                 <div class="col-md-6 left">
-                                    <div><strong>Room Number:</strong><span id="roomNumber" ></span></div><br> <!--- TODO: Fill this in based on User Click--->
-                                    <div><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div><br> <!---TODO: PREFILL all  input form data with current room data--->
-                                    <div><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
-                                    <div><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
-                                    <div><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
+                                    <div aria-labelledby="Room Number"><strong>Room Number:</strong><span id="roomNumber" ></span></div><br>
+                                    <div aria-labelledby="Room Capacity"><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div><br>
+                                    <div aria-labelledby="Room Type"><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
+                                    <div aria-labelledby="Specialized Equpiment"><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
+                                    <div aria-labelledby="Special Features"><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
                                 </div>
                                 <div class="col-md-6 right">
-                                    <div ><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
+                                    <div aria-labelledby="Movable Furniture"><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
                                     </div><br>
                                     {% include "snips/editableEducationTech.html" %}
-                                    <div id="educationTech"><strong>Education Tech: </strong><br>
+                                    <div id="educationTech" aria-labelledby="Education Tech"><strong>Education Tech: </strong><br>
                                         <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
                                         class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
                                         <a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roomprecerences on jamal_basanta--->
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
-                                    <div ><strong>Visual Accessibility: </strong>
-                        
+                                    <div aria-labelledby="Visual Accessibility"><strong>Visual Accessibility: </strong>
                                         <select id="visualAcc" class="form control">
                                             {% for room in rooms %}
-                                            <option value="{{room.visualAcc }}">{{ room.visualAcc }}</option>
-                                             {% endfor %}
+                                            <option value="{{rooms.visualAcc }}">{{ room.visualAcc }}</option>
+                                            {% endfor %}
                                         </select>
-                                   
                                     </div><br>
                                     
-                                    <div><strong>Audio Accessibility: </strong>
-                                    <select  id="audioAcc" class="form control">
-                                        <!--{% for room in rooms %}-->
-                                        <!--<select  id="audioAcc" class="form contro">-->
-                                        <!--    <option value="{{room.audioAcc }}">{{ room.audioAcc }}</option>-->
+                                    <div aria-labelledby="Audio Accessibility"><strong>Audio Accessibility: </strong>
+                                        <select  id="audioAcc" class="form control">
                                         </select>
-                                        <!--{% endfor %}-->
                                     </div><br>
                                     
-                                    <div><strong>Physical Accessibility: </strong>
-                                    <select  id="audioAcc" class="form control">
-                                        <!--{% for room in rooms %}-->
-                                        <!--<select  id="audioAcc" class="form contro">-->
-                                        <!--    <option value="{{room.audioAcc }}">{{ room.audioAcc }}</option>-->
+                                    <div aria-labelledby="Physical Accessibility"><strong>Physical Accessibility: </strong>
+                                        <select  id="audioAcc" class="form control">
                                         </select>
-                                        <!--{% endfor %}-->
                                     </div><br>
                                     
-                                    <!--<div ><strong>Physical Accessibility: </strong>-->
-                                    <!--{% for room in rooms %}-->
-                                    <!--    <select id="physicalAcc" class="form control">-->
-                                    <!--        <option value= "{{ rooms.visualAcc }}"> {{ rooms.physicalAcc }}</option>-->
-                                    <!--    </select>-->
-                                    <!--{% endfor %}-->
-                                    <!--</div><br>-->
                                 </div>
                             </div>
                             <div id="submitChangesDiv">
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges" onclick="saveChanges()" id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
+                                <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges" onclick="saveChanges()" id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
                             </div>
                             
                             <!--pop-up for the onclick of submit changes button-->
-                            <div class="modal fade" id="makeChanges" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="makeChanges" tabindex="-1" role="dialog" aria-labelledby="Are you sure?" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -127,7 +111,6 @@
                               </div>
                         </div>
                         </div>
-                         
                     </td>
                 </tr>
             </table>
@@ -136,40 +119,5 @@
 </div>
 </div>
 </div>
-<!--<div class="col-sm-6">-->
-                                <!--{% for room in rooms %}-->
-                                    <!--This gives the room details-->
-                                <!--    <div class="row">-->
-                                <!--        <label  style="float: left;"> Room Number: </label><div id="roomNumber" > {{room.number}}</div>-->
-                                <!--    </div>    -->
-                                <!--    <div class="row">-->
-                                <!--        <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>-->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--        <label id="visualAccIcon" style="float:left;" ></label> <br> -->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--        <label id="audioAccIcon" style="float:left;" ></label> <br> -->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--        <label id="physicalAccIcon" style="float:left;" ></label> <br> -->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--        <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>-->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--    <label  style="float: left;">Movable Furniture: </label> <div id="movableFurniture">  {{room.movableFurniture}}</div>-->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--    <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>-->
-                                <!--    </div>-->
-                                <!--    <div class="row">-->
-                                <!--    <label  style="float:left;" > Education Tech: </label> <button -->
-                                <!--    type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> -->
-                                <!--    <a href="#">  View </a></button>                   -->
-                                    <!--this view leads to the education tech exra room details-->
-                                <!--    </div>-->
-                                <!--{% endfor %}-->
-                                <!--</div>-->
 
 {% endblock %}

@@ -45,7 +45,9 @@ def getRoomData(rID):
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
     
+    # print(Room details)
     return json.dumps(room_details)
+    
  
 # @app.route('/education_Tech/<rid>', methods = ["GET"])
 # def education_Tech(rid):
