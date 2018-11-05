@@ -102,7 +102,7 @@ def addCourses(tid, prefix):
         crosslistedCourses=values["crossListedCourses"]
         if crosslistedCourses:
             #CrossListed.create(course=course, tid=tid)
-            
+            #save parent crosslisted to itself
             crosslisted = CrossListed(courseId = course.cId,crosslistedCourse = course.cId,
                 prefix = course.prefix,
                 verified = True,
@@ -129,6 +129,7 @@ def addCourses(tid, prefix):
                         prereq = convertPrereqs(prereqs)
                         )
                 cc_course.save()
+                databaseInterface.addCourseInstructors(instructors, cc_course.cId)
                 crosslisted = CrossListed(
                             courseId=course.cId,
                             crosslistedCourse=int(cc_course.cId),
