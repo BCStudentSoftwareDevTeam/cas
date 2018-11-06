@@ -1,34 +1,28 @@
-
-
-
-$('.accordion').keydown(function(event) {
-   var keyCode = event.which; // Capture which key was pressed
-   switch(keyCode){
-                
-      case 13: case 32:
-         // Either the enter key or space bar was pressed
-         // You should toggle the focused accordion.
-         // If it is open, close it now; if it is closed, open it now.
-        row = $($(this)[0]).attr("id").split("row")[1];
-       
-        allDivs = $("#accordion")
-        // console.log(allDivs)
-        for (divs in allDivs) {
-            if($("#collapse"+row).addClass('in')){
-            $(this).collapse('hide');
+$(document).ready(function() {/* This function sets the focus of the enter and tab key. 
+Then it graphs all the collapse alements to expand whenever the eneter key is pressed. This function created the make accessable for screen readers to
+to use only enter and tab key to display all the information in each collapse*/
+    $(this).keydown(function(e) {
+        if(e.keyCode == 13 || e.keyCode == 32) { 
+            console.log(this);
+            row = $($(document.activeElement)[0]).attr("id").split("row")[1];
+            // Sometimes you tab on the button, sometimes the h4. Now, it doesn't care
+            if (!row) {
+                row = $($(document.activeElement)[0]).attr("id").split("linkto")[1];
             }
-            // $(this).collapse('show');
+            collapserow = $("#collapse"+row);
+            if (collapserow.hasClass("in")){
+                collapserow.removeClass("in");
+            } else {
+                $(".in").each(function(i) {
+                    $(this).removeClass("in");
+                  });
+                collapserow.addClass("in");
+            }
         }
-        break;
-
-      default:     // A key was pressed, but it is not actionable
-   }
+    });
 });
 
 
-
-// let roomID="";
-// let ogCourse="";
 
  //Updating assign room modal for available rooms tab
 $(document).on("click", ".assignroombutton", function () {

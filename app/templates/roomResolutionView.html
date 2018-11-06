@@ -10,7 +10,7 @@ p {
 <!--Page Content -->
 
 {% block body %}
-<script scr = "/static/js/local/roomResolutionView.js"></script>
+{#<script scr = "/static/js/local/roomResolutionView.js"></script>#}
 {% include 'snips/messages.html' %}
 <html>
   <body>
@@ -55,13 +55,13 @@ p {
                 <div class="pre-scrollable" style="max-height: 40vh">
                   <div class="panel-group  w-25 p-3"  role="tablist"style="overflow=auto" id="accordion">
                     {% for room in available_rooms %} 
-                    <div  tabindex="0" class="panel panel-default clickable accordion" role="button" id = "row{{room.rID}}">
+                    <div  tabindex="0" class="panel panel-default accordion" role="button" id = "row{{room.rID}}">
                       <div class="panel-heading" tabindex="0" role="tab" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
                           <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
                         </h4>
                       </div>
-                        <div id="collapse{{room.rID}}"  role="tabpanel" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
+                        <div id="collapse{{room.rID}}"  role="tabpanel" class="panel-collapse collapse" value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
                           <div class="panel-body">
                             <div class="col-md-6 left">
                               <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
@@ -108,7 +108,7 @@ p {
                           </a>
                         </h4>
                       </div>
-                        <div id="collapse{{room.rID}}" class="panel-collapse collapse" .collapse("hide") value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
+                        <div id="collapse{{room.rID}}" class="panel-collapse collapse" value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
                           <div class="panel-body">
                             <div class="col-md-6 left">
                               <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
