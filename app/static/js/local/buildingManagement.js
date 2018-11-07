@@ -72,8 +72,31 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
 
 function saveChanges(){ //Posts data to DB and reloads the page
     // var submitChangesButton = document.getElementById("submitChanges");
-    document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
-    document.getElementById("submitChanges").value
+    // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
+    // document.getElementById("submitChanges").value
+    var url = '/saveChanges/'+rID;
+         $.ajax({
+             type: "POST",
+                url: url,
+                data: {:}, //FIX ME
+                dataType: 'json',
+                success: function(response){
+                    if (response["success"] != 0) {
+                        //DO SOMETHING
+                        //window.location = ""
+                    }
+                    else{
+                        //DO SOMETHING ELSE
+                        //window.location = ""
+                    }
+                }
+                error: function(error){
+                    //DO EOMETHING
+                    //window.locetion= ""
+                }
+         }
+}
+                
 
 //TODO Create an ajax call that populates the data to the education tech
 // function educationTech(){
@@ -96,26 +119,7 @@ function saveChanges(){ //Posts data to DB and reloads the page
     
 // }
     
-    //TODO: FIX AJAX CALL TO POST CHANGES TO DB
-//     $.ajax({
-//          type: "POST",
-//             url: url,
-//             data: {"": },
-//             dataType: 'json',
-//             success: function(response){ 
-//                 console.log(response)
-//                 console.log("I updated the room data")
-//                  if (response['success'] == 1)
-//                     window.location = "/buildingManagement"
-//                     else
-//                     window.location.assign("/buildingManagement")                    
-//       			},
-//       			error: function(error){
-//       			    console.log("It didnt work")
-//       				console.log(error); 
-//                     window.location.assign("/buildingManagement")
-//       			}
-//     }
+    
  }
 
     

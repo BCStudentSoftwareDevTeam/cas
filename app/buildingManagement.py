@@ -48,6 +48,17 @@ def getRoomData(rID):
     # print(Room details)
     return json.dumps(room_details)
     
+@app.route("/saveChanges/<rID", methods=["POST"])
+def saveChanges(rID):
+#updates room data in database after clicking save changes.
+    try:
+        room = Rooms.get(Rooms.rId==rID)
+        data = request.form
+        #MODELING AFTER roomResolution.py on roomresolved branch
+        return json.dumps(response)
+    except:
+        flash("An error has occurred, your changes were not saved. Please try again.","error")
+        return json.dumps({"error":0})
  
 # @app.route('/education_Tech/<rid>', methods = ["GET"])
 # def education_Tech(rid):
