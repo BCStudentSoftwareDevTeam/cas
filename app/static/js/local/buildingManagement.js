@@ -61,15 +61,21 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     }
  
     //my_div.innerHTML = response['educationTech'];
-    var my_div = document.getElementById('visualAcc');
-    console.log("#"+response['visualAcc']);
-    console.log(my_div.val("#"+response['visualAcc']));
-    console.log("123", response['visualAcc']);
-    my_div.value = response['visualAcc'];
-    var my_div = document.getElementById('audioAcc');
-    my_div.value = response['audioAcc'];
-    var my_div = document.getElementById('physicalAcc');
-    my_div.value = response['physicalAcc'];
+    // var my_div = document.getElementById('selectedVisualAcc');
+    // console.log("#"+response['visualAcc']);
+    // console.log(my_div.val("#"+response['visualAcc']));
+    // console.log("123", response['visualAcc']);
+    // my_div.value = response['visualAcc'];
+    // console.log("HI", my_div.value)
+    // // var my_div = document.getElementById('audioAcc');
+    // my_div.value = response['audioAcc'];
+    // var my_div = document.getElementById('physicalAcc');
+    // my_div.value = response['physicalAcc'];
+    var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
+    console.log('VAC', visualAccValue)
+    $("#visualAcc " + visualAccValue ).prop('selected', true); 
+    
+    
 }
 
 function saveChanges(){ //Posts data to DB and reloads the page

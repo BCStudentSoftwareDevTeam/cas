@@ -24,11 +24,11 @@ def buildingManagement():
     
    
     return render_template("buildingManagement.html",
-    building = building,
-    rooms = rooms,
-    user = user
-    )
- 
+                            building = building,
+                            rooms = rooms,
+                            user = user
+                            )
+                         
  
 @app.route("/getRoomData/<rID>", methods=["GET"]) 
 # connected to ajax calls in the javascript file to populate the room data
