@@ -55,27 +55,19 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     var my_div = document.getElementById('specialFeatures')
     my_div.value = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
-    my_div.removeAttribute("checked");
+    my_div.removeAttribute("checked"); //It was getting stuck
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
- 
+    //TODO: PULL ED TECH
     //my_div.innerHTML = response['educationTech'];
-    // var my_div = document.getElementById('selectedVisualAcc');
-    // console.log("#"+response['visualAcc']);
-    // console.log(my_div.val("#"+response['visualAcc']));
-    // console.log("123", response['visualAcc']);
-    // my_div.value = response['visualAcc'];
-    // console.log("HI", my_div.value)
-    // // var my_div = document.getElementById('audioAcc');
-    // my_div.value = response['audioAcc'];
-    // var my_div = document.getElementById('physicalAcc');
-    // my_div.value = response['physicalAcc'];
     var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
     console.log('VAC', visualAccValue)
     $("#visualAcc " + visualAccValue ).prop('selected', true); 
-    
-    
+    var audioAccValue = "option[value ='" + response['audioAcc'] +"']";
+    $("#audioAcc " + audioAccValue ).prop('selected', true);
+    var physicalAccValue = "option[value ='" + response['physicalAcc'] +"']";
+    $("#physicalAcc " + physicalAccValue ).prop('selected', true);
 }
 
 function saveChanges(){ //Posts data to DB and reloads the page
