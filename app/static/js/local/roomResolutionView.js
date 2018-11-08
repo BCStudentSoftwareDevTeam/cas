@@ -48,8 +48,9 @@ $(document).on("click",".assignprefbutton", function () {
     let main_course = window.location.href.split("/").pop();            //Grabbing Course A's ID
     ogCourse = "";
     let conflictingcourse = document.getElementById("pref"+ prefID +"_confcourse"); //Seeing if there is a conflicting course
+    console.log("conflictingcourse", conflictingcourse);
     let room = document.getElementById("pref" + prefID + "_room").value //Pulls room from hidden value from html
-    roomID = room
+    roomID = room;
     let which_preference = document.getElementById("hidden"+ room)       //Which preference you have selected
     let linktopref = document.getElementById("hidden"+room);
     let linktocourse = document.getElementById("hiddencourse");         //Course A
