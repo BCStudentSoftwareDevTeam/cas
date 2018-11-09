@@ -5,12 +5,16 @@ filename: "urcpp.log"
 
 # All the databases used by the system
 databases:
-  dev: "data/db.sqlite"
+  - test: "data/newdb.mysql"
+  - dev: "data/db.sqlite"
+
   # stage: ""
   # prod: ""
 databaseAdmin:
   user: ['heggens','myersco']
   
+  
+
 #You have to use the - to keep the order
 scheduleDays:
    Monday: 'Mon'

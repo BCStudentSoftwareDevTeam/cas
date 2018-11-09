@@ -9,6 +9,7 @@ from models import *
 import sqlite3
 import time
 
+
 @app.route("/admin/termManagement", methods=["GET"])
 @must_be_admin
 def termManagement():
@@ -46,22 +47,33 @@ def termManagement():
                               term_state     = term_state)
                               
 
+term_to_dataset = {}
 
-def run_algorithm(termCode):
-   t = Term.get(Term.termCode == termCode)
-   t.algorithm_running = True
-   t.save()
+def create_dataset():
+   room_assigner = RoomAssigner(termCode)
+   room_assigner.courses_query()
+   DATA_SET = room_assigner.create_data_set()
+   term_to_dataset[termcode] = DATA_SET
+
+   
+def run_algorithm(termCode, term):
+   # t = Term.get(Term.termCode == termCode)
+   # t.algorithm_running = True
+   # t.save()
    # print(t.algorithm_running)
    room_assigner = RoomAssigner(termCode)
    room_assigner.courses_query()
    DATA_SET = room_assigner.create_data_set()
    # print(DATA_SET)
    # print("before assigning")
-   room_assigner.assign_room(DATA_SET)
+   room_assigner.assign_room(DATA_SET, term)
    # print("after assigning")
-   t.algorithm_running = False
-   t.save()
+   # t.algorithm_running = False
+   # t.save()
    # print(t.algorithm_running)
+
+
+
 
 
 
@@ -75,20 +87,27 @@ def updateTermState():
 
    term   = Term.get(Term.termCode == data['termCode']) # Retrieve from the database the term whose state was changed by the user and that needs to be updated
    
+   if term.editable is False:
+      time.sleep(500)
    state  = TermStates.get(TermStates.order == data['stateOrder'] ) # Retrieve the state that will be associated with the term
-   
+
+   # if data['stateOrder'] == str(4): 
+   #    if data['termCode'] not in term_to_dataset:
+   #       create_dataset()
      
    if data['stateOrder'] == str(5): # Call the Room Assignment Algorithm
-      run_algorithm(data['termCode'])
+      term.editable = False
+      run_algorithm(data['termCode'], term)
      
    
-   while term.algorithm_running:
-      time.sleep(100)
+   # while term.algorithm_running:
+   #    time.sleep(500)
       # print("Running...")
+   
    term.state = state
    term.save()
-   
-   
+      
+  
    # print("Done Updating: {0}".format(term.state.csID))
    return redirect(url_for("termManagement")) 
    

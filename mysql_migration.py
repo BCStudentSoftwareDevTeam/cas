@@ -1,91 +1,71 @@
+from app.loadConfig import *
 from peewee import *
 import os
+import datetime
 
-# Create a database
-from app.loadConfig import *
-here = os.path.dirname(__file__)
-cfg       = load_config(os.path.join(here, 'config.yaml'))
-db	  = os.path.join(here,'../',cfg['databases']['dev']) 
-# mainDB    = SqliteDatabase(cfg['databases']['dev'])
-mainDB    = SqliteDatabase(db,
-                          pragmas = ( ('busy_timeout',  100),
-                                      ('journal_mode', 'WAL')
-                                  ),
-                          threadlocals = True
-                          )
 
-# Creates the class that will be used by Peewee to store the database
-class dbModel (Model):
-  class Meta: 
+def getDB():
+    dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
+    cfg       = load_config(os.path.join(dir_name, 'app/dbConfig.yaml'))
+    db_name   = cfg['db']['db_name']
+    host      = cfg['db']['host']
+    username  = cfg['db']['username']
+    password  = cfg['db']['password']
+    theDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+    print("done", theDB)
+    return theDB
+
+
+mainDB = getDB()
+
+
+class baseModel(Model):
+  class Meta:
     database = mainDB
-    
-"""
-When adding new tables to the DB, add a new class here 
-Also, you must add the table to the config.yaml file
-
-Example of creating a Table
-
-class tableName (dbModel):
-  column1       = PrimaryKeyField()
-  column2       = TextField()
-  column3       = IntegerField()
-
-For more information look at peewee documentation
-"""
 
 
 #MODELS WITHOUT A FOREIGN KEY
-class Division(dbModel):
+class Division(baseModel):
   dID           = PrimaryKeyField()
   name          = CharField()
   
   def __str__(self):
     return str(self.name)
   
-class BannerSchedule(dbModel):
+class BannerSchedule(baseModel):
   letter        = CharField()
-  startTime     = TimeField(null = True)
-  endTime       = TimeField(null = True)
+  startTime     = DateTimeField(null = True)
+  endTime       = DateTimeField(null = True)
   sid           = CharField(primary_key = True)
   order         = IntegerField(unique = True)
   
   def __str__(self):
     return self.letter
     
-class ScheduleDays(dbModel):
+class ScheduleDays(baseModel):
   schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day           = CharField(null=True)
 
 
-class TermStates(dbModel):
+class TermStates(baseModel):
   csID          = PrimaryKeyField()
   number        = IntegerField(null = False)
   name          = CharField(null = False)
   order         = IntegerField(null = False)
   display_name  = CharField(null = False)
 
-
-"""
-Possible States:
-    0 - Open - open for all but not tracked
-    1 - tracked - tracking but not open
-    2 - locked - not open and not tracked
-"""
-class Term(dbModel):
+class Term(baseModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
-  # algorithm_running   = BooleanField(null = False, default = False)
   state             = IntegerField(null = False)
   term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
   editable   = BooleanField(null = False, default = True)
   
   
-#  def __str__(self):
-#    return self.name
-  
-class Building(dbModel):
+
+class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()
   shortName         = CharField()
@@ -94,7 +74,7 @@ class Building(dbModel):
     return self.name 
 
 
-class EducationTech(dbModel):
+class EducationTech(baseModel):
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
   smartboards          = IntegerField(default = 0) #default of 0 in room
@@ -114,7 +94,7 @@ class EducationTech(dbModel):
 
   def __repr__(self):
     return str(self.eId)
-class Rooms(dbModel):
+class Rooms(baseModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
   number         = CharField(null=False)
@@ -128,26 +108,11 @@ class Rooms(dbModel):
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
   
-  
-# class RoomPreferences(dbModel):
-#   rpID              = PrimaryKeyField()
-#   course            = ForeignKeyField(Rooms, related_name='courses')
-#   pref_1            = ForeignKeyField(Rooms, related_name='preference_1')
-#   pref_2            = ForeignKeyField(Rooms, related_name='preference_2')
-#   pref_3            = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-#   notes             = CharField(null=True)
-#   any_Choice        = CharField(null=True)
-#   none_Choice       = CharField(null=True)
-#   none_Reason       = CharField(null=True)
-
-  
-  # def __str__(self):
-  #   return str(self.rID)+str(self.building.name)+str(self.number)
-
+ 
 
   
 #MODELS WITH A FOREIGN KEY
-class Program(dbModel):
+class Program(baseModel):
   pID               = PrimaryKeyField()
   name              = CharField()
   division          = ForeignKeyField(Division, related_name='programs')
@@ -156,7 +121,7 @@ class Program(dbModel):
   def __str__(self):
     return str(self.name)
     
-class Subject(dbModel):
+class Subject(baseModel):
   prefix        = CharField(primary_key=True)
   pid           = ForeignKeyField(Program, related_name='subjects')
   webname       = TextField()
@@ -164,7 +129,7 @@ class Subject(dbModel):
   def __str__(self):
     return self.prefix
 
-class User(dbModel):
+class User(baseModel):
   username     = CharField(primary_key=True)
   firstName    = CharField()
   lastName     = CharField()
@@ -194,7 +159,7 @@ class User(dbModel):
   def __str__(self):
     return self.username
   
-class BannerCourses(dbModel):
+class BannerCourses(baseModel):
   reFID         = PrimaryKeyField()
   subject       = ForeignKeyField(Subject)
   number        = CharField(null = False)
@@ -205,7 +170,7 @@ class BannerCourses(dbModel):
   def __str__(self):
     return '{0} {1}'.format(self.subject, self.number)
 
-class Course(dbModel):
+class Course(baseModel):
   cId               = PrimaryKeyField()
   prefix            = ForeignKeyField(Subject) #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
@@ -223,7 +188,7 @@ class Course(dbModel):
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
-class SpecialTopicCourse(dbModel):
+class SpecialTopicCourse(baseModel):
   stId                 = PrimaryKeyField()
   prefix               = ForeignKeyField(Subject)
   bannerRef            = ForeignKeyField(BannerCourses)
@@ -248,35 +213,32 @@ class SpecialTopicCourse(dbModel):
   def __str__(self):
       return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
-class ProgramChair(dbModel):
+class ProgramChair(baseModel):
   username     = ForeignKeyField(User)
   pid          = ForeignKeyField(Program)
 
-class DivisionChair(dbModel):
+class DivisionChair(baseModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-class BuildingManager(dbModel):
+class BuildingManager(baseModel):
   username     = ForeignKeyField(User)
   bmid         = ForeignKeyField(Building)
 
-class InstructorCourse(dbModel):
+class InstructorCourse(baseModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
   course       = ForeignKeyField(Course, related_name='instructors_course')
   
-class InstructorSTCourse(dbModel):
+class InstructorSTCourse(baseModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
-# class InstructorSTCourse(dbModel):  ###There is a special topics table above. Dont know why this was included
-#   username     = ForeignKeyField(User)
-#   course       = ForeignKeyField(SpecialTopicCourse)
-  
-class Deadline(dbModel):
+
+class Deadline(baseModel):
   description  = TextField()
   date         = DateField()
   
-class CourseChange(dbModel):
+class CourseChange(baseModel):
   cId               = IntegerField(primary_key = True)
   prefix            = ForeignKeyField(Subject)
   bannerRef         = ForeignKeyField(BannerCourses)
@@ -293,16 +255,16 @@ class CourseChange(dbModel):
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
   
-class InstructorCourseChange(dbModel):
+class InstructorCourseChange(baseModel):
   username     = ForeignKeyField(User)
   course       = ForeignKeyField(CourseChange)
   
-class CoursesInBanner(dbModel):
+class CoursesInBanner(baseModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
   instructor   = ForeignKeyField(User, null=True)
   
-class RoomPreferences(dbModel):
+class RoomPreferences(baseModel):
   rpID           = PrimaryKeyField()
   course        = ForeignKeyField(Course, related_name='courses')
   pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
@@ -315,32 +277,15 @@ class RoomPreferences(dbModel):
   initial_Preference = CharField(null=True, default = 1)
   priority = IntegerField(default = 6)  
 
+mainDB.create_tables([Division, BannerSchedule, ScheduleDays, TermStates, Term, 
+                      Building, EducationTech, Rooms, Program, Subject, User, 
+                      BannerCourses, Course, SpecialTopicCourse, ProgramChair, 
+                      DivisionChair, BuildingManager, InstructorCourse, InstructorSTCourse, 
+                      Deadline, CourseChange, InstructorCourseChange, CoursesInBanner, RoomPreferences])
 
-#Begin education tech class
 
 
-  
-  
-  
 
-# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
-# class newcrosslisted (dbModel): 
-#   clId                 = PrimaryKeyField()
-#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
-#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
-#   verified             = BooleanField() #Verified? = yes or no
-# We are not sure why it is not running when we have these uncommented
-# it says newcrosslisted is already in use by another foreign key
-  
-# # we brought this down here because it was giving us an error for courses foreign key 
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Course, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=False)
+
+
 
