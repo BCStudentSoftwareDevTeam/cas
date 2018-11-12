@@ -34,19 +34,18 @@ def deletecourse(prefix, tid):
         for childcourse in crosslistedChildCourses:
             childcourse.delete_instance()
     
-    #Needs thinking about
-    # elif:
-    #     course.crosslisted == 1 and course.parentCourse != None:
-    #     crosslistedCourse = CrossListed.select().where(CrossListed.courseId == cid)
-    #     crosslistedChildCourses = Course.select().where(Course.parentCourse == cid)
+    elif course.crossListed == 1 and course.parentCourse != None:
         
-            
+        print("right here dealing with childs")
+        # course.delete_instance()
+        crosslistedcourse = CrossListed.select().where(CrossListed.crosslistedCourse == cid)
+        for crosslistedId in crosslistedcourse:
+            crosslistedId.delete_instance()
 
-   
-    
-    # if course.parentCourse_id == None and course.cId == crosslisted:
-    #     print("Printing crosslisted courses here")
-    #     print(course)
+        
+      
+ 
+        
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
     if not databaseInterface.isTermOpen(tid):
 
