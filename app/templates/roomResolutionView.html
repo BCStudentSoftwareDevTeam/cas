@@ -133,13 +133,13 @@ p {
                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{room.rID}}">
                                 Education Tech
                               </button>
-                              {% with room = room %}
-                                {% include '/snips/educationTech2.html' %}
+                              {% with room=room %}
+                              {% include '/snips/educationTech2.html' %}
                               {% endwith %}
                   
                               <p><strong>Visual Accessibility:</strong> {{room.visualAcc}}</p>
                               <p><strong>Hearing Accessibility:</strong> {{room.audioAcc}}</p> 
-                              <p><strong>Physical Accessibility:</strong> {{room.physicalAcc}}</p>S
+                              <p><strong>Physical Accessibility:</strong> {{room.physicalAcc}}</p>
                               <th><button type="button" class="btn btn-primary btn-sm assignconflicting" data-toggle="modal"data-target="#assignToConflict" data-id="{{room.rID}}" value={{room.rID}}>Assign course to room</button></th><br>
                              
                             </div>
@@ -170,11 +170,11 @@ p {
                             <p><strong>Room Type:</strong> {{roompreference.pref_1.roomType}}</p>
                             <p><strong>Room Capacity:</strong> {{roompreference.pref_1.maxCapacity}}</p>
                             <p><strong>Movable Furniture:</strong> {{roompreference.pref_1.movableFurniture}}</p>
-                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}" >
+                            <p> <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edTechModal{{roompreference.pref_1.rID}}">
                                 Education Tech
                               </button></p>
-                              {% with room = roompreference.pref_1 %}
-                                {% include '/snips/educationTech2.html' %}
+                               {% with room=roompreference.pref_1 %}
+                              {% include '/snips/educationTech2.html' %}
                               {% endwith %}
                             <p><strong>Specialized Equipment:</strong> {{roompreference.pref_1.specializedEq}}</p>
                             <p><strong>Specialized Features:</strong> {{roompreference.pref_1.specialFeatures}}</p>

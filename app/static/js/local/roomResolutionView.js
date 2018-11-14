@@ -132,3 +132,4 @@ function addSecond(){
                      window.location.assign("/roomResolution/"+ termcode);});
 }
     
+$('.modal').parent().on('show.bs.modal', function (e) { $(e.relatedTarget.attributes['data-target'].value).appendTo('body'); })
