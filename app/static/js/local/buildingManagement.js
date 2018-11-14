@@ -10,9 +10,10 @@ function setRoomId(rid){
 function getRoomId(){
     return rIDGlobal;
 }
-function setRoomInfo(roomID, button){ //Sets room ID based on what room (row) Edit button was clicked
+function setRoomInfo(roomID, button){ 
+    //Sets room ID based on what room (row) Edit button was clicked
      setRoomId(roomID);
-    console.log("RoomID:", roomID )
+    // console.log("RoomID:", roomID )
      movePanel(roomID);
      if (roomID > 0){
              var url = '/getRoomData/'+roomID;
@@ -23,19 +24,21 @@ function setRoomInfo(roomID, button){ //Sets room ID based on what room (row) Ed
                     success: function(response){
                         if (response["success"] != 0) {
                             updateHtml(response);
-                            console.log(response)
+                            console.log("Success"+response)
                         }
-                        console.log("Roomss")
+                        
                     },
                     error: function(error) {
-                        console.log(error);
+                        console.log("Error"+error);
                     }
                 });
     }
 }
 
 
-function movePanel(rID) { //Makes dropdown appear between rows
+function movePanel(rID) { 
+    //Makes dropdown appear between rows
+    //Takes rID to ensure correct room per row
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
     console.log("Target");
     console.log("hiddenRow_"+getRoomId());
@@ -44,7 +47,9 @@ function movePanel(rID) { //Makes dropdown appear between rows
     $(sourceDiv).collapse('show');
 }
 
-function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of setRoomPanel
+function updateHtml(response) { 
+    //Updates the HTML in panel. 
+    //Called in AJAX of setRoomInfo
     $('#roomNumber').text((response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity'); 
     my_div.value = response['capacity'];
@@ -61,6 +66,7 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     }
     //TODO: PULL ED TECH
     //my_div.innerHTML = response['educationTech'];
+    //The following three are different, due to it being a Select rather than an input
     var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
     $("#visualAcc " + visualAccValue ).prop('selected', true); 
     var audioAccValue = "option[value ='" + response['audioAcc'] +"']";
@@ -69,10 +75,10 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     $("#physicalAcc " + physicalAccValue ).prop('selected', true);
 }
 
-function saveChanges(){ //Posts data to DB and reloads the page
-    // var submitChangesButton = document.getElementById("submitChanges");
-    // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
-    // document.getElementById("submitChanges").value
+function saveChanges(){ 
+    //Posts data to DB and reloads the page
+    //Should update time/date in Last Modified column (TODO)
+   
     console.log("saveChanges() called")
     var roomDetails = {}//For passing into Ajax data field
     var roomCapacity = document.getElementById('roomCapacity');
@@ -84,11 +90,10 @@ function saveChanges(){ //Posts data to DB and reloads the page
     var audioAcc = document.getElementById('audioAcc');
     var physicalAcc = document.getElementById('physicalAcc');
     
-    var url = '/saveChanges/'+roomID;
+    var url = '/saveChanges/'+roomID;//Should this be getRoomId??
          $.ajax({
              type: "POST",
                 url: url,
-                //TODO:FIX LINE BELOW
                 data: {"roomDetails":roomDetails}, 
                 dataType: 'json',
                 success: function(response){
@@ -104,7 +109,11 @@ function saveChanges(){ //Posts data to DB and reloads the page
                 error: function(error){
                     window.location.assign("/builingManagement")
                 }
-         });    }
+         });    
+    // var submitChangesButton = document.getElementById("submitChanges");
+    // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
+    // document.getElementById("submitChanges").value
+}
 
 //TODO Create an ajax call that populates the data to the education tech
 // function educationTech(){

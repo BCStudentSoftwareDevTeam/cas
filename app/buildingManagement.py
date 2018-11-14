@@ -15,6 +15,7 @@ from app.logic.getAuthUser import AuthorizedUser
 #TODO: Should only pull rooms from a cetain building associated with user's login
 
 def buildingManagement():
+    #Gathering of appropriate data to send to html
     building = Building.select()
     user = User.select()
     rooms = Rooms.select()
@@ -38,7 +39,7 @@ def getRoomData(rID):
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
     room_details["movableFurniture"] = room.movableFurniture
-    room_details["educationTech"] = room.educationTech
+    # room_details["educationTech"] = room.educationTech
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
@@ -46,25 +47,28 @@ def getRoomData(rID):
     # print(Room details)
     return json.dumps(room_details)
     
-@app.route("/saveChanges/<rID>", methods=["GET"])
+@app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
-    try:
-        room = Rooms.get(Rooms.rID==rID)
-        data = request.form
-        print("DATA:"+data)
-        room.maxCapacity = data['capacity'] 
-        room.roomType = data['type']
-        room.specializedEq = data['specializedEq']
-        room.specialFeatures = data['specialFeatures']
-        room.movableFurniture = data['movableFurniture']
-        room.educationTech = data[]
-        room.save()
-        flash("Your changes have been saved!")
-        return json.dumps({"success":1})
-    except:
-        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
-        return json.dumps({"error":0})
+   try:
+       room = Rooms.get(Rooms.rID==rID)
+       data = request.form
+       print("DATA:"+data)
+       room.maxCapacity = data['capacity']
+       room.roomType = data['type']
+       room.specializedEq = data['specializedEq']
+       room.specialFeatures = data['specialFeatures']
+       room.movableFurniture = data['movableFurniture']
+    #   room.educationTech = data['educationTech']
+       room.visualAcc = data['visualAcc']
+       room.audioAcc = data['audioAcc']
+       room.physicalAcc = data['physicalAcc']
+       room.save()
+       flash("Your changes have been saved!")
+       return json.dumps({"success":1})
+   except:
+       flash("An error has occurred, your changes were NOT saved. Please try again.","error")
+       return json.dumps({"error":0})
  
 # @app.route('/education_Tech/<rid>', methods = ["GET"])
 # def education_Tech(rid):
