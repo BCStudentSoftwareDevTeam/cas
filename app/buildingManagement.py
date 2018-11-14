@@ -19,10 +19,7 @@ def buildingManagement():
     user = User.select()
     rooms = Rooms.select()
     
-    #jsondumps if success
-    #function to fill html
-    
-   
+
     return render_template("buildingManagement.html",
                             building = building,
                             rooms = rooms,
@@ -30,7 +27,7 @@ def buildingManagement():
                             )
                          
  
-@app.route("/getRoomData/<rID>", methods=["GET"]) 
+@app.route('/getRoomData/<rID>', methods=["GET"]) 
 # connected to ajax calls in the javascript file to populate the room data
 def getRoomData(rID):
     room = Rooms.get(Rooms.rID == rID)
@@ -41,6 +38,7 @@ def getRoomData(rID):
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
     room_details["movableFurniture"] = room.movableFurniture
+    room_details["educationTech"] = room.educationTech
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
@@ -48,16 +46,24 @@ def getRoomData(rID):
     # print(Room details)
     return json.dumps(room_details)
     
-@app.route("/saveChanges/<rID", methods=["POST"])
+@app.route("/saveChanges/<rID>", methods=["GET"])
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
     try:
-        room = Rooms.get(Rooms.rId==rID)
+        room = Rooms.get(Rooms.rID==rID)
         data = request.form
-        #MODELING AFTER roomResolution.py on roomresolved branch
-        return json.dumps(response)
+        print("DATA:"+data)
+        room.maxCapacity = data['capacity'] 
+        room.roomType = data['type']
+        room.specializedEq = data['specializedEq']
+        room.specialFeatures = data['specialFeatures']
+        room.movableFurniture = data['movableFurniture']
+        room.educationTech = data[]
+        room.save()
+        flash("Your changes have been saved!")
+        return json.dumps({"success":1})
     except:
-        flash("An error has occurred, your changes were not saved. Please try again.","error")
+        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
         return json.dumps({"error":0})
  
 # @app.route('/education_Tech/<rid>', methods = ["GET"])

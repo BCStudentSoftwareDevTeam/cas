@@ -62,7 +62,6 @@ function updateHtml(response) { //Updates the HTML in panel. Called in AJAX of s
     //TODO: PULL ED TECH
     //my_div.innerHTML = response['educationTech'];
     var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
-    console.log('VAC', visualAccValue)
     $("#visualAcc " + visualAccValue ).prop('selected', true); 
     var audioAccValue = "option[value ='" + response['audioAcc'] +"']";
     $("#audioAcc " + audioAccValue ).prop('selected', true);
@@ -74,29 +73,38 @@ function saveChanges(){ //Posts data to DB and reloads the page
     // var submitChangesButton = document.getElementById("submitChanges");
     // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
     // document.getElementById("submitChanges").value
-    var url = '/saveChanges/'+rID;
+    console.log("saveChanges() called")
+    var roomDetails = {}//For passing into Ajax data field
+    var roomCapacity = document.getElementById('roomCapacity');
+    var roomType = document.getElementById('roomType');
+    var specializedEq = document.getElementById('specializedEq');
+    var movableFurniture = document.getElementById('movableFurniture');
+    // edTech = document.getElementById('edTech';)
+    var visualAcc = document.getElementById('visualAcc');
+    var audioAcc = document.getElementById('audioAcc');
+    var physicalAcc = document.getElementById('physicalAcc');
+    
+    var url = '/saveChanges/'+roomID;
          $.ajax({
              type: "POST",
                 url: url,
-                data: {:}, //FIX ME
+                //TODO:FIX LINE BELOW
+                data: {"roomDetails":roomDetails}, 
                 dataType: 'json',
                 success: function(response){
                     if (response["success"] != 0) {
-                        //DO SOMETHING
-                        //window.location = ""
+                        //If successful
+                        window.location = "/buildingManagement"
                     }
                     else{
-                        //DO SOMETHING ELSE
-                        //window.location = ""
+                        //If not successful
+                        window.location.assign("/builingManagement")
                     }
-                }
+                },
                 error: function(error){
-                    //DO EOMETHING
-                    //window.locetion= ""
+                    window.location.assign("/builingManagement")
                 }
-         }
-}
-                
+         });    }
 
 //TODO Create an ajax call that populates the data to the education tech
 // function educationTech(){
@@ -120,6 +128,5 @@ function saveChanges(){ //Posts data to DB and reloads the page
 // }
     
     
- }
 
     
