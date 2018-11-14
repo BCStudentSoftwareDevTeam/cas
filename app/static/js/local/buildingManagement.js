@@ -19,12 +19,12 @@ function setRoomInfo(roomID, button){
              var url = '/getRoomData/'+roomID;
              $.ajax({
                     url: url,
-                    dataType: 'json',
+                    dataType: 'json',//Corresponds with controller json dumps
                     type: "GET",
                     success: function(response){
-                        if (response["success"] != 0) {
-                            updateHtml(response);
-                            console.log("Success"+response)
+                        if (response["success"] != 0) {//If successful
+                            updateHtml(response);//Update the panel with the data
+                            // console.log("Success"+response)
                         }
                         
                     },
@@ -34,14 +34,12 @@ function setRoomInfo(roomID, button){
                 });
     }
 }
-
-
 function movePanel(rID) { 
-    //Makes dropdown appear between rows
     //Takes rID to ensure correct room per row
+    //Called in setRoomInfo
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
-    console.log("Target");
-    console.log("hiddenRow_"+getRoomId());
+    //console.log("Target"+targetDiv);
+    //console.log("hiddenRow_"+getRoomId());
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
@@ -75,41 +73,47 @@ function updateHtml(response) {
     $("#physicalAcc " + physicalAccValue ).prop('selected', true);
 }
 
-function saveChanges(){ 
+function saveChanges(roomID){ 
     //Posts data to DB and reloads the page
     //Should update time/date in Last Modified column (TODO)
    
     console.log("saveChanges() called")
     var roomDetails = {}//For passing into Ajax data field
-    var roomCapacity = document.getElementById('roomCapacity');
-    var roomType = document.getElementById('roomType');
-    var specializedEq = document.getElementById('specializedEq');
-    var movableFurniture = document.getElementById('movableFurniture');
+    roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
+    roomDetails["roomType"] = document.getElementById('roomType').value;
+    roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
+    //FIX MOVABLE FURNITIRE
+    roomDetails["movableFurniture"] = document.getElementById('movableFurniture').value; //""
+    console.log("MOVABLEFURNITURE?:"+roomDetails["movableFurniture"]);
     // edTech = document.getElementById('edTech';)
-    var visualAcc = document.getElementById('visualAcc');
-    var audioAcc = document.getElementById('audioAcc');
-    var physicalAcc = document.getElementById('physicalAcc');
+    roomDetails["visualAcc"] = document.getElementById('visualAcc').value;//DOESNT WORK
+    roomDetails["audioAcc"] = document.getElementById('audioAcc').value;//DOESNT WORK
+    roomDetails["physicalAcc"] = document.getElementById('physicalAcc').value;//DOESNT WORK
     
-    var url = '/saveChanges/'+roomID;//Should this be getRoomId??
-         $.ajax({
-             type: "POST",
-                url: url,
-                data: {"roomDetails":roomDetails}, 
-                dataType: 'json',
-                success: function(response){
-                    if (response["success"] != 0) {
-                        //If successful
-                        window.location = "/buildingManagement"
-                    }
-                    else{
-                        //If not successful
-                        window.location.assign("/builingManagement")
-                    }
-                },
-                error: function(error){
-                    window.location.assign("/builingManagement")
-                }
-         });    
+    console.log("Deets:"+roomDetails["visualAcc"]);
+    
+    
+    // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
+    //      $.ajax({
+    //          type: "POST",
+    //             url: url,
+    //             data: {"roomDetails":roomDetails}, 
+    //             dataType: 'json',
+    //             success: function(response){
+    //                 if (response["success"] != 0) {
+    //                     //If successful
+    //                     window.location = "/buildingManagement"
+    //                 }
+    //                 else{
+    //                     //If not successful
+    //                     window.location.assign("/builingManagement")
+    //                 }
+    //             },
+    //             error: function(error){
+    //                 window.location.assign("/builingManagement")
+    //             }
+    //      }); 
+    
     // var submitChangesButton = document.getElementById("submitChanges");
     // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
     // document.getElementById("submitChanges").value

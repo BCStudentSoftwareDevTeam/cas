@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <div id="submitChangesDiv">
-                                <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges" onclick="saveChanges()" id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
+                                <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges"  id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->
                             </div>
                             
                             <!--pop-up for the onclick of submit changes button-->
@@ -111,7 +111,7 @@
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                                    <button name ="adduser" value = "adduser" type="Submit" class="btn btn-success"> Yes</button>
+                                    <button name ="adduser" value = "adduser" type="Submit" class="btn btn-success" onclick="saveChanges()"> Yes</button>  
                                   </div>
                                 </div>
                               </div>
