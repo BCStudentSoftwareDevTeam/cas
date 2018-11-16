@@ -313,7 +313,7 @@ class RoomPreferences(dbModel):
   none_Choice   = CharField(null=True)
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-  priority = IntegerField(default = 6)  
+  priority           = IntegerField(default = 6)  
 
 
 #Begin education tech class

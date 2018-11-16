@@ -23,8 +23,6 @@ class baseModel(Model):
   class Meta:
     database = mainDB
 
-
-#MODELS WITHOUT A FOREIGN KEY
 class Division(baseModel):
   dID           = PrimaryKeyField()
   name          = CharField()
@@ -34,7 +32,7 @@ class Division(baseModel):
   
 class BannerSchedule(baseModel):
   letter        = CharField()
-  startTime     = DateTimeField(null = True)
+  startTime     = TimeField(null = True)
   endTime       = DateTimeField(null = True)
   sid           = CharField(primary_key = True)
   order         = IntegerField(unique = True)
@@ -49,10 +47,10 @@ class ScheduleDays(baseModel):
 
 class TermStates(baseModel):
   csID          = PrimaryKeyField()
-  number        = IntegerField(null = False)
-  name          = CharField(null = False)
-  order         = IntegerField(null = False)
-  display_name  = CharField(null = False)
+  number        = IntegerField()
+  name          = CharField()
+  order         = IntegerField()
+  display_name  = CharField()
 
 class Term(baseModel):
   termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
@@ -94,6 +92,7 @@ class EducationTech(baseModel):
 
   def __repr__(self):
     return str(self.eId)
+    
 class Rooms(baseModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
@@ -109,9 +108,6 @@ class Rooms(baseModel):
   movableFurniture = BooleanField()
   
  
-
-  
-#MODELS WITH A FOREIGN KEY
 class Program(baseModel):
   pID               = PrimaryKeyField()
   name              = CharField()
