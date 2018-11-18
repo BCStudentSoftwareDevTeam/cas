@@ -305,7 +305,92 @@ class RoomPreferences(dbModel):
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
   priority = IntegerField(default = 6)  
-
+  
+  def update_cc_child(self, room, pref, parent_id, none_choice, any_choice):
+    '''
+    Update room preference for crosslisted children if the parent 
+    course has crosslisted courses as children
+    '''
+    qs = CrossListed.select().where(CrossListed.courseId == parent_id).where(CrossListed.crosslistedCourse !=  parent_id)
+    if qs.exists():
+      if room > 0:
+        for obj in qs:
+          child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+          if pref == 1:
+            child.pref_1 = room
+          elif pref == 2:
+            child.pref_2 = room
+          elif pref == 3:
+            child.pref_3 = room
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          child.any_Choice = any_choice
+          child.none_Choice = none_choice
+          child.save()
+      
+      elif room == 0:
+        if pref == 1:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_1 = None
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice  #1 None
+            child.none_Choice = none_choice
+            child.save()
+                
+        elif pref == 2:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice # 2 None
+            child.none_Choice = none_choice
+            child.save()
+        elif pref == 3:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_3 = None
+            child.any_Choice = any_choice   #3 None
+            child.none_Choice = none_choice
+            child.save()
+      elif room == -1:
+        if pref == 1:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_1 = None
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 1
+            child.none_Choice = none_choice
+            child.save()
+                
+        elif pref == 2:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 2
+            child.none_Choice = none_choice
+            child.save()
+        elif pref == 3:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 3
+            child.none_Choice = none_choice
+            child.save()
+    
+        
+          
+  
+  
 #Begin education tech class
 
 

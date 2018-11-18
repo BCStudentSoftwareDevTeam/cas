@@ -12,6 +12,11 @@ from flask import jsonify
 '''
 adds the course to the course table and to the course change if needed
 '''
+# Print all queries to stderr.
+import logging
+logger = logging.getLogger('peewee')
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
 
 def convertPrereqs(prereqs):
     "prevents from storing empty prereq string into the database"
@@ -94,8 +99,10 @@ def addCourses(tid, prefix):
                         section = values['section'],
                         prereq = convertPrereqs(prereqs)
                         )
+                        
         course.save()
-       
+        
+        print("hi")
         #save crosslisted courses of the newly-created course in a database
         #tID, prefix,
         #int(tid)

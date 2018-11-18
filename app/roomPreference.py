@@ -30,33 +30,14 @@ def roomPreference(term):
     #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     term = Term.get(Term.termCode == current_term)
 
-
-
-
-
-    # print(term)
     courses = ( Course.select()
                     .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
                     .join(Term, on=(Term.termCode == Course.term))
                     .where(InstructorCourse.username == current_user)
                     .where(Course.term == int(current_term))
-                )
-    #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
-    # for course in courses:
-    #     print("Hi Sher")
-    #     print(course.cId)
-    # # for rp in roompreferences:
-    #     print(rp.course.cId)
-    # roomPreferences = {}
-
-    
-    
-    
-    
-    
+                    )
     # Constructs RoomPreferences if they don't exist
     for course in courses:
-        # print("adding ", course.cId, "to ", current_user)
         (rp, c) = RoomPreferences.get_or_create(course = course.cId)
         # print(rp.course.term.termCode)
     
@@ -64,38 +45,7 @@ def roomPreference(term):
         # print(current_user)
         # print(current_term)
         #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
-        
-        
-        
-        
-        
-        
-        # 
-        # print(term)
-        # courses = ( Course.select()
-        #                 .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
-        #                 .join(Term, on=(Term.termCode == Course.term))
-        #                 .where(InstructorCourse.username == current_user)
-        #                 .where(Course.term == int(current_term))
-        #             )
-        # #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
-        # # for course in courses:
-        # #     print("Hi Sher")
-        # #     print(course.cId)
-        # # # for rp in roompreferences:
-        # #     print(rp.course.cId)
-        # # roomPreferences = {}
-        
-        
-        # # Constructs RoomPreferences if they don't exist
-        # for course in courses:
-        #     # print("adding ", course.cId, "to ", current_user)
-        #     (rp, c) = RoomPreferences.get_or_create(course = course.cId)
-        #     # print(rp.course.term.termCode)
-        
-        
-        
-        
+    
         
     # Gets all room preferences for the current user    
     roompreferences= (  RoomPreferences.select()
@@ -105,11 +55,12 @@ def roomPreference(term):
                                     .join(Term, on = (Course.term == Term.termCode))
                                     .where(RoomPreferences.course == InstructorCourse.course 
                                             and InstructorCourse.username == current_user)
-                                    .where(Course.term == current_term)
-                                    .distinct()
+                                    .where(Course.term == current_term) 
+                                    .distinct().where(Course.parentCourse == None)
                         )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
-      
+    for i in roompreferences:
+        print("This", i)
     return render_template(
         "roomPreference.html",
         roompreferences= roompreferences,
@@ -185,41 +136,47 @@ def postPreference():
     
     room = int(data["roomID"]) # ID of the room to update a course's room preference with. 
     
-    rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
-    
+    rp = RoomPreferences.get(RoomPreferences.course == data["ogCourse"])
     rp.initial_Preference = 0 # Just something we're not sure what to do with. 
-    
+    any_choice = None
+    none_choice = None
+    print("Room {} pref {} ".format(room,pref))
     if room > 0: #If a room was selected
         
         if (pref == 1): # for preference 1
         
-            rp.pref_1      = data["roomID"] # grab selected roomID
+            rp.pref_1      = int(data["roomID"]) # grab selected roomID
         
             rp.any_Choice  = 2 # Set all succeeding preferences to any room works
         
             rp.none_Choice = None # update database to reflect that 'This course does not require a room/No other room works' was not selected
-        
+            
+            any_choice = 2
+
         elif (pref == 2): # preference 2
             
             rp.pref_2      = data["roomID"] 
             
             if rp.any_Choice >= 2:
-                rp.any_Choice  = 3
+                any_choice  = 3
             else:
-                rp.any_Choice = None
+                any_choice = None
                 
             if rp.none_Choice >= 2:
-                print("none on three")
-                rp.none_Choice = 3
+                none_choice = 3
             else:
-                rp.none_Choice = None
-        
+                none_choice = None
+            
+            rp.any_Choice = any_choice
+            rp.none_Choice = none_choice
+            
+                   
         elif(pref == 3): # preference 3
         
             rp.pref_3      = data["roomID"]
         
             rp.none_Choice = None
-        
+
         else:
         
             flash("You tried to select a preference that doesn't exist!","ERROR!!! :(")
@@ -239,7 +196,10 @@ def postPreference():
             rp.any_Choice  = 1 # Set the column 'any_choice' to the preference ID to indicate that 'Any room was selected'
         
             rp.none_Choice = None # update database to reflect that 'This course does not require a room/No other room works' was not selected
-        
+            
+            any_choice = 1
+
+            
         elif (pref == 2): # preference 2
         
             rp.pref_2      = None
@@ -249,7 +209,9 @@ def postPreference():
             rp.any_Choice  = 2
         
             rp.none_Choice = None 
-        
+            
+            any_choice = 2
+
         elif(pref == 3): # preference 3
             
             rp.pref_3      = None
@@ -257,7 +219,8 @@ def postPreference():
             rp.any_Choice  = 3
             
             rp.none_Choice = None
-    
+            any_choice = 3
+
     elif room == -1:  # If 'No other rooms work' or 'This course does not require a room' was selected
     
         # if(rp.any_Choice == str(pref).decode("utf-8")): rp.any_Choice = None // FIXME: WHAT DOES THIS DO???>????
@@ -273,7 +236,9 @@ def postPreference():
             rp.pref_2      = None # Set preference 2 for the course to none to indicate that a room was not selected as preference 
     
             rp.pref_3      = None # Set preference 3 for the course to none to indicate that a room was not selected as preference 
-    
+            
+            none_choice = 1
+            
             flash("WARNING: This indicates to the registrar that this course does not need a room","error")
     
         elif (pref == 2):
@@ -285,7 +250,9 @@ def postPreference():
             rp.pref_3 = None
             
             rp.any_Choice = None
-        
+            
+            none_choice = 2
+            
         elif(pref == 3):
         
             rp.pref_3 = None
@@ -293,9 +260,18 @@ def postPreference():
             rp.none_Choice = 3
         
             rp.any_Choice = None
+
+            none_choice = 3
+            
+
     
 
     rp.save() # Save the room preference in the database for the course
+    
+    #if room has crosslisted courses, update CC roompreferences to0
+    if rp.course.crossListed:
+        rm = RoomPreferences()
+        rm.update_cc_child(room, pref, data["ogCourse"], none_choice, any_choice)
    
     # print('RP_any', rp.any_Choice)
     # print("RP_None", rp.none_Choice )
@@ -329,6 +305,13 @@ def postNotes(cid, note):
     # room_preference.notes = data['note']
     room_preference.notes = note
     room_preference.save()
+    if room_preference.course.crossListed:
+        qs = CrossListed.select().where(CrossListed.courseId == cid).where(CrossListed.crosslistedCourse !=  cid)
+        if qs.exists():
+            for obj in qs:
+                child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+                child.notes = note
+                child.save()
     # print("Saved: ", room_preference.notes, "to", room_preference.course.cId)
 
         # old_notes = room_preference.notes
