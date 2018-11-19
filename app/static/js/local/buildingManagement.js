@@ -78,20 +78,18 @@ function saveChanges(roomID){
     //Should update time/date in Last Modified column (TODO)
    
     console.log("saveChanges() called")
-    var roomDetails = {}//For passing into Ajax data field
+    var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
     roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
-    //FIX MOVABLE FURNITIRE
-    roomDetails["movableFurniture"] = document.getElementById('movableFurniture').value; //""
-    console.log("MOVABLEFURNITURE?:"+roomDetails["movableFurniture"]);
+    //TODO: FIX MOVABLE FURNITIRE
+    roomDetails["movableFurniture"] = document.getElementById('movableFurniture').value;
+    console.log("MOVABLEFURNITURE:"+roomDetails["movableFurniture"]);
     // edTech = document.getElementById('edTech';)
-    roomDetails["visualAcc"] = document.getElementById('visualAcc').value;//DOESNT WORK
-    roomDetails["audioAcc"] = document.getElementById('audioAcc').value;//DOESNT WORK
-    roomDetails["physicalAcc"] = document.getElementById('physicalAcc').value;//DOESNT WORK
-    
-    console.log("Deets:"+roomDetails["visualAcc"]);
-    
+    roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
+    roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
+    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //Doesnt work
+    console.log("Physical:"+roomDetails["physicalAcc"]);
     
     // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
     //      $.ajax({
@@ -140,6 +138,7 @@ function saveChanges(roomID){
     
 // }
     
+//TODO: create ajax call that saves Ed Tech to db. onclick INSIDE edtech modal.
     
 
     
