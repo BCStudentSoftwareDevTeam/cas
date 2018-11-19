@@ -127,7 +127,7 @@ def roomResolutionView(termCode,cid):
                     pref_info['notes']=rp1.notes
                     preferences[pref] = pref_info
                     break
-    print("roompref", roompreference.pref_1.rID)
+            
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
