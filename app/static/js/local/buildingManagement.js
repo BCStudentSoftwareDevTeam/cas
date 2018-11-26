@@ -82,14 +82,11 @@ function saveChanges(roomID){
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
     roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
-    //TODO: FIX MOVABLE FURNITIRE
-    roomDetails["movableFurniture"] = document.getElementById('movableFurniture').value;
-    console.log("MOVABLEFURNITURE:"+roomDetails["movableFurniture"]);
-    // edTech = document.getElementById('edTech';)
+    roomDetails["movableFurniture"] = document.getElementById('movableFurniture').checked;
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
-    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //Doesnt work
-    console.log("Physical:"+roomDetails["physicalAcc"]);
+    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //FIXME
+    console.log("Physical Acc:"+roomDetails["physicalAcc"]);
     
     // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
     //      $.ajax({

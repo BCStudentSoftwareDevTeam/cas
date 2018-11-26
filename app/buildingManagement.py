@@ -39,12 +39,11 @@ def getRoomData(rID):
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
     room_details["movableFurniture"] = room.movableFurniture
-    # room_details["educationTech"] = room.educationTech
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
     
-    # print(Room details)
+    # print(room_details["number"])     #Use to make sure all above attributes are correct?
     return json.dumps(room_details)
     
 @app.route("/saveChanges/<rID>", methods=["POST"])
