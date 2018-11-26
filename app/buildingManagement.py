@@ -42,7 +42,7 @@ def getRoomData(rID):
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
-    
+    print ("python" ,rID)
     # print(room_details["number"])     #Use to make sure all above attributes are correct?
     return json.dumps(room_details)
     
@@ -50,21 +50,20 @@ def getRoomData(rID):
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
    try:
-       room = Rooms.get(Rooms.rID==rID)
-       data = request.form
-       print("DATA:"+data)
-       room.maxCapacity = data['capacity']
-       room.roomType = data['type']
-       room.specializedEq = data['specializedEq']
-       room.specialFeatures = data['specialFeatures']
-       room.movableFurniture = data['movableFurniture']
-    #   room.educationTech = data['educationTech']
-       room.visualAcc = data['visualAcc']
-       room.audioAcc = data['audioAcc']
-       room.physicalAcc = data['physicalAcc']
-       room.save()
-       flash("Your changes have been saved!")
-       return json.dumps({"success":1})
+        room = Rooms.get(Rooms.rID==rID)
+        data = request.form
+        print("DATA:"+ str(data))
+        room.maxCapacity = data['capacity']
+        room.roomType = data['type']
+        room.specializedEq = data['specializedEq']
+        room.specialFeatures = data['specialFeatures']
+        room.movableFurniture = data['movableFurniture']
+        #   room.educationTech = data['educationTech']
+        room.visualAcc = data['visualAcc']
+        room.audioAcc = data['audioAcc']
+        room.physicalAcc = data['physicalAcc']
+        room.save()
+        return json.dumps({"success":1})
    except:
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
