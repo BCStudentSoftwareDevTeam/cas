@@ -86,7 +86,7 @@ function saveChanges(roomID){
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //FIXME
-    console.log("Physical Acc:"+roomDetails["physicalAcc"]);
+    
     
     // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
     //      $.ajax({
