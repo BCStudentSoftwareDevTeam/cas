@@ -12,7 +12,7 @@ def getDB():
     username  = cfg['db']['username']
     password  = cfg['db']['password']
     theDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
-    print("done", theDB)
+
     return theDB
 
 
@@ -23,6 +23,7 @@ class baseModel(Model):
   class Meta:
     database = mainDB
 
+# Tables without foreign keys 
 class Division(baseModel):
   dID           = PrimaryKeyField()
   name          = CharField()
@@ -39,11 +40,6 @@ class BannerSchedule(baseModel):
   
   def __str__(self):
     return self.letter
-    
-class ScheduleDays(baseModel):
-  schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days')
-  day           = CharField(null=True)
-
 
 class TermStates(baseModel):
   csID          = PrimaryKeyField()
@@ -51,18 +47,7 @@ class TermStates(baseModel):
   name          = CharField()
   order         = IntegerField()
   display_name  = CharField()
-
-class Term(baseModel):
-  termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
-  semester          = CharField(null = True)
-  year              = IntegerField(null = True)
-  name              = CharField()
-  state             = IntegerField(null = False)
-  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
-  editable   = BooleanField(null = False, default = True)
   
-  
-
 class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()
@@ -70,7 +55,6 @@ class Building(baseModel):
 
   def __repr__(self):
     return self.name 
-
 
 class EducationTech(baseModel):
   eId                  = PrimaryKeyField()
@@ -92,19 +76,40 @@ class EducationTech(baseModel):
 
   def __repr__(self):
     return str(self.eId)
+
+class Deadline(baseModel):
+  description  = TextField()
+  date         = DateField()
+      
+# Tables with foreign keys
+
+class ScheduleDays(baseModel):
+  schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days')
+  day           = CharField(null=True)
+
+class Term(baseModel):
+  termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
+  semester          = CharField(null = True)
+  year              = IntegerField(null = True)
+  name              = CharField()
+  state             = IntegerField(null = False)
+  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
+  editable          = BooleanField(null = False, default = True)
+  
+
     
 class Rooms(baseModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
+  rID              = PrimaryKeyField()
+  building         = ForeignKeyField(Building, related_name='rooms')
+  number           = CharField(null=False)
+  maxCapacity      = IntegerField(null=False)
+  roomType         = CharField(null=False)
+  visualAcc        = CharField(null=True)
+  audioAcc         = CharField(null=True)
+  physicalAcc      = CharField(null=True)
+  educationTech    = ForeignKeyField(EducationTech, related_name='rooms')
+  specializedEq    = CharField(null=True)
+  specialFeatures  = CharField(null=True)
   movableFurniture = BooleanField()
   
  
@@ -172,7 +177,7 @@ class Course(baseModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
-  # days              = ForeignKeyField(ScheduleDays, null= True)
+  # days            = ForeignKeyField(ScheduleDays, null= True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -230,10 +235,6 @@ class InstructorSTCourse(baseModel):
   course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
   
 
-class Deadline(baseModel):
-  description  = TextField()
-  date         = DateField()
-  
 class CourseChange(baseModel):
   cId               = IntegerField(primary_key = True)
   prefix            = ForeignKeyField(Subject)
@@ -261,17 +262,17 @@ class CoursesInBanner(baseModel):
   instructor   = ForeignKeyField(User, null=True)
   
 class RoomPreferences(baseModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
+  rpID               = PrimaryKeyField()
+  course             = ForeignKeyField(Course, related_name='courses')
+  pref_1             = ForeignKeyField(Rooms, related_name='preference_1', null=True)
+  pref_2             = ForeignKeyField(Rooms, related_name='preference_2', null=True)
+  pref_3             = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+  notes              = CharField(null=True)
+  any_Choice         = CharField(null=True)
+  none_Choice        = CharField(null=True)
+  none_Reason        = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-  priority = IntegerField(default = 6)  
+  priority           = IntegerField(default = 6)  
 
 mainDB.create_tables([Division, BannerSchedule, ScheduleDays, TermStates, Term, 
                       Building, EducationTech, Rooms, Program, Subject, User, 
