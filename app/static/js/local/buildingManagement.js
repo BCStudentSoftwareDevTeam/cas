@@ -32,6 +32,7 @@ function setRoomInfo(roomID, button){
                         console.log("Error"+error);
                     }
                 });
+       
     }
 }
 function movePanel(rID) { 
