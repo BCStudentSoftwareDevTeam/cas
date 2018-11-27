@@ -168,8 +168,28 @@ def createColorString(changeType):
         tdcolors = ",".join(colorList)
 
         return tdcolors
-        
 
+        
+def get_unavailable_rooms(curr, availablerooms):
+    #get all the rooms if room id is not in list of available_rooms
+    unavailable_rooms=Rooms.select().where(Rooms.rID.not_in(availablerooms))
+    #list of unavailable room ids used to get courses in relationship with these rooms
+    list_of_room_ids=[room.rID for room in unavailable_rooms]
+    #select all the courses that have relationship with unavailable rooms
+    courses_obj=Course.select(Course).where(Course.rid << list_of_room_ids)
+    #final mapping unavailable rooms to their respective courses: Note: final mapper is passed to template
+    unavailable_to_course={}
+    for course in courses_obj:
+        #these check is important: only consider courses whose startime is less than current course startTime and 
+        #endTime greater than currentCourse startTime and courses term are equal to current course term
+        
+        if course.schedule and course.schedule.startTime < curr.schedule.endTime and course.schedule.endTime > curr.schedule.startTime and course.term_id == curr.term_id:
+            #map room object to list of courses that is taking place in this room
+            if course.rid in unavailable_to_course:
+                unavailable_to_course[course.rid].append(course)
+            else:
+                unavailable_to_course[course.rid]=[course]
+    return unavailable_to_course
 
     
     
