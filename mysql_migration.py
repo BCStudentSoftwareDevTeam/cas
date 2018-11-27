@@ -1,12 +1,13 @@
 from app.loadConfig import *
 from peewee import *
+
 import os
 import datetime
 
 
 def getDB():
     dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
-    cfg       = load_config(os.path.join(dir_name, 'app/dbConfig.yaml'))
+    cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
     db_name   = cfg['db']['db_name']
     host      = cfg['db']['host']
     username  = cfg['db']['username']
@@ -84,23 +85,21 @@ class Deadline(baseModel):
 # Tables with foreign keys
 
 class ScheduleDays(baseModel):
-  schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days')
+  schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days', on_delete= 'CASCADE')
   day           = CharField(null=True)
 
 class Term(baseModel):
-  termCode          = IntegerField(primary_key = True)     #This line will result in an autoincremented number, which will not allow us to enter in our own code
+  termCode          = IntegerField(primary_key = True)  
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
   state             = IntegerField(null = False)
   term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
   editable          = BooleanField(null = False, default = True)
-  
-
     
 class Rooms(baseModel):
   rID              = PrimaryKeyField()
-  building         = ForeignKeyField(Building, related_name='rooms')
+  building         = ForeignKeyField(Building, related_name='rooms', on_delete= 'CASCADE')
   number           = CharField(null=False)
   maxCapacity      = IntegerField(null=False)
   roomType         = CharField(null=False)
@@ -116,7 +115,7 @@ class Rooms(baseModel):
 class Program(baseModel):
   pID               = PrimaryKeyField()
   name              = CharField()
-  division          = ForeignKeyField(Division, related_name='programs')
+  division          = ForeignKeyField(Division, related_name='programs', on_delete= 'CASCADE')
 
   
   def __str__(self):
@@ -124,7 +123,7 @@ class Program(baseModel):
     
 class Subject(baseModel):
   prefix        = CharField(primary_key=True)
-  pid           = ForeignKeyField(Program, related_name='subjects')
+  pid           = ForeignKeyField(Program, related_name='subjects', on_delete= 'CASCADE')
   webname       = TextField()
   
   def __str__(self):
@@ -174,7 +173,7 @@ class BannerCourses(baseModel):
 class Course(baseModel):
   cId               = PrimaryKeyField()
   prefix            = ForeignKeyField(Subject) #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
-  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
+  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses', on_delete= 'CASCADE')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   # days            = ForeignKeyField(ScheduleDays, null= True)
@@ -192,7 +191,7 @@ class Course(baseModel):
 class SpecialTopicCourse(baseModel):
   stId                 = PrimaryKeyField()
   prefix               = ForeignKeyField(Subject)
-  bannerRef            = ForeignKeyField(BannerCourses)
+  bannerRef            = ForeignKeyField(BannerCourses, on_delete= 'CASCADE')
   term                 = ForeignKeyField(Term, null = False)
   schedule             = ForeignKeyField(BannerSchedule, null = True)
   capacity             = IntegerField(null = True)
@@ -216,29 +215,29 @@ class SpecialTopicCourse(baseModel):
 
 class ProgramChair(baseModel):
   username     = ForeignKeyField(User)
-  pid          = ForeignKeyField(Program)
+  pid          = ForeignKeyField(Program, on_delete= 'CASCADE')
 
 class DivisionChair(baseModel):
   username     = ForeignKeyField(User)
-  did          = ForeignKeyField(Division)
+  did          = ForeignKeyField(Division, on_delete= 'CASCADE')
   
 class BuildingManager(baseModel):
   username     = ForeignKeyField(User)
-  bmid         = ForeignKeyField(Building)
+  bmid         = ForeignKeyField(Building, on_delete= 'CASCADE')
 
 class InstructorCourse(baseModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
-  course       = ForeignKeyField(Course, related_name='instructors_course')
+  course       = ForeignKeyField(Course, related_name='instructors_course', on_delete= 'CASCADE')
   
 class InstructorSTCourse(baseModel):
   username     = ForeignKeyField(User, related_name='instructor_stcourses')
-  course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse')
+  course       = ForeignKeyField(SpecialTopicCourse, related_name='instructors_stcourse', on_delete= 'CASCADE')
   
 
 class CourseChange(baseModel):
   cId               = IntegerField(primary_key = True)
   prefix            = ForeignKeyField(Subject)
-  bannerRef         = ForeignKeyField(BannerCourses)
+  bannerRef         = ForeignKeyField(BannerCourses, on_delete= 'CASCADE')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
   capacity          = IntegerField(null = True)
@@ -254,19 +253,19 @@ class CourseChange(baseModel):
   
 class InstructorCourseChange(baseModel):
   username     = ForeignKeyField(User)
-  course       = ForeignKeyField(CourseChange)
+  course       = ForeignKeyField(CourseChange, on_delete = 'CASCADE')
   
 class CoursesInBanner(baseModel):
   CIBID        = PrimaryKeyField()
-  bannerRef    = ForeignKeyField(BannerCourses)
-  instructor   = ForeignKeyField(User, null=True)
+  bannerRef    = ForeignKeyField(BannerCourses, on_delete= 'CASCADE')
+  instructor   = ForeignKeyField(User, null=True, on_delete= 'CASCADE')
   
 class RoomPreferences(baseModel):
   rpID               = PrimaryKeyField()
-  course             = ForeignKeyField(Course, related_name='courses')
-  pref_1             = ForeignKeyField(Rooms, related_name='preference_1', null=True)
-  pref_2             = ForeignKeyField(Rooms, related_name='preference_2', null=True)
-  pref_3             = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+  course             = ForeignKeyField(Course, related_name='courses', on_delete= 'CASCADE')
+  pref_1             = ForeignKeyField(Rooms, related_name='preference_1', null=True, on_delete= 'CASCADE')
+  pref_2             = ForeignKeyField(Rooms, related_name='preference_2', null=True, on_delete= 'CASCADE')
+  pref_3             = ForeignKeyField(Rooms, related_name='preference_3', null=True, on_delete= 'CASCADE') # We are making sure we have all the preferences jotted down.
   notes              = CharField(null=True)
   any_Choice         = CharField(null=True)
   none_Choice        = CharField(null=True)

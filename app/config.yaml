@@ -5,7 +5,6 @@ filename: "urcpp.log"
 
 # All the databases used by the system
 databases:
-  - test: "data/newdb.mysql"
   - dev: "data/db.sqlite"
 
   # stage: ""
@@ -13,7 +12,11 @@ databases:
 databaseAdmin:
   user: ['heggens','myersco']
   
-  
+db:
+  db_name: c9
+  host: localhost
+  password: ''
+  username: nelsonk 
 
 #You have to use the - to keep the order
 scheduleDays:

@@ -12,10 +12,10 @@ from string import strip
 @app.route("/roomPreference/<term>", methods = ["GET"])
 def roomPreference(term):
     # FIXME bring current_term in via URL, and add the modal to select current term used on courses.html
-    # print(term)
+  
     current_term = term
     term = Term.get(Term.termCode == current_term)
-    # print("TermState", term.term_state.number)
+    print('Term', term.termCode)
     if term.term_state.number == 3:
         current_user = AuthorizedUser().getUsername()
     
@@ -27,8 +27,7 @@ def roomPreference(term):
         educationTech= EducationTech.select()
     
         # FIXME used for conflicting courses UI, which is hidden
-        # print(current_user)
-        # print(current_term)
+    
     
         courses = ( Course.select()
                         .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
@@ -56,17 +55,17 @@ def roomPreference(term):
                             )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
       
-    return render_template(
-        "roomPreference.html",
-        roompreferences= roompreferences,
-        room=room,
-        users=users,
-        course=courses,
-        educationTech=educationTech,
-        instructors=instructors
-    )
-    # else:
-    #     return render_template("roomPreferencesLocked.html")
+        return render_template(
+                "roomPreference.html",
+                roompreferences= roompreferences,
+                room=room,
+                users=users,
+                course=courses,
+                educationTech=educationTech,
+                instructors=instructors
+            )
+    else:
+        return render_template("roomPreferencesLocked.html")
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])

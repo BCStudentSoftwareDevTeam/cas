@@ -10,7 +10,7 @@ sys.setdefaultencoding("utf-8")
 
 
 dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg       = load_config(os.path.join(dir_name, 'app/dbConfig.yaml'))
+cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
 db_name   = cfg['db']['db_name']
 host      = cfg['db']['host']
 username  = cfg['db']['username']
@@ -262,7 +262,7 @@ for i in division_chairs:
 
 problems = [1124,1141,1390,1401,1468,1133,968,1480,1499,1502,1504,1505,1196,1528,1041,1555,1135,1577,1343,999,1600,1105,1644,1346,1576,1690,1692,1165,1696,1698,1700,1164,1168,1179,1706,2297,2528,2543,2522,2666,1729,1734,1730,2334,1726,2678,2681,2508,2013,2013,2032,2469,2206,2200,2705,2710,2462,2503,2711,2715,2055,2722,2722,2732,2733,2734,2065,2321,2771,1902,2773,2044,2781,2784,2812,2815,2816,1158,2819,2820,1190,2827,2535,2146,2482,2852,2853,2873,2878,2879,2116,2339,2888,2891,1887,2480,2900,2901,2911,2916,2921,1879,1867,1894,1897,2623,2620,2766,2565,2599,2611,2767,2768,2621,2995,2640,3012,2344,3013,3014,3015,2356,2637,2635,2636,2352,2632,2366,3018,3019,3020,3021,3022,2631,3023,3024,3024,3025,3026,2350,3027,2633,3028,3029,2355,3025,3026,2342,2345,3033,2639,3038,3039,3043,2365,3044,3045,3046,3063,3069,3070,3079,3080,2675,3104,3105,2606,2606,3180,4280,4273,3567,4292,3958,3959,4303,4313,4316,4019,4323,3561,4013,3520,3521,3522,4335,4339,4348,3289,4373,3789,3933,3354,3355,4390,4392,3353,4418,3384,4448,3669,4466,4468,4469,4470,4209,4073,3854,4189,4542,4219,3930,4545,4471,4594,4595,4472,4598,4602,4641,4651,4653,4656,4659,4662,4664,4665,4668,4670,4671,4672]
 for i in problems:
-    query = InstructorCourse.delete().where(InstructorCourse.course == i)
+    query = InstructorCourse.delete().where(InstructorCourse.course == i).execute()
     
     
     
@@ -286,7 +286,7 @@ for i in instructor_courses:
         
 problems = [5,6,8,46]    
 for i in problems:
-    query = InstructorSTCourse.delete().where(InstructorSTCourse.course == i)
+    query = InstructorSTCourse.delete().where(InstructorSTCourse.course == i).execute()
     
 add_instructor_st_courses = ("INSERT INTO instructorstcourse (username_id, course_id) VALUES (%s, %s)")
 
@@ -340,7 +340,7 @@ for i in course_changes:
 
     cursor.execute(add_course_change, data_course_change)
     
-problems = ['3218','3219','3220','3221','3222','3224']
+problems = ['3218','3219','3220','3221','3222','3224', '3225']
 for i in problems:
     query = InstructorCourseChange.delete().where(InstructorCourseChange.username == i).execute()
  
@@ -356,8 +356,6 @@ for i in instructor_course_change:
     data_instructor_course_change = (username_id, course_id)
 
     cursor.execute(add_instructor_course_change, data_instructor_course_change)
-
-
 
 
 ############# The Table Courses in Banner did not exist in the sqlite database yet #################
@@ -377,12 +375,16 @@ for i in instructor_course_change:
 # Fix courses in room preferences to remove courses in room preferences not in course table
 add_room_preferences = ("INSERT INTO roompreferences (`rpID`, `course_id`, `pref_1_id`, `pref_2_id`, `pref_3_id`, `notes`, `any_Choice`, `none_Choice`, `none_Reason`, `initial_Preference`, `priority`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-
+problems = ['4651', '4665', '4668', '4670'] # This is an array that has cids for which there is no course object because the course had been deleted
+for i in problems: 
+    query  = RoomPreferences.delete().where(RoomPreferences.course == i).execute()
+    
+    
 room_preferences = RoomPreferences.select()
 for i in room_preferences:
     f = open("problemfile4.txt", "a")
     rpID = int(i.rpID)
-    print(rpID)
+    # print(rpID)
     try:
         course_id = i.course.cId
     except Exception as e:
