@@ -82,6 +82,7 @@ function saveChanges(roomID){
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
     roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
+    roomDetails["specialFeatures"] = document.getElementById('specialFeatures').value;
     roomDetails["movableFurniture"] = document.getElementById('movableFurniture').checked;
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
@@ -93,13 +94,13 @@ function saveChanges(roomID){
          $.ajax({
              type: "POST",
                 url: url,
-                data: {"roomDetails":roomDetails}, 
+                data: roomDetails, 
                 dataType: 'json',
                 success: function(response){
                     if (response["success"] != 0) {
                         //If successful
                         console.log("SUCCESSFUL JS AJAX CALL")
-                        //window.location = "/buildingManagement"
+                        window.location = "/buildingManagement"
                     }
                     else{
                         //If not successful

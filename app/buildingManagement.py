@@ -49,19 +49,19 @@ def getRoomData(rID):
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
+   print("Here I am, rock yhou like a hurricane")
    try:
         room = Rooms.get(Rooms.rID==rID)
         data = request.form
-        print("DATA:"+ str(data))
-        room.maxCapacity = data['capacity']
-        room.roomType = data['type']
-        room.specializedEq = data['specializedEq']
-        room.specialFeatures = data['specialFeatures']
-        room.movableFurniture = data['movableFurniture']
-        #   room.educationTech = data['educationTech']
-        room.visualAcc = data['visualAcc']
-        room.audioAcc = data['audioAcc']
-        room.physicalAcc = data['physicalAcc']
+        room.maxCapacity = (data['roomCapacity'])
+        room.roomType = (data['roomType'])
+        room.specializedEq = (data['specializedEq'])
+        room.specialFeatures = (data['specialFeatures'])
+        # room.movableFurniture = (data['movableFurniture'])
+        room.visualAcc = (data['visualAcc'])
+        room.audioAcc = (data['audioAcc'])
+        room.physicalAcc = (data['physicalAcc'])
+        print(room)
         room.save()
         return json.dumps({"success":1})
    except:
