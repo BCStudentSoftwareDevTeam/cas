@@ -195,9 +195,9 @@ class RoomAssigner:
             
             
         ''' course & taken_time = (cid, start_time, endtime, [days]) '''
-        print("Starting room assignment 2")
+        # print("Starting room assignment 2")
         if choice in self.rooms_scheduled:         # if the room I'm trying to schedule is in the dictionary of rooms which already have scheduled times
-            print("Room has been scheduled by at least one course")
+            # print("Room has been scheduled by at least one course")
             can_schedule = True
             unavailable_times = self.rooms_scheduled[choice]   # All of the schedules currently used in this room ("choice")
             start_timeA = roomPref.course.schedule.startTime   # Start time of the roomPreference we're trying to schedule
@@ -223,30 +223,34 @@ class RoomAssigner:
                     #Check the specific times only if they have days in common
                     start_timeB = taken_time.course.schedule.startTime
                     end_timeB   = taken_time.course.schedule.endTime
+                    print('start_timeB', start_timeB)
+                    print('end_timeB', end_timeB)
+                    print('start_timeA', start_timeA)
+                    print('end_timeA', end_timeA)
                     if end_timeA <= start_timeB or start_timeA >= end_timeB:
                         pass
                     else:
                         can_schedule = False
             if can_schedule == True:
-                print("Room is being scheduled around other courses")
+                # print("Room is being scheduled around other courses")
                 unavailable_times.append(roomPref)         # Add the room to unavailable_times
                 roomPref.course.rid = choice               # Saves room to course for this pref    
-                print("Saving{0} to {1}".format( roomPref.course.rid,  roomPref.course.cId))
+                # print("Saving{0} to {1}".format( roomPref.course.rid,  roomPref.course.cId))
                 roomPref.course.save()      
               
                 self.rooms_scheduled[choice] = unavailable_times       # Updates schedules taken for this room
-                print("Done")
+                # print("Done")
                 return True
             else:               
                 return False
         else:                      # No courses have been scheduled in this room ("choice") yet; create it
-            print("Room has never been scheduled. Scheduling")
+            # print("Room has never been scheduled. Scheduling")
             roomPref.course.rid= choice
-            print("Saving{0} to {1}".format( roomPref.course.rid,  roomPref.course.cId))
+            # print("Saving{0} to {1}".format( roomPref.course.rid,  roomPref.course.cId))
             roomPref.course.save()
             
             self.rooms_scheduled[choice] = [roomPref]
-            print("Done")
+            # print("Done")
             return True
     
     def assign_room(self, DATA_SET, term):

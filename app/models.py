@@ -45,7 +45,7 @@ class Division(baseModel):
 class BannerSchedule(baseModel):
   letter        = CharField()
   startTime     = TimeField(null = True)
-  endTime       = DateTimeField(null = True)
+  endTime       = TimeField(null = True)
   sid           = CharField(primary_key = True)
   order         = IntegerField(unique = True)
   

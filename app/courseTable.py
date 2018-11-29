@@ -9,7 +9,7 @@ def retrieveCourses(prefix):
     authorizedUser = AuthorizedUser()
     username = authorizedUser.getUsername()
     user = User.get(User.username == username)
-    
+    print('username', username)
     # Select 5 most recents years in the database to display courses from.
     terms = Term.select().distinct().order_by(Term.termCode.asc()).limit(10)
 

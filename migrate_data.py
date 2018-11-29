@@ -9,15 +9,17 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
+print("Hello")
 dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
 cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
 db_name   = cfg['db']['db_name']
+print(db_name)
 host      = cfg['db']['host']
 username  = cfg['db']['username']
 password  = cfg['db']['password']
 # Create a connection to the mysql database
 cnx = mysql.connector.connect(database=db_name, host = host, password = password, user = username)
-
+print("Hello")
 
 # *******************************
 # A cursor is a temporary work area created in the system memory when a SQL statement is executed. 
@@ -32,6 +34,7 @@ building = Building.select()
 for i in building:
     add_building = ("INSERT INTO building (`bID`, `name`, `shortName`) VALUES ({0}, '{1}', '{2}')".format(i.bID, i.name, i.shortName))
     cursor.execute(add_building)
+    print("Here")
     
 
 divisions = Division.select()
@@ -42,7 +45,7 @@ for i in divisions:
 
 banner_schedule = BannerSchedule.select()
 for i in banner_schedule: 
-    add_banner_schedule = ("INSERT INTO bannerschedule (`sid`, `startTime`, `endTime`, `letter`, `order`) VALUES ('{0}','{1}','{2}','{3}', {4})".format(i.sid, i.startTime, i.endTime, i.letter, i.order))
+    add_banner_schedule = ("INSERT INTO bannerschedule (`sid`, `startTime`, `endTime`, `letter`, `order`) VALUES ('{0}', '{1}', '{2}','{3}', {4})".format(i.sid, i.startTime, i.endTime, i.letter, i.order))
     cursor.execute(add_banner_schedule)
 
 
@@ -417,8 +420,8 @@ for i in room_preferences:
     
     cursor.execute(add_room_preferences, data_room_preferences)
 
-
 cnx.commit()
 cursor.close()
 cnx.close()
                
+print("Last")
