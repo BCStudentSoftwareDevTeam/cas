@@ -12,11 +12,12 @@ function showPanel(termCode, button){
     // console.log("Term code: " + termCode);
     
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
+  
 
     // console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
-    
+  
     // console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
