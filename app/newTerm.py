@@ -1,5 +1,6 @@
 from allImports import *
 import sys
+from models import *
 from app.logic.authorization import must_be_admin
 from app.logic.redirectBack import redirect_url
 
@@ -31,7 +32,7 @@ def newterm():
       flash(message,'error')
     else:
       #ADD THE INFORMATION TO THE DATABASE
-      newTerm = Term(termCode=int(term_code), name=term_name, semester=semester_name, year=int(term_year), state=1)
+      newTerm = Term(termCode=int(term_code), name=term_name, semester=semester_name, year=int(term_year), state=1, term_state = 1)
       newTerm.save(force_insert=True)
       message = "Term: Term {} has been created".format(data['year'])
       log.writer("INFO", page, message)

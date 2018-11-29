@@ -223,10 +223,10 @@ class RoomAssigner:
                     #Check the specific times only if they have days in common
                     start_timeB = taken_time.course.schedule.startTime
                     end_timeB   = taken_time.course.schedule.endTime
-                    print('start_timeB', start_timeB)
-                    print('end_timeB', end_timeB)
-                    print('start_timeA', start_timeA)
-                    print('end_timeA', end_timeA)
+                    # print('start_timeB', start_timeB)
+                    # print('end_timeB', end_timeB)
+                    # print('start_timeA', start_timeA)
+                    # print('end_timeA', end_timeA)
                     if end_timeA <= start_timeB or start_timeA >= end_timeB:
                         pass
                     else:
@@ -257,12 +257,12 @@ class RoomAssigner:
         ''' This method simply assigns rooms to courses based on their priority granted that the rooms are already found available. '''
         if term.editable is False:
             time.sleep(500)
-        print("Starting Room Assignment")
+        # print("Starting Room Assignment")
         for priority in PRIORITY:
-            print("Priority", priority)
+            # print("Priority", priority)
             preferences = self.priority_map[priority]
             for roomPref in preferences:
-                print("Room pref: ", roomPref)
+                # print("Room pref: ", roomPref)
                 prefs = DATA_SET[roomPref.rpID]
                 for choice in prefs:
                     print("Choice", choice)
@@ -281,17 +281,7 @@ class RoomAssigner:
             term.editable = True
             term.save()
         
-            
-    # def run_algorithm(self):
-    #     # room_assigner = RoomAssigner(termCode)
-    #     self.courses_query()
-    #     DATA_SET = self.create_data_set()
-    #     # print(DATA_SET)
-    #     # print("here")
-    #     self.assign_room(DATA_SET)
-    #     return 1
-  
-        
+
 
 # if __name__ == "__main__":
 #     ''' This is just for testing purposes'''

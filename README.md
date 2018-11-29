@@ -158,8 +158,9 @@ If it is directed towards mysql, the code to create the database connection will
 7. Delete all the db.sqlite files or rename them something other than db.sqlite 
 8. Run python app.py and everything should work as usual 
 
+If when you run the application, you don't have access to the admin menu, simply edit Scott Heggen's isadmin field to 1 using the steps below. 
 
 With mysql, you will not be able to use DB browser to visualize the data like we used to with sqlite. You will have to run: 
 1. mysql-ctl cli in the terminal
-2. use c9; *remember that c9 is the default name for any mysql database created on cloud9
+2. use c9; *remember that c9 is the default name for any mysql database created on cloud9 ex. update user set isadmin=1 where username = 'heggens';
 3. then you can type any SQL commands you want to see any data you want

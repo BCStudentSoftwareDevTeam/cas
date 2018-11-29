@@ -2,7 +2,7 @@ var lastTerm = "";
 function showPanel(termCode, button){
     
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
-    
+    console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
     
     disable_btn.disabled = true;            // Disables all the state buttons
@@ -14,11 +14,11 @@ function showPanel(termCode, button){
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
   
 
-    // console.log("target div: " + targetDiv);
+    console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
   
-    // console.log("subject div: " + subjectDiv);
+    console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
     

@@ -115,9 +115,13 @@ def education_Tech(rid):
     # print("Sending response to front end", education_materials)
     return json.dumps(education_materials)
     
-# We will add this on monday based on the room_details ^^^^
+
     
-        
+
+""" 
+Preferences are now being set to 100 instead of None which is a non-existent
+room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null. 
+"""        
 @app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postPreference():
     """
@@ -171,10 +175,6 @@ def postPreference():
         
             return json.dumps({"success  ": 0}) # Picked a preference outside of 1,2,or 3
     
-""" 
-Preferences are now being set to 100 instead of None which is a non-existent
-room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null. 
-"""
     elif room == 0:# if 'Any room works' was selected
         
         if (pref == 1): # for preference 1

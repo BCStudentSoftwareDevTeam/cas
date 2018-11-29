@@ -107,10 +107,9 @@
             </div>
             <!--</div>-->
       {% endif %}
-    <!--{% if state.number in format2 %} -->
+    {% if state.number in format2 %} 
       <!--FINISH-->
        <div id="order{{state.order}}" class="collapse">
-       <!--<div id="order6" class="collapse">-->
           <div class = "panel-body panel_color">
             <div class = "row text-center">
               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
@@ -143,7 +142,7 @@
           </div>
         </div>
         </div>
-     <!--{% endif %}-->
+     {% endif %}
         <!--The archive panel and the button after finish-->
        <div id="order7" class="collapse" >
           <div class = "panel-footer">

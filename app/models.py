@@ -3,7 +3,6 @@ import os
 
 # Create a database
 from app.loadConfig import *
-
 dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
 cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
 db_name    = cfg['db']['db_name']
