@@ -87,6 +87,7 @@ function saveChanges(roomID){
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //FIXME
+}
     
     
     // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
@@ -113,26 +114,76 @@ function saveChanges(roomID){
     // var submitChangesButton = document.getElementById("submitChanges");
     // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
     // document.getElementById("submitChanges").value
+// }
+
+
+
+function education_detail(response){
+     
+    
+    document.getElementById("projectors").innerHTML = response['projector'];
+    console.log("the value",document.getElementById("projectors").innerHTML )
+    document.getElementById("smartboards").innerHTML = response['smartboards'];
+    document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
+    document.getElementById("podiums").innerHTML = response['podium'];
+    console.log("the value",document.getElementById("podiums").innerHTML )
+    document.getElementById("student_workstations").innerHTML = response['student_workspace'];
+    document.getElementById("chalkboards").innerHTML = response['chalkboards'];
+    document.getElementById("whiteboards").innerHTML = response['whiteboards']
+    
+    // var my_div = document.getElementById('projector'); 
+    // console.log('here now')
+    // my_div.value = response['projector'];
+    // var my_div = document.getElementById('smartboards');
+    // my_div.value = response['smartboards'];
+    // var my_div = document.getElementById('instructor_computers');
+    // my_div.value = response['instructor_computers'];
+    // var my_div = document.getElementById('podium'); 
+    // my_div.value = response['podium'];
+    // var my_div = document.getElementById('student_workspace');
+    // my_div.value = response['student_workspace'];
+    // var my_div = document.getElementById('chalkboards');
+    // my_div.value = response['chalkboards'];
+    
+    
+    
+    
+    
 }
 
-//TODO Create an ajax call that populates the data to the education tech
-// function educationTech(){
-//     var room_id = getRoomId();
-//     if(room_id){
-//         var url = '/education_Tech'+ room_id;
-//         $.ajax({
-//             url = url;
-//             dataType: 'json',
-//                 success: function(response){
-//                     education_detail(response); //a function with education tech details
-//                 },
-//                 error: function(error) {
-//                 console.log(error);
-//                 }
-//             });
-//     $("#Details").show();{
-//         })
-//     }
+function educationTech() {
+  
+    // var room_id= $("#selectedRoom").val()
+   
+    // var selected_value = $("#roomNumber"+"_"+ getRoomId()).val();
+    // console.log("goTo_edtech rID: ", getRoomId());
+    // console.log("selected value: ",selected_value);
+    
+    setRoomId(getRoomId());
+    //  movePanel(getRoomId());
+    // var room_id = getRoomId();
+    console.log("room id: ", getRoomId());
+    if(getRoomId()){
+         var url = '/getEducationData/'+getRoomId();
+        //  console.log(url)
+         $.ajax({
+                url: url,
+                dataType: 'json',
+                type:'GET',
+                success: function(response){
+                     if (response["success"] != 0) {//If successful
+                            education_detail(response); //a function with education tech details
+                            console.log("Success"+response)
+                        }
+                   
+                },
+                error: function(error) {
+                console.log(error);
+                }
+            });
+    // $("#hiddenRow_").show();
+    }
+}
     
 // }
     

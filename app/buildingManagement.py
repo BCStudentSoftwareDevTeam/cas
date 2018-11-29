@@ -69,31 +69,75 @@ def saveChanges(rID):
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
  
-# @app.route('/education_Tech/<rid>', methods = ["GET"])
-# def education_Tech(rid):
-#     room = Rooms.get(Rooms.rID == rid)
-#     tech_details = room.educationTech
-#     education_materials={}
-#     education_materials["projector"] = tech_details.projector
-#     education_materials["smartboards"] = tech_details.smartboards
-#     education_materials["instructor_computers"] = tech_details.instructor_computers
-#     education_materials["podium"] = tech_details.podium
-#     education_materials["student_workspace"] = tech_details.student_workspace
-#     education_materials["chalkboards"] = tech_details.chalkboards
-#     education_materials["whiteboards"] = tech_details.whiteboards
-#     education_materials["dvd"]=tech_details.dvd 
-#     education_materials["blu_ray"]= tech_details.blu_ray 
-#     education_materials["audio"]= tech_details.audio
-#     education_materials["extro"]=tech_details.extro  
-#     education_materials["doc_cam"]=tech_details.doc_cam
-#     education_materials["vhs"]= tech_details.vhs
-#     education_materials["mondopad"]=tech_details.mondopad
-#     education_materials["tech_chart"]=tech_details.tech_chart
-#     print("Sending response to front end", education_materials)
+@app.route('/getEducationData/<rid>', methods = ["GET"])
+def getEducationData(rid):
+    # print("hello")
+  
+    room = Rooms.get(Rooms.rID == rid)
+    tech_details = room.educationTech
+    education_materials={}
+    education_materials["projector"] = tech_details.projector
+    education_materials["smartboards"] = tech_details.smartboards
+    education_materials["instructor_computers"] = tech_details.instructor_computers
+    education_materials["podium"] = tech_details.podium
+    education_materials["student_workspace"] = tech_details.student_workspace
+    education_materials["chalkboards"] = tech_details.chalkboards
+    education_materials["whiteboards"] = tech_details.whiteboards
+    education_materials["dvd"]=tech_details.dvd 
+    education_materials["blu_ray"]= tech_details.blu_ray 
+    education_materials["audio"]= tech_details.audio
+    education_materials["extro"]=tech_details.extro  
+    education_materials["doc_cam"]=tech_details.doc_cam
+    education_materials["vhs"]= tech_details.vhs
+    education_materials["mondopad"]=tech_details.mondopad
+    education_materials["tech_chart"]=tech_details.tech_chart
+    # print("Sending response to front end", education_materials)
+    print("Sending response to front end", education_materials)
+    return json.dumps(education_materials)
     
-#     return json.dumps(education_materials) 
-
     
     
-    
-    
+@app.route("/saveEdTechChanges/<rID>", methods=["POST"])
+def saveEdTechChanges(rID):
+#updates room data in database after clicking save changes.
+  try:
+      room = Rooms.get(Rooms.rID==rID)
+      edtech_update = room.educationTech
+      data = request.form
+      mdetails = edtech_update.update(
+        projector = data['projector'],
+        smartboards = data['smartboards'],
+        instructor_computers = data['instructor_computers'],
+        podium= data['podium'],
+        student_workspace = data['student_workspace'],
+        chalkboards = data['chalkboards'],
+        whiteboards = data['whiteboards'],
+        dvd = data['dvd'],
+        blu_ray= data["blu_ray"],
+        extro= data['extro'],
+        doc_cam= data['doc_cam'],
+        vhs= data['vhs'],
+        mondopad=data['mondopad'],
+        tech_chart=dat['tech_chart']
+        ).save()
+      print("updated", mdetails)
+    #   edtech_update.projector = data['projector']
+    #   edtech_update.smartboards = data['smartboards']
+    #   edtech_update.instructor_computers = data['instructor_computers']
+    #   edtech_update.podium= data['podium']
+    #   edtech_update.student_workspace = data['student_workspace']
+    #   edtech_update.chalkboards = data['chalkboards']
+    #   edtech_update.whiteboards = data['whiteboards']
+    #   edtech_update.dvd = data['dvd']
+    #   edtech_update.blu_ray= data["blu_ray"]
+    #   edtech_update.extro= data['extro']
+    #   edtech_update.doc_cam= data['doc_cam']
+    #   edtech_update.vhs= data['vhs']
+    #   edtech_update.mondopad=data['mondopad']
+    #   edtech_update.tech_chart=dat['tech_chart']
+    #   edtech_update.save()
+      flash("Your changes have been saved!")
+      return json.dumps({"success":1})
+  except:
+      flash("An error has occurred, your changes were NOT saved. Please try again.","error")
+      return json.dumps({"error":0})
