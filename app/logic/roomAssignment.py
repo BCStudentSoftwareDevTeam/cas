@@ -265,7 +265,7 @@ class RoomAssigner:
                 # print("Room pref: ", roomPref)
                 prefs = DATA_SET[roomPref.rpID]
                 for choice in prefs:
-                    print("Choice", choice)
+                    # print("Choice", choice)
                     if choice == "*":
                         self.anywhere.append(roomPref)
                     elif choice == None:
