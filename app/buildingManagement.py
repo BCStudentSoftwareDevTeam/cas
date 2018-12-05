@@ -57,7 +57,11 @@ def saveChanges(rID):
         room.roomType = (data['roomType'])
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
-        # room.movableFurniture = (data['movableFurniture'])
+        if data['movableFurniture'] == 'false':
+            room.movableFurniture = 0
+        else:
+            room.movableFurniture = 1
+        print ("Move", data['movableFurniture'])
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
