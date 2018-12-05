@@ -83,34 +83,40 @@ function saveChanges(roomID){
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
     roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
+    roomDetails["specialFeatures"] = document.getElementById('specialFeatures').value;
     roomDetails["movableFurniture"] = document.getElementById('movableFurniture').checked;
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
-    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); //FIXME
+
+    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
+    console.log("RoomID" , getRoomId())
+    // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
+    // work on saving the data the right way
+    var url = '/saveChanges/'+getRoomId();
+         $.ajax({
+             type: "POST",
+                url: url,
+                data: roomDetails, 
+                dataType: 'json',
+                success: function(response){
+                    if (response["success"] != 0) {
+                        //If successful
+                        console.log("SUCCESSFUL JS AJAX CALL")
+                        window.location = "/buildingManagement"
+                    }
+                    else{
+                        //If not successful
+                        console.log("Else in ajax")
+                        // window.location.assign("/builingManagement")
+                    }
+                },
+                error: function(error){
+                    console.log("ERROR")
+                    // window.location.assign("/builingManagement")
+                }
+         }); 
+
 }
-    
-    
-    // var url = '/saveChanges/'+roomID;//Should this be getRoomId??
-    //      $.ajax({
-    //          type: "POST",
-    //             url: url,
-    //             data: {"roomDetails":roomDetails}, 
-    //             dataType: 'json',
-    //             success: function(response){
-    //                 if (response["success"] != 0) {
-    //                     //If successful
-    //                     window.location = "/buildingManagement"
-    //                 }
-    //                 else{
-    //                     //If not successful
-    //                     window.location.assign("/builingManagement")
-    //                 }
-    //             },
-    //             error: function(error){
-    //                 window.location.assign("/builingManagement")
-    //             }
-    //      }); 
-    
     // var submitChangesButton = document.getElementById("submitChanges");
     // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
     // document.getElementById("submitChanges").value
