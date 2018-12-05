@@ -127,29 +127,26 @@ function saveChanges(roomID){
 function education_detail(response){
      
     
-    document.getElementById("projectors").innerHTML = response['projector'];
-    console.log("the value",document.getElementById("projectors").innerHTML )
-    document.getElementById("smartboards").innerHTML = response['smartboards'];
-    document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
-    document.getElementById("podiums").innerHTML = response['podium'];
-    console.log("the value",document.getElementById("podiums").innerHTML )
-    document.getElementById("student_workstations").innerHTML = response['student_workspace'];
-    document.getElementById("chalkboards").innerHTML = response['chalkboards'];
-    document.getElementById("whiteboards").innerHTML = response['whiteboards']
+    // document.getElementById("projectors").innerHTML = response['projector'];
+    // document.getElementById("smartboards").innerHTML = response['smartboards'];
+    // document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
+    // document.getElementById("podiums").innerHTML = response['podium'];
+    // document.getElementById("student_workstations").innerHTML = response['student_workspace'];
+    // document.getElementById("chalkboards").innerHTML = response['chalkboards'];
+    // document.getElementById("whiteboards").innerHTML = response['whiteboards']
     
-    // var my_div = document.getElementById('projector'); 
-    // console.log('here now')
-    // my_div.value = response['projector'];
-    // var my_div = document.getElementById('smartboards');
-    // my_div.value = response['smartboards'];
-    // var my_div = document.getElementById('instructor_computers');
-    // my_div.value = response['instructor_computers'];
-    // var my_div = document.getElementById('podium'); 
-    // my_div.value = response['podium'];
-    // var my_div = document.getElementById('student_workspace');
-    // my_div.value = response['student_workspace'];
-    // var my_div = document.getElementById('chalkboards');
-    // my_div.value = response['chalkboards'];
+    var my_div = document.getElementById('projectors');
+    my_div.value = response['projector'];
+    var my_div = document.getElementById('smartboards');
+    my_div.value = response['smartboards'];
+    var my_div = document.getElementById('instructor_computers');
+    my_div.value = response['instructor_computers'];
+    var my_div = document.getElementById('podiums'); 
+    my_div.value = response['podium'];
+    var my_div = document.getElementById('student_workspace');
+    my_div.value = response['student_workspace'];
+    var my_div = document.getElementById('chalkboards');
+    my_div.value = response['chalkboards'];
     
     
     
@@ -157,17 +154,8 @@ function education_detail(response){
     
 }
 
-function educationTech() {
-  
-    // var room_id= $("#selectedRoom").val()
-   
-    // var selected_value = $("#roomNumber"+"_"+ getRoomId()).val();
-    // console.log("goTo_edtech rID: ", getRoomId());
-    // console.log("selected value: ",selected_value);
-    
+function seteducationTech() {
     setRoomId(getRoomId());
-    //  movePanel(getRoomId());
-    // var room_id = getRoomId();
     console.log("room id: ", getRoomId());
     if(getRoomId()){
          var url = '/getEducationData/'+getRoomId();
@@ -191,7 +179,49 @@ function educationTech() {
     }
 }
     
-// }
+function saveEdTechChanges(roomID){ 
+    //Posts data to DB and reloads the page
+    //Should update time/date in Last Modified column (TODO)
+   
+   
+    var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
+    edtechDetails["projector"] = document.getElementById('projectors').value;
+    edtechDetails["smartboards"] = document.getElementById('smartboards').value;
+    edtechDetails["instructor_computers"] = document.getElementById('specializedEq').value;
+    edtechDetails["podium"] = document.getElementById('podiums').value;
+    edtechDetails["student_workspace"] = document.getElementById('student_workspace').value;
+    edtechDetails["chalkboards"] = document.getElementById('chalkboards').value;
+    // edtechDetails["visualAcc"] = $('#visualAcc option:selected').text();  
+    // edtechDetails["audioAcc"] = $('#audioAcc option:selected').text();    
+
+    // roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
+    // console.log("RoomID" , getRoomId())
+    // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
+    // work on saving the data the right way
+    var url = '/saveEdTechChanges/'+getRoomId();
+         $.ajax({
+             type: "POST",
+                url: url,
+                data: edtechDetails, 
+                dataType: 'json',
+                success: function(response){
+                    if (response["success"] != 0) {
+                        //If successful
+                        console.log("SUCCESSFUL JS AJAX CALL")
+                        
+                    }
+                    else{
+                        //If not successful
+                        console.log("Else in ajax")
+                        // window.location.assign("/builingManagement")
+                    }
+                },
+                error: function(error){
+                    console.log("ERROR")
+                    // window.location.assign("/builingManagement")
+                }
+         }); 
+}
     
 //TODO: create ajax call that saves Ed Tech to db. onclick INSIDE edtech modal.
     

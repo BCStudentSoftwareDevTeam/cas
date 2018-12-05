@@ -42,14 +42,14 @@ def getRoomData(rID):
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
-    print ("python" ,rID)
+    # print ("python" ,rID)
     # print(room_details["number"])     #Use to make sure all above attributes are correct?
     return json.dumps(room_details)
     
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
-   print("Here I am, rock yhou like a hurricane")
+#   print("Here I am, rock yhou like a hurricane")
    try:
         room = Rooms.get(Rooms.rID==rID)
         data = request.form
@@ -57,11 +57,11 @@ def saveChanges(rID):
         room.roomType = (data['roomType'])
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
-        # room.movableFurniture = (data['movableFurniture'])
+        room.movableFurniture = (data['movableFurniture'])
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-        print(room)
+        # print("it is saved", room)
         room.save()
         return json.dumps({"success":1})
    except:
@@ -90,7 +90,7 @@ def getEducationData(rid):
     education_materials["vhs"]= tech_details.vhs
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
-    # print("Sending response to front end", education_materials)
+    print("Sending response to front end", education_materials)
     print("Sending response to front end", education_materials)
     return json.dumps(education_materials)
     
@@ -103,38 +103,25 @@ def saveEdTechChanges(rID):
       room = Rooms.get(Rooms.rID==rID)
       edtech_update = room.educationTech
       data = request.form
-      mdetails = edtech_update.update(
-        projector = data['projector'],
-        smartboards = data['smartboards'],
-        instructor_computers = data['instructor_computers'],
-        podium= data['podium'],
-        student_workspace = data['student_workspace'],
-        chalkboards = data['chalkboards'],
-        whiteboards = data['whiteboards'],
-        dvd = data['dvd'],
-        blu_ray= data["blu_ray"],
-        extro= data['extro'],
-        doc_cam= data['doc_cam'],
-        vhs= data['vhs'],
-        mondopad=data['mondopad'],
-        tech_chart=dat['tech_chart']
-        ).save()
-      print("updated", mdetails)
-    #   edtech_update.projector = data['projector']
-    #   edtech_update.smartboards = data['smartboards']
-    #   edtech_update.instructor_computers = data['instructor_computers']
-    #   edtech_update.podium= data['podium']
-    #   edtech_update.student_workspace = data['student_workspace']
-    #   edtech_update.chalkboards = data['chalkboards']
-    #   edtech_update.whiteboards = data['whiteboards']
-    #   edtech_update.dvd = data['dvd']
-    #   edtech_update.blu_ray= data["blu_ray"]
-    #   edtech_update.extro= data['extro']
-    #   edtech_update.doc_cam= data['doc_cam']
-    #   edtech_update.vhs= data['vhs']
-    #   edtech_update.mondopad=data['mondopad']
-    #   edtech_update.tech_chart=dat['tech_chart']
-    #   edtech_update.save()
+      print("before")
+      edtech_update.projector = (data['projector'])
+      edtech_update.smartboards = (data['smartboards'])
+      edtech_update.instructor_computers = (data['instructor_computers'])
+      edtech_update.podium= (data['podium'])
+      edtech_update.student_workspace = (data['student_workspace'])
+      edtech_update.chalkboards = (data['chalkboards'])
+      edtech_update.whiteboards = (data['whiteboards'])
+     
+      edtech_update.dvd = (data['dvd'])
+      edtech_update.blu_ray= (data["blu_ray"])
+      edtech_update.extro= (data['extro'])
+      edtech_update.doc_cam= (data['doc_cam'])
+      edtech_update.vhs= (data['vhs'])
+      edtech_update.mondopad=(data['mondopad'])
+      edtech_update.tech_chart=(data['tech_chart'])
+      edtech_update.save()
+      print("here now ", edtech_update)
+    #   print("after")
       flash("Your changes have been saved!")
       return json.dumps({"success":1})
   except:
