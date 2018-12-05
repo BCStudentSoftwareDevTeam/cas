@@ -23,7 +23,7 @@ function fillCourses(response, id){
                 //  console.log(response[key].schedule_object);
                   if (response[key].schedule_object == true){
                     //   console.log(response[key].schedule['startTime'] )
-                      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" " +response[key].schedule['startTime'];
+                      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" (" +response[key].schedule['startTime'] + "-" +response[key].schedule['endTime']+")" ;
                   }
                   else if (response[key].schedule_object == false ) {
                       if (response[key].section != null) {

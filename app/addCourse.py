@@ -192,8 +192,8 @@ def term_courses(term, department):
                     courses_dict[course.cId]= model_to_dict(course)
                     if course.schedule:
                         # print("It has schedule \n")
-                        courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
-                        courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
+                        courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%H:%M %p"))
+                        courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%H:%M %p"))
                         courses_dict[course.cId]["schedule_object"] = True
                     else:
                         courses_dict[course.cId]["schedule_object"] = False
