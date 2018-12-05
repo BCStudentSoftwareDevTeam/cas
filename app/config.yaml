@@ -51,8 +51,8 @@ mainMenu:
     link: "/selectTerm"
   - title: "Sequence"
     link: "/selectProgram"
-  - title: "Room Preferences"
-    link: "/selectTermRP"
+#  - title: "Room Preferences"
+#    link: "/selectTermRP"
   - title: "Log Out"
     link: "/logout"
 
@@ -84,9 +84,9 @@ adminMenu:
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
     # we added
-  - title: "Room Resolution"
-    link:  "/roomResolution"
-    page: ["roomResolution"]
+  #- title: "Room Resolution"
+  #  link:  "/roomResolution"
+  #  page: ["roomResolution"]
 
     
 #If you ever change the current states, you cannot duplicate the values, because

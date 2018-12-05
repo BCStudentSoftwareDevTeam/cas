@@ -101,7 +101,7 @@
                   </td>
                   <td id="room" class="{{classDict[course.cId][4]}}">
                     {% if course.rid is not none %}
-                      {{course.rid.building.name }}:{{course.rid.number}}
+                      {{course.rid.building.name}} {{course.rid.number}}
                     {% else %}
                       <p> None </p>
                     {% endif %}

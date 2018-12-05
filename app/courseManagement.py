@@ -131,7 +131,7 @@ def trackerListed(tID):
                            allTerms=terms,
                            page=page,
                            currentTerm=int(tID),
-                           courses=courses,
+                           courses=courses,			# CourseChange objects
                            instructorsDict=instructorsDict,
                            classDict=colorClassDict
                            )
