@@ -4,6 +4,7 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
+from app.logic.functions import get_unavailable_rooms
 import json
 
 #Term modal
@@ -60,6 +61,11 @@ def roomResolutionView(termCode,cid):
     for room in cursor:
         availablerooms.append(room[0])
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
+    curr_course=courses       
+    
+    #unavailable rooms mapped with their courses
+    unavailable_to_course=get_unavailable_rooms(curr_course, availablerooms)
+    
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -101,7 +107,6 @@ def roomResolutionView(termCode,cid):
             bScheduleDays = ScheduleDays.get(ScheduleDays.schedule == cc.schedule)
             for letter in aCourseSchedule:
                 if letter in bScheduleDays.day:
-                    print("A course day: {0} conflicted with B course day: {1}".format(letter, bScheduleDays.day))
                     pref_inst = InstructorCourse.select().where(InstructorCourse.course==conflictingroomdata[idx])  # get instructor information
                     full_name = None
                     
@@ -113,7 +118,7 @@ def roomResolutionView(termCode,cid):
                     pref_info['course_name']=current_course         # add to pref_info
                     pref_info['instructor']=full_name               # add instructor to pref info
                     pref_info['cid']=cc.cId                         # add cId to pref_info
-                    
+                    pref_info["course_notes"]=cc.notes if cc.notes else None              # course notes
                     pref_info['startTime']=cc.schedule.startTime    #adds course B's times and days to pref_info
                     pref_info['endTime']=cc.schedule.endTime
                     pref_info['days']= bScheduleDays.day
@@ -124,10 +129,10 @@ def roomResolutionView(termCode,cid):
                     break
             
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
-        
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
-                            available_rooms=rooms, 
+                            available_rooms=rooms,
+                            unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
                             courses=courses, 
@@ -156,7 +161,6 @@ def assignRoom(cid):
         if course.rid:
             course.rid = data['roomID']
             course.save()
-            # print course.rid
             flash("Your changes have been saved!") 
             return json.dumps({"success": 1})
         else:
@@ -196,5 +200,24 @@ def updateRoom(cid):
             
 
 
-    
+@app.route("/addSecond/<cid>", methods=["POST"])
+def addSecond(cid):
+    '''
+    Assign Course to a room that already has courses in it. 
+    params:
+       int: cid: Course_Id
+
+    '''
+    try:
+        course = Course.get(Course.cId==cid)
+        data = request.form
+        course.rid = data['roomID']
+        course.save()
+        response={"success":1}
+        flash("Your changes have been saved!") 
+        return json.dumps({"success": 1})
+    except:
+        flash("An error has occurred. Please try again.","error")
+        return json.dumps({"error":0})
+        
     

@@ -10,7 +10,7 @@ function getSelectedCourse(elementId) {
 
 }
 function fillCourses(response, id){
-   console.log(response);
+//   console.log('Response', response);
    if (response !== "Error"){
                 var courses = document.getElementById("coursesDiv");
                 courses.style.display = 'inline';// do enabled/disabled instead of hidden
@@ -19,11 +19,26 @@ function fillCourses(response, id){
                 for (var key in response){
                   var option = document.createElement("option");
                   /*CSC 111 - COURSE NAME (time)*/
-                  console.log(response[key]);
-                  option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" " +response[key].schedule['startTime'];
+                //   console.log(response[key]);
+                //  console.log(response[key].schedule_object);
+                  if (response[key].schedule_object == true){
+                    //   console.log(response[key].schedule['startTime'] )
+                      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" (" +response[key].schedule['startTime'] + "-" +response[key].schedule['endTime']+")" ;
+                  }
+                  else if (response[key].schedule_object == false ) {
+                      if (response[key].section != null) {
+                      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()+" Section: " +response[key].section;
+                    }
+                    else{
+                      option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString()+" "+response[key].bannerRef["ctitle"].toString()
+                    }
+                  }
+                  
                   option.value = key;
                   selectPicker.appendChild(option);
-               }               
+               }        
+               
+               
                $('.selectpicker').selectpicker('refresh');
             }
  else{
@@ -39,17 +54,20 @@ function fillCourses(response, id){
 
 
 function retrieveCourses(obj){
+    console.log("Retrieve courses is called!")
    var id = $(obj).attr('id');
    var x = window.location.href
    var y =x.split("/"); 
    var e = document.getElementById(id);
    var selected_term = e.options[e.selectedIndex].value;
+//   console.log('selected_term', selected_term)
    if(selected_term){
    $.ajax({
             url: '/get_termcourses/'+selected_term+"/"+y[5],
             dataType: 'json',
             success: function(response){
-      				fillCourses(response, id);
+                // console.log('Response', response)
+      			fillCourses(response, id);
       			},
       			error: function(error){
       				console.log(error);
