@@ -56,7 +56,7 @@ function fillCourses(response, id){
             
             option.value = key;
             selectPicker.appendChild(option);
-            $('.selectpicker').selectpicker('refresh');
+            // $('.selectpicker').selectpicker('refresh');
         }    
     } else{
          $("multipleCoursesSelect").empty();
@@ -68,8 +68,9 @@ function fillCourses(response, id){
         //  console.log("return value is None");
          selectPicker.appendChild(option);
 
-         $('.selectpicker').selectpicker('refresh');
+        
     }
+     $('.selectpicker').selectpicker('refresh');
 }
 
 
