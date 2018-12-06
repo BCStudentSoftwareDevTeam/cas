@@ -53,6 +53,7 @@ class BannerSchedule(dbModel):
     return self.letter
     
 class ScheduleDays(dbModel):
+  # sdID    = PrimaryKeyField()
   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='days')
   day         = CharField(null=True)
 
@@ -77,6 +78,10 @@ class Building(dbModel):
   name          = CharField()
   shortName     = CharField()
 
+  def __repr__(self):
+    return self.name 
+
+
 class EducationTech(dbModel):
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
@@ -94,7 +99,9 @@ class EducationTech(dbModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-  
+
+  def __repr__(self):
+    return str(self.eId)
 class Rooms(dbModel):
   rID            = PrimaryKeyField()
   building       = ForeignKeyField(Building, related_name='rooms')
@@ -178,7 +185,7 @@ class Course(dbModel):
   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses')
   term              = ForeignKeyField(Term, null = False)
   schedule          = ForeignKeyField(BannerSchedule, null = True)
-  # days              = ForeignKeyField(ScheduleDays, null= False)
+  # days              = ForeignKeyField(ScheduleDays, null= True)
   capacity          = IntegerField(null = True)
   specialTopicName  = CharField(null = True)
   notes             = TextField(null = True)
@@ -223,9 +230,9 @@ class DivisionChair(dbModel):
   username     = ForeignKeyField(User)
   did          = ForeignKeyField(Division)
   
-# class BuildingManager(dbModel):
-#   username     = ForeignKeyField(User)
-#   bmid         = ForeignKeyField(Building)
+class BuildingManager(dbModel):
+  username     = ForeignKeyField(User)
+  bmid         = ForeignKeyField(Building)
 
 class InstructorCourse(dbModel):
   username     = ForeignKeyField(User, related_name='instructor_courses')
@@ -267,7 +274,6 @@ class InstructorCourseChange(dbModel):
 class CoursesInBanner(dbModel):
   CIBID        = PrimaryKeyField()
   bannerRef    = ForeignKeyField(BannerCourses)
-  
   instructor   = ForeignKeyField(User, null=True)
   
 class RoomPreferences(dbModel):
@@ -282,29 +288,4 @@ class RoomPreferences(dbModel):
   none_Reason   = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
   priority = IntegerField(default = 6)  
-    
-
-#Begin education tech class
-
-
-# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
-# class newcrosslisted (dbModel): 
-#   clId                 = PrimaryKeyField()
-#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
-#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
-#   verified             = BooleanField() #Verified? = yes or no
-# We are not sure why it is not running when we have these uncommented
-# it says newcrosslisted is already in use by another foreign key
-  
-# # we brought this down here because it was giving us an error for courses foreign key 
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Course, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=False)
 

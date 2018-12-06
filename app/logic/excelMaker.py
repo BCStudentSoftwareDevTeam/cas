@@ -21,7 +21,7 @@ class ExcelMaker:
         sheet.write('F1', 'Time')
         sheet.write('G1', 'Capacity')
         sheet.write('H1', 'Notes')
-        sheet.write('I1', 'Room Preference')
+        sheet.write('I1', 'Assigned Room')
         sheet.write('J1','Section')
         sheet.write('K1','Instructors')
         self.intr_letter = 'K'
@@ -57,7 +57,7 @@ class ExcelMaker:
         # Room Information
         room_name = ""
         if course.rid:
-            room_name = course.rid.building.name + ' ' + course.rid.number
+            room_name = course.rid.building.shortName + ':' + course.rid.number
         sheet.write('I{0}'.format(row),room_name)
         #Instructor Information
         if self.intr_letter == 'K':
