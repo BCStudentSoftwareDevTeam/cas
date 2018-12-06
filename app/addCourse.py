@@ -172,25 +172,28 @@ def add_many(tid):
 
     return redirect(redirect_url())
 
-
+import datetime
 @app.route('/get_termcourses/<term>/<department>')
 def term_courses(term, department):
     '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
     
     try:
-        term1=Term.get(Term.name == term)
+        # term1=Term.get(Term.termCode == term)
         courses_dict={}
      
-        courses = Course.select().where(Course.prefix == department, Course.term == term1.termCode)
+        courses = Course.select().where(Course.prefix == department, Course.term == term)
         print(len(courses))
         if courses:
-            for course in courses :
-                # print(course.cId)
+            st = datetime.datetime.now()
+            for course in courses:
+                print(course.cId)
+                   
                 bannerNumber = str(course.bannerRef.number)[-2:]
                 print(bannerNumber)
                 # Don't add x86 courses
                 if bannerNumber != '86':
                     courses_dict[course.cId]= model_to_dict(course)
+                      
                     if course.schedule:
                         if course.schedule != "ZZZ":
                         # print("It has schedule \n")
@@ -201,16 +204,16 @@ def term_courses(term, department):
                             courses_dict[course.cId]["schedule_object"] = False
                     else:
                         courses_dict[course.cId]["schedule_object"] = False
-                    print("Starting Instructor search") 
+                    # print("Starting Instructor search") 
                     # Get instructor
                     inst = InstructorCourse.select().where(InstructorCourse.course == course)
                     courses_dict[course.cId]["instructors"] = []
                     for instructor in inst:
                         print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
                         courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
-		else:
-                    pass
-        print("Sending courses to JS") 
+            st2 = datetime.datetime.now()     
+            print("time to compile: ", (st2 - st).total_seconds())
+        # print("Sending courses to JS") 
         return json.dumps(courses_dict)
     except:
         return json.dumps("Error")
