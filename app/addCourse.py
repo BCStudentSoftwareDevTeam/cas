@@ -182,14 +182,14 @@ def term_courses(term, department):
         courses_dict={}
      
         courses = Course.select().where(Course.prefix == department, Course.term == term)
-        print(len(courses))
+        # print(len(courses))
         if courses:
             st = datetime.datetime.now()
             for course in courses:
-                print(course.cId)
+                # print(course.cId)
                    
                 bannerNumber = str(course.bannerRef.number)[-2:]
-                print(bannerNumber)
+                # print(bannerNumber)
                 # Don't add x86 courses
                 if bannerNumber != '86':
                     courses_dict[course.cId]= model_to_dict(course)
@@ -209,10 +209,10 @@ def term_courses(term, department):
                     inst = InstructorCourse.select().where(InstructorCourse.course == course)
                     courses_dict[course.cId]["instructors"] = []
                     for instructor in inst:
-                        print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
+                        # print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
                         courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
             st2 = datetime.datetime.now()     
-            print("time to compile: ", (st2 - st).total_seconds())
+            # print("time to compile: ", (st2 - st).total_seconds())
         # print("Sending courses to JS") 
         return json.dumps(courses_dict)
     except:
