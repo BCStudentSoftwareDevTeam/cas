@@ -188,17 +188,28 @@ def term_courses(term, department):
                 # print(course.cId)
                 bannerNumber = str(course.bannerRef.number)[-2:]
                 # print(bannerNumber)
+                # Don't add x86 courses
                 if bannerNumber != '86':
                     courses_dict[course.cId]= model_to_dict(course)
                     if course.schedule:
+                        if course.schedule != "ZZZ":
                         # print("It has schedule \n")
-                        courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%H:%M %p"))
-                        courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%H:%M %p"))
-                        courses_dict[course.cId]["schedule_object"] = True
+                            courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%I:%M %p"))
+                            courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%I:%M %p"))
+                            courses_dict[course.cId]["schedule_object"] = True
+                        else:
+                            courses_dict[course.cId]["schedule_object"] = False
                     else:
                         courses_dict[course.cId]["schedule_object"] = False
                 else:
                     pass
+                
+                # Get instructor
+                inst = InstructorCourse.select().where(InstructorCourse.course == course)
+                courses_dict[course.cId]["instructors"] = []
+                for instructor in inst:
+                    print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
+                    courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
        
         return json.dumps(courses_dict)
     except:
