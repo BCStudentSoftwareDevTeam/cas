@@ -75,7 +75,11 @@
             <!-- ROOM -->
             <td>
                 {% if course.rid is not none %}
+                    {% if isAdmin %}
+                    <a href = '/roomPreference/{{currentTerm}}/{{course.cId}}' >{{course.rid.building.name}}:{{course.rid.number}}</a>
+                    {% else %}
                     {{course.rid.building.name}}:{{course.rid.number}}
+                    {% endif %}
                 {% else %}
                     <p>No room listed</p>
                 {% endif %}
