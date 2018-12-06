@@ -76,7 +76,7 @@ function fillCourses(response, id){
 function retrieveCourses(obj){
     var selectPicker = document.getElementById("multipleCoursesSelect");
     
-    $(selectPicker).find('option').remove();
+    //$(selectPicker).find('option').remove();
     $(selectPicker).selectpicker('refresh');
     console.log("Retrieve courses is called!")
     var id = $(obj).attr('id');
