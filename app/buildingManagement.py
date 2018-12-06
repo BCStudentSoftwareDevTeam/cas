@@ -90,8 +90,8 @@ def getEducationData(rid):
     education_materials["vhs"]= tech_details.vhs
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
-    print("Sending response to front end", education_materials)
-    print("Sending response to front end", education_materials)
+    # print("Sending response to front end", education_materials)
+    # print("Sending response to front end", education_materials)
     return json.dumps(education_materials)
     
     
@@ -103,24 +103,31 @@ def saveEdTechChanges(rID):
       room = Rooms.get(Rooms.rID==rID)
       edtech_update = room.educationTech
       data = request.form
-      print("before")
-      edtech_update.projector = (data['projector'])
-      edtech_update.smartboards = (data['smartboards'])
-      edtech_update.instructor_computers = (data['instructor_computers'])
-      edtech_update.podium= (data['podium'])
-      edtech_update.student_workspace = (data['student_workspace'])
-      edtech_update.chalkboards = (data['chalkboards'])
-      edtech_update.whiteboards = (data['whiteboards'])
+    #   print("data", data)
+      edtech_update.projector = data['projector']
      
-      edtech_update.dvd = (data['dvd'])
-      edtech_update.blu_ray= (data["blu_ray"])
+      edtech_update.smartboards = data['smartboards']
+      
+      edtech_update.instructor_computers = data['instructor_computers']
+      
+      edtech_update.podium= data['podium']
+      
+      edtech_update.student_workspace = data['student_workspace']
+      
+      edtech_update.chalkboards= data['chalkboards']
+      
+      edtech_update.whiteboards= data['whiteboards']
+        #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
+      edtech_update.dvd = data['dvd']
+      edtech_update.blu_ray= data["blu_ray"]
       edtech_update.extro= (data['extro'])
       edtech_update.doc_cam= (data['doc_cam'])
       edtech_update.vhs= (data['vhs'])
-      edtech_update.mondopad=(data['mondopad'])
+      edtech_update.mondopad=str(data['mondopad'])
       edtech_update.tech_chart=(data['tech_chart'])
       edtech_update.save()
-      print("here now ", edtech_update)
+    #   print("data", edtech_update)
+      
     #   print("after")
       flash("Your changes have been saved!")
       return json.dumps({"success":1})

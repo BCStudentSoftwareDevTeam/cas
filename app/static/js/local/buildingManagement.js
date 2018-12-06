@@ -147,6 +147,16 @@ function education_detail(response){
     my_div.value = response['student_workspace'];
     var my_div = document.getElementById('chalkboards');
     my_div.value = response['chalkboards'];
+     var my_div = document.getElementById('whiteboards');
+    my_div.value = response['whiteboards']
+    //starting from here you need to save all the rest of the items in edecationtech. The educationtech file is in snip folder
+    var my_div = document.getElementById('dvdIcon');
+    my_div.removeAttribute("dvd");
+    var my_div = document.getElementById('dvdIcon2');
+    my_div.removeAttribute("dvd");
+    if (response['dvd']) {
+        my_div.setAttribute("checked", "checked");
+    }
     
     
     
@@ -187,10 +197,14 @@ function saveEdTechChanges(roomID){
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;
     edtechDetails["smartboards"] = document.getElementById('smartboards').value;
-    edtechDetails["instructor_computers"] = document.getElementById('specializedEq').value;
+    edtechDetails["instructor_computers"] = document.getElementById('instructor_computers').value;
     edtechDetails["podium"] = document.getElementById('podiums').value;
     edtechDetails["student_workspace"] = document.getElementById('student_workspace').value;
     edtechDetails["chalkboards"] = document.getElementById('chalkboards').value;
+    edtechDetails["whiteboards"] = document.getElementById('whiteboards').value;
+    roomDetails["dvd"] = document.getElementById('dvdIcon').checked;
+    roomDetails["dvd"] = document.getElementById('dvdIcon2').checked;
+  
     // edtechDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     // edtechDetails["audioAcc"] = $('#audioAcc option:selected').text();    
 
@@ -199,6 +213,7 @@ function saveEdTechChanges(roomID){
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
     var url = '/saveEdTechChanges/'+getRoomId();
+    console.log("education_detail", edtechDetails)
          $.ajax({
              type: "POST",
                 url: url,
