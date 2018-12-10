@@ -10,30 +10,28 @@ from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
 
 @app.route("/buildingManagement", methods=["GET"])
-@must_be_admin #TODO:Should be a requirement for a building manager, not admin!
+@must_be_admin #TODO:FIX MEEEEE Should be a requirement for a building manager, not admin!
 
-#TODO: Should only pull rooms from a cetain building associated with user's login
+                #TODO: FIX MEEEEE Should only pull rooms from a cetain building associated with user's login
 
 def buildingManagement():
     #Gathering of appropriate data to send to html
     building = Building.select()
     user = User.select()
     rooms = Rooms.select()
-    
-
     return render_template("buildingManagement.html",
                             building = building,
                             rooms = rooms,
                             user = user
                             )
                          
- 
+
 @app.route('/getRoomData/<rID>', methods=["GET"]) 
-# connected to ajax calls in the javascript file to populate the room data
+# connected to ajax calls in the javascript file to populate the room data into panel
 def getRoomData(rID):
-    room = Rooms.get(Rooms.rID == rID)
-    room_details={}
-    room_details["number"] = room.number
+    room = Rooms.get(Rooms.rID == rID)                          #Sets room variable to room object where the rID's are the same         
+    room_details={}                                             #Empty dictionare to hold all room attributes
+    room_details["number"] = room.number                        #Begin setting room attributes to their appropriate keys
     room_details["capacity"] = room.maxCapacity
     room_details["type"] = room.roomType
     room_details["specializedEq"] = room.specializedEq
@@ -42,8 +40,7 @@ def getRoomData(rID):
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
-    print ("python" ,rID)
-    # print(room_details["number"])     #Use to make sure all above attributes are correct?
+    # print(room_details["number"])                         
     return json.dumps(room_details)
     
 @app.route("/saveChanges/<rID>", methods=["POST"])
@@ -51,22 +48,22 @@ def saveChanges(rID):
 #updates room data in database after clicking save changes.
    print("Here I am, rock yhou like a hurricane")
    try:
-        room = Rooms.get(Rooms.rID==rID)
+        room = Rooms.get(Rooms.rID==rID)                        #Sets room variable to room object where the rID's are the same 
         data = request.form
-        room.maxCapacity = (data['roomCapacity'])
+        room.maxCapacity = (data['roomCapacity'])               #Begin setting room attributes to their keys in js (Inside saveChanges)
         room.roomType = (data['roomType'])
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
-        if data['movableFurniture'] == 'false':
-            room.movableFurniture = 0
+        if data['movableFurniture'] == 'false':                 #If movable furniture reads false from js
+            room.movableFurniture = 0                           #Set to false in sqlite
         else:
-            room.movableFurniture = 1
+            room.movableFurniture = 1                           #Else: its set to true in sqlite
         print ("Move", data['movableFurniture'])
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-        print(room)
-        room.save()
+        # print(room)
+        room.save()                                             #Save data
         return json.dumps({"success":1})
    except:
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")

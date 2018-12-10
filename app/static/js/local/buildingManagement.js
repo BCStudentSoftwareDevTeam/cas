@@ -32,6 +32,7 @@ function setRoomInfo(roomID, button){
                     }
                 });
     }
+    
 }
 function movePanel(rID) { 
     //Takes rID to ensure correct room per row
@@ -42,6 +43,13 @@ function movePanel(rID) {
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
+}
+
+function createTimestamp(){
+    //Created timestamp and puts it in Last Modified column
+    //Should be called at the end of saveChanges and the save of education tech data
+    new Date().getTime()
+    console.log(Date.now())
 }
 
 function updateHtml(response) { 
@@ -92,20 +100,18 @@ function saveChanges(roomID){
          $.ajax({
              type: "POST",
                 url: url,
-                data: roomDetails, 
+                data: roomDetails,                              //Dictionary pass
                 dataType: 'json',
                 success: function(response){
-                        window.location = "/buildingManagement"
+                        window.location = "/buildingManagement" //Refresh page
+                         createTimestamp()                      //Sets time stamp for Last Modified column, so that it is created after data is saved
                 },
                 error: function(error){
-                    // console.log("ERROR")
+                    console.log("ERROR")
                     window.location.assign("/buildingManagement")
                 }
          }); 
-    
-    // var submitChangesButton = document.getElementById("submitChanges");
-    // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
-    // document.getElementById("submitChanges").value
+   
 }
 
 //TODO Create an ajax call that populates the data to the education tech
