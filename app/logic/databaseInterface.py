@@ -228,6 +228,12 @@ def editCourse(data, prefix, professors):
         course.save()
         editInstructors(professors, data['cid'])
         
+        
+        # for value in crossliscourses:
+        #     newcrosscourse = Course.select().where(Course.bannerRef == value)
+        #     for cours in newcrosscourse:
+        #         cc = CrossListed.create(courseId = int(data['cid']),crosslistedCourse = cours.cId, verified = 0,prefix=cours.prefix,term = int(data['term']))
+        #         cc.save()
   
         # n1 = Course.select()
         
