@@ -201,8 +201,23 @@ def editCourse(data, prefix, professors):
             notes = None
         else:
             notes = data['notes']
-        
         course.crossListed = int(data["crossListed"])
+        crossliscourses = data.getlist('crossListedCourses')
+        # print(crossliscourses)
+        if course.crossListed == 1 and len(crossliscourses) != 0:
+            currentCrosslistCourses = Course.select().where(Course.parentCourse == data['cid'])
+            crosslistedrelationship = CrossListed.select().where(CrossListed.courseId == data['cid'])
+            for course in currentCrosslistCourses:
+                course.delete_instance()
+            for relationship in crosslistedrelationship:
+                relationship.delete_instance()
+            for futurecourse in crossliscourses:
+                temp = BannerCourses.select().where(BannerCourses.reFID == futurecourse)  
+                for course in temp:
+                    newcrosslist = Course.create(prefix = course.subject,bannerRef = futurecourse,term = data['term'],capacity = capacity,section = section,schedule = schedule,
+            notes = notes,crossListed =int(data["crossListed"]), parentCourse = int(data['cid']))
+                newcrosslist.save()
+            
         course.term = data['term']
         course.capacity = capacity
         course.section = section
@@ -213,6 +228,21 @@ def editCourse(data, prefix, professors):
         course.save()
         editInstructors(professors, data['cid'])
         
+  
+        # n1 = Course.select()
+        
+        # for i in n1:
+        #     temp = CrossListed.create(courseId = int(data['cid']), crosslistedCourse = i.cId,verified = 0, prefix = "2018992", term =data['term'] )
+        #     temp.save()
+            
+            
+            
+       # for course in crossliscourses:
+        #     n1 = Course.select().where(Course.bannerRef == course)
+        #     for i in n1:
+                # temp = CrossListed.create(courseId = int(data['cid']), crosslistedCourse = i.cId,verified = 0, prefix = "2018992", term =data['term'] )
+                # temp.save()
+
 def getCourseTimelineSchedules(day,tid):
     schedules = ScheduleDays.select(ScheduleDays.schedule
                           ).join(Course, on=(Course.schedule == ScheduleDays.schedule)
