@@ -1,7 +1,64 @@
 from functools import wraps
 from flask import g
-from app.models import Term
+from app.models import Term, BannerCourses, Course, CrossListed
 
+from collections import defaultdict
+
+
+def find_crosslist_courses(courses_prefetch):
+        """Return crosslisted courses for given courses
+        
+        Args:
+            courses_prefetch : class 'app.models.Course'
+               Course Model instance returned after doing Select query from the database
+            
+        Returns:
+            course_to_crosslist : dict
+                Dictionary that maps course_id to its crosslisted courses (list of tuples). 
+                
+                Example: 
+                       {21: [("Data Structures", False), ("BUS112", True)]}
+                Note:
+                    List of tuples: Each crosslisted course is stored in a tuple.
+                    Tuple: contains Crosslisted Course Name, Verification State
+        """
+        course_to_crosslisted = defaultdict(list)
+        for curr_course in courses_prefetch.select().where(Course.crossListed):  
+        
+            #if the course is crosslisted_child
+            if curr_course.parentCourse:
+                
+                #find its parent
+                parent_course = Course.get(Course.cId == curr_course.parentCourse)
+            
+                #add parent course to child's list of crosslised courses
+                #course_to_crosslisted[curr_course].append(parent_course)
+                
+                #add siblings to child's list of crosslisted courses
+                for cross_course in CrossListed.select().where(CrossListed.courseId == parent_course.cId):
+                    
+                    #skip the child itself
+                    if cross_course.crosslistedCourse.cId != curr_course.cId:
+                        course_to_crosslisted[curr_course].append(cross_course)
+                    else:
+                        course_to_crosslisted[curr_course].insert(0, cross_course.verified)
+                        
+            
+            #if the course is crosslisted_parent
+            else:
+                
+                #add children to parent's list of crosslisted courses
+                for cross_course in CrossListed.select().where(CrossListed.courseId == curr_course.cId):
+                    
+                    #skip the parent itself
+                    if cross_course.crosslistedCourse.cId != curr_course.cId:
+                        course_to_crosslisted[curr_course].append(cross_course)
+                    else:
+                        course_to_crosslisted[curr_course].insert(0, cross_course.verified)
+        print(course_to_crosslisted)
+        return course_to_crosslisted
+    
+    
 def define_term_code_and_prefix(f):
     @wraps(f)
     def set_tId_and_prefix(*args, **kwargs):
@@ -38,3 +95,4 @@ def save_last_visited(f):
         return f(*args, **kwargs)
         
     return decorated_function
+    

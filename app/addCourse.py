@@ -27,16 +27,25 @@ def addCourses(tid, prefix):
     print ('Inputs', tid, prefix)
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
-    
+   
     # # instructors need to be a list
+    
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
+   
     nullCheck = NullCheck()
+    
     values = nullCheck.add_course_form(data)
+   
+  
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
+   
     bannerNumber = str(banner.number)[-2:]
+    
     cId = ""
+   
     if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
+        
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                     prefix=values['prefix'],
                     term=int(tid),
@@ -73,7 +82,8 @@ def addCourses(tid, prefix):
             log.writer("INFO", current_page, message)
             flash("Course with section %s already exists" % (values['section']),"error")
             return redirect(redirect_url())
-
+        
+        # cross_courses=values["crossListed"]# [1,2,3]
         course = Course(bannerRef=values['bannerRef'],
                         prefix=values['prefix'],
                         term=int(tid),
@@ -82,13 +92,54 @@ def addCourses(tid, prefix):
                         specialTopicName=values['specialTopicName'],
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
-                        rid=values['rid'],
                         section = values['section'],
                         prereq = convertPrereqs(prereqs)
                         )
-
         course.save()
-        
+       
+        #save crosslisted courses of the newly-created course in a database
+        #tID, prefix,
+        #int(tid)
+        crosslistedCourses=values["crossListedCourses"]
+        if crosslistedCourses:
+            #CrossListed.create(course=course, tid=tid)
+            
+            crosslisted = CrossListed(courseId = course.cId,crosslistedCourse = course.cId,
+                prefix = course.prefix,
+                verified = True,
+                term=int(tid)
+            )
+            crosslisted.save()
+       
+            for course_id in crosslistedCourses:
+                #inefficient query
+                #TODO: Check with Scott on what data needs to be stored
+                #TODO: Add crosslisted course as crosslisted to itself to support our verify column
+                course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
+                print("CP  {}".format(course_prefix))
+                cc_course = Course(bannerRef=course_id,
+                        prefix = course_prefix,
+                        term = int(tid),
+                        schedule = values['schedule'],
+                        capacity = values['capacity'],
+                        specialTopicName = values['specialTopicName'],
+                        notes = values['requests'],
+                        crossListed = True,
+                        parentCourse = course.cId,
+                        section = values['section'],
+                        prereq = convertPrereqs(prereqs)
+                        )
+                cc_course.save()
+                crosslisted = CrossListed(
+                            courseId=course.cId,
+                            crosslistedCourse=int(cc_course.cId),
+                            prefix=course_prefix,
+                            verified = False,
+                            term=int(tid)
+                        )
+                        
+                crosslisted.save()
+       
         databaseInterface.addCourseInstructors(instructors, course.cId)
 
         newCourse = DataUpdate()

@@ -35,6 +35,7 @@ models:
     - DivisionChair
     - BuildingManager
     - InstructorCourse
+    - CrossListed
     - InstructorSTCourse
     - Deadline
     - CourseChange
