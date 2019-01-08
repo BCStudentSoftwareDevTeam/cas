@@ -60,12 +60,12 @@ def saveChanges(rID):
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
 
-        room.movableFurniture = (data['movableFurniture'])
-        room.visualAcc = (data['visualAcc'])
-        room.audioAcc = (data['audioAcc'])
-        room.physicalAcc = (data['physicalAcc'])
-        # print("it is saved", room)
-        room.save()
+        # room.movableFurniture = (data['movableFurniture'])
+        # room.visualAcc = (data['visualAcc'])
+        # room.audioAcc = (data['audioAcc'])
+        # room.physicalAcc = (data['physicalAcc'])
+        # # print("it is saved", room)
+        # room.save()
 
         if data['movableFurniture'] == 'false':                 #If movable furniture reads false from js
             room.movableFurniture = 0                           #Set to false in sqlite
@@ -120,29 +120,46 @@ def saveEdTechChanges(rID):
       data = request.form
     #   print("data", data)
       edtech_update.projector = data['projector']
+    
      
       edtech_update.smartboards = data['smartboards']
+     
       
       edtech_update.instructor_computers = data['instructor_computers']
       
+      
       edtech_update.podium= data['podium']
+    
       
       edtech_update.student_workspace = data['student_workspace']
+     
       
       edtech_update.chalkboards= data['chalkboards']
       
+      
       edtech_update.whiteboards= data['whiteboards']
+      
+     
     
         #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
-      edtech_update.dvd = data['dvd']
-      print("dvd ", edtech_update.dvd)
-      edtech_update.blu_ray= data["blu_ray"]
-      edtech_update.extro= (data['extro'])
-      edtech_update.doc_cam= (data['doc_cam'])
-      edtech_update.vhs= (data['vhs'])
-      edtech_update.mondopad=str(data['mondopad'])
-      edtech_update.tech_chart=(data['tech_chart'])
+      # edtech_update.dvd = data['dvd']
+      if data['dvd'] == 'false':
+        edtech_update.dvd = 0  
+        
+      else:
+        edtech_update.dvd = 1
+      
+        
+      print("dvd",data["dvd"])
+      # print("dvd ", edtech_update.dvd)
+      # edtech_update.blu_ray= data["blu_ray"]
+      # edtech_update.extro= (data['extro'])
+      # edtech_update.doc_cam= (data['doc_cam'])
+      # edtech_update.vhs= (data['vhs'])
+      # edtech_update.mondopad=str(data['mondopad'])
+      # edtech_update.tech_chart=(data['tech_chart'])
       edtech_update.save()
+      
       
       
     #   print("after")

@@ -121,6 +121,7 @@ function saveChanges(roomID){
 // }
 
 
+ 
 
 function education_detail(response){
      
@@ -152,17 +153,29 @@ function education_detail(response){
     my_div.removeAttribute("checked");
     var my_div = document.getElementById('dvdIcon2');
     my_div.removeAttribute("checked");
-     function radioSwitch(response) {
-    document.getElementById(response).checked = false;
-                }
+    if(response["dvdIcon"]){
+        my_div.setAttribute("checked", "checked");
+    }
+    else if(response["dvdIcon2"]){
+        my_div.setAttribute("checked", "checked");
+    }
     
-    document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
-    document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
- 
+   
+    
+    
+   
+     
     
 
     
+//   function radioSwitch(response) {
+//     document.getElementById(response).checked = false;
+//                 }
     
+//     document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
+//     document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
+//     document.getElementById("doc_camIcon").addEventListener("click",function() { radioSwitch("doc_camIcon2"); });
+//     document.getElementById("doc_camIcon2").addEventListener("click",function() { radioSwitch("doc_camIcon"); });
     
     
 
@@ -208,7 +221,7 @@ function saveEdTechChanges(roomID){
     edtechDetails["whiteboards"] = document.getElementById('whiteboards').value;
     roomDetails["dvd"] = document.getElementById('dvdIcon').checked;
     roomDetails["dvd"] = document.getElementById('dvdIcon2').checked;
-    console.log("eddetails here", edtechDetails)
+   
     // roomDetails["audio"] = document.getElementById('audioIcon').checked;
     // roomDetails["audio"] = document.getElementById('audioIcon2').checked;
     
