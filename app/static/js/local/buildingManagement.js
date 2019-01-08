@@ -1,6 +1,6 @@
 // Javascipt file for Building Management
 
-console.log("Javascript loaded!")
+// console.log("Javascript loaded!")
 
 var rIDGlobal = "";
 
@@ -26,14 +26,13 @@ function setRoomInfo(roomID, button){
                             updateHtml(response);//Update the panel with the data
                             // console.log("Success"+response)
                         }
-                        
                     },
                     error: function(error) {
-                        console.log("Error"+error);
+                        // console.log("Error"+error);
                     }
                 });
-       
     }
+    
 }
 function movePanel(rID) { 
     //Takes rID to ensure correct room per row
@@ -44,6 +43,13 @@ function movePanel(rID) {
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
+}
+
+function createTimestamp(){
+    //Created timestamp and puts it in Last Modified column
+    //Should be called at the end of saveChanges and the save of education tech data
+    new Date().getTime()
+    console.log(Date.now())
 }
 
 function updateHtml(response) { 
@@ -77,8 +83,7 @@ function updateHtml(response) {
 function saveChanges(roomID){ 
     //Posts data to DB and reloads the page
     //Should update time/date in Last Modified column (TODO)
-   
-    console.log("saveChanges() called")
+    // console.log("saveChanges() called")
     var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
@@ -89,32 +94,25 @@ function saveChanges(roomID){
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
 
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
-    console.log("RoomID" , getRoomId())
+    // console.log("RoomID" , getRoomId())
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
     var url = '/saveChanges/'+getRoomId();
          $.ajax({
              type: "POST",
                 url: url,
-                data: roomDetails, 
+                data: roomDetails,                              //Dictionary pass
                 dataType: 'json',
                 success: function(response){
-                    if (response["success"] != 0) {
-                        //If successful
-                        console.log("SUCCESSFUL JS AJAX CALL")
-                        window.location = "/buildingManagement"
-                    }
-                    else{
-                        //If not successful
-                        console.log("Else in ajax")
-                        // window.location.assign("/builingManagement")
-                    }
+                        window.location = "/buildingManagement" //Refresh page
+                         createTimestamp()                      //Sets time stamp for Last Modified column, so that it is created after data is saved
                 },
                 error: function(error){
                     console.log("ERROR")
-                    // window.location.assign("/builingManagement")
+                    window.location.assign("/buildingManagement")
                 }
          }); 
+
 
 }
     // var submitChangesButton = document.getElementById("submitChanges");
@@ -167,6 +165,7 @@ function education_detail(response){
     
     
     
+
 }
 
 function seteducationTech() {
