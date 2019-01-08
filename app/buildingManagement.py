@@ -117,8 +117,10 @@ def saveEdTechChanges(rID):
       edtech_update.chalkboards= data['chalkboards']
       
       edtech_update.whiteboards= data['whiteboards']
+    
         #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
       edtech_update.dvd = data['dvd']
+      print("dvd ", edtech_update.dvd)
       edtech_update.blu_ray= data["blu_ray"]
       edtech_update.extro= (data['extro'])
       edtech_update.doc_cam= (data['doc_cam'])
@@ -126,7 +128,7 @@ def saveEdTechChanges(rID):
       edtech_update.mondopad=str(data['mondopad'])
       edtech_update.tech_chart=(data['tech_chart'])
       edtech_update.save()
-    #   print("data", edtech_update)
+      
       
     #   print("after")
       flash("Your changes have been saved!")

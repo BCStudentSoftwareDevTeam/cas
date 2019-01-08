@@ -151,13 +151,18 @@ function education_detail(response){
     my_div.value = response['whiteboards']
     //starting from here you need to save all the rest of the items in edecationtech. The educationtech file is in snip folder
     var my_div = document.getElementById('dvdIcon');
-    my_div.removeAttribute("dvd");
+    my_div.removeAttribute("checked");
     var my_div = document.getElementById('dvdIcon2');
-    my_div.removeAttribute("dvd");
-    if (response['dvd']) {
-        my_div.setAttribute("checked", "checked");
-    }
+    my_div.removeAttribute("checked");
+     function radioSwitch(response) {
+    document.getElementById(response).checked = false;
+                }
     
+    document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
+    document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
+ 
+    
+
     
     
     
@@ -166,7 +171,7 @@ function education_detail(response){
 
 function seteducationTech() {
     setRoomId(getRoomId());
-    console.log("room id: ", getRoomId());
+    // console.log("room id: ", getRoomId());
     if(getRoomId()){
          var url = '/getEducationData/'+getRoomId();
         //  console.log(url)
@@ -204,6 +209,10 @@ function saveEdTechChanges(roomID){
     edtechDetails["whiteboards"] = document.getElementById('whiteboards').value;
     roomDetails["dvd"] = document.getElementById('dvdIcon').checked;
     roomDetails["dvd"] = document.getElementById('dvdIcon2').checked;
+    console.log("eddetails here", edtechDetails)
+    // roomDetails["audio"] = document.getElementById('audioIcon').checked;
+    // roomDetails["audio"] = document.getElementById('audioIcon2').checked;
+    
   
     // edtechDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     // edtechDetails["audioAcc"] = $('#audioAcc option:selected').text();    
@@ -213,7 +222,7 @@ function saveEdTechChanges(roomID){
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
     var url = '/saveEdTechChanges/'+getRoomId();
-    console.log("education_detail", edtechDetails)
+   
          $.ajax({
              type: "POST",
                 url: url,
