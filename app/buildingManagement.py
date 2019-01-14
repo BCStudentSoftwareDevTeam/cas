@@ -110,61 +110,71 @@ def getEducationData(rid):
     return json.dumps(education_materials)
     
     
+#updates room data in database after clicking save changes.
     
 @app.route("/saveEdTechChanges/<rID>", methods=["POST"])
 def saveEdTechChanges(rID):
-#updates room data in database after clicking save changes.
   try:
-      room = Rooms.get(Rooms.rID==rID)
-      edtech_update = room.educationTech
-      data = request.form
-    #   print("data", data)
-      edtech_update.projector = data['projector']
+    print("in")
+    room = Rooms.get(Rooms.rID==rID)
+    edtech_update = room.educationTech
+    data = request.form
+  #   print("data", data)
+    print("0")
+   
+    edtech_update.projector = data['projector']
+  
+   
+    edtech_update.smartboards = data['smartboards']
+   
     
-     
-      edtech_update.smartboards = data['smartboards']
-     
+    edtech_update.instructor_computers = data['instructor_computers']
+    
+    
+    edtech_update.podium= data['podium']
+  
+    
+    edtech_update.student_workspace = data['student_workspace']
+   
+    
+    edtech_update.chalkboards= data['chalkboards']
+    
+    print("1")
+   
+    edtech_update.whiteboards= data['whiteboards']
+    print("white_board", data["whiteboards"])
+    print("2")
+   
+    # # print("Hello:")
+    # edtech_update.dvd = data['dvd']
+ 
+      #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
+    # edtech_update.dvd = data['dvd']
+    if data["blu_ray"] == "false":
+      edtech_update.dvd = 0  
       
-      edtech_update.instructor_computers = data['instructor_computers']
-      
-      
-      edtech_update.podium= data['podium']
+    else:
+      edtech_update.dvd = 1
+    
+    
     
       
-      edtech_update.student_workspace = data['student_workspace']
-     
-      
-      edtech_update.chalkboards= data['chalkboards']
-      
-      
-      edtech_update.whiteboards= data['whiteboards']
-      
-     
+    print("dvd",data["dvd"])
+    edtech_update.save()
+    # print("dvd ", edtech_update.dvd)
+    # edtech_update.blu_ray= data["blu_ray"]
+    # edtech_update.extro= (data['extro'])
+    # edtech_update.doc_cam= (data['doc_cam'])
+    # edtech_update.vhs= (data['vhs'])
+    # edtech_update.mondopad=str(data['mondopad'])
+    # edtech_update.tech_chart=(data['tech_chart'])
+    edtech_update.save()
     
-        #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
-      # edtech_update.dvd = data['dvd']
-      if data['dvd'] == 'false':
-        edtech_update.dvd = 0  
-        
-      else:
-        edtech_update.dvd = 1
-      
-        
-      print("dvd",data["dvd"])
-      # print("dvd ", edtech_update.dvd)
-      # edtech_update.blu_ray= data["blu_ray"]
-      # edtech_update.extro= (data['extro'])
-      # edtech_update.doc_cam= (data['doc_cam'])
-      # edtech_update.vhs= (data['vhs'])
-      # edtech_update.mondopad=str(data['mondopad'])
-      # edtech_update.tech_chart=(data['tech_chart'])
-      edtech_update.save()
-      
       
       
     #   print("after")
-      flash("Your changes have been saved!")
-      return json.dumps({"success":1})
+    flash("Your changes have been saved!")
+    return json.dumps({"success":1})
   except:
       flash("An error has occurred, your changes were NOT saved. Please try again.","error")
       return json.dumps({"error":0})

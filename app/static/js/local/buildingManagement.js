@@ -149,16 +149,32 @@ function education_detail(response){
      var my_div = document.getElementById('whiteboards');
     my_div.value = response['whiteboards']
     //starting from here you need to save all the rest of the items in edecationtech. The educationtech file is in snip folder
-    var my_div = document.getElementById('dvdIcon');
-    my_div.removeAttribute("checked");
-    var my_div = document.getElementById('dvdIcon2');
-    my_div.removeAttribute("checked");
-    if(response["dvdIcon"]){
-        my_div.setAttribute("checked", "checked");
+    var my_div1 = document.getElementById('dvdIcon');
+    var my_div1 = document.getElementById('dvdIcon2');
+     my_div1.removeAttribute("checked");
+  
+    if(my_div1.id){
+        console.log("yes", my_div1.value);
+        my_div1.setAttribute("checked", "checked");
+       
     }
-    else if(response["dvdIcon2"]){
-        my_div.setAttribute("checked", "checked");
+    else if(my_div1.id){
+        console.log("no", my_div1.value)
+         my_div1.setAttribute("checked", "checked");
+        
     }
+    // my_div.removeAttribute("checked");
+    
+    
+  
+    // my_div.removeAttribute("checked");
+    // console.log("dvdIcon",my)
+    // if(response["dvdIcon"]){
+    //     my_div.setAttribute("checked", "checked");
+    // }
+    // if(response["dvdIcon2"]){
+    //     my_div.setAttribute("checked", "checked");
+    // }
     
    
     
@@ -168,14 +184,14 @@ function education_detail(response){
     
 
     
-//   function radioSwitch(response) {
-//     document.getElementById(response).checked = false;
-//                 }
+  function radioSwitch(response) {
+    document.getElementById(response).checked = false;
+                }
     
-//     document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
-//     document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
-//     document.getElementById("doc_camIcon").addEventListener("click",function() { radioSwitch("doc_camIcon2"); });
-//     document.getElementById("doc_camIcon2").addEventListener("click",function() { radioSwitch("doc_camIcon"); });
+    document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
+    document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
+    document.getElementById("doc_camIcon").addEventListener("click",function() { radioSwitch("doc_camIcon2"); });
+    document.getElementById("doc_camIcon2").addEventListener("click",function() { radioSwitch("doc_camIcon"); });
     
     
 
