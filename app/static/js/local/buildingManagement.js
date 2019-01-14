@@ -11,9 +11,11 @@ function getRoomId(){
     return rIDGlobal;
 }
 function setRoomInfo(roomID, button){ 
+    // '''For populating panel onClick of Edit button. updateHTML is called'''
     //Sets room ID based on what room (row) Edit button was clicked
      setRoomId(roomID);
     // console.log("RoomID:", roomID )
+    createTimestamp();                      //Sets time stamp for Last Modified column, so that it is created after data is saved
      movePanel(roomID);
      if (roomID > 0){
              var url = '/getRoomData/'+roomID;
@@ -46,10 +48,12 @@ function movePanel(rID) {
 }
 
 function createTimestamp(){
-    //Created timestamp and puts it in Last Modified column
+    //Creates timestamp and puts it in innerHTML of Last Modified column
     //Should be called at the end of saveChanges and the save of education tech data
-    new Date().getTime()
-    console.log(Date.now())
+    var datetime = new Date();
+    console.log("DATETIME:"+datetime)
+    $("#datetime").html(datetime.toDateString());
+    // document.getElementById()
 }
 
 function updateHtml(response) { 
@@ -96,6 +100,7 @@ function saveChanges(roomID){
     // console.log("RoomID" , getRoomId())
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
+    
     var url = '/saveChanges/'+getRoomId();
          $.ajax({
              type: "POST",
@@ -104,7 +109,6 @@ function saveChanges(roomID){
                 dataType: 'json',
                 success: function(response){
                         window.location = "/buildingManagement" //Refresh page
-                         createTimestamp()                      //Sets time stamp for Last Modified column, so that it is created after data is saved
                 },
                 error: function(error){
                     console.log("ERROR")

@@ -46,7 +46,7 @@ def getRoomData(rID):
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #updates room data in database after clicking save changes.
-   print("Here I am, rock yhou like a hurricane")
+#   print("Here I am, rock yhou like a hurricane")
    try:
         room = Rooms.get(Rooms.rID==rID)                        #Sets room variable to room object where the rID's are the same 
         data = request.form
