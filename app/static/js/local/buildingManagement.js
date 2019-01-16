@@ -43,18 +43,6 @@ function movePanel(rID) {
     $(sourceDiv).collapse('show');
 }
 
-function createTimestamp(){
-    //Creates timestamp and puts it in innerHTML of Last Modified column
-    //Should be called at the end of saveChanges and the save of education tech data
-    var datetime = new Date();
-    // document.getElementById("lastModified").innerHTML = datetime.toDateString;
-    // $("#lastModified").html(datetime.toDateString());
-    // $("#lastModified").value(datetime.toDateString());
-    var lastModified = document.getElementById("lastModified");
-    lastModified.value = datetime.toDateString();
-    // console.log("value:"+lastModified.value)
-}
-
 function updateHtml(response) { 
     //Updates the HTML in panel. 
     //Called in AJAX of setRoomInfo
@@ -86,7 +74,6 @@ function saveChanges(roomID){
     //Posts data to DB and reloads the page
     //Should update time/date in Last Modified column
     var datetime = new Date();
-    
     var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
