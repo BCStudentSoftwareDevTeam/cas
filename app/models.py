@@ -109,6 +109,7 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
+  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
  
   # def __str__(self):
   #   return str(self.rID)+str(self.building.name)+str(self.number)

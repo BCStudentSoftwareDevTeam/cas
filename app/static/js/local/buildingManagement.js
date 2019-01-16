@@ -15,7 +15,6 @@ function setRoomInfo(roomID, button){
     //Sets room ID based on what room (row) Edit button was clicked
      setRoomId(roomID);
     // console.log("RoomID:", roomID )
-    createTimestamp();                      //Sets time stamp for Last Modified column, so that it is created after data is saved
      movePanel(roomID);
      if (roomID > 0){
              var url = '/getRoomData/'+roomID;
@@ -54,6 +53,7 @@ function createTimestamp(){
     console.log("DATETIME:"+datetime)
     $("#datetime").html(datetime.toDateString());
     // document.getElementById()
+    // event.preventDefault();
 }
 
 function updateHtml(response) { 
@@ -73,7 +73,6 @@ function updateHtml(response) {
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
-    //TODO: PULL ED TECH
     //my_div.innerHTML = response['educationTech'];
     //The following three are different, due to it being a Select rather than an input
     var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
@@ -98,9 +97,6 @@ function saveChanges(roomID){
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
     // console.log("RoomID" , getRoomId())
-    // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
-    // work on saving the data the right way
-    
     var url = '/saveChanges/'+getRoomId();
          $.ajax({
              type: "POST",
@@ -115,7 +111,7 @@ function saveChanges(roomID){
                     window.location.assign("/buildingManagement")
                 }
          }); 
-   
+   createTimestamp();                      //Sets time stamp for Last Modified column, so that it is created after data is saved
 }
 
 //TODO Create an ajax call that populates the data to the education tech

@@ -10,13 +10,12 @@ from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
 
 @app.route("/buildingManagement", methods=["GET"])
-@must_be_admin #TODO:FIX MEEEEE Should be a requirement for a building manager, not admin!
 
                 #TODO: FIX MEEEEE Should only pull rooms from a cetain building associated with user's login
 
 def buildingManagement():
     #Gathering of appropriate data to send to html
-    building = Building.select()
+    building = Building.select() #Put conditional here, see room preference.py line 38 for inspo.
     user = User.select()
     rooms = Rooms.select()
     return render_template("buildingManagement.html",
