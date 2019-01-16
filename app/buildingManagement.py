@@ -61,6 +61,7 @@ def saveChanges(rID):
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
+        room.lastModified = (data['lastModified'])
         # print(room)
         room.save()                                             #Save data
         return json.dumps({"success":1})

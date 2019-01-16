@@ -942,7 +942,7 @@ bmanager = BuildingManager( username = "pearcej",
 #######
 # TODO: ADD THIS TO ROOMS BELOW, MISSING ATTRIBUTES visualAcc= , audioAcc= ,physicalAcc= , educationTech= , specializedEq= , specialFeatures= ,
 
-room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Lab", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=True).save()
+room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Lab", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=True, lastModified="DATE").save()
 room = Rooms(building = 2, educationTech=1, number ='103', maxCapacity=15, roomType="Lecture",  visualAcc= "A", audioAcc= "B" ,physicalAcc= "A",  specializedEq= "Kiln", specialFeatures= "Throwing wheels", movableFurniture= False).save()
 room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Lab",  visualAcc= "C", audioAcc= "B" ,physicalAcc= "B", specializedEq= "Lab equipment", specialFeatures= "Movable podium", movableFurniture=True).save()
 room = Rooms(building = 4, educationTech=1,number ='105', maxCapacity=15, roomType="Lecture",  visualAcc= "A", audioAcc= "C" ,physicalAcc= "B", specializedEq= "Rolly chairs", specialFeatures= "Footstools", movableFurniture= False).save()
