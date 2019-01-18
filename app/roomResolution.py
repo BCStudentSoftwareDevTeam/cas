@@ -40,7 +40,7 @@ def roomResolutionView(termCode,cid):
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     bannercourses = BannerCourses.select()
-    courses = Course.get(Course.cId==cid) #Course A
+    courses = Course.get(Course.cId==cid) # Course A
     #will give an error if schedule.sid is None
     schedule = courses.schedule.sid
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
