@@ -9,9 +9,8 @@ from app.logic.getAuthUser import AuthorizedUser
 from app.models import InstructorCourse, Course
 from string import strip
 
-@app.route("/roomPreference/<term>", methods = ["GET"], defaults={'CID': None})
-@app.route("/roomPreference/<term>/<CID>", methods = ["GET"])
-def roomPreference(term, CID):
+@app.route("/roomPreference/<term>", methods = ["GET"])
+def roomPreference(term):
     # FIXME bring current_term in via URL, and add the modal to select current term used on courses.html
     # print(term)
     current_term = term
@@ -19,8 +18,9 @@ def roomPreference(term, CID):
 
     # Used to populate dropdowns and stuff
     room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
+
+#    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
     users= User.select()
-    
     instructors = InstructorCourse.select()
     educationTech= EducationTech.select()
 
@@ -30,40 +30,17 @@ def roomPreference(term, CID):
     #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     term = Term.get(Term.termCode == current_term)
 
-    # print(term)
-    # print('current_user', current_user)
 
-    if CID:
-     
-        admin = AuthorizedUser().isAdmin()
-        if admin == True:
-        
-            courses = Course.select().where(Course.cId == CID)
-            
-            roompreferences = RoomPreferences.select().where(RoomPreferences.course == CID)
-        else:
-            return render_template("403.html")
-                
-    else: 
-      
-        courses = ( Course.select()
-                        .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
-                        .join(Term, on=(Term.termCode == Course.term))
-                        .where(InstructorCourse.username == current_user)
-                        .where(Course.term == int(current_term))
-                    )
-                    
-         # Gets all room preferences for the current user    
-        roompreferences= (  RoomPreferences.select()
-                                    .join(InstructorCourse, 
-                                        on = (InstructorCourse.course == RoomPreferences.course))
-                                    .join(Course, on = (RoomPreferences.course == Course.cId))
-                                    .join(Term, on = (Course.term == Term.termCode))
-                                    .where(RoomPreferences.course == InstructorCourse.course 
-                                            and InstructorCourse.username == current_user)
-                                    .where(Course.term == current_term)
-                                    .distinct()
-                        )
+
+
+
+    # print(term)
+    courses = ( Course.select()
+                    .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
+                    .join(Term, on=(Term.termCode == Course.term))
+                    .where(InstructorCourse.username == current_user)
+                    .where(Course.term == int(current_term))
+                )
     #courses = InstructorCourse.select().where(InstructorCourse.username == current_user).where(InstructorCourse.course_id.term.termCode == int(current_term))
     # for course in courses:
     #     print("Hi Sher")
@@ -74,7 +51,7 @@ def roomPreference(term, CID):
 
     
     
-    # print('Length', len(courses))
+    
     
     
     # Constructs RoomPreferences if they don't exist
@@ -120,7 +97,17 @@ def roomPreference(term, CID):
         
         
         
-   
+    # Gets all room preferences for the current user    
+    roompreferences= (  RoomPreferences.select()
+                                    .join(InstructorCourse, 
+                                        on = (InstructorCourse.course == RoomPreferences.course))
+                                    .join(Course, on = (RoomPreferences.course == Course.cId))
+                                    .join(Term, on = (Course.term == Term.termCode))
+                                    .where(RoomPreferences.course == InstructorCourse.course 
+                                            and InstructorCourse.username == current_user)
+                                    .where(Course.term == current_term)
+                                    .distinct()
+                        )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
       
     return render_template(
@@ -132,7 +119,8 @@ def roomPreference(term, CID):
         educationTech=educationTech,
         instructors=instructors
     )
-   
+    # else:
+    #     return render_template("roomPreferencesLocked.html")
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])
