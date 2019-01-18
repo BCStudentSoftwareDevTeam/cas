@@ -102,7 +102,10 @@ class ExcelMaker:
         sheet.write('A{0}'.format(row), room.building.name +' '+ room.number)
         sheet.write('B{0}'.format(row), room.maxCapacity)
         sheet.write('C{0}'.format(row), room.roomType)
-        sheet.write('D{0}'.format(row), schedule_dict[room.building.name +' '+ room.number])
+        if room.building.name +' '+ room.number in schedule_dict:
+            sheet.write('D{0}'.format(row), ' , '.join(schedule_dict[room.building.name +' '+ room.number]))
+        else:
+            sheet.write('D{0}'.format(row),' ')
         sheet.write('E{0}'.format(row), room.visualAcc)
         sheet.write('F{0}'.format(row), room.audioAcc)
         sheet.write('G{0}'.format(row), room.physicalAcc)
@@ -281,13 +284,13 @@ class ExcelMaker:
             for i in schedule:
                 schedule_days.append(i.day)
             schedule_days = ','.join(schedule_days) 
-            print(schedule_days)
+            # print(schedule_days)
             if course.rid.building.name+' '+course.rid.number in schedule_to_room:
-                schedule_to_room[course.rid.building.name+' '+course.rid.number].append((str(course.schedule.startTime), str(course.schedule.endTime)))
+                schedule_to_room[course.rid.building.name+' '+course.rid.number].append('('+ schedule_days+ ': ' +str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')')
             else:
-                schedule_to_room[course.rid.building.name+' '+course.rid.number] = [(str(course.schedule.startTime) , str(course.schedule.endTime))]
+                schedule_to_room[course.rid.building.name+' '+course.rid.number] = ['('+ schedule_days+ ': '+str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')']
         print(schedule_to_room)
-     
+    
         all_rooms = Rooms.select().order_by(Rooms.building_id)
         for room in all_rooms:
             self.write_all_rooms_info(allrooms_sheet, room, self.room_row, schedule_to_room)
