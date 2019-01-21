@@ -40,15 +40,15 @@
         </div>
         <div>
             <label id="radioLabel" for="radios">Crosslisted</label>
-          <div class="radio-inline" id=radios>
+          <div class="radio-inline" id=radios onclick="myFunction()">
             <label>
               <input type="radio" name="crossListed" id="exampleRadios1" value=1 required>
               Yes
             </label>
           </div>
-          <div class="radio-inline">
+          <div class="radio-inline" style="display: none;">
             <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=0 required>
+              <input type="radio" name="crossListed" checked="checked" id = "exampleRadios1" value=0 required>
               No
             </label>
           </div>
