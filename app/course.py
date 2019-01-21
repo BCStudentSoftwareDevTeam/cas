@@ -2,8 +2,9 @@ from allImports import *
 from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.course import define_term_code_and_prefix
 from app.logic.course import save_last_visited
+from app.logic.course import find_crosslist_courses
 from app.logic.authorization import can_modify
-
+import json
 
 @app.route("/courses/", methods=["GET"] )
 @app.route("/courses/<tID>/<prefix>", methods=["GET"])
@@ -18,7 +19,6 @@ def courses(tID, prefix, can_edit):
 
     divisions_prefetch = getSidebarElements()
     subject = Subject.get(Subject.prefix == prefix)
-
     users = User.select(User.username, User.firstName, User.lastName)
 
     # THIS IS SO THAT WE CAN HAVE THE NAME OF THE PROGRAM AS A HEADER ON THE
@@ -31,7 +31,7 @@ def courses(tID, prefix, can_edit):
 
     terms = Term.select().order_by(-Term.termCode)
 
-
+    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
     # We need these for populating add course
     courseInfo = (BannerCourses
                         .select(BannerCourses, Subject)
@@ -52,23 +52,26 @@ def courses(tID, prefix, can_edit):
         key = int(tID[-1])
     except ValueError as error:
         log.writer("Unable to parse Term ID, course.py", e)
-
-
-    courses = (Course.select(Course, BannerCourses).join(BannerCourses)
-                     .where(Course.prefix == prefix)
-                     .where(Course.term == tID))
-
+   
+    courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
+        (Course.prefix == prefix) & (Course.term == tID)))
+    
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
-
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
-    courses_prefetch = prefetch(courses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
+    
+    courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
+    # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
+    
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
-
+    # get crosslisted for given courses
+    course_to_crosslist=find_crosslist_courses(courses_prefetch)
     return render_template(
             "course.html",
+            crosslisted=course_to_crosslist,
+            allCourses= allCourses, #Courses,
             courses=courses_prefetch,
             specialCourses=special_courses_prefetch,
             divisions = divisions_prefetch,
@@ -84,4 +87,26 @@ def courses(tID, prefix, can_edit):
             page=page,
             rooms=rooms,
             key = key)
-
+            
+       
+@app.route("/verifycrosslisted/<intValue>", methods=["POST"])
+def verifycrosslisted(intValue):
+ 
+    try:
+        course = Course.get(Course.cId==int(intValue))
+        parentCourse = course.parentCourse
+        data = request.form
+        clicked = data['check']
+        cond = True if clicked == u'true' else False
+        parent_or_child = parentCourse if parentCourse else course.cId
+        crosslisted = CrossListed.select().where(
+                (CrossListed.courseId == parent_or_child) &
+                (CrossListed.crosslistedCourse == course.cId)
+                ).get()
+        crosslisted.verified=cond
+        crosslisted.save()    
+        return json.dumps({"success": 1})
+    except:
+        flash("An error has occurred. Please try again.","error")
+        return json.dumps({"error":0})
+    

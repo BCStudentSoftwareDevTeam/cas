@@ -349,19 +349,7 @@ course = Course(  bannerRef         = 1,
                   time              = "8:00 - 9:20 am"
                 ).save()
                 
-<<<<<<< HEAD
-course = Course(  bannerRef         = 2,
-                  prefix            = "MAT",
-                  term              = 201612,
-                  section           = "A",
-                  schedule          = "B",
-                  capacity          = 25,
-                  notes             = "Preference2",
-                  crossListed       = 1,
-                  time             = "10:00 - 11:20 am"
-                ).save()                
-=======
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
+
 
 course = Course(  bannerRef         = 3,
                   prefix            = "TAD",
@@ -384,12 +372,6 @@ course = Course(  bannerRef         = 8,
                   crossListed       = 1
                   ).save()       
                               
-<<<<<<< HEAD
-course = Course(  bannerRef         = 9,
-                  prefix            = "CHI",
-                  term              = 201711,
-                  schedule          = "A",
-=======
 
 
 
@@ -446,25 +428,17 @@ course = Course(  bannerRef         = 29,
                   term              = 201711,
                   schedule          = "A",
                    days      = 6,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   capacity          = 20,
                   section           = "E",
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save() 
-<<<<<<< HEAD
-course = Course(  bannerRef         = 10,
-=======
 course = Course(  bannerRef         = 30,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   prefix            = "CHI",
                   term              = 201711,
                   section           = "A",
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                   days      = 6,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -473,10 +447,7 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201712,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                    days     = 6,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -486,10 +457,7 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201811,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                    days       = 5,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -499,10 +467,7 @@ course = Course(  bannerRef         = 13,
                   prefix            = "FRN",
                   term              = 201611,
                   schedule          = "A",
-<<<<<<< HEAD
-=======
                    days       = 5,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference1",
@@ -513,10 +478,7 @@ course = Course(  bannerRef         = 14,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                    days       = 5,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -537,10 +499,7 @@ course = Course(  bannerRef         = 15,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                  days     = 5,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   capacity          = 20,
                   notes             = "Preference2",
                   section           = "A",
@@ -551,10 +510,7 @@ course = Course(  bannerRef         = 17,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                   days      = 5,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -564,10 +520,7 @@ course = Course(  bannerRef         = 18,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                  days      = 3,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -597,10 +550,7 @@ course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201612,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                    days             = 3,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -610,10 +560,7 @@ course = Course(  bannerRef         = 20,
                   prefix            = "HHP",
                   term              = 201712,
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                   days              = 3,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -624,10 +571,7 @@ course = Course(  bannerRef         = 21,
                   term              = 201811,
                   section           = "A",
                   schedule          = "B",
-<<<<<<< HEAD
-=======
                   days      = 3,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -981,14 +925,6 @@ building     = Building(name = 'Frost Building', shortName="FR").save()
 #   ).save()
 
 #####
-<<<<<<< HEAD
-                              
-
-
-######
-#ROOMS#
-######
-=======
 #ROOMS#
 
 
@@ -1042,7 +978,6 @@ roompreference= RoomPreferences(course= 7,priority=1, pref_1=7,pref_2=8,pref_3=9
 roompreference= RoomPreferences(course= 5, priority=2,pref_1=8,pref_2=9,pref_3=10,notes="None",any_Choice = "any").save()
 roompreference= RoomPreferences(course= 9, priority=3,pref_1=9,pref_2=10,pref_3=11,notes="None",any_Choice = "any").save()
 roompreference= RoomPreferences(course= 10, priority=1,pref_1=10,pref_2=11,pref_3=12,notes="None",any_Choice = "any").save()
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
 
 room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
 
