@@ -20,9 +20,17 @@ def editCourseModal(tid, prefix, cid, page):
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
     # SELECT ALL ROOMS
     rooms     = Rooms.select()
+    
+    getCrosslistedCourses = find_crosslist_via_id(cid)
+    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
+    currentCrosslistedCourse = None
+    for c in getCrosslistedCourses:
+      currentCrosslistedCourse = list(getCrosslistedCourses[c])
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
                             terms     = terms,
+                            allCourses=allCourses,
+                            currentCrosslistedCourse=currentCrosslistedCourse,
                             course    = course,
                             users = users,
                             instructors = instructors,

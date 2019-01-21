@@ -96,6 +96,15 @@
                 No
             </label>
           </div>
+          <Div><bold><h5>Current Crosslisted Courses:</h5></bold> </Div>
+         <div name = "crosscourse", id= "cc">
+          {% for cours in currentCrosslistedCourse %}
+            <button type="button" data-toggle="tooltip" style="margin-bottom:2px;"class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-" style="color:green;" aria-hidden="true"></span> {{cours}} </button>
+          {% endfor %}
+           <div>
+          {%include "snips/courseElements/addCrossListCourse.html"%}
+          </div>
           {# --Notes-- #}
           <h5>Notes</h5>
           <textarea class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
