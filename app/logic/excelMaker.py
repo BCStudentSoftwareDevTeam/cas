@@ -2,8 +2,10 @@ import xlsxwriter
 from app.allImports import *
 import sys,os
 import time 
-from datetime import datetime
 
+from datetime import datetime
+import datetime as dt
+# from datetime import timedelta
 class ExcelMaker:
     def __init__(self):
         self.program_row = 2
@@ -237,9 +239,6 @@ class ExcelMaker:
         sheet.write('O{0}'.format(row),course.concentrationReqsMet)
         sheet.write('P{0}'.format(row),course.minorReqsMet)
         sheet.write('Q{0}'.format(row),course.perspectivesMet)
-
-        
-
         
         
     def increment_rows(self,course):
@@ -276,6 +275,8 @@ class ExcelMaker:
         self.writeAvailableRoomHeaders(availablerooms_sheet)
         
         schedule_to_room = {}
+        letter_to_room = {}
+        sched_to_room = {}
         #Select all the courses 
         courses = Course.select().where(Course.rid != None)
         for course in courses:
@@ -287,10 +288,28 @@ class ExcelMaker:
             # print(schedule_days)
             if course.rid.building.name+' '+course.rid.number in schedule_to_room:
                 schedule_to_room[course.rid.building.name+' '+course.rid.number].append('('+ schedule_days+ ': ' +str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')')
+                sched_to_room[course.rid.building.name+' '+course.rid.number].append((course.schedule.startTime, course.schedule.endTime))
+                # letter_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid)
             else:
                 schedule_to_room[course.rid.building.name+' '+course.rid.number] = ['('+ schedule_days+ ': '+str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')']
-        print(schedule_to_room)
+                sched_to_room[course.rid.building.name+' '+course.rid.number] = [(course.schedule.startTime, course.schedule.endTime)]
+                # letter_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
+            # letter_to_room[course.rid.building.name+' '+course.rid.number] = sorted(letter_to_room[course.rid.building.name+' '+course.rid.number])
+        # print(letter_to_room)
+        # print(schedule_to_room)
+        # print(sched_to_room)
     
+            hours = ( datetime.strptime('8:00:00', '%H:%M:%S'),  datetime.strptime('20:50:00', '%H:%M:%S'))
+            slots = [(hours[0], hours[0]), sched_to_room[course.rid.building.name+' '+course.rid.number], (hours[1], hours[1])]
+            # print('Slots:', slots)
+            duration=timedelta(hours=1)
+            for start, end in ((slots[i][1], slots[i+1][0]) for i in range(len(slots)-1)):
+                while start + duration <= end:
+                    print "{:%H:%M} - {:%H:%M}".format(start, start + duration)
+                    start += duration
+                
+                
+                
         all_rooms = Rooms.select().order_by(Rooms.building_id)
         for room in all_rooms:
             self.write_all_rooms_info(allrooms_sheet, room, self.room_row, schedule_to_room)
