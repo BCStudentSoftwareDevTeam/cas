@@ -36,14 +36,11 @@ def getRoomData(rID):
     room_details["type"] = room.roomType
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
-    room_details["movableFurniture"] = room.movableFurniture
+    room_details["movableFurniture"] = room.movableFurniture    #Use to make sure all above attributes are correct?
+
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
-
-    # print ("python" ,rID)
-    # print(room_details["number"])     #Use to make sure all above attributes are correct?
-
     # print(room_details["number"])                         
 
     return json.dumps(room_details)
@@ -60,18 +57,10 @@ def saveChanges(rID):
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
 
-        # room.movableFurniture = (data['movableFurniture'])
-        # room.visualAcc = (data['visualAcc'])
-        # room.audioAcc = (data['audioAcc'])
-        # room.physicalAcc = (data['physicalAcc'])
-        # # print("it is saved", room)
-        # room.save()
-
         if data['movableFurniture'] == 'false':                 #If movable furniture reads false from js
             room.movableFurniture = 0                           #Set to false in sqlite
         else:
             room.movableFurniture = 1                           #Else: its set to true in sqlite
-        print ("Move", data['movableFurniture'])
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
@@ -83,7 +72,7 @@ def saveChanges(rID):
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
  
-@app.route('/getEducationData/<rid>', methods = ["GET"])
+@app.route('/getEducationData/<rid>', methods = ["GET"]) #this function gets educationtech materials from the database
 def getEducationData(rid):
     # print("hello")
   
@@ -105,74 +94,67 @@ def getEducationData(rid):
     education_materials["vhs"]= tech_details.vhs
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
-    # print("Sending response to front end", education_materials)
-    # print("Sending response to front end", education_materials)
     return json.dumps(education_materials)
     
     
 #updates room data in database after clicking save changes.
     
-@app.route("/saveEdTechChanges/<rID>", methods=["POST"])
-def saveEdTechChanges(rID):
+@app.route("/saveEdTechChanges/<rid>", methods=["POST"]) # this function saves and update the changes of educationtech Modal
+def saveEdTechChanges(rid):
   try:
-    print("in")
-    room = Rooms.get(Rooms.rID==rID)
+    room = Rooms.get(Rooms.rID==rid)
     edtech_update = room.educationTech
     data = request.form
-  #   print("data", data)
-    print("0")
-   
+ 
     edtech_update.projector = data['projector']
-  
    
     edtech_update.smartboards = data['smartboards']
    
-    
     edtech_update.instructor_computers = data['instructor_computers']
     
-    
     edtech_update.podium= data['podium']
-  
     
     edtech_update.student_workspace = data['student_workspace']
-   
-    
+  
     edtech_update.chalkboards= data['chalkboards']
-    
-    print("1")
-   
+
     edtech_update.whiteboards= data['whiteboards']
-    print("white_board", data["whiteboards"])
-    print("2")
    
-    # # print("Hello:")
-    # edtech_update.dvd = data['dvd']
- 
-      #start from here you need to save to the database everything else already saved. You just need to save from dvd to tech_chart
-    # edtech_update.dvd = data['dvd']
-    if data["blu_ray"] == "false":
-      edtech_update.dvd = 0  
-      
+    if data['vhs'] == 'false':     #this checks the booleans and set them to correct values. 
+                                   #If they are checked thier values set to 1s an if they are unchecked thier values sets to 1s       
+        edtech_update.vhs = 0                          
     else:
-      edtech_update.dvd = 1
-    
-    
-    
-      
-    print("dvd",data["dvd"])
+        edtech_update.vhs = 1 
+    if data['dvd'] == 'false':                 
+        edtech_update.dvd= 0                          
+    else:
+        edtech_update.dvd = 1
+        
+    if data['blu_ray']=='false':
+        edtech_update.blu_ray=0
+    else:
+        edtech_update.blu_ray=1
+    if data['audio']=='true':
+        edtech_update.audio=1
+    else:
+        edtech_update.audio=0
+    if data['mondopad']=='true':
+        edtech_update.mondopad=1
+    else:
+        edtech_update.mondopad=0
+    if data['doc_cam']=='true':
+        edtech_update.doc_cam=1
+    else:
+        edtech_update.doc_cam=0
+    if data['tech_chart']=='true':
+        edtech_update.tech_chart=1
+    else:
+        edtech_update.tech_chart=0
+    if data['extro']=='false':
+        edtech_update.extro=0
+    else:
+        edtech_update.extro=1
     edtech_update.save()
-    # print("dvd ", edtech_update.dvd)
-    # edtech_update.blu_ray= data["blu_ray"]
-    # edtech_update.extro= (data['extro'])
-    # edtech_update.doc_cam= (data['doc_cam'])
-    # edtech_update.vhs= (data['vhs'])
-    # edtech_update.mondopad=str(data['mondopad'])
-    # edtech_update.tech_chart=(data['tech_chart'])
-    edtech_update.save()
-    
-      
-      
-    #   print("after")
     flash("Your changes have been saved!")
     return json.dumps({"success":1})
   except:

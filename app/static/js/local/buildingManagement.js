@@ -65,7 +65,8 @@ function updateHtml(response) {
     var my_div = document.getElementById('specialFeatures')
     my_div.value = response['specialFeatures'];
     var my_div = document.getElementById('movableFurniture');
-    my_div.removeAttribute("checked"); //It was getting stuck
+    // console.log("moveble: ", my_div.value)
+    // my_div.removeAttribute("checked"); //It was getting stuck
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
@@ -94,7 +95,6 @@ function saveChanges(roomID){
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
 
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
-    // console.log("RoomID" , getRoomId())
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
     var url = '/saveChanges/'+getRoomId();
@@ -105,7 +105,8 @@ function saveChanges(roomID){
                 dataType: 'json',
                 success: function(response){
                         window.location = "/buildingManagement" //Refresh page
-                         createTimestamp()                      //Sets time stamp for Last Modified column, so that it is created after data is saved
+                         createTimestamp() ;
+                         //Sets time stamp for Last Modified column, so that it is created after data is saved
                 },
                 error: function(error){
                     console.log("ERROR")
@@ -113,26 +114,14 @@ function saveChanges(roomID){
                 }
          }); 
 
-
 }
-    // var submitChangesButton = document.getElementById("submitChanges");
-    // document.getElementById("datetime").innerHTML = new Date(2018, 11, 24).toDateString();
-    // document.getElementById("submitChanges").value
-// }
-
+   
+   
+  
 
  
 
 function education_detail(response){
-     
-    
-    // document.getElementById("projectors").innerHTML = response['projector'];
-    // document.getElementById("smartboards").innerHTML = response['smartboards'];
-    // document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
-    // document.getElementById("podiums").innerHTML = response['podium'];
-    // document.getElementById("student_workstations").innerHTML = response['student_workspace'];
-    // document.getElementById("chalkboards").innerHTML = response['chalkboards'];
-    // document.getElementById("whiteboards").innerHTML = response['whiteboards']
     
     var my_div = document.getElementById('projectors');
     my_div.value = response['projector'];
@@ -147,61 +136,58 @@ function education_detail(response){
     var my_div = document.getElementById('chalkboards');
     my_div.value = response['chalkboards'];
      var my_div = document.getElementById('whiteboards');
-    my_div.value = response['whiteboards']
-    //starting from here you need to save all the rest of the items in edecationtech. The educationtech file is in snip folder
-    var my_div1 = document.getElementById('dvdIcon');
-    var my_div1 = document.getElementById('dvdIcon2');
-     my_div1.removeAttribute("checked");
-  
-    if(my_div1.id){
-        console.log("yes", my_div1.value);
-        my_div1.setAttribute("checked", "checked");
-       
-    }
-    else if(my_div1.id){
-        console.log("no", my_div1.value)
-         my_div1.setAttribute("checked", "checked");
-        
-    }
-    // my_div.removeAttribute("checked");
+    my_div.value = response['whiteboards'];
     
-    
-  
-    // my_div.removeAttribute("checked");
-    // console.log("dvdIcon",my)
-    // if(response["dvdIcon"]){
-    //     my_div.setAttribute("checked", "checked");
-    // }
-    // if(response["dvdIcon2"]){
-    //     my_div.setAttribute("checked", "checked");
-    // }
-    
-   
-    
-    
-   
-     
-    
+    var my_div1 = document.getElementById('vhs');  
 
+    if (response['vhs']) {
+        
+        my_div1.setAttribute("checked", "checked");
+    }
     
-  function radioSwitch(response) {
-    document.getElementById(response).checked = false;
-                }
+     var my_div2 = document.getElementById('dvd');
+    if (response['dvd']) {
+        my_div2.setAttribute("checked", "checked");
+    }
     
-    document.getElementById("dvdIcon").addEventListener("click",function() { radioSwitch("dvdIcon2"); });
-    document.getElementById("dvdIcon2").addEventListener("click",function() { radioSwitch("dvdIcon"); });
-    document.getElementById("doc_camIcon").addEventListener("click",function() { radioSwitch("doc_camIcon2"); });
-    document.getElementById("doc_camIcon2").addEventListener("click",function() { radioSwitch("doc_camIcon"); });
+     var my_div3 = document.getElementById('blu_ray');
+    if (response['blu_ray']) {
+        my_div3.setAttribute("checked", "checked");
+    }
     
+     var my_div4 = document.getElementById('doc_cam');
+    if (response['doc_cam']) {
+        my_div4.setAttribute("checked", "checked");
+    }
     
+     var my_div5 = document.getElementById('extro');
+    if (response['extro']) {
+        my_div5.setAttribute("checked", "checked");
+    }
+    
+     var my_div6 = document.getElementById('audio');
+    if (response['audio']) {
+        my_div6.setAttribute("checked", "checked");
+    }
+    
+     var my_div7 = document.getElementById('mondopad');
+    if (response['mondopad']) {
+        my_div7.setAttribute("checked", "checked");
+    }
+    
+     var my_div8 = document.getElementById('tech_chart');
+    if (response['tech_chart']) {
+        my_div8.setAttribute("checked", "checked");
+    }
+   
 
 }
 
+
 function seteducationTech() {
     setRoomId(getRoomId());
-    // console.log("room id: ", getRoomId());
     if(getRoomId()){
-         var url = '/getEducationData/'+getRoomId();
+         var url = '/getEducationData/'+ getRoomId();
         //  console.log(url)
          $.ajax({
                 url: url,
@@ -218,14 +204,12 @@ function seteducationTech() {
                 console.log(error);
                 }
             });
-    // $("#hiddenRow_").show();
+   
     }
 }
     
-function saveEdTechChanges(roomID){ 
-    //Posts data to DB and reloads the page
-    //Should update time/date in Last Modified column (TODO)
-   
+function saveEdTechChanges(roomID){ /*this functions saves the edecuationtech things on the front-end 
+                                  and updated them as thier values change*/
    
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;
@@ -235,20 +219,18 @@ function saveEdTechChanges(roomID){
     edtechDetails["student_workspace"] = document.getElementById('student_workspace').value;
     edtechDetails["chalkboards"] = document.getElementById('chalkboards').value;
     edtechDetails["whiteboards"] = document.getElementById('whiteboards').value;
-    roomDetails["dvd"] = document.getElementById('dvdIcon').checked;
-    roomDetails["dvd"] = document.getElementById('dvdIcon2').checked;
-   
-    // roomDetails["audio"] = document.getElementById('audioIcon').checked;
-    // roomDetails["audio"] = document.getElementById('audioIcon2').checked;
     
-  
-    // edtechDetails["visualAcc"] = $('#visualAcc option:selected').text();  
-    // edtechDetails["audioAcc"] = $('#audioAcc option:selected').text();    
+    edtechDetails["vhs"] = document.getElementById('vhs').checked;
+    edtechDetails["dvd"] = document.getElementById('dvd').checked;
+    edtechDetails["blu_ray"] = document.getElementById('blu_ray').checked;
+    edtechDetails["audio"] = document.getElementById('audio').checked;
+    edtechDetails["mondopad"] = document.getElementById('mondopad').checked;
+    edtechDetails["doc_cam"] = document.getElementById('doc_cam').checked;
+    edtechDetails["extro"] = document.getElementById('extro').checked;
+    edtechDetails["tech_chart"] = document.getElementById('tech_chart').checked;
+    
+    
 
-    // roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
-    // console.log("RoomID" , getRoomId())
-    // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
-    // work on saving the data the right way
     var url = '/saveEdTechChanges/'+getRoomId();
    
          $.ajax({
@@ -258,24 +240,22 @@ function saveEdTechChanges(roomID){
                 dataType: 'json',
                 success: function(response){
                     if (response["success"] != 0) {
-                        //If successful
                         console.log("SUCCESSFUL JS AJAX CALL")
-                        
                     }
                     else{
-                        //If not successful
+                     
                         console.log("Else in ajax")
-                        // window.location.assign("/builingManagement")
                     }
                 },
                 error: function(error){
                     console.log("ERROR")
-                    // window.location.assign("/builingManagement")
+
                 }
          }); 
 }
+
     
-//TODO: create ajax call that saves Ed Tech to db. onclick INSIDE edtech modal.
+
     
 
     
