@@ -71,9 +71,7 @@ function updateHtml(response) {
 }
 
 function saveChanges(roomID){ 
-    //Posts data to DB and reloads the page
-    //Should update time/date in Last Modified column
-    
+    //Sets up datetime, passes all room attributes into a dictionary for ajax,then posts data to DB and reloads the page
     
     //Datetime setup
     var dateTime = new Date();
