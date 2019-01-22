@@ -255,8 +255,8 @@ class RoomAssigner:
     
     def assign_room(self, DATA_SET, term):
         ''' This method simply assigns rooms to courses based on their priority granted that the rooms are already found available. '''
-        if term.editable is False:
-            time.sleep(500)
+        # if term.editable is False:
+        #     time.sleep(500)
         # print("Starting Room Assignment")
         for priority in PRIORITY:
             # print("Priority", priority)
@@ -278,7 +278,7 @@ class RoomAssigner:
                             if choice == prefs[-1]: #if this is the last element in a list
                                 self.unhappy.append(roomPref)
                                 break
-            term.editable = True
+            # term.editable = True
             term.save()
         
 

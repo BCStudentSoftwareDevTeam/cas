@@ -12,8 +12,8 @@ from app.loadConfig import *
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'app/config.yaml'))
 db	  = os.path.join(here,cfg['databases']['dev']) 
-print("here", here)
-print('Test', cfg['databases'])
+# print("here", here)
+# print('Test', cfg['databases'])
 # print("db", db)
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
 my_db    = SqliteDatabase(db,
@@ -263,7 +263,7 @@ migrate(
     # migrator.drop_column("Term", "state"),
     migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
-    migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
+    # migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
     
     # migrator.drop_not_null('CourseChange','rid')
 )

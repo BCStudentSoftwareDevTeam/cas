@@ -303,7 +303,6 @@ function downloadCourses(){
 
 function goto_roomResolution(){
     var termCode = getTermCode();
-    
     window.location.href = '/roomResolution/'+termCode;
     
 }

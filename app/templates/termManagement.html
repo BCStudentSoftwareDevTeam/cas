@@ -5,20 +5,20 @@
 <link rel="stylesheet" href="../static/css/termManagement.css" >
 <script type="text/javascript" src="/static/js/local/termManagement.js"></script>
 
-<div class="container">
+<div class="container-fluid" style="padding-left:1.5%;">
 <div class="panel panel-default" style = 'display:inline-block;'>
   <!--TERM MANAGEMENT-->
  
   <div class="panel-heading" class = "panel_color" style = 'text-align:center;'>
     <h1 class="panel-title" ><bold>Term Management</bold></h1>
-    <h5><i> Click below on the term to begin </i><h5>
+    <h5> Click below on the <i><a>term</a></i> to begin <h5>
   </div>
    <br>
-  <table class="table" cellspacing="0" cellpadding="0">
+  <table class="table container" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
       {% for term in terms %}
       <tr  id = "{{ term.termCode }}" class = "row">
-        <td> 
+        <td > 
         {% for state in term_state %}
             {% if state.number == 0 %}
             <td style="margin-top:1px !important; padding-top: 1px !important;">
@@ -38,9 +38,12 @@
             {% endif %}
         {% endfor %}
       </td>
+      <td>
+        
+      </td>
       </tr>
       <tr  id = "hidden_{{ term.termCode }}">
-        <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
+        <td colspan="9" id = "divForPanel{{term.termCode}}" style="padding-left:2%;" > <!-- Calls the panels for each button in  term--> </td>
       </tr>
       {% endfor %}
   </table>
@@ -59,7 +62,7 @@
                <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p> <!-- Access the state number from the config file and then get the value of mainInfo-->
             </div>
             <div class = "row">
-            <div class = "col-sm-10">
+            <div class = "col-sm-10 text-center">
               <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
             </div>
             <div class = "col-sm-2">
@@ -73,10 +76,10 @@
     {% if state.number in format1 %}
           <!--<div class="row">-->
           <div id="order{{state.order}}" class="collapse">
-                <div class = "row text-center">
-                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b><br> </p>
+                <div class = "row text-center" >
+                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b> </p>
                 </div>
-                <div class ="row">
+                <div class ="row " style="padding: 5px 5px;">
                   <div class = "col-sm-6">
                      <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
                      <!-- this is for the unlock button --->
@@ -92,19 +95,19 @@
                         <span class="glyphicon glyphicon-chevron-right"></span>
                       </button>
                       <br>
-                      <span>
+                      <p style="padding-top: 5px;">
                         <sub>
                           <br> 
                             {{cfg['states'][state.number]['subtext']}}
                         </sub>
-                      </span>
+                      </p>
                   </div>
-                  <div class = "row text-center">
+                  <div class = "text-center">
                     <a onclick = 'downloadCourses()' >{{cfg['states'][state.number]['download']}}</a>
                   </div>
                 </div>
               </div>
-            </div>
+            <!--</div>-->
             <!--</div>-->
       {% endif %}
     {% if state.number in format2 %} 
@@ -115,7 +118,7 @@
               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
             </div>
             <div class="row">
-              <div class = "col-sm-3 text-left ">
+              <div class = "col-sm-3 text-left">
               <!--Click below to go to Room resolutions page-->
                 <p><sub>{{cfg['states'][state.number]['goto_text']}}</sub></p>
                 <a onclick = "goto_roomResolution()">{{cfg['states'][state.number]['goto_link']}}</a>
@@ -182,6 +185,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false')">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
               </div>
           
