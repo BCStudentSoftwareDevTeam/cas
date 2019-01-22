@@ -73,7 +73,37 @@ function updateHtml(response) {
 function saveChanges(roomID){ 
     //Posts data to DB and reloads the page
     //Should update time/date in Last Modified column
-    var datetime = new Date();
+    
+    
+    //Datetime setup
+    var dateTime = new Date();
+    var currHour = dateTime.getHours();
+    if (currHour < 12) //AM/PM setup
+       {
+       a_p = "AM";
+       }
+    else
+       {
+       a_p = "PM";
+       }
+    if (currHour == 0)
+       {
+       currHour = 12;
+       }
+    if (currHour > 12)
+       {
+       currHour = currHour - 12;
+       }
+    
+    var currMin = dateTime.getMinutes();
+    currMin = currMin + "";
+    if (currMin.length == 1) //Getting JS to not do single digit minutes
+    {
+        currMin = "0" + currMin;
+    }
+    var savedDateTime=(dateTime.toDateString()+",  "+ currHour + " : " +currMin + " " + a_p); //Concatenation of all date elements into one var for passing into dictionary
+    //End datetime setup
+    //Begin dictionary pass for Ajax
     var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
@@ -83,8 +113,7 @@ function saveChanges(roomID){
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
-    roomDetails["lastModified"] = datetime.toDateString();// document.getElementById('lastModified').value;
-    console.log("deets"+roomDetails["lastModified"])
+    roomDetails["lastModified"] = savedDateTime// document.getElementById('lastModified').value;
     var url = '/saveChanges/'+getRoomId();
          $.ajax({
              type: "POST",
@@ -93,7 +122,6 @@ function saveChanges(roomID){
                 dataType: 'json',
                 success: function(response){
                         window.location = "/buildingManagement" //Refresh page
-                        createTimestamp();                      //Sets time stamp for Last Modified column, so that it is created after data is saved
                 },
                 error: function(error){
                     console.log("ERROR")
