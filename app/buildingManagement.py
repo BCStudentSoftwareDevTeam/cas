@@ -40,13 +40,13 @@ def getRoomData(rID):
     room_details["specializedEq"] = room.specializedEq
     room_details["specialFeatures"] = room.specialFeatures
     room_details["movableFurniture"] = room.movableFurniture    #Use to make sure all above attributes are correct?
-
     room_details["visualAcc"] = room.visualAcc
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
     # print(room_details["number"])                         
 
     return json.dumps(room_details)
+    
     
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
@@ -67,17 +67,13 @@ def saveChanges(rID):
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-
-
         room.lastModified = (data['lastModified'])
-        # print(room)
-
         room.save()                                             #Save data
-
         return json.dumps({"success":1})
    except:
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
+ 
  
 @app.route('/getEducationData/<rid>', methods = ["GET"]) #this function gets educationtech materials from the database
 def getEducationData(rid):
