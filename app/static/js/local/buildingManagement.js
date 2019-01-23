@@ -130,7 +130,6 @@ function saveChanges(roomID){
 
                          createTimestamp() ;
                          //Sets time stamp for Last Modified column, so that it is created after data is saved
-
                 },
                 error: function(error){
                     console.log("ERROR")
