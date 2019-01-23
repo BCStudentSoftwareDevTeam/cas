@@ -43,6 +43,14 @@ users = User(  firstName = "Emily",
                 isAdmin   = 0,
                 bNumber   = "1239475"
             ).save(force_insert=True)
+            
+users = User( firstName = "Farrah",
+                lastName  = "Stamper",
+                username  = "stamperf",
+                email     = "farrah_stamper@berea.edu",
+                isAdmin   = 0,
+                bNumber   = "123456789"
+            ).save(force_insert=True)            
 
 ##########
 #DIVISION#
@@ -52,6 +60,7 @@ division = Division(  name = "Division I"
 
 division = Division(  name = "Division II"
               ).save()
+              
 division = Division(  name = "Division III"
               ).save()
 
@@ -884,6 +893,9 @@ bmanager = BuildingManager( username = "myersco",
                           ).save()
 bmanager = BuildingManager( username = "pearcej",
                             bmid = 3
+                          ).save()
+bmanager = BuildingManager( username = "stamperf",
+                            bmid = 6
                           ).save()
                           
                           
