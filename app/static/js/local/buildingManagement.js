@@ -1,5 +1,4 @@
 // Javascipt file for Building Management
-
 // console.log("Javascript loaded!")
 
 var rIDGlobal = "";
@@ -11,9 +10,9 @@ function getRoomId(){
     return rIDGlobal;
 }
 function setRoomInfo(roomID, button){ 
+    // '''For populating panel onClick of Edit button. updateHTML is called'''
     //Sets room ID based on what room (row) Edit button was clicked
      setRoomId(roomID);
-    // console.log("RoomID:", roomID )
      movePanel(roomID);
      if (roomID > 0){
              var url = '/getRoomData/'+roomID;
@@ -34,22 +33,14 @@ function setRoomInfo(roomID, button){
     }
     
 }
+
 function movePanel(rID) { 
     //Takes rID to ensure correct room per row
     //Called in setRoomInfo
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
-    //console.log("Target"+targetDiv);
-    //console.log("hiddenRow_"+getRoomId());
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
     $(sourceDiv).collapse('show');
-}
-
-function createTimestamp(){
-    //Created timestamp and puts it in Last Modified column
-    //Should be called at the end of saveChanges and the save of education tech data
-    new Date().getTime()
-    console.log(Date.now())
 }
 
 function updateHtml(response) { 
@@ -70,7 +61,6 @@ function updateHtml(response) {
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
-    //TODO: PULL ED TECH
     //my_div.innerHTML = response['educationTech'];
     //The following three are different, due to it being a Select rather than an input
     var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
@@ -82,9 +72,37 @@ function updateHtml(response) {
 }
 
 function saveChanges(roomID){ 
-    //Posts data to DB and reloads the page
-    //Should update time/date in Last Modified column (TODO)
-    // console.log("saveChanges() called")
+    //Sets up datetime, passes all room attributes into a dictionary for ajax,then posts data to DB and reloads the page
+    
+    //Datetime setup
+    var dateTime = new Date();
+    var currHour = dateTime.getHours();
+    if (currHour < 12) //AM/PM setup
+       {
+       a_p = "AM";
+       }
+    else
+       {
+       a_p = "PM";
+       }
+    if (currHour == 0)
+       {
+       currHour = 12;
+       }
+    if (currHour > 12)
+       {
+       currHour = currHour - 12;
+       }
+    
+    var currMin = dateTime.getMinutes();
+    currMin = currMin + "";
+    if (currMin.length == 1) //Getting JS to not do single digit minutes
+    {
+        currMin = "0" + currMin;
+    }
+    var savedDateTime=(dateTime.toDateString()+",  "+ currHour + " : " +currMin + " " + a_p); //Concatenation of all date elements into one var for passing into dictionary
+    //End datetime setup
+    //Begin dictionary pass for Ajax
     var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
     roomDetails["roomType"] = document.getElementById('roomType').value;
@@ -95,8 +113,12 @@ function saveChanges(roomID){
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
 
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
+
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
+
+    roomDetails["lastModified"] = savedDateTime// document.getElementById('lastModified').value;
+
     var url = '/saveChanges/'+getRoomId();
          $.ajax({
              type: "POST",
@@ -105,14 +127,17 @@ function saveChanges(roomID){
                 dataType: 'json',
                 success: function(response){
                         window.location = "/buildingManagement" //Refresh page
+
                          createTimestamp() ;
                          //Sets time stamp for Last Modified column, so that it is created after data is saved
+
                 },
                 error: function(error){
                     console.log("ERROR")
                     window.location.assign("/buildingManagement")
                 }
          }); 
+
 
 }
    
@@ -244,6 +269,10 @@ function saveEdTechChanges(roomID){
 }
 
     
+
+
+         
+
 
     
 

@@ -81,6 +81,7 @@ class Rooms(dbModel):
   specializedEq = CharField(null=True)
   specialFeatures = CharField(null=True)
   movableFurniture = BooleanField()
+  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
   
 # class ScheduleDays(dbModel):
 #   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
@@ -169,7 +170,8 @@ class CourseChange(dbModel):
   
 # my_db.create_tables([ScheduleDays])
 migrate(
-    migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+    migrator.add_column('Rooms', 'lastModified', CharField(null=True)),
+    # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
      
     # migrator.drop_not_null('CourseChange','rid')

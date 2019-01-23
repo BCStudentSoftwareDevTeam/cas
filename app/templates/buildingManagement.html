@@ -33,7 +33,7 @@
                             onclick="setRoomInfo({{room.rID}}, this)">Edit
                     </button>
                 </td>
-                <td><p id="datetime"> </p></td>
+                <td id="lastModified">{{room.lastModified}}</td>
             </tr>
             <tr class="hidden_{{room.rID}}" > 
                 <td colspan="4" id="hiddenRow_{{room.rID}}">
@@ -51,22 +51,32 @@
                     <tr>
                         <td>
                            <div class="container">
-                            <div id="selectedRoom">        
-                                <div class="col-md-6 left">
+                            <div id="selectedRoom">
+                                <div class = "row">        
+                                <div class="col-md-4 left">
                                     <div aria-labelledby="Room Number"><strong>Room Number:</strong><span id="roomNumber" ></span></div><br>
                                     <div aria-labelledby="Room Capacity"><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div><br>
                                     <div aria-labelledby="Room Type"><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
                                     <div aria-labelledby="Specialized Equpiment"><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
                                     <div aria-labelledby="Special Features"><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
                                 </div>
-                                <div class="col-md-6 right">
+                                <div class = "col-md-4">
+                                    
+                                </div>
+                                <div class="col-md-4 right">
                                     <div aria-labelledby="Movable Furniture"><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
                                     </div><br>
                                     {% include "snips/editableEducationTech.html" %}
-                                    <div id="educationTech" aria-labelledby="Education Tech"><strong>Education Tech: </strong><br>
+               
+                                   <div id="educationTech" aria-labelledby="Education Tech"><strong>Education Tech: </strong><br>
                                         <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
                                         class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal" onclick='seteducationTech()'> 
                                         <a href="#">Open</a></button> <!--TODO: pull from db. refer to roompreferences on developement
+
+                                        <!--<button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" -->
+                                        <!--class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> -->
+                                        <a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roompreferences on developement
+
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
                                     <div aria-labelledby="Visual Accessibility"><strong>Visual Accessibility: </strong>
@@ -92,7 +102,9 @@
                                             <option value="C">C</option>
                                         </select>
                                     </div><br>
+                                    
                                 </div>
+                            </div>
                             </div>
                             <div id="submitChangesDiv">
                                 <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges"  id="submitChanges">Submit changes</button> <!---TODO: Save changes on click--->

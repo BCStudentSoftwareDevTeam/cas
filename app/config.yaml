@@ -54,6 +54,8 @@ mainMenu:
     link: "/selectProgram"
   - title: "Room Preferences"
     link: "/selectTermRP"
+  - title: "Building Management"
+    link: "/buildingManagement"
   - title: "Log Out"
     link: "/logout"
 
@@ -67,11 +69,7 @@ accessLevel:
   - name: "Administrator"
     id: "administrator"
 
-
 adminMenu:
-  - title: "Building Management"
-    link:  "/buildingManagement"
-    page: ["buildingManagement"]
   - title: "Program Management" #Not needed after User Management
     link:  "/redirect/program_management"
     page: ["programManagement"]
@@ -167,8 +165,9 @@ DEBUG:
   user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
-  #user: "lovelle" #Professor Access
+  # user: "lovelle" #Professor Access
   # user: "sldkjfalsdkfj;" #for production
+  # user: "stamperf" #Bldg Mngr Access
   
 filepath:
   tmp: 'data/tmp'
