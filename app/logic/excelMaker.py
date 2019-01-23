@@ -2,17 +2,21 @@ import xlsxwriter
 from app.allImports import *
 import sys,os
 import time 
-
 from datetime import datetime
 import datetime as dt
-# from datetime import timedelta
+
+
+
 class ExcelMaker:
     def __init__(self):
         self.program_row = 2
         self.cross_row   = 2
         self.master_row  = 2
         self.intr_letter = ''
-
+        self.dir_name = os.path.dirname(__file__)
+        self.room_conflicts = load_config(os.path.join(here, 'conflicts.yaml'))
+        self.all_schedules = ['A', 'A1', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q','R','S','T','U','V','W','X','Y', 'Z','I1']
+        self.letter_to_room = {}
     def writeRow(self,sheet,column,row,value):
         sheet.write('{0}{1}'.format(column,row),value)
 
@@ -49,117 +53,64 @@ class ExcelMaker:
         sheet.write('B1', 'Capacity')
         sheet.write('C1', 'Seating Layout')
         sheet.write('D1', 'Times Scheduled')
-        sheet.write('E1', 'Visual Accessibility')
-        sheet.write('F1', 'Audio Accessibility')
-        sheet.write('G1', 'Physical Accessibility')
-        sheet.write('H1', 'Specialized Equipment')
-        sheet.write('I1', 'Special Features')
-        sheet.write('J1', 'Movable Furniture')
-        sheet.write('K1', 'Projector(s)')
-        sheet.write('L1', 'SmartBoard(s)')
-        sheet.write('M1', 'Instructor Computers')
-        sheet.write('N1', 'Podium')
-        sheet.write('O1', 'Student Workspaces')
-        sheet.write('P1', 'Chalkboards')
-        sheet.write('Q1', 'WhiteBoards')
-        sheet.write('R1', 'DVD')
-        sheet.write('S1', 'Blu-Ray')
-        sheet.write('T1', 'Audio')
-        sheet.write('U1', 'Extro')
-        sheet.write('V1', 'Doc Cam')
-        sheet.write('W1', 'VHS')
-        sheet.write('X1', 'Mondopad')
-        sheet.write('Y1', 'Tech Cart')
-        self.intr_letter = 'Y'
+        sheet.write('E1', 'Times Available')
+        sheet.write('F1', 'Visual Accessibility')
+        sheet.write('G1', 'Audio Accessibility')
+        sheet.write('H1', 'Physical Accessibility')
+        sheet.write('I1', 'Specialized Equipment')
+        sheet.write('J1', 'Special Features')
+        sheet.write('K1', 'Movable Furniture')
+        sheet.write('L1', 'Projector(s)')
+        sheet.write('M1', 'SmartBoard(s)')
+        sheet.write('N1', 'Instructor Computers')
+        sheet.write('O1', 'Podium')
+        sheet.write('P1', 'Student Workspaces')
+        sheet.write('Q1', 'Chalkboards')
+        sheet.write('R1', 'WhiteBoards')
+        sheet.write('S1', 'DVD')
+        sheet.write('T1', 'Blu-Ray')
+        sheet.write('U1', 'Audio')
+        sheet.write('V1', 'Extro')
+        sheet.write('W1', 'Doc Cam')
+        sheet.write('X1', 'VHS')
+        sheet.write('Y1', 'Mondopad')
+        sheet.write('Z1', 'Tech Cart')
+        self.intr_letter = 'Z'
     
-    def writeAvailableRoomHeaders(self, sheet):
-        sheet.write('A1', 'Room')
-        sheet.write('B1', 'Capacity')
-        sheet.write('C1', 'Seating Layout')
-        sheet.write('D1', 'Times Available')
-        sheet.write('E1', 'Visual Accessibility')
-        sheet.write('F1', 'Audio Accessibility')
-        sheet.write('G1', 'Physical Accessibility')
-        sheet.write('H1', 'Specialized Equipment')
-        sheet.write('I1', 'Special Features')
-        sheet.write('J1', 'Movable Furniture')
-        sheet.write('K1', 'Projector(s)')
-        sheet.write('L1', 'SmartBoard(s)')
-        sheet.write('M1', 'Instructor Computers')
-        sheet.write('N1', 'Podium')
-        sheet.write('O1', 'Student Workspaces')
-        sheet.write('P1', 'Chalkboards')
-        sheet.write('Q1', 'WhiteBoards')
-        sheet.write('R1', 'DVD')
-        sheet.write('S1', 'Blu-Ray')
-        sheet.write('T1', 'Audio')
-        sheet.write('U1', 'Extro')
-        sheet.write('V1', 'Doc Cam')
-        sheet.write('W1', 'VHS')
-        sheet.write('X1', 'Mondopad')
-        sheet.write('Y1', 'Tech Cart')
-        self.intr_letter = 'Y'
         
-    def write_all_rooms_info(self, sheet, room, row, schedule_dict):
+    def write_all_rooms_info(self, sheet, room, row, schedule_dict, available_times):
         sheet.write('A{0}'.format(row), room.building.name +' '+ room.number)
         sheet.write('B{0}'.format(row), room.maxCapacity)
         sheet.write('C{0}'.format(row), room.roomType)
         if room.building.name +' '+ room.number in schedule_dict:
             sheet.write('D{0}'.format(row), ' , '.join(schedule_dict[room.building.name +' '+ room.number]))
+            
         else:
             sheet.write('D{0}'.format(row),' ')
-        sheet.write('E{0}'.format(row), room.visualAcc)
-        sheet.write('F{0}'.format(row), room.audioAcc)
-        sheet.write('G{0}'.format(row), room.physicalAcc)
-        sheet.write('H{0}'.format(row), room.specializedEq)
-        sheet.write('I{0}'.format(row), room.specialFeatures)
-        sheet.write('J{0}'.format(row), room.movableFurniture)
-        sheet.write('K{0}'.format(row), room.educationTech.projector)
-        sheet.write('L{0}'.format(row), room.educationTech.smartboards)
-        sheet.write('M{0}'.format(row), room.educationTech.instructor_computers)
-        sheet.write('N{0}'.format(row), room.educationTech.podium)
-        sheet.write('O{0}'.format(row), room.educationTech.student_workspace)
-        sheet.write('P{0}'.format(row), room.educationTech.chalkboards)
-        sheet.write('Q{0}'.format(row), room.educationTech.whiteboards)
-        sheet.write('R{0}'.format(row), room.educationTech.dvd)
-        sheet.write('S{0}'.format(row), room.educationTech.blu_ray)
-        sheet.write('T{0}'.format(row), room.educationTech.audio)
-        sheet.write('U{0}'.format(row), room.educationTech.extro)
-        sheet.write('V{0}'.format(row), room.educationTech.doc_cam)
-        sheet.write('W{0}'.format(row), room.educationTech.vhs)
-        sheet.write('X{0}'.format(row), room.educationTech.mondopad)
-        sheet.write('Y{0}'.format(row), room.educationTech.tech_chart)
+        sheet.write('E{0}'.format(row), ' , '.join(available_times))
+        sheet.write('F{0}'.format(row), room.visualAcc)
+        sheet.write('G{0}'.format(row), room.audioAcc)
+        sheet.write('H{0}'.format(row), room.physicalAcc)
+        sheet.write('I{0}'.format(row), room.specializedEq)
+        sheet.write('J{0}'.format(row), room.specialFeatures)
+        sheet.write('K{0}'.format(row), room.movableFurniture)
+        sheet.write('L{0}'.format(row), room.educationTech.projector)
+        sheet.write('M{0}'.format(row), room.educationTech.smartboards)
+        sheet.write('N{0}'.format(row), room.educationTech.instructor_computers)
+        sheet.write('O{0}'.format(row), room.educationTech.podium)
+        sheet.write('P{0}'.format(row), room.educationTech.student_workspace)
+        sheet.write('Q{0}'.format(row), room.educationTech.chalkboards)
+        sheet.write('R{0}'.format(row), room.educationTech.whiteboards)
+        sheet.write('S{0}'.format(row), room.educationTech.dvd)
+        sheet.write('T{0}'.format(row), room.educationTech.blu_ray)
+        sheet.write('U{0}'.format(row), room.educationTech.audio)
+        sheet.write('V{0}'.format(row), room.educationTech.extro)
+        sheet.write('W{0}'.format(row), room.educationTech.doc_cam)
+        sheet.write('X{0}'.format(row), room.educationTech.vhs)
+        sheet.write('Y{0}'.format(row), room.educationTech.mondopad)
+        sheet.write('Z{0}'.format(row), room.educationTech.tech_chart)
         
-        
-    def write_available_rooms_info(self, sheet, room, row, schedule_dict):
-        sheet.write('A{0}'.format(row), room.building.name +' '+ room.number)
-        sheet.write('B{0}'.format(row), room.maxCapacity)
-        sheet.write('C{0}'.format(row), room.roomType)
-        sheet.write('D{0}'.format(row), schedule_dict[room.building.name +' '+ room.number])
-        sheet.write('E{0}'.format(row), room.visualAcc)
-        sheet.write('F{0}'.format(row), room.audioAcc)
-        sheet.write('G{0}'.format(row), room.physicalAcc)
-        sheet.write('H{0}'.format(row), room.specializedEq)
-        sheet.write('I{0}'.format(row), room.specialFeatures)
-        sheet.write('J{0}'.format(row), room.movableFurniture)
-        sheet.write('K{0}'.format(row), room.educationTech.projector)
-        sheet.write('L{0}'.format(row), room.educationTech.smartboards)
-        sheet.write('M{0}'.format(row), room.educationTech.instructor_computers)
-        sheet.write('N{0}'.format(row), room.educationTech.podium)
-        sheet.write('O{0}'.format(row), room.educationTech.student_workspace)
-        sheet.write('P{0}'.format(row), room.educationTech.chalkboards)
-        sheet.write('Q{0}'.format(row), room.educationTech.whiteboards)
-        sheet.write('R{0}'.format(row), room.educationTech.dvd)
-        sheet.write('S{0}'.format(row), room.educationTech.blu_ray)
-        sheet.write('T{0}'.format(row), room.educationTech.audio)
-        sheet.write('U{0}'.format(row), room.educationTech.extro)
-        sheet.write('V{0}'.format(row), room.educationTech.doc_cam)
-        sheet.write('W{0}'.format(row), room.educationTech.vhs)
-        sheet.write('X{0}'.format(row), room.educationTech.mondopad)
-        sheet.write('Y{0}'.format(row), room.educationTech.tech_chart)    
-        
-        
-        
+ 
     def write_course_info(self,sheet,row,course):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
@@ -246,7 +197,32 @@ class ExcelMaker:
         self.master_row += 1
         if course.crossListed:
             self.cross_row += 1
-
+    
+    
+    def remove_unavailable_time(self, room):
+        available_times = []
+        if room.building.name+' '+room.number in self.letter_to_room:
+            # Remove taken time
+            for i in self.all_schedules:
+                    if i not in self.letter_to_room[room.building.name+' '+room.number]:
+                        available_times.append(i)
+            # Remove conflicts
+            for i in self.letter_to_room[room.building.name+' '+room.number]:
+                for j in cfg['conflicts'][i]:
+                    if j in available_times:
+                        available_times.remove(j)
+        return available_times
+            
+            
+    def get_schedule_days(self, banner_schedule):
+        schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == banner_schedule.sid)
+        days = []
+        for i in schedule_days:
+            days.append(i.day)
+        days = ''.join(days) 
+        return days
+        
+        
     def make_master_file(self,term):
         #Set excel parameter variables
         filename = "cas-{}-courses.xlsx".format(term.termCode)
@@ -271,52 +247,33 @@ class ExcelMaker:
         allrooms_sheet = workbook.add_worksheet('All Rooms')
         self.writeAllRoomHeaders(allrooms_sheet)
         
-        availablerooms_sheet = workbook.add_worksheet('Available Rooms')
-        self.writeAvailableRoomHeaders(availablerooms_sheet)
+    
         
         schedule_to_room = {}
-        letter_to_room = {}
-        sched_to_room = {}
         #Select all the courses 
         courses = Course.select().where(Course.rid != None)
         for course in courses:
-            schedule = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule)
-            schedule_days = []
-            for i in schedule:
-                schedule_days.append(i.day)
-            schedule_days = ','.join(schedule_days) 
-            # print(schedule_days)
+           
+            banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
+            schedule_days = self.get_schedule_days(banner_schedule)
+      
             if course.rid.building.name+' '+course.rid.number in schedule_to_room:
                 schedule_to_room[course.rid.building.name+' '+course.rid.number].append('('+ schedule_days+ ': ' +str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')')
-                sched_to_room[course.rid.building.name+' '+course.rid.number].append((course.schedule.startTime, course.schedule.endTime))
-                # letter_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid)
+                self.letter_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid)
             else:
                 schedule_to_room[course.rid.building.name+' '+course.rid.number] = ['('+ schedule_days+ ': '+str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')']
-                sched_to_room[course.rid.building.name+' '+course.rid.number] = [(course.schedule.startTime, course.schedule.endTime)]
-                # letter_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
-            # letter_to_room[course.rid.building.name+' '+course.rid.number] = sorted(letter_to_room[course.rid.building.name+' '+course.rid.number])
-        # print(letter_to_room)
-        # print(schedule_to_room)
-        # print(sched_to_room)
-    
-            hours = ( datetime.strptime('8:00:00', '%H:%M:%S'),  datetime.strptime('20:50:00', '%H:%M:%S'))
-            slots = [(hours[0], hours[0]), sched_to_room[course.rid.building.name+' '+course.rid.number], (hours[1], hours[1])]
-            # print('Slots:', slots)
-            duration=timedelta(hours=1)
-            for start, end in ((slots[i][1], slots[i+1][0]) for i in range(len(slots)-1)):
-                while start + duration <= end:
-                    print "{:%H:%M} - {:%H:%M}".format(start, start + duration)
-                    start += duration
-                
-                
-                
+                self.letter_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
+        
         all_rooms = Rooms.select().order_by(Rooms.building_id)
         for room in all_rooms:
-            self.write_all_rooms_info(allrooms_sheet, room, self.room_row, schedule_to_room)
+            available_times = self.remove_unavailable_time(room)
+            for i in range(len(available_times)):
+                banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == available_times[i]).first()
+                available_times[i] = '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')'
+            self.write_all_rooms_info(allrooms_sheet, room, self.room_row, schedule_to_room, available_times)
             self.room_row += 1
         
-    
-        
+      
             
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
@@ -324,7 +281,6 @@ class ExcelMaker:
       
         # Create worksheets and set headers for each program
         for program in programs:
-           
             self.program_row = 2 #reset the program row
             program_sheet = workbook.add_worksheet(program.prefix)
             self.writeHeaders(program_sheet)
