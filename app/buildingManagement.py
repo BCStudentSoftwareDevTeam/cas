@@ -64,7 +64,6 @@ def saveChanges(rID):
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-        # print(room)
         room.save()                                             #Save data
 
         return json.dumps({"success":1})
@@ -74,8 +73,6 @@ def saveChanges(rID):
  
 @app.route('/getEducationData/<rid>', methods = ["GET"]) #this function gets educationtech materials from the database
 def getEducationData(rid):
-    # print("hello")
-  
     room = Rooms.get(Rooms.rID == rid)
     tech_details = room.educationTech
     education_materials={}

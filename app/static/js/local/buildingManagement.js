@@ -117,10 +117,7 @@ function saveChanges(roomID){
 }
    
    
-  
-
- 
-
+  /*sets the radio checkbox for education tech for each room*/
 function education_detail(response){
     
     var my_div = document.getElementById('projectors');
@@ -179,11 +176,11 @@ function education_detail(response){
     if (response['tech_chart']) {
         my_div8.setAttribute("checked", "checked");
     }
-   
-
+  
 }
 
-
+/*This function serves to take data from the python 
+file and dumps into html file on the UI after taking from the education_detail()*/
 function seteducationTech() {
     setRoomId(getRoomId());
     if(getRoomId()){
@@ -198,19 +195,16 @@ function seteducationTech() {
                             education_detail(response); //a function with education tech details
                             console.log("Success"+response)
                         }
-                   
                 },
                 error: function(error) {
                 console.log(error);
                 }
             });
-   
     }
 }
-    
-function saveEdTechChanges(roomID){ /*this functions saves the edecuationtech things on the front-end 
-                                  and updated them as thier values change*/
-   
+
+    /*this functions saves the edecuationtech things on the front-end and updated them as thier values change*/
+function saveEdTechChanges(roomID){ 
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;
     edtechDetails["smartboards"] = document.getElementById('smartboards').value;
@@ -219,7 +213,6 @@ function saveEdTechChanges(roomID){ /*this functions saves the edecuationtech th
     edtechDetails["student_workspace"] = document.getElementById('student_workspace').value;
     edtechDetails["chalkboards"] = document.getElementById('chalkboards').value;
     edtechDetails["whiteboards"] = document.getElementById('whiteboards').value;
-    
     edtechDetails["vhs"] = document.getElementById('vhs').checked;
     edtechDetails["dvd"] = document.getElementById('dvd').checked;
     edtechDetails["blu_ray"] = document.getElementById('blu_ray').checked;
@@ -228,11 +221,7 @@ function saveEdTechChanges(roomID){ /*this functions saves the edecuationtech th
     edtechDetails["doc_cam"] = document.getElementById('doc_cam').checked;
     edtechDetails["extro"] = document.getElementById('extro').checked;
     edtechDetails["tech_chart"] = document.getElementById('tech_chart').checked;
-    
-    
-
     var url = '/saveEdTechChanges/'+getRoomId();
-   
          $.ajax({
              type: "POST",
                 url: url,
