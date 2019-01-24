@@ -13,10 +13,8 @@ class ExcelMaker:
         self.cross_row   = 2
         self.master_row  = 2
         self.intr_letter = ''
-        self.dir_name = os.path.dirname(__file__)
-        self.room_conflicts = load_config(os.path.join(here, 'conflicts.yaml'))
         self.all_schedules = ['A', 'A1', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q','R','S','T','U','V','W','X','Y', 'Z','I1']
-        self.letter_to_room = {}
+        self.schedule_to_room = {}
     def writeRow(self,sheet,column,row,value):
         sheet.write('{0}{1}'.format(column,row),value)
 
@@ -78,12 +76,16 @@ class ExcelMaker:
         self.intr_letter = 'Z'
     
         
-    def write_all_rooms_info(self, sheet, room, row, schedule_dict, available_times):
+    def write_all_rooms_info(self, sheet, room, row, available_times):
         sheet.write('A{0}'.format(row), room.building.name +' '+ room.number)
         sheet.write('B{0}'.format(row), room.maxCapacity)
         sheet.write('C{0}'.format(row), room.roomType)
-        if room.building.name +' '+ room.number in schedule_dict:
-            sheet.write('D{0}'.format(row), ' , '.join(schedule_dict[room.building.name +' '+ room.number]))
+        if room.building.name +' '+ room.number in self.schedule_to_room:
+            taken_times = []
+            for i in self.schedule_to_room[room.building.name +' '+ room.number]:
+                banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == i).first()
+                taken_times.append( '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')')
+            sheet.write('D{0}'.format(row), ' , '.join(taken_times))
             
         else:
             sheet.write('D{0}'.format(row),' ')
@@ -117,20 +119,16 @@ class ExcelMaker:
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
         
-        
         #Course Schedule
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
-            # print('About to get days')
                  
             schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule.sid)
       
             days = ""
             for i in schedule_days:
                 days += str(i.day)
-          
-   
           
             if days is None:
                 days = "TBD"
@@ -200,14 +198,16 @@ class ExcelMaker:
     
     
     def remove_unavailable_time(self, room):
-        available_times = []
-        if room.building.name+' '+room.number in self.letter_to_room:
-            # Remove taken time
+        ''' This method is to filter through all the schedules possible and remove the times already scheduled and conflicts for each room.
+        It takes as input a room object and returns an array with all the times that the room is free '''
+        available_times = [] 
+        if room.building.name+' '+room.number in self.schedule_to_room:
+            # Remove taken times
             for i in self.all_schedules:
-                    if i not in self.letter_to_room[room.building.name+' '+room.number]:
-                        available_times.append(i)
+                if i not in self.schedule_to_room[room.building.name+' '+room.number]:
+                    available_times.append(i)
             # Remove conflicts
-            for i in self.letter_to_room[room.building.name+' '+room.number]:
+            for i in self.schedule_to_room[room.building.name+' '+room.number]:
                 for j in cfg['conflicts'][i]:
                     if j in available_times:
                         available_times.remove(j)
@@ -215,6 +215,8 @@ class ExcelMaker:
             
             
     def get_schedule_days(self, banner_schedule):
+        ''' This method gets all the days for each letter in banner_schedule'''
+        
         schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == banner_schedule.sid)
         days = []
         for i in schedule_days:
@@ -242,27 +244,21 @@ class ExcelMaker:
         cross_sheet = workbook.add_worksheet('CrossListed')
         self.writeHeaders(cross_sheet)
         
-        
         # Create worksheet for Rooms
         allrooms_sheet = workbook.add_worksheet('All Rooms')
         self.writeAllRoomHeaders(allrooms_sheet)
-        
-    
-        
-        schedule_to_room = {}
+      
         #Select all the courses 
         courses = Course.select().where(Course.rid != None)
         for course in courses:
-           
             banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
             schedule_days = self.get_schedule_days(banner_schedule)
-      
-            if course.rid.building.name+' '+course.rid.number in schedule_to_room:
-                schedule_to_room[course.rid.building.name+' '+course.rid.number].append('('+ schedule_days+ ': ' +str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')')
-                self.letter_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid)
+            
+            # Map all the times a room is taken to that particular room 
+            if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
+                self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid) 
             else:
-                schedule_to_room[course.rid.building.name+' '+course.rid.number] = ['('+ schedule_days+ ': '+str(course.schedule.startTime) +' - ' + str(course.schedule.endTime)+')']
-                self.letter_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
+                self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
         
         all_rooms = Rooms.select().order_by(Rooms.building_id)
         for room in all_rooms:
@@ -270,14 +266,11 @@ class ExcelMaker:
             for i in range(len(available_times)):
                 banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == available_times[i]).first()
                 available_times[i] = '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')'
-            self.write_all_rooms_info(allrooms_sheet, room, self.room_row, schedule_to_room, available_times)
+            self.write_all_rooms_info(allrooms_sheet, room, self.room_row, available_times)
             self.room_row += 1
-        
-      
             
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
-      
       
         # Create worksheets and set headers for each program
         for program in programs:
@@ -298,8 +291,6 @@ class ExcelMaker:
                     self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
         
-      
-       
         workbook.close()
         return path
         
