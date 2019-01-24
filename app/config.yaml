@@ -162,12 +162,12 @@ columnColor:
   verified: 'verified'
   
 DEBUG:
-  user: "heggens" #Admin Access
+  # user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
   # user: "lovelle" #Professor Access
   # user: "sldkjfalsdkfj;" #for production
-  # user: "stamperf" #Bldg Mngr Access
+  user: "stamperf" #Bldg Mngr Access
   
 filepath:
   tmp: 'data/tmp'

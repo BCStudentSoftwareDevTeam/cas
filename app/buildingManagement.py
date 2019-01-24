@@ -15,16 +15,27 @@ from app.logic.getAuthUser import AuthorizedUser
 
 def buildingManagement():
     #Gathering of appropriate data to send to html
+    current_user = AuthorizedUser().getUsername()
+
     building = (Building.select()#Put conditional here, see room preference.py line 38 for inspo.
-                    .join(BuildingManager, on= (BuildingManager.bmid == Building.bID))
+                    .join(BuildingManager)
                     .where(BuildingManager.username == current_user)
                     )
-    print(BuildingManager.username)
+    le_rooms = []
+    print('Length', len(building))
+    for b in building:
+        print(current_user)
+        print(b.bID)
+        print("HAkjhkdwa")
+        rooms = Rooms.select().where(Rooms.building == b.bID)
+        for room in rooms:
+            le_rooms.append(room)
+        # le_rooms.append(Rooms.select().where(Rooms.building.bID == b.bID))
     user = User.select()
-    rooms = Rooms.select()
+    # rooms = Rooms.select()
     return render_template("buildingManagement.html",
                             building = building,
-                            rooms = rooms,
+                            rooms = le_rooms,
                             user = user
                             )
                          
