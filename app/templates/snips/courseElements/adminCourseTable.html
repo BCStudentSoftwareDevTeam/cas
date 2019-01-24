@@ -121,32 +121,37 @@
             <td>
                 {{course.lastEditBy}}
             </td>
-            {% if key > 2 and isAdmin %}
+      {% if key > 2 and isAdmin %}
             <!---- if user is admin and its summer course, they can edit---->
-                <td>
-                    <div class="child">
-                        <!--EDIT MODAL-->
-                        <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
-                            <span  class = "sr-only">Edit Course</span>
-                        </span></a>
-                        <!--DELETE MODAL-->
-                        <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span>
-                        </span>  </a>
-                        {% include "snips/courseElements/deleteCourse.html" %}
-                    </div>
-                </td>
-            {% else %}
-                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
-                <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->
-                            <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                            
+                            <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
+                                <span  class = "sr-only">Edit Course</span>
+                            </span></a>
                             <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                            <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span>
+                            </span>  </a>
                             {% include "snips/courseElements/deleteCourse.html" %}
                         </div>
                     </td>
+                {% endif %}
+            {% else %}
+                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
+                <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                    {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
+                        <td>
+                            <div class="child">
+                                <!--EDIT MODAL-->
+                                <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                                <!--DELETE MODAL-->
+                                <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                                {% include "snips/courseElements/deleteCourse.html" %}
+                            </div>
+                        </td>
+                    {% endif %}
                 {% endif %}
             {% endif %}
             </tr>
@@ -219,13 +224,35 @@
                         <p>No room listed</p>
                     {% endif %}
                 <!--CROSS LISTED-->
-                <td>
-                    {% if course.crossListed == 1 %}
-                        yes
-                    {% else %}
-                        no
-                    {% endif %}
-                </td>
+                <!--CROSS LISTED-->
+                    <td>
+                        {% if course in crosslisted %}
+                        <div class="form-check" id="checkcross">
+                            {% if crosslisted[course][0] %}
+                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
+                            <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                            {% else %}
+                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
+                            <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                            {% endif %}
+                        </div>
+                            {% for cross_course in crosslisted[course][1:] %}
+                                {% if cross_course.verified == False %}
+                                    <button type="button" data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} HAS NOT BEEN VERIFIED." style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                          <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                                    </button>
+                                {% else %}
+                                    <button data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} HAS BEEN VERIFIED." type="button" style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                          <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                                    </button>
+                
+                                {% endif %}
+        
+                            {% endfor %}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </td>
                 <!--NOTES-->
                 <td>
                     {% if course.notes is not none %}

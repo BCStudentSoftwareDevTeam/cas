@@ -19,6 +19,26 @@ def deletecourse(prefix, tid):
     # START PROCESSING THE DELETION OF THE COURSE
     course = Course.get(Course.cId == cid)
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
+    
+      #if course is a crosslisted parent course, delete it with all its child courses
+    if course.crossListed == 1 and course.parentCourse == None:
+        crosslistedCourses = CrossListed.select().where(CrossListed.courseId == cid)
+        crosslistedChildCourses = Course.select().where(Course.parentCourse == cid)
+        #delete all related crosslisted courses in crosslisted table
+        for crosslisted_course in crosslistedCourses:
+            crosslisted_course.delete_instance()
+        #delete all related courses child courses in course table
+        for childcourse in crosslistedChildCourses:
+            childcourse.delete_instance()
+    
+    elif course.crossListed == 1 and course.parentCourse != None:
+        
+        print("right here dealing with childs")
+        # course.delete_instance()
+        crosslistedcourse = CrossListed.select().where(CrossListed.crosslistedCourse == cid)
+        for crosslistedId in crosslistedcourse:
+            crosslistedId.delete_instance()
+
     if not databaseInterface.isTermOpen(tid):
 
         change = CourseChange.select().where(CourseChange.cId == cid)

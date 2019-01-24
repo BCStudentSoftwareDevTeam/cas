@@ -3,6 +3,23 @@ from updateCourse import DataUpdate
 from app.logic.TrackerEdit import TrackerEdit
 from app.logic import databaseInterface
 from app.logic.authorization import must_be_authorized
+from collections import defaultdict
+
+def find_crosslist_via_id(cid):
+    "taking course id "
+    course_to_crosslisted = defaultdict(list) # key: []
+    course = Course.get(Course.cId == cid)
+    if course.crossListed:
+        qs = CrossListed.select().where(CrossListed.courseId == cid)
+        if qs.exists:
+            for cross_course in qs:
+                #skip the parent itself
+                print("ya", cross_course.crosslistedCourse.cId, cid)
+                if cross_course.crosslistedCourse.cId != int(cid):
+                    course_to_crosslisted[cid].append(cross_course.crosslistedCourse)
+                
+            return course_to_crosslisted
+    return False
 
 @app.route("/editCourseModal/<tid>/<prefix>/<cid>/<page>", methods=["GET"])
 def editCourseModal(tid, prefix, cid, page):
@@ -20,9 +37,17 @@ def editCourseModal(tid, prefix, cid, page):
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
     # SELECT ALL ROOMS
     rooms     = Rooms.select()
+    
+    getCrosslistedCourses = find_crosslist_via_id(cid)
+    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
+    currentCrosslistedCourse = None
+    for c in getCrosslistedCourses:
+      currentCrosslistedCourse = list(getCrosslistedCourses[c])
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
                             terms     = terms,
+                            allCourses=allCourses,
+                            currentCrosslistedCourse=currentCrosslistedCourse,
                             course    = course,
                             users = users,
                             instructors = instructors,

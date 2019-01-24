@@ -191,6 +191,8 @@ def editCourse(data, prefix, professors):
         # get the course object
         #TODO: We are not doing null checks on the portion of
         #the code which is causing crashes on the system 
+        
+    
         course = Course.get(Course.cId == int(data['cid']))
         #CHECK VALUES FOR NULL
         room     = data["room"] if data["room"] else None
@@ -201,6 +203,9 @@ def editCourse(data, prefix, professors):
             notes = None
         else:
             notes = data['notes']
+        newCrossListids = data.getlist('crossListedCourses')
+        crosslistedIds = data.getlist('crossListedCourses')
+        
         
         course.crossListed = int(data["crossListed"])
         course.term = data['term']
@@ -213,6 +218,68 @@ def editCourse(data, prefix, professors):
         course.save()
         editInstructors(professors, data['cid'])
         
+        
+        #update all other related courses
+        childcourses = Course.select().where(Course.parentCourse == data['cid'])
+        for course in childcourses:
+            childCourse = Course.get(Course.cId == course.cId)
+            childCourse.capacity = capacity
+            childCourse.section = section
+            childCourse.room = room
+            childCourse.rid=room
+            childCourse.schedule= schedule
+            childCourse.notes = notes
+            childCourse.lastEditBy = authUser(request.environ)
+            editInstructors(professors, data['cid'])
+            childCourse.save()
+            
+    #editing crosslisted courses.Deleting current crosslisted courses and relationships and creating new ones.
+        if len(crosslistedIds) != 0:
+            CurrCourses = Course.select().where(Course.parentCourse == data['cid'])
+            CrosslistRelation = CrossListed.select().where(CrossListed.courseId == data['cid'])
+            newCrossListids = data.getlist('crossListedCourses')
+            
+            for course in CurrCourses:
+                course.delete_instance()
+            for relationship in CrosslistRelation:
+                relationship.delete_instance()
+            
+            
+            crosslisted = CrossListed(courseId = int(data['cid']),crosslistedCourse = int(data['cid']),
+                prefix = course.prefix,
+                verified = True,
+                term=data['term']
+            )
+            crosslisted.save()
+            
+            for course_id in newCrossListids:
+                course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
+                newcrosslist = Course(prefix = course_prefix,
+                                                bannerRef = course_id,
+                                                term = data['term'],
+                                                capacity = capacity,
+                                                section = section,
+                                                schedule = schedule,
+                                                notes = notes,
+                                                crossListed =int(data['crossListed']),
+                                                rid     = room,
+                                                lastEditBy = authUser(request.environ),
+                                                parentCourse = int(data['cid']))
+                newcrosslist.save() 
+                editInstructors(professors, data['cid'])
+                
+                # print(data['tid'])
+                crosslisted = CrossListed(
+                            courseId=int(data['cid']),
+                            crosslistedCourse=int(newcrosslist.cId),
+                            prefix=course_prefix,
+                            verified = False,
+                            term=data['term']
+                        )
+                        
+                crosslisted.save()
+        
+      
 def getCourseTimelineSchedules(day,tid):
     schedules = ScheduleDays.select(ScheduleDays.schedule
                           ).join(Course, on=(Course.schedule == ScheduleDays.schedule)
