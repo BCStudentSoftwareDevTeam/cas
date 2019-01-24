@@ -1,10 +1,24 @@
 from functools import wraps
 from flask import g
 from app.models import Term, BannerCourses, Course, CrossListed
-
 from collections import defaultdict
 
-
+def find_crosslist_via_id(cid):
+    print("hello world")
+    course_to_crosslisted = defaultdict(list)
+    course = Course.get(Course.cId == cid)
+    if course.crossListed:
+        qs = CrossListed.select().where(CrossListed.courseId == cid)
+        if qs.exists:
+            for cross_course in qs:
+                #skip the parent itself
+                print("ya", cross_course.crosslistedCourse.cId, cid)
+                if cross_course.crosslistedCourse.cId != int(cid):
+                    course_to_crosslisted[cid].append(cross_course.crosslistedCourse.bannerRef)
+                
+            return course_to_crosslisted
+    return False
+    
 def find_crosslist_courses(courses_prefetch):
         """Return crosslisted courses for given courses
         

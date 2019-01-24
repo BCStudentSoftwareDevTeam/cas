@@ -24,7 +24,7 @@ class dbModel (Model):
 
 migrator = SqliteMigrator(my_db)
 
-from app.models import  Rooms
+from app.models import  Rooms, CrossListed
 
 #Create these two tables first 
 """
@@ -131,8 +131,19 @@ class CourseChange(dbModel):
   rid               = ForeignKeyField(Rooms, null = True, related_name='courseChange_rid')
   tdcolors          = CharField(null = False)
   section           = TextField(null = True)
+  
+"""    
+class CrossListed(dbModel):
+  cId               = IntegerField(primary_key = True)
+  courseId          = ForeignKeyField(Course, null= True, related_name="parent_course")
+  crosslistedCourse = ForeignKeyField(Course, null = True, related_name="cross_course")
+  verified          = BooleanField(default=False)
+  prefix            = CharField()
+  term              = ForeignKeyField(Term, null = False)
+"""
 
 
+#my_db.create_tables([CrossListed])
 #my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms, Course, CourseChange, ScheduleDays])
 
 #Add these columns to existing tables in the production
@@ -168,8 +179,10 @@ class CourseChange(dbModel):
   
   
 # my_db.create_tables([ScheduleDays])
+
 migrate(
-    migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+    migrator.drop_column("Course", "parentCourse_id"),
+    migrator.add_column('Course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True)),
     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
      
     # migrator.drop_not_null('CourseChange','rid')

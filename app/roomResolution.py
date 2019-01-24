@@ -5,7 +5,10 @@ from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
 from app.logic.functions import get_unavailable_rooms
+from app.logic.course import find_crosslist_via_id
 import json
+from functools import wraps
+
 
 #Term modal
 @app.route("/roomResolutionTerm", methods=["GET"])
@@ -127,11 +130,13 @@ def roomResolutionView(termCode,cid):
                     pref_info['notes']=rp1.notes
                     preferences[pref] = pref_info
                     break
-            
+    course_to_crosslist=find_crosslist_via_id(cid)
+    print(course_to_crosslist)
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms,
+                            course_to_crosslist = course_to_crosslist,
                             unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
@@ -143,81 +148,77 @@ def roomResolutionView(termCode,cid):
                         )
                         
 
+
+def decorator(func):
+    @wraps(func)
+    def wrapper(cid, *args, **kwargs):
+        try:
+            course = Course.get(Course.cId==cid)
+            data = request.form
+            response = func(course, data)
+            if course.crossListed:
+                assign_or_unassign_cc(course, data['roomID'])
+            #if response is not None, updateRoom function was passed as callback, thus redirect user
+            if response:
+                return json.dumps(response)
+            flash("Your changes have been saved!") 
+            return json.dumps({"success": 1})
+        except:    
+            flash("An error has occurred. Please try again.","error")
+            return json.dumps({"error":0})
+    return wrapper
+    
 #Controller for Assign button (roomResolutionView) sending the assignment of a course to a room to database
 #Assign to AVAILABLE ROOMS ONLY
 @app.route("/assignRoom/<cid>", methods=["POST"])
-
-def assignRoom(cid):
+@decorator
+def assignRoom(course, data):
     '''
-    Assign General Available room to a course
+    Assign Available/Unavailable room to a course
+
     params:
-       int: cid: Course_Id
-
+      course: new_course
+      data: form data
     '''
-    try:
-        data = request.form
-        course=Course.get(Course.cId==cid)
-        #already has a room
-        if course.rid:
-            course.rid = data['roomID']
-            course.save()
-            flash("Your changes have been saved!") 
-            return json.dumps({"success": 1})
-        else:
-            #If the course doesn't have a room
-            course.rid = data['roomID']
-            course.save()
-            flash("Your changes have been saved!") 
-            return json.dumps({"success": 1})
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"success":0})
-    
-    
+    course.rid = data["roomID"]
+    course.save()
+
 #Assign to an OCCUPIED room, remove current occupant: Save and go to displayed course 
 @app.route("/updateRoom/<cid>", methods=["POST"])
-
-def updateRoom(cid):
-    '''Assign preference room to a course. 
-       Update the room id of previous course (i.e. conflict_course) to None.
+@decorator
+def updateRoom(course, data):
+    '''Reassign room to a different course. Remove the current one
        
        params:
-         int: cid: Course_Id
+         course: new_course
+         data: form data
     '''
-    try:
-        course = Course.get(Course.cId==cid)
-        data = request.form
-        course.rid = data['roomID']
-        course.save()
-        conflict_course = Course.get(Course.cId == data['ogCourse'])
-        conflict_course.rid=None
-        conflict_course.save()
-        response={"url":conflict_course.cId}
-        return json.dumps(response)
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"error":0})
+    course.rid = data["roomID"]
+    course.save()
+    conflict_course = Course.get(Course.cId == data['ogCourse'])
+    conflict_course.rid=None
+    conflict_course.save()
+    if(conflict_course.crossListed):
+        assign_or_unassign_cc(conflict_course, None)
+    return {"url":conflict_course.cId}
             
 
-
-@app.route("/addSecond/<cid>", methods=["POST"])
-def addSecond(cid):
+def assign_or_unassign_cc(course, roomId):
+    '''Unassign remove from the children of Crosslisted Course
+       
+       params:
+         course: crosslisted course
+         roomId: room
     '''
-    Assign Course to a room that already has courses in it. 
-    params:
-       int: cid: Course_Id
+    qs = CrossListed.select().where(CrossListed.courseId == course.cId)
+    if qs.exists:
+        for cross_course in qs:
+            #skip the parent itself
+            if cross_course.crosslistedCourse.cId != course.cId:
+                cross_course.crosslistedCourse.rid = roomId
+                cross_course.crosslistedCourse.save()
 
-    '''
-    try:
-        course = Course.get(Course.cId==cid)
-        data = request.form
-        course.rid = data['roomID']
-        course.save()
-        response={"success":1}
-        flash("Your changes have been saved!") 
-        return json.dumps({"success": 1})
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"error":0})
+            
         
+
     
