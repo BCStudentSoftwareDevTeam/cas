@@ -19,16 +19,15 @@ def convertPrereqs(prereqs):
         return prereqs[0]
     else:
         return None
-        
-        
+
 @app.route("/addCourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def addCourses(tid, prefix):
-    print ('Inputs', tid, prefix)
+    # print ('Inputs', tid, prefix)
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
     
-    # # instructors need to be a list
+    # Instructors need to be a list
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
     nullCheck = NullCheck()
@@ -36,7 +35,7 @@ def addCourses(tid, prefix):
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
     cId = ""
-    if (bannerNumber == "86" and banner.ctitle == "Special Topics"):
+    if bannerNumber == "86" and banner.ctitle == "Special Topics":
         specialTopicCourse = SpecialTopicCourse(bannerRef=values['bannerRef'],
                     prefix=values['prefix'],
                     term=int(tid),
@@ -46,17 +45,17 @@ def addCourses(tid, prefix):
                     notes=values['requests'],
                     crossListed=int(data['crossListed']),
                     rid=values['rid'],
-                    status = 0,
-                    credits = data['credits'],
-                    description = data['description'],
-                    prereqs = data['prereqs'],
-                    majorReqsMet = data['majorReqsMet'],
-                    concentrationReqsMet = data['concentrationReqsMet'],
-                    minorReqsMet = data['minorReqsMet'],
-                    perspectivesMet = data['perspectivesMet'],
-                    section = data['section'])
+                    status=0,
+                    credits=data['credits'],
+                    description=data['description'],
+                    prereqs=data['prereqs'],
+                    majorReqsMet=data['majorReqsMet'],
+                    concentrationReqsMet=data['concentrationReqsMet'],
+                    minorReqsMet=data['minorReqsMet'],
+                    perspectivesMet=data['perspectivesMet'],
+                    section=data['section'])
         if data['formBtn'] == "submit":
-            specialTopicCourse.status = 1
+            specialTopicCourse.status=1
         specialTopicCourse.save()
         databaseInterface.addSTCourseInstructors(instructors, specialTopicCourse.stId)
 
@@ -67,7 +66,7 @@ def addCourses(tid, prefix):
         else:
             flash("Course has successfully been added!")
     else:
-        section_exists = Course.select().where(Course.bannerRef == values['bannerRef']).where(Course.term == int(tid)).where(Course.section ==values['section']).exists()
+        section_exists = Course.select().where(Course.bannerRef == values['bannerRef']).where(Course.term == int(tid)).where(Course.section == values['section']).exists()
         if section_exists:
             message = "Course: TID#{0} prefix#{1} with section {2} exists".format(tid,prefix, values["section"])
             log.writer("INFO", current_page, message)
@@ -83,8 +82,8 @@ def addCourses(tid, prefix):
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
                         rid=values['rid'],
-                        section = values['section'],
-                        prereq = convertPrereqs(prereqs)
+                        section=values['section'],
+                        prereq=convertPrereqs(prereqs)
                         )
 
         course.save()
@@ -122,11 +121,11 @@ def add_one(tid):
     course.save()
 
      #if there are instructors for an existing course, update instructors of new course as well
-    for instructor in InstructorCourse.select().where(InstructorCourse.course_id==data["courses"]):
+    for instructor in InstructorCourse.select().where(InstructorCourse.course_id == data["courses"]):
         if instructor:
             course_instructor=InstructorCourse(
-                username_id = instructor.username_id,
-                course_id = course.cId
+                username_id=instructor.username_id,
+                course_id=course.cId
                 )
             course_instructor.save()
 
@@ -137,15 +136,14 @@ def add_one(tid):
 @app.route("/addMany/<tid>", methods=["POST"])
 def add_many(tid):
     data = request.form.getlist
-    print(data)
+    
     courses = request.form.getlist('courses')
-    print(courses)
+   
     if courses:
         for i in courses:
             course=Course.get(Course.cId==int(i)) #get an existing course
             #create a new course using fields from an existing course because we are importing it as new
-            course = Course(
-                        bannerRef=course.bannerRef_id,
+            course = Course(bannerRef=course.bannerRef_id,
                         prefix=course.prefix_id,
                         term=int(tid),
                         schedule=course.schedule_id,
@@ -154,7 +152,7 @@ def add_many(tid):
                         notes=None,
                         crossListed=int(course.crossListed),
                         rid=None,
-                        section = course.section,
+                        section=course.section,
                         prereq=course.prereq
                         )
             
@@ -165,14 +163,13 @@ def add_many(tid):
             for instructor in InstructorCourse.select().where(InstructorCourse.course_id==int(i)):
                 if instructor:
                     course_instructor=InstructorCourse(
-                        username_id = instructor.username_id,
-                        course_id = course.cId
+                        username_id=instructor.username_id,
+                        course_id=course.cId
                         )
                     course_instructor.save()
 
     return redirect(redirect_url())
 
-import datetime
 @app.route('/get_termcourses/<term>/<department>')
 def term_courses(term, department):
     '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
@@ -181,39 +178,37 @@ def term_courses(term, department):
         # term1=Term.get(Term.termCode == term)
         courses_dict={}
      
-        courses = Course.select().where(Course.prefix == department, Course.term == term)
-        # print(len(courses))
+        courses=Course.select().where(Course.prefix == department, Course.term == term)
+      
         if courses:
-            st = datetime.datetime.now()
+           
             for course in courses:
-                # print(course.cId)
-                   
-                bannerNumber = str(course.bannerRef.number)[-2:]
-                # print(bannerNumber)
+              
+                bannerNumber=str(course.bannerRef.number)[-2:]
+              
                 # Don't add x86 courses
                 if bannerNumber != '86':
                     courses_dict[course.cId]= model_to_dict(course)
                       
                     if course.schedule:
                         if course.schedule != "ZZZ":
-                        # print("It has schedule \n")
+                       
                             courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%I:%M %p"))
                             courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%I:%M %p"))
-                            courses_dict[course.cId]["schedule_object"] = True
+                            courses_dict[course.cId]["schedule_object"]=True
                         else:
-                            courses_dict[course.cId]["schedule_object"] = False
+                            courses_dict[course.cId]["schedule_object"]=False
                     else:
-                        courses_dict[course.cId]["schedule_object"] = False
-                    # print("Starting Instructor search") 
+                        courses_dict[course.cId]["schedule_object"]=False
+                  
                     # Get instructor
                     inst = InstructorCourse.select().where(InstructorCourse.course == course)
-                    courses_dict[course.cId]["instructors"] = []
+                    courses_dict[course.cId]["instructors"]=[]
                     for instructor in inst:
-                        # print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
+                    
                         courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
-            st2 = datetime.datetime.now()     
-            # print("time to compile: ", (st2 - st).total_seconds())
-        # print("Sending courses to JS") 
+                
+            
         return json.dumps(courses_dict)
     except:
         return json.dumps("Error")
