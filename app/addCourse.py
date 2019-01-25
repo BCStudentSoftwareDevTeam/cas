@@ -24,8 +24,10 @@ def convertPrereqs(prereqs):
 @app.route("/addCourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def addCourses(tid, prefix):
+    print ('Inputs', tid, prefix)
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
+    
     # # instructors need to be a list
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
@@ -135,21 +137,27 @@ def add_one(tid):
 @app.route("/addMany/<tid>", methods=["POST"])
 def add_many(tid):
     data = request.form.getlist
+    print(data)
     courses = request.form.getlist('courses')
+    print(courses)
     if courses:
         for i in courses:
             course=Course.get(Course.cId==int(i)) #get an existing course
             #create a new course using fields from an existing course because we are importing it as new
-            course = Course(bannerRef=course.bannerRef_id,
-                    prefix=course.prefix_id,
-                    term=int(tid),
-                    schedule=course.schedule_id,
-                    capacity=course.capacity,
-                    specialTopicName=course.specialTopicName,
-                    notes=None,
-                    crossListed=int(course.crossListed), rid=None,
-                    prereq=course.prereq
-                    )
+            course = Course(
+                        bannerRef=course.bannerRef_id,
+                        prefix=course.prefix_id,
+                        term=int(tid),
+                        schedule=course.schedule_id,
+                        capacity=course.capacity,
+                        specialTopicName=course.specialTopicName,
+                        notes=None,
+                        crossListed=int(course.crossListed),
+                        rid=None,
+                        section = course.section,
+                        prereq=course.prereq
+                        )
+            
             course.save()
 
 
@@ -170,15 +178,40 @@ def term_courses(term, department):
     '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
     
     try:
-        term1=Term.get(Term.name==term)
-        courses={}
-        for course in Course.select().where(Course.prefix_id==department, Course.term_id==term1.termCode):
-            bannerNumber = str(course.bannerRef.number)[-2:]
-            if bannerNumber != '86':
-                courses[course.cId]=model_to_dict(course)
-                courses[course.cId]["schedule"]["startTime"]= str(courses[course.cId]["schedule"]["startTime"].strftime("%p %H:%M:%S"))
-                courses[course.cId]["schedule"]["endTime"]= str(courses[course.cId]["schedule"]["endTime"].strftime("%p %H:%M:%S"))
-        return json.dumps(courses)
+        term1=Term.get(Term.name == term)
+        courses_dict={}
+     
+        courses = Course.select().where(Course.prefix == department, Course.term == term1.termCode)
+        print(len(courses))
+        if courses:
+            for course in courses :
+                # print(course.cId)
+                bannerNumber = str(course.bannerRef.number)[-2:]
+                print(bannerNumber)
+                # Don't add x86 courses
+                if bannerNumber != '86':
+                    courses_dict[course.cId]= model_to_dict(course)
+                    if course.schedule:
+                        if course.schedule != "ZZZ":
+                        # print("It has schedule \n")
+                            courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%I:%M %p"))
+                            courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%I:%M %p"))
+                            courses_dict[course.cId]["schedule_object"] = True
+                        else:
+                            courses_dict[course.cId]["schedule_object"] = False
+                    else:
+                        courses_dict[course.cId]["schedule_object"] = False
+                    print("Starting Instructor search") 
+                    # Get instructor
+                    inst = InstructorCourse.select().where(InstructorCourse.course == course)
+                    courses_dict[course.cId]["instructors"] = []
+                    for instructor in inst:
+                        print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
+                        courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
+		else:
+                    pass
+        print("Sending courses to JS") 
+        return json.dumps(courses_dict)
     except:
         return json.dumps("Error")
 
