@@ -1,6 +1,6 @@
 from peewee import *
 import os
-
+import pymysql
 # Create a database
 from app.loadConfig import *
 dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
