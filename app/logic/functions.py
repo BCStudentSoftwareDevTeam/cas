@@ -1,5 +1,6 @@
 from app.allImports import *
 from flask import g
+here = os.path.dirname(__file__)
 conflicts = load_config(os.path.join(here, 'conflicts.yaml'))
 # TODO: standarize docstring see https://www.python.org/dev/peps/pep-0257/
 

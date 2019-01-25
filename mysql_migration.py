@@ -1,37 +1,28 @@
-from peewee import *
-import os
-import pymysql
-# Create a database
 from app.loadConfig import *
-dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
-db_name    = cfg['db']['db_name']
-host       = cfg['db']['host']
-username   = cfg['db']['username']
-password   = cfg['db']['password']
+from peewee import *
 
-mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+import os
+import datetime
 
 
-# Creates the class that will be used by Peewee to store the database
-class baseModel (Model):
-  class Meta: 
+def getDB():
+    dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
+    cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
+    db_name   = cfg['db']['db_name']
+    host      = cfg['db']['host']
+    username  = cfg['db']['username']
+    password  = cfg['db']['password']
+    theDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+
+    return theDB
+
+
+mainDB = getDB()
+
+
+class baseModel(Model):
+  class Meta:
     database = mainDB
-    
-"""
-When adding new tables to the DB, add a new class here 
-Also, you must add the table to the config.yaml file
-
-Example of creating a Table
-
-class tableName (dbModel):
-  column1       = PrimaryKeyField()
-  column2       = TextField()
-  column3       = IntegerField()
-
-For more information look at peewee documentation
-"""
-
 
 # Tables without foreign keys 
 class Division(baseModel):
@@ -281,3 +272,16 @@ class RoomPreferences(baseModel):
   none_Reason        = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
   priority           = IntegerField(default = 6)  
+
+mainDB.create_tables([Division, BannerSchedule, ScheduleDays, TermStates, Term, 
+                      Building, EducationTech, Rooms, Program, Subject, User, 
+                      BannerCourses, Course, SpecialTopicCourse, ProgramChair, 
+                      DivisionChair, BuildingManager, InstructorCourse, InstructorSTCourse, 
+                      Deadline, CourseChange, InstructorCourseChange, CoursesInBanner, RoomPreferences])
+
+
+
+
+
+
+

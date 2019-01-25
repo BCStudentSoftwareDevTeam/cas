@@ -5,19 +5,26 @@ filename: "urcpp.log"
 
 # All the databases used by the system
 databases:
-  dev: "data/db.sqlite"
+  - dev: "data/db.sqlite"
+
   # stage: ""
   # prod: ""
 databaseAdmin:
   user: ['heggens','myersco']
   
+db:
+  db_name: c9
+  host: localhost
+  password: ''
+  username: nelsonk 
+
 #You have to use the - to keep the order
 scheduleDays:
-   Monday: 'M'
-   Tuesday: 'T'
-   Wednesday: 'W'
-   Thursday: 'R'
-   Friday: 'F'
+   Monday: 'Mon'
+   Tuesday: 'Tues'
+   Wednesday: 'Wed'
+   Thursday: 'Thurs'
+   Friday: 'Fri'
 
 # For every table in the database, add an item here
 models:
@@ -43,7 +50,9 @@ models:
     - Rooms
     - ScheduleDays
     - RoomPreferences
+    - TermStates
     - EducationTech
+
 # this makes the navigation bar
 mainMenu:
   - title: "Home"
@@ -75,9 +84,9 @@ adminMenu:
   - title: "Division Management" # we do not need this anymore after adding the user mgmt
     link:  "/redirect/division_management"
     page: ["divisionManagement"]
-  - title: "System Management" #Change to term management
-    link:  "/admin/systemManagement"
-    page: ["systemManagement"]
+  - title: "Term Management" #Change to term management
+    link:  "/admin/termManagement"
+    page: ["termManagement"]
   - title: "Course Management"
     link:  "/courseManagement/crossListed"
     page: ["tracker","conflicts","crossListed"]
@@ -165,6 +174,8 @@ DEBUG:
   # user: "nakazawam"  #Program Chair Access
   #user: "lovelle" #Professor Access
   # user: "sldkjfalsdkfj;" #for production
+
+
   
 filepath:
   tmp: 'data/tmp'
@@ -239,4 +250,46 @@ databases:
 databaseAdmin:
   user: ['heggens','myersco']
 
-
+# states
+#   0: is the number in the db. 
+# 
+states:
+  1:
+    mainInfo: 'Program and Division Chairs will be able to submit courses to this Term.'
+    subtext: 'Click the arrow to begin and open Course Scheduling.'
+    btn: 'Open Scheduling'
+  2: 
+    mainInfo: 'Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.'
+    subtext: 'Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.'
+    btn: 'UnLock Scheduling'
+  3:
+    mainInfo: 'Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. '
+    left_help_text: 'Click the left arrow to unlock Course Scheduling.'
+    right_help_text: 'Click the right arrow to open Room Preferences for faculty.'
+    subtext: '(Course Scheduling will be permanelty locked)'
+    btn: 'Open Room Preferences'
+    download: 'Download Courses'
+  4:
+    mainInfo: 'Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses.'
+    subtext: 'Click the arrow to lock room preferences submission.'
+    btn: 'UnLock Room Preferences'
+  5: 
+    mainInfo: 'Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences.'
+    left_help_text: 'Click the left arrow to unlock room preferences.'
+    right_help_text: 'Click the right arrow to assign rooms.'
+    subtext: '(Room preferences can no longer be unlocked!!!)'
+    btn: 'Assign Rooms'
+  6:
+    mainInfo: 'Rooms have been assigned.'
+    left_help_text: 'Click below to run the Room assignment algorithm again.'
+    right_help_text: 'Click to Finish term.'
+    subtext: '(This indicates that all coursesand room assigments are finished)'
+    btn: 'Reassign'
+    goto_text: 'Click to go to Room Resolutions Page' 
+    goto_link: 'Room Resolution'
+  7:
+    mainInfo: 'The term is complete.'
+    mainInfo2: 'Course and room preferences are no longer accepted, and rooms have been assigned.'
+    link1:   'Download Courses'
+    link2: 'Download Rooms'
+    right_help_text: 'Archiving will hide the term from view in other CAS interfaces.'
