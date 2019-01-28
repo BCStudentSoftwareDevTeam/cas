@@ -168,7 +168,11 @@ class CourseChange(dbModel):
 #   day         = CharField(null=True)
   
   
-# my_db.create_tables([ScheduleDays])
+my_db.create_tables([BuildingManager])
+
+bmanager = BuildingManager( username = "stamperf",
+                            bmid = 6
+                          ).save()
 migrate(
     migrator.add_column('Rooms', 'lastModified', CharField(null=True)),
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),

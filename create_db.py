@@ -885,15 +885,15 @@ building     = Building(name = 'Frost Building', shortName="FR").save()
 #Building Managers#
 ###################
 
-bmanager = BuildingManager( username = "heggens",
-                            bmid = 1
-                          ).save()
-bmanager = BuildingManager( username = "myersco",
-                            bmid = 2
-                          ).save()
-bmanager = BuildingManager( username = "pearcej",
-                            bmid = 3
-                          ).save()
+# bmanager = BuildingManager( username = "heggens",
+#                             bmid = 1
+#                           ).save()
+# bmanager = BuildingManager( username = "myersco",
+#                             bmid = 2
+#                           ).save()
+# bmanager = BuildingManager( username = "pearcej",
+#                             bmid = 3
+#                           ).save()
 bmanager = BuildingManager( username = "stamperf",
                             bmid = 6
                           ).save()
@@ -908,42 +908,42 @@ bmanager = BuildingManager( username = "stamperf",
 #Education Tech#
 ###################
 
-# educationTech= EducationTech( 
-#   projectors           = 1,
-#   smartboards          = 2,
-#   instructor_computers = 3,
-#   podium               = 3,
-#   student_workspace    = 4,
-#   chalkboards          = 2,
-#   whiteboards          = 2,
-#   dvd                  = False,
-#   blu_ray              = False,
-#   audio                = True,
-#   extro                = True,
-#   doc_cam              = True,
-#   vhs                  = True,
-#   mondopad           = True,
-#   tech_chart           = False
-#   ).save()
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
 
-##### THERE WERE TWO FOR SOME REASON. DELETE ONE
-# educationTech= EducationTech( 
-#   projectors           = 1,
-#   smartboards          = 2,
-#   instructor_computers = 3,
-#   podium               = 3,
-#   student_workspace    = 4,
-#   chalkboards          = 2,
-#   whiteboards          = 2,
-#   dvd                  = False,
-#   blu_ray              = False,
-#   audio                = True,
-#   extro                = True,
-#   doc_cam              = True,
-#   vhs                  = True,
-#   mondopad           = True,
-#   tech_chart           = False
-#   ).save()
+#### THERE WERE TWO FOR SOME REASON. DELETE ONE
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
 
 
                               
