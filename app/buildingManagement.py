@@ -22,7 +22,7 @@ def buildingManagement():
                     .where(BuildingManager.username == current_user)
                     )
     le_rooms = []
-    print('Length', len(building))
+    # print('Length', len(building))
     for b in building:
         print(current_user)
         print(b.bID)
