@@ -227,7 +227,7 @@ function seteducationTech() {
     }
 }
 
-    /*this functions saves the edecuationtech things on the front-end and updated them as thier values change*/
+    /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
 function saveEdTechChanges(roomID){ 
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;

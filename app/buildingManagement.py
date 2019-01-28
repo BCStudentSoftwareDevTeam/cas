@@ -24,9 +24,9 @@ def buildingManagement():
     le_rooms = []
     # print('Length', len(building))
     for b in building:
-        print(current_user)
-        print(b.bID)
-        print("HAkjhkdwa")
+        # print(current_user)
+        # print(b.bID)
+        # print("HAkjhkdwa")
         rooms = Rooms.select().where(Rooms.building == b.bID)
         for room in rooms:
             le_rooms.append(room)
