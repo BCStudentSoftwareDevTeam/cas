@@ -8,20 +8,15 @@ import json
 from app.logic import course
 from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
-
+#Running page
 @app.route("/buildingManagement", methods=["GET"])
-
-                #TODO: FIX MEEEEE Should only pull rooms from a cetain building associated with user's login
-
-def buildingManagement():
-    #Gathering of appropriate data to send to html
+def buildingManagement():                                   #Gathering of appropriate data to send to html
     current_user = AuthorizedUser().getUsername()
-
-    building = (Building.select()#Put conditional here, see room preference.py line 38 for inspo.
+    building = (Building.select()
                     .join(BuildingManager)
                     .where(BuildingManager.username == current_user)
                     )
-    le_rooms = []
+    le_rooms = []                                           #Scott LITERALLY created this variable with a terrible name
     # print('Length', len(building))
     for b in building:
         # print(current_user)
@@ -38,8 +33,6 @@ def buildingManagement():
                             rooms = le_rooms,
                             user = user
                             )
-                         
-
 @app.route('/getRoomData/<rID>', methods=["GET"]) 
 # connected to ajax calls in the javascript file to populate the room data into panel
 def getRoomData(rID):
@@ -55,14 +48,10 @@ def getRoomData(rID):
     room_details["audioAcc"] = room.audioAcc
     room_details["physicalAcc"] = room.physicalAcc
     # print(room_details["number"])                         
-
     return json.dumps(room_details)
-    
-    
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
-#updates room data in database after clicking save changes.
-#   print("Here I am, rock yhou like a hurricane")
+#Saves all room data EXCLUDING ed tech
    try:
         room = Rooms.get(Rooms.rID==rID)                        #Sets room variable to room object where the rID's are the same 
         data = request.form
@@ -70,7 +59,6 @@ def saveChanges(rID):
         room.roomType = (data['roomType'])
         room.specializedEq = (data['specializedEq'])
         room.specialFeatures = (data['specialFeatures'])
-
         if data['movableFurniture'] == 'false':                 #If movable furniture reads false from js
             room.movableFurniture = 0                           #Set to false in sqlite
         else:
@@ -84,9 +72,8 @@ def saveChanges(rID):
    except:
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
- 
- 
-@app.route('/getEducationData/<rid>', methods = ["GET"]) #this function gets educationtech materials from the database
+#Education tech pull      
+@app.route('/getEducationData/<rid>', methods = ["GET"])
 def getEducationData(rid):
     room = Rooms.get(Rooms.rID == rid)
     tech_details = room.educationTech
@@ -107,33 +94,22 @@ def getEducationData(rid):
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
     return json.dumps(education_materials)
-    
-    
-#updates room data in database after clicking save changes.
-    
-@app.route("/saveEdTechChanges/<rid>", methods=["POST"]) # this function saves and update the changes of educationtech Modal
+#Education tech save to DB 
+@app.route("/saveEdTechChanges/<rid>", methods=["POST"])
 def saveEdTechChanges(rid):
   try:
     room = Rooms.get(Rooms.rID==rid)
     edtech_update = room.educationTech
     data = request.form
- 
     edtech_update.projector = data['projector']
-   
     edtech_update.smartboards = data['smartboards']
-   
     edtech_update.instructor_computers = data['instructor_computers']
-    
     edtech_update.podium= data['podium']
-    
     edtech_update.student_workspace = data['student_workspace']
-  
     edtech_update.chalkboards= data['chalkboards']
-
     edtech_update.whiteboards= data['whiteboards']
-   
-    if data['vhs'] == 'false':     #this checks the booleans and set them to correct values. 
-                                   #If they are checked thier values set to 1s an if they are unchecked thier values sets to 1s       
+    if data['vhs'] == 'false':                                  #this checks the booleans and set them to correct values. 
+                                                                #If they are checked thier values set to 1s an if they are unchecked thier values sets to 1s       
         edtech_update.vhs = 0                          
     else:
         edtech_update.vhs = 1 
@@ -141,7 +117,6 @@ def saveEdTechChanges(rid):
         edtech_update.dvd= 0                          
     else:
         edtech_update.dvd = 1
-        
     if data['blu_ray']=='false':
         edtech_update.blu_ray=0
     else:
