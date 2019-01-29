@@ -51,65 +51,65 @@ def dropTables():
 
 
   
-class Building(dbModel):
-  bID           = PrimaryKeyField()
-  name          = CharField()
-  shortName     = CharField()
+# class Building(dbModel):
+#   bID           = PrimaryKeyField()
+#   name          = CharField()
+#   shortName     = CharField()
   
 
-class EducationTech(dbModel):
-  eId                  = PrimaryKeyField()
-  projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-  smartboards          = IntegerField(default = 0) #default of 0 in room
-  instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-  podium               = IntegerField(default = 0) #default of 0 no. of podium
-  student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-  chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-  whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-  dvd                  = BooleanField()  #has or doesnt have dvd player
-  blu_ray              = BooleanField()  #has or doesnt have blu ray player
-  audio                = BooleanField()  #has or doesnt have audio hookup
-  extro                = BooleanField()
-  doc_cam              = BooleanField()
-  vhs                  = BooleanField()
-  mondopad             = BooleanField()
-  tech_chart           = BooleanField()
+# class EducationTech(dbModel):
+#   eId                  = PrimaryKeyField()
+#   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
+#   smartboards          = IntegerField(default = 0) #default of 0 in room
+#   instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
+#   podium               = IntegerField(default = 0) #default of 0 no. of podium
+#   student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
+#   chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
+#   whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
+#   dvd                  = BooleanField()  #has or doesnt have dvd player
+#   blu_ray              = BooleanField()  #has or doesnt have blu ray player
+#   audio                = BooleanField()  #has or doesnt have audio hookup
+#   extro                = BooleanField()
+#   doc_cam              = BooleanField()
+#   vhs                  = BooleanField()
+#   mondopad             = BooleanField()
+#   tech_chart           = BooleanField()
   
-class Rooms(dbModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField()
-  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
+# class Rooms(dbModel):
+#   rID            = PrimaryKeyField()
+#   building       = ForeignKeyField(Building, related_name='rooms')
+#   number         = CharField(null=False)
+#   maxCapacity    = IntegerField(null=False)
+#   roomType       = CharField(null=False)
+#   visualAcc     = CharField(null=True)
+#   audioAcc      = CharField(null=True)
+#   physicalAcc   = CharField(null=True)
+#   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
+#   specializedEq = CharField(null=True)
+#   specialFeatures = CharField(null=True)
+#   movableFurniture = BooleanField()
+#   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
   
 
 # class ScheduleDays(dbModel):
 #   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
 #   day         = CharField(null=True)
   
-class Course(dbModel):
-  cId               = PrimaryKeyField()
-  prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
-  bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
-  term              = ForeignKeyField(Term, null = False, related_name='course_term')
-  schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
-  # days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
-  capacity          = IntegerField(null = True)
-  specialTopicName  = CharField(null = True)
-  notes             = TextField(null = True)
-  lastEditBy        = CharField(null = True)
-  crossListed       = BooleanField()
-  rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
-  section           = TextField(null = True)
-  prereq            = CharField(null = True) 
+# class Course(dbModel):
+#   cId               = PrimaryKeyField()
+#   prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
+#   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
+#   term              = ForeignKeyField(Term, null = False, related_name='course_term')
+#   schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
+#   # days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
+#   capacity          = IntegerField(null = True)
+#   specialTopicName  = CharField(null = True)
+#   notes             = TextField(null = True)
+#   lastEditBy        = CharField(null = True)
+#   crossListed       = BooleanField()
+#   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
+#   section           = TextField(null = True)
+#   prereq            = CharField(null = True) 
   
 # class RoomPreferences(dbModel):
 #   rpID           = PrimaryKeyField()
@@ -123,18 +123,18 @@ class Course(dbModel):
 #   none_Reason   = CharField(null=True)
 #   initial_Preference = CharField(null=True, default = 1)
 
-class RoomPreferences(dbModel):
-  rpID           = PrimaryKeyField()
-  course        = ForeignKeyField(Course, related_name='courses')
-  pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
-  pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
-  pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
-  notes         = CharField(null=True)
-  any_Choice    = CharField(null=True)
-  none_Choice   = CharField(null=True)
-  none_Reason   = CharField(null=True)
-  initial_Preference = CharField(null=True, default = 1)
-  priority = IntegerField(default = 6)  
+# class RoomPreferences(dbModel):
+#   rpID           = PrimaryKeyField()
+#   course        = ForeignKeyField(Course, related_name='courses')
+#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
+#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
+#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=True)
+#   initial_Preference = CharField(null=True, default = 1)
+#   priority = IntegerField(default = 6)  
 
 
 # class EducationTech(dbModel):
@@ -240,13 +240,13 @@ state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name
   
   
 
-my_db.create_tables([BuildingManager])
+# my_db.create_tables([BuildingManager])
 
-bmanager = BuildingManager( username = "stamperf",
-                            bmid = 6
-                          ).save()
-migrate(
-    migrator.add_column('Rooms', 'lastModified', CharField(null=True))
+# bmanager = BuildingManager( username = "stamperf",
+#                             bmid = 6
+#                           ).save()
+# migrate(
+#     migrator.add_column('Rooms', 'lastModified', CharField(null=True))
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
 
@@ -281,10 +281,10 @@ migrate(
     # migrator.drop_not_null('CourseChange','rid')
 )
 
-t = Term.select()
-for term in t:
-  term.algorithm_running = False
-  term.save()
+# t = Term.select()
+# for term in t:
+#   term.algorithm_running = False
+#   term.save()
 
 # q = Course.select()
 # for course in q:

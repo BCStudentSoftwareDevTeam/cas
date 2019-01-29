@@ -70,7 +70,7 @@ for i in deadline:
     cursor.execute(add_deadline)
     
 
-add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 rooms = old.Rooms.select()
 for i in rooms: 
@@ -87,7 +87,8 @@ for i in rooms:
     specializedEq = str(i.specializedEq)
     specialFeatures = str(i.specialFeatures)
     movableFurniture = bool(i.movableFurniture)
-    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture)
+    lastModified = 0
+    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified)
     
     cursor.execute(add_rooms, data_rooms)
 
