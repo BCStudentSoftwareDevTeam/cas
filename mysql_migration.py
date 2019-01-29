@@ -1,37 +1,28 @@
-from peewee import *
-import os
-import pymysql
-# Create a database
 from app.loadConfig import *
-dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
-db_name    = cfg['db']['db_name']
-host       = cfg['db']['host']
-username   = cfg['db']['username']
-password   = cfg['db']['password']
+from peewee import *
 
-mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+import os
+import datetime
 
 
-# Creates the class that will be used by Peewee to store the database
-class baseModel (Model):
-  class Meta: 
+def getDB():
+    dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
+    cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
+    db_name   = cfg['db']['db_name']
+    host      = cfg['db']['host']
+    username  = cfg['db']['username']
+    password  = cfg['db']['password']
+    theDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+
+    return theDB
+
+
+mainDB = getDB()
+
+
+class baseModel(Model):
+  class Meta:
     database = mainDB
-    
-"""
-When adding new tables to the DB, add a new class here 
-Also, you must add the table to the config.yaml file
-
-Example of creating a Table
-
-class tableName (dbModel):
-  column1       = PrimaryKeyField()
-  column2       = TextField()
-  column3       = IntegerField()
-
-For more information look at peewee documentation
-"""
-
 
 # Tables without foreign keys 
 class Division(baseModel):
@@ -63,12 +54,10 @@ class Building(baseModel):
   name              = CharField()
   shortName         = CharField()
 
-
   def __repr__(self):
     return self.name 
 
 class EducationTech(baseModel):
-
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
   smartboards          = IntegerField(default = 0) #default of 0 in room
@@ -86,26 +75,6 @@ class EducationTech(baseModel):
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
 
-  
-class Rooms(baseModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField()
-  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
- 
-  # def __str__(self):
-  #   return str(self.rID)+str(self.building.name)+str(self.number)
-
-
   def __repr__(self):
     return str(self.eId)
 
@@ -118,7 +87,6 @@ class Deadline(baseModel):
 class ScheduleDays(baseModel):
   schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days', on_delete= 'CASCADE')
   day           = CharField(null=True)
-
 
 class Term(baseModel):
   termCode          = IntegerField(primary_key = True)  
@@ -304,3 +272,16 @@ class RoomPreferences(baseModel):
   none_Reason        = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
   priority           = IntegerField(default = 6)  
+
+mainDB.create_tables([Division, BannerSchedule, ScheduleDays, TermStates, Term, 
+                      Building, EducationTech, Rooms, Program, Subject, User, 
+                      BannerCourses, Course, SpecialTopicCourse, ProgramChair, 
+                      DivisionChair, BuildingManager, InstructorCourse, InstructorSTCourse, 
+                      Deadline, CourseChange, InstructorCourseChange, CoursesInBanner, RoomPreferences])
+
+
+
+
+
+
+

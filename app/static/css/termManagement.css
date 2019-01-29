@@ -1,0 +1,110 @@
+.btn-group button {
+    background-color: white; 
+    border: 1px solid black; 
+    color: black; 
+    padding: 0px;
+    display:inline-block;
+    height: 10px;
+    padding-left:2px !important;
+    padding-right:0px!important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    cursor: pointer;
+    float: left; 
+}
+table {
+  border-collapse: collapse;
+}
+
+
+
+.panel_color {
+    background-color: #DDDDDD;
+    margin-top:1px !important;
+    padding-top: 1px !important;
+   
+}
+
+
+h5{
+  color: #22BC9C;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************************** Backup from the previous UI ****************************************************/
+
+/*.glyphicon {*/
+/*    color: #AAA;*/
+/*    margin: 5px;*/
+/*}*/
+/*.glyphicon:hover {*/
+/*    color: #404040;*/
+/*}*/
+
+/*textarea {*/
+/*    resize: vertical;*/
+/*}*/
+
+/*.adminSelect {*/
+/*    min-width: 200px;*/
+/*}*/
+/*body {*/
+/*    background-color: #fff;*/
+/*}*/
+
+/*Sets the color for the selected option*/
+/*.glyphicon-edit.disabled{*/
+/*    color: #5bc0de;*/
+/*}*/
+
+/*.glyphicon-list.disabled{*/
+/*    color: #FF8800;*/
+/*}*/
+
+/*.glyphicon-lock.disabled{*/
+/*    color: #d62c1a;*/
+/*}*/
+/*Found on stack overflow at the following link: https://stackoverflow.com/questions/19758598/what-is-sr-only-in-bootstrap-3*/
+/* To be used to create text for screen readers only */
+/*.sr-only {*/
+/*    position: absolute;*/
+/*    margin: -1px 0 0 -1px;*/
+/*    padding: 0;*/
+/*    display: block;*/
+/*    width: 1px;*/
+/*    height: 1px;*/
+/*    font-size: 1px;*/
+/*    line-height: 1px;*/
+/*    overflow: hidden;*/
+/*    clip: rect(0,0,0,0);*/
+/*    border: 0;*/
+/*    outline: 0;*/
+/*    }*/
+
+

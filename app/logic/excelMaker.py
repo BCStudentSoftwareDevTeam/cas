@@ -21,10 +21,13 @@ class ExcelMaker:
         sheet.write('F1', 'Time')
         sheet.write('G1', 'Capacity')
         sheet.write('H1', 'Notes')
-        sheet.write('I1', 'Assigned Room')
-        sheet.write('J1','Section')
-        sheet.write('K1','Instructors')
-        self.intr_letter = 'K'
+        sheet.write('I1','Section')
+        sheet.write('J1', 'Assigned Room')
+        sheet.write('K1', 'Preference 1')
+        sheet.write('L1','Preference 2')
+        sheet.write('M1','Preference 3')
+        sheet.write('N1','Instructors')
+        self.intr_letter = 'N'
         
     def writeSpecialHeaders(self,sheet):
         sheet.write('K1','credits')
@@ -36,35 +39,77 @@ class ExcelMaker:
         sheet.write('Q1', 'Perspectives Request')
         sheet.write('R1', 'Instructors')
         self.intr_letter = 'R'
+       
         
     def write_course_info(self,sheet,row,course):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
+        
+        
         #Course Schedule
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
-            days = course.schedule.days.get().day
+            # print('About to get days')
+                 
+            schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule.sid)
+      
+            days = ""
+            for i in schedule_days:
+                days += str(i.day)
+          
+   
+          
             if days is None:
                 days = "TBD"
             time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
             self.writeRow(sheet,'F',row, time)
+      
         #Notes & Capacity
         sheet.write('G{0}'.format(row),course.capacity)
         sheet.write('H{0}'.format(row),course.notes)
         # Room Information
         room_name = ""
+        
         if course.rid:
-            room_name = course.rid.building.shortName + ':' + course.rid.number
-        sheet.write('I{0}'.format(row),room_name)
+            if course.rid != 100:
+                room_name = course.rid.building.name + ' ' + course.rid.number
+                sheet.write('J{0}'.format(row),room_name)
+                sheet.write('I{0}'.format(row),course.section)
+            
+        
+        # Room Information
+        room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
+     
+        preference_1 = ""
+        preference_2 = ""
+        preference_3 = ""
+        
+        if room_preferences: 
+            for room_preference in room_preferences:
+                if room_preference.pref_1:
+                    if room_preference.pref_1.rID != 100:
+                        preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
+                        sheet.write('K{0}'.format(row),preference_1)
+                if room_preference.pref_2:
+                    if room_preference.pref_2.rID != 100:
+                        preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
+                        sheet.write('L{0}'.format(row),preference_2)
+                if room_preference.pref_3:
+                    if room_preference.pref_3.rID != 100:
+                        preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
+                        sheet.write('M{0}'.format(row),preference_3)
+                  
+       
+       
         #Instructor Information
-        if self.intr_letter == 'K':
+        if self.intr_letter == 'N':
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
         else:
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.course)
-        sheet.write('J{0}'.format(row),course.section)
+       
         colNum = ord(self.intr_letter)
         for  instructor in instructors:
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)
@@ -108,23 +153,31 @@ class ExcelMaker:
 
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
+      
+      
+        # Create worksheets and set headers for each program
         for program in programs:
+           
             self.program_row = 2 #reset the program row
             program_sheet = workbook.add_worksheet(program.prefix)
             self.writeHeaders(program_sheet)
-
+                
             #Loop through Courses in that program
             courses = Course.select().where(Course.prefix == program.prefix).where(Course.term == term).order_by(Course.bannerRef)
+            
             for course in courses:
+             
                 sheet_matrix = [[master_sheet,self.master_row],[program_sheet,self.program_row]]
+                # print(course.cId, course.schedule.letter, course.prefix.prefix, sheet_matrix)
                 if course.crossListed:
                     sheet_matrix.append([cross_sheet,self.cross_row])
                 for sheet_list in sheet_matrix:
                     self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
+          
         workbook.close()
         return path
-
+        
     def make_cross_listed_file(self, term):
         #set excel parameters variables
         filename = "cas-{}-crossListed.xlsx".format(term.termCode)

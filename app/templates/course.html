@@ -17,9 +17,13 @@
                     <table class="table table-striped table-hover">
                         {% include "snips/courseElements/adminCourseTable.html" %}
                     </table>
-                    {% if (can_edit == True and curTermName.state != 2) %} 
+                    {% if (can_edit == True and curTermName.term_state.order == 1) %} 
                         {% include "snips/courseElements/createCourse.html" %} 
+                    {% else %}
+                        <br>
+                        <p>Scheduling is closed for this term. Please contact the registrar office or the admin of this site.</p>
                     {% endif %}
+                    
                 </div>
             </div>
             <!--/.row-->

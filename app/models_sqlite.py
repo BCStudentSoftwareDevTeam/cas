@@ -1,16 +1,20 @@
 from peewee import *
 import os
-import pymysql
+
+
 # Create a database
 from app.loadConfig import *
-dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
-db_name    = cfg['db']['db_name']
-host       = cfg['db']['host']
-username   = cfg['db']['username']
-password   = cfg['db']['password']
+here = os.path.dirname(__file__)
+cfg       = load_config(os.path.join(here, 'config.yaml'))
+db	  = os.path.join(here,'../',cfg['databases']['dev']) 
+# mainDB    = SqliteDatabase(cfg['databases']['dev'])
+mainDB    = SqliteDatabase(db,
+                          pragmas = ( ('busy_timeout',  100),
+                                      ('journal_mode', 'WAL')
+                                  ),
+                          threadlocals = True
+                          )
 
-mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
 
 
 # Creates the class that will be used by Peewee to store the database
@@ -51,24 +55,23 @@ class BannerSchedule(baseModel):
   def __str__(self):
     return self.letter
 
-class TermStates(baseModel):
+# Doesn't exist yet!
+'''class TermStates(baseModel):
   csID          = PrimaryKeyField()
   number        = IntegerField()
   name          = CharField()
   order         = IntegerField()
   display_name  = CharField()
-  
+  '''
 class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()
   shortName         = CharField()
 
-
   def __repr__(self):
     return self.name 
 
 class EducationTech(baseModel):
-
   eId                  = PrimaryKeyField()
   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
   smartboards          = IntegerField(default = 0) #default of 0 in room
@@ -86,26 +89,6 @@ class EducationTech(baseModel):
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
 
-  
-class Rooms(baseModel):
-  rID            = PrimaryKeyField()
-  building       = ForeignKeyField(Building, related_name='rooms')
-  number         = CharField(null=False)
-  maxCapacity    = IntegerField(null=False)
-  roomType       = CharField(null=False)
-  visualAcc     = CharField(null=True)
-  audioAcc      = CharField(null=True)
-  physicalAcc   = CharField(null=True)
-  educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-  specializedEq = CharField(null=True)
-  specialFeatures = CharField(null=True)
-  movableFurniture = BooleanField()
-  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
- 
-  # def __str__(self):
-  #   return str(self.rID)+str(self.building.name)+str(self.number)
-
-
   def __repr__(self):
     return str(self.eId)
 
@@ -119,14 +102,13 @@ class ScheduleDays(baseModel):
   schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days', on_delete= 'CASCADE')
   day           = CharField(null=True)
 
-
 class Term(baseModel):
   termCode          = IntegerField(primary_key = True)  
   semester          = CharField(null = True)
   year              = IntegerField(null = True)
   name              = CharField()
   state             = IntegerField(null = False)
-  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
+  # term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")  # I don't exist yet!
   editable          = BooleanField(null = False, default = True)
     
 class Rooms(baseModel):

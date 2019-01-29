@@ -12,10 +12,11 @@ from app.models import *
 conf = load_config(os.path.join(here,'config.yaml'))
 #onf = load_config('app/config.yaml')
 
-sqlite_dbs  = [ conf['databases']['dev']
+sqlite_dbs  = [ conf['databases']['dev'],
+                # conf['databases']['test'],
                 # add more here if multiple DBs
               ]
-
+print(sqlite_dbs)
 # Remove DBs
 for fname in sqlite_dbs:
   try:

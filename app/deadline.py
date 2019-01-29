@@ -9,16 +9,20 @@ import datetime
 @app.route("/", methods=["GET"])
 @can_modify
 def deadlineDisplay(can_edit):
+    
     today = datetime.date.today()
+    
     for key in session.keys():
         session.pop(key)
     terms = Term.select().order_by(-Term.termCode)
+    
     tid = terms[0].termCode
+    
     dates=Deadline.select()
     return render_template("deadline.html",
                            allTerms = terms,
                            can_edit=g.user.isAdmin,
-                           currentTerm=int(tid),
+                          currentTerm=int(tid),
                            deadlines=dates,
                            today = today)
 

@@ -29,7 +29,8 @@ for course in courses:
     
     pref.save()
     print("Saved all things for {0}: any_choice: {1}".format(pref.course.cId, pref.any_Choice))
-    
+    course.rid = None
+    course.save()
     
 courses = Course.select().where(Course.rid == None)
 
@@ -39,3 +40,7 @@ for pref in prefs:
     if pref.pref_1 == None and pref.any_Choice == None and pref.none_Choice == None:
         pref.any_Choice = 1
         pref.save()
+        
+        
+        
+    
