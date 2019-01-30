@@ -162,12 +162,12 @@ class RoomPreferences(dbModel):
 
 
 
-# class TermStates(dbModel):
-#   csID          = PrimaryKeyField()
-#   number        = IntegerField(null = False)
-#   name          = CharField(null = False)
-#   order         = IntegerField(null = False)
-#   display_name  = CharField(null = False)
+class TermStates(dbModel):
+   csID          = PrimaryKeyField()
+   number        = IntegerField(null = False)
+   name          = CharField(null = False)
+   order         = IntegerField(null = False)
+   display_name  = CharField(null = False)
 
 # my_db.drop_tables([TermStates])
 # my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
