@@ -145,8 +145,8 @@ for i in terms:
     else:
         year = int((str(i.termCode))[:4])
     name = str(i.name)
-    state = int(i.state)
-    term_state_id = 1 #int(i.term_state.csID)  # term_state doesn't exist yet
+    state = int(i.state) 
+    term_state_id = int(i.term_state.csID)  # term_state doesn't exist yet
     editable = 0 # bool(i.editable) # editable doesn't exist yet
     data_terms = (termCode, semester, year, name, state, term_state_id, editable) 
     
