@@ -28,6 +28,7 @@ def roomResolution(termCode):
 #Room Resolution View
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
 def roomResolutionView(termCode,cid):
+    # print("Starting Room Resolution edits")
     try:
         roompreference = RoomPreferences.get(RoomPreferences.course==cid)  #cid==5
         if (roompreference.pref_1 == None):
@@ -46,16 +47,29 @@ def roomResolutionView(termCode,cid):
     days = ScheduleDays.get(ScheduleDays.schedule==schedule)
     course_capacity = 1 if not courses.capacity  else courses.capacity 
     #this query gets all the room ids for the course if the room is free during a course schedule
-    sql_query = """SELECT r1.rID, building_id FROM rooms as r1 
-                LEFT OUTER JOIN (SELECT c1.rid_id as r2 
-                FROM course c1 JOIN (SELECT sid FROM bannerschedule WHERE CAST("{0}" as TIME) 
-                < CAST(bannerschedule.endTime as TIME) 
-                AND CAST("{1}" as TIME)  > CAST(bannerschedule.startTime AS TIME)) bs1 ON c1.schedule_id = bs1.sid 
-                WHERE c1.rid_id IS NOT NULL AND c1.term_id = {2}) ON r1.rID = r2 
-                INNER JOIN building ON r1.building_id = building.bID 
-                WHERE r2 IS NULL AND r1.maxCapacity >= {3} 
-                ORDER BY building.name;""".format(courses.schedule.startTime, courses.schedule.endTime,
+    # print("Is it this query breaking?")
+    sql_query = """
+                   SELECT r1.rID, building_id
+                   FROM rooms as r1
+                   LEFT OUTER JOIN (
+                     SELECT c1.rid_id as r2
+                     FROM course as c1
+                     JOIN (
+                       SELECT sid
+                       FROM bannerschedule as bs
+                       WHERE CAST("{0}" as TIME) < CAST(bs.endTime as TIME) 
+                       AND CAST("{1}" as TIME) > CAST(bs.startTime AS TIME)) as bs1 
+                     ON c1.schedule_id = bs1.sid 
+                     WHERE c1.rid_id IS NOT NULL
+                     AND c1.term_id = {2}) as x
+                   ON r1.rID = r2
+                   INNER JOIN building as b ON r1.building_id = b.bID
+                   WHERE r2 IS NULL
+                   AND r1.maxCapacity >= {3}
+                   ORDER BY b.name;
+                """.format(courses.schedule.startTime, courses.schedule.endTime,
                 courses.term.termCode, course_capacity)
+    # print(sql_query)
     cursor = mainDB.execute_sql(sql_query)
     availablerooms = [] 
     for room in cursor:
@@ -73,11 +87,22 @@ def roomResolutionView(termCode,cid):
     rp = RoomPreferences.get(RoomPreferences.course == cid)         # get the A course's room preferences again (not needed, but used both variables)
     scheduleDays = ScheduleDays.get(ScheduleDays.schedule == confcourse.course.schedule.sid)
     
-    conflicts_query = """   SELECT cid 
-                            FROM `course` 
-                            INNER JOIN `bannerschedule` 
+    conflicts_query = """
+			SELECT
+			  cid
+			FROM
+			  course as c
+			  INNER JOIN bannerschedule as bs ON bs.sid = c.schedule_id
+			WHERE
+			  c.rid_id = {0}
+			  AND bs.endTime > \ "{1}\" AND bs.startTime < \"{2}\";
+			      """  #For course B
+    '''    conflicts_query = """   SELECT cid 
+                            FROM `course` as c 
+                            INNER JOIN `bannerschedule` as bs
                             ON `bannerschedule`.sid = `course`.schedule_id 
                             WHERE `course`.rid_id = {0} AND `bannerschedule`.endTime > \"{1}\" AND `bannerschedule`.startTime < \"{2}\";"""  #For course B
+    '''
     cclist = []  # holds all conflicting courses queries to be executed later
     
     # "A" course's schedule

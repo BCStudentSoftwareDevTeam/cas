@@ -1,16 +1,20 @@
 from peewee import *
 import os
-import pymysql
+
+
 # Create a database
 from app.loadConfig import *
-dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
-db_name    = cfg['db']['db_name']
-host       = cfg['db']['host']
-username   = cfg['db']['username']
-password   = cfg['db']['password']
+here = os.path.dirname(__file__)
+cfg       = load_config(os.path.join(here, 'config.yaml'))
+db	  = os.path.join(here,'../',cfg['databases']['dev']) 
+# mainDB    = SqliteDatabase(cfg['databases']['dev'])
+mainDB    = SqliteDatabase(db,
+                          pragmas = ( ('busy_timeout',  100),
+                                      ('journal_mode', 'WAL')
+                                  ),
+                          threadlocals = True
+                          )
 
-mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
 
 
 # Creates the class that will be used by Peewee to store the database
@@ -51,13 +55,14 @@ class BannerSchedule(baseModel):
   def __str__(self):
     return self.letter
 
-class TermStates(baseModel):
+# Doesn't exist yet!
+'''class TermStates(baseModel):
   csID          = PrimaryKeyField()
   number        = IntegerField()
   name          = CharField()
   order         = IntegerField()
   display_name  = CharField()
-  
+  '''
 class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()
@@ -103,7 +108,7 @@ class Term(baseModel):
   year              = IntegerField(null = True)
   name              = CharField()
   state             = IntegerField(null = False)
-  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
+  # term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")  # I don't exist yet!
   editable          = BooleanField(null = False, default = True)
     
 class Rooms(baseModel):

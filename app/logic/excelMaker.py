@@ -45,6 +45,7 @@ class ExcelMaker:
         sheet.write('Q1', 'Perspectives Request')
         sheet.write('R1', 'Instructors')
         self.intr_letter = 'R'
+<<<<<<< HEAD
     
     def writeAllRoomHeaders(self, sheet):
         sheet.write('A1', 'Room')
@@ -111,6 +112,9 @@ class ExcelMaker:
         sheet.write('X{0}'.format(row), room.educationTech.vhs)
         sheet.write('Y{0}'.format(row), room.educationTech.mondopad)
         sheet.write('Z{0}'.format(row), room.educationTech.tech_chart)
+=======
+       
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
         
  
     def write_course_info(self,sheet,row,course):
@@ -119,10 +123,18 @@ class ExcelMaker:
         sheet.write('B{0}'.format(row),course.bannerRef.number)
         sheet.write('C{0}'.format(row),course.bannerRef.ctitle)
         
+<<<<<<< HEAD
+=======
+        
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
         #Course Schedule
         if course.schedule is not None:
             self.writeRow(sheet,'D',row,course.schedule.sid)
             self.writeRow(sheet,'E',row,course.schedule.letter)
+<<<<<<< HEAD
+=======
+            # print('About to get days')
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
                  
             schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == course.schedule.sid)
       
@@ -130,20 +142,35 @@ class ExcelMaker:
             for i in schedule_days:
                 days += str(i.day)
           
+<<<<<<< HEAD
+=======
+   
+          
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
             if days is None:
                 days = "TBD"
             time = days + ': '+ str(course.schedule.startTime) + ' - ' + str(course.schedule.endTime)
             self.writeRow(sheet,'F',row, time)
+      
         #Notes & Capacity
         sheet.write('G{0}'.format(row),course.capacity)
         sheet.write('H{0}'.format(row),course.notes)
         # Room Information
         room_name = ""
+        
         if course.rid:
+<<<<<<< HEAD
             room_name = course.rid.building.name + ' ' + course.rid.number
         sheet.write('J{0}'.format(row),room_name)
         sheet.write('I{0}'.format(row),course.section)
         
+=======
+            if course.rid != 100:
+                room_name = course.rid.building.name + ' ' + course.rid.number
+                sheet.write('J{0}'.format(row),room_name)
+                sheet.write('I{0}'.format(row),course.section)
+            
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
         
         # Room Information
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
@@ -155,6 +182,7 @@ class ExcelMaker:
         if room_preferences: 
             for room_preference in room_preferences:
                 if room_preference.pref_1:
+<<<<<<< HEAD
                     preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
                     sheet.write('K{0}'.format(row),preference_1)
                 if room_preference.pref_2:
@@ -163,6 +191,19 @@ class ExcelMaker:
                 if room_preference.pref_3:
                     preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
                     sheet.write('M{0}'.format(row),preference_3)
+=======
+                    if room_preference.pref_1.rID != 100:
+                        preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
+                        sheet.write('K{0}'.format(row),preference_1)
+                if room_preference.pref_2:
+                    if room_preference.pref_2.rID != 100:
+                        preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
+                        sheet.write('L{0}'.format(row),preference_2)
+                if room_preference.pref_3:
+                    if room_preference.pref_3.rID != 100:
+                        preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
+                        sheet.write('M{0}'.format(row),preference_3)
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
                   
        
        
@@ -272,8 +313,13 @@ class ExcelMaker:
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
       
+<<<<<<< HEAD
+=======
+      
+>>>>>>> d71f1c4402723105fe893fce0ad74d0863e10b5b
         # Create worksheets and set headers for each program
         for program in programs:
+           
             self.program_row = 2 #reset the program row
             program_sheet = workbook.add_worksheet(program.prefix)
             self.writeHeaders(program_sheet)
@@ -290,7 +336,6 @@ class ExcelMaker:
                 for sheet_list in sheet_matrix:
                     self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
-        
         workbook.close()
         return path
         
