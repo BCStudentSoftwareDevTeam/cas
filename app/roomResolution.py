@@ -27,6 +27,7 @@ def roomResolution(termCode):
     
 #Room Resolution View
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
+@must_be_admin
 def roomResolutionView(termCode,cid):
     # print("Starting Room Resolution edits")
     try:

@@ -182,7 +182,7 @@ def term_courses(term, department):
         courses_dict={}
      
         courses = Course.select().where(Course.prefix == department, Course.term == term)
-        print(len(courses))
+
         if courses:
             st = datetime.datetime.now()
             for course in courses:
@@ -211,8 +211,7 @@ def term_courses(term, department):
                     for instructor in inst:
                         print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
                         courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
-            st2 = datetime.datetime.now()     
-            print("time to compile: ", (st2 - st).total_seconds())
+           
         # print("Sending courses to JS") 
         return json.dumps(courses_dict)
     except:
