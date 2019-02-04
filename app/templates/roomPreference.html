@@ -35,7 +35,9 @@
                         <td>
                             <!-- checks the value of the preference and acts accordingly to add 1 to the setPreference() -->
                             <button {% if pref != None %}
-                                        value="{{pref.rID}}"
+                                        {% if pref.rID != 100 %}
+                                            value="{{pref.rID}}"
+                                        {% endif %}
                                     {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
                                         value="0"  {# Holds room ID, NOT pref ID #} 
                                     {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}

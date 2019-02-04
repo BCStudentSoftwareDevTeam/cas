@@ -26,7 +26,7 @@ from app import newTerm
 from app import changeAdmin
 from app import programManagement
 from app import divisionManagement
-from app import systemManagement
+from app import termManagement
 from app import redirectAdminProgram
 from app import deadline
 from app import courseManagement
