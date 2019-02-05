@@ -3,12 +3,7 @@
 log:
 filename: "urcpp.log"
 
-# All the databases used by the system
-databases:
-  - dev: "data/db.sqlite"
 
-  # stage: ""
-  # prod: ""
 databaseAdmin:
   user: ['heggens','myersco']
   

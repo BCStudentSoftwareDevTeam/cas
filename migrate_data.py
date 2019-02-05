@@ -257,15 +257,15 @@ for i in division_chairs:
 
 # THERE IS NO DATA YET IN BUILDINGMANAGER. 
 
-# add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
+add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
 
-# building_managers = BuildingManager.select()
-# for i in building_managers:
-#     username_id = str(i.username.username)
-#     bmid_id = int(i.bmid.bID)
-#     data_building_managers = (username_id, bmid_id)
-#     print(data_building_managers)
-#     cursor.execute(add_building_managers, data_building_managers)
+building_managers = BuildingManager.select()
+for i in building_managers:
+    username_id = str(i.username.username)
+    bmid_id = int(i.bmid.bID)
+    data_building_managers = (username_id, bmid_id)
+    print(data_building_managers)
+    cursor.execute(add_building_managers, data_building_managers)
 
 # The problems array is a collection of all the course ids that were in the InstructorCourse Table for which the course instance was already deleted
 
