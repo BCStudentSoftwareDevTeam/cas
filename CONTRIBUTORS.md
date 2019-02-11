@@ -32,6 +32,12 @@ __Berea College Faculty and Staff__
 * [Guillermo Ramos-Macias](https://bitbucket.org/guillermo_ramos/)
 * [Jesson Soto Ventura](https://bitbucket.org/Jessonsotoventura/)
 * [Aleksandra Cvetanovska](https://bitbucket.org/cvetanovskaalex/)
+* [Kat Adams](https://bitbucket.org/paesh1997/)
+* [Anne Achieng](https://bitbucket.org/Otianne/)
+* [Jamal Aw Yonis](https://bitbucket.org/awyoonisj/)
+* [Gerado Soto](https://bitbucket.org/grrdsoto/)
+* [Basant Phuyal](https://bitbucket.org/phuyalb16/)
+* [Muhammad Hamza Khattak](https://bitbucket.org/hamzaktk18/)
 
 
 # Special Thanks to Our Community
