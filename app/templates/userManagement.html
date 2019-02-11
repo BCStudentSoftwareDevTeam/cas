@@ -117,7 +117,13 @@
                     <label for="Remove">Current User(s)</label>
                         <div class = "form-group"> <!--Second dropdown to remove chairs/bldg mngrsns--->
                             <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true" name="userToRemove" id="RemoveDropdown" style="float: right;">
-                                <option value="---"disabled selected>---</option>
+                                <!--<option value="---"disabled selected>---</option>-->
+                              <!--- displays names--->
+                              {% for current_user in users %}
+                              <option value="{{ current_user }}"{% if loop.first %}
+                              SELECTED{% endif %}>{{ current_user }}</option>
+                            {% endfor %}
+                                    
                             </select>
                         </div>
                     <div>
