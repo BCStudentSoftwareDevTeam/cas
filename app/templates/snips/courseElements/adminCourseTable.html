@@ -85,10 +85,10 @@
                 {% if course in crosslisted %}
                 <div class="form-check" id="checkcross">
                     {% if crosslisted[course][0] %}
-                    <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
+                    <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}" checked>
                     <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
                     {% else %}
-                    <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
+                    <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}">
                     <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
                     {% endif %}
                 </div>
@@ -305,10 +305,12 @@ $(document).ready(function(){
 
 function verifyCrosslisted(intValue)
 {   
+    console.log("hhi")
     let oldurl = window.location.href.split("/");
     let termcode = oldurl[oldurl.length-2];
     console.log(termcode)
-    let checked = document.getElementById("coursestatus").checked;
+    let checked = document.getElementById("coursestatus"+intValue).checked;
+    console.log(checked);
     let url = '/verifycrosslisted/'+intValue;
     console.log(intValue);
     $.ajax({  

@@ -37,33 +37,36 @@ def find_crosslist_courses(courses_prefetch):
                     Tuple: contains Crosslisted Course Name, Verification State
         """
         course_to_crosslisted = defaultdict(list)
-        for curr_course in courses_prefetch.select().where(Course.crossListed):  
+        for curr_course in courses_prefetch.select().where(Course.crossListed == 1):  
         
             #if the course is crosslisted_child
-            if curr_course.parentCourse:
-                
+            print("cid", curr_course.cId, curr_course.capacity)
+            if curr_course.parentCourse_id:
+                print("error", curr_course.parentCourse_id)
                 #find its parent
-                parent_course = Course.get(Course.cId == curr_course.parentCourse)
-            
+                
+                parent_course = Course.get(Course.cId == curr_course.parentCourse_id)
+                
                 #add parent course to child's list of crosslised courses
                 #course_to_crosslisted[curr_course].append(parent_course)
                 
                 #add siblings to child's list of crosslisted courses
                 for cross_course in CrossListed.select().where(CrossListed.courseId == parent_course.cId):
                     
+                    print(cross_course.verified)
                     #skip the child itself
                     if cross_course.crosslistedCourse.cId != curr_course.cId:
                         course_to_crosslisted[curr_course].append(cross_course)
                     else:
                         course_to_crosslisted[curr_course].insert(0, cross_course.verified)
-                        
+                            
             
             #if the course is crosslisted_parent
             else:
                 
                 #add children to parent's list of crosslisted courses
                 for cross_course in CrossListed.select().where(CrossListed.courseId == curr_course.cId):
-                    
+                    print(cross_course.verified)
                     #skip the parent itself
                     if cross_course.crosslistedCourse.cId != curr_course.cId:
                         course_to_crosslisted[curr_course].append(cross_course)

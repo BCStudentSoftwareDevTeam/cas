@@ -16,6 +16,7 @@ class NullCheck():
        WHICH WILL ALLSO INCLUDE TURNING "" INTO NONE VALUES'''
     value = dict()
     #SPLIT UP THE COURSE TITLE e.g.: CSC 126 robotics into subject = CSC, number = 126, title = robotics
+    print("What is this", data['reFID'])
     bannerCourse = BannerCourses.get(reFID = data['reFID'])
     #GRABS THE FIRST BANNERCOURSE OBJECT WITH A NAME MATCHING SUBJECT AND COURSE NUMBER (E.G. CSC 236)
     value['prefix']    = bannerCourse.subject.prefix    

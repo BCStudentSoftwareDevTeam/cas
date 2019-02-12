@@ -155,17 +155,20 @@ def editInstructors(newInstructors, courseID):
         @param {list} newInstructors - list of new instructors
         @param {int} courseID
     '''
-    oldInstructors = InstructorCourse.select().where(
-            InstructorCourse.course == courseID)
+ 
+    print("These are new", newInstructors)
+    oldInstructors = InstructorCourse.select().where(InstructorCourse.course == courseID)
     for oldInstructor in oldInstructors:
-            if oldInstructor.username.username not in newInstructors:
-                oldInstructor.delete_instance()
-            else:
-                newInstructors.remove(oldInstructor.username.username)
+        print("New and Old", oldInstructor.username.username, newInstructors)
+        if oldInstructor.username.username not in newInstructors:
+            oldInstructor.delete_instance()
+        else:
+            print("yes")
+            newInstructors.remove(oldInstructor.username.username)
+    print("New left", newInstructors)
     for instructor in newInstructors:
-            newInstructor = InstructorCourse(
-                username=instructor, course=courseID)
-            newInstructor.save()
+        newInstructor = InstructorCourse(username=instructor, course=courseID)
+        newInstructor.save()
 
 def editSTInstructors(newInstructors, courseID):
     ''' edits the instructs give a list of the new instructors
@@ -185,14 +188,14 @@ def editSTInstructors(newInstructors, courseID):
             newInstructor.save()
             
 
-def editCourse(data, prefix, professors):
+def editCourse(data, prefix, professors, crosslistedCourses):
         '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
         # check to see if the user has privileges to edit
         # get the course object
         #TODO: We are not doing null checks on the portion of
         #the code which is causing crashes on the system 
         
-    
+        print("We are here")
         course = Course.get(Course.cId == int(data['cid']))
         #CHECK VALUES FOR NULL
         room     = data["room"] if data["room"] else None
@@ -203,9 +206,6 @@ def editCourse(data, prefix, professors):
             notes = None
         else:
             notes = data['notes']
-        newCrossListids = data.getlist('crossListedCourses')
-        crosslistedIds = data.getlist('crossListedCourses')
-        
         
         course.crossListed = int(data["crossListed"])
         course.term = data['term']
@@ -216,68 +216,40 @@ def editCourse(data, prefix, professors):
         course.notes = notes
         course.lastEditBy = authUser(request.environ)
         course.save()
+        new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
+        editCrosslistedCourse(course, crosslistedCourses, new_instruc)
+        
+def editCrosslistedCourse(parent, newCourses, newInstructors):
+        
+        '''
         
         
-        #update all other related courses
-        childcourses = Course.select().where(Course.parentCourse == data['cid'])
-        for course in childcourses:
-            childCourse = Course.get(Course.cId == course.cId)
-            childCourse.capacity = capacity
-            childCourse.section = section
-            childCourse.room = room
-            childCourse.rid=room
-            childCourse.schedule= schedule
-            childCourse.notes = notes
-            childCourse.lastEditBy = authUser(request.environ)
-            editInstructors(professors, data['cid'])
-            childCourse.save()
-            
-    #editing crosslisted courses.Deleting current crosslisted courses and relationships and creating new ones.
-        if len(crosslistedIds) != 0:
-            CurrCourses = Course.select().where(Course.parentCourse == data['cid'])
-            CrosslistRelation = CrossListed.select().where(CrossListed.courseId == data['cid'])
-            newCrossListids = data.getlist('crossListedCourses')
-            
-            for course in CurrCourses:
-                course.delete_instance()
-            for relationship in CrosslistRelation:
-                relationship.delete_instance()
-            
-            
-            crosslisted = CrossListed(courseId = int(data['cid']),crosslistedCourse = int(data['cid']),
-                prefix = course.prefix,
-                verified = True,
-                term=data['term']
-            )
-            crosslisted.save()
-            
-            for course_id in newCrossListids:
-                course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
-                newcrosslist = Course(prefix = course_prefix,
-                                                bannerRef = course_id,
-                                                term = data['term'],
-                                                capacity = capacity,
-                                                section = section,
-                                                schedule = schedule,
-                                                notes = notes,
-                                                crossListed =int(data['crossListed']),
-                                                rid     = room,
-                                                lastEditBy = authUser(request.environ),
-                                                parentCourse = int(data['cid']))
-                newcrosslist.save() 
-                editInstructors(professors, data['cid'])
+        '''
+        newCourses = map(int, newCourses)
+        print("These are new", newCourses)
+        #find courses where parent is equal to course.cId
+        oldChildCourses = Course.select().where(Course.parentCourse == parent.cId)
+        
+        #if course has crosslisted children or newCrosslist course has been selested
+        if oldChildCourses.exists() or newCourses:
+            for oldCourse in oldChildCourses:
                 
-                # print(data['tid'])
-                crosslisted = CrossListed(
-                            courseId=int(data['cid']),
-                            crosslistedCourse=int(newcrosslist.cId),
-                            prefix=course_prefix,
-                            verified = False,
-                            term=data['term']
-                        )
-                        
-                crosslisted.save()
+                #update it with parent data it if newCourse still contains oldcourse
+                if oldCourse.bannerRef.reFID in newCourses:
+                    updateChildCourse(oldCourse, parent, newInstructors)
+                    #remove this course from current newCourses list after updating
+                    newCourses = filter(lambda a: a != oldCourse.bannerRef.reFID, newCourses)    
+                else:
+                    #childCrosslistcourse has been removed, so delete it from database
+                    rm =  RoomPreferences()
+                    deleteChildCourse(oldCourse, rm)
+                    
+            #add remaing courses as new crosslisted child course to parent course
+            if newCourses:
+                for newCourse in newCourses:
+                    #create a new childCrosslisted course for parent
+                    createChildCourse(newCourse, parent, newInstructors)
         
       
 def getCourseTimelineSchedules(day,tid):
@@ -330,7 +302,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             rid = specialTopicCourse.rid)
             course.save()
             update_course = DataUpdate()
-            addCourseInstructors(professors, course.cId)
+            structors(professors, course.cId)
             if isTermTracking(specialTopicCourse.term.termCode):
                 update_course.addCourseChange(int(course.cId), "create")
         specialTopicCourse.status = status
@@ -350,3 +322,128 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.perspectivesMet = data['perspectivesMet']
         editSTInstructors(professors, data['stid'])    
         specialTopicCourse.save()
+
+def addInstructorsChild(instructors, parentId, cid):
+    '''
+    add parent course instructors to childCourses when editing parent course
+    
+    '''
+    parentInstructors = InstructorCourse.select().where(InstructorCourse.course == parentId)
+    childInstructors = InstructorCourse.select().where(InstructorCourse.course == cid) 
+    present = False
+    for parentInstructor in parentInstructors:
+        for childInstructor in childInstructors:
+            if(childInstructor.username.username) == parentInstructor.username.username:
+                present = True
+        if present == False:
+            #clone parent instructor to child
+            InstructorCourse(username = parentInstructor.username.username, course = cid).save()
+        present =  False
+    #delete entries that is present in child but not parent
+    
+    exists = False
+    for childInstructor in childInstructors:
+        for parentInstructor in parentInstructors:
+            if(childInstructor.username.username) == parentInstructor.username.username:
+                exists = True
+        if exists == False:
+            #remove the child instructor
+            childInstructor.delete_instance()
+        exists = False
+    
+        
+def createChildCourse(course_id, parent, newInstructors):
+    '''
+    create a crosslisted child course for a parent course
+    Functionalities:
+    a. Creates a child course in Course table
+    b. Creates an entry in Crosslisted table to maintain its verified relationship with parent
+    c. Create entries in InstructorCourse table so child course instructors same as parent
+    d. if parent has roomPreference entry, clone it for child
+    '''
+    qs = CrossListed.select().where((CrossListed.courseId == parent.cId) & (CrossListed.crosslistedCourse == parent.cId))
+    #if uncrosslisted course has selected a crosslist course
+    if not qs.exists():
+        crosslisted = CrossListed(
+                courseId = parent.cId,
+                crosslistedCourse= parent.cId,
+                prefix= parent.prefix,
+                verified = True,
+                term= parent.term
+            ).save()
+    
+    course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
+    
+    #create a child course
+    cc_course = Course.create(bannerRef=course_id,
+            prefix = course_prefix,
+            term = parent.term,
+            schedule = parent.schedule,
+            capacity = parent.capacity,
+            specialTopicName = parent.specialTopicName,
+            notes = parent.notes,
+            crossListed = parent.crossListed,
+            parentCourse = parent.cId,
+            section = parent.section,
+            prereq = parent.prereq
+            )
+    
+    print("Adding for child")
+    #TODO:create its instructors 
+    addInstructorsChild(newInstructors, parent.cId, cc_course.cId)
+    
+    #create its crosslisted relationship entry with parent
+    crosslisted = CrossListed(
+                courseId = parent.cId,
+                crosslistedCourse= cc_course.cId,
+                prefix= course_prefix,
+                verified = False,
+                term= parent.term
+            ).save()
+    
+    #create its roomPreference if parent has any
+
+def deleteChildCourse(childCourse, roompreference):
+    '''
+    deletes crosslisted course from parent
+    deletes course itself, Crosslisted relationship, instructors, roompreference entry if any
+    '''
+    #delete its crosslisted relationship with parent
+    q = CrossListed.select().where(
+        (CrossListed.crosslistedCourse == childCourse.cId) &
+        (CrossListed.courseId == childCourse.parentCourse)
+        )
+    
+    q.first().delete_instance()
+        
+    #delete the course itself
+    childCourse.delete_instance()
+        
+    #delete course instructors
+    instructors = InstructorCourse.select().where(InstructorCourse.course == childCourse.cId)
+    for instructor in instructors:
+        instructor.delete_instance()
+        
+    #delete course roompreference if any; check if it has a term so we where with AND
+    roompreference.delete_room_preference(childCourse.cId)
+    
+def updateChildCourse(course, parent, newInstructors):
+    '''
+    updates crosslisted child course when edit has been made to its parent
+    
+    '''
+    #update general course data with parent data
+    course.term = parent.term
+    course.schedule = parent.schedule
+    course.capacity = parent.capacity
+    course.specialTopicName = parent.specialTopicName
+    course.notes = parent.notes
+    course.crossListed = parent.crossListed
+    course.parentCourse = parent.cId
+    course.section = parent.section
+    course.prereq = parent.prereq
+    course.save()
+    
+    #update its instructors
+    addInstructorsChild(newInstructors, parent.cId, course.cId)
+    

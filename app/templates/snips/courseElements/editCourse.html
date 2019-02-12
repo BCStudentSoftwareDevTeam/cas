@@ -73,41 +73,42 @@
           </select>
           {# --Capacity-- #}
           <h5>Capacity</h5>
+          <div class="form-group">
           <input type="number" name ="capacity" class="form-control" min="1" value ="{{course.capacity}}" />
-          {# --Cross Listed-- #}
-          <h5>Cross Listed</h5>
-          <div class="radio">
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=1 required
-                {% if course.crossListed == 1 %}
-                  checked="checked"
-                {% endif %}
-              >
-                Yes
-            </label>
           </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=0 required
-                {% if course.crossListed == 0 %}
-                  checked="checked"
-                {% endif %}
-              >
-                No
-            </label>
-          </div>
-          <Div><bold><h5>Current Crosslisted Courses:</h5></bold> </Div>
-         <div name = "crosscourse", id= "cc">
-          {% for cours in currentCrosslistedCourse %}
-            <button type="button" data-toggle="tooltip" style="margin-bottom:2px;"class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-" style="color:green;" aria-hidden="true"></span> {{cours}} </button>
-          {% endfor %}
-           <div>
-          {%include "snips/courseElements/addCrossListCourse.html"%}
-          </div>
+          
+          <input type="hidden" name ="crossListed" id = "crossListed" min="1" value ="{% if course.crossListed == 1 %}1{% else%}0 {% endif%}"   />
+          
+          {# --Cross Listed-- #} 
+           <h5>Crosslisted With:</h5>
+           <select title="Nothing Selected" class="form-control selectpicker" id='crossListedCourses' name="crossListedCourses[]" data-live-search="true" multiple>
+             <option value="">---</option>
+              {% if currentCrosslistedCourse %}
+              <optgroup label="Selected Courses">
+              {% for course in currentCrosslistedCourse %}
+                <option value="{{course.reFID}}" selected> 
+                   {{course}} 
+                </option>
+              
+              {% endfor %}
+              {% endif %}
+              <optgroup label="All Courses">
+              {% for course in allCourses %}
+                <option value="{{course.reFID}}"> 
+                   {{course}} 
+                </option>
+              {% endfor %}
+              
+           </select>
+           <br>
+      
+        
           {# --Notes-- #}
-          <h5>Notes</h5>
-          <textarea class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
+            <h5> Notes </h5>
+            <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
+          
+          
+          
           {# --Instructors-- #}
           <h5>Edit Instructor</h5>
             {% include "snips/selectUser.html" %}

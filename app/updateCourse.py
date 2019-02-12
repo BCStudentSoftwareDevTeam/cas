@@ -40,6 +40,12 @@ class DataUpdate():
         # MORE INFO ABOUT THE NULL CHECK CAN BE FOUND
         nullCheck = NullCheck()
         values = nullCheck.add_course_change(course)
+        
+        #delete entry if it already exists in CourseChange
+        newcourse = CourseChange.select().where(CourseChange.cId == course.cId)
+        if newcourse.exists():
+            newcourse.delete_instance()
+        
         newcourse = CourseChange(
             cId=course.cId,
             # WE DON'T HAVE TO CHECK THIS VALUE BECAUSE IT CAN NEVER BE

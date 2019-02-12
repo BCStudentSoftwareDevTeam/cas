@@ -209,7 +209,6 @@ class CrossListed(dbModel):
   
   @staticmethod
   def create(**kwargs):
-    print("works")
     CrossListed(courseId = course.cId, crosslistedCourse = course.cId,
     prefix = course.prefix,verify = True,term=int(tid)).save()
         
@@ -306,6 +305,12 @@ class RoomPreferences(dbModel):
   initial_Preference = CharField(null=True, default = 1)
   priority = IntegerField(default = 6)  
   
+  def delete_room_preference(self, cid):
+    
+    qs = RoomPreferences.select().where(RoomPreferences.course == cid)
+    if(qs.exists()):
+      qs.first().delete_instance()
+      
   def update_cc_child(self, room, pref, parent_id, none_choice, any_choice):
     '''
     Update room preference for crosslisted children if the parent 

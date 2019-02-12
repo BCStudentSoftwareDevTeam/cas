@@ -110,7 +110,7 @@ class TrackerEdit():
             self.colorList.append(color)
         else:
           if self.courseChangeExist.changeType == cfg['changeType']['update']:
-            self.colorList[index] = color
+            self.colorList.append(color)
     else:
         if self.courseChangeExist is None:
             self.colorList.append(color)

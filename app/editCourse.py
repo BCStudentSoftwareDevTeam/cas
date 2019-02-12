@@ -3,23 +3,9 @@ from updateCourse import DataUpdate
 from app.logic.TrackerEdit import TrackerEdit
 from app.logic import databaseInterface
 from app.logic.authorization import must_be_authorized
+from app.logic.course import find_crosslist_via_id
 from collections import defaultdict
 
-def find_crosslist_via_id(cid):
-    "taking course id "
-    course_to_crosslisted = defaultdict(list) # key: []
-    course = Course.get(Course.cId == cid)
-    if course.crossListed:
-        qs = CrossListed.select().where(CrossListed.courseId == cid)
-        if qs.exists:
-            for cross_course in qs:
-                #skip the parent itself
-                print("ya", cross_course.crosslistedCourse.cId, cid)
-                if cross_course.crosslistedCourse.cId != int(cid):
-                    course_to_crosslisted[cid].append(cross_course.crosslistedCourse)
-                
-            return course_to_crosslisted
-    return False
 
 @app.route("/editCourseModal/<tid>/<prefix>/<cid>/<page>", methods=["GET"])
 def editCourseModal(tid, prefix, cid, page):
@@ -39,10 +25,14 @@ def editCourseModal(tid, prefix, cid, page):
     rooms     = Rooms.select()
     
     getCrosslistedCourses = find_crosslist_via_id(cid)
+    print("after", getCrosslistedCourses)
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
     currentCrosslistedCourse = None
-    for c in getCrosslistedCourses:
-      currentCrosslistedCourse = list(getCrosslistedCourses[c])
+    if(getCrosslistedCourses):
+      for c in getCrosslistedCourses:
+        currentCrosslistedCourse = list(getCrosslistedCourses[c])
+    #print("curr", currentCrosslistedCourse[0])
+      
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
                             terms     = terms,
@@ -63,13 +53,17 @@ def editcourse(tid, prefix, page):
 
     username = g.user.username
     page1 =  "/" + request.url.split("/")[-1]
-    data = request.form
+    data = request.form.to_dict()
+    crosslistedCourse = request.form.getlist('crossListedCourses[]')
+    #if no crosslisted children, update hidden crosslisted to true or false
+    data["crossListed"] = 1 if crosslistedCourse else 0  
+    print("Hi", data["crossListed"])
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-
+    print("hello", crosslistedCourse)
     if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
-    databaseInterface.editCourse(data, prefix, professors)
+    databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
     message = "Course: course {} has been edited".format(data['cid'])
     log.writer("INFO", page1, message)
     flash("Course information has successfully been modified!")

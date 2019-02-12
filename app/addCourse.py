@@ -24,7 +24,6 @@ def convertPrereqs(prereqs):
 @app.route("/addCourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def addCourses(tid, prefix):
-    print ('Inputs', tid, prefix)
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
    
@@ -36,10 +35,10 @@ def addCourses(tid, prefix):
     nullCheck = NullCheck()
     
     values = nullCheck.add_course_form(data)
-   
-  
+    
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
-   
+    print(values["crossListedCourses"])
+    print("sdsdfsda", data['crossListed'])
     bannerNumber = str(banner.number)[-2:]
     
     cId = ""
@@ -97,63 +96,72 @@ def addCourses(tid, prefix):
                         )
                         
         course.save()
-        #save crosslisted courses of the newly-created course in a database
-        #tID, prefix,
-        #int(tid)
-        crosslistedCourses=values["crossListedCourses"]
-        if crosslistedCourses:
-            #CrossListed.create(course=course, tid=tid)
-            #save parent crosslisted to itself
-            crosslisted = CrossListed(courseId = course.cId,crosslistedCourse = course.cId,
-                prefix = course.prefix,
-                verified = True,
-                term=int(tid)
-            )
-            crosslisted.save()
-       
-            for course_id in crosslistedCourses:
-                #inefficient query
-                #TODO: Check with Scott on what data needs to be stored
-                #TODO: Add crosslisted course as crosslisted to itself to support our verify column
-                course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
-                print("CP  {}".format(course_prefix))
-                cc_course = Course(bannerRef=course_id,
-                        prefix = course_prefix,
-                        term = int(tid),
-                        schedule = values['schedule'],
-                        capacity = values['capacity'],
-                        specialTopicName = values['specialTopicName'],
-                        notes = values['requests'],
-                        crossListed = True,
-                        parentCourse = course.cId,
-                        section = values['section'],
-                        prereq = convertPrereqs(prereqs)
-                        )
-                cc_course.save()
-                databaseInterface.addCourseInstructors(instructors, cc_course.cId)
-                crosslisted = CrossListed(
-                            courseId=course.cId,
-                            crosslistedCourse=int(cc_course.cId),
-                            prefix=course_prefix,
-                            verified = False,
-                            term=int(tid)
-                        )
-                        
-                crosslisted.save()
-       
-        databaseInterface.addCourseInstructors(instructors, course.cId)
-
+        
+        #update coursechange table if term is not editable: 
+        #the changetracker feature will be removed soon 
         newCourse = DataUpdate()
+        databaseInterface.addCourseInstructors(instructors, course.cId)
         if not databaseInterface.isTermOpen(tid):  # IF THE TERM IS NOT EDITABLE
-            # ADD THE COURSE TO THE COURSECHANGE TABLE
-            newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
-
-            message = "Course: #{0} has been added".format(course.cId)
-            flash("Course has successfully been added!")
-            log.writer("INFO", current_page, message)
-    return redirect(redirect_url())         
-
- 
+                # ADD THE COURSE TO THE COURSECHANGE TABLE
+                newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
+    
+                message = "Course: #{0} has been added".format(course.cId)
+                log.writer("INFO", current_page, message)
+        
+        #save crosslisted courses of the newly-created course in a database
+        if(course.crossListed):
+            create_crosslisted_courses(values, course,  tid, prereqs, instructors)
+        
+        flash("Course has successfully been added!")
+        return redirect(redirect_url())  
+        
+        
+    
+        
+def create_crosslisted_courses(values, course, tid, prereqs, instructors):
+    crosslistedCourses=values["crossListedCourses"]
+    if crosslistedCourses:
+        
+        #save parent crosslisted to itself
+        crosslisted = CrossListed(courseId = course.cId, crosslistedCourse = course.cId,
+            prefix = course.prefix,
+            verified = True,
+            term=int(tid)
+        )
+        crosslisted.save()
+        print("These are cross courses from values:", crosslistedCourses)
+        for course_id in crosslistedCourses:
+            print("This is course id", course_id)
+            course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
+            #print("This is in database", course_prefix.reFID)
+            print("CP  {}".format(course_prefix))
+            cc_course = Course(bannerRef=course_id,
+                    prefix = course_prefix,
+                    term = int(tid),
+                    schedule = values['schedule'],
+                    capacity = values['capacity'],
+                    specialTopicName = values['specialTopicName'],
+                    notes = values['requests'],
+                    crossListed = True,
+                    parentCourse = course.cId,
+                    section = values['section'],
+                    prereq = convertPrereqs(prereqs)
+                    )
+            cc_course.save()
+            print("YOYOYOU", instructors)
+            databaseInterface.addCourseInstructors(instructors, cc_course.cId)
+            crosslisted = CrossListed(
+                        courseId=course.cId,
+                        crosslistedCourse=cc_course.cId,
+                        prefix=course_prefix,
+                        verified = False,
+                        term=int(tid)
+                    )
+                    
+            crosslisted.save()
+   
+    
+    
 
 @app.route("/addOne/<tid>", methods=["POST"])
 def add_one(tid):
