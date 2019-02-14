@@ -74,12 +74,12 @@ accessLevel:
     id: "administrator"
 
 adminMenu:
-  - title: "Program Management" #Not needed after User Management
-    link:  "/redirect/program_management"
-    page: ["programManagement"]
-  - title: "Division Management" # we do not need this anymore after adding the user mgmt
-    link:  "/redirect/division_management"
-    page: ["divisionManagement"]
+  # - title: "Program Management" #Not needed after User Management
+  #   link:  "/redirect/program_management"
+  #   page: ["programManagement"]
+  # - title: "Division Management" # we do not need this anymore after adding the user mgmt
+  #   link:  "/redirect/division_management"
+  #   page: ["divisionManagement"]
   - title: "Term Management" #Change to term management
     link:  "/admin/termManagement"
     page: ["termManagement"]
