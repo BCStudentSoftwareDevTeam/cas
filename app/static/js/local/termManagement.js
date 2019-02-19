@@ -1,8 +1,20 @@
 var lastTerm = "";
+
+function close_panel(panel_id){
+    $(panel_id).collapse('toggle');
+}
+
+function close_reassignModal(){
+    // $('#reassignModal').modal('toggle');
+    $('#reassignModal').removeClass("in");
+    
+}
+
+
 function showPanel(termCode, button){
     
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
-    console.log('show_id', show_id)
+    // console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
     
     disable_btn.disabled = true;            // Disables all the state buttons
@@ -14,11 +26,11 @@ function showPanel(termCode, button){
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
   
 
-    console.log("target div: " + targetDiv);
+    // console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
   
-    console.log("subject div: " + subjectDiv);
+    // console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
     
@@ -242,7 +254,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
-    
+    // console.log("begin test")
     var allPanelsDiv = $("#allPanels");
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
@@ -258,7 +270,7 @@ function submit_data(stateOrder, reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
+            // console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
             if (stateOrder == 5){
