@@ -119,7 +119,7 @@ class Rooms(baseModel):
   specializedEq    = CharField(null=True)
   specialFeatures  = CharField(null=True)
   movableFurniture = BooleanField()
-  lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
+  lastModified     = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
  
 class Program(baseModel):
   pID               = PrimaryKeyField()
