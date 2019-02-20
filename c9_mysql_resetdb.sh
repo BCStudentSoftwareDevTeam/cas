@@ -1,7 +1,7 @@
-# First, create an environmental variable for my username in 
-# ~/.profile by adding the following line with your c9 username
-
-# export USERNAME="sheggen1"
+# Drops your existing c9 database
+# Creates the c9 database, empty
+# Imports data from cas.sql file
+# To run the file, enter "source c9_mysql_resetdb.sh" into the terminal
 
 {           # Try
     mysql -u $C9_USER -e "DROP DATABASE c9"
