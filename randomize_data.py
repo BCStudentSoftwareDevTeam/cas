@@ -1,4 +1,4 @@
-# This script needs to get the data from the existing sqlite database and save it into mysql 
+# This script needs to get the data from the existing sqlite database and randomizes it so we don't use real production data while testing 
 from peewee import *
 import mysql.connector
 from app.models import *
@@ -10,65 +10,23 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-print("Hello")
-dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
-cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
-db_name   = cfg['db']['db_name']
-print(db_name)
-host      = cfg['db']['host']
-username  = cfg['db']['username']
-password  = cfg['db']['password']
-# Create a connection to the mysql database
-cnx = mysql.connector.connect(database=db_name, host = host, password = password, user = username)
-print("Hello")
-
-# *******************************
-# A cursor is a temporary work area created in the system memory when a SQL statement is executed. 
-# A cursor contains information in a mysql statement and the rows of data accessed by it. 
-# This temporary work area is used to store the data retrieved from the database, and manipulate this data.
-# *******************************
-
-cursor = cnx.cursor()
-
-               
 building = old.Building.select()
-for i in building:
-    add_building = ("INSERT INTO building (`bID`, `name`, `shortName`) VALUES ({0}, '{1}', '{2}')".format(i.bID, i.name, i.shortName))
-    cursor.execute(add_building)
-#    print("Here")
-    
+
 
 divisions = old.Division.select()
-for i in divisions: 
-    add_division = ("INSERT INTO division (`dID`, `name`) VALUES ({0}, '{1}')".format(i.dID, i.name))
-    cursor.execute(add_division)
-    
+
 
 banner_schedule = old.BannerSchedule.select()
-for i in banner_schedule: 
-    add_banner_schedule = ("INSERT INTO bannerschedule (`sid`, `startTime`, `endTime`, `letter`, `order`) VALUES ('{0}', '{1}', '{2}','{3}', {4})".format(i.sid, i.startTime, i.endTime, i.letter, i.order))
-    cursor.execute(add_banner_schedule)
 
 term_states = old.TermStates.select()
-print("size", len(term_states))
-for i in term_states: 
-    add_termstates = ("INSERT INTO termstates (`csID`, `number`, `name`, `order`, `display_name`) VALUES ({0}, {1}, '{2}', {3}, '{4}')".format(i.csID, i.number, i.name, i.order, i.display_name))
-    cursor.execute(add_termstates)
-    
+
 
 education_tech = old.EducationTech.select()
-for i in education_tech:
-    add_educationtech = ("INSERT INTO educationtech (`eId`, `projector`, `smartboards`, `instructor_computers`, `podium`, `student_workspace`, `chalkboards`, `whiteboards`, `dvd`, `blu_ray`, `audio`, `extro`, `doc_cam`, `vhs`, `mondopad`, `tech_chart`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}')".format(i.eId, i.projector, i.smartboards, i.instructor_computers, i.podium, i.student_workspace, i.chalkboards, i.whiteboards, 1 if i.dvd else 0, 1 if i.blu_ray else 0, 1 if i.audio else 0, 1 if i.extro else 0, 1 if i.doc_cam else 0, i if i.vhs else 0, i if i.mondopad else 0, 1 if i.tech_chart else 0))
-    cursor.execute(add_educationtech)
 
 
 deadline = old.Deadline.select()
-for i in deadline: 
-    add_deadline  = ("INSERT INTO deadline (`description`, `date`) VALUES ('{0}', '{1}')".format(i.description, i.date ))
-    cursor.execute(add_deadline)
-    
 
-add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
 
 rooms = old.Rooms.select()
 for i in rooms: 
@@ -85,22 +43,12 @@ for i in rooms:
     specializedEq = str(i.specializedEq)
     specialFeatures = str(i.specialFeatures)
     movableFurniture = bool(i.movableFurniture)
-    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture)
-    
-    cursor.execute(add_rooms, data_rooms)
 
 programs = old.Program.select()
-for i in programs: 
-    add_programs = ("INSERT INTO program (`pID`, `name`, `division_id`) VALUES ({0}, '{1}', {2})".format(i.pID, i.name, i.division.dID))
-    cursor.execute(add_programs)
-
 
 
 subjects = old.Subject.select()
-for i in subjects: 
-    add_subjects = ("INSERT INTO subject (`prefix`, `pid_id`, `webname`) VALUES ('{0}', {1}, '{2}')".format(i.prefix, i.pid.pID, i.webname))
-    cursor.execute(add_subjects)
-    
+
 
 users = old.User.select()
 for i in users: 
@@ -110,11 +58,8 @@ for i in users:
             lastVisited_id = str(i.lastVisited.prefix)
         else: 
             lastVisited_id = 'MAT'
-        add_users = ("INSERT INTO user (`username`, `firstName`, `lastName`, `email`, `isAdmin`, `lastVisited_id`, `bNumber`) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}','{6}')".format(i.username, i.firstName, i.lastName, i.email, 1 if i.isAdmin else 0,lastVisited_id, i.bNumber))
-        cursor.execute(add_users)
 
 
-add_banner_courses = ("INSERT INTO bannercourses (reFID, subject_id, number, section, ctitle, is_active) VALUES (%s, %s, %s, %s, %s, %s)")
 
 banner_courses = old.BannerCourses.select()
 for i in banner_courses: 
@@ -124,12 +69,6 @@ for i in banner_courses:
     section = str(i.section)
     ctitle = str(i.ctitle)
     is_active = bool(i.is_active)
-    data_banner_courses = (reFID, subject_id, number, section, ctitle, is_active)
-    
-    cursor.execute(add_banner_courses, data_banner_courses)
-
-add_terms = ("INSERT INTO term (termCode, semester, year, name, state, term_state_id, editable) VALUES (%s, %s, %s, %s, %s, %s, %s)")
-
 
 
 terms = old.Term.select()
@@ -147,23 +86,13 @@ for i in terms:
     term_state_id=  int(i.term_state.csID)  
 
     editable = bool(i.editable) 
-    data_terms = (termCode, semester, year, name, state, term_state_id, editable) 
     
-    cursor.execute(add_terms, data_terms)
-
-add_schedule_days = ("INSERT INTO scheduledays (schedule_id, day) VALUES (%s, %s)")
-
 schedule_days = old.ScheduleDays.select()
 for i in schedule_days: 
     schedule_id = str(i.schedule.sid)
     day = str(i.day)
-    data_schedule_days = (schedule_id, day)
-    
-    cursor.execute(add_schedule_days, data_schedule_days)
     
     
-add_courses = ("INSERT INTO course (cId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, crossListed, rid_id, section, prereq) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-
 courses = old.Course.select()
 for i in courses:
     cId = int(i.cId)
@@ -188,12 +117,7 @@ for i in courses:
         rid_id = None
     section = str(i.section)
     prereq = str(i.prereq)
-    data_courses = (cId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, crossListed, rid_id, section, prereq)
-    
-    cursor.execute(add_courses, data_courses)
 
-
-add_special_topic_courses = ("INSERT INTO specialtopiccourse (stId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, submitBy, crossListed, rid_id, status, credits, description, prereqs, majorReqsMet, concentrationReqsMet, minorReqsMet, perspectivesMet, section) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 special_topic_courses = old.SpecialTopicCourse.select()
 for i in special_topic_courses:
@@ -228,32 +152,16 @@ for i in special_topic_courses:
     perspectivesMet = str(i.perspectivesMet)
     section = str(i.section)
     
-    data_special_courses = (stId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, submitBy, crossListed, rid_id, status, credits, description, prereqs, majorReqsMet, concentrationReqsMet, minorReqsMet, perspectivesMet, section)
-  
-    cursor.execute(add_special_topic_courses, data_special_courses)
-
-add_program_chair = ("INSERT INTO programchair (username_id, pid_id) VALUES (%s, %s)")
 
 program_chairs = old.ProgramChair.select()
 for i in program_chairs: 
     username_id = str(i.username.username)
     pid_id = int(i.pid.pID)
-    data_program_chairs =(username_id, pid_id)
-    
-    cursor.execute(add_program_chair, data_program_chairs)
-    
-
-add_division_chairs = ("INSERT INTO divisionchair (username_id, did_id) VALUES (%s, %s)")
 
 division_chairs = old.DivisionChair.select()
 for i in division_chairs: 
     username_id = str(i.username.username)
     did_id = int(i.did.dID)
-    data_division_chairs =  (username_id, did_id)
-    
-    cursor.execute(add_division_chairs, data_division_chairs)
-    
-
 
 # THERE IS NO DATA YET IN BUILDINGMANAGER. 
 
@@ -275,7 +183,6 @@ for i in problems:
     
     
     
-add_instructor_courses = ("INSERT INTO instructorcourse (username_id, course_id) VALUES (%s, %s)")
 
 instructor_courses = old.InstructorCourse.select()
 for i in instructor_courses:
@@ -289,15 +196,11 @@ for i in instructor_courses:
         f.write('\n')
         
     f.close()
-    data_instructor_courses = (username_id, course_id)
 
-    cursor.execute(add_instructor_courses, data_instructor_courses)
-        
 problems = [5,6,8,46]    
 for i in problems:
     query = old.InstructorSTCourse.delete().where(InstructorSTCourse.course == i).execute()
     
-add_instructor_st_courses = ("INSERT INTO instructorstcourse (username_id, course_id) VALUES (%s, %s)")
 
 instructor_st_courses = old.InstructorSTCourse.select()
 for i in instructor_st_courses:
@@ -310,12 +213,7 @@ for i in instructor_st_courses:
         f.write(str(e))
         f.write('\n')
         
-    data_instructor_st_courses = (username_id, course_id)
 
-    cursor.execute(add_instructor_st_courses, data_instructor_st_courses)
-    
-
-add_course_change = ("INSERT INTO coursechange (cId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, changeType, verified, crossListed, rid_id, tdcolors, section) VALUES (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 course_changes = old.CourseChange.select()
 for i in course_changes:
@@ -345,10 +243,7 @@ for i in course_changes:
         rid_id = None
     tdcolors = str(i.tdcolors)
     section = str(i.section)
-    data_course_change = (cId, prefix_id, bannerRef_id, term_id, schedule_id, capacity, specialTopicName, notes, lastEditBy, changeType, verified, crossListed, rid_id, tdcolors, section)
 
-    cursor.execute(add_course_change, data_course_change)
-    
 problems = ['3218','3219','3220','3221','3222','3224', '3225']
 for i in problems:
     query = old.InstructorCourseChange.delete().where(InstructorCourseChange.username == i).execute()
@@ -362,9 +257,6 @@ for i in instructor_course_change:
    
     course_id = int(i.course.cId)
     
-    data_instructor_course_change = (username_id, course_id)
-
-    cursor.execute(add_instructor_course_change, data_instructor_course_change)
 
 
 ############# The Table Courses in Banner did not exist in the sqlite database yet #################
@@ -414,12 +306,4 @@ for i in room_preferences:
     none_Reason = str(i.none_Reason)
     initial_Preference = str(i.initial_Preference)
     priority = int(i.priority)
-    data_room_preferences = (rpID, course_id, pref_1_id, pref_2_id, pref_3_id, notes, any_Choice, none_Choice, none_Reason, initial_Preference, priority)
-    
-    cursor.execute(add_room_preferences, data_room_preferences)
 
-cnx.commit()
-cursor.close()
-cnx.close()
-               
-print("Last")

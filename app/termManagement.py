@@ -9,6 +9,7 @@ from models import *
 import sqlite3
 import time
 
+# pylint disable=wildcard-import
 
 @app.route("/admin/termManagement", methods=["GET"])
 @must_be_admin
