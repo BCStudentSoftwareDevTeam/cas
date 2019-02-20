@@ -255,48 +255,54 @@ class ExcelMaker:
         self.writeAllRoomHeaders(allrooms_sheet)
       
         #Select all the courses 
-        courses = Course.select().where(Course.rid != None)
+        courses = Course.select().where(Course.rid != None).where(Course.term == term).order_by(Course.bannerRef)
         
         #Get the schedules for each course that has a room and add each schedule to a dictionary that maps rooms to the different times they are scheduled for
-        for course in courses:
-            banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
-            schedule_days = self.get_schedule_days(banner_schedule)
-            
-            # Map all the times a room is taken to that particular room 
-            if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
-                self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid) 
-            else:
-                self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
-        
-        all_rooms = Rooms.select().order_by(Rooms.building_id)
-        for room in all_rooms:
-            available_times = self.remove_unavailable_time(room)
-            for i in range(len(available_times)):
-                banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == available_times[i]).first()
-                available_times[i] = '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')'
-            self.write_all_rooms_info(allrooms_sheet, room, self.room_row, available_times)
-            self.room_row += 1
+        if courses:
+            for course in courses:
+                if course.schedule is not None:
+                    banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
+                    schedule_days = self.get_schedule_days(banner_schedule)
+                    
+                    # Map all the times a room is taken to that particular room 
+                    if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid) 
+                    else:
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
+                
+            all_rooms = Rooms.select().order_by(Rooms.building_id)
+            if all_rooms:
+                for room in all_rooms:
+                    available_times = self.remove_unavailable_time(room)
+                    for i in range(len(available_times)):
+                        banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == available_times[i]).first()
+                        if banner_schedule:
+                            available_times[i] = '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')'
+                    self.write_all_rooms_info(allrooms_sheet, room, self.room_row, available_times)
+                    self.room_row += 1
             
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
         # Create worksheets and set headers for each program
-        for program in programs:
-           
-            self.program_row = 2 #reset the program row
-            program_sheet = workbook.add_worksheet(program.prefix)
-            self.writeHeaders(program_sheet)
+        if programs:
+            for program in programs:
+               
+                self.program_row = 2 #reset the program row
+                program_sheet = workbook.add_worksheet(program.prefix)
+                self.writeHeaders(program_sheet)
+                    
+                #Loop through Courses in that program
+                courses = Course.select().where(Course.prefix == program.prefix).where(Course.term == term).order_by(Course.bannerRef)
                 
-            #Loop through Courses in that program
-            courses = Course.select().where(Course.prefix == program.prefix).where(Course.term == term).order_by(Course.bannerRef)
-            
-            for course in courses:
-             
-                sheet_matrix = [[master_sheet,self.master_row],[program_sheet,self.program_row]]
-                if course.crossListed:
-                    sheet_matrix.append([cross_sheet,self.cross_row])
-                for sheet_list in sheet_matrix:
-                    self.write_course_info(sheet_list[0],sheet_list[1],course)
-                self.increment_rows(course)
+                if courses:
+                    for course in courses:
+                     
+                        sheet_matrix = [[master_sheet,self.master_row],[program_sheet,self.program_row]]
+                        if course.crossListed:
+                            sheet_matrix.append([cross_sheet,self.cross_row])
+                        for sheet_list in sheet_matrix:
+                            self.write_course_info(sheet_list[0],sheet_list[1],course)
+                        self.increment_rows(course)
         workbook.close()
         return path
         
