@@ -54,8 +54,8 @@
                             <div id="selectedRoom">
                                 <div class = "row">        
                                 <div class="col-md-4 left">
-                                    <div aria-labelledby="Room Number"><strong>Room Number:</strong><span id="roomNumber" ></span></div><br>
-                                    <div aria-labelledby="Room Capacity"><strong>Room Capacity:</strong><input id="roomCapacity" type="number"></input></div><br>
+                                    <div aria-labelledby="Room Number"><strong>Room Number: </strong><span id="roomNumber" ></span></div><br>
+                                    <div aria-labelledby="Room Capacity"><strong>Room Capacity: </strong><input id="roomCapacity" type="number"></input></div><br>
                                     <div aria-labelledby="Room Type"><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
                                     <div aria-labelledby="Specialized Equpiment"><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
                                     <div aria-labelledby="Special Features"><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
@@ -65,13 +65,17 @@
                                 </div>
                                 <div class="col-md-4 right">
                                     <div aria-labelledby="Movable Furniture"><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
-                                    </div><br>
+                                    </div><br />
                                     {% include "snips/editableEducationTech.html" %}
                
-                                   <div id="educationTech" aria-labelledby="Education Tech"><strong>Education Tech: </strong><br>
-                                        <button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" 
-                                        class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal" onclick='seteducationTech()'> 
-                                        <a href="#">Open</a></button> <!--TODO: pull from db. refer to roompreferences on developement
+                                   <div id="educationTech" aria-labelledby="Education Tech"><strong>Education Tech: </strong>
+                                        <button type="button" 
+                                                class="btn btn-primary btn-sm" 
+                                                data-toggle="modal" 
+                                                data-target="#edTechModal" 
+                                                onclick='seteducationTech()'> 
+                                            <a href="#">Open</a>
+                                        </button> <!--TODO: pull from db. refer to roompreferences on developement
 
                                         <!--<button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" -->
                                         <!--class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> -->
@@ -79,12 +83,15 @@
 
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
+                                    <br>
                                     <div aria-labelledby="Visual Accessibility"><strong>Visual Accessibility: </strong>
                                         <select id="visualAcc" class="form control">
                                             <option value="A">A</option>
                                             <option value="B">B</option>
                                             <option value="C">C</option>
                                         </select>
+                                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" data-html="true" title=
+                                        "A:Lighting control is present(dimmers and blinds) and smartboard is present.&#13;B:Lightning control is present and no smartboard is present.&#13;C:Some lighting control is present(just blinds.)"></span>
                                     </div><br>
                                     
                                     <div aria-labelledby="Audio Accessibility"><strong>Audio Accessibility: </strong>
@@ -93,6 +100,8 @@
                                             <option value="B">B</option>
                                             <option value="C">C</option>
                                         </select>
+                                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title=
+                                        "A:Speaker system present (for voice amplification.)&#13;B:Minimal ambient noise distraction.&#13;C:Moderate/persistent ambient noise distraction."></span>
                                     </div><br>
                                     
                                     <div aria-labelledby="Physical Accessibility"><strong>Physical Accessibility: </strong>
@@ -101,6 +110,9 @@
                                             <option value="B">B</option>
                                             <option value="C">C</option>
                                         </select>
+                                        <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title=
+                                        "A:Building and classroom exceeds minimal legal requirements(ramp, elevators, and moveable furniture present.)&#13;B:Building and classroom exceeds minimal legal requirements(classooms has fixed seating positions.)&#13;C:Building and classroom meets minimal legal requirements(building has an elevator and accessible doors.)"></span>
+                                        <!--Formatting for tooltip calls that we keep text in 1 line, sorry for readability -Kat -->
                                     </div><br>
                                     
                                 </div>
