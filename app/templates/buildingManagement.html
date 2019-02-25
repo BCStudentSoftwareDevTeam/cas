@@ -52,18 +52,17 @@
                         <td>
                            <div class="container">
                             <div id="selectedRoom">
-                                <div class = "row">        
-                                <div class="col-md-4 left">
+                                <div class = "row justify-content-md-center">
+                                <div class = "col-md-2"></div> <!--Empty div for spacing-->
+                                <div class="col-lg-2">
                                     <div aria-labelledby="Room Number"><strong>Room Number: </strong><span id="roomNumber" ></span></div><br>
                                     <div aria-labelledby="Room Capacity"><strong>Room Capacity: </strong><input id="roomCapacity" type="number"></input></div><br>
                                     <div aria-labelledby="Room Type"><strong>Room Type: </strong><input id="roomType" type=text></input></div><br>
                                     <div aria-labelledby="Specialized Equpiment"><strong>Specialized Equipment: </strong><input id="specializedEq" type=text></input></div><br>
                                     <div aria-labelledby="Special Features"><strong>Special Features: </strong><input  id="specialFeatures" type=text></input></div><br>
                                 </div>
-                                <div class = "col-md-4">
-                                    
-                                </div>
-                                <div class="col-md-4 right">
+                                <div class = "col-md-4"></div> <!--Empty div for spacing-->
+                                <div class="col-lg-2">
                                     <div aria-labelledby="Movable Furniture"><strong>Movable Furniture: </strong><input id="movableFurniture" type="checkbox"></input>
                                     </div><br />
                                     {% include "snips/editableEducationTech.html" %}
@@ -114,12 +113,15 @@
                                         "A:Building and classroom exceeds minimal legal requirements(ramp, elevators, and moveable furniture present.)&#13;B:Building and classroom exceeds minimal legal requirements(classooms has fixed seating positions.)&#13;C:Building and classroom meets minimal legal requirements(building has an elevator and accessible doors.)"></span>
                                         <!--Formatting for tooltip calls that we keep text in 1 line, sorry for readability -Kat -->
                                     </div><br>
-                                    
                                 </div>
                             </div>
                             </div>
-                            <div id="submitChangesDiv">
-                                <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges"  id="submitChanges">Submit changes</button>
+                            <div class="row justify-content-center" id="submitChangesDiv">
+                                <div class= "col-md-5"></div>
+                                <div class= "col-md-5">
+                                    <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges"  id="submitChanges">Submit changes</button>
+                                </div>
+                                <div class= "col-md-5"></div>
                             </div>
                             <!--pop-up for the onclick of submit changes button-->
                             <div class="modal fade" id="makeChanges" tabindex="-1" role="dialog" aria-labelledby="Are you sure?" aria-hidden="true">
