@@ -16,7 +16,7 @@ db:
   db_name: c9
   host: localhost
   password: ''
-  username: nelsonk 
+  username: sheggen1 
 
 #You have to use the - to keep the order
 scheduleDays:
@@ -79,12 +79,12 @@ accessLevel:
     id: "administrator"
 
 adminMenu:
-  - title: "Program Management" #Not needed after User Management
-    link:  "/redirect/program_management"
-    page: ["programManagement"]
-  - title: "Division Management" # we do not need this anymore after adding the user mgmt
-    link:  "/redirect/division_management"
-    page: ["divisionManagement"]
+  # - title: "Program Management" #Not needed after User Management
+  #   link:  "/redirect/program_management"
+  #   page: ["programManagement"]
+  # - title: "Division Management" # we do not need this anymore after adding the user mgmt
+  #   link:  "/redirect/division_management"
+  #   page: ["divisionManagement"]
   - title: "Term Management" #Change to term management
     link:  "/admin/termManagement"
     page: ["termManagement"]
@@ -257,37 +257,37 @@ databaseAdmin:
 # 
 states:
   1:
-    mainInfo: 'Program and Division Chairs will be able to submit courses to this Term.'
-    subtext: 'Click the arrow to begin and open Course Scheduling.'
+    mainInfo: 'Program and Division Chairs will be able to submit courses to this term.'
+    subtext: 'Click the arrow to open course scheduling.'
     btn: 'Open Scheduling'
   2: 
-    mainInfo: 'Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.'
+    mainInfo: 'Course Scheduling is now open. Program and Division chairs can now submit courses to the term.'
     subtext: 'Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.'
-    btn: 'UnLock Scheduling'
+    btn: 'Unlock Scheduling'
   3:
-    mainInfo: 'Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. '
-    left_help_text: 'Click the left arrow to unlock Course Scheduling.'
-    right_help_text: 'Click the right arrow to open Room Preferences for faculty.'
-    subtext: '(Course Scheduling will be permanelty locked)'
+    mainInfo: 'Course Scheduling is now locked. Chairs can no longer submit courses for the term.'
+    left_help_text: 'Click the left arrow to unlock course scheduling.'
+    right_help_text: 'Click the right arrow to open room selection for faculty.'
+    subtext: 'WARNING: Course scheduling will be permanently locked!'
     btn: 'Open Room Preferences'
     download: 'Download Courses'
   4:
-    mainInfo: 'Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses.'
-    subtext: 'Click the arrow to lock room preferences submission.'
-    btn: 'UnLock Room Preferences'
+    mainInfo: 'Room selection is now open. Faculty can now submit and change their room preferences for their courses.'
+    subtext: 'Click the arrow to lock room selection.'
+    btn: 'Unlock Room Preferences'
   5: 
-    mainInfo: 'Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences.'
-    left_help_text: 'Click the left arrow to unlock room preferences.'
+    mainInfo: 'Room selection is now locked. Faculty can no longer submit or change their preferences.'
+    left_help_text: 'Click the left arrow to unlock room selection.'
     right_help_text: 'Click the right arrow to assign rooms.'
-    subtext: '(Room preferences can no longer be unlocked!!!)'
+    subtext: 'WARNING: Room selection will be permanently locked!'
     btn: 'Assign Rooms'
   6:
     mainInfo: 'Rooms have been assigned.'
-    left_help_text: 'Click below to run the Room assignment algorithm again.'
+    left_help_text: 'Click below to run the room assignment algorithm again.'
     right_help_text: 'Click to Finish term.'
-    subtext: '(This indicates that all coursesand room assigments are finished)'
-    btn: 'Reassign'
-    goto_text: 'Click to go to Room Resolutions Page' 
+    subtext: 'This indicates that all courses and room assigments are finished'
+    btn: 'Reassign Rooms'
+    goto_text: 'Click below to go to Room Resolution' 
     goto_link: 'Room Resolution'
   7:
     mainInfo: 'The term is complete.'
