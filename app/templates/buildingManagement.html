@@ -19,7 +19,7 @@
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
             <tr>
-                <td id="room_{{room.number}}"> {{room.building.shortName}} {{room.number}}</td>
+                <td id="room_{{room.number}}" data-toggle="tooltip" title={{room.building.name}}> {{room.building.shortName}} {{room.number}}</td>
                 <td> {{room.roomType}}</td>
                 <td> 
                     <button type="button" 
@@ -75,11 +75,9 @@
                                                 onclick='seteducationTech()'> 
                                             <a href="#">Open</a>
                                         </button> <!--TODO: pull from db. refer to roompreferences on developement
-
                                         <!--<button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" -->
                                         <!--class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> -->
                                         <!--<a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roompreferences on developement-->
-
                                         <!--<div class="modal-body" align="left"></div>-->
                                     </div>
                                     <br>
