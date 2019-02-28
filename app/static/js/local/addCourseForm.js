@@ -51,14 +51,15 @@ if(element.addEventListener){
     element.attachEvent('onsubmit', callback);
 }
 function callback(e){
+    console.log("callback")
     e.preventDefault();
+    //select the values of crosslist dropdown
     const values =   $('#crossListSelect').val();//document.getElementById("crossListSelect").value;
     console.log(values);
-    if(values.length > 0){
-        document.getElementById("crossListed").value = 1;
-    }
-    else{
+    if(values == null){
         document.getElementById("crossListed").value = 0;
+    }else{
+        document.getElementById("crossListed").value = 1;
     }
     element.submit();
 }
