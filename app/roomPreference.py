@@ -12,66 +12,60 @@ from string import strip
 @app.route("/roomPreference/<term>", methods = ["GET"])
 def roomPreference(term):
     # FIXME bring current_term in via URL, and add the modal to select current term used on courses.html
-    # print(term)
+  
     current_term = term
-    current_user = AuthorizedUser().getUsername()
-
-    # Used to populate dropdowns and stuff
-    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
-
-#    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.bID.desc(), Rooms.number.asc())
-    users= User.select()
-    instructors = InstructorCourse.select()
-    educationTech= EducationTech.select()
-
-    # FIXME used for conflicting courses UI, which is hidden
-    # print(current_user)
-    # print(current_term)
-    #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     term = Term.get(Term.termCode == current_term)
-
-    courses = ( Course.select()
-                    .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
-                    .join(Term, on=(Term.termCode == Course.term))
-                    .where(InstructorCourse.username == current_user)
-                    .where(Course.term == int(current_term))
-                    )
-    # Constructs RoomPreferences if they don't exist
-    for course in courses:
-        (rp, c) = RoomPreferences.get_or_create(course = course.cId)
-        # print(rp.course.term.termCode)
+    # print('Term', term.termCode)
+    if term.term_state.number == 3:
+        current_user = AuthorizedUser().getUsername()
+    
+        # Used to populate dropdowns and stuff
+        room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
+    
+        users= User.select()
+        instructors = InstructorCourse.select()
+        educationTech= EducationTech.select()
     
         # FIXME used for conflicting courses UI, which is hidden
-        # print(current_user)
-        # print(current_term)
-        #Select * from (course) join instructorcourse on instructorcourse.course_id == course.cId and instructorcourse.username_id== 'heggens'  
     
+    
+        courses = ( Course.select()
+                        .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
+                        .join(Term, on=(Term.termCode == Course.term))
+                        .where(InstructorCourse.username == current_user)
+                        .where(Course.term == int(current_term))
+                    )
+
         
-    # Gets all room preferences for the current user    
-    roompreferences= (  RoomPreferences.select()
-                                    .join(InstructorCourse, 
-                                        on = (InstructorCourse.course == RoomPreferences.course))
-                                    .join(Course, on = (RoomPreferences.course == Course.cId))
-                                    .join(Term, on = (Course.term == Term.termCode))
-                                    .where(RoomPreferences.course == InstructorCourse.course 
-                                            and InstructorCourse.username == current_user)
-                                    .where(Course.term == current_term) 
-                                    .distinct().where(Course.parentCourse == None)
-                        )
+        
+        # Constructs RoomPreferences if they don't exist
+        for course in courses:
+            # print("adding ", course.cId, "to ", current_user)
+            (rp, c) = RoomPreferences.get_or_create(course = course.cId)
+            # print(rp.course.term.termCode)
+        
+        roompreferences= (  RoomPreferences.select()
+                                        .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
+                                        .join(Course, on = (RoomPreferences.course == Course.cId))
+                                        .join(Term, on = (Course.term == Term.termCode))
+                                        .where(RoomPreferences.course == InstructorCourse.course 
+                                                and InstructorCourse.username == current_user)
+                                        .where(Course.term == current_term)
+                                        .distinct().where(Course.parentCourse == None)
+                            )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
-    for i in roompreferences:
-        print("This", i)
-    return render_template(
-        "roomPreference.html",
-        roompreferences= roompreferences,
-        room=room,
-        users=users,
-        course=courses,
-        educationTech=educationTech,
-        instructors=instructors
-    )
-    # else:
-    #     return render_template("roomPreferencesLocked.html")
+      
+        return render_template(
+                "roomPreference.html",
+                roompreferences= roompreferences,
+                room=room,
+                users=users,
+                course=courses,
+                educationTech=educationTech,
+                instructors=instructors
+            )
+    else:
+        return render_template("roomPreferencesLocked.html")
 
 
 @app.route('/room_details/<rid>', methods = ["GET"])
@@ -121,9 +115,13 @@ def education_Tech(rid):
     # print("Sending response to front end", education_materials)
     return json.dumps(education_materials)
     
-# We will add this on monday based on the room_details ^^^^
+
     
-        
+
+""" 
+Preferences are now being set to 100 instead of None which is a non-existent
+room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null. 
+"""        
 @app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postPreference():
     """
@@ -187,11 +185,11 @@ def postPreference():
         
         if (pref == 1): # for preference 1
         
-            rp.pref_1      = None # Set preference 1 of the specific course to none to indicate that a room was not selected for that particular preference
+            rp.pref_1      = 100 # Set preference 1 of the specific course to 100 to indicate that a room was not selected for that particular preference
         
-            rp.pref_2      = None # Same for preference 2
+            rp.pref_2      = 100 # Same for preference 2
         
-            rp.pref_3      = None # Same for preference 3 
+            rp.pref_3      = 100 # Same for preference 3 
         
             rp.any_Choice  = 1 # Set the column 'any_choice' to the preference ID to indicate that 'Any room was selected'
         
@@ -202,9 +200,9 @@ def postPreference():
             
         elif (pref == 2): # preference 2
         
-            rp.pref_2      = None
+            rp.pref_2      = 100
         
-            rp.pref_3      = None
+            rp.pref_3      = 100
         
             rp.any_Choice  = 2
         
@@ -214,7 +212,7 @@ def postPreference():
 
         elif(pref == 3): # preference 3
             
-            rp.pref_3      = None
+            rp.pref_3      = 100
             
             rp.any_Choice  = 3
             
@@ -229,25 +227,25 @@ def postPreference():
     
             rp.any_Choice  = None # Set the 'any_choice' column of a course to none to indicate that 'Any room works' was not selected
     
-            rp.pref_1      = None # Set preference 1 for the course to none to indicate that a room was not selected as preference 
+            rp.pref_1      = 100 # Set preference 1 for the course to 100 to indicate that a room was not selected as preference 
     
             rp.none_Choice = 1 # Set the none_choice column to the preference ID to indicate that 'No other rooms work' or 'This course does not require a room' was selected for the course
     
-            rp.pref_2      = None # Set preference 2 for the course to none to indicate that a room was not selected as preference 
+            rp.pref_2      = 100 # Set preference 2 for the course to 100 to indicate that a room was not selected as preference 
     
-            rp.pref_3      = None # Set preference 3 for the course to none to indicate that a room was not selected as preference 
-            
             none_choice = 1
             
+            rp.pref_3      = 100 # Set preference 3 for the course to 100 to indicate that a room was not selected as preference 
+    
             flash("WARNING: This indicates to the registrar that this course does not need a room","error")
     
         elif (pref == 2):
             
-            rp.pref_2 = None
+            rp.pref_2 = 100
             
             rp.none_Choice = 2
             
-            rp.pref_3 = None
+            rp.pref_3 = 100
             
             rp.any_Choice = None
             
@@ -255,7 +253,7 @@ def postPreference():
             
         elif(pref == 3):
         
-            rp.pref_3 = None
+            rp.pref_3 = 100
         
             rp.none_Choice = 3
         
@@ -293,16 +291,8 @@ def getNotes(cid):
 # @app.route("/postNotes/<note>", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postNotes(cid, note):
     # Disabled all ability to track notes per preference; now all notes are just one thing everywhere (for a course)
-    
-    # data = request.form
-    
-    # key = 'pref_'+str(data['pref_id'])
-    
-    # try:
-    # print("Data sent to notes", data['note'])
-    # room_preference = RoomPreferences.get(RoomPreferences.course == data['cid'])
+
     room_preference = RoomPreferences.get(RoomPreferences.course == cid)
-    # room_preference.notes = data['note']
     room_preference.notes = note
     room_preference.save()
     if room_preference.course.crossListed:

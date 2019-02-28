@@ -11,9 +11,17 @@ import os
 def makeMainExcel(tid):
     page        = "/" + request.url.split("/")[-1]
     term = Term.get(Term.termCode == tid)
-    excel = ExcelMaker()
+    
+    excel = ExcelMaker() # Creates a class object 
+    
     completePath = excel.make_master_file(term)
-    return send_file(completePath,as_attachment=True)
+    
+    filename = completePath.split('/').pop()
+   
+  
+    return send_file(completePath,as_attachment=True, attachment_filename=filename)
+    
+
 
 # @app.route('/excel/crossListed/<tid>', methods=["GET"])
 # @must_be_admin
@@ -21,7 +29,7 @@ def makeMainExcel(tid):
 #   page = "/" + request.url.split("/")[-1]
 #   term = Term.get(Term.termCode == tid)
 #   excel = ExcelMaker()
-#   completePath = excel.make_cross_listed_file(term)
+#   completePath = excel.make_cross_listed_file(term)3
 #   return send_file(completePath,as_attachment=True)
   
 @app.route('/excel/<excel_type>/<tid>', methods=["GET"])
