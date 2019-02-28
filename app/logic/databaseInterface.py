@@ -156,16 +156,12 @@ def editInstructors(newInstructors, courseID):
         @param {int} courseID
     '''
  
-    print("These are new", newInstructors)
     oldInstructors = InstructorCourse.select().where(InstructorCourse.course == courseID)
     for oldInstructor in oldInstructors:
-        print("New and Old", oldInstructor.username.username, newInstructors)
         if oldInstructor.username.username not in newInstructors:
             oldInstructor.delete_instance()
         else:
-            print("yes")
             newInstructors.remove(oldInstructor.username.username)
-    print("New left", newInstructors)
     for instructor in newInstructors:
         newInstructor = InstructorCourse(username=instructor, course=courseID)
         newInstructor.save()
@@ -195,7 +191,6 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         #TODO: We are not doing null checks on the portion of
         #the code which is causing crashes on the system 
         
-        print("We are here")
         course = Course.get(Course.cId == int(data['cid']))
         #CHECK VALUES FOR NULL
         room     = data["room"] if data["room"] else None
@@ -227,7 +222,6 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
         
         '''
         newCourses = map(int, newCourses)
-        print("These are new", newCourses)
         #find courses where parent is equal to course.cId
         oldChildCourses = Course.select().where(Course.parentCourse == parent.cId)
         
@@ -387,8 +381,6 @@ def createChildCourse(course_id, parent, newInstructors):
             section = parent.section,
             prereq = parent.prereq
             )
-    
-    print("Adding for child")
     #TODO:create its instructors 
     addInstructorsChild(newInstructors, parent.cId, cc_course.cId)
     

@@ -25,13 +25,11 @@ def editCourseModal(tid, prefix, cid, page):
     rooms     = Rooms.select()
     
     getCrosslistedCourses = find_crosslist_via_id(cid)
-    print("after", getCrosslistedCourses)
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
     currentCrosslistedCourse = None
     if(getCrosslistedCourses):
       for c in getCrosslistedCourses:
         currentCrosslistedCourse = list(getCrosslistedCourses[c])
-    #print("curr", currentCrosslistedCourse[0])
       
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
@@ -57,10 +55,8 @@ def editcourse(tid, prefix, page):
     crosslistedCourse = request.form.getlist('crossListedCourses[]')
     #if no crosslisted children, update hidden crosslisted to true or false
     data["crossListed"] = 1 if crosslistedCourse else 0  
-    print("Hi", data["crossListed"])
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-    print("hello", crosslistedCourse)
     if (not databaseInterface.isTermOpen(tid)):
       created = trackerEdit.make_edit(professors, username)
     databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)

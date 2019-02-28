@@ -75,12 +75,10 @@ def delete_if_crosslisted(course, roompreference):
     '''
       #if course is a crosslisted parent course, delete it with all its child courses
     if not course.parentCourse:
-        print("Deleting parent\'s children CC courses ...")
         crosslistedCourses = CrossListed.select().where(CrossListed.courseId == course.cId)
         crosslistedChildCourses = Course.select().where(Course.parentCourse ==course.cId)
         #delete all related crosslisted courses in crosslisted table
         for crosslisted_course in crosslistedCourses:
-            print("Deleted Crosslisted child with id:", crosslisted_course.cId)
             crosslisted_course.delete_instance()
         #delete all related courses child courses in course table
         for childcourse in crosslistedChildCourses:
@@ -89,13 +87,12 @@ def delete_if_crosslisted(course, roompreference):
             #delete instructors for course
             instructors = InstructorCourse.select().where(InstructorCourse.course == childcourse.cId)
             for instructor in instructors:
-                #print("Deleted instructor:", instructor.username, " for child course:", childcourse.cId )
                 instructor.delete_instance()
             childcourse.delete_instance()
         #child course instructors
     else:
         #if course being deleted is a child crossListed, delete this relationship
-        crosslistedcourse = CrossListed.select().where(
+        CrossListed.select().where(
             (CrossListed.crosslistedCourse == course.cId) &
             (CrossListed.courseId == course.parentCourse)
             ).delete_instance()

@@ -37,8 +37,6 @@ def addCourses(tid, prefix):
     values = nullCheck.add_course_form(data)
     
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
-    print(values["crossListedCourses"])
-    print("sdsdfsda", data['crossListed'])
     bannerNumber = str(banner.number)[-2:]
     
     cId = ""
@@ -129,12 +127,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors):
             term=int(tid)
         )
         crosslisted.save()
-        print("These are cross courses from values:", crosslistedCourses)
         for course_id in crosslistedCourses:
-            print("This is course id", course_id)
             course_prefix=BannerCourses.get(BannerCourses.reFID == int(course_id)).subject_id
-            #print("This is in database", course_prefix.reFID)
-            print("CP  {}".format(course_prefix))
             cc_course = Course(bannerRef=course_id,
                     prefix = course_prefix,
                     term = int(tid),
@@ -148,7 +142,6 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors):
                     prereq = convertPrereqs(prereqs)
                     )
             cc_course.save()
-            print("YOYOYOU", instructors)
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)
             crosslisted = CrossListed(
                         courseId=course.cId,
@@ -197,9 +190,7 @@ def add_one(tid):
 @app.route("/addMany/<tid>", methods=["POST"])
 def add_many(tid):
     data = request.form.getlist
-    print(data)
     courses = request.form.getlist('courses')
-    print(courses)
     if courses:
         for i in courses:
             course=Course.get(Course.cId==int(i)) #get an existing course
@@ -242,18 +233,14 @@ def term_courses(term, department):
         courses_dict={}
      
         courses = Course.select().where(Course.prefix == department, Course.term == term1.termCode)
-        print(len(courses))
         if courses:
             for course in courses :
-                # print(course.cId)
                 bannerNumber = str(course.bannerRef.number)[-2:]
-                print(bannerNumber)
                 # Don't add x86 courses
                 if bannerNumber != '86':
                     courses_dict[course.cId]= model_to_dict(course)
                     if course.schedule:
                         if course.schedule != "ZZZ":
-                        # print("It has schedule \n")
                             courses_dict[course.cId]["schedule"]["startTime"]= str(courses_dict[course.cId]["schedule"]["startTime"].strftime("%I:%M %p"))
                             courses_dict[course.cId]["schedule"]["endTime"]= str(courses_dict[course.cId]["schedule"]["endTime"].strftime("%I:%M %p"))
                             courses_dict[course.cId]["schedule_object"] = True
@@ -261,12 +248,11 @@ def term_courses(term, department):
                             courses_dict[course.cId]["schedule_object"] = False
                     else:
                         courses_dict[course.cId]["schedule_object"] = False
-                    print("Starting Instructor search") 
+
                     # Get instructor
                     inst = InstructorCourse.select().where(InstructorCourse.course == course)
                     courses_dict[course.cId]["instructors"] = []
                     for instructor in inst:
-                        print(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
                         courses_dict[course.cId]["instructors"].append(instructor.username.firstName[0]+ ". " + instructor.username.lastName)
 		else:
                     pass

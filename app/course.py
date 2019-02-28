@@ -69,7 +69,6 @@ def courses(tID, prefix, can_edit):
     # get crosslisted for given courses
     
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
-    print(course_to_crosslist)
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
@@ -95,25 +94,18 @@ def courses(tID, prefix, can_edit):
 def verifycrosslisted(intValue):
  
     try:
-        print("verifying")
         course = Course.get(Course.cId==int(intValue))
         parentCourse = course.parentCourse
         data = request.form
         clicked = data['check']
         cond = True if clicked == u'true' else False
         parent_or_child = parentCourse if parentCourse else course.cId
-        print("parent or child", parent_or_child)
         crosslisted = CrossListed.select().where(
                 (CrossListed.courseId == parent_or_child) &
                 (CrossListed.crosslistedCourse == course.cId)
                 ).get()
-        print("remem",course.cId)
-        
-        print("cross",crosslisted.cId)
-        print(cond)
         crosslisted.verified=cond
         crosslisted.save()
-        print("success", crosslisted.courseId.cId)
         return json.dumps({"success": 1})
     except:
         flash("An error has occurred. Please try again.","error")
