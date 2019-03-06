@@ -2,7 +2,7 @@
   margin-left: 5px; 
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  /*border-bottom: 1px dotted black;  If you want dots under the hoverable text */
   opacity: 1;
   font-size: 17px;
 }
@@ -36,7 +36,6 @@
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
-  
   font-size: 15px;
 }
 
