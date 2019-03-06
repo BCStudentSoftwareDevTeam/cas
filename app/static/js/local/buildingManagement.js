@@ -61,14 +61,12 @@ function updateHtml(response) {
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
-    //my_div.innerHTML = response['educationTech'];
-    //The following three are different, due to it being a Select rather than an input
-    var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
-    $("#visualAcc " + visualAccValue ).prop('selected', true); 
-    var audioAccValue = "option[value ='" + response['audioAcc'] +"']";
-    $("#audioAcc " + audioAccValue ).prop('selected', true);
-    var physicalAccValue = "option[value ='" + response['physicalAcc'] +"']";
-    $("#physicalAcc " + physicalAccValue ).prop('selected', true);
+    
+    // Update the selectpickers with values from DB
+    $("#audioAcc").selectpicker('val', response['audioAcc']);
+    $("#visualAcc").selectpicker('val', response['visualAcc']);
+    $("#physicalAcc").selectpicker('val', response['physicalAcc']);
+    
 }
 
 function saveChanges(roomID){ 
