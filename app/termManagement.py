@@ -64,6 +64,7 @@ def updateTermState():
       run_algorithm(data['termCode'], term)
      
    term.state = state
+   term.term_state = state
    term.save()
       
   
