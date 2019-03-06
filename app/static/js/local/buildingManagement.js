@@ -46,7 +46,7 @@ function movePanel(rID) {
 function updateHtml(response) { 
     //Updates the HTML in panel. 
     //Called in AJAX of setRoomInfo
-    $('#roomNumber').text((response['number']).toString()).data('text');
+    $('#roomNumber').text((response['building'] + " " + response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity'); 
     my_div.value = response['capacity'];
     var my_div = document.getElementById('roomType');

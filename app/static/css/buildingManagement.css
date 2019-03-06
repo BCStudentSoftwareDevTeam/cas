@@ -1,0 +1,73 @@
+.tooltip {
+  margin-left: 5px; 
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  opacity: 1;
+  font-size: 17px;
+}
+
+/* Tooltip text */
+.accessibilities .tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  top: -5px;
+  left: 200%; 
+  opacity: 1;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  width: 15em;
+  font-size: 13px;
+}
+
+.rooms .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  top: -5px;
+  left: 200%; 
+  opacity: 1;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  
+  font-size: 15px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltiptext hr {
+    margin: 0;
+}
+
+#visualAcc {
+    width: 4em;
+    display: inline-block;
+}
+
+#audioAcc {
+    width: 4em;
+    display: inline-block;
+}
+
+#physicalAcc {
+    width: 4em;
+    display: inline-block;    
+}
+.buildingMgmt .tooltip .tooltiptext {
+    left: 115%;
+}
+
+.helpAcc {
+    padding-top: 10px;
+    font-size: 22px;
+}

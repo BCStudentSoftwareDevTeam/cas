@@ -8,6 +8,7 @@ import json
 from app.logic import course
 from app.logic import functions
 from app.logic.getAuthUser import AuthorizedUser
+
 #Running page
 @app.route("/buildingManagement", methods=["GET"])
 def buildingManagement():                                   #Gathering of appropriate data to send to html
@@ -33,12 +34,14 @@ def buildingManagement():                                   #Gathering of approp
                             rooms = le_rooms,
                             user = user
                             )
+
 @app.route('/getRoomData/<rID>', methods=["GET"]) 
 # connected to ajax calls in the javascript file to populate the room data into panel
 def getRoomData(rID):
     room = Rooms.get(Rooms.rID == rID)                          #Sets room variable to room object where the rID's are the same         
     room_details={}                                             #Empty dictionare to hold all room attributes
     room_details["number"] = room.number                        #Begin setting room attributes to their appropriate keys
+    room_details["building"] = room.building.shortName
     room_details["capacity"] = room.maxCapacity
     room_details["type"] = room.roomType
     room_details["specializedEq"] = room.specializedEq
@@ -49,6 +52,7 @@ def getRoomData(rID):
     room_details["physicalAcc"] = room.physicalAcc
     # print(room_details["number"])                         
     return json.dumps(room_details)
+
 @app.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #Saves all room data EXCLUDING ed tech
@@ -72,6 +76,7 @@ def saveChanges(rID):
    except:
        flash("An error has occurred, your changes were NOT saved. Please try again.","error")
        return json.dumps({"error":0})
+
 #Education tech pull      
 @app.route('/getEducationData/<rid>', methods = ["GET"])
 def getEducationData(rid):
@@ -94,6 +99,7 @@ def getEducationData(rid):
     education_materials["mondopad"]=tech_details.mondopad
     education_materials["tech_chart"]=tech_details.tech_chart
     return json.dumps(education_materials)
+
 #Education tech save to DB 
 @app.route("/saveEdTechChanges/<rid>", methods=["POST"])
 def saveEdTechChanges(rid):
