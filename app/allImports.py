@@ -20,7 +20,7 @@ from app import models
 # all the database models
 from models import *   
 from flask_login import login_user, logout_user, current_user, LoginManager, login_required
-
+import app.logic.authorization as authorization
 
 ''' Creates an Flask object; @app will be used for all decorators.
 from: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
@@ -99,7 +99,9 @@ def load_user(username):
 @app.context_processor
 def inject_dict_for_all_templates():
     #HACK
+    bm = authorization.isBuildingManager(current_user)
+    print("BM: ", bm)
     try: 
-        return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg})
+        return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg, 'isBuildingManager': bm})
     except Exception as e:
-        return dict({'isAdmin': False, 'cfg': cfg})
+        return dict({'isAdmin': False, 'cfg': cfg,  'isBuildingManager': bm})
