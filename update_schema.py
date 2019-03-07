@@ -291,6 +291,6 @@ migrator = MySQLMigrator(mainDB)
 
 
 # PART OF PR 265  
-migrate(
-    migrator.add_column("rooms", "lastModified", CharField(null = True)))
+# migrate(
+#     migrator.add_column("rooms", "lastModified", CharField(null = True)))
     
