@@ -63,8 +63,6 @@ class Building(baseModel):
   name              = CharField()
   shortName         = CharField()
 
-# <<<<<<< HEAD
-# class EducationTech(dbModel):
 
   def __repr__(self):
     return self.name 
@@ -86,25 +84,6 @@ class EducationTech(baseModel):
   vhs                  = BooleanField()
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
-
-  
-# class Rooms(baseModel):
-#   rID            = PrimaryKeyField()
-#   building       = ForeignKeyField(Building, related_name='rooms')
-#   number         = CharField(null=False)
-#   maxCapacity    = IntegerField(null=False)
-#   roomType       = CharField(null=False)
-#   visualAcc     = CharField(null=True)
-#   audioAcc      = CharField(null=True)
-#   physicalAcc   = CharField(null=True)
-#   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-#   specializedEq = CharField(null=True)
-#   specialFeatures = CharField(null=True)
-#   movableFurniture = BooleanField()
-#   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
- 
-  # def __str__(self):
-  #   return str(self.rID)+str(self.building.name)+str(self.number)
 
 
   def __repr__(self):
@@ -143,7 +122,7 @@ class Rooms(baseModel):
   specializedEq    = CharField(null=True)
   specialFeatures  = CharField(null=True)
   movableFurniture = BooleanField()
-  
+  lastModified     = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
  
 class Program(baseModel):
   pID               = PrimaryKeyField()

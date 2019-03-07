@@ -46,7 +46,7 @@ function movePanel(rID) {
 function updateHtml(response) { 
     //Updates the HTML in panel. 
     //Called in AJAX of setRoomInfo
-    $('#roomNumber').text((response['number']).toString()).data('text');
+    $('#roomNumber').text((response['building'] + " " + response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity'); 
     my_div.value = response['capacity'];
     var my_div = document.getElementById('roomType');
@@ -61,14 +61,12 @@ function updateHtml(response) {
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
-    //my_div.innerHTML = response['educationTech'];
-    //The following three are different, due to it being a Select rather than an input
-    var visualAccValue = "option[value ='" + response['visualAcc'] +"']";
-    $("#visualAcc " + visualAccValue ).prop('selected', true); 
-    var audioAccValue = "option[value ='" + response['audioAcc'] +"']";
-    $("#audioAcc " + audioAccValue ).prop('selected', true);
-    var physicalAccValue = "option[value ='" + response['physicalAcc'] +"']";
-    $("#physicalAcc " + physicalAccValue ).prop('selected', true);
+    
+    // Update the selectpickers with values from DB
+    $("#audioAcc").selectpicker('val', response['audioAcc']);
+    $("#visualAcc").selectpicker('val', response['visualAcc']);
+    $("#physicalAcc").selectpicker('val', response['physicalAcc']);
+    
 }
 
 function saveChanges(roomID){ 
@@ -130,7 +128,6 @@ function saveChanges(roomID){
 
                          createTimestamp() ;
                          //Sets time stamp for Last Modified column, so that it is created after data is saved
-
                 },
                 error: function(error){
                     console.log("ERROR")
@@ -228,7 +225,7 @@ function seteducationTech() {
     }
 }
 
-    /*this functions saves the edecuationtech things on the front-end and updated them as thier values change*/
+    /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
 function saveEdTechChanges(roomID){ 
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;
