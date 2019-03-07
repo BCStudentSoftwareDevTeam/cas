@@ -12,10 +12,13 @@ from app.logic.getAuthUser import AuthorizedUser
 #Running page
 @app.route("/buildingManagement", methods=["GET"])
 def buildingManagement():                                   #Gathering of appropriate data to send to html
-    current_user = AuthorizedUser().getUsername()
-    building = (Building.select()
+    current_user = AuthorizedUser()
+    if current_user.isAdmin():
+        building = Building.select()
+    else:
+        building = (Building.select()
                     .join(BuildingManager)
-                    .where(BuildingManager.username == current_user)
+                    .where(BuildingManager.username == current_user.getUsername())
                     )
     le_rooms = []                                           #Scott LITERALLY created this variable with a terrible name
     # print('Length', len(building))
