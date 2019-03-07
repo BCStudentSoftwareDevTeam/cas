@@ -52,12 +52,11 @@ function fillProgramChairs(response){
         option.value = key;
         programselect.appendChild(option); //adds the selected user to program chair list
     } 
-    // $('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').selectpicker('refresh');
 }
 
 function retrievePrograms(obj){
      var selected_program = obj.value;
-    //  console.log("Selected program: " + selected_program)
      if(selected_program){
          var url = '/get_program_chairs/'+selected_program;
         //  console.log("URL: " + url);
@@ -91,18 +90,16 @@ function fillDivisionChairs(response){
     option.value = "---";
     divisionselect.appendChild(option);
     for (var key in response){
-        // console.log(response[key]['firstname']);
         var option = document.createElement("option");
         option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+" ("+response[key]["username"].toString() + ")";
         option.value = key;
         divisionselect.appendChild(option); //adds the selected user to division chair
     }
-    // $('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').selectpicker('refresh');
 }
 function retrieveDivisions(obj){
     console.log(obj.value)
     var selected_division = obj.value;
-    // console.log("Selected division: " + selected_division)
     if(selected_division){
         var url = '/get_division_chairs/'+selected_division;
         // console.log("URL: " + url);
@@ -142,7 +139,7 @@ function fillBuildingManagers(response){
         option.value = key;
         buildingselect.appendChild(option);  //adds the selected user to building managers
     }
-    // $('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').selectpicker('refresh');
 }
  
 
@@ -158,7 +155,6 @@ function retrieveBuildings(obj){
                 url: url,
                 dataType: 'json',
                 success: function(response){
-                    // console.log(response)
           		    fillBuildingManagers(response);
           			},
           			error: function(error){
@@ -168,7 +164,6 @@ function retrieveBuildings(obj){
 }
 
 function building_managers_show_names(s) { 
-    console.log("Got to show names")
     retrieveBuildings(s);
     $("#Add").show();
     $("#Remove").show();
@@ -194,7 +189,7 @@ function fillAdmin(response){
             disable_btn.disabled = true;
         }
     
-    // $('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').selectpicker('refresh');
 }
 
 function retrieveAdmins(){
@@ -214,48 +209,4 @@ function retrieveAdmins(){
                 
                 
 
-/*global $ */
-// this creates the pop up for remove button
-// $(function() {
-//   $( "#openDialog").on("click", function(){ 
-//       $( "#dialog-modal" ).dialog({
-//           height: 180,
-//           width: 470,
-//           modal: true,
-//         });
-//         $("#dialog-modal").dialog({
-//       buttons : {
-//         "Yes" : function() {
-//           $(this).dialog("close");
-//         },
-//         "No" : function() {
-//             $(this).dialog("close");
-//         }
-//       }
-//     });
-//       $( "#dialog-modal" ).show();
-//     });
-//  });
-
-// $(function() {
-//   $( "#openDialog1").on("click", function(){ 
-//       $( "#dialog-modal1" ).dialog({
-//           height: 180,
-//           width: 470,
-//           modal: true,
-//         });
-//         $("#dialog-modal1").dialog({
-//       buttons : {
-//         "Yes" : function() {
-//           $(this).dialog("close");
-//         },
-//         "No" : function() {
-//             $(this).dialog("close");
-//         }
-//       }
-//     });
-//       $( "#dialog-modal1" ).show();
-//     });
-//  });
- 
 

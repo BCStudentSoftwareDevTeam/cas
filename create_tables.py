@@ -6,10 +6,10 @@ Update this file as you update your database.
 import os, sys
 import importlib
 import datetime
-
+here = os.path.dirname(__file__)
 # Don't forget to import your own models!
 from app.models import *
-conf = load_config(os.path.join(here,'config.yaml'))
+conf = load_config(os.path.join(here,'app/config.yaml'))
 #onf = load_config('app/config.yaml')
 
 sqlite_dbs  = [ conf['databases']['dev'],

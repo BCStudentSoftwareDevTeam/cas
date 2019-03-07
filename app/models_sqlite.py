@@ -56,13 +56,13 @@ class BannerSchedule(baseModel):
     return self.letter
 
 # Doesn't exist yet!
-'''class TermStates(baseModel):
+class TermStates(baseModel):
   csID          = PrimaryKeyField()
   number        = IntegerField()
   name          = CharField()
   order         = IntegerField()
   display_name  = CharField()
-  '''
+
 class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()
@@ -108,7 +108,7 @@ class Term(baseModel):
   year              = IntegerField(null = True)
   name              = CharField()
   state             = IntegerField(null = False)
-  # term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")  # I don't exist yet!
+  term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")  # I don't exist yet!
   editable          = BooleanField(null = False, default = True)
     
 class Rooms(baseModel):
