@@ -20,14 +20,12 @@ from app import models
 # all the database models
 from models import *   
 from flask_login import login_user, logout_user, current_user, LoginManager, login_required
-import app.logic.authorization as authorization
 
 ''' Creates an Flask object; @app will be used for all decorators.
 from: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 "A decorator is just a callable that takes a function as an argument and
 returns a replacement function. See start.py for an example"
 '''
-
 
 def authUser(env):
     envK = "eppn"
@@ -79,7 +77,7 @@ import logging
 @app.before_request
 def before_request():
     mainDB.get_conn() #.connect() caused a crash 20180108 CDM
-    g.user = current_user
+    g.user = current_user       # Careful using g elsewhere. See: https://stackoverflow.com/questions/15083967/when-should-flask-g-be-used
 
 # @app.after_request
 # def add_header(response):
@@ -95,13 +93,13 @@ def teardown_request(exception):
 @login_manager.user_loader
 def load_user(username):
   return User.get(User.username == username)
-  
+
+from app.logic.getAuthUser import AuthorizedUser
 @app.context_processor
 def inject_dict_for_all_templates():
     #HACK
-    bm = authorization.isBuildingManager(current_user)
-    print("BM: ", bm)
+    au = AuthorizedUser()
     try: 
-        return dict({'isAdmin': g.user.isAdmin, 'cfg': cfg, 'isBuildingManager': bm})
+        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager()})
     except Exception as e:
-        return dict({'isAdmin': False, 'cfg': cfg,  'isBuildingManager': bm})
+        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager()})

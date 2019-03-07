@@ -5,11 +5,6 @@ from app.models import Subject
 from app.models import Division, DivisionChair
 from app.models import BuildingManager
 
-def isBuildingManager(username):
-  print("Testing Building Managers")
-  return (BuildingManager.select()
-                         .where(BuildingManager.username == username)
-                         .exists() )
   
 def isProgramChair(username, prefix):
   return (ProgramChair.select()
