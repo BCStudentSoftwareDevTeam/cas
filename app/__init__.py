@@ -44,4 +44,5 @@ from app import login_logout
 from app import roomPreference
 from app import roomResolution
 from app import userManagement
+from app import buildingManagement
 from app import removeUser

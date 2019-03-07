@@ -179,10 +179,6 @@ function goToRDetails(r,doishow) {
 
 /*sets the glyphicons for education tech for each room*/
 function education_detail(response){
-    console.log('response', response)
-    
-    
-    
     document.getElementById("projectors").innerHTML = response['projector'];
     document.getElementById("smartboards").innerHTML = response['smartboards'];
     document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
@@ -253,6 +249,7 @@ function goto_educationTech() {
                 success: function(response){
                     // console.log("Hello", response)
                     education_detail(response); //a function with education tech details
+                    console.log("success"+ response);
                 },
                 error: function(error) {
                 console.log(error);

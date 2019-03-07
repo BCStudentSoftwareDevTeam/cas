@@ -16,15 +16,22 @@ db:
   db_name: c9
   host: localhost
   password: ''
-  username: sheggen1 
+  username: root 
 
-#You have to use the - to keep the order
+# Correct for display, but does not match DB. 
 scheduleDays:
-   Monday: 'Mon'
-   Tuesday: 'Tues'
-   Wednesday: 'Wed'
-   Thursday: 'Thurs'
-   Friday: 'Fri'
+  Monday: 'Mon'
+  Tuesday: 'Tues'
+  Wednesday: 'Wed'
+  Thursday: 'Thurs'
+  Friday: 'Fri'
+
+scheduleDaysShort:
+  Monday: "M"
+  Tuesday: "T"
+  Wednesday: "W"
+  Thursday: "R"
+  Friday: "F"
 
 # For every table in the database, add an item here
 models:
@@ -66,6 +73,9 @@ mainMenu:
   - title: "Log Out"
     link: "/logout"
 
+# - title: "Building Management"
+#     link: "/buildingManagement"
+
 accessLevel:
   - name: "Program Chair"
     id: "program_chair"
@@ -75,7 +85,6 @@ accessLevel:
     id: "building_manager"
   - name: "Administrator"
     id: "administrator"
-
 
 adminMenu:
   # - title: "Program Management" #Not needed after User Management
@@ -93,10 +102,11 @@ adminMenu:
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
-    # we added
+  
   - title: "Room Resolution"
     link:  "/roomResolutionTerm"
     page: ["roomResolution"]
+  
 
     
 #If you ever change the current states, you cannot duplicate the values, because
@@ -169,12 +179,12 @@ columnColor:
   verified: 'verified'
   
 DEBUG:
-  user: "heggens" #Admin Access
+  # user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
-  #user: "lovelle" #Professor Access
+  # user: "lovelle" #Professor Access
   # user: "sldkjfalsdkfj;" #for production
-
+  user: "stamperfa" #Bldg Mngr Access
 
   
 filepath:
