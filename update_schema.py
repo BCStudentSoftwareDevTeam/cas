@@ -1,14 +1,8 @@
 from peewee import *
 from playhouse.migrate import *
-
-# from app.models import Rooms, Building, Course, SpecialTopicCourse, EducationTech
-# from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
-
 from app.models import *
-# from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
-
-
 from app.loadConfig import *
+
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'app/config.yaml'))
 db	  = os.path.join(here,cfg['databases']['dev']) 
@@ -34,9 +28,6 @@ class dbModel (Model):
 migrator = MySQLMigrator(mainDB)
 
 # my_db.drop_tables([RoomPreferences])
-
-# my_db.drop_tables([Building, EducationTech])
-# my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
 
 
 #TODO: make a function & wrap it up in try/catch statement so it doesn't break when tables are already there/aren't there
@@ -300,6 +291,6 @@ migrator = MySQLMigrator(mainDB)
 
 
 # PART OF PR 265  
-migrate(
-    migrator.add_column("rooms", "lastModified", CharField(null = True))
-    )
+# migrate(
+#     migrator.add_column("rooms", "lastModified", CharField(null = True)))
+    
