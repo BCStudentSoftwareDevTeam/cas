@@ -74,6 +74,7 @@ def room_details(rid):
     if int(rid) > 0:
         
         details = Rooms.get(Rooms.rID == rid)
+        room_materials["roomType"]=details.roomType
         room_materials["number"]=details.number 
         room_materials['maxCapacity']= details.maxCapacity
         room_materials['visualAcc']= details.visualAcc
