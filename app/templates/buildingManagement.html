@@ -19,7 +19,7 @@
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
             <tr scope = "row">
-                <td id="room_{{room.number}}" data-toggle="tooltip"><div class="rooms tooltip">{{room.building.shortName}} {{room.number}}<span class="tooltiptext">{{room.building.name}} {{room.number}}</span></div></td>
+                <td id="room_{{room.number}}" data-toggle="tooltip"><div class="rooms tooltip">{{room.building.name}} {{room.number}}<span class="tooltiptext">{{room.building.shortName}} {{room.number}}</span></div></td>
                 <td> {{room.roomType}}</td>
                 <td> 
                     <button type="button" 
