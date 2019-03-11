@@ -27,7 +27,7 @@
 		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
                     <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
-                    <td> {{roompreference.course.time}}</td>
+                    <td> {{roompreference.course.schedule.letter}} ({{roompreference.course.schedule.startTime.strftime('%H:%M %p')}} - {{roompreference.course.schedule.endTime.strftime('%H:%M %p')}})</td>
                     <td> {{roompreference.course.capacity}} </td>
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
                 
