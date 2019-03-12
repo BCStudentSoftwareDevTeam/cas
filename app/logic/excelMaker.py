@@ -212,12 +212,22 @@ class ExcelMaker:
             for i in self.all_schedules:
                 if i not in self.schedule_to_room[room.building.name+' '+room.number]:
                     available_times.append(i)
+                
+            for s in "assigned to this room, but does not have a schedule time yet.":
+                available_times.remove(s)
+                
             # Remove conflicts
             for i in self.schedule_to_room[room.building.name+' '+room.number]:
                 for j in cfg['conflicts'][i]:
                     if j in available_times:
                         available_times.remove(j)
         return available_times
+        
+        
+        
+        
+   
+                
             
             
     def get_schedule_days(self, banner_schedule):
@@ -269,7 +279,13 @@ class ExcelMaker:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid) 
                     else:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
-                
+                else: 
+                    if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.cId )+"is assigned to this room, but does not have a schedule time yet.")
+                    else:
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [str(course.cId )+"is assigned to this room, but does not have a schedule time yet."]
+
+                    
             all_rooms = Rooms.select().order_by(Rooms.building_id)
             if all_rooms:
                 for room in all_rooms:
