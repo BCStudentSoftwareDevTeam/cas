@@ -6,22 +6,14 @@
 <script type="text/javascript" src="/static/js/local/termManagement.js"></script>
 
 <div class="container">
-<div class="panel panel-default">
+<div class="panel panel-default" style = 'display:inline-block;'>
   <!--TERM MANAGEMENT-->
-    <div class="panel-heading" class = "panel_color" style = 'text-align:center;'>
-      <h1 class="panel-title" ><bold>Term Management</bold></h1>
-      <h5><i> Click below on the term to begin </i><h5>
-    </div>
-    <br>
-      <div class="panel-body">
-               <div>
-                 {% for state in term_state %}
-                     {{ state.name}}{{loop.index}}
-                   
-                 {% endfor %}
-                 
-                 
-               </div>
+ 
+  <div class="panel-heading" class = "panel_color" style = 'text-align:center;'>
+    <h1 class="panel-title" ><bold>Term Management</bold></h1>
+    <h5><i> Click below on the term to begin </i><h5>
+  </div>
+   <br>
   <table class="table" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
       {% for term in terms %}
@@ -52,11 +44,6 @@
       </tr>
       {% endfor %}
   </table>
-  
-  
-     
-     
-     </div>
   </div>
 <div id = "allPanels"><!--This covers all the panels-->
   <div class="panel panel-default"> 
