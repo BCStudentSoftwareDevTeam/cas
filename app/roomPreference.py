@@ -85,6 +85,7 @@ def room_details(rid):
     if int(rid) > 0:
         
         details = Rooms.get(Rooms.rID == rid)
+        room_materials["roomType"]=details.roomType
         room_materials["number"]=details.number 
         room_materials['maxCapacity']= details.maxCapacity
         room_materials['visualAcc']= details.visualAcc
@@ -131,7 +132,9 @@ def education_Tech(rid):
 
 """ 
 Preferences are now being set to 100 instead of None which is a non-existent
-room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null. 
+room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null.
+^^^^^^^
+This was a bad implementation. Setting it to 100 required a Room with ID = 100 to exist. It did not. Returning it back to None. 
 """        
 @app.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postPreference():
@@ -189,71 +192,44 @@ def postPreference():
     elif room == 0:# if 'Any room works' was selected
         
         if (pref == 1): # for preference 1
-        
-            rp.pref_1      = 100 # Set preference 1 of the specific course to 100 to indicate that a room was not selected for that particular preference
-        
-            rp.pref_2      = 100 # Same for preference 2
-        
-            rp.pref_3      = 100 # Same for preference 3 
-        
+            # Was 100. Why? (Caused foreign key errors since no room 100 existed)
+            rp.pref_1      = None # Set preference 1 of the specific course to None to indicate that a room was not selected for that particular preference
+            rp.pref_2      = None # Same for preference 2
+            rp.pref_3      = None # Same for preference 3 
             rp.any_Choice  = 1 # Set the column 'any_choice' to the preference ID to indicate that 'Any room was selected'
-        
             rp.none_Choice = None # update database to reflect that 'This course does not require a room/No other room works' was not selected
         
         elif (pref == 2): # preference 2
-        
-            rp.pref_2      = 100
-        
-            rp.pref_3      = 100
-        
+            rp.pref_2      = None
+            rp.pref_3      = None
             rp.any_Choice  = 2
-        
             rp.none_Choice = None 
         
         elif(pref == 3): # preference 3
-            
-            rp.pref_3      = 100
-            
+            rp.pref_3      = None
             rp.any_Choice  = 3
-            
             rp.none_Choice = None
     
     elif room == -1:  # If 'No other rooms work' or 'This course does not require a room' was selected
-    
         # if(rp.any_Choice == str(pref).decode("utf-8")): rp.any_Choice = None // FIXME: WHAT DOES THIS DO???>????
-        
         if (pref == 1): # for preference 1
-    
             rp.any_Choice  = None # Set the 'any_choice' column of a course to none to indicate that 'Any room works' was not selected
-    
-            rp.pref_1      = 100 # Set preference 1 for the course to 100 to indicate that a room was not selected as preference 
-    
+            rp.pref_1      = None # Set preference 1 for the course to None to indicate that a room was not selected as preference 
             rp.none_Choice = 1 # Set the none_choice column to the preference ID to indicate that 'No other rooms work' or 'This course does not require a room' was selected for the course
-    
-            rp.pref_2      = 100 # Set preference 2 for the course to 100 to indicate that a room was not selected as preference 
-    
-            rp.pref_3      = 100 # Set preference 3 for the course to 100 to indicate that a room was not selected as preference 
-    
+            rp.pref_2      = None # Set preference 2 for the course to None to indicate that a room was not selected as preference 
+            rp.pref_3      = None # Set preference 3 for the course to None to indicate that a room was not selected as preference 
             flash("WARNING: This indicates to the registrar that this course does not need a room","error")
     
         elif (pref == 2):
-            
-            rp.pref_2 = 100
-            
-            rp.none_Choice = 2
-            
-            rp.pref_3 = 100
-            
+            rp.pref_2 = None            
+            rp.none_Choice = 2            
+            rp.pref_3 = None            
             rp.any_Choice = None
         
-        elif(pref == 3):
-        
-            rp.pref_3 = 100
-        
-            rp.none_Choice = 3
-        
+        elif(pref == 3):      
+            rp.pref_3 = None        
+            rp.none_Choice = 3        
             rp.any_Choice = None
-    
 
     rp.save() # Save the room preference in the database for the course
     postNotes(data["ogCourse"], data['note'])

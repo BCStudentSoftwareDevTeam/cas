@@ -1,6 +1,5 @@
 from app.models import *
 
-
 def addEdTech(room):
     """
     Creates a record in the DB for an EducationTech
@@ -9,6 +8,7 @@ def addEdTech(room):
     return: an EducationTech object
     """
     pass
+    # FIXME: Do no GET. Only Create. Each room needs its own instance of Ed tech, or changes to one ed tech affect multiple rooms. 
     (e, created) = EducationTech.get_or_create(
                         projector = int(room["projector"]),
                         smartboards = int(room["smartboards"]),
@@ -100,4 +100,6 @@ room = {"moveableFurniture" : True,
         "shortName": "STE"
 }
 
-addRoom(room)
+print("FIXME's need fixed before using this file")
+if input("Do you want to continue? 1=YES, 0=NO") == 1:
+    addRoom(room)

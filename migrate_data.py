@@ -68,7 +68,7 @@ for i in deadline:
     cursor.execute(add_deadline)
     
 
-add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 rooms = old.Rooms.select()
 for i in rooms: 
@@ -85,7 +85,8 @@ for i in rooms:
     specializedEq = str(i.specializedEq)
     specialFeatures = str(i.specialFeatures)
     movableFurniture = bool(i.movableFurniture)
-    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture)
+    lastModified = 0
+    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified)
     
     cursor.execute(add_rooms, data_rooms)
 
@@ -257,15 +258,15 @@ for i in division_chairs:
 
 # THERE IS NO DATA YET IN BUILDINGMANAGER. 
 
-# add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
+add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
 
-# building_managers = BuildingManager.select()
-# for i in building_managers:
-#     username_id = str(i.username.username)
-#     bmid_id = int(i.bmid.bID)
-#     data_building_managers = (username_id, bmid_id)
-#     print(data_building_managers)
-#     cursor.execute(add_building_managers, data_building_managers)
+building_managers = BuildingManager.select()
+for i in building_managers:
+    username_id = str(i.username.username)
+    bmid_id = int(i.bmid.bID)
+    data_building_managers = (username_id, bmid_id)
+    print(data_building_managers)
+    cursor.execute(add_building_managers, data_building_managers)
 
 # The problems array is a collection of all the course ids that were in the InstructorCourse Table for which the course instance was already deleted
 
