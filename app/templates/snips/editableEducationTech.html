@@ -1,0 +1,156 @@
+
+<div class="modal fade" id="edTechModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <span class="modal-title" id="exampleModalCenterTitle"><font size="5" font-weight="bold"> Education Tech: </font></span>
+        <p> Please update changes in technologies available for this room.</p>
+      </div>
+      <div class="modal-body">
+       <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody>
+            {# {% for items in educationTech %} #}
+            <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SELECTED WITH RESPECT TO EDUCATION TECH-->  
+                    <tr>
+                        <td>
+                          Chalkboard(s): 
+                        </td>
+                        <td aria-labelledby="Chalkboards">
+                          <span  style="float:left;"> <input type="number" class="form-control" id="chalkboards" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Instructor Computers">
+                          Instructor Computer(s):
+                        </td>
+                        <td>
+                          <span  style="float:left;" ><input type="number" class="form-control" min="0" id="instructor_computers"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Projectors">
+                          Projector(s): 
+                        </td>
+                        <td>
+                          <span  style="float:left;"><input type="number" class="form-control" min="0" id="projectors"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Podiums">
+                          Podium:
+                        </td>
+                        <td>
+                          <span style="float:left;"><input type="number" class="form-control"  min="0" id="podiums"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Smartboards">
+                          Smartboard(s):
+                        </td>
+                        <td>
+                          <span  style="float:left;"><input type="number" class="form-control"  min="0" id="smartboards"/>  </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="student_workspace">
+                          Students Workstation(s): 
+                        </td>
+                        <td>
+                          <span  style="float:left;"><input type="number" class="form-control" min="0" id="student_workspace"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Whiteboards">
+                          Whiteboards: 
+                        </td>
+                        <td>
+                          <span  style="float:left;"><input type="number" class="form-control"  min="0" id="whiteboards"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Audio">
+                          Audio: 
+                        </td>
+                        <td>
+                            <span  style="float:left;" class="checkbox-inline"><input id="audio" type="checkbox"/></span>
+                      
+                        </td>
+                    </tr>
+                     <tr>
+                        <td aria-labelledby="Blu_Ray">
+                          Blu-Ray: 
+                         </td>
+                        <td>
+                          <span  style="float:left;" class="checkbox-inline"><input id="blu_ray" type="checkbox" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Doc_Cam">
+                            Doc Cam: 
+                        </td>
+                        <td>
+                          <span  style="float:left;" class="checkbox-inline"><input id="doc_cam" type="checkbox" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="DVD">
+                          DVD: 
+                        </td>
+                        <td>
+                          <span  style="float:left;" class="checkbox-inline"><input id="dvd" type="checkbox" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Extro">
+                          Extro: 
+                        </td>
+                        <td>
+                          <span  style="float:left;" class="checkbox-inline"><input id="extro" type="checkbox" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Mondopad">
+                          Mondopad: 
+                        </td>
+                        <td>
+                            <span  style="float:left;" class="checkbox-inline"><input id="mondopad" type="checkbox" /></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="Technology Cart">
+                            Technology Cart: 
+                        </td>
+                        <td>
+                            <span  style="float:left;" class="checkbox-inline"><input id="tech_chart" type="checkbox"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td aria-labelledby="VHS">
+                          VHS: 
+                        </td>
+                        <td>
+                          <span  style="float:left;" class="checkbox-inline"><input id="vhs" type="checkbox" /></span>
+                          
+                        </td>
+                    </tr>
+            {# {% endfor %} #}
+            </tbody>
+        </table> 
+       </div>
+      </div>
+      <div class="modal-footer" padding: "10px" style="margin-right:.4em;">
+      <div class="row">
+        <div class = "col-sm-2" align = "left">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" aria-labelledby="Close button">Close</button>
+        </div>
+        <div class = "col-sm-10" align = "right">
+          <button type="button"  class="btn btn-primary" data-dismiss="modal" onclick='saveEdTechChanges()' aria-labelledby="Save button">Save</button>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+                                                        
+                                                        

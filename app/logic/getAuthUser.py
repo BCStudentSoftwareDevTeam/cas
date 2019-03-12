@@ -1,7 +1,7 @@
 from app.allImports import *
 from app.logic.redirectBack import redirect_url
 import os
-
+from app.models import BuildingManager
 
 class AuthorizedUser:
 
@@ -36,9 +36,8 @@ class AuthorizedUser:
         else: 
             result = self.isUser()
             return result
-            
-                
-            
+    
+    
     def isAdmin(self):
         user = User.select().where(User.username == self.username)
         if user.exists():
@@ -46,7 +45,12 @@ class AuthorizedUser:
             return user.isAdmin
         else:
             return None
-        
+    
+    
+    def isBuildingManager(self):
+        return (BuildingManager.select()
+                               .where(BuildingManager.username == self.username)
+                               .exists())
 
     '''
     check to see if the user is a division chair

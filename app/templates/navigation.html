@@ -15,49 +15,62 @@
     </div>
     
     <div class="collapse navbar-collapse" id="navbar-collapse">
-    <ul class="nav navbar-nav"> 
-      {% for menuItem in cfg['mainMenu'] %}
-        <li 
-          {% if currentPage == menuItem['title'] %}
-            class="active"
-          {% endif %}
-        >
-          <a href="{{menuItem['link']}}">{{menuItem['title']}}</a>
-        </li>
-      {% endfor %}
-    </ul>
-    
+          <ul class="nav navbar-nav"> 
+    {% for menuItem in cfg['mainMenu'] %}
+      <li 
+        {% if currentPage == menuItem['title'] %}
+          class="active"
+        {% endif %}
+      >
+        <a href="{{menuItem['link']}}">{{menuItem['title']}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <ul class="nav navbar-nav navbar-top-links navbar-right">
+    {% if isAdmin %}
+      <li class=" nav dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" > Administration <span class="caret"></span></a>
+        <ul class="dropdown-menu"  id ="sort">
+          {% for menuItem in cfg['adminMenu'] %}
+            <li
+              {% for pageName in menuItem['page'] %}
+                {% if currentPage == pageName %}
+                  class = "active"
+                {% endif %}
+              {% endfor %}
+            >
+              <a href="{{menuItem['link']}}">{{menuItem['title']}}</a>
+            </li>
+          {% endfor %}  
+        </ul>
+      </li>
+    {%endif%}
+  </ul>
+      
+  {% if isBuildingManager or isAdmin %}
     <ul class="nav navbar-nav navbar-top-links navbar-right">
-      {% if isAdmin %}
-        <li class=" nav dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" > Administration <span class="caret"></span></a>
-          <ul class="dropdown-menu"  id ="sort">
-            {% for menuItem in cfg['adminMenu'] %}
-              <li
-                {% for pageName in menuItem['page'] %}
-                  {% if currentPage == pageName %}
-                    class = "active"
-                  {% endif %}
-                {% endfor %}
-              >
-                <a href="{{menuItem['link']}}">{{menuItem['title']}}</a>
-              </li>
-            {% endfor %}  
-          </ul>
-        </li>
-      {%endif%}
+      <li class=" nav dropdown">
+        <a href="/buildingManagement" role="button" aria-haspopup="true" aria-expanded="false" > Building Management </a>
+      </li>
     </ul>
-    </div>
-              
-    <!-- /.navbar-top-links -->
-    <link rel="stylesheet" href="/static/css/sidebar.css" type="text/css" />
-    {% set sidebarlink = 'snips/sidebars/'+currentPage+'Sidebar.html' %}
-    <div id="sidebarEnclosure">
-      {% include sidebarlink %}
-    </div>
-    <script type="text/javascript" src="/static/js/local/sidebar.js"></script>
-    <!-- /.navbar-static-side -->
+  {% endif %}    
+            
+  <!-- /.navbar-top-links -->
+  <link rel="stylesheet" href="/static/css/sidebar.css" type="text/css" />
+  {% set sidebarlink = 'snips/sidebars/'+currentPage+'Sidebar.html' %}
+  <div id="sidebarEnclosure">
+    {% include sidebarlink %}
   </div>
+  <script type="text/javascript" src="/static/js/local/sidebar.js"></script>
+  <!-- /.navbar-static-side -->
+         
+            
+  </div>
+  
+  </div>
+  
+ 
 </nav>
 
 <script>

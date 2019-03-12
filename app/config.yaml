@@ -13,10 +13,10 @@ databaseAdmin:
   user: ['heggens','myersco']
   
 db:
-  db_name: cas
+  db_name: YourDatabaseName
   host: localhost
-  password: 'password'
-  username: sher 
+  password: 'YourSQLPassowrd'
+  username: YourSQLUsername 
 
 #You have to use the - to keep the order
 scheduleDays:
