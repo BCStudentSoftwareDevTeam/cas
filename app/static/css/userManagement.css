@@ -12,3 +12,7 @@
     margin-bottom : 50px;
     margin-top : 50px;
 }
+.bootstrap-select.btn-group .dropdown-menu selectpicker {
+     color: whitesmoke !important;
+     background: #bf5279 !important;
+ }

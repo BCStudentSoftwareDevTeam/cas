@@ -16,7 +16,11 @@ db:
   db_name: c9
   host: localhost
   password: ''
+<<<<<<< HEAD
   username: adamska 
+=======
+  username: root 
+>>>>>>> development
 
 # Correct for display, but does not match DB. 
 scheduleDays:
@@ -179,13 +183,18 @@ columnColor:
   verified: 'verified'
   
 DEBUG:
-  # user: "heggens" #Admin Access
+  user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
   # user: "lovelle" #Professor Access
+<<<<<<< HEAD
   # user: "stamperfa" #Bldg Mngr Access
   user: "sldkjfalsdkfj;" #for production
   
+=======
+  # user: "sldkjfalsdkfj;" #for production
+  # user: "stamperfa" #Bldg Mngr Access
+>>>>>>> development
 
   
 filepath:

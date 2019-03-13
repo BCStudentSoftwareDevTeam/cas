@@ -49,13 +49,11 @@ for i in banner_schedule:
     add_banner_schedule = ("INSERT INTO bannerschedule (`sid`, `startTime`, `endTime`, `letter`, `order`) VALUES ('{0}', '{1}', '{2}','{3}', {4})".format(i.sid, i.startTime, i.endTime, i.letter, i.order))
     cursor.execute(add_banner_schedule)
 
-# Term states doesn't exist yet
-#term_states = old.TermStates.select()
-#for i in term_states: 
-#    add_termstates = ("INSERT INTO termstates (`csID`, `number`, `name`, `order`, `display_name`) VALUES ({0}, {1}, '{2}', {3}, '{4}')".format(i.csID, i.number, i.name, i.order, i.display_name))
-add_termstates = ("INSERT INTO termstates (`csID`, `number`, `name`, `order`, `display_name`) VALUES ({0}, {1}, '{2}', {3}, '{4}')".format(1, 1, 'Start Term', 0, 'Start Term'))
-#
-cursor.execute(add_termstates)
+term_states = old.TermStates.select()
+print("size", len(term_states))
+for i in term_states: 
+    add_termstates = ("INSERT INTO termstates (`csID`, `number`, `name`, `order`, `display_name`) VALUES ({0}, {1}, '{2}', {3}, '{4}')".format(i.csID, i.number, i.name, i.order, i.display_name))
+    cursor.execute(add_termstates)
     
 
 education_tech = old.EducationTech.select()
@@ -132,13 +130,13 @@ for i in banner_courses:
     cursor.execute(add_banner_courses, data_banner_courses)
 
 add_terms = ("INSERT INTO term (termCode, semester, year, name, state, term_state_id, editable) VALUES (%s, %s, %s, %s, %s, %s, %s)")
-# Removing term_state because it doesn't exist
+
 
 
 terms = old.Term.select()
-print("terms begotten")
+# print("terms begotten")
 for i in terms: 
-    print(i.termCode)
+    # print(i.termCode)
     termCode = int(i.termCode)
     semester = str(i.semester)
     if i.year:
@@ -147,8 +145,9 @@ for i in terms:
         year = int((str(i.termCode))[:4])
     name = str(i.name)
     state = int(i.state)
-    term_state_id = 1 #int(i.term_state.csID)  # term_state doesn't exist yet
-    editable = 0 # bool(i.editable) # editable doesn't exist yet
+    term_state_id=  int(i.term_state.csID)  
+
+    editable = bool(i.editable) 
     data_terms = (termCode, semester, year, name, state, term_state_id, editable) 
     
     cursor.execute(add_terms, data_terms)
@@ -259,15 +258,15 @@ for i in division_chairs:
 
 # THERE IS NO DATA YET IN BUILDINGMANAGER. 
 
-# add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
+add_building_managers = ("INSERT INTO buildingmanager(username_id, bmid_id) VALUES (%s, %s)")
 
-# building_managers = BuildingManager.select()
-# for i in building_managers:
-#     username_id = str(i.username.username)
-#     bmid_id = int(i.bmid.bID)
-#     data_building_managers = (username_id, bmid_id)
-#     print(data_building_managers)
-#     cursor.execute(add_building_managers, data_building_managers)
+building_managers = BuildingManager.select()
+for i in building_managers:
+    username_id = str(i.username.username)
+    bmid_id = int(i.bmid.bID)
+    data_building_managers = (username_id, bmid_id)
+    print(data_building_managers)
+    cursor.execute(add_building_managers, data_building_managers)
 
 # The problems array is a collection of all the course ids that were in the InstructorCourse Table for which the course instance was already deleted
 

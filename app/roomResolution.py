@@ -69,7 +69,7 @@ def roomResolutionView(termCode,cid):
                    ORDER BY b.name;
                 """.format(courses.schedule.startTime, courses.schedule.endTime,
                 courses.term.termCode, course_capacity)
-    # print(sql_query)
+    print(sql_query)
     cursor = mainDB.execute_sql(sql_query)
     availablerooms = [] 
     for room in cursor:
@@ -95,8 +95,10 @@ def roomResolutionView(termCode,cid):
 			  INNER JOIN bannerschedule as bs ON bs.sid = c.schedule_id
 			WHERE
 			  c.rid_id = {0}
-			  AND bs.endTime > \ "{1}\" AND bs.startTime < \"{2}\";
+			  AND bs.endTime > \"{1}\" AND bs.startTime < \"{2}\";
 			      """  #For course B
+    
+    
     '''    conflicts_query = """   SELECT cid 
                             FROM `course` as c 
                             INNER JOIN `bannerschedule` as bs
