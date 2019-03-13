@@ -238,7 +238,7 @@
                     <!--<a>Download Rooms </a>-->
                   </div>
                 <div class = "col-sm-4 text-right"> 
-                    <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick = " change_btn_name()"></input><br>
+                    <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick = ""></input><br>
                     <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
                 </div>
               </div>
@@ -252,14 +252,15 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Archive term</h4>
+              <h4 class="modal-title">Archive term ----</h4>
             </div>
             <div class="modal-body">
               <p>Are you sure you are ready to archive the term?</p>
               <sub>You will not be able to view the term.</sub>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false'); close_panel(order7)">Yes</button>
+              <!--<button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false'); close_panel(order7)">Yes</button>-->
+              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="archiveTerm('false'); close_panel(order7)">Yes</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
             </div>
           </div>

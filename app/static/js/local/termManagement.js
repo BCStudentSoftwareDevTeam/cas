@@ -1,7 +1,7 @@
 var lastTerm = "";
 
 function close_panel(panel_id){
-    $(panel_id).collapse('toggle');
+    $(panel_id).collapse('hide');
 }
 
 function close_reassignModal(){
@@ -158,6 +158,7 @@ function reverseFunc(btn, StateOrder) {
 }
 
 function change_btn_name(){
+    
     var elem = document.getElementById("Archive");
     if (elem.value=="Archive"){ 
         elem.value = "Unarchive";
@@ -167,6 +168,8 @@ function change_btn_name(){
         elem.value = "Archive";
         $("#myModal .modal-body").text('Are you sure you want to archive the term');
     }
+    
+    console.log("change btn done...")
 }
 function collapser(){
     $('#order6').removeClass("in"); 
@@ -320,6 +323,7 @@ function goto_roomResolution(){
 }
 
 function archiveTerm(reverseStatus){
+    
     var termCode = getTermCode();
     
     var stateOrder = 7
@@ -335,10 +339,10 @@ function archiveTerm(reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
-          
+            console.log('Success saving to the database')
+
         },
         error: function (xhr, ajaxOptions, thrownError) {
            console.log("saving data to database failed from archive")
