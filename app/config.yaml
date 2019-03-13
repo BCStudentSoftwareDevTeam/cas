@@ -18,13 +18,20 @@ db:
   password: ''
   username: adamska 
 
-#You have to use the - to keep the order
+# Correct for display, but does not match DB. 
 scheduleDays:
-   Monday: 'Mon'
-   Tuesday: 'Tues'
-   Wednesday: 'Wed'
-   Thursday: 'Thurs'
-   Friday: 'Fri'
+  Monday: 'Mon'
+  Tuesday: 'Tues'
+  Wednesday: 'Wed'
+  Thursday: 'Thurs'
+  Friday: 'Fri'
+
+scheduleDaysShort:
+  Monday: "M"
+  Tuesday: "T"
+  Wednesday: "W"
+  Thursday: "R"
+  Friday: "F"
 
 # For every table in the database, add an item here
 models:
@@ -63,10 +70,11 @@ mainMenu:
     link: "/selectProgram"
   - title: "Room Preferences"
     link: "/selectTermRP"
-  - title: "Building Management"
-    link: "/buildingManagement"
   - title: "Log Out"
     link: "/logout"
+
+# - title: "Building Management"
+#     link: "/buildingManagement"
 
 accessLevel:
   - name: "Program Chair"
@@ -175,8 +183,9 @@ DEBUG:
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
   # user: "lovelle" #Professor Access
-  # user: "sldkjfalsdkfj;" #for production
-  user: "stamperf" #Bldg Mngr Access
+  # user: "stamperfa" #Bldg Mngr Access
+  user: "sldkjfalsdkfj;" #for production
+  
 
   
 filepath:
