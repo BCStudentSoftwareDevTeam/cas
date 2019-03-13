@@ -23,11 +23,11 @@ if os.getenv('IP'):
 else:
   IP = '0.0.0.0'
 
-if os.getenv('PORT'):
-  # pass
-  PORT = int(os.getenv('PORT'))
-else:
-  PORT = 8081
+# if os.getenv('PORT'):
+#   # pass
+#   PORT = int(os.getenv('PORT'))
+# else:
+PORT = 8081
 
 # Print statements go to your log file in production; to your console while developing
 print ("Running server at http://{0}:{1}/".format(IP, PORT))
