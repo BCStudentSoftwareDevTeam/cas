@@ -16,7 +16,7 @@ db:
   db_name: c9
   host: localhost
   password: ''
-  username: sheggen1 
+  username: adamska 
 
 #You have to use the - to keep the order
 scheduleDays:
