@@ -87,7 +87,7 @@
         </td>
         </tr>
         <tr  id = "hidden_{{ term.termCode }}">
-          <td colspan="9" id = "divForPanel{{term.termCode}}" style="padding-left:2%;" > <!-- Calls the panels for each button in  term--> </td>
+          <td colspan="9" id = "divForPanel{{term.termCode}}" style="padding-left:11%; padding-right:8%;" > <!-- Calls the panels for each button in  term--> </td>
         </tr>
         {% endfor %}
     </table>
@@ -159,11 +159,26 @@
                       </p>
                   </div>
                   <div class = "text-center">
-                    <a onclick = 'downloadCourses()' >{{cfg['states'][state.number]['download']}}</a>
+                    <a onclick = 'downloadCourses()' data-target="#download_alert1" data-toggle="modal">{{cfg['states'][state.number]['download']}}</a>
                   </div>
                 </div>
               </div>
             </div>
+            
+            <div id="download_alert1" class="modal fade" tabindex = "-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Downloading ...</h6>
+                  </div>
+                  <div class="modal-body">
+                    <p>File will be ready to view momentarily</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           {% endif %}
         <!-- checks through states in format 2 that was created before the start of the for loop above -->
         {% if state.number in format2 %} 
@@ -211,8 +226,7 @@
               <p>Are you sure you are ready to reassign the term?</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-target="#reassignModal"
-              data-dismiss="#reassignModal" onclick="enableTheOne('btn{{state.order}}'); submit_data({{state.order}}-1,'false'); close_reassignModal();" >Yes</button>
+              <button type="button" class="btn btn-default" data-dismiss="#reassignModal" onclick="enableTheOne('btn{{state.order}}'); submit_data({{state.order}}-1,'false'); close_reassignModal(); reassign_confirm();" >Yes</button>
               <button type="button" class="btn btn-default" data-dismiss="modal"onclick="close_reassignModal()">No</button>
             </div>
           </div>
@@ -230,7 +244,10 @@
               <div class = "row">
                   <div class = "col-sm-4" >
                     <br> 
-                    <a onclick = "downloadCourses()" style="text-decoration: none;">Download Courses</a>
+                    <a onclick = "downloadCourses()" data-target="#download_alert" data-toggle="modal">Download Courses</a>
+                    <br>
+                    <br>
+                    <sub>(Click link to view courses)</sub>
                   </div>      
                   {# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}
                   <div class = "col-sm-4">  
@@ -246,17 +263,33 @@
           </div>
       {% endfor %}
       
+      <div id="download_alert" class="modal fade" tabindex = "-1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h6 class="modal-title">Downloading ...</h6>
+            </div>
+            <div class="modal-body">
+              <p>File will be ready to view momentarily</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
      <!--This is the modal for onclick on archive button confirmation-->
      <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Archive term ----</h4>
+              <h4 class="modal-title">Archive term</h4>
             </div>
             <div class="modal-body">
               <p>Are you sure you are ready to archive the term?</p>
-              <sub>You will not be able to view the term.</sub>
+              <sub>You will not be able to view the term upon reload!</sub>
             </div>
             <div class="modal-footer">
               <!--<button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false'); close_panel(order7)">Yes</button>-->

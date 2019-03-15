@@ -1,5 +1,9 @@
 var lastTerm = "";
 
+function reassign_confirm(){
+    alert("Room Assignment algorithim initiated!");
+}
+
 function close_panel(panel_id){
     $(panel_id).collapse('hide');
 }
