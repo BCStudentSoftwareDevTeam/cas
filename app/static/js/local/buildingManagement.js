@@ -224,7 +224,10 @@ function seteducationTech() {
             });
     }
 }
-
+/*this function alerts the user that they're about to close the modal without saving their potential changes*/
+function educationTechWarning(){
+    
+}
     /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
 function saveEdTechChanges(roomID){ 
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)

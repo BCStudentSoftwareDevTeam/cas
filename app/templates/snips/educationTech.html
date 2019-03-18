@@ -1,7 +1,10 @@
-
+<script type="text/javascript" src="/static/js/local/buildingManagement.js"></script>
 <div class="modal fade" id="edTechModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
+      <div class="alert alert-danger">
+        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+      </div>
       <div class="modal-header">
         <span class="modal-title" id="exampleModalCenterTitle"><font size="18"> Education Tech: </font></span>
         <button type="button"  class="close" class="btn btn-primary"  style="color: red; line-height: 3" data-dismiss="modal" aria-label="Close">
@@ -141,8 +144,12 @@
        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-
+        <button type="button" class="btn btn-primary"
+        type="button" 
+        id="edTechButton"
+        class="btn btn-info" 
+        data-toggle="modal" 
+        data-target="#" >Close</button>
       </div>
     </div>
   </div>
