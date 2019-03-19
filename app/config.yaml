@@ -16,7 +16,7 @@ db:
   db_name: c9
   host: localhost
   password: ''
-  username: phuyalb16 
+  username: root 
 
 # Correct for display, but does not match DB. 
 scheduleDays:
