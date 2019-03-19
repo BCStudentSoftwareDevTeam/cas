@@ -16,11 +16,7 @@ db:
   db_name: c9
   host: localhost
   password: ''
-<<<<<<< HEAD
   username: phuyalb16 
-=======
-  username: root 
->>>>>>> 11b80e7d3badc8f100608291cc51245e02a50726
 
 # Correct for display, but does not match DB. 
 scheduleDays:
@@ -269,31 +265,6 @@ databaseAdmin:
 # 
 states:
   1:
-<<<<<<< HEAD
-    mainInfo: 'Program and Division Chairs will be able to submit courses to this Term.'
-    subtext: 'Click the button to begin and open Course Scheduling.'
-    btn: 'Open Scheduling'
-  2: 
-    mainInfo: 'Course Scheduling has now been opened. Program and Division chairs can now submit courses to the term.'
-    subtext: 'Click Lock Scheduling button to lock course scheduling. Chairs will no longer be able to add courses to the term.'
-    btn: 'UnLock Scheduling'
-  3:
-    mainInfo: 'Course Scheduling has now been locked. Chairs can no longer submit Courses for the term. '
-    left_help_text: 'Click the button below to unlock Course Scheduling.'
-    right_help_text: 'Click the button below to open Room Preferences for faculty.'
-    subtext: '(Course Scheduling will be permanelty locked)'
-    btn: 'Open Room Preferences'
-    download: 'Download Courses'
-  4:
-    mainInfo: 'Room Preferences submission has been opened. Faculty can now submit and change the room preferences for their courses.'
-    subtext: 'Click the Lock Room Preferences button to lock room preferences submission.'
-    btn: 'UnLock Room Preferences'
-  5: 
-    mainInfo: 'Room Prefrences submissions have been locked. Faculty can no longer submit or change their prefrences.'
-    left_help_text: 'Click the button below to unlock room preferences.'
-    right_help_text: 'Click the button below to assign rooms.'
-    subtext: '(Room preferences can no longer be unlocked!!!)'
-=======
     mainInfo: 'Program and Division Chairs will be able to submit courses to this term.'
     subtext: 'Click the arrow to open course scheduling.'
     btn: 'Open Scheduling'
@@ -317,21 +288,14 @@ states:
     left_help_text: 'Click the left arrow to unlock room selection.'
     right_help_text: 'Click the right arrow to assign rooms.'
     subtext: 'WARNING: Room selection will be permanently locked!'
->>>>>>> 11b80e7d3badc8f100608291cc51245e02a50726
     btn: 'Assign Rooms'
   6:
     mainInfo: 'Rooms have been assigned.'
     left_help_text: 'Click below to run the room assignment algorithm again.'
     right_help_text: 'Click to Finish term.'
-<<<<<<< HEAD
-    subtext: '(This indicates that all coursesand room assigments are finished)'
-    btn: 'Reassign'
-    goto_text: 'Click to resolve any Room Conflicts.' 
-=======
     subtext: 'This indicates that all courses and room assigments are finished'
     btn: 'Reassign Rooms'
     goto_text: 'Click below to go to Room Resolution' 
->>>>>>> 11b80e7d3badc8f100608291cc51245e02a50726
     goto_link: 'Room Resolution'
   7:
     mainInfo: 'The term is complete.'

@@ -70,7 +70,11 @@ migrator = MySQLMigrator(mainDB)
 #   doc_cam              = BooleanField()
 #   vhs                  = BooleanField()
 #   mondopad             = BooleanField()
+<<<<<<< HEAD
 #   tech_chart           = BooleanField()
+=======
+  # tech_chart           = BooleanField()
+>>>>>>> 3fd53d7d7dae8c7e7e5b5c56e53d5bc02d7839e0
   
 # class Rooms(dbModel):
 #   rID            = PrimaryKeyField()
@@ -85,7 +89,10 @@ migrator = MySQLMigrator(mainDB)
 #   specializedEq = CharField(null=True)
 #   specialFeatures = CharField(null=True)
 #   movableFurniture = BooleanField()
+<<<<<<< HEAD
 #   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
+=======
+>>>>>>> 3fd53d7d7dae8c7e7e5b5c56e53d5bc02d7839e0
   
 
 # class ScheduleDays(dbModel):
@@ -160,12 +167,14 @@ migrator = MySQLMigrator(mainDB)
 
 
 
-# class TermStates(dbModel):
-#   csID          = PrimaryKeyField()
-#   number        = IntegerField(null = False)
-#   name          = CharField(null = False)
-#   order         = IntegerField(null = False)
-#   display_name  = CharField(null = False)
+
+class TermStates(dbModel):
+   csID          = PrimaryKeyField()
+   number        = IntegerField(null = False)
+   name          = CharField(null = False)
+   order         = IntegerField(null = False)
+   display_name  = CharField(null = False)
+   editable          = BooleanField(null = False, default = True)
 
 # my_db.drop_tables([TermStates])
 # my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
@@ -271,9 +280,9 @@ migrator = MySQLMigrator(mainDB)
 migrate(
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.drop_column("Term", "state"),
-    migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
+    # migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
-    # migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
+    migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
     
 #     # migrator.drop_not_null('CourseChange','rid')
 # )

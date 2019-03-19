@@ -15,7 +15,7 @@ import time
 def termManagement():
       
       terms = Term.select().where(Term.term_state != 7) # Select all the terms for the terms table with the state buttons
-      
+
 #      for term in terms:
          #  Update the term_state column in the term table from the state column 
          #  FIX-ME: The state column was not deleted in a measure not to destroy existing data in that column when updating the schema of the database
@@ -23,9 +23,7 @@ def termManagement():
 #          print(term.termCode)
 #          term.save()
           
-      today          = datetime.date.today()       
-      term_state     = TermStates.select().order_by(TermStates.order)
-      years          = [] #WE WANT THE USER TO HAVE THE ABILITY TO SELECT A YEAR AGO AND THREE YEARS PAST THE CURRENT YEAR
+
       year           = int(time.strftime("%Y")) - 1   #START WITH ONE YEAR AGO
       for x in range (5):
          if x == 0:
@@ -53,7 +51,7 @@ def run_algorithm(termCode, term):
 def updateTermState():
    
    ''' Updates a term's state to the correct state ID based on state order '''
-   
+   # print("Did it get here!")
    data   = request.form # collect data from the view
 
    term   = Term.get(Term.termCode == data['termCode']) # Retrieve from the database the term whose state was changed by the user and that needs to be updated

@@ -5,22 +5,13 @@ import pymysql
 from app.loadConfig import *
 dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
 cfg        = load_config(os.path.join(dir_name, 'config.yaml'))
+db_name    = cfg['db']['db_name']
+host       = cfg['db']['host']
+username   = cfg['db']['username']
+password   = cfg['db']['password']
 
-db	      = os.path.join(dir_name,'../',cfg['databases']['dev']) 
-mainDB    = SqliteDatabase(db,
-                          pragmas = ( ('busy_timeout',  100),
-                                      ('journal_mode', 'WAL')
-                                  ),
-                          threadlocals = True
-                          )
-                          
-# This is to connect models.py to a MYSQL Database. It was implemented to test whether or not having a MYSQL table made the room assignment algorithm run without locking the entire database
-# db_name    = cfg['db']['db_name']
-# host       = cfg['db']['host']
-# username   = cfg['db']['username']
-# password   = cfg['db']['password']
+mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
 
-# mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
 
 # Creates the class that will be used by Peewee to store the database
 class baseModel (Model):
@@ -116,7 +107,7 @@ class Term(baseModel):
   name              = CharField()
   state             = IntegerField(null = False)
   term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")
-
+  editable          = BooleanField(null = False, default = True)
     
 class Rooms(baseModel):
   rID              = PrimaryKeyField()
