@@ -30,7 +30,7 @@ def timelineJson(tid):
     tid   = terms[0].termCode
   google_chart_dict = dict()
   timeline_obj = timeline()
-  for key, day in cfg['scheduleDays'].items():
+  for key, day in cfg['scheduleDaysShort'].items():
     schedule_info = dict()
     schedule_list  = []
     schedules = getCourseTimelineSchedules(day,tid)    

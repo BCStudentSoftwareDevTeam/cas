@@ -25,7 +25,7 @@
       </li>
     {% endfor %}
   </ul>
-  
+
   <ul class="nav navbar-nav navbar-top-links navbar-right">
     {% if isAdmin %}
       <li class=" nav dropdown">
@@ -46,6 +46,14 @@
       </li>
     {%endif%}
   </ul>
+      
+  {% if isBuildingManager or isAdmin %}
+    <ul class="nav navbar-nav navbar-top-links navbar-right">
+      <li class=" nav dropdown">
+        <a href="/buildingManagement" role="button" aria-haspopup="true" aria-expanded="false" > Building Management </a>
+      </li>
+    </ul>
+  {% endif %}    
             
   <!-- /.navbar-top-links -->
   <link rel="stylesheet" href="/static/css/sidebar.css" type="text/css" />

@@ -50,6 +50,7 @@ def addEdTech(room):
     return: an EducationTech object
     """
     pass
+    # FIXME: Do not GET. Each room should have its own instance of Ed tech, or changes to one ed tech affects multiple rooms. Always create.
     (e, created) = EducationTech.get_or_create(
                         projector = int(room[projector]),
                         smartboards = int(room[smartboards]),
@@ -121,5 +122,7 @@ def main():
             addRoom(room)
     # except Exception as e:
     #     print("You are a failure: ", e)
-        
-main()
+
+print("FIXME's need fixed before running this file")
+if input("Do you want to continue? 1=YES, 0=NO") == 1:        
+    main()

@@ -7,8 +7,8 @@ $(document).ready(function() {
    $('.selectpicker').selectpicker();
 });
 
-google.charts.load('current', {packages: ['corechart', 'line']});
-google.charts.setOnLoadCallback(drawBasic);
+//google.charts.load('current', {packages: ['corechart', 'line']});
+//google.charts.setOnLoadCallback(drawBasic);
 function google_data_json(){    
     var data =  $.ajax({
        url: append_url(),

@@ -1,6 +1,6 @@
 from peewee import *
 import os
-
+import pymysql
 # Create a database
 from app.loadConfig import *
 dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
@@ -72,6 +72,7 @@ class Building(baseModel):
   name              = CharField()
   shortName         = CharField()
 
+
   def __repr__(self):
     return self.name 
 
@@ -93,6 +94,7 @@ class EducationTech(baseModel):
   mondopad             = BooleanField()
   tech_chart           = BooleanField()
 
+
   def __repr__(self):
     return str(self.eId)
 
@@ -105,6 +107,7 @@ class Deadline(baseModel):
 class ScheduleDays(baseModel):
   schedule      = ForeignKeyField(BannerSchedule, null = True, related_name='days', on_delete= 'CASCADE')
   day           = CharField(null=True)
+
 
 class Term(baseModel):
   termCode          = IntegerField(primary_key = True)  
@@ -128,7 +131,7 @@ class Rooms(baseModel):
   specializedEq    = CharField(null=True)
   specialFeatures  = CharField(null=True)
   movableFurniture = BooleanField()
-  
+  lastModified     = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
  
 class Program(baseModel):
   pID               = PrimaryKeyField()
