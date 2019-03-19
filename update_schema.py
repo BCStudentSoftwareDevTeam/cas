@@ -46,11 +46,11 @@ class dbModel (Model):
     database = mainDB
 
 
-#mainDB.create_tables([CrossListed])
+mainDB.create_tables([CrossListed])
 
 migrate(
-    migrator.add_column('rooms', 'lastModified', CharField(null=True))
-    #migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
+    #migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+    migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
 )
 
 # class TermStates(dbModel):
