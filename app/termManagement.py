@@ -23,7 +23,9 @@ def termManagement():
 #          print(term.termCode)
 #          term.save()
           
-
+      today          = datetime.date.today()       
+      term_state     = TermStates.select().order_by(TermStates.order)
+      years          = [] #WE WANT THE USER TO HAVE THE ABILITY TO SELECT A YEAR AGO AND THREE YEARS PAST THE CURRENT YEAR
       year           = int(time.strftime("%Y")) - 1   #START WITH ONE YEAR AGO
       for x in range (5):
          if x == 0:
