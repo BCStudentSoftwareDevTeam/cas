@@ -77,11 +77,12 @@ class ExcelMaker:
         room_name = ""
         
         if course.rid:
-            if course.rid != 100:
-                room_name = course.rid.building.name + ' ' + course.rid.number
-                sheet.write('J{0}'.format(row),room_name)
-                sheet.write('I{0}'.format(row),course.section)
-            
+            room_number_clean = course.rid.number.split(" - ")[0].strip()
+            print(room_number_clean)
+            room_name = course.rid.building.shortName + ' ' + room_number_clean
+            sheet.write('J{0}'.format(row),room_name)
+            sheet.write('I{0}'.format(row),course.section)
+        
         
         # Room Information
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
@@ -93,18 +94,18 @@ class ExcelMaker:
         if room_preferences: 
             for room_preference in room_preferences:
                 if room_preference.pref_1:
-                    if room_preference.pref_1.rID != 100:
-                        preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
-                        sheet.write('K{0}'.format(row),preference_1)
+                    
+                    preference_1 = room_preference.pref_1.building.shortName + " " + room_preference.pref_1.number
+                    sheet.write('K{0}'.format(row),preference_1)
                 if room_preference.pref_2:
-                    if room_preference.pref_2.rID != 100:
-                        preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
-                        sheet.write('L{0}'.format(row),preference_2)
+                
+                    preference_2 = room_preference.pref_2.building.shortName + " " + room_preference.pref_2.number
+                    sheet.write('L{0}'.format(row),preference_2)
                 if room_preference.pref_3:
-                    if room_preference.pref_3.rID != 100:
-                        preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
-                        sheet.write('M{0}'.format(row),preference_3)
-                  
+            
+                    preference_3 = room_preference.pref_3.building.shortName + " " + room_preference.pref_3.number
+                    sheet.write('M{0}'.format(row),preference_3)
+              
        
        
         #Instructor Information

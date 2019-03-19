@@ -130,7 +130,7 @@ p {
                               {% for course in courses%}
                               <p>
                                {{course.bannerRef.subject}}{{course.bannerRef.number}}
-                                ({{course.schedule.startTime.strftime('%I:%M  %p')}}-{{course.schedule.endTime.strftime('%I:%M  %p') }})
+                                ({{course.schedule.letter}}: {{course.schedule.startTime.strftime('%I:%M  %p')}}-{{course.schedule.endTime.strftime('%I:%M  %p') }})
                               </p> 
                               {%endfor%}
                               <p><strong>Room Type:</strong> {{room.roomType}}</p>
