@@ -49,7 +49,7 @@ class dbModel (Model):
 mainDB.create_tables([CrossListed])
 
 migrate(
-    #migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+    migrator.add_column('rooms', 'lastModified', CharField(null=True)),
     migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
 )
 
