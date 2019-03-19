@@ -84,7 +84,10 @@ class ExcelMaker:
             taken_times = []
             for i in self.schedule_to_room[room.building.name +' '+ room.number]:
                 banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == i).first()
-                taken_times.append( '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')')
+                if banner_schedule:
+                    taken_times.append( '(' +self.get_schedule_days(banner_schedule) + ': '+ str(banner_schedule.startTime)+ ' - ' + str(banner_schedule.endTime) + ')')
+                else: 
+                    taken_times.append('(' + str(i) + ")")
             sheet.write('D{0}'.format(row), ' , '.join(taken_times))
             
         else:
@@ -111,8 +114,7 @@ class ExcelMaker:
         sheet.write('X{0}'.format(row), room.educationTech.vhs)
         sheet.write('Y{0}'.format(row), room.educationTech.mondopad)
         sheet.write('Z{0}'.format(row), room.educationTech.tech_chart)
-        
- 
+   
     def write_course_info(self,sheet,row,course):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
@@ -218,9 +220,11 @@ class ExcelMaker:
                 
             # Remove conflicts
             for i in self.schedule_to_room[room.building.name+' '+room.number]:
-                for j in cfg['conflicts'][i]:
-                    if j in available_times:
-                        available_times.remove(j)
+                if i.find("does not have a schedule yet") == -1:
+                    print(i)
+                    for j in cfg['conflicts'][i]:
+                        if j in available_times:
+                            available_times.remove(j)
         return available_times
         
         
@@ -232,7 +236,6 @@ class ExcelMaker:
             
     def get_schedule_days(self, banner_schedule):
         ''' This method gets all the days for each letter in banner_schedule'''
-        
         schedule_days = ScheduleDays.select().where(ScheduleDays.schedule == banner_schedule.sid)
         days = []
         for i in schedule_days:
@@ -267,18 +270,23 @@ class ExcelMaker:
         #Select all the courses 
         courses = Course.select().where(Course.rid != None).where(Course.term == term).order_by(Course.bannerRef)
         
+        
+        
         #Get the schedules for each course that has a room and add each schedule to a dictionary that maps rooms to the different times they are scheduled for
         if courses:
             for course in courses:
-                if course.schedule is not None:
-                    banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
-                    schedule_days = self.get_schedule_days(banner_schedule)
-                    
-                    # Map all the times a room is taken to that particular room 
-                    if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
+                if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
+                    if course.schedule is not None:
+                        banner_schedule = BannerSchedule.select().where(BannerSchedule.sid == course.schedule).first()
+                        schedule_days = self.get_schedule_days(banner_schedule)
+                        # Map all the times a room is taken to that particular room 
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(course.schedule.sid) 
                     else:
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.bannerRef.subject)+" "+str(course.bannerRef.number)+"is in this room, but does not have a schedule yet.") 
+                else:
+                    if course.schedule is not None:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
+
                 else: 
                     if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.cId )+"is assigned to this room, but does not have a schedule time yet.")
@@ -286,6 +294,13 @@ class ExcelMaker:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [str(course.cId )+"is assigned to this room, but does not have a schedule time yet."]
 
                     
+                    else:
+                        print('I am failing here!')
+                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number]= (str(course.bannerRef.subject)+" "+str(course.bannerRef.number)+" is in this room, but does not have a schedule yet.") 
+                    
+                    
+                
+
             all_rooms = Rooms.select().order_by(Rooms.building_id)
             if all_rooms:
                 for room in all_rooms:
