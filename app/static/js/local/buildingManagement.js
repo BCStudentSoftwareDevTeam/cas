@@ -224,10 +224,6 @@ function seteducationTech() {
             });
     }
 }
-/*this function alerts the user that they're about to close the modal without saving their potential changes*/
-function show_EduTech(){
-    $('#edTechModal').modal('show');
-}
     /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
 function saveEdTechChanges(roomID){ 
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
@@ -267,6 +263,7 @@ function saveEdTechChanges(roomID){
                 }
          }); 
 }
+/* keeps tracks of active modals, making sure that they remain responsive after closing an overlaying instance*/
 var modal_counter = 0;
 $(document).ready(function () {
         $('.modal').on('shown.bs.modal', function () {
