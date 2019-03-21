@@ -12,7 +12,9 @@
   <div class="panel-heading" class = "panel_color" style = 'text-align:center;'>
     <h1 class="panel-title" ><bold>Term Management</bold></h1>
     <h5><i> Click below on the term to begin </i><h5>
+      
   </div>
+  
    <br>
   <table class="table" cellspacing="0" cellpadding="0">
       {% include "snips/termModal.html" %}
@@ -25,8 +27,8 @@
               <!-- Generates the term buttons-->
               <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
               aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.term_state.order}}">{{term.name}} 
-              </button> 
-            </td>      
+              </button>
+              
             {% else %}
             <!--This cater for the archiving state which is not the menu tab on the row, generates the other six menu tabs-->
               {% if state.number != 7 %}
@@ -34,15 +36,29 @@
                 <button style="width:100%" class="theButtons btn btn-dark" type = "button" id = "btn{{state.order}}" data-target="#order{{state.order}}" aria-expanded="false" aria-controls="order{{state.order}}" disabled = "disabled"
                 onclick="showPanel({{term.termCode}},this);)" >{{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
               </td>  
+  
               {% endif %}
             {% endif %}
+          
         {% endfor %}
       </td>
+      
+      <!---- working here --->
+      
+      <td style="padding: 1px !important; margin: 1px !important;"> 
+      
+      <button type="button" class="btn btn-success" onclick = 'downloadCourses({{term.termCode}})' >Download Courses</button>
+      </td>  
+      
+
+ 
       </tr>
       <tr  id = "hidden_{{ term.termCode }}">
         <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
       </tr>
+      
       {% endfor %}
+      
   </table>
   </div>
 <div id = "allPanels"><!--This covers all the panels-->
@@ -99,9 +115,11 @@
                         </sub>
                       </span>
                   </div>
-                  <div class = "row text-center">
-                    <button type="button" class="btn btn-success" onclick = 'downloadCourses()' >Download Courses {{cfg['states'][state.number]['download']}}</button>
-                  </div>
+                  <!--<div class = "row text-center">-->
+                  <!--  <button type="button" class="btn btn-success" onclick = 'downloadCourses()' >Download Courses {{cfg['states'][state.number]['download']}}</button>-->
+                  <!--</div>-->
+                  
+                  
                 </div>
               </div>
             </div>
@@ -139,6 +157,7 @@
                   </button>
                   
                 </div>
+                
           </div>
         </div>
         </div>
@@ -151,10 +170,11 @@
               <p>(Couse and Room Preferences are no longer accepted, and rooms have been assigned.)</p>
             </div>
           <div class = "row">
-              <div class = "col-sm-4" >
-                <br> 
-                <button type="button" class="btn btn-success" onclick = "downloadCourses()">Download Courses</button>
-              </div>      
+              <!--<div class = "col-sm-4" >-->
+              <!--  <br> -->
+              <!--  <button type="button" class="btn btn-success" onclick = "downloadCourses()">Download Courses</button>-->
+              <!--</div>    -->
+              
               {# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}
               <div class = "col-sm-4">  
                 <br>
@@ -186,6 +206,7 @@
               </div>
           
             </div>
+            
           </div>
   </div>
 </div>
