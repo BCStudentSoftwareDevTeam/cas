@@ -225,8 +225,8 @@ function seteducationTech() {
     }
 }
 /*this function alerts the user that they're about to close the modal without saving their potential changes*/
-function educationTechWarning(){
-    
+function show_EduTech(){
+    $('#edTechModal').modal('show');
 }
     /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
 function saveEdTechChanges(roomID){ 
@@ -267,7 +267,21 @@ function saveEdTechChanges(roomID){
                 }
          }); 
 }
-
+var modal_counter = 0;
+$(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            modal_counter++;
+        });
+        $('.modal').on('hidden.bs.modal', function () {
+            modal_counter--;
+            if(modal_counter){
+                $('body').addClass('modal-open');
+            }
+            else{
+                $('body').removeClass('modal-open');
+            }
+        });
+})
     
 
 
