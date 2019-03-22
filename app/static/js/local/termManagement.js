@@ -314,15 +314,29 @@ function getTermCode(){
 function downloadCourses(){
     // This function will go to the controller that will handle the downloading of all the courses to an excel file
     var termCode = getTermCode();
-    
     window.location.href = '/excel/'+termCode;
+    
+    $.ajax({url: window.location.href, 
+    
+        success: function(){
+            $('#download_alert1').modal('hide');
+            $('#download_alert').modal('hide');
+
+            
+
+        },
+        error: function(){
+            console.log("Excel File is not downloading!")
+        }
+    
+    });
 
     
 }
 
 function goto_roomResolution(){
     var termCode = getTermCode();
-    window.location.href = '/roomResolution/'+termCode;
+    window.location.href = '/roomResolution/'+getTermCode();
     
 }
 
