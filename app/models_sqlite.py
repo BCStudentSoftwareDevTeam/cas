@@ -115,7 +115,9 @@ class Term(baseModel):
   year              = IntegerField(null = True)
   name              = CharField()
   state             = IntegerField(null = False)
+
   term_state        = ForeignKeyField(TermStates, null = True, related_name = "states")  
+
   editable          = BooleanField(null = False, default = True)
     
 class Rooms(baseModel):
