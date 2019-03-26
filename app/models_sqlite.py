@@ -63,13 +63,13 @@ class BannerSchedule(baseModel):
     return self.letter
 
 # Doesn't exist yet!
-'''class TermStates(baseModel):
+class TermStates(baseModel):
   csID          = PrimaryKeyField()
   number        = IntegerField()
   name          = CharField()
   order         = IntegerField()
   display_name  = CharField()
-  '''
+
 class Building(baseModel):
   bID               = PrimaryKeyField()
   name              = CharField()

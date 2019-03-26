@@ -43,6 +43,14 @@ users = User(  firstName = "Emily",
                 isAdmin   = 0,
                 bNumber   = "1239475"
             ).save(force_insert=True)
+            
+users = User( firstName = "Farrah",
+                lastName  = "Stamper",
+                username  = "stamperf",
+                email     = "farrah_stamper@berea.edu",
+                isAdmin   = 0,
+                bNumber   = "123456789"
+            ).save(force_insert=True)            
 
 ##########
 #DIVISION#
@@ -52,6 +60,7 @@ division = Division(  name = "Division I"
 
 division = Division(  name = "Division II"
               ).save()
+              
 division = Division(  name = "Division III"
               ).save()
 
@@ -144,24 +153,24 @@ banner = BannerSchedule(  letter        = "Standard B",
                         ).save(force_insert=True)
                         
                         
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+schedule = ScheduleDays(schedule = "A", day = "R").save(force_insert=True)
                         
-schedule = ScheduleDays(schedule = 2, day = "M").save(force_insert=True)
+schedule = ScheduleDays(schedule = "B", day = "M").save(force_insert=True)
 
                         
-schedule = ScheduleDays(schedule = 2, day = "T").save(force_insert=True)
+schedule = ScheduleDays(schedule = "B", day = "T").save(force_insert=True)
 
                         
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+schedule = ScheduleDays(schedule = "A", day = "R").save(force_insert=True)
 
                         
-schedule = ScheduleDays(schedule = 2, day = "W").save(force_insert=True)
+schedule = ScheduleDays(schedule = "B", day = "W").save(force_insert=True)
 
                         
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
+schedule = ScheduleDays(schedule = "A", day = "R").save(force_insert=True)
 
                         
-schedule = ScheduleDays(schedule = 1, day = "M").save(force_insert=True)
+schedule = ScheduleDays(schedule = "A", day = "M").save(force_insert=True)
 ##############
 #BANNERCOURSE#
 ##############
@@ -400,11 +409,15 @@ course = Course(  bannerRef         = 8,
                   crossListed       = 1
                   ).save()       
 
+                              
+
+
 course = Course(  bannerRef         = 9,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
-=======
+
+
 
 
 
@@ -417,7 +430,10 @@ course = Course(  bannerRef         = 21,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
-                 
+
+                  days              = 1,
+   
+
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
@@ -429,13 +445,17 @@ course = Course(  bannerRef         = 22,
                   term              = 201612,
                   section           = "A",
                   schedule          = "B",
+
+                  days              = 1,
+
                 
+
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
                 ).save()                
 
-course = Course(  bannerRef         = 23,
+course = Course(  bannerRef         = 21,
                   prefix            = "TAD",
                   term             = 201612,
                   schedule          = "A",
@@ -445,7 +465,7 @@ course = Course(  bannerRef         = 23,
                   notes          = "Preference1",
                   crossListed       = 0
                   ).save()
-course = Course(  bannerRef         = 28,
+course = Course(  bannerRef         = 22,
                   prefix            = "CHI",
                   term              = 201612,
                   section           = "D",
@@ -456,38 +476,23 @@ course = Course(  bannerRef         = 28,
                   crossListed       = 1
                   ).save()       
                               
-course = Course(  bannerRef         = 29,
+course = Course(  bannerRef         = 22,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
-<<<<<<< HEAD
-                  
-=======
-                   days      = 6,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
->>>>>>> f0fc4bde5cb579db7bb53797b79201ef1fe5a4e1
+
                   capacity          = 20,
                   section           = "E",
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save() 
-<<<<<<< HEAD
-course = Course(  bannerRef         = 10,
-=======
-course = Course(  bannerRef         = 30,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
+
+course = Course(  bannerRef         = 21,
                   prefix            = "CHI",
                   term              = 201711,
                   section           = "A",
                   schedule          = "B",
-<<<<<<< HEAD
-                 
-=======
-<<<<<<< HEAD
-=======
-                  days      = 6,
->>>>>>> 70371d1067ed2cde7f5a2d57e775b0ca2f898a78
->>>>>>> f0fc4bde5cb579db7bb53797b79201ef1fe5a4e1
+
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -496,7 +501,7 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201712,
                   schedule          = "B",
-             
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -506,7 +511,8 @@ course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201811,
                   schedule          = "B",
-                  
+
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -516,6 +522,7 @@ course = Course(  bannerRef         = 13,
                   prefix            = "FRN",
                   term              = 201611,
                   schedule          = "A",
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference1",
@@ -526,7 +533,7 @@ course = Course(  bannerRef         = 14,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
-            
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -537,7 +544,7 @@ course = Course(  bannerRef         = 15,
                   prefix            = "FRN",
                   term              = 201712,
                   schedule          = "A",
-                 
+
                   capacity          = 20,
                   section           = "A",
                   notes          = "Preference1",
@@ -547,7 +554,7 @@ course = Course(  bannerRef         = 15,
                   prefix            = "FRN",
                   term              = 201612,
                   schedule          = "B",
-              
+
                   capacity          = 20,
                   notes             = "Preference2",
                   section           = "A",
@@ -558,7 +565,7 @@ course = Course(  bannerRef         = 17,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
-           
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -598,7 +605,7 @@ course = Course(  bannerRef         = 19,
                   prefix            = "GER",
                   term              = 201612,
                   schedule          = "B",
-                
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -608,7 +615,7 @@ course = Course(  bannerRef         = 20,
                   prefix            = "HHP",
                   term              = 201712,
                   schedule          = "B",
-              
+
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -619,7 +626,7 @@ course = Course(  bannerRef         = 21,
                   term              = 201811,
                   section           = "A",
                   schedule          = "B",
-                  
+
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
@@ -689,58 +696,17 @@ instructor = InstructorCourse(  username = "myersco",
                                 course   = 3
                               ).save()  
 
-instructor = InstructorSTCourse(  username = "myersco",
-                                course   = 1
-                              ).save()  
+# instructor = InstructorSTCourse(  username = "myersco",
+#                                 course   = 1
+#                               ).save()  
 
-                              
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
-
-schedule = ScheduleDays(schedule = 2, day = "M").save(force_insert=True)
-
-
-schedule = ScheduleDays(schedule = 2, day = "T").save(force_insert=True)
-
-
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
-
-
-schedule = ScheduleDays(schedule = 2, day = "W").save(force_insert=True)
-
-
-schedule = ScheduleDays(schedule = 1, day = "R").save(force_insert=True)
-
-
-schedule = ScheduleDays(schedule = 1, day = "M").save(force_insert=True)
 ######
 #Buildings
-
 ######                             
-
-                              
-
 building     = Building(name = 'Ag Building', shortName = "DR").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
-
 building     = Building(name = 'Emory Building', shortName="EMR").save()
 building     = Building(name = 'Frost Building', shortName="FR").save()
-
-
-###################
-#Building Managers#
-###################
-
-bmanager = BuildingManager( username = "heggens",
-                            bmid = 1
-                          ).save()
-bmanager = BuildingManager( username = "myersco",
-                            bmid = 2
-                          ).save()
-bmanager = BuildingManager( username = "pearcej",
-                            bmid = 3
-                          ).save()
-
-
 building     = Building(name = 'Ag Building', shortName = "DR").save()
 building     = Building(name = 'Tech Building', shortName = "DFT").save()
 building     = Building(name = 'Draper', shortName = "DRA").save()
@@ -749,28 +715,36 @@ building     = Building(name = 'Emery', shortName = "EMY").save()
 building     = Building(name = 'Nursing', shortName = "NUR").save()
 building     = Building(name = 'Science', shortName = "SC").save()
 building     = Building(name = 'Frost', shortName = "FR").save()
-
 building     = Building(name = 'Seabury', shortName = "SEA").save()
 building     = Building(name = 'Theater', shortName = "THR").save()
 building     = Building(name = 'Bingham', shortName = "BING").save()
 building     = Building(name = 'Library', shortName = "LIB").save()
-
 building     = Building(name = 'Emory Building', shortName="EMR").save()
 building     = Building(name = 'Frost Building', shortName="FR").save()
 
 
-###############
-#Building Manager#
-##################
-
+###################
+#Building Managers#
+###################
 
 # bmanager = BuildingManager( username = "heggens",
 #                             bmid = 1
 #                           ).save()
-
+# bmanager = BuildingManager( username = "myersco",
+#                             bmid = 2
+#                           ).save()
+# bmanager = BuildingManager( username = "pearcej",
+#                             bmid = 3
+#                           ).save()
+bmanager = BuildingManager( username = "stamperf",
+                            bmid = 6
+                          ).save()
+                          
+                          
 ####
 #Education Tech for Rooms
 #####
+
 
 ###################
 #Education Tech#
@@ -793,6 +767,67 @@ educationTech= EducationTech(
   mondopad           = True,
   tech_chart           = False
   ).save()
+
+
+#### THERE WERE TWO FOR SOME REASON. DELETE ONE
+educationTech= EducationTech( 
+  projectors           = 1,
+  smartboards          = 2,
+  instructor_computers = 3,
+  podium               = 3,
+  student_workspace    = 4,
+  chalkboards          = 2,
+  whiteboards          = 2,
+  dvd                  = False,
+  blu_ray              = False,
+  audio                = True,
+  extro                = True,
+  doc_cam              = True,
+  vhs                  = True,
+  mondopad           = True,
+  tech_chart           = False
+  ).save()
+
+
+                              
+
+
+#######
+#ROOMS#
+#######
+# TODO: ADD THIS TO ROOMS BELOW, MISSING ATTRIBUTES visualAcc= , audioAcc= ,physicalAcc= , educationTech= , specializedEq= , specialFeatures= ,
+
+room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Lab", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=True, lastModified="DATE").save()
+room = Rooms(building = 2, educationTech=1, number ='103', maxCapacity=15, roomType="Lecture",  visualAcc= "A", audioAcc= "B" ,physicalAcc= "A",  specializedEq= "Kiln", specialFeatures= "Throwing wheels", movableFurniture= False).save()
+room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Lab",  visualAcc= "C", audioAcc= "B" ,physicalAcc= "B", specializedEq= "Lab equipment", specialFeatures= "Movable podium", movableFurniture=True).save()
+room = Rooms(building = 4, educationTech=1,number ='105', maxCapacity=15, roomType="Lecture",  visualAcc= "A", audioAcc= "C" ,physicalAcc= "B", specializedEq= "Rolly chairs", specialFeatures= "Footstools", movableFurniture= False).save()
+room = Rooms(building = 5, educationTech=1,number ='106', maxCapacity=12, roomType="Lab",  visualAcc="A", audioAcc= "B" ,physicalAcc= "C", specializedEq= "Lab equipment", specialFeatures= "Science stuff",movableFurniture=True).save()
+room = Rooms(building = 6, educationTech=1,number ='107', maxCapacity=15, roomType="Lecture", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture= True).save()
+room = Rooms(building = 7, educationTech=1, number ='108', maxCapacity=12, roomType="Workshop", visualAcc= "A", audioAcc= "A", physicalAcc= "B", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=False).save()
+room = Rooms(building = 8, educationTech=1,number ='109', maxCapacity=15, roomType="Lecture", visualAcc= "A", audioAcc= "A", physicalAcc= "A", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture= True).save()
+room = Rooms(building = 9, educationTech=1, number ='110', maxCapacity=12, roomType="Workshop", visualAcc= "A", audioAcc= "A", physicalAcc= "B", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture=False).save()
+room = Rooms(building = 10, educationTech=1,number ='111', maxCapacity=15, roomType="Lecture",visualAcc= "A", audioAcc= "A", physicalAcc= "B", specializedEq= "Ethernet @ desks", specialFeatures= "Big ole' windows", movableFurniture= True).save()
+# room = Rooms(building = 11, educationTech=1,number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 12, educationTech=1,number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# room = Rooms(building = 1,educationTech=1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 4, educationTech=1,number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+# room = Rooms(building = 5, educationTech=1,number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+# room = Rooms(building = 6,educationTech=1, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+
+#################
+#Room Preference#
+#################
+
+roompreference= RoomPreferences(course= 1, priority=1, pref_1=1,pref_2=2,pref_3=3,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=3, priority=2, pref_1=2,pref_2=3,pref_3=4,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=8, priority=3,pref_1=3,pref_2=4,pref_3=5,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 4,priority=3, pref_1=4,pref_2=5,pref_3=6,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 2, priority=3,pref_1=5,pref_2=6,pref_3=7,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 6, priority=2,pref_1=6,pref_2=7,pref_3=8,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 7,priority=1, pref_1=7,pref_2=8,pref_3=9,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 5, priority=2,pref_1=8,pref_2=9,pref_3=10,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 9, priority=3,pref_1=9,pref_2=10,pref_3=11,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 10, priority=1,pref_1=10,pref_2=11,pref_3=12,notes="None",any_Choice = "any").save()
 
 #####
 
@@ -825,9 +860,6 @@ roompreference= RoomPreferences( course= 3, pref_1=3, pref_2=1, pref_3=2,notes="
 #roompreference= RoomPreferences( course= 3, pref_1=1, pref_2=2, pref_3=3,notes="notes",any_Choice = "any", none_choice = "no other rooms work", none_Reason = "None").save()
 
 
-# room = Rooms(building = 1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
-# room = Rooms(building = 2, number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
-# roompreference= RoomPreferences(course= 1, pref_1=1,pref_2=2,pref_3=2,notes="None",any_Choice = "any").save()
 
 
 # try:

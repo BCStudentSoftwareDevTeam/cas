@@ -27,7 +27,7 @@
 		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
                     <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
                     <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
-                    <td> {{roompreference.course.time}}</td>
+                    <td> {{roompreference.course.schedule.letter}} ({{roompreference.course.schedule.startTime.strftime('%H:%M %p')}} - {{roompreference.course.schedule.endTime.strftime('%H:%M %p')}})</td>
                     <td> {{roompreference.course.capacity}} </td>
                     {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
                 
@@ -126,10 +126,13 @@
                                             <div class="col-sm-6">
                                                 <!--This gives the room details-->
                                                 <div class="row">
-                                                    <label  style="float: left;"> Room Number: </label><div id="roomNumber" > {{room.number}}</div>
+                                                    <label  style="float: left;"> Room Number:&nbsp; </label><div id="roomNumber" > {{room.number}}</div>
+                                                </div>
+						<div class="row">
+                                                    <label  style="float: left;"> Room Layout:&nbsp; </label><div id="roomType" > {{room.roomType}}</div>
                                                 </div>    
                                                 <div class="row">
-                                                    <label  style="float:left;" > Room Capacity:</label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                    <label  style="float:left;" > Room Capacity:&nbsp; </label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
                                                 </div>
                                                 <div class="row">
                                                     <label id="visualAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="A"></label><br> 
@@ -141,10 +144,10 @@
                                                     <label id="physicalAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="C"></label><br> 
                                                 </div>
                                                 <div class="row">
-                                                    <label  style="float:left;" >Specialized Equipment : </label>  <div id="specializedEq">{{room.specializedEq}}</div>
+                                                    <label  style="float:left;" >Specialized Equipment:&nbsp; </label>  <div id="specializedEq">{{room.specializedEq}}</div>
                                                 </div>
                                                 <div class="row">
-                                                        <label  style="float: left;">Movable Furniture: </label> 
+                                                        <label  style="float: left;">Movable Furniture:&nbsp; </label> 
                                                         <div id="movableFurniture">
                                                             {% if room.movableFurniture %} 
                                                                 <span class="glyphicon glyphicon-ok"></span> 
@@ -154,10 +157,10 @@
                                                         </div>
                                                 </div>
                                                 <div class="row">
-                                                <label  style="float:left;" >Special Feature Notes   : </label><div id="specialFeatures">{{room.specialFeatures}}</div>
+                                                <label  style="float:left;" >Special Feature Notes:&nbsp; </label><div id="specialFeatures">{{room.specialFeatures}}</div>
                                                 </div>
                                                 <div class="row">
-                                                <label  style="float:left;" > Education Tech: </label> <button 
+                                                <label  style="float:left;" > Education Tech:&nbsp; </label> <button 
                                                 type="button" id = "viewEdTech" onclick = "goto_educationTech()" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> 
                                                 <a href="#" >  View </a></button>                   
                                                 <!--this view leads to the education tech exra room details-->

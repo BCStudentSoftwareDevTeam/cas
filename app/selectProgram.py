@@ -5,6 +5,7 @@ from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic import functions
 from app.logic.authorization import require_authorization
 
+
 @app.route("/selectProgram", methods=["GET", "POST"])
 @require_authorization
 def selectProgram():

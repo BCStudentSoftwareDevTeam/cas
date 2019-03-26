@@ -10,14 +10,14 @@ from flask import Flask, render_template, request
 @must_be_admin
 def userManagement():
     page        = "/" + request.url.split("/")[-1]
-    users = User.select()
-    programs = Program.select()
-    buildings = Building.select()
-    divisions = Division.select()
-    admins = User.select().where(User.isAdmin == 1)
-    programchairs = ProgramChair.select()
-    divisionchairs = DivisionChair.select()
-    buildingmanagers = BuildingManager.select()
+    users = User.select().order_by(User.firstName.asc())
+    programs = Program.select().order_by(Program.name.asc())
+    buildings = Building.select().order_by(Building.name.asc())
+    divisions = Division.select().order_by(Division.name.asc())
+    admins = User.select().where(User.isAdmin == 1).order_by(User.firstName.asc())
+    programchairs = ProgramChair.select().order_by(ProgramChair.username.asc())
+    divisionchairs = DivisionChair.select().order_by(DivisionChair.username.asc())
+    buildingmanagers = BuildingManager.select().order_by(BuildingManager.username.asc())
     
     return render_template("userManagement.html",
                         #passing of the variable to html,
@@ -77,7 +77,7 @@ def user_insert():
 
     return redirect(url_for("userManagement"))
     
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
     
     
