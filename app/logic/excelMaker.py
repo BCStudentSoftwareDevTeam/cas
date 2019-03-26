@@ -283,10 +283,17 @@ class ExcelMaker:
                         self.schedule_to_room[course.rid.building.name+' '+course.rid.number] = [course.schedule.sid]
                 else: 
                     if course.rid.building.name+' '+course.rid.number in self.schedule_to_room:
-                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.bannerRef.subject) +" "+str(course.bannerRef.number)+" is assigned to this room, but does not have a schedule time yet.")
+                        if course.section:
+                            self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.bannerRef.subject) +" "+str(course.bannerRef.number)+ "(Section: "+ str(course.section) +") is assigned to this room, but does not have a schedule time yet")
+                        else:
+                            self.schedule_to_room[course.rid.building.name+' '+course.rid.number].append(str(course.bannerRef.subject) +" "+str(course.bannerRef.number)+" is assigned to this room, but does not have a schedule time yet")
                     else:
-                        self.schedule_to_room[course.rid.building.name+' '+course.rid.number] =[str(course.bannerRef.subject) +" "+ str(course.bannerRef.number) +" is assigned to this room, but does not have a schedule time yet."]
+                        if course.section:
+                            self.schedule_to_room[course.rid.building.name+' '+course.rid.number] =[str(course.bannerRef.subject) +" "+ str(course.bannerRef.number) + "(Section: "+ str(course.section) +") is assigned to this room, but does not have a schedule time yet"]
+                        else:
+                            self.schedule_to_room[course.rid.building.name+' '+course.rid.number] =[str(course.bannerRef.subject) +" "+ str(course.bannerRef.number) +" is assigned to this room, but does not have a schedule time yet"]
 
+                    
                     
             all_rooms = Rooms.select().order_by(Rooms.building_id)
             if all_rooms:
