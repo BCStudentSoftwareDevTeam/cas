@@ -20,9 +20,9 @@
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
             <tr scope = "row">
-                <td id="room_{{room.number}}" width="15%"data-toggle="tooltip"><div class="rooms tooltip">{{room.building.name}} {{room.number}}<span class="tooltiptext">{{room.building.shortName}} {{room.number}}</span></div></td>
-                <td width="20%"> {{room.roomType}}</td>
-                <td width="20%"> 
+                <td id="room_{{room.number}}" width="20%"data-toggle="tooltip"><div class="rooms tooltip">{{room.building.name}} {{room.number}}<span class="tooltiptext">{{room.building.shortName}} {{room.number}}</span></div></td>
+                <td width="15%"> {{room.roomType}}</td>
+                <td width="15%"> 
                     <button type="button" 
                             class="btn btn-primary" 
                             id="Edit{{room.rid}}" 
@@ -34,7 +34,7 @@
                             onclick="setRoomInfo({{room.rID}}, this)">Edit
                     </button>
                 </td>
-                <td id="lastModified" width="15%">{{room.lastModified}}</td>
+                <td id="lastModified" width="20%">{{room.lastModified}}</td>
             </tr>
             <tr class="hidden_{{room.rID}}" style="height:0px";> 
                 <td colspan="4" id="hiddenRow_{{room.rID}}" style="padding:0px;">
