@@ -9,19 +9,20 @@
 </div>
 <div class="container">
     <span class="border border-dark">
-    <table class="table buildingMgmt table-hover">
+    <table class="table buildingMgmt table-hover text-center table-bordered">
         <thead class="thead-dark">
-            <th scope="col" aria-labelledby="Room Header"><h4><strong>Room</strong></h4></th>
-            <th scope="col" aria-labelledby="Type Header"> <h4><strong>Type </strong></h4></th>
-            <th scope="col" aria-labelledby="Edit Header"><h4><strong>Edit</strong></h4></th>
-            <th scope="col" aria-labelledby="Last Modified Header"><h4><strong>Last Modified</strong></h4></th>
+            
+            <th scope="col" aria-labelledby="Room Header" ><h4 align="center"><strong>Room</strong></h4></th>
+            <th scope="col" aria-labelledby="Type Header"> <h4 align="center"><strong>Type </strong></h4></th>
+            <th scope="col" aria-labelledby="Edit Header"><h4 align="center"><strong>Edit</strong></h4></th>
+            <th scope="col" aria-labelledby="Last Modified Header"><h4 align="center"><strong>Last Modified</strong></h4></th>
         </thead>
         <tbody>
             {%for room in rooms | sort(attribute="building.shortName")%}
             <tr scope = "row">
-                <td id="room_{{room.number}}" data-toggle="tooltip"><div class="rooms tooltip">{{room.building.name}} {{room.number}}<span class="tooltiptext">{{room.building.shortName}} {{room.number}}</span></div></td>
-                <td> {{room.roomType}}</td>
-                <td> 
+                <td id="room_{{room.number}}" width="15%"data-toggle="tooltip"><div class="rooms tooltip">{{room.building.name}} {{room.number}}<span class="tooltiptext">{{room.building.shortName}} {{room.number}}</span></div></td>
+                <td width="20%"> {{room.roomType}}</td>
+                <td width="20%"> 
                     <button type="button" 
                             class="btn btn-primary" 
                             id="Edit{{room.rid}}" 
@@ -33,7 +34,7 @@
                             onclick="setRoomInfo({{room.rID}}, this)">Edit
                     </button>
                 </td>
-                <td id="lastModified">{{room.lastModified}}</td>
+                <td id="lastModified" width="15%">{{room.lastModified}}</td>
             </tr>
             <tr class="hidden_{{room.rID}}" style="height:0px";> 
                 <td colspan="4" id="hiddenRow_{{room.rID}}" style="padding:0px;">
