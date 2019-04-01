@@ -43,11 +43,8 @@
         {% endfor %}
       </td>
       
-      <!---- working here --->
-      
       <td style="padding: 1px !important; margin: 1px !important;"> 
-      
-      <button type="button" class="btn btn-success" onclick = 'downloadCourses({{term.termCode}})' >Download Courses</button>
+        <button type="button" class="btn btn-success" onclick = 'downloadCourses({{term.termCode}})' >Download Courses</button>
       </td>  
       
 
@@ -115,11 +112,7 @@
                         </sub>
                       </span>
                   </div>
-                  <!--<div class = "row text-center">-->
-                  <!--  <button type="button" class="btn btn-success" onclick = 'downloadCourses()' >Download Courses {{cfg['states'][state.number]['download']}}</button>-->
-                  <!--</div>-->
-                  
-                  
+               
                 </div>
               </div>
             </div>
@@ -170,12 +163,7 @@
               <p>(Couse and Room Preferences are no longer accepted, and rooms have been assigned.)</p>
             </div>
           <div class = "row">
-              <!--<div class = "col-sm-4" >-->
-              <!--  <br> -->
-              <!--  <button type="button" class="btn btn-success" onclick = "downloadCourses()">Download Courses</button>-->
-              <!--</div>    -->
-              
-              {# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}
+                 {# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}
               <div class = "col-sm-4">  
                 <br>
                 <!--<a>Download Rooms </a>-->
