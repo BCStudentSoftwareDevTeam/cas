@@ -13,7 +13,7 @@ databaseAdmin:
   user: ['heggens','myersco']
   
 db:
-  db_name: cas
+  db_name: c9
   host: localhost
   password: ''
   username: root 
