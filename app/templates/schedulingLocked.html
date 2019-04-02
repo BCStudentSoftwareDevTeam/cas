@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% set currentPage = "no" %} <!--This is used for the sidebar -->
+<!--Page Content -->
+{% block body %}
+ <br>
+ <div style="text-align:center"> 
+     <p>Scheduling is locked for the term selected. Therefore, changes (edit/delete) to any course will no longer be accepted. Please contact the registrar for further details.</p>
+     <a  href="/courses/{{tid}}/{{prefix}}">Redirect to Courses</a>
+ </div>
+ <br>
+{% endblock %} 

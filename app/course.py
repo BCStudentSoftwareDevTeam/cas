@@ -12,6 +12,8 @@ from app.logic.authorization import can_modify
 @can_modify
 def courses(tID, prefix, can_edit):
     page = "courses"
+    username = g.user.username
+    current_user = User.get(User.username == username)
 
     # These are the necessary components of the sidebar. Should we move them
     # somewhere else?
@@ -83,5 +85,6 @@ def courses(tID, prefix, can_edit):
             prefix=prefix,
             page=page,
             rooms=rooms,
-            key = key)
+            key = key, 
+            current_user = current_user)
 
