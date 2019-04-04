@@ -105,7 +105,6 @@
         <!-- loops through states in format 1 that was created before the start of for the for loop above -->
         {% if state.number in format0 %}
             <div id="order{{state.order}}" class="collapse"> 
-                    <!--<a onclick="close_panel(order{{state.order}})" class="close" >&times </a>-->
                     <button onclick="close_panel(order{{state.order}})" style="padding-right:5px;"type="button" class="close" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -114,13 +113,16 @@
                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p> <!--Access the state number from the config file and then get the value of mainInfo -->
                 </div>
                 <div class = "row" style="padding-top:20px;">
-                <div class = "col-sm-10 text-center">
-                  <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
-                </div>
-                <div class = "col-sm-2">
-                  <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
-                  aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}},'false');">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
-                </div>
+                  <div class = "col-sm-3 ">
+                   <a onclick = 'downloadCourses()' data-target="#download_alert1" data-toggle="modal">{{cfg['states'][state.number]['download']}}</a>
+                  </div>
+                  <div class = "col-sm-6 text-center">
+                    <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
+                  </div>
+                  <div class = "col-sm-2">
+                    <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
+                    aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}},'false');">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,6 +195,8 @@
                     <!--Click below to go to Room resolutions page-->
                     <p><sub>{{cfg['states'][state.number]['goto_text']}}</sub></p>
                     <a onclick = "goto_roomResolution()">{{cfg['states'][state.number]['goto_link']}}</a>
+                    <br>
+                    <br><a onclick = 'downloadCourses()' data-target="#download_alert1" data-toggle="modal">{{cfg['states'][state.number]['download']}}</a></p>
                   </div>
                   <div class= "col-sm-6 text-center">
                     <p style="padding-bottom:10px;">
