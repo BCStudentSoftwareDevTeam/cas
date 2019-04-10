@@ -219,7 +219,7 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if key > 2 and isAdmin %}
+                {% if (key > 2 and isAdmin) or ((can_edit == True and curTermName.state != 2) and key < 3) %}
                 <!---- if user is admin and its summer course, they can edit---->
                     <td>
                         <div class="child">
@@ -232,19 +232,25 @@
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
+                    <!--{% if (can_edit == True and curTermName.state != 2) and key < 3 %}-->
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
-                        <td>
-                            <div class="child">
-                                {% if course.status < 2 %}
+                    <!--    <td>-->
+                    <!--        <div class="child">-->
+                    <!--            {% if course.status < 2 %}-->
                                     <!--EDIT MODAL-->
-                                    <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                    <!--                <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>-->
                                     <!--DELETE MODAL-->
-                                    <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
-                                {% endif %}
-                            </div>
-                        </td>
-                    {% endif %}
+                    <!--                <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>-->
+                    <!--            {% endif %}-->
+                    <!--        </div>-->
+                    <!--    </td>-->
+                    <!--{% endif %}-->
+                <!---Scheduling is locked and user is not an admin: no glyphicons should show --->
+                    <td>
+                        <div class="child">
+                            <b>Scheduling is closed for this term.</b>
+                        </div>
+                    </td>
                 {% endif %}
                 </tr>
             {% endif %}
