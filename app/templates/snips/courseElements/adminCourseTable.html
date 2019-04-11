@@ -11,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if isAdmin or (curTermName.term_state !=2 and can_edit == True) %}
+        {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
@@ -116,7 +116,7 @@
                     </div>
                 </td>
             {% else %}
-                {% if isAdmin or ((curTermName.term_state != 2 and can_edit == True) and key < 3) %}
+                {% if isAdmin or ((curTermName.term_state_id == 1 and can_edit == True) and key < 3) %}
                 <!---- user is either admin, OR scheduling is open, they have permission to edit, and its NOT a summer course--->
                     <td>
                         <div class="child">
@@ -219,7 +219,7 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if isAdmin or curTermName.term_state == 1 and can_edit == True %}
+                {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
                 <!---- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses--->
                     <td>
                         <div class="child">
@@ -232,7 +232,7 @@
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit == True and curTermName.term_state != 2) and key < 3 %}
+                    {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">
