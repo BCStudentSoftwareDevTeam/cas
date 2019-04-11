@@ -11,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if (can_edit == True and curTermName.state != 2) %}
+        {% if isAdmin or (curTermName.term_state !=2 and can_edit == True) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
@@ -116,8 +116,8 @@
                     </div>
                 </td>
             {% else %}
-                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
-                <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                {% if isAdmin or ((curTermName.term_state != 2 and can_edit == True) and key < 3) %}
+                <!---- user is either admin, OR scheduling is open, they have permission to edit, and its NOT a summer course--->
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->
@@ -219,11 +219,11 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if (key > 2 and isAdmin) or ((can_edit == True and curTermName.state != 2) and key < 3) %}
-                <!---- if user is admin and its summer course, they can edit---->
+                {% if isAdmin or curTermName.term_state == 1 and can_edit == True %}
+                <!---- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses--->
                     <td>
                         <div class="child">
-                            {% if course.status < 2 %}
+                            {% if course.status < 2 %} <!-- Special topic status-->
                                 <!--EDIT MODAL-->
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
                                 <!--DELETE MODAL-->
@@ -232,25 +232,19 @@
                         </div>
                     </td>
                 {% else %}
-                    <!--{% if (can_edit == True and curTermName.state != 2) and key < 3 %}-->
+                    {% if (can_edit == True and curTermName.term_state != 2) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
-                    <!--    <td>-->
-                    <!--        <div class="child">-->
-                    <!--            {% if course.status < 2 %}-->
+                        <td>
+                            <div class="child">
+                                {% if course.status < 2 %}
                                     <!--EDIT MODAL-->
-                    <!--                <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>-->
+                                    <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
                                     <!--DELETE MODAL-->
-                    <!--                <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>-->
-                    <!--            {% endif %}-->
-                    <!--        </div>-->
-                    <!--    </td>-->
-                    <!--{% endif %}-->
-                <!---Scheduling is locked and user is not an admin: no glyphicons should show --->
-                    <td>
-                        <div class="child">
-                            <b>Scheduling is closed for this term.</b>
-                        </div>
-                    </td>
+                                    <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    {% endif %}
                 {% endif %}
                 </tr>
             {% endif %}
