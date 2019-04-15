@@ -213,7 +213,7 @@ class ExcelMaker:
         ''' This method is to filter through all the schedules possible and remove the times already scheduled and conflicts for each room.
         It takes as input a room object and returns an array with all the times that the room is free '''
         
-        unassigned= "assigned to this room, but does not have a schedule time yet."
+        unassigned = "assigned to this room, but does not have a schedule time yet."
         
         available_times = [] 
         if room.building.name+' '+room.number in self.schedule_to_room:
@@ -224,11 +224,12 @@ class ExcelMaker:
         
             # Remove conflicts
             for i in self.schedule_to_room[room.building.name+' '+room.number]:
-                if unassigned in i: 
-                    continue
-                for j in cfg['conflicts'][i]:
-                    if j in available_times:
-                        available_times.remove(j)
+                if i.find(unassigned) == -1: 
+                    pass
+                else:
+                    for j in cfg['conflicts'][i]:
+                        if j in available_times:
+                            available_times.remove(j)
         # print(available_times)
         return available_times
             
