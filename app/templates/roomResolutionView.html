@@ -26,7 +26,7 @@ p {
         {%for instructor in instructors %}
           <label for="insctructor"><h5><strong>Instructor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h5>
         {% endfor %}
-        <label for="schedule"><h5><strong>Schedule: </strong></label> {{days.day}} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
+        <label for="schedule"><h5><strong>Schedule: </strong></label> {{ days[0].schedule }} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
         <label for="capacity"><h5><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h5><br>
         <label ><h5><strong>Course Notes:</strong> </label> {{roompreference.course.notes}} </h5><br>
         <label ><h5><strong>Preference Notes:</strong> </label> {{roompreference.notes}}</h5><br>
@@ -65,7 +65,7 @@ p {
                           <div class="panel-body">
                             <div class="col-md-6 left">
                               <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
-                              <p><strong>Room Type:</strong> {{room.roomType}}</p>
+                              <p><strong>Room Type:</strong> {{room.roomType}}{{room.rID}}</p>
                               <p><strong>Room Capacity:</strong> {{room.maxCapacity}}</p>
                               <p><strong>Movable Furniture:</strong> {{room.movableFurniture}}</p>
                               <p><strong>Specialized Equipment:</strong> {{room.specializedEq}}</p>
