@@ -4,7 +4,7 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
-from app.logic.functions import get_unavailable_rooms
+from app.logic.functions import map_unavailable_rooms, find_avail_unavailable_rooms
 import json
 
 #Term modal
@@ -41,134 +41,22 @@ def roomResolutionView(termCode,cid):
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     bannercourses = BannerCourses.select()
-    courses = Course.get(Course.cId==cid) #Course A
-    print(cid)
-    print("SSS:", courses.prefix.prefix)
+    curr_course = Course.get(Course.cId==cid)
     #will give an error if schedule.sid is None
-    schedule = courses.schedule.sid
-    print(schedule)
-    #days = ScheduleDays.get(ScheduleDays.schedule==schedule)
+    schedule = curr_course.schedule.sid
+    
     daysQuery = ScheduleDays.select().where(ScheduleDays.schedule==schedule)
     days = [i for i in daysQuery]
-    #print(days.id, days.schedule.sid)
-    course_capacity = 1 if not courses.capacity  else courses.capacity 
-    #this query gets all the room ids for the course if the room is free during a course schedule
-    # print("Is it this query breaking?")
-    daysCache = {}
-    daysQuery = ScheduleDays.select()
-    for days1 in daysQuery:
-        if(days1.schedule_id in daysCache):
-            daysCache[days1.schedule_id].append(days1.day)
-        else:
-            daysCache[days1.schedule_id] = [days1.day]
-    print("Days cache:", daysCache)
     
-    availablerooms1 = [] 
-    #query 1 get all the rooms that are not assigned
-    unassignedRooms = (Rooms
-         .select()
-         .join(Course, JOIN.LEFT_OUTER).where(Course.rid == None))
+    course_capacity = 1 if not curr_course.capacity  else curr_course.capacity 
     
-    for room in unassignedRooms:
-        availablerooms1.append(room.rID)
-        
-    countme=0
-    for i in unassignedRooms:
-        countme+=1
-    print(countme)
+    #find all rooms that are free during course schedule AND find rooms that are not free during a course schedule
+    availablerooms, unavailablerooms = find_avail_unavailable_rooms(curr_course)
+    rooms=Rooms.select().where(Rooms.rID << availablerooms)
     
-    #query 2 get all the rooms that are assigned
-    counter=0
-    print(courses.term.termCode)
-    assignedRooms = (Rooms.select(Rooms, Course.schedule).join(Course).where(Course.term == courses.term.termCode & Course.rid.is_null(False))
-                    ).distinct() #& Course.term == courses.term
-                    
-    assignedQuery = "SELECT DISTINCT t1.rID, t2.schedule_id FROM rooms AS t1 INNER JOIN course AS t2 ON (t1.rID = t2.rid_id) WHERE (t2.term_id = {0}  AND t2.rid_id IS NOT NULL)".format("201812")
-    print(assignedQuery)
-    cursor = mainDB.execute_sql(assignedQuery)
-    cursorCounter = 0
-    for i in cursor:
-
-        cursorCounter += 1
-    print("Count: ",  cursorCounter)
-    
-    
-    #& Course.term == courses.term).distinct()
-    print("assigned ",assignedRooms )
-    rooms_cache = {}  #room and courses_schedule_id mapping 
-    
-    for room in cursor:
-            
-        if int(room[0]) in rooms_cache:
-            rooms_cache[int(room[0])].append(room[1])
-        else:
-            rooms_cache[int(room[0])] = [room[1]]
-        counter+=1
-    print(rooms_cache)
-    
-    """
-    for room in assignedRooms.naive():
-        if room in rooms_cache:
-            rooms_cache[room].append(room.schedule)
-        else:
-            rooms_cache[room] = [room.schedule]
-        counter+=1
-    print(rooms_cache)
-    """
-    #print("Hello ", courses.schedule_id)
-    #print(cfg['conflicts'][courses.schedule_id])
-    #if room is not conflicting, add it to available rooms
-    print("Original: ", len(rooms_cache) )
-    print("Before: ", len(availablerooms1))
-    a_set = set(cfg['conflicts'][courses.schedule_id])
-    for key in rooms_cache:
-        b_set = set(rooms_cache[key]) 
-        if (not a_set & b_set):
-            #print("1:", a_set)
-            #print("2: ", b_set)
-            availablerooms1.append(key)
-        else:
-            if key == 66:
-                print("first: ", a_set)
-                print("second: ", b_set)
-    print(len(availablerooms1))        
-    
-    
-        
-    #query 3 if: else conditions on the room that are assigned
-    
-    sql_query = """
-                   SELECT r1.rID, building_id
-                   FROM rooms as r1
-                   LEFT OUTER JOIN (
-                     SELECT c1.rid_id as r2
-                     FROM course as c1
-                     JOIN (
-                       SELECT sid
-                       FROM bannerschedule as bs
-                       WHERE CAST("{0}" as TIME) < CAST(bs.endTime as TIME) 
-                       AND CAST("{1}" as TIME) > CAST(bs.startTime AS TIME)) as bs1 
-                     ON c1.schedule_id = bs1.sid 
-                     WHERE c1.rid_id IS NOT NULL
-                     AND c1.term_id = {2}) as x
-                   ON r1.rID = r2
-                   INNER JOIN building as b ON r1.building_id = b.bID
-                   WHERE r2 IS NULL
-                   AND r1.maxCapacity >= {3}
-                   ORDER BY b.name;
-                """.format(courses.schedule.startTime, courses.schedule.endTime,
-                courses.term.termCode, course_capacity)
-    print(sql_query)
-    cursor = mainDB.execute_sql(sql_query)
-    availablerooms = [] 
-    for room in cursor:
-        availablerooms.append(room[0])
-    rooms=Rooms.select().where(Rooms.rID << availablerooms1)
-    curr_course=courses       
-    
-    #unavailable rooms mapped with their courses
-    unavailable_to_course=get_unavailable_rooms(curr_course, availablerooms1)
-    
+    #map unavaile rooms to their courses
+    unavailable_to_course = map_unavailable_rooms(curr_course, unavailablerooms)
+  
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -243,7 +131,6 @@ def roomResolutionView(termCode,cid):
                     pref_info['notes']=rp1.notes
                     preferences[pref] = pref_info
                     break
-    print(courses)
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
@@ -251,7 +138,7 @@ def roomResolutionView(termCode,cid):
                             unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
-                            courses=courses, 
+                            courses=curr_course, 
                             bannercourses=bannercourses,
                             preferences=preferences,
                             termcode=termCode,

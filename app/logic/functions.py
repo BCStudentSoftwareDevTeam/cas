@@ -170,26 +170,72 @@ def createColorString(changeType):
         return tdcolors
 
         
-def get_unavailable_rooms(curr, availablerooms):
-    #get all the rooms if room id is not in list of available_rooms
-    unavailable_rooms=Rooms.select().where(Rooms.rID.not_in(availablerooms))
-    #list of unavailable room ids used to get courses in relationship with these rooms
-    list_of_room_ids=[room.rID for room in unavailable_rooms]
-    #select all the courses that have relationship with unavailable rooms
-    courses_obj=Course.select(Course).where(Course.rid << list_of_room_ids)
-    #final mapping unavailable rooms to their respective courses: Note: final mapper is passed to template
+def map_unavailable_rooms(curr, unavailableRId):
+    '''
+    map unavailable rooms to their courses
+    '''
+    #select unavailable rooms
+    unavailable_rooms = Rooms.select().where(Rooms.rID << unavailableRId)
+    #select all the courses that use this room
+    courses_obj=Course.select(Course).where(Course.rid << unavailableRId)
+    #map unavailable rooms to their respective courses: Note: final mapper is passed to template
     unavailable_to_course={}
     for course in courses_obj:
         #these check is important: only consider courses whose startime is less than current course startTime and 
         #endTime greater than currentCourse startTime and courses term are equal to current course term
         
-        if course.schedule and course.schedule.startTime < curr.schedule.endTime and course.schedule.endTime > curr.schedule.startTime and course.term_id == curr.term_id:
+        #if course.schedule and course.schedule.startTime < curr.schedule.endTime and course.schedule.endTime > curr.schedule.startTime and course.term_id == curr.term_id:
             #map room object to list of courses that is taking place in this room
+        if course.schedule and course.term_id == curr.term_id:
             if course.rid in unavailable_to_course:
                 unavailable_to_course[course.rid].append(course)
             else:
                 unavailable_to_course[course.rid]=[course]
     return unavailable_to_course
 
+def rooms_to_course_schedule(assignedRooms):
+    '''
+    maps rooms to their assigned course schedule
+    '''
+    rooms_cache = {}  
+    for room in assignedRooms.naive():
+        if int(room.rID) in rooms_cache:
+            rooms_cache[int(room.rID)].append(room.schedule)
+        else:
+            rooms_cache[int(room.rID)] = [room.schedule]
+    print(rooms_cache)
+    return rooms_cache
     
+    
+def find_avail_unavailable_rooms(curr_course):
+    '''
+    find all the room ids for the course if the room is free during a course schedule
+    '''
+    
+    availablerooms = [] 
+    unavailablerooms = []
+    #query 1: get all the rooms that are not assigned to courses in current term
+    unassignedRooms = (Rooms
+         .select()
+         .join(Course, JOIN.LEFT_OUTER).where(SQL('term_id = %s', curr_course.term.termCode) & Course.rid == None))
+    availablerooms = [availablerooms.append(room.rID) for room in unassignedRooms]
+    
+    #query 2: all the rooms that are assigned to courses in current term
+    assignedRooms = (Rooms.select(Rooms, Course.schedule).join(Course).where(SQL('term_id = %s', curr_course.term.termCode) & Course.rid.is_null(False))
+                    ).distinct() 
+    
+    #map assigned rooms to their courses' schedule 
+    rooms_to_courses = rooms_to_course_schedule(assignedRooms)
+
+    #find non-conflicting assignedRooms rooms for course using conflict logic defined in config.yaml: room is free during a course schedule
+    courseConflictsWith = set(cfg['conflicts'][curr_course.schedule_id])
+    for key in rooms_to_courses:
+        curr_room_schedules = set(rooms_to_courses[key]) 
+        #if current course schedule does not conflict with schedules of assigned room courses, then room is available
+        if (not courseConflictsWith & curr_room_schedules):
+            availablerooms.append(key)
+        else:
+            unavailablerooms.append(key)
+    return availablerooms, unavailablerooms
+
     
