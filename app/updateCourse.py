@@ -30,12 +30,6 @@ class DataUpdate():
         tdcolors = self.createColorString(changeType)
         # ADD THE PROFESSORS TO INTRUCTORCOURSECHANGE
         course = Course.get(Course.cId == cid)
-
-        instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
-        for instructor in instructors:
-            addInstructorChange = InstructorCourseChange(
-                username=instructor, course=course.cId)
-            addInstructorChange.save()
         # ADD THE COURSE TO COURSECHANGE
         # MORE INFO ABOUT THE NULL CHECK CAN BE FOUND
         nullCheck = NullCheck()
@@ -62,6 +56,11 @@ class DataUpdate():
         number = newcourse.save(force_insert=True)
         # WHENEVER CERTAINING A NON AUTO INCREMENTED PRIMARY KEY
         # IT IS REQUIRED TO PUT force_insert=True
+        instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
+        for instructor in instructors:
+            addInstructorChange = InstructorCourseChange(
+                username=instructor.username, course=course.cId)
+            addInstructorChange.save()
         return True
 
     
