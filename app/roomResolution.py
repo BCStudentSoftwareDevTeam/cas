@@ -53,7 +53,6 @@ def roomResolutionView(termCode,cid):
     #find all rooms that are free during course schedule AND find rooms that are not free during a course schedule
     availablerooms, unavailablerooms = find_avail_unavailable_rooms(curr_course)
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
-    
     #map unavaile rooms to their courses
     unavailable_to_course = map_unavailable_rooms(curr_course, unavailablerooms)
   

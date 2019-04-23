@@ -58,14 +58,14 @@ p {
                     <div  tabindex="0" class="panel panel-default accordion" role="button" id = "row{{room.rID}}">
                       <div class="panel-heading" tabindex="0" role="tab" data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
-                          <a  data-parent="#accordion">{{room.rID}}:{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
+                          <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}</a>
                         </h4>
                       </div>
                         <div id="collapse{{room.rID}}"  role="tabpanel" class="panel-collapse collapse" value="{{room.building.name}}: {{room.building.shortName}}-{{room.number}}">
                           <div class="panel-body">
                             <div class="col-md-6 left">
                               <input id="hiddenroom{{room.rID}}" hidden value = "{{room.building.name}}:{{room.building.shortName}}-{{room.number}}"></input>
-                              <p><strong>Room Type:</strong> {{room.roomType}}{{room.rID}}</p>
+                              <p><strong>Room Type:</strong> {{room.roomType}}</p>
                               <p><strong>Room Capacity:</strong> {{room.maxCapacity}}</p>
                               <p><strong>Movable Furniture:</strong> {{room.movableFurniture}}</p>
                               <p><strong>Specialized Equipment:</strong> {{room.specializedEq}}</p>
@@ -103,7 +103,7 @@ p {
                     <div class="panel panel-default clickable">
                       <div class="panel-heading"  tabindex="0" tab data-toggle="collapse" data-parent="#accordion" href="#collapse{{room.rID}}" id="linkto{{room.rID}}" aria-expanded="true" >
                         <h4 class="panel-title">
-                          <a  data-parent="#accordion">{{room.rID}}:{{room.building.name}}: {{room.building.shortName}}-{{room.number}}
+                          <a  data-parent="#accordion">{{room.building.name}}: {{room.building.shortName}}-{{room.number}}
                              ({{courses|length}} course)
                           </a>
                         </h4>
