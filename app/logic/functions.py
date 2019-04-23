@@ -215,18 +215,42 @@ def find_avail_unavailable_rooms(curr_course):
     availablerooms = [] 
     unavailablerooms = []
     #query 1: get all the rooms that are not assigned to courses in current term
+    join_cond = (
+        (Rooms.rID == Course.rid) &
+        (Course.term_id == curr_course.term.termCode) 
+    )
+    
+    #select COUNT(*) from rooms LEFT OUTER JOIN course ON rooms.rID = course.rid_id and course.term_id = '201611' WHERE course.rid_id is NULL;          
     unassignedRooms = (Rooms
          .select()
-         .join(Course, JOIN.LEFT_OUTER).where(SQL('term_id = %s', curr_course.term.termCode) & Course.rid == None))
-    availablerooms = [availablerooms.append(room.rID) for room in unassignedRooms]
+         .join(Course, JOIN_LEFT_OUTER, on=join_cond)).where(Course.rid.is_null(True))
     
+    print(unassignedRooms)
+    #for i in unassignedRooms:
+    #    print(i.rID)
+    availablerooms = [room.rID for room in unassignedRooms]
+    print("Unassigned:", len(availablerooms))
     #query 2: all the rooms that are assigned to courses in current term
-    assignedRooms = (Rooms.select(Rooms, Course.schedule).join(Course).where(SQL('term_id = %s', curr_course.term.termCode) & Course.rid.is_null(False))
+    
+    join_cond1 = (
+        (Rooms.rID == Course.rid) &
+        (Course.term_id == curr_course.term.termCode) 
+    )
+    
+    
+    assignedRooms = (Rooms.select(Rooms, Course.schedule).join(Course, on=join_cond1).where(Course.rid.is_null(False))
                     ).distinct() 
     
+    print(assignedRooms)
+    counter=0
+    for i in assignedRooms.naive():
+        counter+=1
+        print(i.rID, i.schedule)
+    print("Assigned: ", counter)
+    print("before")
     #map assigned rooms to their courses' schedule 
     rooms_to_courses = rooms_to_course_schedule(assignedRooms)
-
+    print(len(rooms_to_courses))
     #find non-conflicting assignedRooms rooms for course using conflict logic defined in config.yaml: room is free during a course schedule
     courseConflictsWith = set(cfg['conflicts'][curr_course.schedule_id])
     for key in rooms_to_courses:
