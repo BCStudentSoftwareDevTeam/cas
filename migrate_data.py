@@ -144,16 +144,172 @@ for i in terms:
     else:
         year = int((str(i.termCode))[:4])
     name = str(i.name)
+    state = int(i.state)
+    term_state_id=  int(i.term_state.csID)  
+
+    editable = bool(i.editable) 
+# This script needs to get the data from the existing sqlite database and save it into mysql 
+from peewee import *
+import mysql.connector
+from app.models import *
+import app.models_sqlite as old 
+import time
+from datetime import datetime
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+
+print("Hello")
+dir_name  = os.path.dirname(__file__) # Return the directory name of pathname _file_
+cfg       = load_config(os.path.join(dir_name, 'app/config.yaml'))
+db_name   = cfg['db']['db_name']
+print(db_name)
+host      = cfg['db']['host']
+username  = cfg['db']['username']
+password  = cfg['db']['password']
+# Create a connection to the mysql database
+cnx = mysql.connector.connect(database=db_name, host = host, password = password, user = username)
+print("Hello")
+
+# *******************************
+# A cursor is a temporary work area created in the system memory when a SQL statement is executed. 
+# A cursor contains information in a mysql statement and the rows of data accessed by it. 
+# This temporary work area is used to store the data retrieved from the database, and manipulate this data.
+# *******************************
+
+cursor = cnx.cursor()
+
+               
+building = old.Building.select()
+for i in building:
+    add_building = ("INSERT INTO building (`bID`, `name`, `shortName`) VALUES ({0}, '{1}', '{2}')".format(i.bID, i.name, i.shortName))
+    cursor.execute(add_building)
+#    print("Here")
+    
+
+divisions = old.Division.select()
+for i in divisions: 
+    add_division = ("INSERT INTO division (`dID`, `name`) VALUES ({0}, '{1}')".format(i.dID, i.name))
+    cursor.execute(add_division)
+    
+
+banner_schedule = old.BannerSchedule.select()
+for i in banner_schedule: 
+    add_banner_schedule = ("INSERT INTO bannerschedule (`sid`, `startTime`, `endTime`, `letter`, `order`) VALUES ('{0}', '{1}', '{2}','{3}', {4})".format(i.sid, i.startTime, i.endTime, i.letter, i.order))
+    cursor.execute(add_banner_schedule)
+
+term_states = old.TermStates.select()
+print("size", len(term_states))
+for i in term_states: 
+    add_termstates = ("INSERT INTO termstates (`csID`, `number`, `name`, `order`, `display_name`) VALUES ({0}, {1}, '{2}', {3}, '{4}')".format(i.csID, i.number, i.name, i.order, i.display_name))
+    cursor.execute(add_termstates)
+    
+
+education_tech = old.EducationTech.select()
+for i in education_tech:
+    add_educationtech = ("INSERT INTO educationtech (`eId`, `projector`, `smartboards`, `instructor_computers`, `podium`, `student_workspace`, `chalkboards`, `whiteboards`, `dvd`, `blu_ray`, `audio`, `extro`, `doc_cam`, `vhs`, `mondopad`, `tech_chart`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}')".format(i.eId, i.projector, i.smartboards, i.instructor_computers, i.podium, i.student_workspace, i.chalkboards, i.whiteboards, 1 if i.dvd else 0, 1 if i.blu_ray else 0, 1 if i.audio else 0, 1 if i.extro else 0, 1 if i.doc_cam else 0, i if i.vhs else 0, i if i.mondopad else 0, 1 if i.tech_chart else 0))
+    cursor.execute(add_educationtech)
+
+
+deadline = old.Deadline.select()
+for i in deadline: 
+    add_deadline  = ("INSERT INTO deadline (`description`, `date`) VALUES ('{0}', '{1}')".format(i.description, i.date ))
+    cursor.execute(add_deadline)
+    
+
+add_rooms = ("INSERT INTO rooms (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified) VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
+rooms = old.Rooms.select()
+for i in rooms: 
+    rID = int(i.rID)
+    building_id = int(i.building.bID)
+    # print(building_id)
+    number = str(i.number)
+    maxCapacity = int(i.maxCapacity)
+    roomType = str(i.roomType)
+    visualAcc = str(i.visualAcc)
+    audioAcc = str(i.audioAcc)
+    physicalAcc = str(i.physicalAcc)
+    educationTech_id = int(i.educationTech.eId)
+    specializedEq = str(i.specializedEq)
+    specialFeatures = str(i.specialFeatures)
+    movableFurniture = bool(i.movableFurniture)
+    lastModified = 0
+    data_rooms = (rID, building_id, number, maxCapacity, roomType, visualAcc, audioAcc, physicalAcc, educationTech_id, specializedEq, specialFeatures, movableFurniture, lastModified)
+    
+    cursor.execute(add_rooms, data_rooms)
+
+programs = old.Program.select()
+for i in programs: 
+    add_programs = ("INSERT INTO program (`pID`, `name`, `division_id`) VALUES ({0}, '{1}', {2})".format(i.pID, i.name, i.division.dID))
+    cursor.execute(add_programs)
+
+
+
+subjects = old.Subject.select()
+for i in subjects: 
+    add_subjects = ("INSERT INTO subject (`prefix`, `pid_id`, `webname`) VALUES ('{0}', {1}, '{2}')".format(i.prefix, i.pid.pID, i.webname))
+    cursor.execute(add_subjects)
+    
+
+users = old.User.select()
+for i in users: 
+    problems = ['Brumbaughc', 'Boumaj', 'Webba', 'Colesa']
+    if i.username not in problems:
+        if i.lastVisited:
+            lastVisited_id = str(i.lastVisited.prefix)
+        else: 
+            lastVisited_id = 'MAT'
+        add_users = ("INSERT INTO user (`username`, `firstName`, `lastName`, `email`, `isAdmin`, `lastVisited_id`, `bNumber`) VALUES ('{0}','{1}','{2}','{3}', '{4}', '{5}','{6}')".format(i.username, i.firstName, i.lastName, i.email, 1 if i.isAdmin else 0,lastVisited_id, i.bNumber))
+        cursor.execute(add_users)
+
+
+add_banner_courses = ("INSERT INTO bannercourses (reFID, subject_id, number, section, ctitle, is_active) VALUES (%s, %s, %s, %s, %s, %s)")
+
+banner_courses = old.BannerCourses.select()
+for i in banner_courses: 
+    reFID = int(i.reFID)
+    subject_id = str(i.subject.prefix)
+    number = str(i.number)
+    section = str(i.section)
+    ctitle = str(i.ctitle)
+    is_active = bool(i.is_active)
+    data_banner_courses = (reFID, subject_id, number, section, ctitle, is_active)
+    
+    cursor.execute(add_banner_courses, data_banner_courses)
+
+add_terms = ("INSERT INTO term (termCode, semester, year, name, state, term_state_id, editable) VALUES (%s, %s, %s, %s, %s, %s, %s)")
+
+
+
+terms = old.Term.select()
+# print("terms begotten")
+for i in terms: 
+    # print(i.termCode)
+    termCode = int(i.termCode)
+    semester = str(i.semester)
+    if i.year:
+        year = int(i.year)
+    else:
+        year = int((str(i.termCode))[:4])
+    name = str(i.name)
+<<<<<<< HEAD
 <<<<<<< HEAD
     state = int(i.state) 
     term_state_id = int(i.term_state.csID)  # term_state doesn't exist yet
     editable = 0 # bool(i.editable) # editable doesn't exist yet
 =======
+=======
+>>>>>>> 1946336361660064d7508926e3ff0aa2c190af4a
     state = int(i.state)
     term_state_id=  int(i.term_state.csID)  
 
     editable = bool(i.editable) 
->>>>>>> development
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1946336361660064d7508926e3ff0aa2c190af4a
     data_terms = (termCode, semester, year, name, state, term_state_id, editable) 
     
     cursor.execute(add_terms, data_terms)

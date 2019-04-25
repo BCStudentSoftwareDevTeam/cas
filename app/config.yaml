@@ -254,9 +254,7 @@ databases:
 databaseAdmin:
   user: ['heggens','myersco']
 
-# states
-#   0: is the number in the db. 
-# 
+# this states are used a lot in the system managmenty interface
 states:
   1:
     mainInfo: 'Program and Division Chairs will be able to submit courses to this term.'

@@ -6,12 +6,8 @@ from app.loadConfig import *
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'app/config.yaml'))
 db	  = os.path.join(here,cfg['databases']['dev']) 
-<<<<<<< HEAD
 # print("here", here)
 # print('Test', cfg['databases'])
-=======
-
->>>>>>> development
 # print("db", db)
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
 # my_db    = SqliteDatabase(db,
@@ -70,11 +66,7 @@ migrator = MySQLMigrator(mainDB)
 #   doc_cam              = BooleanField()
 #   vhs                  = BooleanField()
 #   mondopad             = BooleanField()
-<<<<<<< HEAD
-  # tech_chart           = BooleanField()
-=======
 #   tech_chart           = BooleanField()
->>>>>>> development
   
 # class Rooms(dbModel):
 #   rID            = PrimaryKeyField()
@@ -89,10 +81,7 @@ migrator = MySQLMigrator(mainDB)
 #   specializedEq = CharField(null=True)
 #   specialFeatures = CharField(null=True)
 #   movableFurniture = BooleanField()
-<<<<<<< HEAD
-=======
 #   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
->>>>>>> development
   
 
 # class ScheduleDays(dbModel):
@@ -167,7 +156,6 @@ migrator = MySQLMigrator(mainDB)
 
 
 
-<<<<<<< HEAD
 class TermStates(dbModel):
    csID          = PrimaryKeyField()
    number        = IntegerField(null = False)
@@ -175,25 +163,12 @@ class TermStates(dbModel):
    order         = IntegerField(null = False)
    display_name  = CharField(null = False)
    editable          = BooleanField(null = False, default = True)
-=======
-# class TermStates(dbModel):
-#   csID          = PrimaryKeyField()
-#   number        = IntegerField(null = False)
-#   name          = CharField(null = False)
-#   order         = IntegerField(null = False)
-#   display_name  = CharField(null = False)
-
->>>>>>> development
 # my_db.drop_tables([TermStates])
 # my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
 
 # my_db.create_tables([TermStates])
 
-<<<<<<< HEAD
-# # To add states to Temstates table
-=======
 # To add states to Temstates table
->>>>>>> development
 # state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
 # state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
 # state_3 = TermStates(number = 2, order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
@@ -289,21 +264,12 @@ class TermStates(dbModel):
   
   
 
-<<<<<<< HEAD
 migrate(
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.drop_column("Term", "state"),
     # migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
-=======
-# migrate(
-#     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
-#     # migrator.drop_column("Term", "state"),
-#     migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
-#     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
-#     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
->>>>>>> development
     
 #     # migrator.drop_not_null('CourseChange','rid')
 # )

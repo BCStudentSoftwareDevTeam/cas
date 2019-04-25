@@ -1,8 +1,24 @@
 var lastTerm = "";
+
+function reassign_confirm(){
+    alert("Room Assignment algorithim initiated!");
+}
+
+function close_panel(panel_id){
+    $(panel_id).collapse('hide');
+}
+
+function close_reassignModal(){
+    // $('#reassignModal').modal('toggle');
+    $('#reassignModal').removeClass("in");
+    
+}
+
+
 function showPanel(termCode, button){
     
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
-    console.log('show_id', show_id)
+    // console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
     
     disable_btn.disabled = true;            // Disables all the state buttons
@@ -14,11 +30,11 @@ function showPanel(termCode, button){
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
   
 
-    console.log("target div: " + targetDiv);
+    // console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
   
-    console.log("subject div: " + subjectDiv);
+    // console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
     
@@ -146,6 +162,7 @@ function reverseFunc(btn, StateOrder) {
 }
 
 function change_btn_name(){
+    
     var elem = document.getElementById("Archive");
     if (elem.value=="Archive"){ 
         elem.value = "Unarchive";
@@ -155,6 +172,8 @@ function change_btn_name(){
         elem.value = "Archive";
         $("#myModal .modal-body").text('Are you sure you want to archive the term');
     }
+    
+    console.log("change btn done...")
 }
 function collapser(){
     $('#order6').removeClass("in"); 
@@ -242,7 +261,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
-    
+    // console.log("begin test")
     var allPanelsDiv = $("#allPanels");
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
@@ -258,7 +277,7 @@ function submit_data(stateOrder, reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
+            // console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
             if (stateOrder == 5){
@@ -295,19 +314,34 @@ function getTermCode(){
 function downloadCourses(){
     // This function will go to the controller that will handle the downloading of all the courses to an excel file
     var termCode = getTermCode();
-    
     window.location.href = '/excel/'+termCode;
+    
+    $.ajax({url: window.location.href, 
+    
+        success: function(){
+            $('#download_alert1').modal('hide');
+            $('#download_alert').modal('hide');
+
+            
+
+        },
+        error: function(){
+            console.log("Excel File is not downloading!")
+        }
+    
+    });
 
     
 }
 
 function goto_roomResolution(){
     var termCode = getTermCode();
-    window.location.href = '/roomResolution/'+termCode;
+    window.location.href = '/roomResolution/'+getTermCode();
     
 }
 
 function archiveTerm(reverseStatus){
+    
     var termCode = getTermCode();
     
     var stateOrder = 7
@@ -323,10 +357,10 @@ function archiveTerm(reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
-          
+            console.log('Success saving to the database')
+
         },
         error: function (xhr, ajaxOptions, thrownError) {
            console.log("saving data to database failed from archive")
