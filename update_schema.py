@@ -1,51 +1,48 @@
 from peewee import *
 from playhouse.migrate import *
-
-# from app.models import Rooms, Building, Course, SpecialTopicCourse, EducationTech
-# from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
-
 from app.models import *
-# from app.models import Rooms, Building, EducationTech, RoomPreferences, Course, SpecialTopicCourse
-
-
 from app.loadConfig import *
+
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'app/config.yaml'))
 db	  = os.path.join(here,cfg['databases']['dev']) 
+<<<<<<< HEAD
 # print("here", here)
 # print('Test', cfg['databases'])
+=======
+
+>>>>>>> development
 # print("db", db)
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
-my_db    = SqliteDatabase(db,
-                          pragmas = ( ('busy_timeout',  100),
-                                      ('journal_mode', 'WAL')
-                                  ),
-                          threadlocals = True
-                          )
+# my_db    = SqliteDatabase(db,
+#                           pragmas = ( ('busy_timeout',  100),
+#                                       ('journal_mode', 'WAL')
+#                                   ),
+#                           threadlocals = True
+#                           )
+
+mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
+
 
 # Creates the class that will be used by Peewee to store the database
 class dbModel (Model):
   class Meta: 
-    database = my_db
+    database = mainDB
 
 
-migrator = SqliteMigrator(my_db)
-
+migrator = MySQLMigrator(mainDB)
 
 # my_db.drop_tables([RoomPreferences])
 
-# my_db.drop_tables([Building, EducationTech])
-# my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
-
 
 #TODO: make a function & wrap it up in try/catch statement so it doesn't break when tables are already there/aren't there
-def dropTables():
-  tables = [Rooms, Building, EducationTech, RoomPreferences, CourseChange, ScheduleDays, Course]
-  for table in tables:
-    try:
-        my_db.drop_tables([table])
-    except:
-        pass
+# def dropTables():
+#   tables = [Rooms, Building, EducationTech, RoomPreferences, CourseChange, ScheduleDays, Course]
+#   for table in tables:
+#     try:
+#         my_db.drop_tables([table])
+#     except:
+#         pass
 
 # dropTables()
 
@@ -73,7 +70,11 @@ def dropTables():
 #   doc_cam              = BooleanField()
 #   vhs                  = BooleanField()
 #   mondopad             = BooleanField()
+<<<<<<< HEAD
   # tech_chart           = BooleanField()
+=======
+#   tech_chart           = BooleanField()
+>>>>>>> development
   
 # class Rooms(dbModel):
 #   rID            = PrimaryKeyField()
@@ -88,6 +89,10 @@ def dropTables():
 #   specializedEq = CharField(null=True)
 #   specialFeatures = CharField(null=True)
 #   movableFurniture = BooleanField()
+<<<<<<< HEAD
+=======
+#   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
+>>>>>>> development
   
 
 # class ScheduleDays(dbModel):
@@ -162,6 +167,7 @@ def dropTables():
 
 
 
+<<<<<<< HEAD
 class TermStates(dbModel):
    csID          = PrimaryKeyField()
    number        = IntegerField(null = False)
@@ -169,12 +175,25 @@ class TermStates(dbModel):
    order         = IntegerField(null = False)
    display_name  = CharField(null = False)
    editable          = BooleanField(null = False, default = True)
+=======
+# class TermStates(dbModel):
+#   csID          = PrimaryKeyField()
+#   number        = IntegerField(null = False)
+#   name          = CharField(null = False)
+#   order         = IntegerField(null = False)
+#   display_name  = CharField(null = False)
+
+>>>>>>> development
 # my_db.drop_tables([TermStates])
 # my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
 
 # my_db.create_tables([TermStates])
 
+<<<<<<< HEAD
 # # To add states to Temstates table
+=======
+# To add states to Temstates table
+>>>>>>> development
 # state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
 # state_2 = TermStates(number = 1, order = 1, name = "schedule_opened", display_name = "Open Scheduling").save()
 # state_3 = TermStates(number = 2, order = 2, name = "schedule_closed", display_name = "Lock Scheduling").save()
@@ -238,6 +257,17 @@ class TermStates(dbModel):
 #   day         = CharField(null=True)
   
   
+
+# my_db.create_tables([BuildingManager])
+
+# bmanager = BuildingManager( username = "stamperf",
+#                             bmid = 6
+#                           ).save()
+# migrate(
+#     migrator.add_column('Rooms', 'lastModified', CharField(null=True))
+    # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+    # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+
 # my_db.create_tables([ScheduleDays])
 
 
@@ -245,6 +275,7 @@ class TermStates(dbModel):
 # migrate(
 #     migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6))
 #     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+
      
 #     # migrator.drop_not_null('CourseChange','rid')
 # )
@@ -258,15 +289,24 @@ class TermStates(dbModel):
   
   
 
+<<<<<<< HEAD
 migrate(
     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
     # migrator.drop_column("Term", "state"),
     # migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
+=======
+# migrate(
+#     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+#     # migrator.drop_column("Term", "state"),
+#     migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
+#     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
+#     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
+>>>>>>> development
     
-    # migrator.drop_not_null('CourseChange','rid')
-)
+#     # migrator.drop_not_null('CourseChange','rid')
+# )
 
 # t = Term.select()
 # for term in t:
@@ -283,4 +323,9 @@ migrate(
 # for course in q:
 #   course.rid = None
 #   course.save()
-  
+
+
+# PART OF PR 265  
+# migrate(
+#     migrator.add_column("rooms", "lastModified", CharField(null = True)))
+    

@@ -14,8 +14,14 @@ import time
 @must_be_admin
 def termManagement():
       
-      terms = Term.select().where(Term.term_state < 8) # Select all the terms for the terms table with the state buttons
-      
+      terms = Term.select().where(Term.term_state < 8) # Select all the terms for the terms table with the state button
+#      for term in terms:
+         #  Update the term_state column in the term table from the state column 
+         #  FIX-ME: The state column was not deleted in a measure not to destroy existing data in that column when updating the schema of the database
+#          term.term_state = term.state
+#          print(term.termCode)
+#          term.save()
+          
       today          = datetime.date.today()       
       term_state     = TermStates.select().order_by(TermStates.order)
       years          = [] #WE WANT THE USER TO HAVE THE ABILITY TO SELECT A YEAR AGO AND THREE YEARS PAST THE CURRENT YEAR
