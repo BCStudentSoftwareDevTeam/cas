@@ -37,13 +37,17 @@ def editcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
 
     username = g.user.username
+    user = User.get(User.username == username)
     page1 =  "/" + request.url.split("/")[-1]
     data = request.form
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
 
     if (not databaseInterface.isTermOpen(tid)):
-      created = trackerEdit.make_edit(professors, username)
+      if user.isAdmin: 
+        created = trackerEdit.make_edit(professors, username)
+      else: 
+        return render_template("schedulingLocked.html", tid = tid, prefix = prefix)
     databaseInterface.editCourse(data, prefix, professors)
     message = "Course: course {} has been edited".format(data['cid'])
     log.writer("INFO", page1, message)
