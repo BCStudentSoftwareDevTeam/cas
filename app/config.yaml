@@ -18,6 +18,7 @@ db:
   password: ''
   username: root 
 
+
 # Correct for display, but does not match DB. 
 scheduleDays:
   Monday: 'Mon'
@@ -183,8 +184,11 @@ DEBUG:
   # user: "pearcej" #Division Chair Access
   # user: "nakazawam"  #Program Chair Access
   # user: "lovelle" #Professor Access
-  # user: "sldkjfalsdkfj;" #for production
   # user: "stamperfa" #Bldg Mngr Access
+  #user: "sldkjfalsdkfj;" #for production
+  
+  
+
 
   
 filepath:
