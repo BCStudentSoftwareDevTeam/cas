@@ -137,8 +137,10 @@ class ExcelMaker:
     def make_master_file(self,term):
         #Set excel parameter variables
         filename = "cas-{}-courses.xlsx".format(term.termCode)
-        path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+	path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
+        if not os.path.exists(path):
+	    os.makedirs(path)
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Course Schedule for {}'.format(term.name),
         'author':   'Cas System',
@@ -183,7 +185,10 @@ class ExcelMaker:
         #set excel parameters variables
         filename = "cas-{}-crossListed.xlsx".format(term.termCode)
         path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+        if not os.path.exists(path):
+	    os.makedirs(path)
+
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Cross Listed Courses  for {}'.format(term.name),
         'author':   'CAS System',
@@ -210,7 +215,10 @@ class ExcelMaker:
         #set excel parameters variables
         filename = "cas-{}-specialTopics.xlsx".format(term.termCode)
         path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+        if not os.path.exists(path):
+	    os.makedirs(path)
+ 
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title': 'Special Topic Courses for {}'.format(term.name),
         'author': 'CAS System',
