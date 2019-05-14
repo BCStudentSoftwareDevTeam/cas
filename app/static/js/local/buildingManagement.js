@@ -141,7 +141,7 @@ function saveChanges(roomID){
    
   /*sets the radio checkbox for education tech for each room*/
 function education_detail(response){
-    
+    console.log("Starting ed tech filling"); 
     var my_div = document.getElementById('projectors');
     my_div.value = response['projector'];
     var my_div = document.getElementById('smartboards');
@@ -157,46 +157,68 @@ function education_detail(response){
      var my_div = document.getElementById('whiteboards');
     my_div.value = response['whiteboards'];
     
-    var my_div1 = document.getElementById('vhs');  
+    var my_div1 = $("#vhs");
+    if (response['vhs']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
 
-    if (response['vhs']) {
-        
-        my_div1.setAttribute("checked", "checked");
     }
-    
-     var my_div2 = document.getElementById('dvd');
-    if (response['dvd']) {
-        my_div2.setAttribute("checked", "checked");
+   
+    var my_div1 = $("#dvd");
+    if (response['dvd']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div3 = document.getElementById('blu_ray');
-    if (response['blu_ray']) {
-        my_div3.setAttribute("checked", "checked");
+
+    var my_div1 = $("#blu_ray");
+    if (response['blu_ray']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div4 = document.getElementById('doc_cam');
-    if (response['doc_cam']) {
-        my_div4.setAttribute("checked", "checked");
+ 
+    var my_div1 = $("#doc_cam");
+    if (response['doc_cam']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div5 = document.getElementById('extro');
-    if (response['extro']) {
-        my_div5.setAttribute("checked", "checked");
+  
+     var my_div1 = $("#extro");
+    if (response['extro']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div6 = document.getElementById('audio');
-    if (response['audio']) {
-        my_div6.setAttribute("checked", "checked");
+ 
+    var my_div1 = $("#audio");
+    if (response['audio']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div7 = document.getElementById('mondopad');
-    if (response['mondopad']) {
-        my_div7.setAttribute("checked", "checked");
+ 
+    var my_div1 = $("#mondopad");
+    if (response['mondopad']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
-    
-     var my_div8 = document.getElementById('tech_chart');
-    if (response['tech_chart']) {
-        my_div8.setAttribute("checked", "checked");
+
+    var my_div1 = $("#tech_chart");
+    if (response['tech_chart']) {  
+	my_div1.prop('checked', true);
+    } else {
+	my_div1.prop('checked', false);
+
     }
   
 }
@@ -214,9 +236,8 @@ function seteducationTech() {
                 type:'GET',
                 success: function(response){
                      if (response["success"] != 0) {//If successful
-                            education_detail(response); //a function with education tech details
-                            console.log("Success"+response)
-                        }
+			    education_detail(response); //a function with education tech details
+                                                    }
                 },
                 error: function(error) {
                 console.log(error);
@@ -265,6 +286,22 @@ function saveEdTechChanges(roomID){
          }); 
 }
 
+/* keeps tracks of active modals, making sure that they remain responsive after closing an overlaying instance*/
+var modal_counter = 0;
+$(document).ready(function () {
+        $('.modal').on('shown.bs.modal', function () {
+            modal_counter++;
+        });
+        $('.modal').on('hidden.bs.modal', function () {
+            modal_counter--;
+            if(modal_counter){
+                $('body').addClass('modal-open');
+            }
+            else{
+                $('body').removeClass('modal-open');
+            }
+        });
+})
     
 
 
