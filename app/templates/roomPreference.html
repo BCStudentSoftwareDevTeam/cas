@@ -22,66 +22,78 @@
         <tbody>
             <!-- looping through each course in roompreference for the following data -->
             
-            {% for roompreference in roompreferences %}
-                <tr class = "courseTablerow1 selectTermModal" id = "courseTableRow_{{roompreference.course.cId}}">
-		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
-                    <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
-                    <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
-                    <td> {{roompreference.course.schedule.letter}} ({{roompreference.course.schedule.startTime.strftime('%H:%M %p')}} - {{roompreference.course.schedule.endTime.strftime('%H:%M %p')}})</td>
-                    <td> {{roompreference.course.capacity}} </td>
-                    {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
-                
-                    {% for pref in p1 %}
-                        <td>
-                            <!-- checks the value of the preference and acts accordingly to add 1 to the setPreference() -->
-                            <button {% if pref != None %}
-                                        {% if pref.rID != 100 %}
-                                            value="{{pref.rID}}"
-                                        {% endif %}
-                                    {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
-                                        value="0"  {# Holds room ID, NOT pref ID #} 
-                                    {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
-                                        value = "-1"
-                                    {% else %}
-                                        value="0"
-                                    {% endif %} 
-                                    onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
-                                    id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
-                                    class="btn btn-md {% if pref != None %} btn-success {% else %} btn-default {% endif %}" 
-                                    type="button" 
-                                    disabled
-                                    data-toggle="collapse" 
-                                    data-target="#firstCollapser" 
-                                    aria-expanded="false" 
-                                    aria-controls="firstCollapser" >
-                                        {% if pref != None %}
-                                            {{pref.building.shortName}} {{pref.number}} 
-                                        {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
-                                                Any Room Works 
-                                        {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
-                                                {% if loop.index|string == 1 %}
-                                                    The course does not require a room
-                                                {% else %}
-                                                    No Other Room Works
-                                                {% endif %}
-                                        {% else %}
-                                            Any Room Works 
-                                        {% endif %}     
-                            </button>
-                        </td>
-                    {% endfor %}
+                {% for roompreference in roompreferences %}
+                    {% if roompreference.course.schedule_id != None %}
+                    <tr class = "courseTablerow1 selectTermModal" id = "courseTableRow_{{roompreference.course.cId}}">
+    		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
+                        <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                        <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
+                        <td> {{roompreference.course.schedule.letter}} ({{roompreference.course.schedule.startTime.strftime('%H:%M %p')}} - {{roompreference.course.schedule.endTime.strftime('%H:%M %p')}})</td>
+                        <td> {{roompreference.course.capacity}} </td>
+                        {% set p1 = [roompreference.pref_1, roompreference.pref_2, roompreference.pref_3] %}
                     
-                    <td> 
-                    <!--This table manages notes instructions on seeing room preference-->
-                        <div class = "notesHolders"  id= "NotesHolder_{{roompreference.course.cId}}"></div>
-                    </td>
-                </tr>
-                <tr class = "hiddenRow">
-                    <td colspan = "9">
-                        <div class = "hiddenDiv panel-collapse collapse" id="modalRowCourse{{roompreference.course.cId}}">Trash</div>
-                    </td>
-                </tr>
-            {% endfor %}
+                        {% for pref in p1 %}
+                            <td>
+                                <!-- checks the value of the preference and acts accordingly to add 1 to the setPreference() -->
+                                <button {% if pref != None %}
+                                            {% if pref.rID != 100 %}
+                                                value="{{pref.rID}}"
+                                            {% endif %}
+                                        {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
+                                            value="0"  {# Holds room ID, NOT pref ID #} 
+                                        {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
+                                            value = "-1"
+                                        {% else %}
+                                            value="0"
+                                        {% endif %} 
+                                        onclick="setPreference({{loop.index}},{{roompreference.course.cId}})"                                   
+                                        id="prefButton{{loop.index}}_{{roompreference.course.cId}}" 
+                                        class="btn btn-md {% if pref != None %} btn-success {% else %} btn-default {% endif %}" 
+                                        type="button" 
+                                        disabled
+                                        data-toggle="collapse" 
+                                        data-target="#firstCollapser" 
+                                        aria-expanded="false" 
+                                        aria-controls="firstCollapser" >
+                                            {% if pref != None %}
+                                                {{pref.building.shortName}} {{pref.number}} 
+                                            {% elif roompreference.any_Choice|int <= loop.index and roompreference.any_Choice is not none %}
+                                                    Any Room Works 
+                                            {% elif roompreference.none_Choice|int <= loop.index and roompreference.none_Choice is not none %}
+                                                    {% if loop.index|string == 1 %}
+                                                        The course does not require a room
+                                                    {% else %}
+                                                        No Other Room Works
+                                                    {% endif %}
+                                            {% else %}
+                                                Any Room Works 
+                                            {% endif %}     
+                                </button>
+                            </td>
+                        {% endfor %}
+                        
+                        <td> 
+                        <!--This table manages notes instructions on seeing room preference-->
+                            <div class = "notesHolders"  id= "NotesHolder_{{roompreference.course.cId}}"></div>
+                        </td>
+                    </tr>
+                    <tr class = "hiddenRow">
+                        <td colspan = "9">
+                            <div class = "hiddenDiv panel-collapse collapse" id="modalRowCourse{{roompreference.course.cId}}">Trash</div>
+                        </td>
+                    </tr>
+                     {% else %}
+                        <tr>
+                            <td style = "text-align: center;">
+                                <div id = "noScheduleSet">
+                                    <p>This course does not have a schedule set.</p>
+                                    <p>Fix this and try again.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+           
         </tbody>
     </table>
 </div>
