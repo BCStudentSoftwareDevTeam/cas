@@ -69,8 +69,7 @@
             </div>
           </div>
         </div>
-    {% endif %}
-    {% if state.number in format1 %}
+    {% elif state.number in format1 %}
           <!--<div class="row">-->
           <div id="order{{state.order}}" class="collapse">
                 <div class = "row text-center">
@@ -106,8 +105,7 @@
               </div>
             </div>
             <!--</div>-->
-      {% endif %}
-    {% if state.number in format2 %} 
+    {% elif state.number in format2 %} 
       <!--FINISH-->
        <div id="order{{state.order}}" class="collapse">
           <div class = "panel-body panel_color">
@@ -124,7 +122,7 @@
                   <p>
                     <sub><br>{{cfg['states'][state.number]['left_help_text']}}</sub>
                   </p>
-              <!--Reasign Button-->
+              <!--Reassign Button-->
                 <button type = "button" id = "button{{state.order}}" class= "btn btn-danger" data-toggle = "collapse" data-target= ""
                  aria-controls="order{{state.order-1}}"
                  onclick ="enableTheOne('btn{{state.order}}'), submit_data({{state.order}}-1,'false')"> {{cfg['states'][state.number]['btn']}}
@@ -142,10 +140,8 @@
           </div>
         </div>
         </div>
-     {% endif %}
-  {% endfor %}
-
-        <!--The archive panel and the button after finish-->
+     {% else %}
+     <!--The archive panel and the button after finish-->
        <div id="order7" class="collapse" >
           <div class = "panel-body panel_color">
             <div class = "row text-center">
@@ -169,6 +165,10 @@
           </div>
           </div>
          </div>
+      {% endif %}
+  {% endfor %}
+
+        
       
          <!--This is the modal for onclick on archive button confirmation-->
          <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">
