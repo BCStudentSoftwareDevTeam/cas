@@ -45,13 +45,25 @@ class dbModel (Model):
   class Meta: 
     database = mainDB
 
+try:
+    mainDB.create_tables([CrossListed])
+except: 
+    print("Table Crosslisted already exists")
 
-mainDB.create_tables([CrossListed])
+try: 
+    migrate(
+        migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+    )
+except:
+    print("Column lastModified in Table Rooms already exists")
 
-migrate(
-    migrator.add_column('rooms', 'lastModified', CharField(null=True)),
-    migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
-)
+try:
+    migrate(
+        migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
+    )
+except:
+    print("Column parentCourse_id in table Course already exists")
+
 
 # class TermStates(dbModel):
 #   csID          = PrimaryKeyField()
