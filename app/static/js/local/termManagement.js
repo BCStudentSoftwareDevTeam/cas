@@ -1,25 +1,19 @@
 var lastTerm = "";
 function showPanel(termCode, button){
-    
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
     console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
-    
     disable_btn.disabled = true;            // Disables all the state buttons
-    
-    button.disabled = false;                // Disables the term button
-    
-    // console.log("Term code: " + termCode);
-    
-    var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
+    //button.disabled = false;                // Disables the term button
   
+  
+    console.log("Term code: " + termCode);  
 
-    console.log("target div: " + targetDiv);
+    var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)  
+    console.log("target div: " + targetDiv.attr('id'));
     
-    var subjectDiv = $("#allPanels");           // The panel itself, to be moved
-  
-    console.log("subject div: " + subjectDiv);
-    
+    var subjectDiv = $("#allPanels");           // The panel itself, to be moved  
+    console.log("subject div: " + subjectDiv.attr('id'));
     // subjectDiv.attr("hidden", false);
     
     targetDiv.html(subjectDiv);                 // Move the panel
@@ -59,7 +53,7 @@ function showPanel(termCode, button){
         
         
         // console.log("Toggling");
-    } else {
+    } else {   // different term clicked, and second click on page
      
         $(show_id).collapse('toggle');      // Otherwise, toggle open/closed panel
     

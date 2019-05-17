@@ -40,7 +40,7 @@
       </td>
       </tr>
       <tr  id = "hidden_{{ term.termCode }}">
-        <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
+        <td colspan="9" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
       </tr>
       {% endfor %}
   </table>
@@ -143,6 +143,8 @@
         </div>
         </div>
      {% endif %}
+
+  {% endfor %}
         <!--The archive panel and the button after finish-->
        <div id="order7" class="collapse" >
           <div class = "panel-footer">
@@ -167,7 +169,6 @@
           </div>
           </div>
          </div>
-  {% endfor %}
       
          <!--This is the modal for onclick on archive button confirmation-->
          <div id="myModal" class="modal fade" tabindex = "-1" role="dialog">

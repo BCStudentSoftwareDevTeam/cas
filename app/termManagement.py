@@ -14,9 +14,7 @@ import time
 @must_be_admin
 def termManagement():
       
-      terms = Term.select().where(Term.term_state < 8) # Select all the terms for the terms table with the state buttons
-
-
+      terms = Term.select().order_by(-Term.termCode) #Select all the terms for the terms table with the state buttons
           
       today          = datetime.date.today()       
       term_state     = TermStates.select().order_by(TermStates.order)
