@@ -179,9 +179,13 @@ function loadStateToTerm(){
         var btn_id = x[i].id; // Get the id of each term button. The id of each term button consists of the termcode and the current state of that term
         
         btn_arr.push(btn_id); // Push the id of each term button to the button array
-        
-        var state = parseInt(btn_id.slice(7)) + 1; // Add 1 to the state of each button because the state order column table in the database starts with 0
-        
+        console.log(parseInt(btn_id.slice(7)))
+        if (parseInt(btn_id.slice(7)) == 0){
+            var state = 1 // Add 1 to the state of each button because the state order column table in the database starts with 0
+        }
+        else{
+            var state = parseInt(btn_id.slice(7))
+        }
         $('#'+btn_id).attr('data-target','#order'+state.toString()); // Update the data target of each term button 
         
         $('#'+btn_id).attr('aria-controls', 'order'+state.toString()); // Update the aria-controls of each term button
