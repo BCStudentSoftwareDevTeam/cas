@@ -26,9 +26,13 @@ class ExcelMaker:
         sheet.write('K1', 'Preference 1')
         sheet.write('L1','Preference 2')
         sheet.write('M1','Preference 3')
-        sheet.write('N1','Instructors')
-        sheet.write('O1','Bnumber')
-        sheet.write('P1', "CrosslistedWith")
+        sheet.write('N1','Instructor1')
+        sheet.write('O1','Bnumber1')
+        sheet.write('P1','Instructor2')
+        sheet.write('Q1','Bnumber2')
+        sheet.write('R1','Instructor3')
+        sheet.write('S1','Bnumber3')
+        sheet.write('T1', "Crosslisted With")
 
         self.intr_letter = 'N'
         
@@ -78,7 +82,7 @@ class ExcelMaker:
         
         if course.rid:
             room_number_clean = course.rid.number.split(" - ")[0].strip()
-            print(room_number_clean)
+            # print(room_number_clean)
             room_name = course.rid.building.shortName + ' ' + room_number_clean
             sheet.write('J{0}'.format(row),room_name)
             sheet.write('I{0}'.format(row),course.section)
@@ -137,7 +141,7 @@ class ExcelMaker:
                             courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number
                         res.append(courseTitle) if courseTitle else 0
             if res:
-                sheet.write('P{0}'.format(row), " , ".join(res))
+                sheet.write('T{0}'.format(row), " , ".join(res))
         except:
             print "Unexpected error:", sys.exc_info()[0]     
             
@@ -161,7 +165,10 @@ class ExcelMaker:
         #Set excel parameter variables
         filename = "cas-{}-courses.xlsx".format(term.termCode)
         path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+	# Delete the file if it already exists
+	if os.path.isfile(path):
+	    os.remove(path)
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Course Schedule for {}'.format(term.name),
         'author':   'Cas System',
@@ -206,7 +213,9 @@ class ExcelMaker:
         #set excel parameters variables
         filename = "cas-{}-crossListed.xlsx".format(term.termCode)
         path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+ 	if os.path.isfile(path):
+	    os.remove(path)      
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Cross Listed Courses  for {}'.format(term.name),
         'author':   'CAS System',
@@ -233,7 +242,9 @@ class ExcelMaker:
         #set excel parameters variables
         filename = "cas-{}-specialTopics.xlsx".format(term.termCode)
         path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
-        workbook = xlsxwriter.Workbook(path)
+        if os.path.isfile(path):
+	    os.remove(path)	
+	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title': 'Special Topic Courses for {}'.format(term.name),
         'author': 'CAS System',

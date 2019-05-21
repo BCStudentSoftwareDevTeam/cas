@@ -87,10 +87,10 @@
                 <div class="form-check" id="checkcross">
                     {% if crosslisted[course][0] %}
                     <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}" checked>
-                    <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                    <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                     {% else %}
                     <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}">
-                    <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                    <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                     {% endif %}
                 </div>
                     {% for cross_course in crosslisted[course][1:] %}
@@ -152,6 +152,8 @@
                                 {% include "snips/courseElements/deleteCourse.html" %}
                             </div>
                         </td>
+		    {% else %}
+			<td></td>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -232,10 +234,10 @@
                         <div class="form-check" id="checkcross">
                             {% if crosslisted[course][0] %}
                             <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
-                            <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                            <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                             {% else %}
                             <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
-                            <label data-toggle="tooltip" title="CHECKBOX TO VERIFY THIS CROSSLISTED COURSE'S SCHEDULE" class="form-check-label" for="exampleCheck1">Verify<span class="glyphicon glyphicon-question-sign"></span></label>
+                            <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                             {% endif %}
                         </div>
                             {% for cross_course in crosslisted[course][1:] %}
