@@ -113,7 +113,8 @@ def addCourses(tid, prefix):
         if not databaseInterface.isTermOpen(
                 tid):  # IF THE TERM IS NOT EDITABLE
             # ADD THE COURSE TO THE COURSECHANGE TABLE
-            newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
+            # Removed next line, don't think it's needed anymore. Is it? -Scott
+	    # newCourse.addCourseChange(course.cId, cfg["changeType"]["create"])
 
             message = "Course: #{0} has been added".format(course.cId)
             log.writer("INFO", current_page, message)

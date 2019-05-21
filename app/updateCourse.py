@@ -34,7 +34,7 @@ class DataUpdate():
         instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
         for instructor in instructors:
             addInstructorChange = InstructorCourseChange(
-                username=instructor, course=course.cId)
+                username=instructor.username.username, course=course.cId)
             addInstructorChange.save()
         # ADD THE COURSE TO COURSECHANGE
         # MORE INFO ABOUT THE NULL CHECK CAN BE FOUND
