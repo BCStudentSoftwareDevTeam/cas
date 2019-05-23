@@ -68,6 +68,11 @@ class DataUpdate():
         number = newcourse.save(force_insert=True)
         # WHENEVER CERTAINING A NON AUTO INCREMENTED PRIMARY KEY
         # IT IS REQUIRED TO PUT force_insert=True
+        instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
+        for instructor in instructors:
+            addInstructorChange = InstructorCourseChange(
+                username=instructor.username, course=course.cId)
+            addInstructorChange.save()
         return True
 
     

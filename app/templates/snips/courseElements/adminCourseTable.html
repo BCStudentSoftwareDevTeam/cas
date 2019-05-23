@@ -11,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if (can_edit == True and curTermName.state != 2) %}
+        {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
@@ -107,7 +107,7 @@
 
                     {% endfor %}
                 {% else %}
-                    None
+                    No
                 {% endif %}
             </td>
             <!--NOTES-->
@@ -269,11 +269,11 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
-                {% if key > 2 and isAdmin %}
-                <!---- if user is admin and its summer course, they can edit---->
+                {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
+                <!---- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses--->
                     <td>
                         <div class="child">
-                            {% if course.status < 2 %}
+                            {% if course.status < 2 %} <!-- Special topic status-->
                                 <!--EDIT MODAL-->
                                 <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
                                 <!--DELETE MODAL-->
@@ -282,7 +282,7 @@
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
+                    {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">

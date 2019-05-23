@@ -138,7 +138,7 @@ class ExcelMaker:
                     for cc in qs:
                         #skip the parent itself
                         if cc.crosslistedCourse.cId != int(course.cId):
-                            courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number
+                            courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number + "-" + cc.crosslistedCourse.section
                         res.append(courseTitle) if courseTitle else 0
             if res:
                 sheet.write('T{0}'.format(row), " , ".join(res))
@@ -164,10 +164,12 @@ class ExcelMaker:
     def make_master_file(self,term):
         #Set excel parameter variables
         filename = "cas-{}-courses.xlsx".format(term.termCode)
-        path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
+        print(cfg['filepath']['tmp'])
+	path = getAbsolutePath(cfg['filepath']['tmp'],filename,True)
 	# Delete the file if it already exists
 	if os.path.isfile(path):
 	    os.remove(path)
+	    print("Deleted ", path)
 	workbook = xlsxwriter.Workbook(path)
         workbook.set_properties({
         'title':    'Course Schedule for {}'.format(term.name),

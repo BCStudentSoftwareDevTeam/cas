@@ -7,7 +7,8 @@ from app.logic.authorization import must_be_authorized
 @app.route("/deletecourse/<tid>/<prefix>", methods=["POST"])
 @must_be_authorized
 def deletecourse(prefix, tid):
-    
+    current_username = AuthorizedUser().getUsername()
+    user = User.get(User.username == current_username)
     current_page = "/" + request.url.split("/")[-1]
 
 
@@ -32,14 +33,20 @@ def deletecourse(prefix, tid):
     
     #update changetracker if term is closed
     if not databaseInterface.isTermOpen(tid):
-
-        change = CourseChange.select().where(CourseChange.cId == cid)
-        # IF THE RECORD ALREADY EXSISTED THEN WE NEED TO UPDATE THE
-        # INFORMATION
-        if change.exists():
-            updateRecord = CourseChange.get(CourseChange.cId == cid)
-            if updateRecord.changeType == 'create' and not updateRecord.verified:
-                updateRecord.delete_instance()
+        if user.isAdmin:
+            change = CourseChange.select().where(CourseChange.cId == cid)
+            # IF THE RECORD ALREADY EXSISTED THEN WE NEED TO UPDATE THE
+            # INFORMATION
+            if change.exists():
+                updateRecord = CourseChange.get(CourseChange.cId == cid)
+                if updateRecord.changeType == 'create' and not updateRecord.verified:
+                    updateRecord.delete_instance()
+                else:
+                    updateRecord.changeType = cfg["changeType"]["delete"]
+                    colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
+                    updateRecord.tdcolors = colors
+                    updateRecord.verified = False
+                    updateRecord.save()
             else:
                 updateRecord.changeType = cfg["changeType"]["delete"]
                 colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
@@ -49,8 +56,7 @@ def deletecourse(prefix, tid):
         else:
             dataUpdateObj.addCourseChange(
                 course.cId, cfg["changeType"]['delete'])
-    instructorsChange = InstructorCourseChange.select().where(
-        InstructorCourseChange.course == cid)
+    instructorsChange = InstructorCourseChange.select().where(InstructorCourseChange.course == cid)
     for instructor in instructorsChange:
         instructor.delete_instance()
         

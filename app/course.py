@@ -13,6 +13,8 @@ import json
 @can_modify
 def courses(tID, prefix, can_edit):
     page = "courses"
+    username = g.user.username
+    current_user = User.get(User.username == username)
 
     # These are the necessary components of the sidebar. Should we move them
     # somewhere else?
@@ -110,4 +112,4 @@ def verifycrosslisted(intValue):
     except:
         flash("An error has occurred. Please try again.","error")
         return json.dumps({"error":0})
-    
+   

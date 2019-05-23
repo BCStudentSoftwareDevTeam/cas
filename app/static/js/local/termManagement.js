@@ -292,9 +292,9 @@ function getTermCode(){
     
     return termCode
 }
-function downloadCourses(){
+function downloadCourses(termCode){
     // This function will go to the controller that will handle the downloading of all the courses to an excel file
-    var termCode = getTermCode();
+    // var termCode = getTermCode();
     
     window.location.href = '/excel/'+termCode;
 

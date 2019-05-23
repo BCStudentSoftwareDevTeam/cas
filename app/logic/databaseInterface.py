@@ -128,11 +128,12 @@ def getAllTerms():
     return Term.select().order_by(-Term.termCode)
     
 def isTermOpen(termID):
-    ''' returns booleans stating whether the term is open'''
-    if (Term.get(Term.termCode == int(termID)).state == 0):
+    ''' returns booleans stating whether the term is open for editing/adding a course'''
+    if (Term.get(Term.termCode == int(termID)).term_state == 1):
         return True
     else:
         return False
+
         
 def isTermLocked(termID):
     ''' returns booleans stating whether the term is locked'''
