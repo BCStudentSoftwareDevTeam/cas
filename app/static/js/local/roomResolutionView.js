@@ -108,28 +108,6 @@ function resolveCourse() {
            .fail(function(response){
                     alert("Please, try again.");});
 }
-      
-function addSecond(){
-    let oldurl = window.location.href.split("/");
-    let cid = oldurl[oldurl.length-1];
-    let termcode = oldurl[oldurl.length-2];
-    let url = '/addSecond/'+cid;    
-    $.ajax({  
-            type: "POST",
-            url: url,
-            data:{"roomID": roomID},
-            dataType: 'json'
-         })
-           .done(function(response){
-                if (response['success'] == 1)
-                        window.location = "/roomResolution/"+termcode
-                    else{
-                        window.location.assign("/roomResolution/"+ termcode)                    
-                        }         
-               
-           }) 
-           .fail(function(response){
-                     window.location.assign("/roomResolution/"+ termcode);});
-}
-    
+ 
+
 $('.modal').parent().on('show.bs.modal', function (e) { $(e.relatedTarget.attributes['data-target'].value).appendTo('body'); })

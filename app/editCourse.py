@@ -3,6 +3,9 @@ from updateCourse import DataUpdate
 from app.logic.TrackerEdit import TrackerEdit
 from app.logic import databaseInterface
 from app.logic.authorization import must_be_authorized
+from app.logic.course import find_crosslist_via_id
+from collections import defaultdict
+
 
 @app.route("/editCourseModal/<tid>/<prefix>/<cid>/<page>", methods=["GET"])
 def editCourseModal(tid, prefix, cid, page):
@@ -20,9 +23,19 @@ def editCourseModal(tid, prefix, cid, page):
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
     # SELECT ALL ROOMS
     rooms     = Rooms.select()
+    
+    getCrosslistedCourses = find_crosslist_via_id(cid)
+    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
+    currentCrosslistedCourse = None
+    if(getCrosslistedCourses):
+      for c in getCrosslistedCourses:
+        currentCrosslistedCourse = list(getCrosslistedCourses[c])
+      
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
                             terms     = terms,
+                            allCourses=allCourses,
+                            currentCrosslistedCourse=currentCrosslistedCourse,
                             course    = course,
                             users = users,
                             instructors = instructors,
@@ -39,16 +52,18 @@ def editcourse(tid, prefix, page):
     username = g.user.username
     user = User.get(User.username == username)
     page1 =  "/" + request.url.split("/")[-1]
-    data = request.form
+    data = request.form.to_dict()
+    crosslistedCourse = request.form.getlist('crossListedCourses[]')
+    #if no crosslisted children, update hidden crosslisted to true or false
+    data["crossListed"] = 1 if crosslistedCourse else 0  
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-
     if (not databaseInterface.isTermOpen(tid)):
       if user.isAdmin: 
         created = trackerEdit.make_edit(professors, username)
       else: 
         return render_template("schedulingLocked.html", tid = tid, prefix = prefix)
-    databaseInterface.editCourse(data, prefix, professors)
+    databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
     message = "Course: course {} has been edited".format(data['cid'])
     log.writer("INFO", page1, message)
     flash("Course information has successfully been modified!")

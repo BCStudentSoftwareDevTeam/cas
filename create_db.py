@@ -497,6 +497,7 @@ course = Course(  bannerRef         = 21,
                   notes             = "Preference2",
                   crossListed       = 1
                   ).save() 
+
 course = Course(  bannerRef         = 11,
                   prefix            = "CHI",
                   term              = 201712,
@@ -575,7 +576,7 @@ course = Course(  bannerRef         = 18,
                   prefix            = "GER",
                   term              = 201711,
                   schedule          = "B",
-
+                 days      = 3,
                   section           = "A",
                   capacity          = 20,
                   notes             = "Preference2",
@@ -831,6 +832,60 @@ roompreference= RoomPreferences(course= 10, priority=1,pref_1=10,pref_2=11,pref_
 
 #####
 
+
+#ROOMS#
+
+
+# educationTech= EducationTech( 
+#   projectors           = 1,
+#   smartboards          = 2,
+#   instructor_computers = 3,
+#   podium               = 3,
+#   student_workspace    = 4,
+#   chalkboards          = 2,
+#   whiteboards          = 2,
+#   dvd                  = False,
+#   blu_ray              = False,
+#   audio                = True,
+#   extro                = True,
+#   doc_cam              = True,
+#   vhs                  = True,
+#   mondopad           = True,
+#   tech_chart           = False
+#   ).save()
+
+
+
+
+
+
+room = Rooms(building = 1, educationTech=1, number ='102', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 2,educationTech=1, number ='103', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 3, educationTech=1,number ='104', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, educationTech=1,number ='105', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, educationTech=1,number ='106', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6, educationTech=1,number ='107', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 7,educationTech=1, number ='108', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 8, educationTech=1,number ='109', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 9,educationTech=1, number ='110', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 10, educationTech=1,number ='111', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 11, educationTech=1,number ='1025', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 12, educationTech=1,number ='1055', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 1,educationTech=1, number ='1029', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 4, educationTech=1,number ='1045', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+room = Rooms(building = 5, educationTech=1,number ='1023', maxCapacity=12, roomType="Something", movableFurniture=1).save()
+room = Rooms(building = 6,educationTech=1, number ='1050', maxCapacity=15, roomType="Lecture", movableFurniture= 1).save()
+
+roompreference= RoomPreferences(course= 1, priority=1, pref_1=1,pref_2=2,pref_3=3,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=3, priority=2, pref_1=2,pref_2=3,pref_3=4,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course=8, priority=3,pref_1=3,pref_2=4,pref_3=5,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 4,priority=3, pref_1=4,pref_2=5,pref_3=6,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 2, priority=3,pref_1=5,pref_2=6,pref_3=7,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 6, priority=2,pref_1=6,pref_2=7,pref_3=8,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 7,priority=1, pref_1=7,pref_2=8,pref_3=9,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 5, priority=2,pref_1=8,pref_2=9,pref_3=10,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 9, priority=3,pref_1=9,pref_2=10,pref_3=11,notes="None",any_Choice = "any").save()
+roompreference= RoomPreferences(course= 10, priority=1,pref_1=10,pref_2=11,pref_3=12,notes="None",any_Choice = "any").save()
 
 room = Rooms(building = 2,educationTech=1, number ="102", maxCapacity=12, roomType="Lab", visualAcc= True, audioAcc=False, physicalAcc=True, specializedEq="Important stuff", specialFeatures="Special tools that matter a lot", movableFurniture="there 24 chairs and tables").save()
 
