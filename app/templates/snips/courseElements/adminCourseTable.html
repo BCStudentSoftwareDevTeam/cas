@@ -96,11 +96,11 @@
 		<div class="row">
                     {% for cross_course in crosslisted[course][1:] %}
                         {% if cross_course.verified == False %}	
-                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; " class="btn-default btn-sm">
+                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
                                   <span class="glyphicon glyphicon-remove" style="color:red; clear:both;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                             </span>
                         {% else %}
-                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap;"class="btn-default btn-sm">
+                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
                                   <span class="glyphicon glyphicon-ok" style="color:green; clear:both; " aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                             </span>
                         {% endif %}
@@ -243,13 +243,13 @@
                         </div>
                             {% for cross_course in crosslisted[course][1:] %}
                                 {% if cross_course.verified == False %}
-                                    <button type="button" data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} HAS NOT BEEN VERIFIED." style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                    <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
                                           <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                                    </button>
+                                    </span>
                                 {% else %}
-                                    <button data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} HAS BEEN VERIFIED." type="button" style="margin-bottom:2px;"class="btn btn-default btn-sm">
+                                    <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
                                           <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                                    </button>
+                                    </span>
                 
                                 {% endif %}
         
