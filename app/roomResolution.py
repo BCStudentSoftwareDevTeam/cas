@@ -4,7 +4,7 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
-from app.logic.functions import get_unavailable_rooms
+from app.logic.functions import map_unavailable_rooms, find_avail_unavailable_rooms
 from app.logic.course import find_crosslist_via_id
 import json
 from functools import wraps
@@ -45,45 +45,21 @@ def roomResolutionView(termCode,cid):
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     bannercourses = BannerCourses.select()
-    courses = Course.get(Course.cId==cid) #Course A
+    curr_course = Course.get(Course.cId==cid)
     #will give an error if schedule.sid is None
-    schedule = courses.schedule.sid
-    days = ScheduleDays.get(ScheduleDays.schedule==schedule)
-    course_capacity = 1 if not courses.capacity  else courses.capacity 
-    #this query gets all the room ids for the course if the room is free during a course schedule
-    # print("Is it this query breaking?")
-    sql_query = """
-                   SELECT r1.rID, building_id
-                   FROM rooms as r1
-                   LEFT OUTER JOIN (
-                     SELECT c1.rid_id as r2
-                     FROM course as c1
-                     JOIN (
-                       SELECT sid
-                       FROM bannerschedule as bs
-                       WHERE CAST("{0}" as TIME) < CAST(bs.endTime as TIME) 
-                       AND CAST("{1}" as TIME) > CAST(bs.startTime AS TIME)) as bs1 
-                     ON c1.schedule_id = bs1.sid 
-                     WHERE c1.rid_id IS NOT NULL
-                     AND c1.term_id = {2}) as x
-                   ON r1.rID = r2
-                   INNER JOIN building as b ON r1.building_id = b.bID
-                   WHERE r2 IS NULL
-                   AND r1.maxCapacity >= {3}
-                   ORDER BY b.name;
-                """.format(courses.schedule.startTime, courses.schedule.endTime,
-                courses.term.termCode, course_capacity)
-    print(sql_query)
-    cursor = mainDB.execute_sql(sql_query)
-    availablerooms = [] 
-    for room in cursor:
-        availablerooms.append(room[0])
+    schedule = curr_course.schedule.sid
+    
+    daysQuery = ScheduleDays.select().where(ScheduleDays.schedule==schedule)
+    days = [i for i in daysQuery]
+    
+    course_capacity = 1 if not curr_course.capacity  else curr_course.capacity 
+    
+    #find all rooms that are free during course schedule AND find rooms that are not free during a course schedule
+    availablerooms, unavailablerooms = find_avail_unavailable_rooms(curr_course)
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
-    curr_course=courses       
-    
-    #unavailable rooms mapped with their courses
-    unavailable_to_course=get_unavailable_rooms(curr_course, availablerooms)
-    
+    #map unavaile rooms to their courses
+    unavailable_to_course = map_unavailable_rooms(curr_course, unavailablerooms)
+  
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -159,7 +135,6 @@ def roomResolutionView(termCode,cid):
                     preferences[pref] = pref_info
                     break
     course_to_crosslist=find_crosslist_via_id(cid)
-    print(course_to_crosslist)
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
@@ -168,7 +143,7 @@ def roomResolutionView(termCode,cid):
                             unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
-                            courses=courses, 
+                            courses=curr_course, 
                             bannercourses=bannercourses,
                             preferences=preferences,
                             termcode=termCode,
@@ -244,9 +219,4 @@ def assign_or_unassign_cc(course, roomId):
             #skip the parent itself
             if cross_course.crosslistedCourse.cId != course.cId:
                 cross_course.crosslistedCourse.rid = roomId
-                cross_course.crosslistedCourse.save()
-
-            
-        
-
-    
+                cross_course.crosslistedCourse.save()  
