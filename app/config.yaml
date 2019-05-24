@@ -149,7 +149,7 @@ editForm:
 
 conflicts:
   A: ['A', 'G', 'M', 'U', 'Y', 'I1' ]
-  A1: ['A1', 'I', 'K', 'N','W', 'ZZZ']
+  A1: ['A1', 'I', 'K', 'N','W']
   B: ['B', 'G', 'M', 'U', 'Y', 'I1']
   C: ['C', 'H', 'M','Y']
   D: ['D', 'H', 'J']
@@ -176,7 +176,7 @@ conflicts:
   Y: ['A', 'B', 'C', 'G','H', 'M', 'U', 'Y', 'I1']
   Z: ['O', 'P', 'R', 'V', 'X', 'Z']
   I1: ['I1', 'U', 'Y', 'M', 'G', 'B', 'A']
-  ZZZ: ['ZZZ', 'A1']
+  ZZZ: []
 
 specialSchedule:
   # Times that needed to be automatically added on the conflicts.html
