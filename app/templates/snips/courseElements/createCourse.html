@@ -39,30 +39,19 @@
         <div class="form-group col-md-6 offset_input right" id="newInput">
           <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
         </div>
-        {% include "snips/courseElements/addRoom.html" %}
+        <div>
+           <input type="hidden" name="crossListed" id="crossListed" value=0 required>
+        </div>
+        {% include "snips/courseElements/addCrossListCourse.html"%}
         {% include "snips/courseElements/addInstructors.html"%}
         {% include "snips/courseElements/addSchedule.html" %}
         {% include "snips/courseElements/addSection.html" %}
         <div class="form-group col-md-4 offset_input right">
           <div>
-            <input placeholder="Enter course capacity" type="number" min='1' max = '100' name ="capacity" class="form-control"  />
+            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
         </div>
-        <div class=" col-md-2 offset_input right">
-            <label id="radioLabel" for="radios">Crosslisted</label>
-          <div class="radio-inline" id=radios>
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=1 required>
-              Yes
-            </label>
-          </div>
-          <div class="radio-inline">
-            <label>
-              <input type="radio" name="crossListed" id="exampleRadios1" value=0 required>
-              No
-            </label>
-          </div>
-        </div>
+        
         
         <div id = "specialTopicCourse" hidden>
           <div class="col-md-12 form-group">
@@ -71,6 +60,8 @@
           <div class="col-md-10 form-group">
             <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" />
           </div>
+          <input id="prodId" name="rid" type="hidden" value="1">
+          
           <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
             <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true">
               {% for credit in cfg['credits'] %}

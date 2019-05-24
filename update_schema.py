@@ -39,120 +39,11 @@ migrator = MySQLMigrator(mainDB)
 #     except:
 #         pass
 
-# dropTables()
 
-
-  
-# class Building(dbModel):
-#   bID           = PrimaryKeyField()
-#   name          = CharField()
-#   shortName     = CharField()
-  
-
-# class EducationTech(dbModel):
-#   eId                  = PrimaryKeyField()
-#   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-#   smartboards          = IntegerField(default = 0) #default of 0 in room
-#   instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-#   podium               = IntegerField(default = 0) #default of 0 no. of podium
-#   student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-#   chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-#   whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-#   dvd                  = BooleanField()  #has or doesnt have dvd player
-#   blu_ray              = BooleanField()  #has or doesnt have blu ray player
-#   audio                = BooleanField()  #has or doesnt have audio hookup
-#   extro                = BooleanField()
-#   doc_cam              = BooleanField()
-#   vhs                  = BooleanField()
-#   mondopad             = BooleanField()
-#   tech_chart           = BooleanField()
-  
-# class Rooms(dbModel):
-#   rID            = PrimaryKeyField()
-#   building       = ForeignKeyField(Building, related_name='rooms')
-#   number         = CharField(null=False)
-#   maxCapacity    = IntegerField(null=False)
-#   roomType       = CharField(null=False)
-#   visualAcc     = CharField(null=True)
-#   audioAcc      = CharField(null=True)
-#   physicalAcc   = CharField(null=True)
-#   educationTech = ForeignKeyField(EducationTech, related_name='rooms')
-#   specializedEq = CharField(null=True)
-#   specialFeatures = CharField(null=True)
-#   movableFurniture = BooleanField()
-#   lastModified = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything 
-  
-
-# class ScheduleDays(dbModel):
-#   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='schedule_days')
-#   day         = CharField(null=True)
-  
-# class Course(dbModel):
-#   cId               = PrimaryKeyField()
-#   prefix            = ForeignKeyField(Subject, related_name='course_prefix') #Removed DO NOT USE THIS! Instead use Course.bannerRef.subject
-#   bannerRef         = ForeignKeyField(BannerCourses, related_name='courses_bannerRef')
-#   term              = ForeignKeyField(Term, null = False, related_name='course_term')
-#   schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule')
-#   # days              = ForeignKeyField(ScheduleDays, null= True, related_name='course_days')
-#   capacity          = IntegerField(null = True)
-#   specialTopicName  = CharField(null = True)
-#   notes             = TextField(null = True)
-#   lastEditBy        = CharField(null = True)
-#   crossListed       = BooleanField()
-#   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
-#   section           = TextField(null = True)
-#   prereq            = CharField(null = True) 
-  
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Course, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=True)
-#   initial_Preference = CharField(null=True, default = 1)
-
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Course, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1', null=True)
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2', null=True)
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3', null=True) #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=True)
-#   initial_Preference = CharField(null=True, default = 1)
-#   priority = IntegerField(default = 6)  
-
-
-# class EducationTech(dbModel):
-#   eId                  = PrimaryKeyField()
-#   projector            = IntegerField(default = 0) #each room has a default of 0 projectors
-#   smartboards          = IntegerField(default = 0) #default of 0 in room
-#   instructor_computers = IntegerField(default = 0) #default of 0 no. of instructor computers to zero
-#   podium               = IntegerField(default = 0) #default of 0 no. of podium
-#   student_workspace    = IntegerField(default = 0) #default of 0 no. f student workspace
-#   chalkboards          = IntegerField(default = 0) #default of 0 no. chalkboards
-#   whiteboards          = IntegerField(default = 0) #default of 0 no. of whiteboards
-#   dvd                  = BooleanField()  #has or doesnt have dvd player
-#   blu_ray              = BooleanField()  #has or doesnt have blu ray player
-#   audio                = BooleanField()  #has or doesnt have audio hookup
-#   extro                = BooleanField()
-#   doc_cam              = BooleanField()
-#   vhs                  = BooleanField()
-#   mondopad             = BooleanField()
-#   tech_chart           = BooleanField()
-
-
-# class Building(dbModel):
-#   bID           = PrimaryKeyField()
-#   name          = CharField()
-#   shortName     = CharField()
-
+# Creates the class that will be used by Peewee to store the database
+class dbModel (Model):
+  class Meta: 
+    database = mainDB
 
 
 # class TermStates(dbModel):
@@ -162,10 +53,6 @@ migrator = MySQLMigrator(mainDB)
 #   order         = IntegerField(null = False)
 #   display_name  = CharField(null = False)
 
-# my_db.drop_tables([TermStates])
-# my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms,TermStates])
-
-# my_db.create_tables([TermStates])
 
 # To add states to Temstates table
 # state_1 = TermStates(number = 0, order = 0, name = "term_created", display_name = "Term Created").save()
@@ -176,25 +63,41 @@ migrator = MySQLMigrator(mainDB)
 # state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
 # state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
 # state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
- 
+'''
+t = Term.select()
+for term in t:
+  term.algorithm_running = False
+  term.save()
+'''
 
-# class CourseChange(dbModel):
-#   cId               = IntegerField(primary_key = True)
-#   prefix            = ForeignKeyField(Subject, related_name='courseChange_prefix')
-#   bannerRef         = ForeignKeyField(BannerCourses, related_name='courseChange_bannerRef')
-#   term              = ForeignKeyField(Term, null = False, related_name='courseChange_term')
-#   schedule          = ForeignKeyField(BannerSchedule, null = True, related_name='courseChange_schedule')
-#   capacity          = IntegerField(null = True)
-#   specialTopicName  = CharField(null = True)
-#   notes             = TextField(null = True)
-#   lastEditBy        = CharField(null = True)
-#   changeType        = CharField(null = True)
-#   verified          = BooleanField(default = False)
-#   crossListed       = BooleanField()
-#   rid               = ForeignKeyField(Rooms, null = True, related_name='courseChange_rid')
-#   tdcolors          = CharField(null = False)
-#   section           = TextField(null = True)
+# my_db.drop_tables([RoomPreferences])
 
+# my_db.drop_tables([Building, EducationTech])
+# my_db.drop_tables([Building, Rooms, EducationTech, RoomPreferences])
+
+
+#TODO: make a function & wrap it up in try/catch statement so it doesn't break when tables are already there/aren't there
+# def dropTables():
+# tables = [Rooms, Building, EducationTech, RoomPreferences, CourseChange, ScheduleDays, Course]
+# for table in tables:
+#   try:
+#       my_db.drop_tables([table])
+#   except:
+#        pass
+
+
+
+# q = Course.select()
+# for course in q:
+#   course.rid = None
+#   course.save()
+  
+  
+# q = SpecialTopicCourse.select()
+# for course in q:
+#   course.rid = None
+#   course.save()
+  
 
 #my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms, Course, CourseChange, ScheduleDays])
 
@@ -293,4 +196,23 @@ migrator = MySQLMigrator(mainDB)
 # PART OF PR 265  
 # migrate(
 #     migrator.add_column("rooms", "lastModified", CharField(null = True)))
-    
+try:
+    mainDB.create_tables([CrossListed])
+except: 
+    print("Table Crosslisted already exists")
+
+try: 
+    migrate(
+        migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+    )
+except:
+    print("Column lastModified in Table Rooms already exists")
+
+try:
+    migrate(
+        migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
+    )
+except:
+    print("Column parentCourse_id in table Course already exists")
+
+

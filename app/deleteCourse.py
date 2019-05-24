@@ -15,11 +15,23 @@ def deletecourse(prefix, tid):
     # DATA NEEDED FOR MANIPULATION
     # TODO: Change the colors when a course is updated
     dataUpdateObj = DataUpdate()
+    rm = RoomPreferences()
     data = request.form
     cid = int(data['cid'])
     # START PROCESSING THE DELETION OF THE COURSE
     course = Course.get(Course.cId == cid)
     # MAKE SURE THE USER HAS THE CORRECT RIGHTS TO DELETE A COURSE
+    
+    #delete course crosslisted children
+    if course.crossListed:
+        delete_if_crosslisted(course, rm)
+    
+    #delete course instructors  
+    instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
+    for instructor in instructors:
+        instructor.delete_instance()    
+    
+    #update changetracker if term is closed
     if not databaseInterface.isTermOpen(tid):
         if user.isAdmin:
             change = CourseChange.select().where(CourseChange.cId == cid)
@@ -36,15 +48,21 @@ def deletecourse(prefix, tid):
                     updateRecord.verified = False
                     updateRecord.save()
             else:
-                dataUpdateObj.addCourseChange(
-                    course.cId, cfg["changeType"]['delete'])
-        else: 
-            return render_template("schedulingLocked.html", tid = tid, prefix = prefix)
-    instructors = InstructorCourseChange.select().where(
-        InstructorCourseChange.course == cid)
-    for instructor in instructors:
+                updateRecord.changeType = cfg["changeType"]["delete"]
+                colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
+                updateRecord.tdcolors = colors
+                updateRecord.verified = False
+                updateRecord.save()
+        else:
+            dataUpdateObj.addCourseChange(
+                course.cId, cfg["changeType"]['delete'])
+    instructorsChange = InstructorCourseChange.select().where(InstructorCourseChange.course == cid)
+    for instructor in instructorsChange:
         instructor.delete_instance()
         
+    #delete course room preference if exists
+    rm.delete_room_preference(course.cId)
+    
     message = "Course: course {} has been deleted".format(course.cId)
     course.delete_instance()
     
@@ -52,6 +70,40 @@ def deletecourse(prefix, tid):
 
     flash("Course has been successfully deleted")
     return redirect(redirect_url())
+
+def delete_if_crosslisted(course, roompreference):
+    '''
+    Functionalities:
+        delete child/parent CC relationship from Crosslisted
+        delete actual parent/child course from Course
+        delete Instructors from InstructorCourse
+        delete course RoomPreference if exists 
+    '''
+      #if course is a crosslisted parent course, delete it with all its child courses
+    if not course.parentCourse:
+        crosslistedCourses = CrossListed.select().where(CrossListed.courseId == course.cId)
+        crosslistedChildCourses = Course.select().where(Course.parentCourse ==course.cId)
+        #delete all related crosslisted courses in crosslisted table
+        for crosslisted_course in crosslistedCourses:
+            crosslisted_course.delete_instance()
+        #delete all related courses child courses in course table
+        for childcourse in crosslistedChildCourses:
+            #remove its roompreference if exist
+            roompreference.delete_room_preference(childcourse.cId)
+            #delete instructors for course
+            instructors = InstructorCourse.select().where(InstructorCourse.course == childcourse.cId)
+            for instructor in instructors:
+                instructor.delete_instance()
+            childcourse.delete_instance()
+        #child course instructors
+    else:
+        #if course being deleted is a child crossListed, delete this relationship
+        CrossListed.select().where(
+            (CrossListed.crosslistedCourse == course.cId) &
+            (CrossListed.courseId == course.parentCourse)
+            ).delete_instance()
+        
+        
 
 
 @app.route("/deletestcourse/<tid>/<prefix>", methods=["POST"])
