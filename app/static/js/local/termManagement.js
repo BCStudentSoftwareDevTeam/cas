@@ -63,7 +63,6 @@ function showPanel(termCode, button){
      
         $(show_id).collapse('toggle');      // Otherwise, toggle open/closed panel
     
-        
     }
     // console.log("Last term: ", lastTerm)
     lastTerm = termCode;                // Update lastTerm to the term you're currently on
