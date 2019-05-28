@@ -307,11 +307,17 @@ function goto_roomResolution(){
     
 }
 
-function archiveTerm(reverseStatus){
+function archiveTerm(reverseStatus,currentState){
     var termCode = getTermCode();
     
-    var stateOrder = 7
     
+    
+    if (currentState == 8){
+      var stateOrder = 6
+    }else if (currentState == 7){
+        var stateOrder = 7
+    }
+        
     $.ajax ({
         
         url:'/admin/termManagement/updateTermState', // This is the link to the controller

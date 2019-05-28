@@ -55,6 +55,7 @@
       {% set format0 = [1,2,4] %}
       {% set format1 = [3,5] %}
       {% set format2 = [6] %}
+      {% set format3 = [7] %}
       {% for state in term_state %}
         {% if state.number in format0 %}
             <div id="order{{state.order}}" class="collapse"> 
@@ -138,7 +139,7 @@
               </div><!--Closes row-->
             </div><!--Closes panel-body -->
         </div><!--Closes order6 -->
-        {% else %}
+        {% elif state.number in format3 %}
                 <!--The archive panel and the button after finish-->
        <div id="order7" class="collapse text-center" >
           <div class = "panel-footer">
@@ -154,13 +155,35 @@
               </div>
             <div class = "col-sm-6 text-left">
               <div class = " text-center"> 
-                  <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" onclick = " change_btn_name1()"></input><br>
+                  <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" ></input><br>
                 </div>
                 <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
             </div>
           </div>
           </div>
          </div><!-- Closes order7 -->
+         {% else %} <!--For order8-->
+           <div id="order8" class="collapse text-center" >
+            <div class = "panel-footer">
+              <div class = "row text-center">
+                <p><b>This term is complete</b></p><br>
+                <p>(This term has already been archived)</p>
+              </div>
+            <div class = "row">
+                   <!--{# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}-->
+                <div class = "col-sm-4">  
+                  <br>
+                  <!--<a>Download Rooms </a>-->
+                </div>
+              <div class = "col-sm-6 text-left">
+                <div class = " text-center"> 
+                    <input type = "button" class = "btn btn-danger" id = "Unarchive"  data-target ="#unarchiveModal" data-toggle="modal" aria-expanded="false" value = "Unarchive" onclick= "collapser();"></input><br>
+                  </div>
+                  <br><p><sub>(Unarchiving will show the term within other CAS interfaces.)</sub></p>
+              </div>
+            </div>
+            </div>
+           </div>
       {% endif %}
   {% endfor %}
          <!--This is the modal for onclick on archive button confirmation-->
@@ -175,15 +198,30 @@
                   <p>Are you sure you are ready to archive the term?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false')">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false',7)">Yes</button>
                 </div>
               </div>
             </div>
           </div><!-- Closes modal -->
   </div> <!-- Closes allPanels -->
 </div> <!-- Closes big container -->
-<!-- Modal -->
-          
+<!-- Modal for unarchiving-->
+ <div id="unarchiveModal" class="modal fade" tabindex = "-1" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Archive term</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you are ready to unarchive the term?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('true',8)">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
 <!------------------------------------------------------------------------------------------------------------------------------------------>
   <div class="panel-body" style = 'text-align:center;'>
     <!--CREATE A NEW TERM-->
