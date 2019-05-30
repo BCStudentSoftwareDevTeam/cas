@@ -4,8 +4,11 @@ from peewee import *
 from app import app
 from app.logic.authorization import must_be_admin
 from app.logic import functions
-from app.logic.functions import get_unavailable_rooms
+from app.logic.functions import map_unavailable_rooms, find_avail_unavailable_rooms
+from app.logic.course import find_crosslist_via_id
 import json
+from functools import wraps
+
 
 #Term modal
 @app.route("/roomResolutionTerm", methods=["GET"])
@@ -27,6 +30,7 @@ def roomResolution(termCode):
     
 #Room Resolution View
 @app.route("/roomResolutionView/<termCode>/<cid>", methods=["GET"])
+@must_be_admin
 def roomResolutionView(termCode,cid):
     # print("Starting Room Resolution edits")
     try:
@@ -41,45 +45,21 @@ def roomResolutionView(termCode,cid):
     buildings = Building.select()
     instructors = InstructorCourse.select().where(InstructorCourse.course==cid)
     bannercourses = BannerCourses.select()
-    courses = Course.get(Course.cId==cid) #Course A
+    curr_course = Course.get(Course.cId==cid)
     #will give an error if schedule.sid is None
-    schedule = courses.schedule.sid
-    days = ScheduleDays.get(ScheduleDays.schedule==schedule)
-    course_capacity = 1 if not courses.capacity  else courses.capacity 
-    #this query gets all the room ids for the course if the room is free during a course schedule
-    # print("Is it this query breaking?")
-    sql_query = """
-                   SELECT r1.rID, building_id
-                   FROM rooms as r1
-                   LEFT OUTER JOIN (
-                     SELECT c1.rid_id as r2
-                     FROM course as c1
-                     JOIN (
-                       SELECT sid
-                       FROM bannerschedule as bs
-                       WHERE CAST("{0}" as TIME) < CAST(bs.endTime as TIME) 
-                       AND CAST("{1}" as TIME) > CAST(bs.startTime AS TIME)) as bs1 
-                     ON c1.schedule_id = bs1.sid 
-                     WHERE c1.rid_id IS NOT NULL
-                     AND c1.term_id = {2}) as x
-                   ON r1.rID = r2
-                   INNER JOIN building as b ON r1.building_id = b.bID
-                   WHERE r2 IS NULL
-                   AND r1.maxCapacity >= {3}
-                   ORDER BY b.name;
-                """.format(courses.schedule.startTime, courses.schedule.endTime,
-                courses.term.termCode, course_capacity)
-    print(sql_query)
-    cursor = mainDB.execute_sql(sql_query)
-    availablerooms = [] 
-    for room in cursor:
-        availablerooms.append(room[0])
+    schedule = curr_course.schedule.sid
+    
+    daysQuery = ScheduleDays.select().where(ScheduleDays.schedule==schedule)
+    days = [i for i in daysQuery]
+    
+    course_capacity = 1 if not curr_course.capacity  else curr_course.capacity 
+    
+    #find all rooms that are free during course schedule AND find rooms that are not free during a course schedule
+    availablerooms, unavailablerooms = find_avail_unavailable_rooms(curr_course)
     rooms=Rooms.select().where(Rooms.rID << availablerooms)
-    curr_course=courses       
-    
-    #unavailable rooms mapped with their courses
-    unavailable_to_course=get_unavailable_rooms(curr_course, availablerooms)
-    
+    #map unavaile rooms to their courses
+    unavailable_to_course = map_unavailable_rooms(curr_course, unavailablerooms)
+  
     #For populating current occupant in course's preferences aka Course B aka Conflicting Course!
     confcourse = RoomPreferences.get(RoomPreferences.course == cid) # grab the A course's preferences
     sch1startTime = confcourse.course.schedule.startTime            # grab the A course's schedule start time
@@ -154,15 +134,16 @@ def roomResolutionView(termCode,cid):
                     pref_info['notes']=rp1.notes
                     preferences[pref] = pref_info
                     break
-            
+    course_to_crosslist=find_crosslist_via_id(cid)
     #Actual conflicting course(S) {'pref1': {'instructor': u'Scott Heggen', 'course_name': 'CSC 236 Data Structures', 'cid': 1}}
     return render_template("roomResolutionView.html", 
                             roompreference=roompreference, 
                             available_rooms=rooms,
+                            course_to_crosslist = course_to_crosslist,
                             unavailable_to_course =unavailable_to_course,
                             buildings=buildings, 
                             instructors = instructors, 
-                            courses=courses, 
+                            courses=curr_course, 
                             bannercourses=bannercourses,
                             preferences=preferences,
                             termcode=termCode,
@@ -170,81 +151,72 @@ def roomResolutionView(termCode,cid):
                         )
                         
 
+
+def decorator(func):
+    @wraps(func)
+    def wrapper(cid, *args, **kwargs):
+        try:
+            course = Course.get(Course.cId==cid)
+            data = request.form
+            response = func(course, data)
+            if course.crossListed:
+                assign_or_unassign_cc(course, data['roomID'])
+            #if response is not None, updateRoom function was passed as callback, thus redirect user
+            if response:
+                return json.dumps(response)
+            flash("Your changes have been saved!") 
+            return json.dumps({"success": 1})
+        except:    
+            flash("An error has occurred. Please try again.","error")
+            return json.dumps({"error":0})
+    return wrapper
+    
 #Controller for Assign button (roomResolutionView) sending the assignment of a course to a room to database
 #Assign to AVAILABLE ROOMS ONLY
 @app.route("/assignRoom/<cid>", methods=["POST"])
-
-def assignRoom(cid):
+@decorator
+def assignRoom(course, data):
     '''
-    Assign General Available room to a course
+    Assign Available/Unavailable room to a course
+
     params:
-       int: cid: Course_Id
-
+      course: new_course
+      data: form data
     '''
-    try:
-        data = request.form
-        course=Course.get(Course.cId==cid)
-        #already has a room
-        if course.rid:
-            course.rid = data['roomID']
-            course.save()
-            flash("Your changes have been saved!") 
-            return json.dumps({"success": 1})
-        else:
-            #If the course doesn't have a room
-            course.rid = data['roomID']
-            course.save()
-            flash("Your changes have been saved!") 
-            return json.dumps({"success": 1})
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"success":0})
-    
-    
+    course.rid = data["roomID"]
+    course.save()
+
 #Assign to an OCCUPIED room, remove current occupant: Save and go to displayed course 
 @app.route("/updateRoom/<cid>", methods=["POST"])
-
-def updateRoom(cid):
-    '''Assign preference room to a course. 
-       Update the room id of previous course (i.e. conflict_course) to None.
+@decorator
+def updateRoom(course, data):
+    '''Reassign room to a different course. Remove the current one
        
        params:
-         int: cid: Course_Id
+         course: new_course
+         data: form data
     '''
-    try:
-        course = Course.get(Course.cId==cid)
-        data = request.form
-        course.rid = data['roomID']
-        course.save()
-        conflict_course = Course.get(Course.cId == data['ogCourse'])
-        conflict_course.rid=None
-        conflict_course.save()
-        response={"url":conflict_course.cId}
-        return json.dumps(response)
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"error":0})
+    course.rid = data["roomID"]
+    course.save()
+    conflict_course = Course.get(Course.cId == data['ogCourse'])
+    conflict_course.rid=None
+    conflict_course.save()
+    if(conflict_course.crossListed):
+        assign_or_unassign_cc(conflict_course, None)
+    return {"url":conflict_course.cId}
             
 
-
-@app.route("/addSecond/<cid>", methods=["POST"])
-def addSecond(cid):
+def assign_or_unassign_cc(course, roomId):
+    '''Unassign remove from the children of Crosslisted Course
+       
+       params:
+         course: crosslisted course
+         roomId: room
     '''
-    Assign Course to a room that already has courses in it. 
-    params:
-       int: cid: Course_Id
-
-    '''
-    try:
-        course = Course.get(Course.cId==cid)
-        data = request.form
-        course.rid = data['roomID']
-        course.save()
-        response={"success":1}
-        flash("Your changes have been saved!") 
-        return json.dumps({"success": 1})
-    except:
-        flash("An error has occurred. Please try again.","error")
-        return json.dumps({"error":0})
-        
-    
+    qs = CrossListed.select().where(CrossListed.courseId == course.cId)
+    if qs.exists:
+        for cross_course in qs:
+            #skip the parent itself
+            if cross_course.crosslistedCourse.cId != course.cId:
+                cross_course.crosslistedCourse.rid = roomId
+                cross_course.crosslistedCourse.save()  

@@ -14,10 +14,17 @@
     
 
     {% for contrib in cfg.contributors %}
-    <tr class"info">
-        <td>{{contrib.name}}</td>
-        <td>{{contrib.year}}</td>
-    </tr>
+        {% if contrib.name == 'Sher Sanginov' %}
+         <tr class"info">
+             <td><a href="http://shersanginov.com" >{{contrib.name}}</a></td>
+             <td>{{contrib.year}}</td>
+         </tr>
+        {% else %}
+        <tr class"info">
+            <td>{{contrib.name}}</td>
+            <td>{{contrib.year}}</td>
+        </tr>
+        {% endif %}
     {% endfor %}
     </table>
     <button type='button' class='btn btn-success' style="padding: 7px 30px; margin-top: 5px" onclick ="window.history.back()">Back</button>

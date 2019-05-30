@@ -197,8 +197,24 @@ class Course(baseModel):
   rid               = ForeignKeyField(Rooms, null = True, related_name='courses_rid')
   section           = TextField(null = True)
   prereq            = CharField(null = True) 
+  parentCourse      = ForeignKeyField('self', null=True)
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
+    
+class CrossListed(baseModel):
+  cId               = PrimaryKeyField()
+  courseId          = ForeignKeyField(Course, null= True, related_name="parent_course")
+  crosslistedCourse = ForeignKeyField(Course, null = True, related_name="cross_course")
+  verified          = BooleanField(default=False)
+  prefix            = CharField()
+  term              = ForeignKeyField(Term, null = False)
+  
+  
+  @staticmethod
+  def create(**kwargs):
+    CrossListed(courseId = course.cId, crosslistedCourse = course.cId,
+    prefix = course.prefix,verify = True,term=int(tid)).save()
+        
 
 class SpecialTopicCourse(baseModel):
   stId                 = PrimaryKeyField()
@@ -283,4 +299,120 @@ class RoomPreferences(baseModel):
   none_Choice        = CharField(null=True)
   none_Reason        = CharField(null=True)
   initial_Preference = CharField(null=True, default = 1)
-  priority           = IntegerField(default = 6)  
+  priority            = IntegerField(default = 6)  
+  
+  def delete_room_preference(self, cid):
+    
+    qs = RoomPreferences.select().where(RoomPreferences.course == cid)
+    if(qs.exists()):
+      qs.first().delete_instance()
+      
+  def update_cc_child(self, room, pref, parent_id, none_choice, any_choice):
+    '''
+    Update room preference for crosslisted children if the parent 
+    course has crosslisted courses as children
+    '''
+    qs = CrossListed.select().where(CrossListed.courseId == parent_id).where(CrossListed.crosslistedCourse !=  parent_id)
+    if qs.exists():
+      if room > 0:
+        for obj in qs:
+          child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+          if pref == 1:
+            child.pref_1 = room
+          elif pref == 2:
+            child.pref_2 = room
+          elif pref == 3:
+            child.pref_3 = room
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          child.any_Choice = any_choice
+          child.none_Choice = none_choice
+          child.save()
+      
+      elif room == 0:
+        if pref == 1:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_1 = None
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice  #1 None
+            child.none_Choice = none_choice
+            child.save()
+                
+        elif pref == 2:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice # 2 None
+            child.none_Choice = none_choice
+            child.save()
+        elif pref == 3:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_3 = None
+            child.any_Choice = any_choice   #3 None
+            child.none_Choice = none_choice
+            child.save()
+      elif room == -1:
+        if pref == 1:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_1 = None
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 1
+            child.none_Choice = none_choice
+            child.save()
+                
+        elif pref == 2:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_2 = None 
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 2
+            child.none_Choice = none_choice
+            child.save()
+        elif pref == 3:
+          print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
+          
+          for obj in qs:
+            child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+            child.pref_3 = None
+            child.any_Choice = any_choice #None 3
+            child.none_Choice = none_choice
+            child.save()
+    
+        
+          
+  
+  
+#Begin education tech class
+
+
+# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
+# class newcrosslisted (dbModel): 
+#   clId                 = PrimaryKeyField()
+#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
+#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
+#   verified             = BooleanField() #Verified? = yes or no
+# We are not sure why it is not running when we have these uncommented
+# it says newcrosslisted is already in use by another foreign key
+  
+# # we brought this down here because it was giving us an error for courses foreign key 
+# class RoomPreferences(dbModel):
+#   rpID           = PrimaryKeyField()
+#   course        = ForeignKeyField(Course, related_name='courses')
+#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
+#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
+#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
+#   notes         = CharField(null=True)
+#   any_Choice    = CharField(null=True)
+#   none_Choice   = CharField(null=True)
+#   none_Reason   = CharField(null=False)
+

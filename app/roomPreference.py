@@ -51,7 +51,7 @@ def roomPreference(term):
                                         .where(RoomPreferences.course == InstructorCourse.course 
                                                 and InstructorCourse.username == current_user)
                                         .where(Course.term == current_term)
-                                        .distinct()
+                                        .distinct().where(Course.parentCourse == None)
                             )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
       
@@ -137,41 +137,47 @@ def postPreference():
     
     room = int(data["roomID"]) # ID of the room to update a course's room preference with. 
     
-    rp = RoomPreferences.get(RoomPreferences.course== data["ogCourse"])
-    
+    rp = RoomPreferences.get(RoomPreferences.course == data["ogCourse"])
     rp.initial_Preference = 0 # Just something we're not sure what to do with. 
-    
+    any_choice = None
+    none_choice = None
+    print("Room {} pref {} ".format(room,pref))
     if room > 0: #If a room was selected
         
         if (pref == 1): # for preference 1
         
-            rp.pref_1      = data["roomID"] # grab selected roomID
+            rp.pref_1      = int(data["roomID"]) # grab selected roomID
         
             rp.any_Choice  = 2 # Set all succeeding preferences to any room works
         
             rp.none_Choice = None # update database to reflect that 'This course does not require a room/No other room works' was not selected
-        
+            
+            any_choice = 2
+
         elif (pref == 2): # preference 2
             
             rp.pref_2      = data["roomID"] 
             
             if rp.any_Choice >= 2:
-                rp.any_Choice  = 3
+                any_choice  = 3
             else:
-                rp.any_Choice = None
+                any_choice = None
                 
             if rp.none_Choice >= 2:
-                print("none on three")
-                rp.none_Choice = 3
+                none_choice = 3
             else:
-                rp.none_Choice = None
-        
+                none_choice = None
+            
+            rp.any_Choice = any_choice
+            rp.none_Choice = none_choice
+            
+                   
         elif(pref == 3): # preference 3
         
             rp.pref_3      = data["roomID"]
         
             rp.none_Choice = None
-        
+
         else:
         
             flash("You tried to select a preference that doesn't exist!","ERROR!!! :(")
@@ -187,26 +193,37 @@ def postPreference():
             rp.pref_3      = None # Same for preference 3 
             rp.any_Choice  = 1 # Set the column 'any_choice' to the preference ID to indicate that 'Any room was selected'
             rp.none_Choice = None # update database to reflect that 'This course does not require a room/No other room works' was not selected
-        
+            
+            any_choice = 1
+
+            
         elif (pref == 2): # preference 2
             rp.pref_2      = None
             rp.pref_3      = None
             rp.any_Choice  = 2
             rp.none_Choice = None 
-        
+            
+            any_choice = 2
+
         elif(pref == 3): # preference 3
             rp.pref_3      = None
             rp.any_Choice  = 3
             rp.none_Choice = None
-    
+            any_choice = 3
+
     elif room == -1:  # If 'No other rooms work' or 'This course does not require a room' was selected
         # if(rp.any_Choice == str(pref).decode("utf-8")): rp.any_Choice = None // FIXME: WHAT DOES THIS DO???>????
         if (pref == 1): # for preference 1
             rp.any_Choice  = None # Set the 'any_choice' column of a course to none to indicate that 'Any room works' was not selected
             rp.pref_1      = None # Set preference 1 for the course to None to indicate that a room was not selected as preference 
             rp.none_Choice = 1 # Set the none_choice column to the preference ID to indicate that 'No other rooms work' or 'This course does not require a room' was selected for the course
-            rp.pref_2      = None # Set preference 2 for the course to None to indicate that a room was not selected as preference 
-            rp.pref_3      = None # Set preference 3 for the course to None to indicate that a room was not selected as preference 
+    
+            rp.pref_2      = None # Set preference 2 for the course to 100 to indicate that a room was not selected as preference 
+    
+            none_choice = 1
+            
+            rp.pref_3      = None # Set preference 3 for the course to 100 to indicate that a room was not selected as preference 
+    
             flash("WARNING: This indicates to the registrar that this course does not need a room","error")
     
         elif (pref == 2):
@@ -214,13 +231,34 @@ def postPreference():
             rp.none_Choice = 2            
             rp.pref_3 = None            
             rp.any_Choice = None
+            
+            none_choice = 2
+            
+        elif(pref == 3):
         
-        elif(pref == 3):      
-            rp.pref_3 = None        
-            rp.none_Choice = 3        
+            rp.pref_3 = None
+        
+            rp.none_Choice = 3
+        
             rp.any_Choice = None
 
+            none_choice = 3
+            
+
+    
+
     rp.save() # Save the room preference in the database for the course
+    
+    #if room has crosslisted courses, update CC roompreferences to0
+    if rp.course.crossListed:
+        rm = RoomPreferences()
+        rm.update_cc_child(room, pref, data["ogCourse"], none_choice, any_choice)
+   
+    # print('RP_any', rp.any_Choice)
+    # print("RP_None", rp.none_Choice )
+    # print("RP-Pref1", rp.pref_1)
+    # print("RP-Pref2", rp.pref_2)
+    # print("RP-Pref3", rp.pref_3)
     postNotes(data["ogCourse"], data['note'])
     return json.dumps({"success": 1}) 
 
@@ -240,4 +278,11 @@ def postNotes(cid, note):
     room_preference = RoomPreferences.get(RoomPreferences.course == cid)
     room_preference.notes = note
     room_preference.save()
-  
+    if room_preference.course.crossListed:
+        qs = CrossListed.select().where(CrossListed.courseId == cid).where(CrossListed.crosslistedCourse !=  cid)
+        if qs.exists():
+            for obj in qs:
+                child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
+                child.notes = note
+                child.save()
+   
