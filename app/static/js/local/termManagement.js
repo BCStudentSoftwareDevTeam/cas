@@ -26,7 +26,7 @@ function showPanel(termCode, button){
     
     // Hides all the panels and removes any styling
     
-    for (var i = 0; i <= 7; i++ ){ 
+    for (var i = 0; i <= 8; i++ ){ 
     
         var build_id = '#order' + i.toString();
     
@@ -155,8 +155,8 @@ function change_btn_name(){
         $("#myModal .modal-body").text('Are you sure you want to archive the term');
     }
 }
-function collapser(){
-    $('#order6').removeClass("in"); 
+function collapser(currentState){
+    $('#order'+ currentState.toString()).removeClass("in"); 
 }
 
 function change_text() {
@@ -310,7 +310,7 @@ function goto_roomResolution(){
 function archiveTerm(reverseStatus,currentState){
     var termCode = getTermCode();
     
-    
+    console.log(currentState);
     
     if (currentState == 8){
       var stateOrder = 6

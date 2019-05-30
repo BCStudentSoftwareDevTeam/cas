@@ -133,7 +133,7 @@
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
                   <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
-                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}},'false'); collapser();"> {{state.display_name}}
+                    onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}},'false'); collapser(6);"> {{state.display_name}}
                   </button>
                 </div><!--Closes column-->
               </div><!--Closes row-->
@@ -162,8 +162,8 @@
           </div>
           </div>
          </div><!-- Closes order7 -->
-         {% else %} <!--For order8-->
-           <div id="order8" class="collapse text-center" >
+         </div><!--For order8-->
+         <div id="order8" class="collapse text-center" >
             <div class = "panel-footer">
               <div class = "row text-center">
                 <p><b>This term is complete</b></p><br>
@@ -177,7 +177,7 @@
                 </div>
               <div class = "col-sm-6 text-left">
                 <div class = " text-center"> 
-                    <input type = "button" class = "btn btn-danger" id = "Unarchive"  data-target ="#unarchiveModal" data-toggle="modal" aria-expanded="false" value = "Unarchive" onclick= "collapser();"></input><br>
+                    <input type = "button" class = "btn btn-danger" id = "Unarchive"  data-target ="#unarchiveModal" data-toggle="modal" aria-expanded="false" value = "Unarchive" onclick= ""></input><br>
                   </div>
                   <br><p><sub>(Unarchiving will show the term within other CAS interfaces.)</sub></p>
               </div>
@@ -198,13 +198,11 @@
                   <p>Are you sure you are ready to archive the term?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('false',7)">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="archiveTerm('false',7), collapser(7)">Yes</button>
                 </div>
               </div>
             </div>
           </div><!-- Closes modal -->
-  </div> <!-- Closes allPanels -->
-</div> <!-- Closes big container -->
 <!-- Modal for unarchiving-->
  <div id="unarchiveModal" class="modal fade" tabindex = "-1" role="dialog">
             <div class="modal-dialog">
@@ -217,11 +215,13 @@
                   <p>Are you sure you are ready to unarchive the term?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="change_btn_name(); archiveTerm('true',8)">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="archiveTerm('true',8), collapser(8)">Yes</button>
                 </div>
               </div>
             </div>
           </div>
+  </div> <!-- Closes allPanels -->
+</div> <!-- Closes big container -->
 <!------------------------------------------------------------------------------------------------------------------------------------------>
   <div class="panel-body" style = 'text-align:center;'>
     <!--CREATE A NEW TERM-->
