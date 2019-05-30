@@ -18,7 +18,7 @@
       <table class="table" cellspacing="0" cellpadding="0">
           {% include "snips/termModal.html" %}
           {% for term in terms %}
-          <tr  id = "{{ term.termCode }}" class = "row">
+          <tr  id = "{{ term.termCode }}" class = "row" >
             <td> 
             {% for state in term_state %}
                 {% if state.number == 0 %}
@@ -44,13 +44,13 @@
           </td>  
           </tr>
           <tr  id = "hidden_{{ term.termCode }}">
-            <td colspan="8" id = "divForPanel{{term.termCode}}" > <!-- Calls the panels for each button in  term--> </td>
+            <td colspan="10" id = "divForPanel{{term.termCode}}" align="center" > <!-- Calls the panels for each button in  term--> </td>
           </tr>
           {% endfor %}
       </table>
   </div><!--Closes panel-default-->
 <div id = "allPanels"><!--This covers all the panels-->
-  <div class="panel panel-default"> 
+  <!--<div class="panel panel-default" style=" left:20%"> -->
       <!--Creates the variable for the states and loops through all the states and genrates the appropriate pannels as specified by the if statement-->
       {% set format0 = [1,2,4] %}
       {% set format1 = [3,5] %}
@@ -58,8 +58,8 @@
       {% set format3 = [7] %}
       {% for state in term_state %}
         {% if state.number in format0 %}
-            <div id="order{{state.order}}" class="collapse"> 
-              <div class="panel-body panel_color">
+            <div id="order{{state.order}}" class="collapse text-center"> 
+              <div class="panel-footer">
                 <div class = "row text-center">
                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p> <!-- Access the state number from the config file and then get the value of mainInfo-->
                 </div>
@@ -76,8 +76,9 @@
             </div><!--Closes order-->
         {% elif state.number in format1 %}
               <div class="row">
-              <div id="order{{state.order}}" class="collapse">
-                    <div class = "row text-center">
+              <div id="order{{state.order}}" class="collapse text-center">
+                <div class="panel-footer">
+                    <div class = "row text-center ">
                         <p><b>{{cfg['states'][state.number]['mainInfo']}}</b><br> </p>
                     </div>
                     <div class ="row">
@@ -87,7 +88,7 @@
                           <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
                           aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', {{state.order-1}});"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
                       </div>
-                      <div class = "col-sm-6 text-right">
+                      <div class = "col-sm-6 ">
                           <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                           <!--- this is for the lock button --->
                           <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
@@ -103,12 +104,13 @@
                           </span>
                       </div><!-- Closes column-->
                     </div><!--Closes row -->
+                    </div>
                   </div><!-- Closes order-->
                 </div><!--Closes row -->
     {% elif state.number in format2 %} 
       <!--FINISH-->
-       <div id="order6" class="collapse">
-          <div class = "panel-body panel_color">
+       <div id="order6" class="collapse text-center">
+          <div class = "panel-footer">
             <div class = "row text-center">
               <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p>
             </div>
@@ -153,15 +155,14 @@
                 <br>
                 <!--<a>Download Rooms </a>-->
               </div>
-            <div class = "col-sm-6 text-left">
-              <div class = " text-center"> 
+            <div class = "col-sm-8 text-left">
+              <div class = " text-right"> 
                   <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" ></input><br>
-                </div>
                 <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
+              </div>
             </div>
           </div>
-          </div>
-         </div><!-- Closes order7 -->
+          </div><!-- Closes order7 -->
          </div><!--For order8-->
          <div id="order8" class="collapse text-center" >
             <div class = "panel-footer">
@@ -175,11 +176,11 @@
                   <br>
                   <!--<a>Download Rooms </a>-->
                 </div>
-              <div class = "col-sm-6 text-left">
-                <div class = " text-center"> 
+              <div class = "col-sm-8 text-left">
+                <div class = "text-right"> 
                     <input type = "button" class = "btn btn-danger" id = "Unarchive"  data-target ="#unarchiveModal" data-toggle="modal" aria-expanded="false" value = "Unarchive" onclick= ""></input><br>
-                  </div>
                   <br><p><sub>(Unarchiving will show the term within other CAS interfaces.)</sub></p>
+                </div>
               </div>
             </div>
             </div>
