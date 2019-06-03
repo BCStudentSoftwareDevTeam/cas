@@ -21,12 +21,25 @@ p {
     <div class="row">
       <div class="col-xs-4" >
         <h3><strong>Course without room</strong></h3>
+        
         <input id="hiddencourse" hidden value = "{{roompreference.course.bannerRef.subject}}-{{roompreference.course.bannerRef.number}} "></input>
         <label for="courses"><h5><strong>Course: </strong></label>{{roompreference.course.bannerRef.subject}} {{roompreference.course.bannerRef.number}} {{roompreference.course.bannerRef.ctitle}} Section {{roompreference.course.section}}</h5>
+        
+        {% if course_to_crosslist != False and roompreference.course.cId|string in course_to_crosslist %}        
+          <label for="crosslisted">
+            
+            <h5>
+            <strong>Crosslisted with: </strong></label>
+            {% for course in course_to_crosslist[roompreference.course.cId|string] %}
+                {{ course.subject.prefix}} {{course.number }};
+            {% endfor %}
+            
+           </h5>
+        {% endif %}
         {%for instructor in instructors %}
           <label for="insctructor"><h5><strong>Instructor: </strong></label>{{instructor.username.firstName}} {{instructor.username.lastName}}</h5>
         {% endfor %}
-        <label for="schedule"><h5><strong>Schedule: </strong></label> {{days.day}} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
+        <label for="schedule"><h5><strong>Schedule: </strong></label> {{ days[0].schedule }} {{roompreference.course.schedule.startTime.strftime('%I:%M  %p')}} - {{roompreference.course.schedule.endTime.strftime('%I:%M  %p')}}</h5>
         <label for="capacity"><h5><strong>Capacity:</strong> </label> {{roompreference.course.capacity}} </h5><br>
         <label ><h5><strong>Course Notes:</strong> </label> {{roompreference.course.notes}} </h5><br>
         <label ><h5><strong>Preference Notes:</strong> </label> {{roompreference.notes}}</h5><br>
@@ -347,7 +360,7 @@ p {
         </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-md" data-dismiss="modal">Close</button>
-          <button onclick="addSecond()" class="btn btn-info btn-md" id="redirectbutton">Save to the same room</button><!--- Saves changes and goes to the course that has just been unassigned-->
+          <button onclick="assignRoomCourse()" class="btn btn-info btn-md" id="redirectbutton">Save to the same room</button><!--- Saves changes and goes to the course that has just been unassigned-->
         </div>
       </div>
     </div>

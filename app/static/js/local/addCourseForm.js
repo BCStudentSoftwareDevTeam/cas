@@ -42,3 +42,32 @@ $("#roomSelect").on('changed.bs.select', function(e) {
         .resize(resize)
         .trigger('resize');
 
+
+
+const element = document.getElementById("createCourseForm");
+if(element.addEventListener){
+    element.addEventListener("submit", callback, false);  //Modern Browsers
+}else if(element.attachEvent){
+    element.attachEvent('onsubmit', callback);
+}
+function callback(e){
+    console.log("callback")
+    e.preventDefault();
+    //select the values of crosslist dropdown
+    const values =   $('#crossListSelect').val();//document.getElementById("crossListSelect").value;
+    console.log(values);
+    if(values == null){
+        document.getElementById("crossListed").value = 0;
+    }else{
+        document.getElementById("crossListed").value = 1;
+    }
+    element.submit();
+}
+
+
+function callme(event){
+    //const values =  document.getElementById("crossListSelect")
+    //const vals = values.options[values.selectedIndex].text;
+    //console.log(vals);
+    console.log("TODO");
+}

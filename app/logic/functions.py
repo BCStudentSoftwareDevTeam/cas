@@ -170,26 +170,90 @@ def createColorString(changeType):
         return tdcolors
 
         
-def get_unavailable_rooms(curr, availablerooms):
-    #get all the rooms if room id is not in list of available_rooms
-    unavailable_rooms=Rooms.select().where(Rooms.rID.not_in(availablerooms))
-    #list of unavailable room ids used to get courses in relationship with these rooms
-    list_of_room_ids=[room.rID for room in unavailable_rooms]
-    #select all the courses that have relationship with unavailable rooms
-    courses_obj=Course.select(Course).where(Course.rid << list_of_room_ids)
-    #final mapping unavailable rooms to their respective courses: Note: final mapper is passed to template
+def map_unavailable_rooms(currCourse, unavailableRIds):
+    """
+    map unavailable rooms to their courses 
+    
+    Args: 
+       currCourse: Course model instance
+       unavailableRId: Python list containing rooms ids
+    """
     unavailable_to_course={}
-    for course in courses_obj:
-        #these check is important: only consider courses whose startime is less than current course startTime and 
-        #endTime greater than currentCourse startTime and courses term are equal to current course term
-        
-        if course.schedule and course.schedule.startTime < curr.schedule.endTime and course.schedule.endTime > curr.schedule.startTime and course.term_id == curr.term_id:
-            #map room object to list of courses that is taking place in this room
-            if course.rid in unavailable_to_course:
-                unavailable_to_course[course.rid].append(course)
-            else:
-                unavailable_to_course[course.rid]=[course]
+    if isinstance(currCourse, Model) and unavailableRIds:
+        #select unavailable rooms
+        unavailable_rooms = Rooms.select().where(Rooms.rID << unavailableRIds)
+        #select all the courses that use these rooms
+        courses_obj=Course.select(Course).where(Course.rid << unavailableRIds)
+        #map unavailable rooms to their respective courses:
+        for course in courses_obj:
+            #map room object to list of courses that are taking place in this room current term
+            if course.schedule and course.term_id == currCourse.term_id:
+                if course.rid in unavailable_to_course:
+                    unavailable_to_course[course.rid].append(course)
+                else:
+                    unavailable_to_course[course.rid]=[course]
     return unavailable_to_course
 
+def rooms_to_course_schedule(assignedRooms):
+    """
+    Map assigned rooms to their course schedule
     
+    Args:
+        assingedRooms: <class peewee.SelectQuery> 
+    """
+    rooms_cache = {}  
+    if assignedRooms.exists():
+        for room in assignedRooms.naive():
+            if int(room.rID) in rooms_cache:
+                rooms_cache[int(room.rID)].append(room.schedule)
+            else:
+                rooms_cache[int(room.rID)] = [room.schedule]
+    return rooms_cache
+    
+    
+def find_avail_unavailable_rooms(curr_course):
+    """
+    Query available and unavailable rooms for a course
+    
+    Args:
+        curr_course: Course model instance
+    """
+    unavailablerooms = []
+    availablerooms = []
+    if isinstance(curr_course, Model):
+     
+        #query 1: get all the rooms that are not assigned to courses in current course term
+        join_cond = (
+            (Rooms.rID == Course.rid) &
+            (Course.term_id == curr_course.term.termCode) 
+        )
+        #SQL equivalent: select * from rooms LEFT OUTER JOIN course ON rooms.rID = course.rid_id and course.term_id = course.term WHERE course.rid_id is NULL;          
+        unassignedRooms = (Rooms
+             .select()
+             .join(Course, JOIN_LEFT_OUTER, on=join_cond)).where(Course.rid.is_null(True))
+             
+        availablerooms = [room.rID for room in unassignedRooms]
+    
+        #query 2: get all the rooms that are assigned to courses in current term
+        join_cond1 = (
+            (Rooms.rID == Course.rid) &
+            (Course.term_id == curr_course.term.termCode) 
+        )
+        #SQL equialent: Select distinct * from rooms as t1 inner join course as t2 on t1.rID = t2.rid_id and t2.term_id = "some_term_code" where t2.rid_id is not null; 
+        assignedRooms = (Rooms.select(Rooms, Course.schedule).join(Course, on=join_cond1).where(Course.rid.is_null(False))
+                        ).distinct() 
+        
+        #map assigned rooms to their courses' schedule 
+        rooms_to_courses = rooms_to_course_schedule(assignedRooms)
+        #find non-conflicting assignedRooms rooms for course using conflict logic defined in config.yaml: 
+        courseConflictsWith = set(cfg['conflicts'][curr_course.schedule_id])
+        for key in rooms_to_courses:
+            curr_room_schedules = set(rooms_to_courses[key]) 
+            #if current course schedule does not conflict with schedules of assigned room courses, then room is free during a course schedule
+            if (not courseConflictsWith & curr_room_schedules):
+                availablerooms.append(key)
+            else:
+                unavailablerooms.append(key)
+    return availablerooms, unavailablerooms
+
     
