@@ -213,7 +213,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     // This function changes the data target of the term button that opens the panel where the user gets to move to the next state or reverse to a previous state
     
     var next_state = parseInt(termState) +1;        // the next state
-   
+    console.log("Howdy")
     if (reverseStatus == 'true'){ // This is to recognize if the user tried to reverse an action
         
         var previous_state = (parseInt(termState)+1)
@@ -241,7 +241,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
-    
+    console.log("Howdy Pt.2")
     var allPanelsDiv = $("#allPanels");
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
@@ -257,12 +257,9 @@ function submit_data(stateOrder, reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
+            console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
-            if (stateOrder == 5){
-                disableFinishButton();
-            }
         },
         error: function (xhr, ajaxOptions, thrownError) {
            console.log("saving data to database failed from submit data")
@@ -271,8 +268,17 @@ function submit_data(stateOrder, reverseStatus){
     })
     
 } 
-function disableFinishButton(){
-     $('#button6').prop('disabled', true);
+function waitModal(){
+    //Called when changing from order5 to order6, meaning the room assignment algorithm has finished and user can move on.
+    $('#wait').modal({
+                        backdrop: 'static',
+                        keyboard: false, 
+                        show: true
+                });
+
+    setTimeout(function() { //Waits for algorithm to run, then closes modal
+        $('#wait').modal('toggle')
+        }, 5000);
 }
 
 // function remove_class(finishButton){
