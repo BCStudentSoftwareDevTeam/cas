@@ -278,7 +278,7 @@ function waitModal(){
 
     setTimeout(function() { //Waits for algorithm to run, then closes modal
         $('#wait').modal('toggle')
-        }, 5000);
+        }, 8000);
 }
 
 // function remove_class(finishButton){
