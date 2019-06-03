@@ -92,7 +92,7 @@
                       <div class = "col-sm-6 ">
                           <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                           <!--- this is for the lock button --->
-                          {% if state.number == 5 %}
+                          {% if state.number == 5 %} <!-- Checking for statenumber to see if wait modal needs to popup -->
                           <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
                           aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}}, 'false'); waitModal();" >
                             {{state.display_name}}
