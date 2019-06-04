@@ -2,7 +2,7 @@ var lastTerm = "";
 function showPanel(termCode, button){
     
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
-    console.log('show_id', show_id)
+    // console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
     
     disable_btn.disabled = true;            // Disables all the state buttons
@@ -14,11 +14,11 @@ function showPanel(termCode, button){
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
   
 
-    console.log("target div: " + targetDiv);
+    // console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
   
-    console.log("subject div: " + subjectDiv);
+    // console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
     
@@ -213,7 +213,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     // This function changes the data target of the term button that opens the panel where the user gets to move to the next state or reverse to a previous state
     
     var next_state = parseInt(termState) +1;        // the next state
-    console.log("Howdy")
+    // console.log("Howdy")
     if (reverseStatus == 'true'){ // This is to recognize if the user tried to reverse an action
         
         var previous_state = (parseInt(termState)+1)
@@ -241,7 +241,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
-    console.log("Howdy Pt.2")
+    // console.log("Howdy Pt.2")
     var allPanelsDiv = $("#allPanels");
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
@@ -257,12 +257,12 @@ function submit_data(stateOrder, reverseStatus){
         cache: false,
         
         success: function () {
-            console.log('Success')
+            // console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
         },
         error: function (xhr, ajaxOptions, thrownError) {
-           console.log("saving data to database failed from submit data")
+        //   console.log("saving data to database failed from submit data")
         }
         
     })
@@ -316,7 +316,7 @@ function goto_roomResolution(){
 function archiveTerm(reverseStatus,currentState){
     var termCode = getTermCode();
     
-    console.log(currentState);
+    // console.log(currentState);
     
     if (currentState == 8){
       var stateOrder = 6
@@ -341,7 +341,7 @@ function archiveTerm(reverseStatus,currentState){
           
         },
         error: function (xhr, ajaxOptions, thrownError) {
-           console.log("saving data to database failed from archive")
+        //   console.log("saving data to database failed from archive")
         }
         
     })
