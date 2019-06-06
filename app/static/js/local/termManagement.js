@@ -275,10 +275,17 @@ function waitModal(){
                         keyboard: false, 
                         show: true
                 });
-
     setTimeout(function() { //Waits for algorithm to run, then closes modal
         $('#wait').modal('toggle')
-        }, 8000);
+        }, 9000);
+    var sec = 8;
+    var timer = setInterval(function(){
+    document.getElementById('timerDisplay').innerHTML='00:0'+sec;
+    sec--;
+    if (sec < 0) {
+        clearInterval(timer);
+    }
+        }, 1000);
 }
 
 // function remove_class(finishButton){
