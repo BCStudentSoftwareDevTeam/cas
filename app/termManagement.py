@@ -14,7 +14,7 @@ import time
 @must_be_admin
 def termManagement():
       
-      terms = Term.select().where(Term.term_state < 8) # Select all the terms for the terms table with the state buttons
+      terms = Term.select().where(Term.term_state <= 8) # Select all the terms for the terms table with the state buttons
       
 #      for term in terms:
          #  Update the term_state column in the term table from the state column 
