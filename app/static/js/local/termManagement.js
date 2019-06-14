@@ -2,7 +2,7 @@ var lastTerm = "";
 function showPanel(termCode, button){
     
     var show_id = button.dataset.target;    // The target panel for the term (e.g., Fall 2018)
-    console.log('show_id', show_id)
+    // console.log('show_id', show_id)
     var disable_btn = document.getElementsByClassName("theButtons"); // All of the state buttons 
     
     disable_btn.disabled = true;            // Disables all the state buttons
@@ -14,11 +14,11 @@ function showPanel(termCode, button){
     var targetDiv = $("#divForPanel"+termCode);  // The target location for the panel (which row to put it under)
   
 
-    console.log("target div: " + targetDiv);
+    // console.log("target div: " + targetDiv);
     
     var subjectDiv = $("#allPanels");           // The panel itself, to be moved
   
-    console.log("subject div: " + subjectDiv);
+    // console.log("subject div: " + subjectDiv);
     
     // subjectDiv.attr("hidden", false);
     
@@ -26,7 +26,7 @@ function showPanel(termCode, button){
     
     // Hides all the panels and removes any styling
     
-    for (var i = 0; i <= 7; i++ ){ 
+    for (var i = 0; i <= 8; i++ ){ 
     
         var build_id = '#order' + i.toString();
     
@@ -63,7 +63,6 @@ function showPanel(termCode, button){
      
         $(show_id).collapse('toggle');      // Otherwise, toggle open/closed panel
     
-        
     }
     // console.log("Last term: ", lastTerm)
     lastTerm = termCode;                // Update lastTerm to the term you're currently on
@@ -156,8 +155,8 @@ function change_btn_name(){
         $("#myModal .modal-body").text('Are you sure you want to archive the term');
     }
 }
-function collapser(){
-    $('#order6').removeClass("in"); 
+function collapser(currentState){
+    $('#order'+ currentState.toString()).removeClass("in"); 
 }
 
 function change_text() {
@@ -214,7 +213,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     // This function changes the data target of the term button that opens the panel where the user gets to move to the next state or reverse to a previous state
     
     var next_state = parseInt(termState) +1;        // the next state
-   
+    // console.log("Howdy")
     if (reverseStatus == 'true'){ // This is to recognize if the user tried to reverse an action
         
         var previous_state = (parseInt(termState)+1)
@@ -242,7 +241,7 @@ function updateStateDataTarget(termCode,termState, reverseStatus){
     
 function submit_data(stateOrder, reverseStatus){
     // This function sends an ajax call to the controller to save the state of a term in the database 
-    
+    // console.log("Howdy Pt.2")
     var allPanelsDiv = $("#allPanels");
     
     var termCode = allPanelsDiv.parent().parent()[0].id.split("_").pop();
@@ -258,22 +257,35 @@ function submit_data(stateOrder, reverseStatus){
         cache: false,
         
         success: function () {
-            //console.log('Success')
+            // console.log('Success')
             
             updateStateDataTarget(termCode, stateOrder, reverseStatus); // On success of the saving to the database, update the data target for the term button
-            if (stateOrder == 5){
-                disableFinishButton();
-            }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-           console.log("saving data to database failed from submit data")
+        //   console.log("saving data to database failed from submit data")
         }
         
     })
     
 } 
-function disableFinishButton(){
-     $('#button6').prop('disabled', true);
+function waitModal(){
+    //Called when changing from order5 to order6, meaning the room assignment algorithm has finished and user can move on.
+    $('#wait').modal({
+                        backdrop: 'static',
+                        keyboard: false, 
+                        show: true
+                });
+    setTimeout(function() { //Waits for algorithm to run, then closes modal
+        $('#wait').modal('toggle')
+        }, 9000);
+    var sec = 8;
+    var timer = setInterval(function(){
+    document.getElementById('timerDisplay').innerHTML='00:0'+sec;
+    sec--;
+    if (sec < 0) {
+        clearInterval(timer);
+    }
+        }, 1000);
 }
 
 // function remove_class(finishButton){
@@ -308,11 +320,17 @@ function goto_roomResolution(){
     
 }
 
-function archiveTerm(reverseStatus){
+function archiveTerm(reverseStatus,currentState){
     var termCode = getTermCode();
     
-    var stateOrder = 7
+    // console.log(currentState);
     
+    if (currentState == 8){
+      var stateOrder = 6
+    }else if (currentState == 7){
+        var stateOrder = 7
+    }
+        
     $.ajax ({
         
         url:'/admin/termManagement/updateTermState', // This is the link to the controller
@@ -330,7 +348,7 @@ function archiveTerm(reverseStatus){
           
         },
         error: function (xhr, ajaxOptions, thrownError) {
-           console.log("saving data to database failed from archive")
+        //   console.log("saving data to database failed from archive")
         }
         
     })
