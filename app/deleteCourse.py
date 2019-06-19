@@ -48,6 +48,7 @@ def deletecourse(prefix, tid):
                     updateRecord.verified = False
                     updateRecord.save()
             else:
+		updateRecord = CourseChange(cId = cid)
                 updateRecord.changeType = cfg["changeType"]["delete"]
                 colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
                 updateRecord.tdcolors = colors
