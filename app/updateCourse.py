@@ -20,7 +20,7 @@ class DataUpdate():
         colorList = []
         for x in range(len(cfg["tableLayout"]["order"])):
             colorList.append(color)
-            
+
         tdcolors = ",".join(colorList)
 
         return tdcolors
@@ -30,22 +30,16 @@ class DataUpdate():
         tdcolors = self.createColorString(changeType)
         # ADD THE PROFESSORS TO INTRUCTORCOURSECHANGE
         course = Course.get(Course.cId == cid)
-
-        instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
-        for instructor in instructors:
-            addInstructorChange = InstructorCourseChange(
-                username=instructor.username.username, course=course.cId)
-            addInstructorChange.save()
         # ADD THE COURSE TO COURSECHANGE
         # MORE INFO ABOUT THE NULL CHECK CAN BE FOUND
         nullCheck = NullCheck()
         values = nullCheck.add_course_change(course)
-        
+
         #delete entry if it already exists in CourseChange
         newcourse = CourseChange.select().where(CourseChange.cId == course.cId)
         if newcourse.exists():
             newcourse.delete_instance()
-        
+
         newcourse = CourseChange(
             cId=course.cId,
             # WE DON'T HAVE TO CHECK THIS VALUE BECAUSE IT CAN NEVER BE
@@ -58,7 +52,7 @@ class DataUpdate():
             schedule = values['schedule'],
             specialTopicName=course.specialTopicName,
             capacity=course.capacity,
-            
+
             notes=course.notes,
             lastEditBy=self.username,
             changeType=changeType,
@@ -71,11 +65,11 @@ class DataUpdate():
         instructors = InstructorCourse.select().where(InstructorCourse.course == cid)
         for instructor in instructors:
             addInstructorChange = InstructorCourseChange(
-                username=instructor.username, course=course.cId)
+                username=instructor.username.username, course=course.cId)
             addInstructorChange.save()
         return True
 
-    
+
 
     '''
     Marks a course as having been verified and saves the db
