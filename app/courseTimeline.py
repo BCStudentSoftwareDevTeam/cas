@@ -23,11 +23,12 @@ def courseTimeline(tid):
                             currentTerm=int(tid),
                             cfg = cfg)
                             
-@app.route('/courseTimeline/<int:tid>/json', methods=["GET","POST"])
+@app.route('/courseTimeline/<tid>/json', methods=["GET","POST"])
 def timelineJson(tid):
-  if tid == 0:
+  if int(tid) == 0:
     terms = Term.select().order_by(-Term.termCode)
     tid   = terms[0].termCode
+  print (type(tid))
   google_chart_dict = dict()
   timeline_obj = timeline()
   for key, day in cfg['scheduleDaysShort'].items():
