@@ -19,9 +19,9 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <!-- <li> We aint using the change tracker anymore 9/3/19
                 <a id="trackerLink" href="">Change Tracker</a>
-            </li>
+            </li> -->
             <li>
                 <a id="specialCourseRequestsLink" href="">Special Topic Course Requests </a>
             </li>
@@ -30,12 +30,12 @@
             </li>
             {# TODO: This whole sidebar mess needs to be rebuilt #}
             {% if currentPage == "tracker" %}
-                <input type="hidden" value="{{currentTerm}}" id="termSelect">  {# We need a hidden input for our javascript #}                
+                <input type="hidden" value="{{currentTerm}}" id="termSelect">  {# We need a hidden input for our javascript #}
             {% elif currentPage == "editActiveCourses" %}
                 <input type="hidden" value="{{currentTerm}}" id="termSelect">
             {% elif currentPage == "courseTimeline" %}
                 <input type="hidden" value="{{currentTerm}}" id="termSelect">
-            {% else %}                
+            {% else %}
                 <li class="head2"><a>Current Term</a></li>
                 <li id="sidebarSelect">
                     <select id="termSelect" class="form-control col-md-1" onchange="buildURL('{{page}}')">
@@ -43,7 +43,7 @@
                             <option value ="{{term.termCode}}"
                                 {% if term.termCode|int == currentTerm|int %}
                                     selected
-                                {% endif %} 
+                                {% endif %}
                             >
                                 {{term.name}}
                             </option>
