@@ -28,7 +28,6 @@ def timelineJson(tid):
   if int(tid) == 0:
     terms = Term.select().order_by(-Term.termCode)
     tid   = terms[0].termCode
-  # print (type(tid))
   google_chart_dict = dict()
   timeline_obj = timeline()
   for key, day in cfg['scheduleDaysShort'].items():
