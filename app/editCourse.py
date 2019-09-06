@@ -23,14 +23,14 @@ def editCourseModal(tid, prefix, cid, page):
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
     # SELECT ALL ROOMS
     rooms     = Rooms.select()
-    
+
     getCrosslistedCourses = find_crosslist_via_id(cid)
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
     currentCrosslistedCourse = None
     if(getCrosslistedCourses):
       for c in getCrosslistedCourses:
         currentCrosslistedCourse = list(getCrosslistedCourses[c])
-      
+
     return render_template("snips/courseElements/editCourse.html",
                             schedules = schedules,
                             terms     = terms,
@@ -55,13 +55,14 @@ def editcourse(tid, prefix, page):
     data = request.form.to_dict()
     crosslistedCourse = request.form.getlist('crossListedCourses[]')
     #if no crosslisted children, update hidden crosslisted to true or false
-    data["crossListed"] = 1 if crosslistedCourse else 0  
+    data["crossListed"] = 1 if crosslistedCourse else 0
     trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
     if (not databaseInterface.isTermOpen(tid)):
-      if user.isAdmin: 
-        created = trackerEdit.make_edit(professors, username)
-      else: 
+      if user.isAdmin:
+        # created = trackerEdit.make_edit(professors, username) #WE AINT USING THE CHANGE TRACKER ANYMORE
+        pass
+      else:
         return render_template("schedulingLocked.html", tid = tid, prefix = prefix)
     databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
     message = "Course: course {} has been edited".format(data['cid'])
