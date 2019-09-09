@@ -15,7 +15,7 @@
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
-                
+
             </th>
         {% endif %}
     </tr>
@@ -36,7 +36,7 @@
             </td>
             <!--TAUGHT BY-->
             <td>
-                {% for instructor in course.instructors_course_prefetch %} 
+                {% for instructor in course.instructors_course_prefetch %}
                     {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                 {% endfor %}
             </td>
@@ -55,18 +55,18 @@
                         {% endif %}
                     {% endfor %}
                     {% if special != [] %}
-                        <p>See Notes</p>                            
+                        <p>See Notes</p>
                     {% else %}
-                        {% for day in course.schedule.days %} 
+                        {% for day in course.schedule.days %}
                             {{ day.day }}
                         {% endfor %}
-                          {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} 
+                          {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                          {#  {{course.schedule.startTime}}-{{course.schedule.endTime}} #}
                     {% endif %}
                 {% endif %}
             </td>
             <!--CAPACITY-->
-            <td> 
+            <td>
                 {% if course.capacity is not none  %}
                     {{course.capacity}}
                 {% else %}
@@ -95,7 +95,7 @@
                 </div>
 		<div class="row">
                     {% for cross_course in crosslisted[course][1:] %}
-                        {% if cross_course.verified == False %}	
+                        {% if cross_course.verified == False %}
                             <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
                                   <span class="glyphicon glyphicon-remove" style="color:red; clear:both;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                             </span>
@@ -123,13 +123,11 @@
             <td>
                 {{course.lastEditBy}}
             </td>
-      {% if key > 2 and isAdmin %}
-            <!---- if user is admin and its summer course, they can edit---->
+      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit---->
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
                         <div class="child">
                             <!--EDIT MODAL-->
-                            
                             <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
                                 <span  class = "sr-only">Edit Course</span>
                             </span></a>
@@ -171,7 +169,7 @@
                         {% else %}
                             {{course.bannerRef.ctitle}}
                         {%endif%}
-                        
+
                         {% for state in cfg['specialTopicStates'] %}
                             {% if course.status == state['value'] %}
                                 <span class="label label-{{state['color']}} pull-right">
@@ -179,8 +177,8 @@
                                 </span>
                             {% endif %}
                         {% endfor %}
-                            
-                        
+
+
                     </td>
                     <!--TAUGHT BY-->
                     <td>
@@ -203,10 +201,10 @@
                                 {% endif %}
                             {% endfor %}
                             {% if special != [] %}
-                                <p>See Notes</p>                            
+                                <p>See Notes</p>
                             {% else %}
-                                {% for day in course.schedule.days %} 
-                                    {{ day.day }} 
+                                {% for day in course.schedule.days %}
+                                    {{ day.day }}
                                 {% endfor %}
                                    {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                                   {# {{course.schedule.startTime}}-{{course.schedule.endTime}} #}
@@ -214,7 +212,7 @@
                         {% endif %}
                     </td>
                     <!--CAPACITY-->
-                    <td> 
+                    <td>
                         {% if course.capacity is not none  %}
                             {{course.capacity}}
                         {% else %}
@@ -250,9 +248,9 @@
                                     <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
                                           <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                                     </span>
-                
+
                                 {% endif %}
-        
+
                             {% endfor %}
                         {% else %}
                             None
@@ -283,7 +281,8 @@
                         </div>
                     </td>
                 {% else %}
-                    {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %}
+                     {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} {# No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
+                  {% if (can_edit == True and curTermName.term_state_id == 1) %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>
                             <div class="child">
@@ -304,12 +303,12 @@
 
 <script>
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 
 function verifyCrosslisted(intValue)
-{   
+{
     console.log("hhi")
     let oldurl = window.location.href.split("/");
     let termcode = oldurl[oldurl.length-2];
@@ -318,7 +317,7 @@ function verifyCrosslisted(intValue)
     console.log(checked);
     let url = '/verifycrosslisted/'+intValue;
     console.log(intValue);
-    $.ajax({  
+    $.ajax({
             type: "POST",
             url: url,
             data:{'check': checked},
@@ -330,19 +329,19 @@ function verifyCrosslisted(intValue)
 
 
 /**
-function resolveCourse() { 
+function resolveCourse() {
 +    let oldurl = window.location.href.split("/");
 +    let cid = oldurl[oldurl.length-1];
 +    let termcode = oldurl[oldurl.length-2];
-+    let url = '/updateRoom/'+cid;  
-+    $.ajax({  
++    let url = '/updateRoom/'+cid;
++    $.ajax({
 +            type: "POST",
 +            url: url,
 +            data:{"roomID": roomID, "ogCourse": ogCourse},
 +            dataType: 'json'
 +         })
 +           .done(function(response){
-+                         window.location=response.url;}) 
++                         window.location=response.url;})
 +           .fail(function(response){
 +                    alert("Please, try again.");});
 +}
