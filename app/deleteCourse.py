@@ -30,37 +30,39 @@ def deletecourse(prefix, tid):
     instructors = InstructorCourse.select().where(InstructorCourse.course == course.cId)
     for instructor in instructors:
         instructor.delete_instance()    
+
+# Removing change tracker code - 9/10/19 - Scott
     
-    #update changetracker if term is closed
-    if not databaseInterface.isTermOpen(tid):
-        if user.isAdmin:
-            change = CourseChange.select().where(CourseChange.cId == cid)
-            # IF THE RECORD ALREADY EXSISTED THEN WE NEED TO UPDATE THE
-            # INFORMATION
-            if change.exists():
-                updateRecord = CourseChange.get(CourseChange.cId == cid)
-                if updateRecord.changeType == 'create' and not updateRecord.verified:
-                    updateRecord.delete_instance()
-                else:
-                    updateRecord.changeType = cfg["changeType"]["delete"]
-                    colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
-                    updateRecord.tdcolors = colors
-                    updateRecord.verified = False
-                    updateRecord.save()
-            else:
-		updateRecord = CourseChange(cId = cid)
-                updateRecord.changeType = cfg["changeType"]["delete"]
-                colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
-                updateRecord.tdcolors = colors
-                updateRecord.verified = False
-                updateRecord.save()
-        else:
-            dataUpdateObj.addCourseChange(
-                course.cId, cfg["changeType"]['delete'])
-    instructorsChange = InstructorCourseChange.select().where(InstructorCourseChange.course == cid)
-    for instructor in instructorsChange:
-        instructor.delete_instance()
-        
+#    #update changetracker if term is closed
+#    if not databaseInterface.isTermOpen(tid):
+#        if user.isAdmin:
+#            change = CourseChange.select().where(CourseChange.cId == cid)
+#            # IF THE RECORD ALREADY EXSISTED THEN WE NEED TO UPDATE THE
+#            # INFORMATION
+#            if change.exists():
+#                updateRecord = CourseChange.get(CourseChange.cId == cid)
+#                if updateRecord.changeType == 'create' and not updateRecord.verified:
+#                    updateRecord.delete_instance()
+#                else:
+#                    updateRecord.changeType = cfg["changeType"]["delete"]
+#                    colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
+#                    updateRecord.tdcolors = colors
+#                    updateRecord.verified = False
+#                    updateRecord.save()
+#            else:
+#		updateRecord = CourseChange(cId = cid)
+#                updateRecord.changeType = cfg["changeType"]["delete"]
+#                colors = dataUpdateObj.createColorString(cfg["changeType"]["delete"])
+#                updateRecord.tdcolors = colors
+#                updateRecord.verified = False
+#                updateRecord.save()
+#        else:
+#            dataUpdateObj.addCourseChange(
+#                course.cId, cfg["changeType"]['delete'])
+#    instructorsChange = InstructorCourseChange.select().where(InstructorCourseChange.course == cid)
+#    for instructor in instructorsChange:
+#        instructor.delete_instance()
+#        
     #delete course room preference if exists
     rm.delete_room_preference(course.cId)
     
@@ -69,7 +71,7 @@ def deletecourse(prefix, tid):
     
     log.writer("INFO", current_page, message)
 
-    flash("Course has been successfully deleted")
+    flash("The course has been successfully deleted")
     return redirect(redirect_url())
 
 def delete_if_crosslisted(course, roompreference):
