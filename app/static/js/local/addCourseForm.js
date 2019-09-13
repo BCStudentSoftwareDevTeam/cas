@@ -44,24 +44,20 @@ $("#roomSelect").on('changed.bs.select', function(e) {
 
 
 
-const element = document.getElementById("createCourseForm");
-if(element.addEventListener){
-    element.addEventListener("submit", callback, false);  //Modern Browsers
-}else if(element.attachEvent){
-    element.attachEvent('onsubmit', callback);
+const createCourseForm = document.getElementById("createCourseForm");
+if(createCourseForm.addEventListener){
+    createCourseForm.addEventListener("submit", callback, false);  //Modern Browsers
+}else if(createCourseForm.attachEvent){
+    createCourseForm.attachEvent('onsubmit', callback);
 }
 function callback(e){
-    console.log("callback")
-    e.preventDefault();
-    //select the values of crosslist dropdown
-    const values =   $('#crossListSelect').val();//document.getElementById("crossListSelect").value;
-    console.log(values);
-    if(values == null){
+  //This is just for rosslisted, but there was a. e.preventdefault that was giving us a bad request on submit or save of special topics courses. (kat n brian 9/13/19)
+    if($('#crossListSelect').val() == null){
         document.getElementById("crossListed").value = 0;
     }else{
         document.getElementById("crossListed").value = 1;
     }
-    element.submit();
+    createCourseForm.submit();
 }
 
 

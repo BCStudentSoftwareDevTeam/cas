@@ -123,7 +123,7 @@
             <td>
                 {{course.lastEditBy}}
             </td>
-      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit---->
+      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
                         <div class="child">
@@ -281,7 +281,7 @@
                         </div>
                     </td>
                 {% else %}
-                     {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} {# No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
+                    {# {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
                   {% if (can_edit == True and curTermName.term_state_id == 1) %}
                     <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
                         <td>

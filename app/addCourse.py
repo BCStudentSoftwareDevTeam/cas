@@ -75,8 +75,11 @@ def addCourses(tid, prefix):
             flash(
                 "Course has been saved. It needs to be submitted before it can be approved.")
             log.writer("INFO", current_page, message)
+            # return redirect(redirect_url())
         else:
             flash("Course has successfully been added!")
+            # return redirect(redirect_url())
+
     else:
         section_exists = Course.select().where(
             Course.bannerRef == values['bannerRef']).where(
@@ -89,7 +92,7 @@ def addCourses(tid, prefix):
             flash(
                 "Course with section %s already exists" %
                 (values['section']), "error")
-            return redirect(redirect_url())
+            # return redirect(redirect_url())
 
         # cross_courses=values["crossListed"]# [1,2,3]
         course = Course(bannerRef=values['bannerRef'],
@@ -125,13 +128,13 @@ def addCourses(tid, prefix):
                 values, course, tid, prereqs, instructors)
 
         flash("Course has successfully been added!")
-        return redirect(redirect_url())
+    return redirect(redirect_url())
 
 
 def create_crosslisted_courses(values, course, tid, prereqs, instructors):
     '''
     Creates a crosslisted child relationship for a course
-    
+
     '''
     crosslistedCourses = values["crossListedCourses"]
     if crosslistedCourses:
