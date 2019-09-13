@@ -269,7 +269,7 @@
                     {{course.lastEditBy}}
                 </td>
                 {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
-                <!---- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses--->
+                <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
                     <td>
                         <div class="child">
                             {% if course.status < 2 %} <!-- Special topic status-->
@@ -281,9 +281,10 @@
                         </div>
                     </td>
                 {% else %}
-                    {# {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
-                  {% if (can_edit == True and curTermName.term_state_id == 1) %}
-                    <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+                     {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} {# No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
+                      {# {% if (can_edit == True and curTermName.term_state_id == 1) %} #}
+                    <!-- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses -->
+>>>>>>> development
                         <td>
                             <div class="child">
                                 {% if course.status < 2 %}
@@ -309,7 +310,7 @@ $(document).ready(function(){
 
 function verifyCrosslisted(intValue)
 {
-    console.log("hhi")
+    {# console.log("hhi") #}
     let oldurl = window.location.href.split("/");
     let termcode = oldurl[oldurl.length-2];
     console.log(termcode)
