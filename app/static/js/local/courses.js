@@ -12,13 +12,13 @@ function getSelectedCourse(elementId) {
 function fillCourses(response, id){
 //   console.log('Response', response);
     var selectPicker = document.getElementById("multipleCoursesSelect");
-        
+
     $(selectPicker).find('option').remove();
     $(selectPicker).selectpicker('refresh');
    if (response !== "Error"){
         var courses = document.getElementById("coursesDiv");
         courses.style.display = 'inline';// do enabled/disabled instead of hidden
-        
+
         for (var key in response){
             var option = document.createElement("option");
             /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
@@ -35,7 +35,7 @@ function fillCourses(response, id){
                 // console.log("Start time: ", response[key].schedule['startTime'] )
                 option.text += " (" +response[key].schedule['startTime'] + "-" +response[key].schedule['endTime']+")" ;
             }
-            
+
             // Add Instructors, if they exist
             if (response[key].instructors != null && response[key].instructors.length > 0) {
                 // console.log(response[key].instructors);
@@ -44,20 +44,20 @@ function fillCourses(response, id){
                 for (inst in response[key].instructors) {
                     // console.log(response[key].instructors[inst]);
                     if (first) {
-                        option.text += response[key].instructors[inst];    
+                        option.text += response[key].instructors[inst];
                         first = !first;
                     } else {
-                        option.text += ", " + response[key].instructors[inst];    
+                        option.text += ", " + response[key].instructors[inst];
                     }
-                    
+
                 }
                 option.text += "]";
             }
-            
+
             option.value = key;
             selectPicker.appendChild(option);
             $('.selectpicker').selectpicker('refresh');
-        }    
+        }
     } else{
          $("multipleCoursesSelect").empty();
          var selectPicker = document.getElementById("multipleCoursesSelect");
@@ -75,13 +75,13 @@ function fillCourses(response, id){
 
 function retrieveCourses(obj){
     var selectPicker = document.getElementById("multipleCoursesSelect");
-    
+
     //$(selectPicker).find('option').remove();
     $(selectPicker).selectpicker('refresh');
     console.log("Retrieve courses is called!")
     var id = $(obj).attr('id');
     var x = window.location.href
-    var y =x.split("/"); 
+    var y =x.split("/");
     var e = document.getElementById(id);
     var selected_term = e.options[e.selectedIndex].value;
     //   console.log('selected_term', selected_term)
@@ -101,18 +101,19 @@ function retrieveCourses(obj){
       if(id=="selected_term_one"){
          var courses = document.getElementById("coursesDivOne");
          courses.style.visibility = 'hidden';}
-      
+
       else{
            var courses = document.getElementById("coursesDiv");
            courses.style.visibility = 'hidden';// do enabled/disabled instead of hidden
          }
-    }  
-   
+    }
+
 }
 
 
 
 function stn(){
+  //WHAT DOES THIS EVEN DO? what kind of name is this? jesus
    var courseTitle = getSelectedCourse('courseInfo');
    if (courseTitle === "---"){
       document.getElementById("submitAdd").disabled = true;
@@ -139,7 +140,7 @@ function stn(){
       }
       get_sections(courseTitle)
    }
-   
+
 }
 
 function get_sections(title){
@@ -155,7 +156,7 @@ function get_sections(title){
             for (section in data){
                 select = "<option value=" + data[section] + ">" + data[section] + "</option"
                 $("#section").append(select);
-            } 
+            }
             $("#section").selectpicker("refresh");
         },
     })

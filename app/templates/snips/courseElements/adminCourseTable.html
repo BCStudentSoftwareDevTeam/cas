@@ -123,7 +123,7 @@
             <td>
                 {{course.lastEditBy}}
             </td>
-      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit---->
+      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
                         <div class="child">
