@@ -14,6 +14,7 @@ from flask import abort
 from flask_admin import Admin
 import time
 import sys,os
+import subprocess
 
 import pprint
 from app import models
@@ -97,9 +98,11 @@ def load_user(username):
 from app.logic.getAuthUser import AuthorizedUser
 @app.context_processor
 def inject_dict_for_all_templates():
+    gitHash = subprocess.check_output(["git", "rev-parse","HEAD"]).strip()[:8]
+
     #HACK
     au = AuthorizedUser()
     try: 
-        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager()})
+        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager(), 'gitHash': gitHash})
     except Exception as e:
-        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager()})
+        return dict({'isAdmin': au.isAdmin(), 'cfg': cfg, "isBuildingManager": au.isBuildingManager(), 'gitHash': gitHash})
