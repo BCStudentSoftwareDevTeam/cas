@@ -297,7 +297,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             rid = specialTopicCourse.rid)
             course.save()
             update_course = DataUpdate()
-            structors(professors, course.cId)
+            addCourseInstructors(professors, course.cId)
             if isTermTracking(specialTopicCourse.term.termCode):
                 update_course.addCourseChange(int(course.cId), "create")
         specialTopicCourse.status = status
