@@ -55,15 +55,15 @@
 
         <div id = "specialTopicCourse" hidden>
           <div class="col-md-12 form-group">
-            <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  />
+            <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  hidden />
           </div>
           <div class="col-md-10 form-group">
-            <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" />
+            <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" hidden />
           </div>
-          <input id="prodId" name="rid" type="hidden" value="1">
+          <input id="prodId" name="rid" type="hidden" value="1" hidden>
 
           <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
-            <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true">
+            <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true" hidden>
               {% for credit in cfg['credits'] %}
                   <option value="{{credit['value']}}">
                     {{credit['value']}}
