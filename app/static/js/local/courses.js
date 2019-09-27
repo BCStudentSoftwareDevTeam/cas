@@ -124,11 +124,12 @@ function stn(){
       var course = courseTitle.match(/\d/g).join("");
       //Then remove the numbers 86 from the string
       course = course.split("86").join("");
-      var coursesDiv = document.getElementById('specialTopicCourse');
+      var coursesDiv = document.getElementById('specialTopicCourse'); //Div for add ST course modal
       var courseCredits = document.getElementById('ccredits');
       if (course.length == 1 && courseTitle.includes("Special Topics")){
+        //If the course is a special topics course
             $('#specialTopicsName').removeAttr('disabled');
-            coursesDiv.style.display = 'block';
+            // coursesDiv.style.display = 'block';
             courseCredits.style.display = 'block';
             $('#submitSave').removeClass("hide");
       }

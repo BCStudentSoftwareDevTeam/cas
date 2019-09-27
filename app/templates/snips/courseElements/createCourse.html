@@ -1,13 +1,12 @@
 <link rel="stylesheet" href="/static/css/addCourseForm.css" type="text/css" />
-
   {% if isAdmin or ((curTermName.term_state_id == 1 and can_edit == True) and key < 3) %}
   <div>
-    <!-- This needs to be a button, for accesibiliy purposes  -->
+    {# This needs to be a button, for accesibiliy purposes #}
     <button class="createCourseText btn btn-sm btn-default" id="showForm" style="margin-top:-10px; margin-bottom: 10px;"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Schedule a course</button>
   </div>
   {% endif %}
-<div id='createCourseFormJumbo'>  <!-- all tab wrapper opening -->
-  <!-- This also needs to be a button, for accesibility purposes -->
+<div id='createCourseFormJumbo'>  {# all tab wrapper opening #}
+  {# This also needs to be a button, for accesibility purposes #}
   <button class="createCourseText btn btn-sm btn-default" id="hideForm"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Hide</button>
   <div style="margin-top:7px">
   <ul class="nav nav-tabs" >
@@ -15,8 +14,8 @@
     <li><a data-toggle="tab" href="#menu2">Import Course(s)</a></li>
   </ul>
  </div>
-  <div class="tab-content" >   <!-- tab content opening -->
-    <div id="home" class="tab-pane fade in active">  <!-- schedule a course -->
+  <div class="tab-content" >   {# tab content opening #}
+    <div id="home" class="tab-pane fade in active">  {# schedule a course #}
 		 <div id="createFormContainer">
     <div class="jumbotron" >
       <h3 class="display-3">Create Course</h3>
@@ -51,9 +50,8 @@
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
         </div>
-
-
-        <div id = "specialTopicCourse" hidden>
+        <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
+                                                Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
           <div class="col-md-12 form-group">
             <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  hidden />
           </div>
@@ -61,7 +59,6 @@
             <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" hidden />
           </div>
           <input id="prodId" name="rid" type="hidden" value="1" hidden>
-
           <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
             <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true" hidden>
               {% for credit in cfg['credits'] %}
@@ -71,7 +68,6 @@
                   {% endfor %}
            </select>
           </div>
-
 
           <div class="col-md-6 form-group">
             <textarea rows="2" class="form-control"  name="majorReqsMet" cols="25" placeholder="Please indicate the major requirements met with this course, if any" hidden ></textarea>
@@ -96,8 +92,8 @@
       </div>
     </div>
   </div>
-    </div> <!-- close schedule a course -->
-    <div id="menu2" class="tab-pane fade"> <!-- import many courses -->
+    </div> {# close schedule a course #}
+    <div id="menu2" class="tab-pane fade"> {# import many courses #}
     <div class="jumbotron">
       <div class="container">
       <h3 class="display-3">Import From Previous Semesters</h3>
@@ -132,10 +128,9 @@
       </div>
     </div>
     </div>
-  </div>   <!-- closing import many courses -->
-
-</div> <!-- close tab content -->
-</div> <!-- all tab wrapper closing -->
+  </div>   {# closing import many courses #}
+</div> {# close tab content #}
+</div> {# all tab wrapper closing #}
 
 
 
