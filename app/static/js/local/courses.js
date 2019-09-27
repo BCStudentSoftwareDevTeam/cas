@@ -114,6 +114,7 @@ function retrieveCourses(obj){
 
 function stn(){
   //WHAT DOES THIS EVEN DO? what kind of name is this? jesus
+  //I think it is for enabling/displaying/disabling/hiding elements. (Such as special topics course fields)
    var courseTitle = getSelectedCourse('courseInfo');
    if (courseTitle === "---"){
       document.getElementById("submitAdd").disabled = true;
