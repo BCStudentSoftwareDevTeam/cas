@@ -53,7 +53,7 @@ def addCourses(tid, prefix):
             notes=values['requests'],
             crossListed=int(
                 data['crossListed']),
-            rid=values['rid'],
+            rid=None,
             status=0,
             credits=data['credits'],
             description=data['description'],
