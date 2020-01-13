@@ -5,7 +5,7 @@ from app.loadConfig import *
 
 here = os.path.dirname(__file__)
 cfg       = load_config(os.path.join(here, 'app/config.yaml'))
-db	  = os.path.join(here,cfg['databases']['dev']) 
+db	  = os.path.join(here,cfg['databases']['dev'])
 
 # print("db", db)
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
@@ -21,7 +21,7 @@ mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = pas
 
 # Creates the class that will be used by Peewee to store the database
 class dbModel (Model):
-  class Meta: 
+  class Meta:
     database = mainDB
 
 
@@ -42,7 +42,7 @@ migrator = MySQLMigrator(mainDB)
 
 # Creates the class that will be used by Peewee to store the database
 class dbModel (Model):
-  class Meta: 
+  class Meta:
     database = mainDB
 
 
@@ -91,13 +91,13 @@ for term in t:
 # for course in q:
 #   course.rid = None
 #   course.save()
-  
-  
+
+
 # q = SpecialTopicCourse.select()
 # for course in q:
 #   course.rid = None
 #   course.save()
-  
+
 
 #my_db.create_tables([RoomPreferences, EducationTech, Building, Rooms, Course, CourseChange, ScheduleDays])
 
@@ -120,8 +120,8 @@ for term in t:
 #     migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
 #     migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
 #     )
-  
-  
+
+
 # migrate(
 #   migrator.drop_column("Course", "rid"),
 #   migrator.add_column("Course", "rid_id", ForeignKeyField(Rooms, to_field = Rooms.rID, null = True, related_name='courses_rid'))
@@ -132,8 +132,8 @@ for term in t:
 #   sdID = PrimaryKeyField()
 #   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule_days')
 #   day         = CharField(null=True)
-  
-  
+
+
 
 # my_db.create_tables([BuildingManager])
 
@@ -153,7 +153,7 @@ for term in t:
 #     migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6))
 #     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
 
-     
+
 #     # migrator.drop_not_null('CourseChange','rid')
 # )
 
@@ -163,8 +163,8 @@ for term in t:
 #   sdID = PrimaryKeyField()
 #   schedule = ForeignKeyField(BannerSchedule, null = True, related_name='course_schedule_days')
 #   day         = CharField(null=True)
-  
-  
+
+
 
 # migrate(
 #     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
@@ -172,7 +172,7 @@ for term in t:
 #     migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
 #     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
 #     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
-    
+
 #     # migrator.drop_not_null('CourseChange','rid')
 # )
 
@@ -185,23 +185,23 @@ for term in t:
 # for course in q:
 #   course.rid = None
 #   course.save()
-  
-  
+
+
 # q = SpecialTopicCourse.select()
 # for course in q:
 #   course.rid = None
 #   course.save()
 
 
-# PART OF PR 265  
+# PART OF PR 265
 # migrate(
 #     migrator.add_column("rooms", "lastModified", CharField(null = True)))
 try:
     mainDB.create_tables([CrossListed])
-except: 
+except:
     print("Table Crosslisted already exists")
 
-try: 
+try:
     migrate(
         migrator.add_column('rooms', 'lastModified', CharField(null=True)),
     )
@@ -214,5 +214,3 @@ try:
     )
 except:
     print("Column parentCourse_id in table Course already exists")
-
-
