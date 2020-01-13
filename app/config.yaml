@@ -1,24 +1,24 @@
 
-# The log file location   
+# The log file location
 log:
 filename: "urcpp.log"
 
 # All the databases used by the system
 databases:
-  - dev: "data/db.sqlite"
+  - dev: "data/cas.sql"
 
   # stage: ""
   # prod: ""
 databaseAdmin:
   user: ['heggens','myersco']
-  
+
 db:
   db_name: c9
   host: localhost
-  password: ''
-  username: root 
+  password: 'Basant16'
+  username: phuyalb
 
-# Correct for display, but does not match DB. 
+# Correct for display, but does not match DB.
 scheduleDays:
   Monday: 'Mon'
   Tuesday: 'Tues'
@@ -102,17 +102,17 @@ adminMenu:
   - title: "User Management"
     link:  "/admin/userManagement" #unsure
     page: ["userManagement"]
-  
+
   - title: "Room Resolution"
     link:  "/roomResolutionTerm"
     page: ["roomResolution"]
-  
 
-    
+
+
 #If you ever change the current states, you cannot duplicate the values, because
-#it will mess up what the numbers symbolize inside of the database. 
+#it will mess up what the numbers symbolize inside of the database.
 specialTopicStates:
-  - name: "Incomplete" 
+  - name: "Incomplete"
     value: 0
     id: "saved"
     color: "default"
@@ -136,13 +136,13 @@ specialTopicLogic:
   submitted:      1
 
 termInfo:
-#the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611 
+#the keys correlate to the last two digits in the term code eg: Fall 2016 = 201611
     11: 'Fall'                    # e.g. Fall 2016 = 201611
     12: 'Spring'                  # e.g. Spring 2017 = 201612 (note the different year)
     13: '8 Week Summer'       # e.g. 8 Week Summer 2017 = 201613 (note the different year)
     14: '1st 4 Week Summer'
     15: '2nd 4 Week Summer'
-    #10: 'Berea Bridge Program'   # e.g. Berea Bridge Program 2016 = 201610    
+    #10: 'Berea Bridge Program'   # e.g. Berea Bridge Program 2016 = 201610
 
 editForm:
   dataKeys: ['cid','term','section','schedule','room','capacity','crossListed','notes']
@@ -192,7 +192,7 @@ changeType:
 tableLayout:
   order: ['Course Name', 'Taught By', 'Section', 'Schedule', 'Room', 'Capacity', 'Cross Listed', 'Notes', 'Term','Last Edited By']
   Course Name:    0
-  Taught By:      1  
+  Taught By:      1
   Section:        2
   Schedule:       3
   Room:           4
@@ -201,14 +201,14 @@ tableLayout:
   Notes:          7
   Term:           8
   Last Edited By: 9
-  
+
 columnColor:
   edit:     'warning'
   delete:   'danger'
   create:   'success'
   default:  'none'
   verified: 'verified'
-  
+
 DEBUG:
   user: "heggens" #Admin Access
   # user: "pearcej" #Division Chair Access
@@ -217,7 +217,7 @@ DEBUG:
   # user: "sldkjfalsdkfj;" #for production
   # user: "stamperfa" #Bldg Mngr Access
 
-  
+
 filepath:
   tmp: 'data/tmp'
 
@@ -227,7 +227,7 @@ credits:
   - value: "0.750"
   - value: "1.000"
   - value: "2.000"
-  
+
 contributors:
   - name: "Cody Myers"
     username: "myersco"
@@ -277,9 +277,9 @@ contributors:
   - name: "Muhammad Hamza Khattak"
     username: "khattakm"
     year: 2020
-    
 
-# The log file location   
+
+# The log file location
 log:
 filename: "urcpp.log"
 
@@ -292,14 +292,14 @@ databaseAdmin:
   user: ['heggens','myersco']
 
 # states
-#   0: is the number in the db. 
-# 
+#   0: is the number in the db.
+#
 states:
   1:
     mainInfo: 'Program and Division Chairs will be able to submit courses to this term.'
     subtext: 'Click the arrow to open course scheduling.'
     btn: 'Open Scheduling'
-  2: 
+  2:
     mainInfo: 'Course Scheduling is now open. Program and Division chairs can now submit courses to the term.'
     subtext: 'Click the arrow to lock course scheduling. Chairs will no longer be able to add courses to the term.'
     btn: 'Unlock Scheduling'
@@ -314,7 +314,7 @@ states:
     mainInfo: 'Room selection is now open. Faculty can now submit and change their room preferences for their courses.'
     subtext: 'Click the arrow to lock room selection.'
     btn: 'Unlock Room Preferences'
-  5: 
+  5:
     mainInfo: 'Room selection is now locked. Faculty can no longer submit or change their preferences.'
     left_help_text: 'Click the left arrow to unlock room selection.'
     right_help_text: 'Click the right arrow to assign rooms.'
@@ -326,7 +326,7 @@ states:
     right_help_text: 'Click to Finish term.'
     subtext: 'This indicates that all courses and room assigments are finished'
     btn: 'Reassign Rooms'
-    goto_text: 'Click below to go to Room Resolution' 
+    goto_text: 'Click below to go to Room Resolution'
     goto_link: 'Room Resolution'
   7:
     mainInfo: 'The term is complete.'

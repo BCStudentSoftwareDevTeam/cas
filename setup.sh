@@ -1,6 +1,6 @@
 '''
-This file sets up the virtual environment. 
-Run "source setup.sh" each time you want to run the app. 
+This file sets up the virtual environment.
+Run "source setup.sh" each time you want to run the app.
 '''
 FLASK_VERSION="${FLASK_VERSION:-0.12.2}"              #0.12.2
 PEEWEE_VERSION="${PEEWEE_VERSION:-2.10.2}"            #2.10.2
@@ -26,7 +26,7 @@ pip install "peewee==$PEEWEE_VERSION"
 pip install "pyyaml==$PYAML_VERSION"
 pip install "XlsxWriter==$XLSXWRITER_VERSION"
 # needed to migrate the cas.sql
-pip install "MySQL-python" #==$MYSQLPYTHON_VERSION"
+# pip install "MySQL-python" #==$MYSQLPYTHON_VERSION"
 pip install "pymysql"
 pip install "flask-admin==$FLASK_ADMIN_VERSION"
 pip install "wtf-peewee==$WTF_PEEWEE_VERSION"
