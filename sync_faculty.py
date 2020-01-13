@@ -98,6 +98,8 @@ def add_members():
             if user.firstname is None or user.lastname is None:
                 print(user.username + " has null fields skipping")
                 continue
+	    if user.username == "Colesa":		# Sam Cole has two records, one with upper case. Skip hers.
+		continue
             new_user = User.create(
                     username = user.username,
                     bNumber = user.bnumber,
