@@ -217,6 +217,7 @@ class CrossListed(baseModel):
 
 
 class SpecialTopicCourse(baseModel):
+  ''' program chairs were  supposed to fill in all the ST fields, but Scott Steele wants to go back to the paper form for this;therefore, all the fields are null'''
   stId                 = PrimaryKeyField()
   prefix               = ForeignKeyField(Subject)
   bannerRef            = ForeignKeyField(BannerCourses, on_delete= 'CASCADE')

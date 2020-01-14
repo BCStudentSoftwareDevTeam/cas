@@ -50,6 +50,18 @@
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
         </div>
+        <div class="row">
+                <div class="col-md-5 left mr-4">
+                   <h5 style="font-weight: bold;"> Prerequisites </h5>
+               <textarea class="form-control" name="prereqs" placeholder="Enter your prereqs for the course"></textarea>
+             </div>
+             <div class="col-md-5 right">
+               <h5 style="font-weight: bold;"> Description </h5>
+                <textarea class="form-control" name="prereqs" placeholder="Enter course description"></textarea>
+                </div>
+
+
+          </div>
         <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
                                                 Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
           <div class="col-md-12 form-group">
@@ -87,7 +99,7 @@
           style="text-align:center"></textarea>
       </form>
       <div class="btn-toolbar pull-right">
-        <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" hidden>Save</button>
+        <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" >Save</button>
         <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:10px;">Submit</button>
       </div>
     </div>
