@@ -50,6 +50,7 @@
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
         </div>
+        <!-- the description and the prereqs are removed from the special topics modals page. -->
         <div class="row">
                 <div class="col-md-5 left mr-4">
                    <h5 style="font-weight: bold;"> Prerequisites </h5>
@@ -57,7 +58,7 @@
              </div>
              <div class="col-md-5 right">
                <h5 style="font-weight: bold;"> Description </h5>
-                <textarea class="form-control" name="prereqs" placeholder="Enter course description"></textarea>
+                <textarea class="form-control" name="prereqs" placeholder="Enter course description"> </textarea>
                 </div>
 
 
@@ -99,7 +100,7 @@
           style="text-align:center"></textarea>
       </form>
       <div class="btn-toolbar pull-right">
-        <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" >Save</button>
+        <!-- <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" hidden>Save</button> -->
         <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:10px;">Submit</button>
       </div>
     </div>

@@ -54,23 +54,24 @@ def courses(tID, prefix, can_edit):
         key = int(tID[-1])
     except ValueError as error:
         log.writer("Unable to parse Term ID, course.py", e)
-   
+
     courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
         (Course.prefix == prefix) & (Course.term == tID)))
-    
+
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
-    
+
     courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
     # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
-    
+
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
     # get crosslisted for given courses
-    
+
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
+    stCourseInfo = SpecialTopicCourse.get()
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
@@ -89,12 +90,13 @@ def courses(tID, prefix, can_edit):
             prefix=prefix,
             page=page,
             rooms=rooms,
-            key = key)
-            
-       
+            key = key,
+            stCourseInfo=stCourseInfo)
+
+
 @app.route("/verifycrosslisted/<intValue>", methods=["POST"])
 def verifycrosslisted(intValue):
- 
+
     try:
         course = Course.get(Course.cId==int(intValue))
         parentCourse = course.parentCourse
@@ -112,4 +114,3 @@ def verifycrosslisted(intValue):
     except:
         flash("An error has occurred. Please try again.","error")
         return json.dumps({"error":0})
-   

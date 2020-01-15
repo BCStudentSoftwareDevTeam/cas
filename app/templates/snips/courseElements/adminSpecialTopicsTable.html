@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
     <thead>
         <tr>
-            <th>Course Name</th> 
+            <th>Course Name</th>
             <th>Taught By</th>
             <th>Schedule</th>
             <th>Capacity</th>
@@ -11,7 +11,7 @@
             <th>Notes</th>
             <th>Last Edited</th>
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
-        </tr> 
+        </tr>
     </thead>
     <tbody>
         <div id = "state['id']">
@@ -44,17 +44,17 @@
                             {% endif %}
                         {% endfor %}
                         {% if special != [] %}
-                            <p>See Notes</p>                            
+                            <p>See Notes</p>
                         {% else %}
-                            {% for day in course.schedule.days %} 
-                                {{ day.day }} 
+                            {% for day in course.schedule.days %}
+                                {{ day.day }}
                             {% endfor %}
                             {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                         {% endif %}
                     {% endif %}
                 </td>
                 <!--CAPACITY-->
-                <td> 
+                <td>
                     {% if course.capacity is not none  %}
                         {{course.capacity}}
                     {% else %}

@@ -11,7 +11,11 @@
         <th>Room</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
+        <th> Prerequisites</th>
+        <th> Description</th>
         <th>Last Edited</th>
+
+
         {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
@@ -112,6 +116,7 @@
                     No
                 {% endif %}
             </td>
+
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
@@ -120,11 +125,13 @@
                     <p>Notes</p>
                 {% endif %}
             </td>
+            <td> </td>
+            <td> </td>
             <!--LAST EDITED BY-->
             <td>
                 {{course.lastEditBy}}
             </td>
-      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
+            {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
                         <div class="child">
@@ -257,6 +264,7 @@
                             None
                         {% endif %}
                     </td>
+
                 <!--NOTES-->
                 <td>
                     {% if course.notes is not none %}
@@ -265,6 +273,18 @@
                         <p>Notes</p>
                     {% endif %}
                 </td>
+                <!-- Stcourse Prerequisites -->
+              <td>
+                {% if course is not none %}
+                {{ course.prereqs }}
+                {% endif %}
+              </td>
+                <!-- stcourse Description -->
+                <td> {% if course.description is not none %}
+                  {{ course.description }}
+                  {% endif %}
+                  </td>
+
                 <!--LAST EDITED BY-->
                 <td>
                     {{course.lastEditBy}}
@@ -297,6 +317,7 @@
                         </td>
                     {% endif %}
                 {% endif %}
+
                 </tr>
             {% endif %}
         {% endfor %}
