@@ -71,7 +71,7 @@ def courses(tID, prefix, can_edit):
     # get crosslisted for given courses
 
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
-    stCourseInfo = SpecialTopicCourse.get()
+    stCourseInfo = SpecialTopicCourse.select()
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
