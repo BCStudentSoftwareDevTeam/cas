@@ -45,22 +45,23 @@
         {% include "snips/courseElements/addInstructors.html"%}
         {% include "snips/courseElements/addSchedule.html" %}
         {% include "snips/courseElements/addSection.html" %}
-        <div class="form-group col-md-4 offset_input right">
-          <div>
+          <div class="row" style="width:200px; margin-left:1px;"">
             <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
           </div>
-        </div>
         <!-- the description and the prereqs are removed from the special topics modals page. -->
+        <div class="container-fluid">
         <div class="row" style="margin-bottom:10px;">
-                <div class="form-group col-md-6" style="margin-left:1px;">
+                <div class="form-group col-md-6" style="">
                    <h5 style="font-weight: bold;"> Prerequisites </h5>
                <textarea class="form-control" name="prereqs" placeholder="Enter your prereqs for the course"></textarea>
              </div>
              <div class="form-group col-md-6 offset_input right">
                <h5 style="font-weight: bold;"> Description </h5>
                 <textarea class="form-control" name="prereqs" placeholder="Enter course description"> </textarea>
-                </div>
-          </div>
+            </div>
+        </div>
+        </div>
+
         <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
                                                 Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
           <div class="col-md-12 form-group">

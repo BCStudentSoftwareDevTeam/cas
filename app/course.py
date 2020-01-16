@@ -71,7 +71,7 @@ def courses(tID, prefix, can_edit):
     # get crosslisted for given courses
 
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
-    stCourseInfo = SpecialTopicCourse.select()
+    # stCourseInfo = SpecialTopicCourse.get()
     return render_template(
             "course.html",
             crosslisted=course_to_crosslist,
@@ -90,8 +90,8 @@ def courses(tID, prefix, can_edit):
             prefix=prefix,
             page=page,
             rooms=rooms,
-            key = key,
-            stCourseInfo=stCourseInfo)
+            key = key
+            )
 
 
 @app.route("/verifycrosslisted/<intValue>", methods=["POST"])
