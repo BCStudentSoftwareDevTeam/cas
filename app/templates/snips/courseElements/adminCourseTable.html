@@ -329,25 +329,25 @@ $(document).ready(function(){
 });
 
 
-function verifyCrosslisted(intValue)
-{
-    {# console.log("hhi") #}
-    let oldurl = window.location.href.split("/");
-    let termcode = oldurl[oldurl.length-2];
-    console.log(termcode)
-    let checked = document.getElementById("coursestatus"+intValue).checked;
-    console.log(checked);
-    let url = '/verifycrosslisted/'+intValue;
-    console.log(intValue);
-    $.ajax({
-            type: "POST",
-            url: url,
-            data:{'check': checked},
-            dataType: 'json'
-         })
-           .fail(function(response){
-                    location.reload(); });
-}
+// function verifyCrosslisted(intValue)
+// {
+//     {# console.log("hhi") #}
+//     let oldurl = window.location.href.split("/");
+//     let termcode = oldurl[oldurl.length-2];
+//     console.log(termcode)
+//     let checked = document.getElementById("coursestatus"+intValue).checked;
+//     console.log(checked);
+//     let url = '/verifycrosslisted/'+intValue;
+//     console.log(intValue);
+//     $.ajax({
+//             type: "POST",
+//             url: url,
+//             data:{'check': checked},
+//             dataType: 'json'
+//          })
+//            .fail(function(response){
+//                     location.reload(); });
+// }
 
 
 /**

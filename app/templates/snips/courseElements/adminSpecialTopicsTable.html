@@ -14,9 +14,8 @@
         </tr>
     </thead>
     <tbody>
-        <div id = "state['id']">
+        <div id = "{{state['id']}}">
         {% for course in courses %}
-        <div >
             <tr>
                 <!--COURSE NAME-->
                 <td>
@@ -58,7 +57,7 @@
                     {% if course.capacity is not none  %}
                         {{course.capacity}}
                     {% else %}
-                        no capacity specified
+                        no caps specified
                     {% endif %}
                 </td>
                 <!-- ROOM -->
@@ -71,10 +70,10 @@
                 </td>
                 <!--CROSS LISTED-->
                 <td>
-                    {% if course.crossListed == 1 %}
-                        yes
+                    {% if course.prereqs  %}
+                        {{course.prereqs}}
                     {% else %}
-                        no
+                        no description was given AT ALL
                     {% endif %}
                 </td>
                 <!--NOTES-->

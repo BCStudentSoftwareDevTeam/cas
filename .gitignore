@@ -11,3 +11,5 @@ config.py
 venv/*
 *.xlsx
 *.csv
+app/config.yaml
+app/dbConfig.yaml 

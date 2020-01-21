@@ -40,7 +40,7 @@ function reload(term,table){
     $.ajax({
         url:"/courseManagement/specialTopics/get/" + term + "/" + table,
         success: function (results){
-            reload_table(results,table)
+            //reload_table(results,table)
             $('[data-toggle="popover"]').popover()
         },
     });
