@@ -7,7 +7,8 @@
             <th>Schedule</th>
             <th>Capacity</th>
             <th>Room</th>
-            <th>Cross-Listed</th>
+            <th>Description</th>
+            <th>Prerequisites</th>
             <th>Notes</th>
             <th>Last Edited</th>
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
@@ -70,11 +71,18 @@
                 </td>
                 <!--CROSS LISTED-->
                 <td>
-                    {% if course.prereqs  %}
-                        {{course.prereqs}}
+                    {% if course.description  %}
+                        {{course.description}}
                     {% else %}
                         no description was given AT ALL
                     {% endif %}
+                </td>
+
+                <td>  {% if course.prereqs  %}
+                      {{course.prereqs}}
+                  {% else %}
+                      no prereqs 
+                  {% endif %}
                 </td>
                 <!--NOTES-->
                 <td>

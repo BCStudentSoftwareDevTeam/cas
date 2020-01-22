@@ -11,8 +11,6 @@
         <th>Room</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
-        <th> Prerequisites</th>
-        <th> Description</th>
         <th>Last Edited</th>
 
 
@@ -125,8 +123,8 @@
                     <p>Notes</p>
                 {% endif %}
             </td>
-            <td> </td>
-            <td> </td>
+            <!-- <td> </td>
+            <td> </td> -->
             <!--LAST EDITED BY-->
             <td>
                 {{course.lastEditBy}}
@@ -274,16 +272,6 @@
                     {% endif %}
                 </td>
                 <!-- Stcourse Prerequisites -->
-              <td>
-                {% if course is not none %}
-                {{ course.prereqs }}
-                {% endif %}
-              </td>
-                <!-- stcourse Description -->
-                <td> {% if course.description is not none %}
-                  {{ course.description }}
-                  {% endif %}
-                  </td>
 
                 <!--LAST EDITED BY-->
                 <td>
@@ -329,25 +317,25 @@ $(document).ready(function(){
 });
 
 
-// function verifyCrosslisted(intValue)
-// {
-//     {# console.log("hhi") #}
-//     let oldurl = window.location.href.split("/");
-//     let termcode = oldurl[oldurl.length-2];
-//     console.log(termcode)
-//     let checked = document.getElementById("coursestatus"+intValue).checked;
-//     console.log(checked);
-//     let url = '/verifycrosslisted/'+intValue;
-//     console.log(intValue);
-//     $.ajax({
-//             type: "POST",
-//             url: url,
-//             data:{'check': checked},
-//             dataType: 'json'
-//          })
-//            .fail(function(response){
-//                     location.reload(); });
-// }
+function verifyCrosslisted(intValue)
+{
+    {# console.log("hhi") #}
+    let oldurl = window.location.href.split("/");
+    let termcode = oldurl[oldurl.length-2];
+    console.log(termcode)
+    let checked = document.getElementById("coursestatus"+intValue).checked;
+    console.log(checked);
+    let url = '/verifycrosslisted/'+intValue;
+    console.log(intValue);
+    $.ajax({
+            type: "POST",
+            url: url,
+            data:{'check': checked},
+            dataType: 'json'
+         })
+           .fail(function(response){
+                    location.reload(); });
+}
 
 
 /**
