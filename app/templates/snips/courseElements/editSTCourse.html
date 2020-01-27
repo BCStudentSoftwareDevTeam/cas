@@ -86,7 +86,7 @@
 
           <!--Row One-->
           <div class="row">
-            <div class="col-md-6 float-left">
+            <div class="col-md-6 float-left hide">
               <!--CrossListed-->
               <h5>Cross Listed</h5>
               <div class="radio">
@@ -145,20 +145,20 @@
           <!--Notes-->
           <h5>Notes</h5>
               <textarea class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
-          </br>
+
 
           <!--Description-->
-          <!-- <div>
+          <div class="hide">
             <h5>Description</h5>
             <textarea class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
-          </div> -->
+          </div>
 
           <!--Prerequisites-->
-          <!-- <div>
+          <div class="hide">
             <h5>Prerequisites</h5>
-            <textarea class="form-control" name="prereqs">{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
+            <textarea class="form-control" name="prereqs" hidden >{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </div>
-          </br> -->
+          </br>
 
           <!--Requirements & Perspective Request Panel-->
           <div class="" style="display:none;">
