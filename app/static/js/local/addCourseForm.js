@@ -61,9 +61,28 @@ function callback(e){
 }
 
 
-function callme(event){
-    //const values =  document.getElementById("crossListSelect")
-    //const vals = values.options[values.selectedIndex].text;
-    //console.log(vals);
-    console.log("TODO");
-}
+
+
+
+  // $("#home-btn, #menu2-btn").bind("click", function () {
+  //   $("#home, #menu2").hide();
+  //   if ($(this).attr('id') == "home-btn")
+  //   {
+  //     $("#home").show();
+  //   }
+  //   if ($(this).attr('id') == "menu2-btn")
+  //   {
+  //     console.log("menu2")
+  //     $("#menu2").show();
+  //   }
+  // });
+
+
+
+//
+// function callme(event){
+//     //const values =  document.getElementById("crossListSelect")
+//     //const vals = values.options[values.selectedIndex].text;
+//     //console.log(vals);
+//     console.log("TODO");
+// }

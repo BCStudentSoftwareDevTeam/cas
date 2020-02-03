@@ -15,8 +15,8 @@ databaseAdmin:
 db:
   db_name: c9
   host: localhost
-  password: 'Basant16'
-  username: phuyalb
+  password: '4127596'
+  username: root
 
 
 # Correct for display, but does not match DB.
