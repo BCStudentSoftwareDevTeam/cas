@@ -5,113 +5,109 @@
     <button class="createCourseText btn btn-sm btn-default" id="showForm" style="margin-top:-10px; margin-bottom: 10px;"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Schedule a course</button>
   </div>
   {% endif %}
-<div id='createCourseFormJumbo'>  {# all tab wrapper opening #}
+  <div id='createCourseFormJumbo'> {# all tab wrapper opening #}
   {# This also needs to be a button, for accesibility purposes #}
-  <button class="createCourseText btn btn-sm btn-default" id="hideForm"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Hide</button>
-  <div style="margin-top:7px">
-  <ul class="nav nav-tabs" >
-    <li class="active"><a data-toggle="tab" href="#home">Create a Course</a></li>
-    <li><a data-toggle="tab" href="#menu2">Import Course(s)</a></li>
-  </ul>
- </div>
-  <div class="tab-content" >   {# tab content opening #}
-    <div id="home" class="tab-pane fade in active">  {# schedule a course #}
-		 <div id="createFormContainer">
-    <div class="jumbotron" >
-      <h3 class="display-3">Create Course</h3>
-      <hr class="m-y-2">
-      <form class="form-horizontal" method="post" id="createCourseForm" action="/addCourse/{{currentTerm}}/{{prefix}}">
-        <input type="hidden" id="term" value="{{currentTerm}}">
-        <div class="form-group col-md-6">
-          <select title="Course title" class="form-control selectpicker" data-live-search="true" name="reFID" id="courseInfo" onchange="stn()" required>
-            <option value="">---</option>
-            {% for item in courseInfo %}
-              <option value="{{item.reFID}}">
-                {% if item.ctitle == "Special Topics" %}
-                  (New)
-                {% endif %}
-                {{item.subject.prefix}} {{item.number}} {{item.ctitle}}
-              </option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group col-md-6 offset_input right" id="newInput">
-          <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
-        </div>
-        <div>
-           <input type="hidden" name="crossListed" id="crossListed" value="0" required>
-        </div>
-        {% include "snips/courseElements/addCrossListCourse.html"%}
-        {% include "snips/courseElements/addInstructors.html"%}
-        {% include "snips/courseElements/addSchedule.html" %}
-        {% include "snips/courseElements/addSection.html" %}
-          <div class="row" style="width:200px; margin-left:1px;"">
-            <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
-          </div>
-        <!-- the description and the prereqs are removed from the special topics modals page. -->
-        <div class="container-fluid">
-        <div class="row" style="margin-bottom:10px;">
-                <div class="form-group col-md-6" style="">
-                   <h5 style="font-weight: bold;"> Prerequisites </h5>
-               <textarea class="form-control" name="prereqs" placeholder="Enter your prereqs for the course"></textarea>
-             </div>
-             <div class="form-group col-md-6" style="">
-                <h5 style="font-weight: bold;"> Description </h5>
-            <textarea class="form-control" name="description" placeholder="Enter your description"></textarea>
-          </div>
-        </div>
-        </div>
-
-        <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
-                                                Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
-          <div class="col-md-12 form-group">
-            <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  hidden />
-          </div>
-          <div class="col-md-10 form-group">
-            <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" hidden />
-          </div>
-          <input id="prodId" name="rid" type="hidden" value="1" hidden> {# this name is incorrect but if i changed it i got a bad request but like idk man idek what this is for -Kat #}
-          <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
-            <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true" hidden>
-              {% for credit in cfg['credits'] %}
-                  <option value="{{credit['value']}}">
-                    {{credit['value']}}
-                  </option>
-                  {% endfor %}
-           </select>
-          </div>
-
-          <div class="col-md-6 form-group">
-            <textarea rows="2" class="form-control"  name="majorReqsMet" cols="25" placeholder="Please indicate the major requirements met with this course, if any" hidden ></textarea>
-          </div>
-          <div class="col-md-6 offset_input right form-group">
-            <textarea rows="2" class="form-control" id = "cc" name="concentrationReqsMet" cols="25" placeholder="Please indicate the concentration requirements met with this course, if any"></textarea>
-          </div>
-          <div class="col-md-6 form-group">
-            <textarea rows="2" class="form-control"  name="minorReqsMet" cols="25" placeholder="Please indicate the minor requirements met with this course, if any"></textarea>
-          </div>
-          <div class="col-md-6 offset_input right form-group">
-            <textarea rows="2" class="form-control" id = "cpe" name="perspectivesMet" cols="25" placeholder="Please indicate the perspectives which may be satisfied with this course, if any"></textarea>
-          </div>
-        </div>
-        <div>
-          <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course, including specific classroom and facilities"
-          style="text-align:center"></textarea>
-      </form>
-      <div class="btn-toolbar pull-right">
-        <!-- <button form="createCourseForm" type="submit" name="formBtn" value="save" class="btn btn-primary hide" id="submitSave" hidden>Save</button> -->
-        <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:10px;">Submit</button>
-      </div>
+    <button class="createCourseText btn btn-sm btn-default" id="hideForm"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Hide</button>
+    <div style="margin-top:7px">
+    <ul class="nav nav-tabs" >
+      <li class="active"><a data-toggle="tab" href="#home">Create a Course</a></li>
+      <li><a data-toggle="tab" href="#menu2">Import Course(s)</a></li>
+    </ul>
     </div>
-  </div>
-    </div> {# close schedule a course #}
-    <div id="menu2" class="tab-pane fade"> {# import many courses #}
-    <div class="jumbotron">
-      <div class="container">
-      <h3 class="display-3">Import From Previous Semesters</h3>
-      <hr class="m-y-2">
-      <div>
-      <form class="form-horizontal" method="post" id="addMany" action="/addMany/{{currentTerm}}">
+    <div class="tab-content" >   {# tab content opening #}
+        <div id="home" class="tab-pane fade in active">  {# schedule a course #}
+		      <div id="createFormContainer">
+            <div class="jumbotron" >
+              <h3 class="display-3">Create Course</h3>
+              <form class="form-horizontal" method="post" id="createCourseForm" action="/addCourse/{{currentTerm}}/{{prefix}}">
+                  <input type="hidden" id="term" value="{{currentTerm}}">
+                  <div class="form-group col-md-6">
+                    <select title="Course title" class="form-control selectpicker" data-live-search="true" name="reFID" id="courseInfo" onchange="stn()" required>
+                      <option value="">---</option>
+                      {% for item in courseInfo %}
+                        <option value="{{item.reFID}}">
+                          {% if item.ctitle == "Special Topics" %}
+                            (New)
+                          {% endif %}
+                          {{item.subject.prefix}} {{item.number}} {{item.ctitle}}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6 offset_input right" id="newInput">
+                    <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
+                  </div>
+                  <div>
+                     <input type="hidden" name="crossListed" id="crossListed" value="0" required>
+                  </div>
+                  {% include "snips/courseElements/addCrossListCourse.html"%}
+                  {% include "snips/courseElements/addInstructors.html"%}
+                  {% include "snips/courseElements/addSchedule.html" %}
+                  {% include "snips/courseElements/addSection.html" %}
+                  <div class="row" style="width:200px; margin-left:1px;"">
+                    <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
+                  </div>
+                  <!-- the description and the prereqs are removed from the special topics modals page. -->
+                  <div class="container-fluid">
+                      <div class="row" style="margin-bottom:10px;">
+                        <div class="form-group col-md-6" style="">
+                            <h5 style="font-weight: bold;"> Prerequisites </h5>
+                            <textarea class="form-control" name="prereqs" placeholder="Enter your prereqs for the course"></textarea>
+                        </div>
+                        <div class="form-group col-md-6" style="">
+                            <h5 style="font-weight: bold;"> Description </h5>
+                            <textarea class="form-control" name="description" placeholder="Enter your description"></textarea>
+                        </div>
+                      </div>
+                  </div>
+                  <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
+                                                          Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
+                    <div class="col-md-12 form-group">
+                      <input placeholder="Course Prerequisites" type="text" name ="prereqs" class="form-control"  hidden />
+                    </div>
+                    <div class="col-md-10 form-group">
+                      <input placeholder="Course Description" type="text" name ="description" class="form-control" id="specialCourseDesc" hidden />
+                    </div>
+                    <input id="prodId" name="rid" type="hidden" value="1" hidden> {# this name is incorrect but if i changed it i got a bad request but like idk man idek what this is for -Kat #}
+                    <div id = "ccredits" class="col-md-2 offset_input right form-group" hidden>
+                      <select title="Course Credits" class="form-control selectpicker" id='credits' name="credits" value='1.000' data-live-search="true" hidden>
+                        {% for credit in cfg['credits'] %}
+                            <option value="{{credit['value']}}">
+                              {{credit['value']}}
+                            </option>
+                            {% endfor %}
+                     </select>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                      <textarea rows="2" class="form-control"  name="majorReqsMet" cols="25" placeholder="Please indicate the major requirements met with this course, if any" hidden ></textarea>
+                    </div>
+                    <div class="col-md-6 offset_input right form-group">
+                      <textarea rows="2" class="form-control" id = "cc" name="concentrationReqsMet" cols="25" placeholder="Please indicate the concentration requirements met with this course, if any"></textarea>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <textarea rows="2" class="form-control"  name="minorReqsMet" cols="25" placeholder="Please indicate the minor requirements met with this course, if any"></textarea>
+                    </div>
+                    <div class="col-md-6 offset_input right form-group">
+                      <textarea rows="2" class="form-control" id = "cpe" name="perspectivesMet" cols="25" placeholder="Please indicate the perspectives which may be satisfied with this course, if any"></textarea>
+                    </div>
+                  </div>
+                    <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course, including specific classroom and facilities"
+                    style="text-align:center"></textarea>
+              </form>
+              <div class="btn-toolbar pull-right">
+                <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:10px;">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div> {# close schedule a course #}
+
+        <div id="menu2" class="tab-pane fade"> {# import many courses #}
+            <div class="jumbotron">
+                <div class="container">
+                    <h3 class="display-3">Import From Previous Semesters</h3>
+                    <div>
+                        <form class="form-horizontal" method="post" id="addMany" action="/addMany/{{currentTerm}}">
         <div class="form-group col-md-8">
           <select title="Select a Term to Import from..." class="form-control selectpicker" data-live-search="true" name="term_name" id="selected_term_many" onchange="retrieveCourses(this)" required>
             {{currentTerm}}
@@ -133,14 +129,18 @@
     </div>
     </div>
 
-      </form>
-      <div class="col-md-8">
-      <button form="addMany" type="submit" class="btn btn-primary pull-right" id="submitAddMany">Submit</button>
-      </div>
-      </div>
-    </div>
-    </div>
-  </div>   {# closing import many courses #}
-</div> {# close tab content #}
-</div> {# all tab wrapper closing #}
+                        </form>
+                        <div class="col-md-8">
+                        <button form="addMany" type="submit" class="btn btn-primary pull-right" id="submitAddMany">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   {# closing import many courses #}
+    </div> {# close tab content #}
+  </div> {# all tab wrapper closing #}
+
+
+
+
 <script type="text/javascript" src="/static/js/local/addCourseForm.js"></script>
