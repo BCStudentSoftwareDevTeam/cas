@@ -47,8 +47,17 @@
                   <div class="row" style="width:200px; margin-left:1px;"">
                     <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
                   </div>
+                  <b><span> Select Faculty Credit: </span></b>
+                  <select class="browser-default custom-select custom-select-md mb-3">
+                      <option selected>Select One-- </option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+
+
                   <!-- the description and the prereqs are removed from the special topics modals page. -->
-                  <div class="container-fluid">
+                  <div id="hide_prereqs_descrip" class="container-fluid" >
                       <div class="row" style="margin-bottom:10px;">
                         <div class="form-group col-md-6" style="">
                             <h5 style="font-weight: bold;"> Prerequisites </h5>

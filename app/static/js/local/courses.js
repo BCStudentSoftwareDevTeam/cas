@@ -111,11 +111,14 @@ function retrieveCourses(obj){
 }
 
 
-
+$("#hide_prereqs_descrip").hide();
 function stn(){
   //WHAT DOES THIS EVEN DO? what kind of name is this? jesus
   //I think it is for enabling/displaying/disabling/hiding elements. (Such as special topics course fields)
    var courseTitle = getSelectedCourse('courseInfo');
+   if (courseTitle){
+     $("#hide_prereqs_descrip").hide();
+   }
    if (courseTitle === "---"){
       document.getElementById("submitAdd").disabled = true;
       $("#section_select").hide()
@@ -133,12 +136,13 @@ function stn(){
             // coursesDiv.style.display = 'block';
             courseCredits.style.display = 'block';
             $('#submitSave').removeClass("hide");
-      }
+             $("#hide_prereqs_descrip").show()
       else{
          $('#specialTopicsName').attr('disabled','disabled');
         coursesDiv.style.display = 'none';
         courseCredits.style.display = 'none';
         $('#submitSave').addClass("hide");
+         $("#hide_prereqs_descrip").hide();
       }
       get_sections(courseTitle)
    }
