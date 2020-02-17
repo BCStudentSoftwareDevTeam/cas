@@ -57,7 +57,6 @@ def courses(tID, prefix, can_edit):
 
     courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
         (Course.prefix == prefix) & (Course.term == tID)))
-
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already

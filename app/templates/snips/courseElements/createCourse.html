@@ -47,13 +47,17 @@
                   <div class="row" style="width:200px; margin-left:1px;"">
                     <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
                   </div>
-                  <b><span> Select Faculty Credit: </span></b>
-                  <select class="browser-default custom-select custom-select-md mb-3">
-                      <option selected>Select One-- </option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
+                  <div style="float: left !important;">
+                      <b><span> Select Faculty Credit: </span></b>
+                      <select class="browser-default custom-select custom-select-md mb-3" name="faculty_credit">
+                          <option selected>Select One-- </option>
+                          <option value="0.25">0.25</option>
+                          <option value="0.5">0.5</option>
+                          <option value="1.0">1.0</option>
+                          <option value="1.5">1.5</option>
+                        </select>
+
+                      </div>
 
 
                   <!-- the description and the prereqs are removed from the special topics modals page. -->

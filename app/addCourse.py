@@ -26,6 +26,7 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix):
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
+    # print("values", data)
 
     # # instructors need to be a list
 
@@ -35,6 +36,7 @@ def addCourses(tid, prefix):
     nullCheck = NullCheck()
 
     values = nullCheck.add_course_form(data)
+    print("values", values)
 
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
@@ -104,6 +106,7 @@ def addCourses(tid, prefix):
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
                         section=values['section'],
+                        faculty_credit=values['faculty_credit'],
                         prereq=convertPrereqs(prereqs)
                         )
 
@@ -213,6 +216,7 @@ def add_one(tid):
 def add_many(tid):
     data = request.form.getlist
     courses = request.form.getlist('courses')
+    print(courses)
     if courses:
         for i in courses:
             course = Course.get(Course.cId == int(i))  # get an existing course

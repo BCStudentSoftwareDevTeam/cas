@@ -112,7 +112,6 @@ function retrieveCourses(obj){
 
 
 $(".hide_prereqs_descrip").slideUp();
-// $("#hide_prereqs_descrip").css("visibility", "hidden");
 function stn(){
   //WHAT DOES THIS EVEN DO? what kind of name is this? jesus
   //I think it is for enabling/displaying/disabling/hiding elements. (Such as special topics course fields)
