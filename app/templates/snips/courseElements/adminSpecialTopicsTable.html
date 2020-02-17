@@ -5,12 +5,14 @@
             <th>Course Name</th>
             <th>Taught By</th>
             <th>Schedule</th>
+            <th>Faculty Credit </th>
             <th>Capacity</th>
             <th>Room</th>
             <th>Description</th>
             <th>Prerequisites</th>
             <th>Notes</th>
             <th>Last Edited</th>
+
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         </tr>
     </thead>
@@ -53,6 +55,14 @@
                         {% endif %}
                     {% endif %}
                 </td>
+                <!-- faculty_credit -->
+                <td>
+                  {% if course.faculty_credit is not none  %}
+                  {{course.faculty_credit}}
+                  {% else %}
+                  <p> No Specified Credit </p>
+                  {% endif %}
+                </td>
                 <!--CAPACITY-->
                 <td>
                     {% if course.capacity is not none  %}
@@ -81,7 +91,7 @@
                 <td>  {% if course.prereqs  %}
                       {{course.prereqs}}
                   {% else %}
-                      no prereqs 
+                      no prereqs
                   {% endif %}
                 </td>
                 <!--NOTES-->
@@ -96,6 +106,7 @@
                 <td>
                     {{course.lastEditBy}}
                 </td>
+
                 {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}
                     <td>
                         <div class="child">

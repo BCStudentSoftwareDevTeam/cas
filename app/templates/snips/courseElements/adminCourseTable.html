@@ -7,7 +7,7 @@
         <th>Taught By</th>
         <th>Section</th>
         <th>Schedule</th>
-        <th>faculty_credit</th>
+        <th>Faculty Credit</th>
         <th>Capacity</th>
         <th>Room</th>
         <th>Cross-Listed</th>
@@ -228,11 +228,20 @@
                         {% endif %}
                     </td>
                     <!--CAPACITY-->
+
                     <td>
                         {% if course.capacity is not none  %}
                             {{course.capacity}}
                         {% else %}
                             no capacity specified
+                        {% endif %}
+                    </td>
+                    <!-- Faculty Credit  -->
+                    <td>
+                        {% if course.faculty_credit  %}
+                            {{course.faculty_credit}}
+                        {% else %}
+                            no Credit specified
                         {% endif %}
                     </td>
                     <!-- ROOM -->

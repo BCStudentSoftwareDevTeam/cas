@@ -17,52 +17,63 @@
     <div class="tab-content" >   {# tab content opening #}
         <div id="home" class="tab-pane fade in active">  {# schedule a course #}
 		      <div id="createFormContainer">
-            <div class="jumbotron" >
+            <div class="jumbotron" style="border-style:solid;">
               <h3 class="display-3">Create Course</h3>
               <form class="form-horizontal" method="post" id="createCourseForm" action="/addCourse/{{currentTerm}}/{{prefix}}">
-                  <input type="hidden" id="term" value="{{currentTerm}}">
-                  <div class="form-group col-md-6">
-                    <select title="Course title" class="form-control selectpicker" data-live-search="true" name="reFID" id="courseInfo" onchange="stn()" required>
-                      <option value="">---</option>
-                      {% for item in courseInfo %}
-                        <option value="{{item.reFID}}">
-                          {% if item.ctitle == "Special Topics" %}
-                            (New)
-                          {% endif %}
-                          {{item.subject.prefix}} {{item.number}} {{item.ctitle}}
-                        </option>
-                      {% endfor %}
-                    </select>
+                <div class="row">
+                    <input type="hidden" id="term" value="{{currentTerm}}">
+                    <div class="form-group col-md-6">
+                      <select title="Course title" class="form-control selectpicker" data-live-search="true" name="reFID" id="courseInfo" onchange="stn()" required>
+                        <option value="">---</option>
+                        {% for item in courseInfo %}
+                          <option value="{{item.reFID}}">
+                            {% if item.ctitle == "Special Topics" %}
+                              (New)
+                            {% endif %}
+                            {{item.subject.prefix}} {{item.number}} {{item.ctitle}}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6 offset_input right" id="newInput">
+                      <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
+                    </div>
+                    <div>
+                       <input type="hidden" name="crossListed" id="crossListed" value="0" required>
+                    </div>
+                    {% include "snips/courseElements/addCrossListCourse.html"%}
+                    {% include "snips/courseElements/addInstructors.html"%}
+                    {% include "snips/courseElements/addSchedule.html" %}
+                    {% include "snips/courseElements/addSection.html" %}
                   </div>
-                  <div class="form-group col-md-6 offset_input right" id="newInput">
-                    <input type="text" id="specialTopicsName" name="specialTopicName" class="form-control specialTopics" placeholder="Enter special topics name" required disabled/>
-                  </div>
-                  <div>
-                     <input type="hidden" name="crossListed" id="crossListed" value="0" required>
-                  </div>
-                  {% include "snips/courseElements/addCrossListCourse.html"%}
-                  {% include "snips/courseElements/addInstructors.html"%}
-                  {% include "snips/courseElements/addSchedule.html" %}
-                  {% include "snips/courseElements/addSection.html" %}
-                  <div class="row" style="width:200px; margin-left:1px;"">
-                    <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control"  />
-                  </div>
-                  <div style="float: left !important;">
-                      <b><span> Select Faculty Credit: </span></b>
-                      <select class="browser-default custom-select custom-select-md mb-3" name="faculty_credit">
-                          <option selected>Select One-- </option>
-                          <option value="0.25">0.25</option>
-                          <option value="0.5">0.5</option>
-                          <option value="1.0">1.0</option>
-                          <option value="1.5">1.5</option>
-                        </select>
 
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control" style="width: 200px;" />
+                    </div>
+                    <div class="form-group col-md-6 offset_input right">
+                      <div class="row">
+                        <div class="col-md-3" style="margin-top:12px;">
+                          <b><span> Select Faculty Credit:</span></b>
+                        </div>
+                        <div class="col-md-6">
+                          <select class="form-control" name="faculty_credit" style="width:200px !important;">
+                              <option selected><strong>Select One ...</strong></option>
+                              <option value="0.25">0.25</option>
+                              <option value="0.5">0.75</option>
+                              <option value="1.0">1.0</option>
+                              <option value="1.5">1.5</option>
+                            </select>
+                        </div>
                       </div>
+                    </div>
+                  </div>
+
+
 
 
                   <!-- the description and the prereqs are removed from the special topics modals page. -->
-                  <div class="container-fluid hide_prereqs_descrip">
-                      <div class="row" style="margin-bottom:10px;">
+                      <div class="row hide_prereqs_descrip" style="margin-bottom:10px;">
                         <div class="form-group col-md-6" style="">
                             <h5 style="font-weight: bold;"> Prerequisites </h5>
                             <textarea class="form-control" name="prereqs" placeholder="Enter your prereqs for the course"></textarea>
@@ -72,7 +83,11 @@
                             <textarea class="form-control" name="description" placeholder="Enter your description"></textarea>
                         </div>
                       </div>
-                  </div>
+                      <div class="row ">
+                        <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course ..."
+                        style="text-align:center"></textarea>
+                      </div>
+
                   <div id = "specialTopicCourse" hidden> {# These fields are no longer being used; Scott Steele wants to go back to a paper form for
                                                           Special Topics; so these fields are irrelevant. Commented out line 132 of courses.js -Kat 9/17/2019 #}
                     <div class="col-md-12 form-group">
@@ -105,11 +120,10 @@
                       <textarea rows="2" class="form-control" id = "cpe" name="perspectivesMet" cols="25" placeholder="Please indicate the perspectives which may be satisfied with this course, if any"></textarea>
                     </div>
                   </div>
-                    <textarea rows="4" class="form-control" id="notesText" name="requests" cols="50" placeholder="Please indicate any special needs for this course, including specific classroom and facilities"
-                    style="text-align:center"></textarea>
+
               </form>
               <div class="btn-toolbar pull-right">
-                <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:10px;">Submit</button>
+                <button form="createCourseForm" type="submit" name="formBtn" value="submit" class="btn btn-success " id="submitAdd" style="margin-top:25px; boder-color:black;">Submit</button>
               </div>
             </div>
           </div>
@@ -125,7 +139,7 @@
           <select title="Select a Term to Import from..." class="form-control selectpicker" data-live-search="true" name="term_name" id="selected_term_many" onchange="retrieveCourses(this)" required>
             {{currentTerm}}
             <option value="">---</option>
-            {% for term in allTerms %}
+            {% for term in allTerms %}0
               {% if currentTerm != term.termCode %}
                 <option value="{{term.name}}">
                   {{term.name}}
