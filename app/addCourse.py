@@ -64,7 +64,8 @@ def addCourses(tid, prefix):
             concentrationReqsMet=data['concentrationReqsMet'],
             minorReqsMet=data['minorReqsMet'],
             perspectivesMet=data['perspectivesMet'],
-            section=data['section'])
+            section=data['section'],
+            faculty_credit=data["faculty_credit"])
         if data['formBtn'] == "submit":
             specialTopicCourse.status = 1
         specialTopicCourse.save()
@@ -128,7 +129,7 @@ def addCourses(tid, prefix):
         # save crosslisted courses of the newly-created course in a database
         if(course.crossListed):
             create_crosslisted_courses(
-                values, course, tid, prereqs, instructors)
+                values, course, tid, prereqs, instructors, faculty_credit)
 
         flash("Course has successfully been added!")
     return redirect(redirect_url())
@@ -163,7 +164,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors):
                                crossListed=True,
                                parentCourse=course.cId,
                                section=values['section'],
-                               prereq=convertPrereqs(prereqs)
+                               prereq=convertPrereqs(prereqs),
+                               faculty_credit= value['faculty_credit']
                                )
             cc_course.save()
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)
@@ -194,7 +196,8 @@ def add_one(tid):
                     specialTopicName=course.specialTopicName,
                     notes=None,
                     crossListed=int(course.crossListed), rid=None,
-                    prereq=course.prereq
+                    prereq=course.prereq,
+                    faculty_credit=course.faculty_credit
                     )
     course.save()
 
@@ -224,7 +227,6 @@ def add_many(tid):
             # we are importing it as new
             course = Course(
                 bannerRef=course.bannerRef_id,
-                prefix=course.prefix_id,
                 term=int(tid),
                 schedule=course.schedule_id,
                 capacity=course.capacity,
@@ -233,7 +235,8 @@ def add_many(tid):
                 crossListed=int(course.crossListed),
                 rid=None,
                 section=course.section,
-                prereq=course.prereq
+                prereq=course.prereq,
+                faculty_credit=course.faculty_credit
             )
 
             course.save()

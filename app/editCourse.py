@@ -54,6 +54,7 @@ def editcourse(tid, prefix, page):
     page1 =  "/" + request.url.split("/")[-1]
     data = request.form.to_dict()
     crosslistedCourse = request.form.getlist('crossListedCourses[]')
+    # faculty_credit= request.form.getlist('faculty_credit')
     #if no crosslisted children, update hidden crosslisted to true or false
     data["crossListed"] = 1 if crosslistedCourse else 0
     trackerEdit = TrackerEdit(data)
@@ -68,6 +69,10 @@ def editcourse(tid, prefix, page):
     # print (Term.get(Term.termCode == tid).term_state.number)
     if ((Term.get(Term.termCode == tid).term_state.number) != 1): #If the term is not open for scheduling changes:
         return render_template("schedulingLocked.html", tid = tid, prefix = prefix)
+    print("data", data)
+    print("prefix", prefix)
+    print("professors", professors)
+    # print("crosslist", crossListedCourses)
     databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
     message = "Course: course {} has been edited".format(data['cid'])
     log.writer("INFO", page1, message)

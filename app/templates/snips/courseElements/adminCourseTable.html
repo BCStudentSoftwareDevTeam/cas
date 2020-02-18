@@ -7,12 +7,12 @@
         <th>Taught By</th>
         <th>Section</th>
         <th>Schedule</th>
-        <th>Faculty Credit</th>
         <th>Capacity</th>
         <th>Room</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
+        <th>Faculty Credit</th>
 
 
         {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
@@ -69,15 +69,6 @@
                     {% endif %}
                 {% endif %}
             </td>
-            <!-- faculty_credit -->
-            <td>
-                {% if course.faculty_credit is not none  %}
-                    {{course.faculty_credit}}
-                {% else %}
-                    no faculty_credit specified
-                {% endif %}
-            </td>
-
             <!--CAPACITY-->
             <td>
                 {% if course.capacity is not none  %}
@@ -139,6 +130,15 @@
             <td>
                 {{course.lastEditBy}}
             </td>
+            <!-- faculty_credit -->
+            <td>
+                {% if course.faculty_credit  %}
+                    {{course.faculty_credit}}
+                {% else %}
+                    No Credit specified
+                {% endif %}
+            </td>
+
             {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
@@ -233,17 +233,10 @@
                         {% if course.capacity is not none  %}
                             {{course.capacity}}
                         {% else %}
-                            no capacity specified
+                            No capacity specified
                         {% endif %}
                     </td>
-                    <!-- Faculty Credit  -->
-                    <td>
-                        {% if course.faculty_credit  %}
-                            {{course.faculty_credit}}
-                        {% else %}
-                            no Credit specified
-                        {% endif %}
-                    </td>
+
                     <!-- ROOM -->
                     <td>
                     {% if course.rid is not none %}
@@ -295,6 +288,14 @@
                 <!--LAST EDITED BY-->
                 <td>
                     {{course.lastEditBy}}
+                </td>
+                <!-- faculty_credit -->
+                <td>
+                    {% if course.faculty_credit is not none  %}
+                        {{course.faculty_credit}}
+                    {% else %}
+                        No Credit specified
+                    {% endif %}
                 </td>
                 {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
                 <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
