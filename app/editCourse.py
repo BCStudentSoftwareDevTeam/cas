@@ -120,6 +120,7 @@ def editSTcourse(tid, prefix, page):
   #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
   page1 =  "/" + request.url.split("/")[-1]
   data = request.form
+  print("data: \n " ,data)
   specialCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
   if data['submitbtn'] == "Submit":
     specialCourse.status = cfg['specialTopicLogic']['submitted']

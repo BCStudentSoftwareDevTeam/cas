@@ -199,7 +199,7 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
         section  = data['section']  if data['section'] else None
-        faculty_credit= float(0) if course.faculty_credit=="" else course.faculty_credit
+        faculty_credit= data['faculty_credit']  if data['faculty_credit'] else "1"
 
         if data['notes'].replace(" ", "") == "":
             notes = None
@@ -276,6 +276,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
         section  = data['section']  if data['section'] else None
+        faculty_credit= data['faculty_credit'] if data["faculty_credit"] else "1"
         if data['notes'].replace(" ", "") == "":
             notes = None
         else:
@@ -298,7 +299,9 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             specialTopicName = specialTopicCourse.specialTopicName,
                             notes = specialTopicCourse.notes,
                             crossListed = specialTopicCourse.crossListed,
-                            rid = specialTopicCourse.rid)
+                            rid = specialTopicCourse.rid,
+                            faculty_credit= specialTopicCourse.faculty_credit
+                            )
             course.save()
             update_course = DataUpdate()
             addCourseInstructors(professors, course.cId)
@@ -319,6 +322,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.minorReqsMet = data['minorReqsMet']
         specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
         specialTopicCourse.perspectivesMet = data['perspectivesMet']
+        specialTopicCourse.faculty_credit= data["faculty_credit"]
         editSTInstructors(professors, data['stid'])
         specialTopicCourse.save()
 
