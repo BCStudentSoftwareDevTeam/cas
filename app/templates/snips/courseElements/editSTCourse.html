@@ -86,7 +86,7 @@
 
           <!--Row One-->
           <div class="row">
-            <div class="col-md-6 float-left hide">
+            <div class="col-md-6 float-left">
               <!--CrossListed-->
               <h5>Cross Listed</h5>
               <div class="radio">
@@ -113,15 +113,23 @@
             <div class="col-md-6">
 
 
-            <h5> Select Faculty Credit:</h5>
+            <h5> Faculty Load Credit</h5>
             <div >
-                <select class="form-control selectpicker" name="faculty_credit">
-                    <option value="1.0" selected><strong>Select One ...</strong></option>
-                    <option value="0.25">0.25</option>
-                    <option value="0.5">0.5</option>
-                    <option value="1.0">1.0</option>
-                    <option value="1.5">1.5</option>
-                  </select>
+              <select class="form-control selectpicker" name="faculty_credit">
+                  <option value="0.25" {% if course.faculty_credit=="0.25" %}
+                      selected
+                    {% endif %}>0.25</option>
+
+                  <option value="0.5"{% if course.faculty_credit=="0.5" %}
+                      selected
+                    {% endif %}>0.5</option>
+                  <option value="1.0" {% if course.faculty_credit=="1.0" %}
+                      selected
+                    {% endif %}>1.0</option>
+                  <option value="1.5" {% if course.faculty_credit=="1.5" %}
+                      selected
+                    {% endif %}>1.5</option>
+                </select>
                 </div>
             </div>
             <!--Section-->
@@ -172,7 +180,7 @@
             <h5>Prerequisites</h5>
             <textarea class="form-control" name="prereqs" hidden >{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </div>
-          </br>
+
 
           <!--Requirements & Perspective Request Panel-->
           <div class="" style="display:none;">

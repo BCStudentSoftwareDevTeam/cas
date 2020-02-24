@@ -49,22 +49,21 @@
 
                   <div class="row">
                     <div class="form-group col-md-6">
-                        <div class="col-md-3" style="margin-top:10px;">
+                        <div class="col-md-2" style="margin-top:10px;">
                         <b><span> Capacity: </span></b>
                         </div>
-                      <input placeholder="Enter course capacity" type="number" min='1' max = '50' name ="capacity" class="form-control" style="width: 200px;" />
+                      <input placeholder="Enter course capacity" type="number" min='0'  name ="capacity" class="form-control" style="width: 200px;">
                     </div>
                     <div class="form-group col-md-6 offset_input right">
                       <div class="row">
                         <div class="col-md-3" style="margin-top:12px;">
-                          <b><span> Select Faculty Credit:</span></b>
+                          <b><span> Faculty Load Credit</span></b>
                         </div>
                         <div class="col-md-6">
-                          <select class="form-control" name="faculty_credit" style="width:200px !important;">
-                              <option selected><strong>Select One ...</strong></option>
+                          <select class="form-control" name="faculty_credit" style="width:200px !important;" required>
                               <option value="0.25">0.25</option>
                               <option value="0.5">0.5</option>
-                              <option value="1.0">1.0</option>
+                              <option selected value="1.0">1.0</option>
                               <option value="1.5">1.5</option>
                             </select>
                         </div>

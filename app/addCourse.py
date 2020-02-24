@@ -54,8 +54,7 @@ def addCourses(tid, prefix):
             capacity=values['capacity'],
             specialTopicName=values['specialTopicName'],
             notes=values['requests'],
-            crossListed=int(
-                data['crossListed']),
+            crossListed=int(data['crossListed']),
             rid=None,
             status=0,
             credits=data['credits'],

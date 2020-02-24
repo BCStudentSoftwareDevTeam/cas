@@ -7,6 +7,7 @@
             <th>Schedule</th>
             <th>Capacity</th>
             <th>Room</th>
+            <th>Cross-Listed</th>
             <th>Description</th>
             <th>Prerequisites</th>
             <th>Notes</th>
@@ -65,6 +66,7 @@
                     {% endif %}
                 </td>
                 <!-- ROOM -->
+
                 <td>
                     {% if course.rid is not none %}
                         {{course.rid.building.name}}:{{course.rid.number}}
@@ -72,7 +74,16 @@
                         <p>No room listed</p>
                     {% endif %}
                 </td>
+
                 <!--CROSS LISTED-->
+                <td>
+                    {% if course.crossListed == 1 %}
+                        yes
+                    {% else %}
+                        no
+                    {% endif %}
+                </td>
+                <!-- stcourse Description -->
                 <td>
                     {% if course.description  %}
                         {{course.description}}
@@ -80,7 +91,7 @@
                         no description was given AT ALL
                     {% endif %}
                 </td>
-
+                  <!-- stcourse prereqs -->
                 <td>  {% if course.prereqs  %}
                       {{course.prereqs}}
                   {% else %}
