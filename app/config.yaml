@@ -5,7 +5,7 @@ filename: "urcpp.log"
 
 # All the databases used by the system
 databases:
-  - dev: "data/db.sqlite"
+  - dev: "data/cas.sql"
 
   # stage: ""
   # prod: ""
@@ -223,11 +223,11 @@ filepath:
   tmp: 'data/tmp'
 
 credits:
-  - value: "0.250"
-  - value: "0.500"
-  - value: "0.750"
-  - value: "1.000"
-  - value: "2.000"
+  - value: "0.25"
+  - value: "0.5"
+  - value: "0.75"
+  - value: "1.0"
+  - value: "2.0"
 
 contributors:
   - name: "Cody Myers"

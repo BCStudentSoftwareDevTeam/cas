@@ -11,8 +11,9 @@
             <th>Description</th>
             <th>Prerequisites</th>
             <th>Notes</th>
+            <th>Faculty Load Credit</th>
             <th>Last Edited</th>
-            <th>Faculty Credit</th>
+
 
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         </tr>
@@ -106,10 +107,6 @@
                         <p>Notes</p>
                     {% endif %}
                 </td>
-                <!--LAST EDITED BY-->
-                <td>
-                    {{course.lastEditBy}}
-                </td>
                 <!-- faculty_credit -->
                 <td>
                     {% if course.faculty_credit is not none %}
@@ -117,6 +114,10 @@
                     {% else %}
                         No Credit specified
                     {% endif %}
+                </td>
+                <!--LAST EDITED BY-->
+                <td>
+                    {{course.lastEditBy}}
                 </td>
 
                 {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}

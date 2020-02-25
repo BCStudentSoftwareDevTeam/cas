@@ -59,16 +59,16 @@ def courses(tID, prefix, can_edit):
         (Course.prefix == prefix) & (Course.term == tID)))
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
+    test_stCourse = SpecialTopicCourse.select()
+    test_instructors = createInstructorDict(test_stCourse)
+    # print("specialcourse ", specialCourses)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
-
     courses_prefetch = prefetch(courses, instructors,Subject, BannerSchedule, BannerCourses)
     # banner_prefetch = prefetch(courseInfo,BannerCourses, Subject)
-
     special_courses_prefetch = prefetch(specialCourses, instructors2, Rooms, Subject, BannerSchedule, BannerCourses)
     # get crosslisted for given courses
-
     course_to_crosslist=find_crosslist_courses(courses_prefetch)
     # stCourseInfo = SpecialTopicCourse.get()
     return render_template(
@@ -89,7 +89,8 @@ def courses(tID, prefix, can_edit):
             prefix=prefix,
             page=page,
             rooms=rooms,
-            key = key
+            key = key,
+            test_instructors= test_instructors,
             )
 
 
