@@ -67,7 +67,6 @@
                     {% endif %}
                 </td>
                 <!-- ROOM -->
-
                 <td>
                     {% if course.rid is not none %}
                         {{course.rid.building.name}}:{{course.rid.number}}
@@ -75,7 +74,6 @@
                         <p>No room listed</p>
                     {% endif %}
                 </td>
-
                 <!--CROSS LISTED-->
                 <td>
                     {% if course.crossListed == 1 %}
