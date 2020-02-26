@@ -11,5 +11,5 @@ config.py
 venv/*
 *.xlsx
 *.csv
-*.yaml
+app/*.yaml
 
