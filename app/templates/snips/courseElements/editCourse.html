@@ -48,12 +48,12 @@
           <select class="form-control" name="schedule">
             <option value="">---</option>
             {% for schedule in schedules %}
-              <option value="{{schedule.sid}}"
-                {% if course.schedule.order == schedule.order %}
-                  selected
+              <option value="{{schedule.sid}}" 
+                {% if course.schedule.order == schedule.order %} 
+                  selected 
                 {% endif %}
               >
-                {{schedule.letter}}: {% for day in schedule.days %} {{day.day}}
+                {{schedule.letter}}: {% for day in schedule.days %} {{day.day}} 
                   {% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
@@ -62,9 +62,9 @@
           <h5>Term</h5>
           <select class="form-control" name="term">
             {% for term in terms %}
-              <option value="{{term.termCode}}"
-                {% if currentTerm == term.termCode %}
-                  selected
+              <option value="{{term.termCode}}" 
+                {% if currentTerm == term.termCode %} 
+                  selected 
                 {% endif %}
               >
                 {{term.name}}
@@ -76,58 +76,39 @@
           <div class="form-group">
           <input type="number" name ="capacity" class="form-control" min="1" value ="{{course.capacity}}" />
           </div>
-          <span> Faculty Load Credit</span>
-          <div >
-              <select class="form-control selectpicker" name="faculty_credit">
-                  <option value="0.25" {% if course.faculty_credit=="0.25" %}
-                      selected
-                    {% endif %}>0.25</option>
-
-                  <option value="0.5"{% if course.faculty_credit=="0.5" %}
-                      selected
-                    {% endif %}>0.5</option>
-                  <option value="1.0" {% if course.faculty_credit=="1.0" %}
-                      selected
-                    {% endif %}>1.0</option>
-                  <option value="1.5" {% if course.faculty_credit=="1.5" %}
-                      selected
-                    {% endif %}>1.5</option>
-                </select>
-
-          </div>
-
+          
           <input type="hidden" name ="crossListed" id = "crossListed" min="1" value ="{% if course.crossListed == 1 %}1{% else%}0 {% endif%}"   />
-
-          {# --Cross Listed-- #}
+          
+          {# --Cross Listed-- #} 
            <h5>Crosslisted With:</h5>
            <select title="Nothing Selected" class="form-control selectpicker" id='crossListedCourses' name="crossListedCourses[]" data-live-search="true" multiple>
              <option value="">---</option>
               {% if currentCrosslistedCourse %}
               <optgroup label="Selected Courses">
               {% for course in currentCrosslistedCourse %}
-                <option value="{{course.reFID}}" selected>
-                   {{course}}
+                <option value="{{course.reFID}}" selected> 
+                   {{course}} 
                 </option>
-
+              
               {% endfor %}
               {% endif %}
               <optgroup label="All Courses">
               {% for course in allCourses %}
-                <option value="{{course.reFID}}">
-                   {{course}}
+                <option value="{{course.reFID}}"> 
+                   {{course}} 
                 </option>
               {% endfor %}
-
+              
            </select>
            <br>
-
-
+      
+        
           {# --Notes-- #}
             <h5> Notes </h5>
             <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
-
-
-
+          
+          
+          
           {# --Instructors-- #}
           <h5>Edit Instructor</h5>
             {% include "snips/selectUser.html" %}
@@ -139,7 +120,7 @@
             <a type="button" class="btn btn-primary btn-sm" href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">Close</a>
           {% else %}
             <a type="button" class="btn btn-primary btn-sm" href="/courseManagement/{{page}}/{{currentTerm}}">Close</a>
-          {% endif %}
+          {% endif %}            
           <input  class="btn btn-success btn-sm pull-right" type="submit" value="Save"/>
         </div>
       </div>

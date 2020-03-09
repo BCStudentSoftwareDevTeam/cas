@@ -11,8 +11,10 @@
         <th>Room</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
-        <th>Faculty Load Credit</th>
+        <th> Prerequisites</th>
+        <th> Description</th>
         <th>Last Edited</th>
+
 
         {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
@@ -123,22 +125,12 @@
                     <p>Notes</p>
                 {% endif %}
             </td>
-            <!-- <td> </td>
-            <td> </td> -->
-            <!-- faculty_credit -->
-            <td>
-                {% if course.faculty_credit  %}
-                    {{course.faculty_credit}}
-                {% else %}
-                    No Credit specified
-                {% endif %}
-            </td>
+            <td> </td>
+            <td> </td>
             <!--LAST EDITED BY-->
             <td>
                 {{course.lastEditBy}}
             </td>
-
-
             {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
                 {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
                     <td>
@@ -193,12 +185,14 @@
                                 </span>
                             {% endif %}
                         {% endfor %}
+
+
                     </td>
                     <!--TAUGHT BY-->
                     <td>
-                      {% for instructor in test_instructors[course.stId] %}
-                          {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
-                      {% endfor %}
+                        {% for instructor in course.instructorstcourse_set_prefetch%}
+                            {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+                        {% endfor %}
                     </td>
                     <!-- SECTION -->
                     <td>
@@ -226,15 +220,13 @@
                         {% endif %}
                     </td>
                     <!--CAPACITY-->
-
                     <td>
                         {% if course.capacity is not none  %}
                             {{course.capacity}}
                         {% else %}
-                            No capacity specified
+                            no capacity specified
                         {% endif %}
                     </td>
-
                     <!-- ROOM -->
                     <td>
                     {% if course.rid is not none %}
@@ -248,10 +240,10 @@
                         {% if course in crosslisted %}
                         <div class="form-check" id="checkcross">
                             {% if crosslisted[course][0] %}
-                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus" checked>
+                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
                             <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                             {% else %}
-                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus">
+                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
                             <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                             {% endif %}
                         </div>
@@ -269,7 +261,7 @@
 
                             {% endfor %}
                         {% else %}
-                            No
+                            None
                         {% endif %}
                     </td>
 
@@ -282,19 +274,21 @@
                     {% endif %}
                 </td>
                 <!-- Stcourse Prerequisites -->
-                <!-- faculty_credit -->
-                <td>
-                    {% if course.faculty_credit is not none  %}
-                        {{course.faculty_credit}}
-                    {% else %}
-                        No Credit specified
-                    {% endif %}
-                </td>
+              <td>
+                {% if course is not none %}
+                {{ course.prereqs }}
+                {% endif %}
+              </td>
+                <!-- stcourse Description -->
+                <td> {% if course.description is not none %}
+                  {{ course.description }}
+                  {% endif %}
+                  </td>
+
                 <!--LAST EDITED BY-->
                 <td>
                     {{course.lastEditBy}}
                 </td>
-
                 {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
                 <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
                     <td>

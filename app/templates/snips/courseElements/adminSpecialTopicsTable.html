@@ -7,13 +7,11 @@
             <th>Schedule</th>
             <th>Capacity</th>
             <th>Room</th>
-            <th>Cross-Listed</th>
             <th>Description</th>
             <th>Prerequisites</th>
             <th>Notes</th>
-            <th>Faculty Load Credit</th>
             <th>Last Edited</th>
-
+            <th>Faculty Credit</th>
 
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
         </tr>
@@ -76,21 +74,13 @@
                 </td>
                 <!--CROSS LISTED-->
                 <td>
-                    {% if course.crossListed == 1 %}
-                        yes
-                    {% else %}
-                        no
-                    {% endif %}
-                </td>
-                <!-- stcourse Description -->
-                <td>
                     {% if course.description  %}
                         {{course.description}}
                     {% else %}
                         no description was given AT ALL
                     {% endif %}
                 </td>
-                  <!-- stcourse prereqs -->
+
                 <td>  {% if course.prereqs  %}
                       {{course.prereqs}}
                   {% else %}
@@ -105,6 +95,10 @@
                         <p>Notes</p>
                     {% endif %}
                 </td>
+                <!--LAST EDITED BY-->
+                <td>
+                    {{course.lastEditBy}}
+                </td>
                 <!-- faculty_credit -->
                 <td>
                     {% if course.faculty_credit is not none %}
@@ -112,10 +106,6 @@
                     {% else %}
                         No Credit specified
                     {% endif %}
-                </td>
-                <!--LAST EDITED BY-->
-                <td>
-                    {{course.lastEditBy}}
                 </td>
 
                 {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}

@@ -32,7 +32,6 @@ def addCourses(tid, prefix):
 
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
-    faculty_credit= request.form.getlist("faculty_credit")
 
     nullCheck = NullCheck()
 
@@ -54,7 +53,8 @@ def addCourses(tid, prefix):
             capacity=values['capacity'],
             specialTopicName=values['specialTopicName'],
             notes=values['requests'],
-            crossListed=int(data['crossListed']),
+            crossListed=int(
+                data['crossListed']),
             rid=None,
             status=0,
             credits=data['credits'],
@@ -135,7 +135,7 @@ def addCourses(tid, prefix):
     return redirect(redirect_url())
 
 
-def create_crosslisted_courses(values, course, tid, prereqs, instructors, faculty_credit):
+def create_crosslisted_courses(values, course, tid, prereqs, instructors):
     '''
     Creates a crosslisted child relationship for a course
 
@@ -165,7 +165,7 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
                                parentCourse=course.cId,
                                section=values['section'],
                                prereq=convertPrereqs(prereqs),
-                               faculty_credit= values['faculty_credit']
+                               faculty_credit= value['faculty_credit']
                                )
             cc_course.save()
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)
