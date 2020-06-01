@@ -78,21 +78,15 @@
           </div>
           <span> Faculty Load Credit</span>
           <div >
-              <select class="form-control selectpicker" name="faculty_credit">
-                  <option value="0.25" {% if course.faculty_credit=="0.25" %}
-                      selected
-                    {% endif %}>0.25</option>
-
-                  <option value="0.5"{% if course.faculty_credit=="0.5" %}
-                      selected
-                    {% endif %}>0.5</option>
-                  <option value="1.0" {% if course.faculty_credit=="1.0" %}
-                      selected
-                    {% endif %}>1.0</option>
-                  <option value="1.5" {% if course.faculty_credit=="1.5" %}
-                      selected
-                    {% endif %}>1.5</option>
-                </select>
+            <select class="form-control selectpicker" name="faculty_credit">
+              {% for credit_value in cfg["credits"] %}
+                <option value="{{credit_value}}"
+                {% if course.faculty_credit|float==credit_value|float %}
+                  selected
+                {% endif %}
+                >{{credit_value}}</option>
+              {% endfor %}
+            </select>
 
           </div>
 

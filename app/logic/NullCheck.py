@@ -1,9 +1,12 @@
 from app.allImports import *
+from app.logic.authorizedUser import AuthorizedUser
 
+from app.models.models import BannerCourses
 
 class NullCheck():
   def __init__(self):
-    self.username = authUser(request.environ)
+    au = AuthorizedUser()
+    self.username = au.username
     self.level    = 0
   #ADD_COURSE_FORM#
   def add_course_form(self,data):
@@ -27,7 +30,9 @@ class NullCheck():
       value['specialTopicName'] = None
     #CHECK DATA FOR EMPTY STRING
     #THESE ARE ALL OF THE VALUES THAT COULD CONTAIN AN EMPTY STRING
+
     checkList = ['capacity','schedule','rid','requests','section','faculty_credit']
+
     #data={crosslisted: 2, crosslisted: 3, crosslisted: 4}
     crosslisted = []
     for item in checkList:

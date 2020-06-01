@@ -27,16 +27,18 @@
 
                         <ul class="nav nav-second-level">
                         {% for division in divisions %}
+
                         <li>
                             <a class="first-level" href="#">{{division.name}}<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
-                            {% for program in division.programs_prefetch %}
-
+                            {% for program in division.programs %}
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="#">{{program.name}}</a>
 
                                     <ul class="nav nav-third-level">
-                                      {% for subject in program.subjects_prefetch %}
+
+                                      {% for subject in program.subjects %}
+
                                         <li>
                                             <a href="/courses/{{currentTerm}}/{{subject.prefix}}">{{subject.prefix}}</a>
                                         </li>
@@ -75,6 +77,8 @@
                 <!-- /.sidebar-collapse -->
  </div>
 
+
+{# this Javascript is included here because it uses Jinja tags #}
 <script type="text/javascript">
 window.onload = function(){
     var selectEl = document.getElementById('termSelect');

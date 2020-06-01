@@ -9,45 +9,31 @@ function setRoomId(rid){
 function getRoomId(){
     return rIDGlobal;
 }
-function setRoomInfo(roomID, button){ 
+
+function setRoomInfo(roomID, button){
     // '''For populating panel onClick of Edit button. updateHTML is called'''
     //Sets room ID based on what room (row) Edit button was clicked
-     setRoomId(roomID);
-     movePanel(roomID);
-     if (roomID > 0){
-             var url = '/getRoomData/'+roomID;
-             $.ajax({
-                    url: url,
-                    dataType: 'json',//Corresponds with controller json dumps
-                    type: "GET",
-                    success: function(response){
-                        if (response["success"] != 0) {//If successful
-                            updateHtml(response);//Update the panel with the data
-                            // console.log("Success"+response)
-                        }
-                    },
-                    error: function(error) {
-                        // console.log("Error"+error);
-                    }
-                });
-    }
-    
+    setRoomId(roomID);
+    movePanel(roomID);
+
+
 }
 
-function movePanel(rID) { 
+function movePanel(rID) {
     //Takes rID to ensure correct room per row
     //Called in setRoomInfo
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
     var sourceDiv = document.getElementById("roomDetails");// content to be placed in targetDiv
     $(targetDiv).html($(sourceDiv)); // moves modal content into current row
-    $(sourceDiv).collapse('show');
+    // $(sourceDiv).collapse('show');
 }
 
-function updateHtml(response) { 
-    //Updates the HTML in panel. 
-    //Called in AJAX of setRoomInfo
+function updateHtml(response) {
+    //Updates the HTML in panel.
+    //Called in AJAX of setRoomInfo()
+    console.log("Starting updateHTML");
     $('#roomNumber').text((response['building'] + " " + response['number']).toString()).data('text');
-    var my_div = document.getElementById('roomCapacity'); 
+    var my_div = document.getElementById('roomCapacity');
     my_div.value = response['capacity'];
     var my_div = document.getElementById('roomType');
     my_div.value = response['type'];
@@ -61,17 +47,59 @@ function updateHtml(response) {
     if (response['movableFurniture']) {
         my_div.setAttribute("checked", "checked");
     }
-    
+
     // Update the selectpickers with values from DB
-    $("#audioAcc").selectpicker('val', response['audioAcc']);
-    $("#visualAcc").selectpicker('val', response['visualAcc']);
-    $("#physicalAcc").selectpicker('val', response['physicalAcc']);
-    
+    if (response['audioAcc'] != null) {
+      $("#audioAcc").selectpicker('val', response['audioAcc']);
+    } else {
+      $("#audioAcc").selectpicker('val', 0);
+    };
+    if (response['visualAcc'] != null) {
+      $("#visualAcc").selectpicker('val', response['visualAcc']);
+    } else {
+      $("#visualAcc").selectpicker('val', 0);
+    };
+    if (response['physicalAcc'] != null) {
+      $("#physicalAcc").selectpicker('val', response['physicalAcc']);
+    } else {
+      $("#physicalAcc").selectpicker('val', 0);
+    };
+    $("#audioAcc").selectpicker('refresh');
+    $("#visualAcc").selectpicker('refresh');
+    $("#physicalAcc").selectpicker('refresh');
+    $("#roomDetails").collapse('show');
+    console.log($("#roomDetails"))
+
+    console.log("updateHTML over")
 }
 
-function saveChanges(roomID){ 
+$('#roomDetails').on('hidden.bs.collapse', function () {
+  console.log("I was hidden")
+})
+$('#roomDetails').on('show.bs.collapse', function () {
+  console.log("I was shown")
+  if (rIDGlobal > 0){
+           var url = '/getRoomData/'+rIDGlobal;
+           $.ajax({
+                  url: url,
+                  dataType: 'json',//Corresponds with controller json dumps
+                  type: "GET",
+                  success: function(response){
+                    // console.log(response);
+                      if (response["success"] != 0) {//If successful
+                          updateHtml(response);//Update the panel with the data
+                      }
+                  },
+                  error: function(error) {
+                      console.log("Error" + error);
+                  }
+              });
+  }
+})
+
+function saveChanges(roomID){
     //Sets up datetime, passes all room attributes into a dictionary for ajax,then posts data to DB and reloads the page
-    
+
     //Datetime setup
     var dateTime = new Date();
     var currHour = dateTime.getHours();
@@ -91,7 +119,7 @@ function saveChanges(roomID){
        {
        currHour = currHour - 12;
        }
-    
+
     var currMin = dateTime.getMinutes();
     currMin = currMin + "";
     if (currMin.length == 1) //Getting JS to not do single digit minutes
@@ -107,10 +135,10 @@ function saveChanges(roomID){
     roomDetails["specializedEq"] = document.getElementById('specializedEq').value;
     roomDetails["specialFeatures"] = document.getElementById('specialFeatures').value;
     roomDetails["movableFurniture"] = document.getElementById('movableFurniture').checked;
-    roomDetails["visualAcc"] = $('#visualAcc option:selected').text();  
-    roomDetails["audioAcc"] = $('#audioAcc option:selected').text();    
+    roomDetails["visualAcc"] = $('#visualAcc option:selected').text();
+    roomDetails["audioAcc"] = $('#audioAcc option:selected').text();
 
-    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text(); 
+    roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text();
 
     // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
     // work on saving the data the right way
@@ -133,22 +161,22 @@ function saveChanges(roomID){
                     console.log("ERROR")
                     window.location.assign("/buildingManagement")
                 }
-         }); 
+         });
 
 
 }
-   
-   
+
+
   /*sets the radio checkbox for education tech for each room*/
 function education_detail(response){
-    console.log("Starting ed tech filling"); 
+    console.log("Starting ed tech filling");
     var my_div = document.getElementById('projectors');
     my_div.value = response['projector'];
     var my_div = document.getElementById('smartboards');
     my_div.value = response['smartboards'];
     var my_div = document.getElementById('instructor_computers');
     my_div.value = response['instructor_computers'];
-    var my_div = document.getElementById('podiums'); 
+    var my_div = document.getElementById('podiums');
     my_div.value = response['podium'];
     var my_div = document.getElementById('student_workspace');
     my_div.value = response['student_workspace'];
@@ -156,17 +184,17 @@ function education_detail(response){
     my_div.value = response['chalkboards'];
      var my_div = document.getElementById('whiteboards');
     my_div.value = response['whiteboards'];
-    
+
     var my_div1 = $("#vhs");
-    if (response['vhs']) {  
+    if (response['vhs']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
-   
+
     var my_div1 = $("#dvd");
-    if (response['dvd']) {  
+    if (response['dvd']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
@@ -174,39 +202,39 @@ function education_detail(response){
     }
 
     var my_div1 = $("#blu_ray");
-    if (response['blu_ray']) {  
+    if (response['blu_ray']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
- 
+
     var my_div1 = $("#doc_cam");
-    if (response['doc_cam']) {  
+    if (response['doc_cam']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
-  
+
      var my_div1 = $("#extro");
-    if (response['extro']) {  
+    if (response['extro']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
- 
+
     var my_div1 = $("#audio");
-    if (response['audio']) {  
+    if (response['audio']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
- 
+
     var my_div1 = $("#mondopad");
-    if (response['mondopad']) {  
+    if (response['mondopad']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
@@ -214,16 +242,16 @@ function education_detail(response){
     }
 
     var my_div1 = $("#tech_chart");
-    if (response['tech_chart']) {  
+    if (response['tech_chart']) {
 	my_div1.prop('checked', true);
     } else {
 	my_div1.prop('checked', false);
 
     }
-  
+
 }
 
-/*This function serves to take data from the python 
+/*This function serves to take data from the python
 file and dumps into html file on the UI after taking from the education_detail()*/
 function seteducationTech() {
     setRoomId(getRoomId());
@@ -247,7 +275,7 @@ function seteducationTech() {
 }
 
     /*this functions saves the edecuationtech materials on the front-end and updated them as thier values change*/
-function saveEdTechChanges(roomID){ 
+function saveEdTechChanges(roomID){
     var edtechDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     edtechDetails["projector"] = document.getElementById('projectors').value;
     edtechDetails["smartboards"] = document.getElementById('smartboards').value;
@@ -268,14 +296,14 @@ function saveEdTechChanges(roomID){
          $.ajax({
              type: "POST",
                 url: url,
-                data: edtechDetails, 
+                data: edtechDetails,
                 dataType: 'json',
                 success: function(response){
                     if (response["success"] != 0) {
                         console.log("SUCCESSFUL JS AJAX CALL")
                     }
                     else{
-                     
+
                         console.log("Else in ajax")
                     }
                 },
@@ -283,7 +311,7 @@ function saveEdTechChanges(roomID){
                     console.log("ERROR")
 
                 }
-         }); 
+         });
 }
 
 /* keeps tracks of active modals, making sure that they remain responsive after closing an overlaying instance*/
@@ -302,12 +330,3 @@ $(document).ready(function () {
             }
         });
 })
-    
-
-
-         
-
-
-    
-
-    

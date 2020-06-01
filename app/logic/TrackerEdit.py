@@ -1,5 +1,5 @@
 from app.allImports import *
-
+from app.models.models import CourseChange
 
 class TrackerEdit():
   '''@param -data {dict} -Should always come directly from a request.form'''
@@ -24,7 +24,7 @@ class TrackerEdit():
             formData[key] = data[key] if data[key] != '' else None
         #Turn crossListed into bol values
         #Import for comparing the formValue with courseValue
-      
+
         #formData['cid'] = int(formData['cid'])
         if formData['capacity'] != None:
           formData['capacity'] = int(formData['capacity'])
@@ -37,7 +37,7 @@ class TrackerEdit():
   def check_course_exist(self):
     '''Purpose to check if the cid exist in courseChange.
     @param  -cid {number} : Course Identification Number
-    @return -changeExist: if course exist return peewee object of course else 
+    @return -changeExist: if course exist return peewee object of course else
     return None :Author -> CDM 20160713'''
     #import pdb
     #pdb.set_trace()
@@ -50,7 +50,7 @@ class TrackerEdit():
         return None
 
   def create_instructor_list(self):
-    '''Purpose: To create a list of instructor usernames from InstructorsCourse 
+    '''Purpose: To create a list of instructor usernames from InstructorsCourse
     matching self.formData['cid']
       @param -instructors {{PeeWee Object}}
       @return -instrList {{list user's usernames}}
@@ -117,7 +117,7 @@ class TrackerEdit():
 
   def find_course_changes(self):
     '''PURPOSE: To create and use three list (formKeys,courseData,tableLayout)
-    to loop through all of the form data related to Course details, then check 
+    to loop through all of the form data related to Course details, then check
     to see if the values are different, and record the color of the result
     @param -formData {dict} -Should always come directly from a request.form
     Author -> CDM 20160713'''
@@ -148,10 +148,10 @@ class TrackerEdit():
       self.add_color(color, cfg['tableLayout'][layout[index]])
     #Add an additional color for Last Edited By
     self.add_color(cfg['columnColor']['edit'],cfg['tableLayout']['Last Edited By'])
-     
+
 
   def find_change_type(self):
-    '''PURPOSE: To return the correct changeType depending on the current 
+    '''PURPOSE: To return the correct changeType depending on the current
     changeType.Author-> CDM 20160713'''
     if self.courseChangeExist is None:
         return cfg['changeType']['update']
