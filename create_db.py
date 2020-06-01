@@ -409,37 +409,18 @@ course = Course(  bannerRef         = 8,
                   crossListed       = 1
                   ).save()       
 
-                              
-
-
-course = Course(  bannerRef         = 9,
-                  prefix            = "CHI",
-                  term              = 201711,
-                  schedule          = "A",
-
-
-
-
-
-
-
-
-
 
 course = Course(  bannerRef         = 21,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
-
                   days              = 1,
-   
-
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
                   crossListed       = 1
                 ).save()
-                
+
 course = Course(  bannerRef         = 22,
                   prefix            = "MAT",
                   term              = 201612,
@@ -448,12 +429,12 @@ course = Course(  bannerRef         = 22,
 
                   days              = 1,
 
-                
+
 
                   capacity          = 20,
                   notes             = "Preference2",
                   crossListed       = 1
-                ).save()                
+                ).save()
 
 course = Course(  bannerRef         = 21,
                   prefix            = "TAD",

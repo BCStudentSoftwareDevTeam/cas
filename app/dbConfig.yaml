@@ -1,6 +1,9 @@
+
+#FIXME: Refactor as secret.yaml
+
+
 db:
   db_name: c9
   host: localhost
   password: ''
   username: nelsonk
-  

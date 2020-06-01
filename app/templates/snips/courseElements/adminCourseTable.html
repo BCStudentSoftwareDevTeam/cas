@@ -11,7 +11,7 @@
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Last Edited</th>
-        {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}
+        {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}  {# curTermName.term_state_id == 1 means scheduling is open #}
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
@@ -21,7 +21,7 @@
     </tr>
 </thead>
 <tbody>
-    {% for course in courses %}
+  {% for course in courses %}
         <tr>
             <!--COURSE NAME-->
             <td>{{course.prefix.prefix}} {{course.bannerRef.number}}
@@ -36,7 +36,7 @@
             </td>
             <!--TAUGHT BY-->
             <td>
-                {% for instructor in course.instructors_course_prefetch %}
+                {% for instructor in course.instructors %}
                     {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
                 {% endfor %}
             </td>
@@ -123,182 +123,182 @@
             <td>
                 {{course.lastEditBy}}
             </td>
-      {% if key > 2 and isAdmin %}<!---- if user is admin and its summer course, they can edit----> {#When the ineviatble day comes that someones has to hide the glyphicons on the course table when the term is closed, key has something to do with it. -kat 9/9 #}
-                {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
-                    <td>
-                        <div class="child">
-                            <!--EDIT MODAL-->
-                            <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
-                                <span  class = "sr-only">Edit Course</span>
-                            </span></a>
-                            <!--DELETE MODAL-->
-                            <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span>
-                            </span>  </a>
-                            {% include "snips/courseElements/deleteCourse.html" %}
-                        </div>
-                    </td>
-                {% endif %}
-            {% else %}
-                {% if (can_edit == True and curTermName.state != 2) and key < 3 %}
-                <!---- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
-                    {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
-                        <td>
-                            <div class="child">
-                                <!--EDIT MODAL-->
-                                <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
-                                <!--DELETE MODAL-->
-                                <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
-                                {% include "snips/courseElements/deleteCourse.html" %}
-                            </div>
-                        </td>
-		    {% else %}
-			<td></td>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-            </tr>
-        {% endfor %}
-        {% for course in specialCourses %}
-            {% if course.course not in  approved_special_topics %}
-                <tr>
-                    <!--COURSE NAME-->
-                    <td>
-                        {{course.prefix.prefix}} {{course.bannerRef.number}}
-                        {% if course.specialTopicName is not none %}
-                            {{course.specialTopicName}}
-                        {% else %}
-                            {{course.bannerRef.ctitle}}
-                        {%endif%}
+      {% if key > 2 and isAdmin %} {# if user is admin and its summer course, they can edit (key > 2 means it's summer) #}
+          {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
+              <td>
+                  <div class="child">
+                      <!--EDIT MODAL-->
+                      <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true">
+                          <span  class = "sr-only">Edit Course</span>
+                      </span></a>
+                      <!--DELETE MODAL-->
+                      <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span>
+                      </span>  </a>
+                      {% include "snips/courseElements/deleteCourse.html" %}
+                  </div>
+              </td>
+          {% endif %}
+      {% else %}
+          {% if isAdmin or (can_edit == True and curTermName.term_state.order < 2) and key < 3 %}   {# curTermName.term_state < 2 means scheduling is open; key < 3 means its Fall or Spring #}
+          <!---- if its not a summer course and user is either admin,programchair or division chair,they are allowed to edit those courses---->
+              {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
+                  <td>
+                      <div class="child">
+                          <!--EDIT MODAL-->
+                          <a href="/editCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.cId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                          <!--DELETE MODAL-->
+                          <a href=# data-toggle="modal" data-target="#deleteModal{{course.cId}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                          {% include "snips/courseElements/deleteCourse.html" %}
+                      </div>
+                  </td>
+              {% else %}
+			           <td></td>
+              {% endif %}
+          {% endif %}
+      {% endif %}
+      </tr>
+  {% endfor %}
+  {% for course in specialCourses %}
+      {% if course.course not in  approved_special_topics %}
+          <tr>
+              <!--COURSE NAME-->
+              <td>
+                  {{course.prefix.prefix}} {{course.bannerRef.number}}
+                  {% if course.specialTopicName is not none %}
+                      {{course.specialTopicName}}
+                  {% else %}
+                      {{course.bannerRef.ctitle}}
+                  {%endif%}
 
-                        {% for state in cfg['specialTopicStates'] %}
-                            {% if course.status == state['value'] %}
-                                <span class="label label-{{state['color']}} pull-right">
-                                    {{state['name']}}
-                                </span>
-                            {% endif %}
-                        {% endfor %}
+                  {% for state in cfg['specialTopicStates'] %}
+                      {% if course.status == state['value'] %}
+                          <span class="label label-{{state['color']}} pull-right">
+                              {{state['name']}}
+                          </span>
+                      {% endif %}
+                  {% endfor %}
 
 
-                    </td>
-                    <!--TAUGHT BY-->
-                    <td>
-                        {% for instructor in course.instructorstcourse_set_prefetch%}
-                            {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
-                        {% endfor %}
-                    </td>
-                    <!-- SECTION -->
-                    <td>
-                        {{course.section}}
-                    </td>
-                    <!--SCHEDULE-->
-                    <td>
-                       {# Needed to move special to the top for scoping issue #}
-                        {% set special = [] %}
-                        {% if course.schedule is not none %}
-                            {% for sid in cfg['specialSchedule']['unknownTime'] %}
-                                {% if sid == course.schedule.sid %}
-                                    {% set special = special.append(sid) %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if special != [] %}
-                                <p>See Notes</p>
-                            {% else %}
-                                {% for day in course.schedule.days %}
-                                    {{ day.day }}
-                                {% endfor %}
-                                   {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
-                                  {# {{course.schedule.startTime}}-{{course.schedule.endTime}} #}
-                            {% endif %}
-                        {% endif %}
-                    </td>
-                    <!--CAPACITY-->
-                    <td>
-                        {% if course.capacity is not none  %}
-                            {{course.capacity}}
-                        {% else %}
-                            no capacity specified
-                        {% endif %}
-                    </td>
-                    <!-- ROOM -->
-                    <td>
-                    {% if course.rid is not none %}
-                        {{course.rid.building.name}}:{{course.rid.number}}
-                    {% else %}
-                        <p>No room listed</p>
-                    {% endif %}
-                <!--CROSS LISTED-->
-                <!--CROSS LISTED-->
-                    <td>
-                        {% if course in crosslisted %}
-                        <div class="form-check" id="checkcross">
-                            {% if crosslisted[course][0] %}
-                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
-                            <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
-                            {% else %}
-                            <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
-                            <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
-                            {% endif %}
-                        </div>
-                            {% for cross_course in crosslisted[course][1:] %}
-                                {% if cross_course.verified == False %}
-                                    <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
-                                          <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                                    </span>
-                                {% else %}
-                                    <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
-                                          <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                                    </span>
+              </td>
+              <!--TAUGHT BY-->
+              <td>
+                  {% for instructor in course.instructorstcourse_set_prefetch%}
+                      {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+                  {% endfor %}
+              </td>
+              <!-- SECTION -->
+              <td>
+                  {{course.section}}
+              </td>
+              <!--SCHEDULE-->
+              <td>
+                 {# Needed to move special to the top for scoping issue #}
+                  {% set special = [] %}
+                  {% if course.schedule is not none %}
+                      {% for sid in cfg['specialSchedule']['unknownTime'] %}
+                          {% if sid == course.schedule.sid %}
+                              {% set special = special.append(sid) %}
+                          {% endif %}
+                      {% endfor %}
+                      {% if special != [] %}
+                          <p>See Notes</p>
+                      {% else %}
+                          {% for day in course.schedule.days %}
+                              {{ day.day }}
+                          {% endfor %}
+                             {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                            {# {{course.schedule.startTime}}-{{course.schedule.endTime}} #}
+                      {% endif %}
+                  {% endif %}
+              </td>
+              <!--CAPACITY-->
+              <td>
+                  {% if course.capacity is not none  %}
+                      {{course.capacity}}
+                  {% else %}
+                      no capacity specified
+                  {% endif %}
+              </td>
+              <!-- ROOM -->
+              <td>
+              {% if course.rid is not none %}
+                  {{course.rid.building.name}}:{{course.rid.number}}
+              {% else %}
+                  <p>No room listed</p>
+              {% endif %}
+          <!--CROSS LISTED-->
+          <!--CROSS LISTED-->
+              <td>
+                  {% if course in crosslisted %}
+                  <div class="form-check" id="checkcross">
+                      {% if crosslisted[course][0] %}
+                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
+                      <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
+                      {% else %}
+                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
+                      <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
+                      {% endif %}
+                  </div>
+                      {% for cross_course in crosslisted[course][1:] %}
+                          {% if cross_course.verified == False %}
+                              <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                              </span>
+                          {% else %}
+                              <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                              </span>
 
-                                {% endif %}
+                          {% endif %}
 
-                            {% endfor %}
-                        {% else %}
-                            None
-                        {% endif %}
-                    </td>
-                <!--NOTES-->
-                <td>
-                    {% if course.notes is not none %}
-                        <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
-                    {% else %}
-                        <p>Notes</p>
-                    {% endif %}
-                </td>
-                <!--LAST EDITED BY-->
-                <td>
-                    {{course.lastEditBy}}
-                </td>
-                {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
-                <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
-                    <td>
-                        <div class="child">
-                            {% if course.status < 2 %} <!-- Special topic status-->
-                                <!--EDIT MODAL-->
-                                <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
-                                <!--DELETE MODAL-->
-                                <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
-                            {% endif %}
-                        </div>
-                    </td>
-                {% else %}
-                     {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} {# No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
-                      {# {% if (can_edit == True and curTermName.term_state_id == 1) %} #}
-                    <!-- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses -->
-                        <td>
-                            <div class="child">
-                                {% if course.status < 2 %}
-                                    <!--EDIT MODAL-->
-                                    <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
-                                    <!--DELETE MODAL-->
-                                    <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
-                                {% endif %}
-                            </div>
-                        </td>
-                    {% endif %}
-                {% endif %}
-                </tr>
-            {% endif %}
-        {% endfor %}
+                      {% endfor %}
+                  {% else %}
+                      None
+                  {% endif %}
+              </td>
+          <!--NOTES-->
+          <td>
+              {% if course.notes is not none %}
+                  <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+              {% else %}
+                  <p>Notes</p>
+              {% endif %}
+          </td>
+          <!--LAST EDITED BY-->
+          <td>
+              {{course.lastEditBy}}
+          </td>
+          {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
+          <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
+              <td>
+                  <div class="child">
+                      {% if course.status < 2 %} <!-- Special topic status-->
+                          <!--EDIT MODAL-->
+                          <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                          <!--DELETE MODAL-->
+                          <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                      {% endif %}
+                  </div>
+              </td>
+          {% else %}
+               {% if (can_edit == True and curTermName.term_state_id == 1) and key < 3 %} {# No idea why this is used tbh. Why dont we need to be able to edit/delete summer special topic courses??-Kat n Scott 9/9/19 #}
+                {# {% if (can_edit == True and curTermName.term_state_id == 1) %} #}
+              <!-- if its not summer course and user is either admin,programchair or division chair,they are allowed to edit those courses -->
+                  <td>
+                      <div class="child">
+                          {% if course.status < 2 %}
+                              <!--EDIT MODAL-->
+                              <a href="/editSTCourseModal/{{currentTerm}}/{{course.prefix.prefix}}/{{course.stId}}/{{page}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"><span class = "sr-only">Edit Course</span></span></a>
+                              <!--DELETE MODAL-->
+                              <a href=# data-toggle="modal" data-target="#deleteSTModal" data-stid="{{course.stId}}" data-post-url="/deletestcourse/{{currentTerm}}/{{course.prefix}}"><span class="glyphicon glyphicon-trash text-danger" aria-hidden="true"><span class = "sr-only">Delete Course</span></span></a>
+                          {% endif %}
+                      </div>
+                  </td>
+              {% endif %}
+          {% endif %}
+          </tr>
+      {% endif %}
+  {% endfor %}
     </tbody>
 
 <script>
