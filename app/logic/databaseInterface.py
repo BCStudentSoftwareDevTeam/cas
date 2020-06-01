@@ -194,11 +194,14 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         #the code which is causing crashes on the system
         au = AuthorizedUser()
         course = Course.get(Course.cId == int(data['cid']))
+        print("course",course.faculty_credit)
         #CHECK VALUES FOR NULL
         room     = data["room"] if data["room"] else None
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
         section  = data['section']  if data['section'] else None
+        faculty_credit= data['faculty_credit']  if data['faculty_credit'] else "1"
+
         if data['notes'].replace(" ", "") == "":
             notes = None
         else:
@@ -212,6 +215,7 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         course.schedule = schedule
         course.notes = notes
         course.lastEditBy = au.username
+        course.faculty_credit= faculty_credit
         course.save()
         new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
@@ -274,6 +278,8 @@ def editSTCourse(data, prefix, professors, status, cfg):
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
         section  = data['section']  if data['section'] else None
+        faculty_credit= data['faculty_credit'] if data["faculty_credit"] else "1"
+
         if data['notes'].replace(" ", "") == "":
             notes = None
         else:
@@ -296,7 +302,9 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             specialTopicName = specialTopicCourse.specialTopicName,
                             notes = specialTopicCourse.notes,
                             crossListed = specialTopicCourse.crossListed,
-                            rid = specialTopicCourse.rid)
+                            rid = specialTopicCourse.rid,
+                            faculty_credit= specialTopicCourse.faculty_credit
+                            )
             course.save()
             update_course = DataUpdate()
             addCourseInstructors(professors, course.cId)
@@ -317,6 +325,8 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.minorReqsMet = data['minorReqsMet']
         specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
         specialTopicCourse.perspectivesMet = data['perspectivesMet']
+        specialTopicCourse.faculty_credit= data["faculty_credit"]
+
         editSTInstructors(professors, data['stid'])
         specialTopicCourse.save()
 

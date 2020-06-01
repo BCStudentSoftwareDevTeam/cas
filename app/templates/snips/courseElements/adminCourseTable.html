@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+{#This is the HTML for the courses table! aka /courses/term/program Yeah I know it says Admin in the title but its for both -Kay 11/11/19 #}
 {% include "snips/courseElements/deleteSTCourse.html" %}
 <thead>
     <tr>
@@ -10,8 +11,11 @@
         <th>Room</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
+        <th>Faculty Load Credit</th>
         <th>Last Edited</th>
+
         {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}  {# curTermName.term_state_id == 1 means scheduling is open #}
+
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true">
                 <span class = "sr-only">Edit or Delete Course</span>
             </span>
@@ -111,12 +115,23 @@
                     No
                 {% endif %}
             </td>
+
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
                     <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
                 {% else %}
                     <p>Notes</p>
+                {% endif %}
+            </td>
+            <!-- <td> </td>
+            <td> </td> -->
+            <!-- faculty_credit -->
+            <td>
+                {% if course.faculty_credit  %}
+                    {{course.faculty_credit}}
+                {% else %}
+                    No Credit specified
                 {% endif %}
             </td>
             <!--LAST EDITED BY-->
@@ -182,9 +197,9 @@
               </td>
               <!--TAUGHT BY-->
               <td>
-                  {% for instructor in course.instructorstcourse_set_prefetch%}
-                      {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
-                  {% endfor %}
+                {% for instructor in test_instructors[course.stId] %}
+                    {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+                {% endfor %}
               </td>
               <!-- SECTION -->
               <td>
@@ -222,20 +237,19 @@
               <!-- ROOM -->
               <td>
               {% if course.rid is not none %}
-                  {{course.rid.building.name}}:{{course.rid.number}}
+                  {{course.rid.building.name}} {{course.rid.number}}
               {% else %}
                   <p>No room listed</p>
               {% endif %}
-          <!--CROSS LISTED-->
           <!--CROSS LISTED-->
               <td>
                   {% if course in crosslisted %}
                   <div class="form-check" id="checkcross">
                       {% if crosslisted[course][0] %}
-                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus" checked>
+                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus" checked>
                       <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                       {% else %}
-                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus">
+                      <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus">
                       <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                       {% endif %}
                   </div>
@@ -248,6 +262,7 @@
                               <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; line-height:2.3;"class="btn-default btn-sm">
                                     <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                               </span>
+
 
                           {% endif %}
 
@@ -262,6 +277,15 @@
                   <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
               {% else %}
                   <p>Notes</p>
+              {% endif %}
+          </td>
+          <!-- Stcourse Prerequisites -->
+          <!-- faculty_credit -->
+          <td>
+              {% if course.faculty_credit is not none  %}
+                  {{course.faculty_credit}}
+              {% else %}
+                  No Credit specified
               {% endif %}
           </td>
           <!--LAST EDITED BY-->
@@ -299,6 +323,7 @@
           </tr>
       {% endif %}
   {% endfor %}
+
     </tbody>
 
 <script>

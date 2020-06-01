@@ -33,11 +33,13 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
+    # print("values", data)
 
     # # instructors need to be a list
 
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
+    faculty_credit= request.form.getlist("faculty_credit")
 
     nullCheck = NullCheck()
 
@@ -68,7 +70,8 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
             concentrationReqsMet=data['concentrationReqsMet'],
             minorReqsMet=data['minorReqsMet'],
             perspectivesMet=data['perspectivesMet'],
-            section=data['section'])
+            section=data['section'],
+            faculty_credit=data["faculty_credit"])
         if data['formBtn'] == "submit":
             specialTopicCourse.status = 1
         specialTopicCourse.save()
@@ -110,6 +113,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
                         notes=values['requests'],
                         crossListed=int(data['crossListed']),
                         section=values['section'],
+                        faculty_credit=values['faculty_credit'],
                         prereq=convertPrereqs(prereqs)
                         )
 
@@ -131,13 +135,13 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
         # save crosslisted courses of the newly-created course in a database
         if(course.crossListed):
             create_crosslisted_courses(
-                values, course, tid, prereqs, instructors)
+                values, course, tid, prereqs, instructors, faculty_credit)
 
         flash("Course has successfully been added!")
     return redirect(redirect_url())
 
 
-def create_crosslisted_courses(values, course, tid, prereqs, instructors):
+def create_crosslisted_courses(values, course, tid, prereqs, instructors, faculty_credit):
     '''
     Creates a crosslisted child relationship for a course
 
@@ -166,7 +170,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors):
                                crossListed=True,
                                parentCourse=course.cId,
                                section=values['section'],
-                               prereq=convertPrereqs(prereqs)
+                               prereq=convertPrereqs(prereqs),
+                               faculty_credit= values['faculty_credit']
                                )
             cc_course.save()
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)
@@ -199,7 +204,8 @@ def add_one(tid, can_edit):
                     notes=None,
                     crossListed=int(course.crossListed),
                     rid=None,
-                    prereq=course.prereq
+                    prereq=course.prereq,
+                    faculty_credit=course.faculty_credit
                     )
     course.save()
 
@@ -222,6 +228,7 @@ def add_one(tid, can_edit):
 def add_many(tid, can_edit):
     data = request.form.getlist
     courses = request.form.getlist('courses')
+    print(courses)
     if courses:
         for i in courses:
             course = Course.get(Course.cId == int(i))  # get an existing course
@@ -229,7 +236,6 @@ def add_many(tid, can_edit):
             # we are importing it as new
             course = Course(
                 bannerRef=course.bannerRef_id,
-                prefix=course.prefix_id,
                 term=int(tid),
                 schedule=course.schedule_id,
                 capacity=course.capacity,
@@ -238,7 +244,8 @@ def add_many(tid, can_edit):
                 crossListed=int(course.crossListed),
                 rid=None,
                 section=course.section,
-                prereq=course.prereq
+                prereq=course.prereq,
+                faculty_credit=course.faculty_credit
             )
 
             course.save()
@@ -349,9 +356,3 @@ def generate_sections(existing_section):
             if letter not in existing_section:
                 sections.append(letter)
     return sections
-
-
-# @main_bp.route("/test_form", methods=["POST"])
-# def form_sample():
-#     data = request.form
-#     return "The parameter was: {0}".format(data['var1'])

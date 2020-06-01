@@ -8,9 +8,12 @@
             <li>
                 <a id="crossListedLink" href="">Cross Listed Courses</a>
             </li>
-            {#<<li>
-                <a class="first-level" href="#">Schedule and Room Conflicts<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
-                <ul class="nav nav-second-level">
+
+            <li class="active">
+                <a data-toggle="collapse" data-target="#rc_cst" aria-expanded="false" aria-controls="rc_cst">Schedule and Room Conflicts
+                  <span class="arrow pull-right glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <ul id="rc_cst" class="nav collapse">
                     <li>
                         <a id="conflictsLink" href="">Room Conflicts</a>
                     </li>
@@ -18,10 +21,9 @@
                         <a id="courseTimeline" href="">Course Scheduling Timeline</a>
                     </li>
                 </ul>
-            </li>#}
-            <!-- <li> We aint using the change tracker anymore 9/3/19
-                <a id="trackerLink" href="">Change Tracker</a>
-            </li> -->
+
+            </li>
+
             <li>
                 <a id="specialCourseRequestsLink" href="">Special Topic Course Requests </a>
             </li>
