@@ -13,11 +13,10 @@ databaseAdmin:
   user: ['heggens','myersco']
 
 db:
-  db_name: c9
+  db_name: FIXME
   host: localhost
-  password: '4127596'
-  username: root
-
+  password: FIXME
+  username: FIXME
 
 # Correct for display, but does not match DB.
 scheduleDays:
@@ -177,6 +176,7 @@ conflicts:
   Y: ['A', 'B', 'C', 'G','H', 'M', 'U', 'Y', 'I1']
   Z: ['O', 'P', 'R', 'V', 'X', 'Z']
   I1: ['I1', 'U', 'Y', 'M', 'G', 'B', 'A']
+  ZZZ: []
 
 
 specialSchedule:
@@ -223,11 +223,11 @@ filepath:
   tmp: 'data/tmp'
 
 credits:
-  - value: "0.25"
-  - value: "0.5"
-  - value: "0.75"
-  - value: "1.0"
-  - value: "2.0"
+  - "0.25"
+  - "0.5"
+  - "0.75"
+  - "1.0"
+  - "2.0"
 
 contributors:
   - name: "Cody Myers"

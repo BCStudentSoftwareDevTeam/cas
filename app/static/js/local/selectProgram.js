@@ -6,6 +6,7 @@ $(window).on('load',function(){
 
 function redirectCourses(){
     var prefix= document.getElementById("programInfo").value
+    console.log("Prefix: ", prefix)
     window.location.replace("/courses/"+prefix+"/")
 }
 

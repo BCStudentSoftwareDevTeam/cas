@@ -424,6 +424,8 @@ course = Course(  bannerRef         = 8,
                   ).save()
 
 
+<<<<<<< HEAD
+=======
 
 
 course = Course(  bannerRef         = 9,
@@ -457,15 +459,18 @@ course = Course(  bannerRef         = 9,
 
 
 
+>>>>>>> c9888550b37ad7169c9a73daac308b68be0b8334
 
 course = Course(  bannerRef         = 21,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
-
                   days              = 1,
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> c9888550b37ad7169c9a73daac308b68be0b8334
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",

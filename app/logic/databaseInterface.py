@@ -1,6 +1,7 @@
 from app.allImports import *
-from app.updateCourse import DataUpdate
-
+from app.updateCourse import *
+from app.models.models import *
+from app.logic.authorizedUser import AuthorizedUser
 # TODO: standarize docstring see https://www.python.org/dev/peps/pep-0257/
 
 
@@ -89,7 +90,7 @@ def createInstructorDict(courses):
     instructors = {}
     try:
         for course in courses:
-            if "app.models.SpecialTopicCourse" in str(type(course)) :
+            if "SpecialTopicCourse" in str(type(course)) :
                 instructors[course.stId] = InstructorSTCourse.select().where(
                     InstructorSTCourse.course == course.stId)
             else:
@@ -191,7 +192,7 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         # get the course object
         #TODO: We are not doing null checks on the portion of
         #the code which is causing crashes on the system
-
+        au = AuthorizedUser()
         course = Course.get(Course.cId == int(data['cid']))
         print("course",course.faculty_credit)
         #CHECK VALUES FOR NULL
@@ -213,7 +214,7 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         course.rid  = room
         course.schedule = schedule
         course.notes = notes
-        course.lastEditBy = authUser(request.environ)
+        course.lastEditBy = au.username
         course.faculty_credit= faculty_credit
         course.save()
         new_instruc =  professors[:]
@@ -271,12 +272,14 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse = SpecialTopicCourse.get(SpecialTopicCourse.stId == int(data['stid']))
         #import pdb; pdb.set_trace()
 
+        au = AuthorizedUser()
         #CHECK VALUES FOR NULL
         room     = data["room"] if data["room"] else None
         capacity = data['capacity'] if data['capacity'] else None
         schedule = data['schedule'] if data['schedule'] else None
         section  = data['section']  if data['section'] else None
         faculty_credit= data['faculty_credit'] if data["faculty_credit"] else "1"
+
         if data['notes'].replace(" ", "") == "":
             notes = None
         else:
@@ -314,7 +317,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.schedule = schedule
         specialTopicCourse.notes = notes
         specialTopicCourse.section = section
-        specialTopicCourse.lastEditBy = authUser(request.environ)
+        specialTopicCourse.lastEditBy = au.username
         specialTopicCourse.credits = data['credits']
         specialTopicCourse.description = data['description']
         specialTopicCourse.prereqs = data['prereqs']
@@ -323,6 +326,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
         specialTopicCourse.perspectivesMet = data['perspectivesMet']
         specialTopicCourse.faculty_credit= data["faculty_credit"]
+
         editSTInstructors(professors, data['stid'])
         specialTopicCourse.save()
 
