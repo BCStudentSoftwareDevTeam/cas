@@ -63,6 +63,7 @@ def editcourse(tid, prefix, page, can_edit):
     page1 =  "/" + request.url.split("/")[-1]
     data = request.form.to_dict()
     crosslistedCourse = request.form.getlist('crossListedCourses[]')
+    # faculty_credit= request.form.getlist('faculty_credit')
     #if no crosslisted children, update hidden crosslisted to true or false
     data["crossListed"] = 1 if crosslistedCourse else 0
     # trackerEdit = TrackerEdit(data)
@@ -136,6 +137,7 @@ def editSTcourse(tid, prefix, page, can_edit):
             databaseInterface.editSTCourse(data, prefix, professors, int(data['statusChange']),cfg)
           else:
             databaseInterface.editSTCourse(data, prefix, professors, specialCourse.status,cfg)
+
       else:
           databaseInterface.editSTCourse(data, prefix, professors, specialCourse.status ,cfg)
 

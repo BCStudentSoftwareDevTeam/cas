@@ -19,7 +19,7 @@
             </button>
           <h4 class="modal-title">Edit course</h4>
         </div>
-        
+
         <!--Modal Body-->
         <div class="modal-body">
           {# Modal Title #}
@@ -35,11 +35,11 @@
           <!--Special Topic State Change-->
           {% if page == "specialCourses" %}
               <label for="status"> Course Status: </label>
-              <select class="selectpicker form-control"                        
+              <select class="selectpicker form-control"
                         name="statusChange"
                         title="{% for state in cfg['specialTopicStates'] %}
                                 {% if state['value'] == course.status %}
-                                  {{state['name']}}  
+                                  {{state['name']}}
                                 {% endif %}
                               {% endfor %}">
                 {% for state in cfg['specialTopicStates'] %}
@@ -68,7 +68,7 @@
               </option>
             {% endfor %}
           </select>
-          
+
           <!--Schedule-->
           <h5>Schedule Block</h5>
             <select class="form-control" name="schedule">
@@ -83,7 +83,7 @@
               </option>
             {% endfor %}
             </select>
-            
+
           <!--Row One-->
           <div class="row">
             <div class="col-md-6 float-left">
@@ -110,6 +110,28 @@
                 </label>
               </div>
             </div>
+            <div class="col-md-6">
+
+
+            <h5> Faculty Load Credit</h5>
+            <div >
+              <select class="form-control selectpicker" name="faculty_credit">
+                  <option value="0.25" {% if course.faculty_credit=="0.25" %}
+                      selected
+                    {% endif %}>0.25</option>
+
+                  <option value="0.5"{% if course.faculty_credit=="0.5" %}
+                      selected
+                    {% endif %}>0.5</option>
+                  <option value="1.0" {% if course.faculty_credit=="1.0" %}
+                      selected
+                    {% endif %}>1.0</option>
+                  <option value="1.5" {% if course.faculty_credit=="1.5" %}
+                      selected
+                    {% endif %}>1.5</option>
+                </select>
+                </div>
+            </div>
             <!--Section-->
             <div class="col-md-6 float-right">
               <h5>Section</h5>
@@ -118,7 +140,7 @@
               </select>
             </div>
           </div>
-          
+
           <!--Row Two-->
           <div class="row">
             <!--Capacity-->
@@ -138,33 +160,33 @@
               </select>
             </div>
           </div>
-          
-          
-          
+
+
+
 
           <!--Notes-->
           <h5>Notes</h5>
               <textarea class="form-control" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
-          </br>
+
 
           <!--Description-->
-          <div>
+          <div class="hide">
             <h5>Description</h5>
             <textarea class="form-control" name="description">{% if course.description is not none %}{{ course.description }}{% endif %}</textarea>
           </div>
 
           <!--Prerequisites-->
-          <div>
+          <div class="hide">
             <h5>Prerequisites</h5>
-            <textarea class="form-control" name="prereqs">{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
+            <textarea class="form-control" name="prereqs" hidden >{% if course.prereqs is not none %}{{ course.prereqs }}{% endif %}</textarea>
           </div>
-          </br>
+
 
           <!--Requirements & Perspective Request Panel-->
-          <div class="">
+          <div class="" style="display:none;">
             <ul class="nav nav-tabs nav-justified" >
               <li class="active"><a data-toggle="tab" href="#menu0"> Major Reqs.</a></li>
-              <li><a data-toggle="tab" href="#menu1">Concentration Reqs.</a></li>
+              <li><a data-toggle="tab" href="#menu1" hidden>Concentration Reqs.</a></li>
               <li><a data-toggle="tab" href="#menu2">Minor Reqs.</a></li>
               <li><a data-toggle="tab" href="#menu3">Perspectives</a></li>
             </ul>
@@ -193,14 +215,14 @@
             {% include "snips/selectSTUser.html" %}
           <br>
         </div>
-        
+
         <!--Modal Footer-->
         <div class="modal-footer">
             <button type="button" class="btn btn-primary btn-sm" onclick="returnToPreviousPage()"> Close </button>
             {% if course.status in cfg['specialTopicLogic']['submit_form'] %}
               <input  class="btn btn-success btn-sm pull-right" name = "submitbtn" type="submit" value="Submit"/>
             {% endif %}
-            <input  class="btn btn-info btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>          
+            <input  class="btn btn-info btn-sm pull-right" name = "submitbtn" type="submit" value="Save"/>
         </div>
       </div>
     </form>
@@ -210,7 +232,7 @@
   var stid = {{course.stId}};
   var title =  "{{course.prefix.prefix}} {{course.bannerRef.number}} {{course.specialTopicName}}";
   function returnToPreviousPage(){
-   window.history.back(); 
+   window.history.back();
   }
 </script>
 <script type="text/javascript" src="/static/js/local/editSTModal.js"></script>

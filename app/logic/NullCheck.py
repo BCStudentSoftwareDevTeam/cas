@@ -30,7 +30,9 @@ class NullCheck():
       value['specialTopicName'] = None
     #CHECK DATA FOR EMPTY STRING
     #THESE ARE ALL OF THE VALUES THAT COULD CONTAIN AN EMPTY STRING
-    checkList = ['capacity','schedule','rid','requests','section']
+
+    checkList = ['capacity','schedule','rid','requests','section','faculty_credit']
+
     #data={crosslisted: 2, crosslisted: 3, crosslisted: 4}
     crosslisted = []
     for item in checkList:

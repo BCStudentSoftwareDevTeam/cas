@@ -2,21 +2,25 @@
     <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
     <thead>
         <tr>
-            <th>Course Name</th> 
+            <th>Course Name</th>
             <th>Taught By</th>
             <th>Schedule</th>
             <th>Capacity</th>
             <th>Room</th>
             <th>Cross-Listed</th>
+            <th>Description</th>
+            <th>Prerequisites</th>
             <th>Notes</th>
+            <th>Faculty Load Credit</th>
             <th>Last Edited</th>
+
+
             <th><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></th>
-        </tr> 
+        </tr>
     </thead>
     <tbody>
-        <div id = "state['id']">
+        <div id = "{{state['id']}}">
         {% for course in courses %}
-        <div >
             <tr>
                 <!--COURSE NAME-->
                 <td>
@@ -44,24 +48,26 @@
                             {% endif %}
                         {% endfor %}
                         {% if special != [] %}
-                            <p>See Notes</p>                            
+                            <p>See Notes</p>
                         {% else %}
-                            {% for day in course.schedule.days %} 
-                                {{ day.day }} 
+                            {% for day in course.schedule.days %}
+                                {{ day.day }}
                             {% endfor %}
                             {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                         {% endif %}
                     {% endif %}
                 </td>
+
                 <!--CAPACITY-->
-                <td> 
+                <td>
                     {% if course.capacity is not none  %}
                         {{course.capacity}}
                     {% else %}
-                        no capacity specified
+                        No caps specified
                     {% endif %}
                 </td>
                 <!-- ROOM -->
+
                 <td>
                     {% if course.rid is not none %}
                         {{course.rid.building.name}}:{{course.rid.number}}
@@ -69,6 +75,7 @@
                         <p>No room listed</p>
                     {% endif %}
                 </td>
+
                 <!--CROSS LISTED-->
                 <td>
                     {% if course.crossListed == 1 %}
@@ -76,6 +83,21 @@
                     {% else %}
                         no
                     {% endif %}
+                </td>
+                <!-- stcourse Description -->
+                <td>
+                    {% if course.description  %}
+                        {{course.description}}
+                    {% else %}
+                        no description was given AT ALL
+                    {% endif %}
+                </td>
+                  <!-- stcourse prereqs -->
+                <td>  {% if course.prereqs  %}
+                      {{course.prereqs}}
+                  {% else %}
+                      no prereqs
+                  {% endif %}
                 </td>
                 <!--NOTES-->
                 <td>
@@ -85,10 +107,19 @@
                         <p>Notes</p>
                     {% endif %}
                 </td>
+                <!-- faculty_credit -->
+                <td>
+                    {% if course.faculty_credit is not none %}
+                        {{course.faculty_credit}}
+                    {% else %}
+                        No Credit specified
+                    {% endif %}
+                </td>
                 <!--LAST EDITED BY-->
                 <td>
                     {{course.lastEditBy}}
                 </td>
+
                 {% if course.status not in cfg['specialTopicLogic']['admin_disabled'] %}
                     <td>
                         <div class="child">

@@ -130,7 +130,6 @@ class Program(baseModel):
   name              = CharField()
   division          = ForeignKeyField(Division, backref='programs', on_delete= 'CASCADE')
 
-
   def __str__(self):
     return str(self.name)
 
@@ -199,6 +198,7 @@ class Course(baseModel):
   section           = TextField(null = True)
   prereq            = CharField(null = True)
   parentCourse      = ForeignKeyField('self', null=True)
+  faculty_credit    = CharField(null=True, default=" ")
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
@@ -218,6 +218,7 @@ class CrossListed(baseModel):
 
 
 class SpecialTopicCourse(baseModel):
+  ''' program chairs were  supposed to fill in all the ST fields, but Scott Steele wants to go back to the paper form for this;therefore, all the fields are null'''
   stId                 = PrimaryKeyField()
   prefix               = ForeignKeyField(Subject)
   bannerRef            = ForeignKeyField(BannerCourses, on_delete= 'CASCADE')
@@ -239,6 +240,7 @@ class SpecialTopicCourse(baseModel):
   minorReqsMet         = TextField(null = True)
   perspectivesMet      = TextField(null = True)
   section              = TextField(null = True)
+  faculty_credit       = CharField(null=True, default=" ")
   def __str__(self):
       return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
@@ -380,39 +382,9 @@ class RoomPreferences(baseModel):
             child.none_Choice = none_choice
             child.save()
         elif pref == 3:
-          # print("anychoice {}, nonechoice {} room {} pref {}").format(any_choice, none_choice, room, pref)
-
           for obj in qs:
             child = RoomPreferences.get(RoomPreferences.course==obj.crosslistedCourse.cId)
             child.pref_3 = None
             child.any_Choice = any_choice #None 3
             child.none_Choice = none_choice
             child.save()
-
-
-
-
-
-#Begin education tech class
-
-
-# #Begin crosslisted table  #Jolena asked for an extra step in the new crosslisting courses process.
-# class newcrosslisted (dbModel):
-#   clId                 = PrimaryKeyField()
-#   created_course_1     = ForeignKeyField(Course) #Created by one of the program chairs
-#   verified_course_2    = ForeignKeyField(Course) #Verified with the other program chair(s)
-#   verified             = BooleanField() #Verified? = yes or no
-# We are not sure why it is not running when we have these uncommented
-# it says newcrosslisted is already in use by another foreign key
-
-# # we brought this down here because it was giving us an error for courses foreign key
-# class RoomPreferences(dbModel):
-#   rpID           = PrimaryKeyField()
-#   course        = ForeignKeyField(Course, related_name='courses')
-#   pref_1        = ForeignKeyField(Rooms, related_name='preference_1')
-#   pref_2        = ForeignKeyField(Rooms, related_name='preference_2')
-#   pref_3        = ForeignKeyField(Rooms, related_name='preference_3') #We are making sure we have all the preferences jotted down.
-#   notes         = CharField(null=True)
-#   any_Choice    = CharField(null=True)
-#   none_Choice   = CharField(null=True)
-#   none_Reason   = CharField(null=False)

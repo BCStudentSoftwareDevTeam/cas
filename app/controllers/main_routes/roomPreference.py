@@ -14,7 +14,6 @@ from app.loadConfig import load_config
 
 @main_bp.route("/roomPreference/<term>", methods = ["GET"])
 def roomPreference(term):
-    # FIXME bring current_term in via URL, and add the modal to select current term used on courses.html
     cfg = load_config()
     current_term = term
     term = Term.get(Term.termCode == current_term)
@@ -30,9 +29,6 @@ def roomPreference(term):
         instructors = InstructorCourse.select()
         educationTech= EducationTech.select()
 
-        # FIXME used for conflicting courses UI, which is hidden
-
-
         courses = ( Course.select()
 
                         .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
@@ -40,8 +36,6 @@ def roomPreference(term):
                         .where(InstructorCourse.username == current_user)
                         .where(Course.term == int(current_term))
                     )
-
-
 
         # Constructs RoomPreferences if they don't exist
         for course in courses:
@@ -97,9 +91,6 @@ def room_details(rid):
     return json.dumps(room_materials)
 
 
-
-# We will add this on monday based on the room_details
-
 @main_bp.route('/education_Tech/<rid>', methods = ["GET"])
 def education_Tech(rid):
 
@@ -125,14 +116,6 @@ def education_Tech(rid):
     return json.dumps(education_materials)
 
 
-
-
-"""
-Preferences are now being set to 100 instead of None which is a non-existent
-room in a non-existing building, because mysql forces foreign key relationships and does not allow for foreign key values to be null.
-^^^^^^^
-This was a bad implementation. Setting it to 100 required a Room with ID = 100 to exist. It did not. Returning it back to None.
-"""
 @main_bp.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postPreference():
     """
@@ -163,9 +146,7 @@ def postPreference():
             any_choice = 2
 
         elif (pref == 2): # preference 2
-
             rp.pref_2      = int(data["roomID"])
-
             if rp.any_Choice is not None and int(rp.any_Choice) >= 2:
                 any_choice  = 3
             else:
@@ -181,9 +162,7 @@ def postPreference():
 
 
         elif(pref == 3): # preference 3
-
             rp.pref_3      = int(data["roomID"])
-
             rp.none_Choice = None
 
         else:
@@ -270,6 +249,7 @@ def postPreference():
     postNotes(data["ogCourse"], data['note'])
     return json.dumps({"success": 1})
 
+
 @main_bp.route("/getNotes/<cid>", methods=["GET"])
 def getNotes(cid):
     """
@@ -279,7 +259,6 @@ def getNotes(cid):
     return json.dumps({"notes": RoomPreferences.get(RoomPreferences.course == cid).notes})
 
 
-# @main_bp.route("/postNotes/<note>", methods=["POST"]) # This method serves to post data from the user input and dumps into the database
 def postNotes(cid, note):
     # Disabled all ability to track notes per preference; now all notes are just one thing everywhere (for a course)
 

@@ -61,8 +61,12 @@ def courses(tID, prefix, can_edit):     #can_edit comes from @can_modify
                      .where((Course.prefix == prefix) & (Course.term == tID))
                      .order_by(Course.prefix, Course.bannerRef.number))
 
+
     approved = cfg['specialTopicLogic']['approved'][0]
     specialCourses = SpecialTopicCourse.select().where(SpecialTopicCourse.prefix == prefix).where(SpecialTopicCourse.term == tID).where(SpecialTopicCourse.status != approved)
+    test_stCourse = SpecialTopicCourse.select()
+    test_instructors = createInstructorDict(test_stCourse)
+    # print("specialcourse ", specialCourses)
                      #We exclude the approved courses, because they'll be stored in the 'Course' table already
     instructors2 = InstructorSTCourse.select(InstructorSTCourse, User).join(User)
 
@@ -96,7 +100,9 @@ def courses(tID, prefix, can_edit):     #can_edit comes from @can_modify
             page=page,
             rooms=rooms,
             key = key,
-            cfg = cfg)
+            cfg = cfg,
+            test_instructors= test_instructors
+            )
 
 
 @main_bp.route("/verifycrosslisted/<intValue>", methods=["POST"])

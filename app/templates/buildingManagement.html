@@ -1,4 +1,4 @@
-<!---HTML for building management--->
+{# HTML for building management #}
 {% extends "base.html" %}
 {% set currentPage = "buildingManagement" %}
 {% block body %}
@@ -34,7 +34,14 @@
                             onclick="setRoomInfo({{room.rID}}, this)">Edit
                     </button>
                 </td>
-                <td id="lastModified" width="20%">{{room.lastModified}}</td>
+                <td id="lastModified" width="20%">
+                  {%  if room.lastModified is none  %}
+                  00:00:00
+                  {% else %}
+                  {{room.lastModified}}
+                  {% endif %}
+                </td>
+
             </tr>
             <tr class="hidden_{{room.rID}}" style="height:0px";>
                 <td colspan="4" id="hiddenRow_{{room.rID}}" style="padding:0px;">
