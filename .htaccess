@@ -1,0 +1,7 @@
+# .htaccess
+# Bust caches for new deployments
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)\.([a-zA-Z0-9]*)\.(min.js|js|css)$ $1.$3 [L]
+</IfModule>
