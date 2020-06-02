@@ -145,18 +145,30 @@ function room_detail(response){
     }
     // education_detail(response);
     if (response['roomImgURL']) {
-      $("#roomImg").attr("src", "/static/images/"+response['roomImgURL']);
-      $("#roomImg").attr("title", response['building'] + " " + response['number']);
-      $("#roomImg").attr("alt", response['building'] + " " + response['number']);
+      // Link
+      $("#imageModalLink").attr("data-target", "#imageModal");
+      // Thumbnail
+      $("#roomImg").attr({src: "/static/images/"+response['roomImgURL'],
+                          title: response['building'] + " " + response['number'],
+                          alt: response['building'] + " " + response['number']
+                        });
 
-;
-
+      //Full size image
+      $("#roomImgFull").attr({src: "/static/images/"+response['roomImgURL'],
+                              title: response['building'] + " " + response['number'],
+                              alt: response['building'] + " " + response['number']
+                            });
     }
-
 }
 
 /* The function below serves to take data from the python file and dumps it into the html file*/
 function goToRDetails(r,doishow) {
+    // Remove old information
+    $("#imageModalLink").attr("data-target", "");
+    $("#roomImg").attr({src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
+                        title: "",
+                        alt: ""
+                      });
     $("#collapseOne #Details #withoutSelectButton").show();
     if($("#selectedRoom").val()) {
        setRoomId($("#selectedRoom").val());

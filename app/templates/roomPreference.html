@@ -200,9 +200,9 @@
                                               </div>
                                               </div>
                                               <br>
-                                              <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for futire room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
-                                              <div class="row">
-                                                  <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                              <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for future room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
+                                              <div class="row col-sm-12">
+                                                  <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Set my Preference</button>
                                               </div>
                                               <!-- this brings the preference notes modal-->
                                               <!-- this is the modal leading to all the changes on the page, it has a cancel button for closing the modal -->
@@ -259,7 +259,9 @@
                                       </div>
                                       {# Image area #}
                                       <div class="row col-sm-6">
-                                        <img alt="" title="" height="300" id="roomImg">
+                                        <a id="imageModalLink" data-toggle="modal" data-target="#imageModal">
+                                          <img alt="" title="" height="300" id="roomImg">
+                                        </a>
                                       </div>
                                     </div>
                                 </div>
@@ -278,6 +280,26 @@
 <span id="Notes5" hidden>Your course will be placed in ||pref_1|| if able.</span>
 <span id="Notes6" hidden>Your course will be placed in ||pref_1|| or ||pref_2|| if able.</span>
 <span id="Notes7" hidden>You have indicated that your course does not require a room. </span>
+
+{# Image Modal for full screen viewing#}
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel">
+  <div class="modal-dialog" role="img">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="imageModalTitle">Room name and number</h4>
+
+      </div>
+      <div class="modal-body" id="imageModalBody">
+        <img alt="" title="" width="100%" id="roomImgFull">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% block belowContainer %}
 <link rel="stylesheet" href="/static/css/roomPreference.css">
 <script type="application/javascript" src="/static/js/local/roompreference.js"></script>
