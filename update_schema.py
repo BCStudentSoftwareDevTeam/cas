@@ -11,7 +11,7 @@ cfg       = load_config()
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
 # my_db    = SqliteDatabase(db,
 #                           pragmas = ( ('busy_timeout',  100),
-#                                       ('journal_mode', 'WAL')
+#                                       ('journal_mode,WAL')
 #                                   ),
 #                           threadlocals = True
 #                           )
@@ -102,19 +102,19 @@ migrator = MySQLMigrator(mainDB)
 #Building column add
 
 # migrate(
-#     migrator.add_column('Building', 'shortName', TextField(default='')),
+#     migrator.add_column('Building,shortName', TextField(default='')),
 # )
 
 # #Rooms Column Add
 # migrate(
-#     #migrator.add_column('Rooms', 'maxCapacity', IntegerField(null=False)),  #update already exists
-#     migrator.add_column('Rooms', 'visualAcc', CharField(null=True)),
-#     migrator.add_column('Rooms', 'audioAcc', CharField(null=True)),
-#     migrator.add_column('Rooms', 'physicalAcc',CharField(null=True)),
-#     migrator.add_column('Rooms', 'educationTech_id', ForeignKeyField(EducationTech, to_field = EducationTech.eId, related_name='rooms', null=True)),
-#     migrator.add_column('Rooms', 'specializedEq', CharField(null=True)),
-#     migrator.add_column('Rooms', 'specialFeatures', CharField(null=True)),
-#     migrator.add_column('Rooms', 'movableFurniture', BooleanField(default=False)),
+#     #migrator.add_column('Rooms,maxCapacity', IntegerField(null=False)),  #update already exists
+#     migrator.add_column('Rooms,visualAcc', CharField(null=True)),
+#     migrator.add_column('Rooms,audioAcc', CharField(null=True)),
+#     migrator.add_column('Rooms,physicalAcc',CharField(null=True)),
+#     migrator.add_column('Rooms,educationTech_id', ForeignKeyField(EducationTech, to_field = EducationTech.eId, related_name='rooms', null=True)),
+#     migrator.add_column('Rooms,specializedEq', CharField(null=True)),
+#     migrator.add_column('Rooms,specialFeatures', CharField(null=True)),
+#     migrator.add_column('Rooms,movableFurniture', BooleanField(default=False)),
 #     )
 
 
@@ -137,17 +137,17 @@ migrator = MySQLMigrator(mainDB)
 #                             bmid = 6
 #                           ).save()
 # migrate(
-#     migrator.add_column('Rooms', 'lastModified', CharField(null=True))
-    # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
-    # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+#     migrator.add_column('Rooms,lastModified', CharField(null=True))
+    # migrator.add_column('RoomPreferences,priority', IntegerField(default=6)),
+    # migrator.add_column('Course,days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
 
 # my_db.create_tables([ScheduleDays])
 
 
 # my_db.create_tables([RoomPreferences])
 # migrate(
-#     migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6))
-#     # migrator.add_column('Course', 'days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
+#     migrator.add_column('RoomPreferences,priority', IntegerField(default=6))
+#     # migrator.add_column('Course,days_id', ForeignKeyField(ScheduleDays, to_field = ScheduleDays.sdID , null = True, related_name='course_days'))
 
 
 #     # migrator.drop_not_null('CourseChange','rid')
@@ -163,11 +163,11 @@ migrator = MySQLMigrator(mainDB)
 
 
 # migrate(
-#     # migrator.add_column('RoomPreferences', 'priority', IntegerField(default=6)),
+#     # migrator.add_column('RoomPreferences,priority', IntegerField(default=6)),
 #     # migrator.drop_column("Term", "state"),
-#     migrator.add_column('Term', 'term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
-#     # migrator.add_column('Term', 'algorithm_running', BooleanField(null = False, default = False))
-#     migrator.add_column('Term', 'editable', BooleanField(null = False, default = True))
+#     migrator.add_column('Term,term_state_id', ForeignKeyField(TermStates, to_field = TermStates.csID , default = 1, related_name='term_states')),
+#     # migrator.add_column('Term,algorithm_running', BooleanField(null = False, default = False))
+#     migrator.add_column('Term,editable', BooleanField(null = False, default = True))
 
 #     # migrator.drop_not_null('CourseChange','rid')
 # )
@@ -199,20 +199,20 @@ migrator = MySQLMigrator(mainDB)
 #
 # try:
 #     migrate(
-#         migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+#         migrator.add_column('rooms,lastModified', CharField(null=True)),
 #     )
 # except:
 #     print("Column lastModified in Table Rooms already exists")
 #
 # try:
 #     migrate(
-#         migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
+#         migrator.add_column('course,parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
 #     )
 # except:
 #     print("Column parentCourse_id in table Course already exists")
 
 #PART OF PR XXX (ADD IMAGES TO EACH ROOM)
-import os
+import os, json
 try:
     os.mkdir("app/static/images")
 except:
@@ -220,7 +220,17 @@ except:
 
 try:
     migrate(
-        migrator.add_column('rooms', 'roomImageURL', CharField(null=True)),
+        migrator.add_column('rooms,roomImageURL', CharField(null=True)),
     )
 except:
     print("Column roomImageURL in Table Rooms already exists")
+
+imgs = [',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Stephenson_321Aa.jpg,Stephenson_321Ab.jpg']
+f = open("app/static/roomsMap.json")
+rms = json.load(f)
+
+for rm in rms:
+    if rm["roomImageURL"] != "":
+        updateRoom = Rooms.get(rm["rID"])
+        updateRoom.roomImageURL = rm["roomImageURL"]
+        updateRoom.save()
