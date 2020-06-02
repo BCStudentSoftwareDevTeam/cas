@@ -11,4 +11,3 @@ config.py
 venv/*
 *.xlsx
 *.csv
-
