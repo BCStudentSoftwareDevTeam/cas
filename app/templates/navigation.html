@@ -13,11 +13,11 @@
       </button>
       <a class="navbar-brand" href="/">CAS</a>
     </div>
-    
+
     <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav"> 
+          <ul class="nav navbar-nav">
     {% for menuItem in cfg['mainMenu'] %}
-      <li 
+      <li
         {% if currentPage == menuItem['title'] %}
           class="active"
         {% endif %}
@@ -42,28 +42,28 @@
             >
               <a href="{{menuItem['link']}}">{{menuItem['title']}}</a>
             </li>
-          {% endfor %}  
+          {% endfor %}
         </ul>
       </li>
     {%endif%}
   </ul>
-      
+
   {% if isBuildingManager or isAdmin %}
     <ul class="nav navbar-nav navbar-top-links navbar-right">
       <li class=" nav dropdown">
         <a href="/buildingManagement" role="button" aria-haspopup="true" aria-expanded="false" > Building Management </a>
       </li>
     </ul>
-  {% endif %}    
-            
+  {% endif %}
 
-         
-            
+
+
+
   </div>
-  
+
   </div>
-  
- 
+
+
 </nav>
 
   <!-- /.navbar-top-links -->
@@ -74,8 +74,8 @@
   </div>
   <script type="text/javascript" src="/static/js/local/sidebar.js"></script>
   <!-- /.navbar-static-side -->
-  
-  
+
+
 
 <script>
 //sorts drop down elements after page loads
@@ -83,6 +83,6 @@ $("#sort").html(
     $("#sort").children ("li").sort(function (a, b) {
         return $(a).text().toUpperCase().localeCompare(
             $(b).text().toUpperCase());
-    }) 
-); 
+    })
+);
 </script>
