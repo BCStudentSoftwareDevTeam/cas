@@ -1,14 +1,15 @@
-from allImports import *
-from app.logic.NullCheck import NullCheck
-from app.logic import functions
-
 import pprint
 
+from app.allImports import *
+from app.logic.NullCheck import NullCheck
+from app.logic import functions
+from app.logic.authorizedUser import AuthorizedUser
+from app.models.models import CourseChange
 
-class DataUpdate():
+class DataUpdate:
 
     def __init__(self):
-        self.username = authUser(request.environ)
+        self.username = AuthorizedUser().username
         self.level = 0
 
     def createColorString(self, changeType):

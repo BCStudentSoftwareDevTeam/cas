@@ -2,8 +2,8 @@
 {% set currentPage = "editActiveCourses" %}
 
 <!--area outside of container-->
-{% block aboveContainer %} 
-{% endblock %} 
+{% block aboveContainer %}
+{% endblock %}
 <!--end area outside of container-->
 
 {% block body %}
@@ -12,11 +12,37 @@
 <div id="wrapper">
     <div id="page-wrapper">
     {% include "snips/messages.html" %}
-    
+
+    {# Reactivate a Course #}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Activate a Course
+          <a data-toggle="popover" data-content="Activating a course makes a previous deactivated course available for selection during the scheduling process.">
+            <span class="glyphicon glyphicon-question-sign"></span>
+          </a>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <form action="/activate/course" method="post" id="active">
+          <div class="form-group">
+            <select class="selectpicker form-control" name="activate" data-live-search="true" required>
+              <option value="">---</option>
+              {% for course in deactiveCourses %}
+                <option value="{{course.reFID}}">
+                  {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-info">Activate</button>
+        </form>
+      </div>
+    </div>
+
     {# Deactivate Course Panel #}
       <div class="panel panel-default" style="margin-top: 50px;">
         <div class="panel-heading">
-          <h3 class="panel-title">Deactivate A Course
+          <h3 class="panel-title">Deactivate a Course
             <a data-toggle="popover" data-content="Deactivating a course ensures that is unable to be selected by Program and Division Chairs during the scheduling process.">
               <span class="glyphicon glyphicon-question-sign"></span>
             </a>
@@ -38,37 +64,13 @@
           </form>
         </div>
       </div>
-    
-      
-      {# Reactivate a Course #}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Activate A Course
-            <a data-toggle="popover" data-content="Activating a course makes a previous deactivated course available for selection during the scheduling process.">
-              <span class="glyphicon glyphicon-question-sign"></span>
-            </a>
-          </h3>
-        </div>                            
-        <div class="panel-body">
-          <form action="/activate/course" method="post" id="active">
-            <div class="form-group">
-              <select class="selectpicker form-control" name="activate" data-live-search="true" required>
-                <option value="">---</option>
-                {% for course in deactiveCourses %}
-                  <option value="{{course.reFID}}">
-                    {{course.subject.prefix}} {{course.number}} {{course.ctitle}}
-                  </optin>
-                {% endfor %}
-              </select>
-            </div>
-            <button type="submit" class="btn btn-info">Activate</button>
-          </form>
-        </div>
-      </div>
-      
+
+
+
+
       {# Javascript Includes #}
       <script src="/static/js/local/popup.js"></script>
-      
+
     </div>
 </div>
 

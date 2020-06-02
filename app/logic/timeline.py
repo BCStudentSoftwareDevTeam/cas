@@ -86,8 +86,8 @@ class timeline:
     def debug_prints(self):
         d = vars(self)
         for item in d:
-            print item 
-            print d[item]
-            print '\n'
-        print '----------------------------------------------------------------------------------------'
+            print(item)
+            print(d[item])
+            print('\n')
+        print('----------------------------------------------------------------------------------------')
         
