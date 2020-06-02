@@ -1,5 +1,3 @@
-console.log("course js loaded")
-
 function getSelectedCourse(elementId) {
    var selectedCourse = document.getElementById(elementId);
 
