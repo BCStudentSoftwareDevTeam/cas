@@ -93,7 +93,7 @@
         </tbody>
     </table>
 </div>
-<!--Room selection collapse which contains room inforamation and leads to the selections under particular row-->
+{# Room selection collapse which contains room information and leads to the selections under particular row #}
 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" >
     <form>
         <div class="collapse" id="firstCollapser" >
@@ -102,156 +102,165 @@
                     <td>
                         <div class="panel panel-default" disabled>
                             <div class="panel-header">
-                               <h4 id= 'roomPickHeader' class = "col-md-6" align = 'center' style = 'padding-left: 40px;'><strong>Pick a Room: </strong></h4>
+                               <h4 id= 'roomPickHeader' class = "col-md-12" align = 'center' style = 'padding-left: 40px;'><strong>Pick a Room: </strong></h4>
                                <!--<h4 id= 'roomPickHeader'  style ="padding-left: 355px;"><strong>Pick a Room: </strong></h4>-->
                             </div>
                             <div class="panel-body">
                                 <div class="container">
-                                    <div class="row" id = "roomSelectModalDiv">
+                                    <div class="row col-sm-6">
+                                      <div class="row" id = "roomSelectModalDiv">
 
-                                        <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
-                                            <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
-                                            <option id="anyVal" value = "0">  Any Room Works </option>
-                                            <option id= "noRoom" value="-1"> This course does not require a room</option>
+                                          <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
+                                              <option disabled="disabled" value = "-999" id="donotTouch">Select your Room Preference</option>
+                                              <option id="anyVal" value = "0">  Any Room Works </option>
+                                              <option id= "noRoom" value="-1"> This course does not require a room</option>
 
-                                            <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
-                                            {% for r in room %}
-                                                <option id="{{r['rID']}}"
-                                                        value = "{{r['rID']}}"
-                                                        data-toggle="collapse"
-                                                        data-target="#collapseExample"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseExample" >
-                                                            {{r['building']['name']}} {{r['number']}} {# ({{r['building']['shortName']}} {{r['number']}}) #}
-                                                        </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
+                                              <!--{# Lops through the number of rooms available in the dummy data and populates #}-->
+                                              {% for r in room %}
+                                                  <option id="{{r['rID']}}"
+                                                          value = "{{r['rID']}}"
+                                                          data-toggle="collapse"
+                                                          data-target="#collapseExample"
+                                                          aria-expanded="false"
+                                                          aria-controls="collapseExample" >
+                                                              {{r['building']['name']}} {{r['number']}} {# ({{r['building']['shortName']}} {{r['number']}}) #}
+                                                          </option>
+                                              {% endfor %}
+                                          </select>
+                                      </div>
                                       <!--<br>-->
-                                    <div class="row">
-                                        <div  id = "Details" class="collapse" id="collapseExample">
-                                            <div id= "withoutSelectButton">
-                                            <div class="col-sm-6">
-                                                <!--This gives the room details-->
-                                                <div class="row">
-                                                    <label  style="float: left;"> Room Number:&nbsp; </label><div id="roomNumber" > {{room.number}}</div>
-                                                </div>
-						<div class="row">
-                                                    <label  style="float: left;"> Room Layout:&nbsp; </label><div id="roomType" > {{room.roomType}}</div>
-                                                </div>
-                                                <div class="row">
-                                                    <label  style="float:left;" > Room Capacity:&nbsp; </label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
-                                                </div>
-                                                <div class="row">
-                                                    <label id="visualAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="A"></label><br>
-                                                </div>
-                                                <div class="row">
-                                                    <label id="audioAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="B"></label><br>
-                                                </div>
-                                                <div class="row">
-                                                    <label id="physicalAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="C"></label><br>
-                                                </div>
-                                                <div class="row">
-                                                    <label  style="float:left;" >Specialized Equipment:&nbsp; </label>  <div id="specializedEq">{{room.specializedEq}}</div>
-                                                </div>
-                                                <div class="row">
-                                                        <label  style="float: left;">Movable Furniture:&nbsp; </label>
-                                                        <div id="movableFurniture">
-                                                            {% if room.movableFurniture %}
-                                                                <span class="glyphicon glyphicon-ok"></span>
-                                                            {% else %}
-                                                                <span class="glyphicon glyphicon-remove"></span>
-                                                            {% endif %}
-                                                        </div>
-                                                </div>
-                                                <div class="row">
-                                                <label  style="float:left;" >Special Feature Notes:&nbsp; </label><div id="specialFeatures">{{room.specialFeatures}}</div>
-                                                </div>
-                                                <div class="row">
-                                                <label  style="float:left;" > Education Tech:&nbsp; </label> <button
-                                                type="button" id = "viewEdTech" onclick = "goto_educationTech()" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal">
-                                                <a href="#" >  View </a></button>
-                                                <!--this view leads to the education tech exra room details-->
-                                                </div>
-                                            </div>
-                                                <!--Education tech modal -->
-                                                {% include "snips/educationTech.html" %}
-                                                <!--This populates the course conflict box to the right bottom of the page-->
-                                            <div class="row" >
-                                            {# FIXME The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
-                                            getting for their course
-                                                <div class="col-lg-5 invisible" align="center" >
-                                                    <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
-                                                    <table border=4>
-                                                        <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
-                                                        <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
-                                                    {% for instructor in instructors %}
-                                                        <tr>
-                                                            <td class="col-md-2">{{instructor.username.firstName}} {{instructor.username.lastName}} </td>
-                                                            <td class="col-md-1">{{instructor.course.bannerRef }}</td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                    </table>
-                                                </div>#} {# END FIXME #}
-                                            </div>
-                                            </div>
-                                            <br>
-                                            <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for futire room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
-                                            <div class="row">
-                                                <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
-                                            </div>
-                                            <!-- this brings the preference notes modal-->
-                                            <!-- this is the modal leading to all the changes on the page, it has a cancel button for closing the modal -->
-                                            </div>
-                                            <form role="form">
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header" style="background-color: #2c3e50;">
-                                                                <p style="color: white;" id="modelRoom"></p>
-                                                            </div>
-                                                            <div class="modal-body" align="left">
-                                                                <div class="alert alert-warning alert-dismissible" hidden role="alert">
-                                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                  </button>
-                                                                  Please indicate why you selected these room preferences.
-                                                                </div>
-                                                                <div class="form-group">Indicate why you need these preferences: </label>
-                                                                    <textarea class="form-control" id="message-text" name="message-text" required="true"></textarea>
-                                                                </div>
+                                      <div class="row">
+                                          <div  id = "Details" class="collapse" id="collapseExample">
+                                              <div id= "withoutSelectButton">
+                                              <div class="">
+                                                  <!--This gives the room details-->
+                                                  <div class="row">
+                                                      <label  style="float: left;"> Room Number:&nbsp; </label><div id="roomNumber" > {{room.number}}</div>
+                                                  </div>
+  						                                    <div class="row">
+                                                      <label  style="float: left;"> Room Layout:&nbsp; </label><div id="roomType" > {{room.roomType}}</div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <label  style="float:left;" > Room Capacity:&nbsp; </label>  <div id="roomCapacity" style="left;">{{room.maxCapacity}}</div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <label id="visualAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="A"></label><br>
+                                                  </div>
+                                                  <div class="row">
+                                                      <label id="audioAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="B"></label><br>
+                                                  </div>
+                                                  <div class="row">
+                                                      <label id="physicalAccIcon" style="float:left;" href="#" data-toggle="tooltip" data-placement= "right" title="C"></label><br>
+                                                  </div>
+                                                  <div class="row">
+                                                      <label  style="float:left;" >Specialized Equipment:&nbsp; </label>  <div id="specializedEq">{{room.specializedEq}}</div>
+                                                  </div>
+                                                  <div class="row">
+                                                          <label  style="float: left;">Movable Furniture:&nbsp; </label>
+                                                          <div id="movableFurniture">
+                                                              {% if room.movableFurniture %}
+                                                                  <span class="glyphicon glyphicon-ok"></span>
+                                                              {% else %}
+                                                                  <span class="glyphicon glyphicon-remove"></span>
+                                                              {% endif %}
+                                                          </div>
+                                                  </div>
+                                                  <div class="row">
+                                                  <label  style="float:left;" >Special Feature Notes:&nbsp; </label><div id="specialFeatures">{{room.specialFeatures}}</div>
+                                                  </div>
+                                                  <div class="row">
+                                                  <label  style="float:left;" > Education Tech:&nbsp; </label> <button
+                                                  type="button" id = "viewEdTech" onclick = "goto_educationTech()" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal">
+                                                  <a href="#" >  View </a></button>
+                                                  <!--this view leads to the education tech exra room details-->
+                                                  </div>
+                                                  <div class="col-sm-6">
 
-                                                            </div>
-                                                            <div class="modal-footer" padding: "10px" style="margin-right:.4em;">
+                                                  </div>
+                                              </div>
+                                                  <!--Education tech modal -->
+                                                  {% include "snips/educationTech.html" %}
+                                                  <!--This populates the course conflict box to the right bottom of the page-->
+                                              <div class="row" >
+                                              {# FIXME The div below is now invisible but will need to be enabled to allow users to see which other faculty had already chosen a room they were thinking
+                                              getting for their course
+                                                  <div class="col-lg-5 invisible" align="center" >
+                                                      <strong align="center"><h3 style="margin-top: .4em;"><strong>Course Conflicts</strong></h3></strong>
+                                                      <table border=4>
+                                                          <th><h4 style="margin-top: .4em;"><strong>Professor(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em;"></th>
+                                                          <th><h4 style="margin-top: .4em;"><strong>Course(s)</strong></h4><hr style="height:3px;border:none;background-color:#333;margin-bottom: .4em"></th>
+                                                      {% for instructor in instructors %}
+                                                          <tr>
+                                                              <td class="col-md-2">{{instructor.username.firstName}} {{instructor.username.lastName}} </td>
+                                                              <td class="col-md-1">{{instructor.course.bannerRef }}</td>
+                                                          </tr>
+                                                      {% endfor %}
+                                                      </table>
+                                                  </div>#} {# END FIXME #}
+                                              </div>
+                                              </div>
+                                              <br>
+                                              <!-- This is the select button which triggers a modal and accomplishes a set of important tasks such as diabling the rooms for futire room prefrences (SEE JAVASCRIPT RELATED TO IT)-->
+                                              <div class="row">
+                                                  <button name="selectButton" id="selectButton" value="" class="btn btn-primary" onclick="setModalText(this)" type="button" style="float: right;" data-toggle="modal" data-target="#exampleModal"> Select</button>
+                                              </div>
+                                              <!-- this brings the preference notes modal-->
+                                              <!-- this is the modal leading to all the changes on the page, it has a cancel button for closing the modal -->
+                                              </div>
+                                              <form role="form">
+                                                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                      <div class="modal-dialog" role="document">
+                                                          <div class="modal-content">
+                                                              <div class="modal-header" style="background-color: #2c3e50;">
+                                                                  <p style="color: white;" id="modelRoom"></p>
+                                                              </div>
+                                                              <div class="modal-body" align="left">
+                                                                  <div class="alert alert-warning alert-dismissible" hidden role="alert">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                      <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    Please indicate why you selected these room preferences.
+                                                                  </div>
+                                                                  <div class="form-group">Indicate why you need these preferences: </label>
+                                                                      <textarea class="form-control" id="message-text" name="message-text" required="true"></textarea>
+                                                                  </div>
+
+                                                              </div>
+                                                              <div class="modal-footer" padding: "10px" style="margin-right:.4em;">
 
 
-                                                            {# <div class ="row">
-                                                                <div class="col-sm-6" align ="center">
-                                                                    <button  type="button" id="selectAny" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
-                                                                </div>
-                                                                <div class="col-sm-6" align= "center">
-                                                                    <button  type="button" id="selectNone" class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
-                                                                </div>
-                                                            </div> #}
+                                                              {# <div class ="row">
+                                                                  <div class="col-sm-6" align ="center">
+                                                                      <button  type="button" id="selectAny" class="btn btn-primary" data-title="Add Another Preference" aria-hidden="true" onclick="saveValue(),goToNextPref(),setInstructions({{room.number}})" style="text-align:center">Save  &  Add <br> Another Preference </button>
+                                                                  </div>
+                                                                  <div class="col-sm-6" align= "center">
+                                                                      <button  type="button" id="selectNone" class="btn btn-primary" id = "NoOther" data-title="No Other Rooms Work" value = "no_other" onclick="saveValue(),remainingToNone()" >Save  &  No <br>Other Rooms Work</button><!---Need an onclick to save current preference data before diasbleing remaining--->
+                                                                  </div>
+                                                              </div> #}
 
-                                                            <br>
-                                                            <div class="row">
-                                                                <div class="col-sm-6" align = "left">
-                                                                    <button type="button" class="btn btn-warning"  data-dismiss="modal">Cancel</button>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    {# <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick='saveValue(),goToNextPref()'> Save & Close </button> #}
-                                                                    <button type="button" class="btn btn-primary" onclick='saveValue()'> Save & Close </button>
-                                                                </div>
-                                                            </div>
+                                                              <br>
+                                                              <div class="row">
+                                                                  <div class="col-sm-6" align = "left">
+                                                                      <button type="button" class="btn btn-warning"  data-dismiss="modal">Cancel</button>
+                                                                  </div>
+                                                                  <div class="col-sm-6">
+                                                                      {# <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick='saveValue(),goToNextPref()'> Save & Close </button> #}
+                                                                      <button type="button" class="btn btn-primary" onclick='saveValue()'> Save & Close </button>
+                                                                  </div>
+                                                              </div>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </form>
+                                          </div>
 
-                                        </div>
+                                          </div>
+                                      </div>
+                                      {# Image area #}
+                                      <div class="row col-sm-6">
+                                        <img alt="" title="" height="300" id="roomImg">
+                                      </div>
                                     </div>
                                 </div>
                             </div>

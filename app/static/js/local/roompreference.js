@@ -16,7 +16,7 @@ function getCurrentState() {
 }
 
 function setCurrentState(the_state) {
-    // console.log(the_state);    
+    // console.log(the_state);
     $("#row_state_" + getCourseId()).attr('value', the_state);
     // console.log($("#row_state_" + getCourseId()).val());
 }
@@ -99,14 +99,14 @@ function getRoomValueList(){                    // gets the values of the room p
     else{
         return roomValueListGlobal[arguments[0]-1];         //pref 1 to index 0, pref 2 to index 1, 3 to index 2
     }
-    
+
 }
 
 
 /*this function accesses room details using its id and then printing it out*/
 function room_detail(response){
     $("#roomCapacity").innerHTML=response["maxCapacity"];
-    console.log(response);
+    // console.log(response);
     $("#roomType").text(response["roomType"]);
 //    var my_div = document.getElementById('roomType');
 //    my_div.innerHTML = response['roomType'];
@@ -125,15 +125,15 @@ function room_detail(response){
         var check_or_x = ' No';
     }
     my_div.innerHTML = check_or_x;
-    
-   
+
+
     if(response['audioAcc']){
         document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : " + (response['audioAcc']).toString();
     } else {
         document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : ";
     }
      if(response['visualAcc']){
-        
+
         document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : " + (response['visualAcc']).toString();
     } else {
         document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : ";
@@ -144,13 +144,22 @@ function room_detail(response){
         document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : ";
     }
     // education_detail(response);
+    if (response['roomImgURL']) {
+      $("#roomImg").attr("src", "/static/images/"+response['roomImgURL']);
+      $("#roomImg").attr("title", response['building'] + " " + response['number']);
+      $("#roomImg").attr("alt", response['building'] + " " + response['number']);
+
+;
+
+    }
+
 }
 
 /* The function below serves to take data from the python file and dumps it into the html file*/
 function goToRDetails(r,doishow) {
     $("#collapseOne #Details #withoutSelectButton").show();
     if($("#selectedRoom").val()) {
-       setRoomId($("#selectedRoom").val()); 
+       setRoomId($("#selectedRoom").val());
     }
 
     // console.log("inside RDets", getRoomId());
@@ -178,72 +187,86 @@ function goToRDetails(r,doishow) {
     if (getRoomId()<=0){
         $("#collapseOne #Details #withoutSelectButton").hide();
     }
-    
+
 }
 
 /*sets the glyphicons for education tech for each room*/
 function education_detail(response){
-    document.getElementById("projectors").innerHTML = response['projector'];
-    document.getElementById("smartboards").innerHTML = response['smartboards'];
-    document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
-    document.getElementById("podiums").innerHTML = response['podium'];
-    document.getElementById("student_workstations").innerHTML = response['student_workspace'];
-    document.getElementById("chalkboards").innerHTML = response['chalkboards'];
-    document.getElementById("whiteboards").innerHTML = response['whiteboards'];
-    if(response['dvd']){
-        document.getElementById("dvd").innerHTML = "Yes";
-    } else {
-        document.getElementById("dvd").innerHTML = "No";
-    }
-    if(response['audio']){
-        document.getElementById("audio").innerHTML = "Yes";
-    } else {
-        document.getElementById("audio").innerHTML = "No";
-    }
-    if(response['blu_ray']){
-        document.getElementById("blu_ray").innerHTML = "Yes";
-    } else {
-        document.getElementById("blu_ray").innerHTML = "No";
-    }
-    if(response['extro']){
-        document.getElementById("extro").innerHTML = "Yes";
-    } else {
-        document.getElementById("extro").innerHTML = "No";
-    }
-    if(response['doc_cam']){
-        document.getElementById("doc_cam").innerHTML = "Yes";
-    } else {
-        document.getElementById("doc_cam").innerHTML = "No";
-    }
-    if(response['vhs']){
-        document.getElementById("vhs").innerHTML = "Yes";
-    } else {
-        document.getElementById("vhs").innerHTML = "No";
-    }
-    if(response['tech_chart']){
-        document.getElementById("tech_chart").innerHTML = "Yes";
-    } else {
-        document.getElementById("tech_chart").innerHTML = "No";
-    }
-    if(response['mondopad']){
-        document.getElementById("mondopad").innerHTML = "Yes";
-    } else {
-        document.getElementById("mondopad").innerHTML = "No";
-    }
+  tableBody = $("#edTechHardware");
+  tableBody.empty();
+    $.each(response, function(k, v) {
+      if (String(v) != "false" && k.toLowerCase() != "eid") {
+         newBody = `<tr>
+          <td>||keyCapped||</td>
+          <td><span class="edTech" id="||key||" style="float:left;" >||value||</span></td>
+        </tr>`.replace("||value||", v).replace("||key||", k).replace("true", "Yes");
+        k = k.charAt(0).toUpperCase() + k.substr(1).toLowerCase();
+        newBody = newBody.replace("||keyCapped||", k).replace("_", " ");
+        tableBody.append(newBody);
+      }
+    });
+    // document.getElementById("projectors").innerHTML = response['projector'];
+    // document.getElementById("smartboards").innerHTML = response['smartboards'];
+    // document.getElementById("instructor_computers").innerHTML = response['instructor_computers'];
+    // document.getElementById("podiums").innerHTML = response['podium'];
+    // document.getElementById("student_workstations").innerHTML = response['student_workspace'];
+    // document.getElementById("chalkboards").innerHTML = response['chalkboards'];
+    // document.getElementById("whiteboards").innerHTML = response['whiteboards'];
+    // if(response['dvd']){
+    //     document.getElementById("dvd").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("dvd").innerHTML = "No";
+    // }
+    // if(response['audio']){
+    //     document.getElementById("audio").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("audio").innerHTML = "No";
+    // }
+    // if(response['blu_ray']){
+    //     document.getElementById("blu_ray").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("blu_ray").innerHTML = "No";
+    // }
+    // if(response['extro']){
+    //     document.getElementById("extro").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("extro").innerHTML = "No";
+    // }
+    // if(response['doc_cam']){
+    //     document.getElementById("doc_cam").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("doc_cam").innerHTML = "No";
+    // }
+    // if(response['vhs']){
+    //     document.getElementById("vhs").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("vhs").innerHTML = "No";
+    // }
+    // if(response['tech_chart']){
+    //     document.getElementById("tech_chart").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("tech_chart").innerHTML = "No";
+    // }
+    // if(response['mondopad']){
+    //     document.getElementById("mondopad").innerHTML = "Yes";
+    // } else {
+    //     document.getElementById("mondopad").innerHTML = "No";
+    // }
 }
 
 
 /* This function serves to take data from the python file and dumps into html file on the UI after taking from the education_detail()*/
 function goto_educationTech() {
-  
+
     // var room_id= $("#selectedRoom").val()
-   
+
     selected_value = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();
     // console.log("goTo_edtech rID: ", getRoomId());
     // setRoomId(selected_value);
     var room_id = getRoomId();
     // console.log("room id: ", room_id);
     if(room_id){
+         $(".edTech").empty();
          var url = '/education_Tech/'+room_id;
         //  console.log(url)
          $.ajax({
@@ -251,15 +274,11 @@ function goto_educationTech() {
                 dataType: 'json',
                 type:'GET',
                 success: function(response){
-                    // console.log("Hello", response)
                     education_detail(response); //a function with education tech details
-                    console.log("success"+ response);
-                },
-                error: function(error) {
-                console.log(error);
+                    $("#Details").show();
                 }
             });
-    $("#Details").show();}
+    }
 }
 
 /* Removes background color on all rows */
@@ -269,8 +288,8 @@ function removeAllStriping() {
         ctr.removeClass("bg-cas");
     }
  }
- 
- 
+
+
  /*This function serves to set up the value of each preference after the user clicks on each prefrence
 tracks which button are pressed last
 managers the options in the room selecy drop down the first preferecne should have this room do not require a room while p2 and p3 have no other room works
@@ -285,58 +304,58 @@ function setPreference(){
     var p1 = $("#prefButton1_"+getCourseId()).val(); // setting the pref values
     var p2 = $("#prefButton2_"+getCourseId()).val();
     var p3 = $("#prefButton3_"+getCourseId()).val();
-    
+
     // console.log(p1, p2, p3)
-    
+
     // Setting the current state in into the UI for future reference
     currentStateInitializer(p1, p2, p3);
-    
-    
-    
+
+
+
     setPrefList(1,p1);
     setPrefList(2,p2);
     setPrefList(3,p3);
-   
+
     enableAllRooms();
     // Disable three rooms if it's a room only
     if (p1 > 0) {
-        disableRoom(p1); // selected rooms are being disabled here 
+        disableRoom(p1); // selected rooms are being disabled here
     }
     if (p2 > 0) {
-        disableRoom(p2); // selected rooms are being disabled here 
+        disableRoom(p2); // selected rooms are being disabled here
     }
     if (p3 > 0) {
-        disableRoom(p3); // selected rooms are being disabled here 
+        disableRoom(p3); // selected rooms are being disabled here
     }
-    
-   
+
+
     var currentButton = "prefButton"+getPrefId()+"_"+getCourseId();
     $("#" + getLastPressedButton()).removeClass("btn-primary"); /this jquery makes the preference button active when you click one of them */
     $("#" + getLastPressedButton()).addClass("btn-secondary");
     $("#"+currentButton).removeClass("btn-secondary");
     $("#"+currentButton).addClass("btn-primary");
-    
+
     if (getPrefId() == 1) {
         document.getElementById("noRoom").innerHTML = "This Course Does not Required A Room";
-    } 
+    }
     else { //Changes text to "This course does not need a room" if on first preference only
         document.getElementById("noRoom").innerHTML = "No other rooms work";
     }
-    
+
     if (getLastPressedButton() != "") {
         var currentAriaState = document.getElementById(currentButton).getAttribute("aria-expanded");
         if (getLastPressedButton() == currentButton) {
             currentAriaState = !currentAriaState;
             $('#firstCollapser').collapse('show');      // seems counterintuitive to show; bootstrap hides it, then this line shows it again
-            
+
         } else {
             $('#firstCollapser').collapse('hide');      // seems counterintuitive to hide; bootstrap shows it, then this line hides it again
         }
     }
-    
+
     setLastButtonPressed(currentButton);
-    fixSelectPicker();  
-    
+    fixSelectPicker();
+
     // This section sets the value of the Select button used after a user chooses a room
     var pID = $("#prefButton"+getPrefId()+"_"+getCourseId()).val();     // THIS IS A ROOM ID!!!!
     // console.log("Inside SetPrefs", getRoomId(), "/", pID);
@@ -344,42 +363,42 @@ function setPreference(){
     // console.log("Inside SetPrefs, after setroomid", getRoomId(), "/", pID);
     var new_value = getPrefId() + '_' + pID + "_" + getCourseId();
     $("#selectButton").val(new_value);
-   
+
     setSelectedRoom(pID);
-    
+
     moveModal(getCourseId());
     $("#collapseOne #Details").hide();
 
     if (getPrefList(getPrefId())>0){
         goToRDetails(document.getElementById("selectedRoom"),true);
     }
-    
+
     $('#roomPickHeader').text('Pick a Room for Preference '+getPrefId()+":").data('text'); // Updates the 'Pick a room ' text for each preference
-    
+
     PageLoad();
 }
 
 function stateZero(pref_num, val){// This function handles the functionalities of the first state which is 'AAA'= any room works in all three  preferences
-    console.log("Going to ", states[6]);
-    console.log("Val ", val);
+    // console.log("Going to ", states[6]);
+    // console.log("Val ", val);
     if (val == 0){
         return; // 'AAA'
     }
-    
+
     else if (val == -1){
         setCurrentState(states[6]); // 'NNN'
     }
     else{
         setCurrentState(states[1]); // 'RAA'
     }
-    
+
 }
 
 function stateOne(pref_num, val){ // State One is: 'RAA'
     if (val == 0){
         if (pref_num == 1){
             setCurrentState(states[0]); // 'AAA'
-        } 
+        }
         else if (pref_num == 2 || pref_num == 3){
             return; // Returns to itself
         }
@@ -399,7 +418,7 @@ function stateOne(pref_num, val){ // State One is: 'RAA'
         else if (pref_num == 2){
             setCurrentState(states[4]); // 'RRA'
         }
-    
+
     }
 }
 
@@ -407,7 +426,7 @@ function stateTwo(pref_num, val){ // State Two is: 'RNN'
     if (val == 0 ){
         if (pref_num == 1){
             setCurrentState(states[0]); // 'AAA'
-        }    
+        }
         else if (pref_num == 2){
             setCurrentState(states[1]); // 'RAA'
         }
@@ -434,7 +453,7 @@ function stateThree(pref_num, val){ //State Three is 'RRN'
     if (val == 0) {
         if (pref_num == 1){
             setCurrentState(states[0]); // 'AAA'
-        } 
+        }
         else if (pref_num == 2){
             setCurrentState(states[1]); // 'RAA'
         }
@@ -444,7 +463,7 @@ function stateThree(pref_num, val){ //State Three is 'RRN'
     }
     else if (val == -1){
         if (pref_num == 1){
-            setCurrentState(states[6]); // 'NNN'    
+            setCurrentState(states[6]); // 'NNN'
         }
         else if (pref_num == 2){
             setCurrentState(states[2]); // 'RNN'
@@ -469,7 +488,7 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
     if (val == 0){
         if (pref_num == 1){
             setCurrentState(states[0]); // 'AAA'
-        } 
+        }
         else if (pref_num == 2){
             setCurrentState(states[1]); // 'RAA'
         }
@@ -480,7 +499,7 @@ function stateFour(pref_num, val){  // State Four: 'RRA'
     else if (val == -1){
         if (pref_num == 1){
             setCurrentState(states[6]); // 'NNN'
-        } 
+        }
         else if (pref_num == 2){
             setCurrentState(states[2]); // 'RNN'
         }
@@ -525,7 +544,7 @@ function stateFive(pref_num, val){ // State Five is RRR
     else{
         return; // Do nothing because the state is already in state RRR
     }
-    
+
 }
 
 function stateSix(pref_num, val){ // State 6 is 'NNN'
@@ -535,7 +554,7 @@ function stateSix(pref_num, val){ // State 6 is 'NNN'
         setCurrentState(states[0]); // 'AAA'
     }
     else if (val == -1) {
-        return; // Returns to itself 
+        return; // Returns to itself
     }
     else {
         setCurrentState(states[2]); // 'RNN'
@@ -548,7 +567,7 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
    // console.log("Same as 0? ", getCurrentState() == states[0]);
   //  console.log("Same as 6? ", getCurrentState() == states[6]);
     if (getCurrentState() == states[0]){ // If the current state is state zero, call the stateZero function that will determine based on the choice the user made, what the next state will be for a course
-        stateZero(pref_num, val); 
+        stateZero(pref_num, val);
     }
     else if (getCurrentState() == states[1]){
         stateOne(pref_num, val);
@@ -572,7 +591,7 @@ function preferenceHandler(pref_num, val){ /* -determines states of the course, 
 }
 
 function currentStateInitializer(pref_button1,pref_button2,pref_button3){
-    // This function initializes the state of a course whenever the user clicks on a preference button. 
+    // This function initializes the state of a course whenever the user clicks on a preference button.
     if (pref_button1 == 0) {
         // AAA
         setCurrentState(states[0]);
@@ -599,18 +618,18 @@ function currentStateInitializer(pref_button1,pref_button2,pref_button3){
             }
         }
     }
-    
+
     // console.log("Initializing State", getCurrentState());
 }
 
-function updateUIButtonStates(){ 
-    // Goes through all three states and updates the text in the three buttons to match the state.  
+function updateUIButtonStates(){
+    // Goes through all three states and updates the text in the three buttons to match the state.
     // Assumes currentState has the correct value
     for (var i = 0; i < getCurrentState().length; i++) {
             // go through each state and update UI
             // console.log("State ", i, ":", getCurrentState()[i]);
             var pref_button = document.getElementById("prefButton"+ (i+1).toString() + "_" +  getCourseId());
-           
+
             if (getCurrentState()[i] == "A") {
                 pref_button.value  = 0;
                 pref_button.innerHTML = 'Any Room Works';
@@ -632,14 +651,14 @@ function updateUIButtonStates(){
                 pref_button.value  = -1;
                 // console.log("N");
                 // console.log(pref_button);
-                
+
             } else if (getCurrentState()[i] == "R") {
                 if (i + 1 == getPrefId()) {
                     pref_button.value  = getRoomId();
                     pref_button.innerHTML = room;
                     // console.log("R");
                     // console.log(pref_button);
-                
+
                     if (i < 2) { // This enables the next button once you've set a preference
                         var next_button = document.getElementById("prefButton"+ (i+2).toString() + "_" +  getCourseId());
                         $(next_button).prop('disabled', false);
@@ -647,7 +666,7 @@ function updateUIButtonStates(){
                 }
         }
     }
-    
+
     PageLoad();
 
 }
@@ -655,15 +674,15 @@ function updateUIButtonStates(){
 // No longer needed
 // function updateUIButtonClickability() {
 //     for (var i = 0; i < getCurrentState().length; i++) {
-        
+
 //     }
-    
+
 // }
 
 
 /* Saves values, and Sets button to value*/
 function saveValue(){
-    
+
     // preferenceHandler(getPrefId(), getRoomId());
     var textarea = document.getElementById('message-text');
     var note = textarea.value.trim();
@@ -696,9 +715,9 @@ function saveValue(){
                             alert(err.Message);
                        }
             });
-    
+
          // Changes the color of the buttons
-         
+
         $("#exampleModal").removeClass("fade");
         $("#exampleModal").modal('hide');
         // FIXME
@@ -751,13 +770,13 @@ function setModalText(button){
     var e = document.getElementById("selectedRoom");
     var course_id = getCourseId();
     room = e.options[e.selectedIndex].text;
-    
+
     // FIXME: This is for the two buttons in the select/confirmation modal besides the Save & Close button at the bottomm
     // if (e.options[e.selectedIndex].value < 1){
     //     document.getElementById("selectAny").disabled = true;
     //     document.getElementById("selectNone").disabled = true;
     // }
-    
+
     setRoomId(e.options[e.selectedIndex].value);
     var roomModel= document.getElementById("modelRoom");
     var courseinfo= document.getElementById("courseInfo_"+course_id.toString());
@@ -773,18 +792,15 @@ function setModalText(button){
     // console.log(room)
     roomModel.innerHTML= modelSentence;
     document.getElementById("selectButton").value = button.value;
-    
+
     getNotes()
 }
 
-
-
-
 /* Goes to the next preference after one preference value is selected */
-// FIXME Delete? Probably 
+// FIXME Delete? Probably
 function goToNextPref() {
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
-        
+
     if (getPrefId() < 3 && (button > 0)) {
         setPrefID(getPrefId() + 1);
         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
@@ -793,10 +809,10 @@ function goToNextPref() {
         nextButton.value = 0;
         nextButton.innerText  = "Any Room Works";
         nextButton.disabled = false;
-            
+
         }
     }
-    
+
     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
     button.click();
 }
@@ -807,7 +823,7 @@ function enableAllRooms() {
     for(var i = 0; i < selectRoom.length; i++) {// enables everything
         if(selectRoom[i].id != 'donotTouch') {
             selectRoom[i].disabled = false;
-            
+
         }
     }
 }
@@ -815,13 +831,13 @@ function enableAllRooms() {
 /*Disables selected room from other preference*/
 function disableRoom() {
     var selectRoom = document.getElementById('selectedRoom');// gets the dropdown for rooms
-     
+
     for (var i = 0; i < arguments.length; i++) {// Disables options
         if (arguments[i] != 0){
             $('#selectedRoom option[value="'+arguments[i]+'"]').prop('disabled', true);
         }
     }
-    // $("#selectedRoom").selectpicker('refresh'); // commented out this refresh to disable the selected room 
+    // $("#selectedRoom").selectpicker('refresh'); // commented out this refresh to disable the selected room
 }
 
 /*This function access the preference and course ID in order to save and post of each preference to the database */
@@ -852,7 +868,7 @@ function getNotes(){
   var url = "/getNotes/" + getCourseId();
   var textarea = document.getElementById('message-text');
   textarea.value = "";
-  
+
   $.ajax({
     type: "GET",
      url: url,
@@ -875,7 +891,7 @@ function getNotes(){
 // /*This function hadles no other rooms work button to set the remaining preferences to NONE */
 // function remainingToNone(){
 //     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId()).value;
-    
+
 //     if (getPrefId() < 3 && (button > 0) ) {
 //         setPrefID(getPrefId() + 1);
 //         var nextButton = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
@@ -883,7 +899,7 @@ function getNotes(){
 //         nextButton.innerText  = "No other room works";
 //         nextButton.disabled = false;
 //         setRoomId(-1);
-        
+
 //         var url= '/postPreference';
 //         $.ajax({
 //              type: "POST",
@@ -900,7 +916,7 @@ function getNotes(){
 //                   }
 //         });
 //     }
-    
+
 //     var button = document.getElementById("prefButton"+ getPrefId() + "_" +  getCourseId());
 //     button.click();
 // }
@@ -910,8 +926,8 @@ function getNotes(){
 function getNoteId() {
     var noteId = 1;
     if (getPrefList(1)==0){//Caters for the case Notes1 Any available rooms, (0,0,0)
-        noteId = 1;    
-    } 
+        noteId = 1;
+    }
     else if  (getPrefList(1)>0 && getPrefList(2)==0){ //(#,0,0)
         noteId = 2;
     }
@@ -922,13 +938,13 @@ function getNoteId() {
         noteId = 4;
     }
     else if  (getPrefList(1)>0 && getPrefList(2)<0){ //(#,-1,-1)
-        noteId = 5; 
+        noteId = 5;
     }
     else if(getPrefList(1)>0 && getPrefList(2)>0 && getPrefList(3)<0){ //Notes6 Pref 1 value, pref 2 value, no other rooms work (#,#,-1)
-        noteId = 6; 
+        noteId = 6;
     }
     else if(getPrefList(1)<0){// handles case Notes7 where the professor chooses no room needed for the course
-        noteId = 7; 
+        noteId = 7;
     }
     return noteId;
 }
@@ -944,16 +960,16 @@ function setInstructions(course) {
     target_text = target_text.replace("||pref_3||", getRoomValueList(3));
     target.html(target_text);
     target.show();
-    destination.html(target.html());    
+    destination.html(target.html());
 }
- 
-/* Connects with the setInstrucions function to initialize RoomValueList and PrefList on PageLoad() */    
+
+/* Connects with the setInstrucions function to initialize RoomValueList and PrefList on PageLoad() */
 function setRoomValueListFirstTime(course) { //Initializes RoomValueList. Called in Pageload
     setRoomValueList(1, $("#prefButton1" + "_" + course).html());
-    setRoomValueList(2, $("#prefButton2" + "_" + course).html()); 
-    setRoomValueList(3, $("#prefButton3" + "_" + course).html()); 
-    setPrefList(1, $("#prefButton1" + "_" + course).val()); 
-    setPrefList(2, $("#prefButton2" + "_" + course).val()); 
+    setRoomValueList(2, $("#prefButton2" + "_" + course).html());
+    setRoomValueList(3, $("#prefButton3" + "_" + course).html());
+    setPrefList(1, $("#prefButton1" + "_" + course).val());
+    setPrefList(2, $("#prefButton2" + "_" + course).val());
     setPrefList(3, $("#prefButton3" + "_" + course).val());
 }
 
@@ -967,7 +983,7 @@ function PageLoad () {
         setInstructions(course);
     }
     // hideFirstPreferences();
-    enableButtonsOnPageLoad();    
+    enableButtonsOnPageLoad();
     // Set hidden input to correct state on page load
 }
 
@@ -981,7 +997,7 @@ function enableButtonsOnPageLoad(){
         var pref1 = document.getElementById("prefButton1_" + course);
         var pref2 = document.getElementById("prefButton2_" + course);
         var pref3 = document.getElementById("prefButton3_" + course);
-        
+
         // Sets correct language based on which preference button
         if(pref1.value == -1){
             pref1.innerText  = "This course does not require a room";
@@ -992,8 +1008,8 @@ function enableButtonsOnPageLoad(){
         else if(pref3.value == -1){
             pref3.innerText  = "No other rooms work";
         }
-        
-        // Enables disabled buttons as long as 
+
+        // Enables disabled buttons as long as
         pref1.disabled = false;
         if (pref1.value > 0){
             pref2.disabled = false;
@@ -1001,6 +1017,6 @@ function enableButtonsOnPageLoad(){
         if (pref2.value > 0){
                 pref3.disabled = false;
         }
-            
+
     }
 }

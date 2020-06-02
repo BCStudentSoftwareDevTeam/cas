@@ -2,9 +2,9 @@
 <div class="modal fade" id="edTechModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="alert alert-danger">
+      {#<div class="alert alert-danger">
         <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-      </div>
+      </div> #}
       <div class="modal-header">
         <span class="modal-title" id="exampleModalCenterTitle"><font size="18"> Education Tech: </font></span>
         <button type="button"  class="close" class="btn btn-primary"  style="color: red; line-height: 3" data-dismiss="modal" aria-label="Close">
@@ -14,15 +14,15 @@
       <div class="modal-body">
        <div class="table-responsive">
         <table class="table table-striped">
-            <tbody>
-            {# {% for items in educationTech %}     <!-- Shall be a list -->#}
-            <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SELECTED WITH RESPECT TO EDUCATION TECH-->  
-                    <tr>
+            <tbody id="edTechHardware">
+            {# {% for items in educationTech %}     <!-- Shall be a list -->
+            <!--LOOP FOR GOING THROUGH STUFF IN THE ROOM SELECTED WITH RESPECT TO EDUCATION TECH-->
+                      <tr>
                           <td>
-                                Chalkboard(s): 
+                                Chalkboard(s):
                           </td>
                           <td>
-                            <span id="chalkboards" style="float:left;" ></span>
+                            <span class="edTech" id="chalkboards" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
@@ -30,24 +30,24 @@
                               Instructor Computer(s):
                           </td>
                           <td>
-                            <span id="instructor_computers" style="float:left;" ></span>
+                            <span class="edTech" id="instructor_computers" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Projector(s): 
+                               Projector(s):
                           </td>
                           <td>
-                            <span id="projectors" style="float:left;" ></span>
+                            <span class="edTech" id="projectors" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
                             Podium:
-                               
+
                           </td>
                           <td>
-                            <span id="podiums" style="float:left;" > </span>
+                            <span class="edTech" id="podiums" style="float:left;" > </span>
                           </td>
                       </tr>
                       <tr>
@@ -55,92 +55,92 @@
                                Smartboard(s):
                           </td>
                           <td>
-                            <span id="smartboards" style="float:left;" > </span>
+                            <span class="edTech" id="smartboards" style="float:left;" > </span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                            Students Workstation(s): 
+                            Students Workstation(s):
                           </td>
                           <td>
-                            <span id="student_workstations" style="float:left;" ></span>
+                            <span class="edTech" id="student_workstations" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Whiteboards: 
+                               Whiteboards:
                           </td>
                           <td>
-                            <span id="whiteboards" style="float:left;" ></span>
+                            <span class="edTech" id="whiteboards" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               DVD: 
+                               DVD:
                           </td>
                           <td>
-                               <span id="dvdIcon" style="float:left;" ></span> 
+                               <span class="edTech" id="dvd" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Audio: 
+                               Audio:
                           </td>
                           <td>
-                               <span id="audioIcon" style="float:left;" ></span>
+                               <span class="edTech" id="audio" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Blu-Ray: 
+                               Blu-Ray:
                           </td>
                           <td>
-                               <span id="blu_rayIcon" style="float:left;" ></span>
+                               <span class="edTech" id="blu_ray" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Extro: 
+                               Extro:
                           </td>
                           <td>
-                               <span id="extroIcon" style="float:left;"></span>
+                               <span class="edTech" id="extro" style="float:left;"></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Doc Cam: 
+                               Doc Cam:
                           </td>
                           <td>
-                               <span id="doc_camIcon" style="float:left;"></span>
+                               <span class="edTech" id="doc_cam" style="float:left;"></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               VHS: 
+                               VHS:
                           </td>
                           <td>
-                               <span id="vhsIcon" style="float:left;" ></span>
+                               <span class="edTech" id="vhs" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Mondopad: 
+                               Mondopad:
                           </td>
                           <td>
-                               <span id="mondopadIcon" style="float:left;" ></span>
+                               <span class="edTech" id="mondopad" style="float:left;" ></span>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                               Technology Cart: 
+                               Technology Cart:
                           </td>
                           <td>
-                               <span id="tech_chartIcon" style="float:left;" ></span>
+                               <span class="edTech" id="tech_chart" style="float:left;" ></span>
                           </td>
-                      </tr>
+                      </tr>#}
             {# {% endfor %} #}
             </tbody>
-        </table> 
+        </table>
        </div>
       </div>
       <div class="modal-footer">
@@ -150,5 +150,3 @@
     </div>
   </div>
 </div>
-                                                        
-                                                        

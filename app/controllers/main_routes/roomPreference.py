@@ -2,7 +2,8 @@ from app.controllers.main_routes import *
 from app.controllers.main_routes.main_routes import *
 
 from app.allImports import *
-from flask import render_template,flash
+from flask import render_template,flash, jsonify
+from playhouse.shortcuts import model_to_dict
 from app.logic.redirectBack import redirect_url
 # from app import app
 import json
@@ -77,6 +78,7 @@ def room_details(rid):
 
         details = Rooms.get(Rooms.rID == rid)
         room_materials["roomType"]=details.roomType
+        room_materials["building"]=details.building.name
         room_materials["number"]=details.number
         room_materials['maxCapacity']= details.maxCapacity
         room_materials['visualAcc']= details.visualAcc
@@ -85,6 +87,7 @@ def room_details(rid):
         room_materials['specializedEq']= details.specializedEq
         room_materials['movableFurniture']=details.movableFurniture
         room_materials['specialFeatures']=details.specialFeatures
+        room_materials['roomImgURL']=details.roomImageURL
         room_materials['educationTech']=education_Tech(rid)
 
 
@@ -94,26 +97,8 @@ def room_details(rid):
 @main_bp.route('/education_Tech/<rid>', methods = ["GET"])
 def education_Tech(rid):
 
-    room = Rooms.get(Rooms.rID == rid)
-    tech_details = room.educationTech
-    education_materials={}
-    education_materials["projector"] = tech_details.projector
-    education_materials["smartboards"] = tech_details.smartboards
-    education_materials["instructor_computers"] = tech_details.instructor_computers
-    education_materials["podium"] = tech_details.podium
-    education_materials["student_workspace"] = tech_details.student_workspace
-    education_materials["chalkboards"] = tech_details.chalkboards
-    education_materials["whiteboards"] = tech_details.whiteboards
-    education_materials["dvd"]=tech_details.dvd
-    education_materials["blu_ray"]= tech_details.blu_ray
-    education_materials["audio"]= tech_details.audio
-    education_materials["extro"]=tech_details.extro
-    education_materials["doc_cam"]=tech_details.doc_cam
-    education_materials["vhs"]= tech_details.vhs
-    education_materials["mondopad"]=tech_details.mondopad
-    education_materials["tech_chart"]=tech_details.tech_chart
-    # print("Sending response to front end", education_materials)
-    return json.dumps(education_materials)
+    educationTech = Rooms.get(Rooms.rID == rid).educationTech
+    return json.dumps(model_to_dict(educationTech))
 
 
 @main_bp.route("/postPreference", methods=["POST"]) # This method serves to post data from the user input and dumps into the database

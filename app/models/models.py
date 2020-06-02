@@ -124,6 +124,7 @@ class Rooms(baseModel):
   specialFeatures  = CharField(null=True)
   movableFurniture = BooleanField()
   lastModified     = CharField(null=True) #This is implemented for the Building Manager interface. Dont think it will be needed anywhere else/break anything
+  roomImageURL     = CharField(null=True)
 
 class Program(baseModel):
   pID               = PrimaryKeyField()

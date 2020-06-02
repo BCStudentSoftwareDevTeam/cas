@@ -4,8 +4,8 @@ from app.models import *
 from app.loadConfig import *
 
 here = os.path.dirname(__file__)
-cfg       = load_config(os.path.join(here, 'app/config.yaml'))
-db	  = os.path.join(here,cfg['databases']['dev'])
+cfg       = load_config()
+
 
 # print("db", db)
 # mainDB    = SqliteDatabase(cfg['databases']['dev'])
@@ -16,8 +16,7 @@ db	  = os.path.join(here,cfg['databases']['dev'])
 #                           threadlocals = True
 #                           )
 
-mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
-
+mainDB     = MySQLDatabase ( cfg["db"]["db_name"], host = cfg["db"]["host"], user = cfg["db"]["username"], passwd = cfg["db"]["password"])
 
 # Creates the class that will be used by Peewee to store the database
 class dbModel (Model):
@@ -40,10 +39,7 @@ migrator = MySQLMigrator(mainDB)
 #         pass
 
 
-# Creates the class that will be used by Peewee to store the database
-class dbModel (Model):
-  class Meta:
-    database = mainDB
+
 
 
 # class TermStates(dbModel):
@@ -63,12 +59,12 @@ class dbModel (Model):
 # state_5 = TermStates(number = 5, order = 5, name = "rooms_assigned", display_name = "Assign Rooms").save()
 # state_6 = TermStates(number = 6, order = 6, name = "term_finished", display_name = "Finish").save()
 # state_7 = TermStates(number = 7, order = 7, name = "term_archived", display_name = "Archive").save()
-'''
-t = Term.select()
-for term in t:
-  term.algorithm_running = False
-  term.save()
-'''
+# '''
+# t = Term.select()
+# for term in t:
+#   term.algorithm_running = False
+#   term.save()
+# '''
 
 # my_db.drop_tables([RoomPreferences])
 
@@ -196,21 +192,32 @@ for term in t:
 # PART OF PR 265
 # migrate(
 #     migrator.add_column("rooms", "lastModified", CharField(null = True)))
-try:
-    mainDB.create_tables([CrossListed])
-except:
-    print("Table Crosslisted already exists")
+# try:
+#     mainDB.create_tables([CrossListed])
+# except:
+#     print("Table Crosslisted already exists")
+#
+# try:
+#     migrate(
+#         migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+#     )
+# except:
+#     print("Column lastModified in Table Rooms already exists")
+#
+# try:
+#     migrate(
+#         migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
+#     )
+# except:
+#     print("Column parentCourse_id in table Course already exists")
+
+#PART OF PR XXX (ADD IMAGES TO EACH ROOM)
+import os
+os.mkdir("app/static/images")
 
 try:
     migrate(
-        migrator.add_column('rooms', 'lastModified', CharField(null=True)),
+        migrator.add_column('rooms', 'roomImageURL', CharField(null=True)),
     )
 except:
-    print("Column lastModified in Table Rooms already exists")
-
-try:
-    migrate(
-        migrator.add_column('course', 'parentCourse_id', ForeignKeyField(Course, to_field = Course.cId, null=True, default=True))
-    )
-except:
-    print("Column parentCourse_id in table Course already exists")
+    print("Column roomImageURL in Table Rooms already exists")
