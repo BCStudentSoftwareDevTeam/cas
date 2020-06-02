@@ -1,6 +1,6 @@
 from peewee import *
 from playhouse.migrate import *
-from app.models import *
+from app.models.models import *
 from app.loadConfig import *
 
 here = os.path.dirname(__file__)
@@ -213,7 +213,10 @@ migrator = MySQLMigrator(mainDB)
 
 #PART OF PR XXX (ADD IMAGES TO EACH ROOM)
 import os
-os.mkdir("app/static/images")
+try:
+    os.mkdir("app/static/images")
+except:
+    pass
 
 try:
     migrate(

@@ -145,30 +145,54 @@ function room_detail(response){
     }
     // education_detail(response);
     if (response['roomImgURL']) {
-      // Link
+      // Create and enable the images
+      allImages = response['roomImgURL'].split(",")
       $("#imageModalLink").attr("data-target", "#imageModal");
-      // Thumbnail
-      $("#roomImg").attr({src: "/static/images/"+response['roomImgURL'],
-                          title: response['building'] + " " + response['number'],
-                          alt: response['building'] + " " + response['number']
-                        });
 
-      //Full size image
-      $("#roomImgFull").attr({src: "/static/images/"+response['roomImgURL'],
-                              title: response['building'] + " " + response['number'],
-                              alt: response['building'] + " " + response['number']
-                            });
+      // Set text for images
+      if (allImages.length == 1) {
+        $("#imageModalTitle").text(response['building'] + " " + response['number'] + ": " + allImages.length + " image")
+        $("#textOverImg").text(allImages.length + " image (click to see enlarged)");
+      } else {
+        $("#imageModalTitle").text(response['building'] + " " + response['number'] + ": " + allImages.length + " images")
+        $("#textOverImg").text(allImages.length + " images (click to see enlarged)");
+      }
+      for (i = 0; i < allImages.length; i++) {
+        // Full Size Image(s)
+        newID = "roomImgFull" + i;
+        newImg = $('<img id="' + newID + '" width="100%">')
+        newImg.attr({src: "/static/images/" + allImages[i].trim(),
+                    title: response['building'] + " " + response['number'],
+                    alt: response['building'] + " " + response['number']
+                  });
+        $("#imageModalBody").append(newImg);
+
+        //Thumbnail (just 1)
+        if (i == 0) {
+          $("#roomImg").attr({src: "/static/images/"+allImages[i].trim(),
+                      title: "Click to see all "+ allImages.length +" images, enlarged.",
+                      alt: response['building'] + " " + response['number']
+                    });
+        // $("#imageModalLink").append(newImg);
+
+        }
+      }
     }
 }
 
 /* The function below serves to take data from the python file and dumps it into the html file*/
 function goToRDetails(r,doishow) {
-    // Remove old information
+    // Remove old thumbnail and full size images
+    $("#textOverImg").text("No images");
     $("#imageModalLink").attr("data-target", "");
+    // Creates a 1px image
     $("#roomImg").attr({src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
                         title: "",
                         alt: ""
                       });
+    // Destroy all images in the modal
+    $("#imageModalBody").empty();
+
     $("#collapseOne #Details #withoutSelectButton").show();
     if($("#selectedRoom").val()) {
        setRoomId($("#selectedRoom").val());

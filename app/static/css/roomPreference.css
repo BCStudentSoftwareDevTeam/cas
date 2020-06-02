@@ -14,3 +14,15 @@
 #imageModal .modal-dialog{
   width: 80%
 }
+
+#imageModalBody img {
+  margin-bottom: 10px;
+}
+
+#imageModalLink .top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  background-color: white;
+  color: black;
+}
