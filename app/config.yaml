@@ -13,10 +13,10 @@ databaseAdmin:
   user: ['heggens','myersco']
 
 db:
-  db_name: FIXME
+  db_name: cas
   host: localhost
-  password: FIXME
-  username: FIXME
+  password: h3gg3nmy
+  username: root
 
 # Correct for display, but does not match DB.
 scheduleDays:
@@ -70,6 +70,8 @@ mainMenu:
     link: "/selectProgram"
   - title: "Room Preferences"
     link: "/selectTermRP"
+  - title: "Rooms"
+    link: "/static/classrooms.pdf"
   - title: "Log Out"
     link: "/logout"
 
