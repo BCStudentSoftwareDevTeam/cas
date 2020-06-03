@@ -9,6 +9,7 @@ from app.logic import courseLogic
 from app.logic import functions
 from app.models.models import Building, Rooms, BuildingManager
 from app.loadConfig import load_config
+from datetime import datetime
 
 #Running page
 @main_bp.route("/buildingManagement", methods=["GET"])
@@ -70,7 +71,7 @@ def saveChanges(rID):
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-        room.lastModified = (data['lastModified'])
+        room.lastModified = (datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")) # e.g., 06/02/2020 11:28:36 PM
         room.save()                                             #Save data
         return json.dumps({"success":1})
    except:

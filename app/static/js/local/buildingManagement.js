@@ -2,6 +2,7 @@
 // console.log("Javascript loaded!")
 
 var rIDGlobal = "";
+var lastRoomID = null;
 
 function setRoomId(rid){
     rIDGlobal=parseInt(rid);
@@ -13,13 +14,23 @@ function getRoomId(){
 function setRoomInfo(roomID, button){
     // '''For populating panel onClick of Edit button. updateHTML is called'''
     //Sets room ID based on what room (row) Edit button was clicked
-    setRoomId(roomID);
-    movePanel(roomID);
+    // A new room was selected; show roomDetails
 
+    if (roomID != lastRoomID) {
+      setRoomId(roomID);
+      movePanel();
+      console.log("changing RID from " + lastRoomID + " to " + roomID)
+      lastRoomID = roomID;
+      getRoomDetails();
+      $("#roomDetails").collapse('show');
+    } else {
+      $("#roomDetails").collapse('toggle');
+      // lastRoomID = null;
+    }
 
 }
 
-function movePanel(rID) {
+function movePanel() {
     //Takes rID to ensure correct room per row
     //Called in setRoomInfo
     var targetDiv = document.getElementById("hiddenRow_"+getRoomId());// hidden row where content will be placed
@@ -31,7 +42,7 @@ function movePanel(rID) {
 function updateHtml(response) {
     //Updates the HTML in panel.
     //Called in AJAX of setRoomInfo()
-    console.log("Starting updateHTML");
+    // console.log("Starting updateHTML");
     $('#roomNumber').text((response['building'] + " " + response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity');
     my_div.value = response['capacity'];
@@ -49,6 +60,12 @@ function updateHtml(response) {
     }
 
     // Update the selectpickers with values from DB
+    aa = $("#accessibility #audioAcc");
+    va = $("#accessibility #visualAcc");
+    pa = $("#accessibility #physicalAcc");
+    aa.selectpicker();
+    va.selectpicker();
+    pa.selectpicker();
     if (response['audioAcc'] != null) {
       $("#audioAcc").selectpicker('val', response['audioAcc']);
     } else {
@@ -67,17 +84,16 @@ function updateHtml(response) {
     $("#audioAcc").selectpicker('refresh');
     $("#visualAcc").selectpicker('refresh');
     $("#physicalAcc").selectpicker('refresh');
-    $("#roomDetails").collapse('show');
-    console.log($("#roomDetails"))
+    // console.log($("#roomDetails"))
+    //
+    // console.log("updateHTML over")
+};
 
-    console.log("updateHTML over")
-}
-
-$('#roomDetails').on('hidden.bs.collapse', function () {
-  console.log("I was hidden")
-})
-$('#roomDetails').on('show.bs.collapse', function () {
-  console.log("I was shown")
+// $('#roomDetails').on('hidden.bs.collapse', function () {
+//   console.log("I was hidden")
+// })
+function getRoomDetails() {
+  // console.log(this.id + " was shown")
   if (rIDGlobal > 0){
            var url = '/getRoomData/'+rIDGlobal;
            $.ajax({
@@ -95,39 +111,43 @@ $('#roomDetails').on('show.bs.collapse', function () {
                   }
               });
   }
-})
+};
+
 
 function saveChanges(roomID){
+    // KEEPING FOR POSTERITIES SAKE - SH
+
     //Sets up datetime, passes all room attributes into a dictionary for ajax,then posts data to DB and reloads the page
 
-    //Datetime setup
-    var dateTime = new Date();
-    var currHour = dateTime.getHours();
-    if (currHour < 12) //AM/PM setup
-       {
-       a_p = "AM";
-       }
-    else
-       {
-       a_p = "PM";
-       }
-    if (currHour == 0)
-       {
-       currHour = 12;
-       }
-    if (currHour > 12)
-       {
-       currHour = currHour - 12;
-       }
-
-    var currMin = dateTime.getMinutes();
-    currMin = currMin + "";
-    if (currMin.length == 1) //Getting JS to not do single digit minutes
-    {
-        currMin = "0" + currMin;
-    }
-    var savedDateTime=(dateTime.toDateString()+",  "+ currHour + " : " +currMin + " " + a_p); //Concatenation of all date elements into one var for passing into dictionary
+    // //Datetime setup
+    // var dateTime = new Date();
+    // var currHour = dateTime.getHours();
+    // if (currHour < 12) //AM/PM setup
+    //    {
+    //    a_p = "AM";
+    //    }
+    // else
+    //    {
+    //    a_p = "PM";
+    //    }
+    // if (currHour == 0)
+    //    {
+    //    currHour = 12;
+    //    }
+    // if (currHour > 12)
+    //    {
+    //    currHour = currHour - 12;
+    //    }
+    //
+    // var currMin = dateTime.getMinutes();
+    // currMin = currMin + "";
+    // if (currMin.length == 1) //Getting JS to not do single digit minutes
+    // {
+    //     currMin = "0" + currMin;
+    // }
+    // var savedDateTime=(dateTime.toDateString()+",  "+ currHour + ":" +currMin + " " + a_p); //Concatenation of all date elements into one var for passing into dictionary
     //End datetime setup
+
     //Begin dictionary pass for Ajax
     var roomDetails = {}//For passing into Ajax data field (multiple attributes to pass)
     roomDetails["roomCapacity"] = document.getElementById('roomCapacity').value;
@@ -264,7 +284,7 @@ function seteducationTech() {
                 type:'GET',
                 success: function(response){
                      if (response["success"] != 0) {//If successful
-			    education_detail(response); //a function with education tech details
+			                  education_detail(response); //a function with education tech details
                                                     }
                 },
                 error: function(error) {
