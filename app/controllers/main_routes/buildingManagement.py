@@ -66,7 +66,7 @@ def imageUpload(rid):
         file.save(os.path.join('app/static/images/', filename))
     except e:
         print(e)
-        return ("Failure", 500)
+        return ("Image failed to upload to the server", 500)
 
     # Update the DB
     room = Rooms.get(Rooms.rID == rid)
@@ -80,13 +80,17 @@ def imageUpload(rid):
 
 @main_bp.route("/getImages/<rid>", methods=["GET"])
 def getImages(rid):
-    images = Rooms.get(Rooms.rID == rid).roomImageURL
+    images = Rooms.get(Rooms.rID == rid)
     imageSet = []
-    if len(images) == 0:
+    if len(images.roomImageURL) == 0:
         return json.dumps(imageSet)
-    for img in images.split(","):
-        fileSize = os.path.getsize("app/static/images/" + img);
-        imageSet.append({"name": img, "size": fileSize})
+    for img in images.roomImageURL.split(","):
+        try:
+            fileSize = os.path.getsize("app/static/images/" + img);
+            imageSet.append({"name": img, "size": fileSize})
+        except:
+            images.roomImageURL.replace(img, "")
+            images.save()
     return json.dumps(imageSet)
 
 @main_bp.route("/removeImage", methods=["POST"])

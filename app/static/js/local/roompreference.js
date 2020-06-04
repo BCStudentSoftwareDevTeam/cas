@@ -774,6 +774,13 @@ function fixSelectPicker() {
     roomSelectModalDiv.empty();
     roomSelectModalDiv.html(realSelect);
     realSelect.selectpicker('refresh');
+
+    // Fixes image area
+    $("#roomImg").attr({src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
+                        title: "",
+                        alt: ""
+                      });
+    $("#textOverImg").text("No images.")
 }
 
 /** A function to move the modal into the hidden rows for each row of the table

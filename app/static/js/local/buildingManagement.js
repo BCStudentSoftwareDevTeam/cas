@@ -120,9 +120,9 @@ function doDropzoneSetup() {
                                   return "room_" + getRoomId() + "_" + new Date().getTime() + '.' + file.name.split(".").pop();
                                 },
                                 addRemoveLinks: true,
-                                maxFiles: 1,
-                                thumbnailWidth:"250",
-                                thumbnailHeight:"250",
+                                parallelUploads: 1,
+                                thumbnailWidth:"120",
+                                thumbnailHeight:"120",
                                 removedfile: function (file) {
                                   console.log("Remove from server");
                                   $.ajax({
@@ -167,7 +167,7 @@ function doDropzoneSetup() {
                                           console.log(error);
                                         }
                                   });
-                                  // 
+                                  //
                                   // this.on("success", function (file, message) {
                                   //   // console.log(message);
                                   // });
