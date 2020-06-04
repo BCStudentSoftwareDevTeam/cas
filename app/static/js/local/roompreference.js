@@ -128,20 +128,32 @@ function room_detail(response){
 
 
     if(response['audioAcc']){
-        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : " + (response['audioAcc']).toString();
+        $("#audioAccIcon").text("Audio Accessibility : " + (response['audioAcc']).toString());
+        $("#audioAccIcon").attr("title", (response['audioAcc']).toString());
+        $("#audioAccIcon").attr("data-original-title", (response['audioAcc']).toString());
     } else {
-        document.getElementById("audioAccIcon").innerHTML = "Audio Accessibility : ";
+        $("#audioAccIcon").text("Audio Accessibility : ");
+        $("#audioAccIcon").attr("title", "");
+        $("#audioAccIcon").attr("data-original-title", "");
     }
      if(response['visualAcc']){
 
-        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : " + (response['visualAcc']).toString();
+        $("#visualAccIcon").text("Visual Accessibility : " + (response['visualAcc']).toString());
+        $("#visualAccIcon").attr("title", (response['visualAcc']).toString());
+        $("#visualAccIcon").attr("data-original-title", (response['visualAcc']).toString());
     } else {
-        document.getElementById("visualAccIcon").innerHTML = "Visual Accessibility : ";
+        $("#visualAccIcon").text("Visual Accessibility : ");
+        $("#visualAccIcon").attr("title", "");
+        $("#visualAccIcon").attr("data-original-title", "");
     }
     if(response['physicalAcc']){
-        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : " + (response['physicalAcc']).toString()/*<span class='glyphicon glyphicon-font'></span>"*/;
+        $("#physicalAccIcon").text("Physical Accessibility : " + (response['physicalAcc']).toString());
+        $("#physicalAccIcon").attr("title", (response['physicalAcc']).toString());
+        $("#physicalAccIcon").attr("data-original-title", (response['physicalAcc']).toString());
     } else {
-        document.getElementById("physicalAccIcon").innerHTML = "Physical Accessibility : ";
+        $("#physicalAccIcon").text("Physical Accessibility : ");
+        $("#physicalAccIcon").attr("title", "");
+        $("#physicalAccIcon").attr("data-original-title", "");
     }
     // education_detail(response);
     if (response['roomImgURL']) {
