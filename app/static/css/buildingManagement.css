@@ -65,3 +65,7 @@
 .helpAcc {
   z-index: -2;
 }
+
+#imageUploaderDiv {
+  clear:both;
+}

@@ -105,7 +105,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="container">
-                                    <div class="row col-sm-6">
+                                    <div class="row col-sm-5">
+                                      {# Left column of modal#}
                                       <div class="row" id = "roomSelectModalDiv">
 
                                           <select onchange= "goToRDetails(this,true)" id="selectedRoom" class="selectpicker form-control" data-live-search="true" name="keyValue"> <!-- -->
@@ -255,6 +256,7 @@
 
                                           </div>
                                       </div>
+                                      <div class="col-sm-1"></div>
                                       {# Image area #}
                                       <div class="row col-sm-6">
                                         <a id="imageModalLink" data-toggle="modal" data-target="#imageModal">

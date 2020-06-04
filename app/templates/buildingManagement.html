@@ -26,7 +26,6 @@
                     <button type="button"
                             class="btn btn-primary"
                             id="Edit{{room.rid}}"
-                            {#data-toggle="collapse"#}
                             data-target="#roomDetails"
                             aria-expanded="false"
                             aria-controls="roomDetails"
@@ -85,6 +84,7 @@
                                     </div><br>
                                 </div>
                                 <div class="col-md-1"></div> <!--Empty div for spacing-->
+                                {# Second column #}
                                 <div class="col-md-5">
                                     <div class="row form-group" aria-labelledby="Movable Furniture">
 
@@ -104,13 +104,9 @@
                                                 onclick='seteducationTech()'>
                                             Open
                                         </button>
-
-                                        {#<!--TODO: pull from db. refer to roompreferences on developement
-                                        <!--<button type="button" style="margin-top: -.2em; margin-left: .3em;  padding: 3px 10px" -->
-                                        <!--class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edTechModal"> -->
-                                        <!--<a href="#" onclick = "educationTech()">Open</a></button> <!--TODO: pull from db. refer to roompreferences on developement-->
-                                        <!--<div class="modal-body" align="left"></div>-->#}
                                     </div>
+
+                                    {# Three Accessibility dropdowns #}
                                     <label for="accessibility"><strong>Accessibility:</strong></label>
                                     <div id="accessibility" class="col-sm-12 accessibilities row form-group" aria-labelledby="Accessibility">
                                       <div class="col-sm-4">
@@ -177,8 +173,23 @@
                                             <option value="C">C</option>
                                         </select>
                                       </div>
+                                    </div>
 
-
+                                    {# Image Uploader #}
+                                    <div id="imageUploaderDiv" class="row form-group" aria-labelledby="Image Preview and Upload">
+                                      <label for="imageUploader"><strong>Images: </strong></label>
+                                        {#<form id="uploader" action="/imageUpload" class="dropzone">
+                                          <div class="col-sm-8 fallback">
+                                            <input class="form-control"
+                                                   type="file"
+                                                   name="file"
+                                                   accept="image/*">
+                                          </div>
+                                          <!-- <div class="col-sm-4"> -->
+                                          <!-- <button class="btn btn-success" type="submit" >Submit Images</button> -->
+                                          <!-- </div> -->
+                                        </form>#}
+                                        <div id="myId" class="dropzone"></div>
                                     </div>
                                   </div>
                                 </div>
@@ -187,7 +198,14 @@
                                     <div class="row" id="submitChangesDiv">
                                         <div class="col-md-4"> </div>
                                         <div class="col-md-offset-4">
-                                            <button type="button" aria-labelledby="Submit Changes Button" class="btn btn-success" data-toggle="modal" data-target="#makeChanges"  id="submitChanges">Submit changes</button>
+                                            <button type="button"
+                                                    aria-labelledby="Submit Changes Button"
+                                                    class="btn btn-success"
+                                                    data-toggle="modal"
+                                                    data-target="#makeChanges"
+                                                    id="submitChanges">
+                                                    Submit changes
+                                            </button>
                                         </div>
 
                                     </div>

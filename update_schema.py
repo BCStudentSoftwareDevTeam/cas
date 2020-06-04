@@ -226,7 +226,7 @@ except:
     print("Column roomImageURL in Table Rooms already exists")
 
 imgs = [',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Stephenson_321Aa.jpg,Stephenson_321Ab.jpg']
-f = open("app/static/roomsMap.json")
+f = open("app/static/roomsMap.json")        # Preloaded data from Judy
 rms = json.load(f)
 
 for rm in rms:

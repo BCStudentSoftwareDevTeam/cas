@@ -19,7 +19,7 @@ function setRoomInfo(roomID, button){
     if (roomID != lastRoomID) {
       setRoomId(roomID);
       movePanel();
-      console.log("changing RID from " + lastRoomID + " to " + roomID)
+      // console.log("changing RID from " + lastRoomID + " to " + roomID)
       lastRoomID = roomID;
       getRoomDetails();
       $("#roomDetails").collapse('show');
@@ -43,6 +43,7 @@ function updateHtml(response) {
     //Updates the HTML in panel.
     //Called in AJAX of setRoomInfo()
     // console.log("Starting updateHTML");
+
     $('#roomNumber').text((response['building'] + " " + response['number']).toString()).data('text');
     var my_div = document.getElementById('roomCapacity');
     my_div.value = response['capacity'];
@@ -84,14 +85,8 @@ function updateHtml(response) {
     $("#audioAcc").selectpicker('refresh');
     $("#visualAcc").selectpicker('refresh');
     $("#physicalAcc").selectpicker('refresh');
-    // console.log($("#roomDetails"))
-    //
-    // console.log("updateHTML over")
 };
 
-// $('#roomDetails').on('hidden.bs.collapse', function () {
-//   console.log("I was hidden")
-// })
 function getRoomDetails() {
   // console.log(this.id + " was shown")
   if (rIDGlobal > 0){
@@ -104,6 +99,7 @@ function getRoomDetails() {
                     // console.log(response);
                       if (response["success"] != 0) {//If successful
                           updateHtml(response);//Update the panel with the data
+                          doDropzoneSetup();
                       }
                   },
                   error: function(error) {
@@ -113,6 +109,76 @@ function getRoomDetails() {
   }
 };
 
+function doDropzoneSetup() {
+  if (typeof dz != "undefined") {
+    dz.remove();
+    newdz = "<div id='myId' class='dropzone'></div>";
+    $("#imageUploaderDiv").append(newdz);
+  };
+  dz = $("div#myId").dropzone({ url: "/imageUpload/" + getRoomId(),
+                                renameFile: function (file) {
+                                  return "room_" + getRoomId() + "_" + new Date().getTime() + '.' + file.name.split(".").pop();
+                                },
+                                addRemoveLinks: true,
+                                maxFiles: 1,
+                                thumbnailWidth:"250",
+                                thumbnailHeight:"250",
+                                removedfile: function (file) {
+                                  console.log("Remove from server");
+                                  $.ajax({
+                                     type: "POST",
+                                        url: "/removeImage",
+                                        data: {"rid": getRoomId(),
+                                               "file": file.name
+                                              },   //Dictionary pass
+                                        dataType: 'json',
+                                        success: function(response){
+                                          // console.log(response)
+                                          file.previewElement.remove();
+                                        },
+                                        error: function(error){
+                                          console.log(error);
+                                        }
+                                  });
+                                },
+                                init: function () {
+                                  let myDropzone = this;
+                                  $.ajax({
+                                     type: "GET",
+                                        url: "/getImages/" + getRoomId(),
+                                        dataType: 'json',
+                                        success: function(response){
+                                          // console.log(response)
+                                          for (i = 0; i < response.length; i++) {
+                                            filename = response[i]["name"]
+                                            fileExt = filename.split(".").pop()
+                                            fileSize = response[i]["size"]
+                                            var mockFile = {
+                                                name: filename,
+                                                type: 'image/' + fileExt,
+                                                size: fileSize
+                                            };
+
+                                            myDropzone.displayExistingFile(mockFile, "/static/images/" + response[i]["name"]);
+                                          }
+                                        },
+
+                                        error: function(error){
+                                          console.log(error);
+                                        }
+                                  });
+                                  // 
+                                  // this.on("success", function (file, message) {
+                                  //   // console.log(message);
+                                  // });
+                                  //
+                                  // this.on("error", function (file, message) {
+                                  //   console.log(message)
+                                  // });
+                                }});
+  console.log(getRoomId());
+
+};
 
 function saveChanges(roomID){
     // KEEPING FOR POSTERITIES SAKE - SH
@@ -157,31 +223,22 @@ function saveChanges(roomID){
     roomDetails["movableFurniture"] = document.getElementById('movableFurniture').checked;
     roomDetails["visualAcc"] = $('#visualAcc option:selected').text();
     roomDetails["audioAcc"] = $('#audioAcc option:selected').text();
-
     roomDetails["physicalAcc"] = $('#physicalAcc option:selected').text();
 
-    // it is getting the right room ID even in the python file. However, it is not printing from the python file when changes are made. SO we still need
-    // work on saving the data the right way
-
-    roomDetails["lastModified"] = savedDateTime// document.getElementById('lastModified').value;
-
     var url = '/saveChanges/'+getRoomId();
-         $.ajax({
-             type: "POST",
-                url: url,
-                data: roomDetails,                              //Dictionary pass
-                dataType: 'json',
-                success: function(response){
-                        window.location = "/buildingManagement" //Refresh page
-
-                         createTimestamp() ;
-                         //Sets time stamp for Last Modified column, so that it is created after data is saved
-                },
-                error: function(error){
-                    console.log("ERROR")
-                    window.location.assign("/buildingManagement")
-                }
-         });
+    $.ajax({
+       type: "POST",
+          url: url,
+          data: roomDetails,                              //Dictionary pass
+          dataType: 'json',
+          success: function(response){
+                  window.location = "/buildingManagement" //Refresh page
+          },
+          error: function(error){
+              console.log("ERROR" + error)
+              window.location.assign("/buildingManagement")
+          }
+    });
 
 
 }
@@ -334,19 +391,22 @@ function saveEdTechChanges(roomID){
          });
 }
 
+
 /* keeps tracks of active modals, making sure that they remain responsive after closing an overlaying instance*/
 var modal_counter = 0;
 $(document).ready(function () {
-        $('.modal').on('shown.bs.modal', function () {
-            modal_counter++;
-        });
-        $('.modal').on('hidden.bs.modal', function () {
-            modal_counter--;
-            if(modal_counter){
-                $('body').addClass('modal-open');
-            }
-            else{
-                $('body').removeClass('modal-open');
-            }
-        });
+  Dropzone.options.myId = false;
+
+  $('.modal').on('shown.bs.modal', function () {
+      modal_counter++;
+  });
+  $('.modal').on('hidden.bs.modal', function () {
+      modal_counter--;
+      if(modal_counter){
+          $('body').addClass('modal-open');
+      }
+      else{
+          $('body').removeClass('modal-open');
+      }
+  });
 })

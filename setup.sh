@@ -40,3 +40,4 @@ pip install mysql-connector
 # pip install loadconfig
 pip install "pyyaml"
 pip install cryptography
+pip install pyopenssl

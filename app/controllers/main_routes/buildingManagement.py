@@ -11,6 +11,8 @@ from app.models.models import Building, Rooms, BuildingManager
 from app.loadConfig import load_config
 from datetime import datetime
 
+from werkzeug.utils import secure_filename
+
 #Running page
 @main_bp.route("/buildingManagement", methods=["GET"])
 def buildingManagement():                                   #Gathering of appropriate data to send to html
@@ -54,6 +56,53 @@ def getRoomData(rID):
     room_details["physicalAcc"] = room.physicalAcc
     return json.dumps(room_details)
 
+@main_bp.route("/imageUpload/<rid>", methods=["POST"])
+def imageUpload(rid):
+    print("RID: ", rid)
+    try:
+        # Save the files
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join('app/static/images/', filename))
+    except e:
+        print(e)
+        return ("Failure", 500)
+
+    # Update the DB
+    room = Rooms.get(Rooms.rID == rid)
+    if len(room.roomImageURL) == 0:
+        room.roomImageURL = filename
+    else:
+        room.roomImageURL += "," + filename
+    room.save()
+    print("Room image saved", room.roomImageURL)
+    return ("Success", 200)
+
+@main_bp.route("/getImages/<rid>", methods=["GET"])
+def getImages(rid):
+    images = Rooms.get(Rooms.rID == rid).roomImageURL
+    imageSet = []
+    if len(images) == 0:
+        return json.dumps(imageSet)
+    for img in images.split(","):
+        fileSize = os.path.getsize("app/static/images/" + img);
+        imageSet.append({"name": img, "size": fileSize})
+    return json.dumps(imageSet)
+
+@main_bp.route("/removeImage", methods=["POST"])
+def removeImage():
+    room = Rooms.get(Rooms.rID == request.form["rid"])
+    room.roomImageURL = room.roomImageURL.replace(request.form["file"], "").replace(",,", ",")
+    if len(room.roomImageURL) == 0:
+        room.save()
+        return json.dumps({"success":1})
+    if len(room.roomImageURL) > 0 and room.roomImageURL[0] == ",":
+        room.roomImageURL = room.roomImageURL[1:]
+    if len(room.roomImageURL) > 0 and room.roomImageURL[-1] == ",":
+        room.roomImageURL = room.roomImageURL[:-1]
+    room.save()
+    return json.dumps({"success":1})
+
 @main_bp.route("/saveChanges/<rID>", methods=["POST"])
 def saveChanges(rID):
 #Saves all room data EXCLUDING ed tech
@@ -71,7 +120,8 @@ def saveChanges(rID):
         room.visualAcc = (data['visualAcc'])
         room.audioAcc = (data['audioAcc'])
         room.physicalAcc = (data['physicalAcc'])
-        room.lastModified = (datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")) # e.g., 06/02/2020 11:28:36 PM
+        # e.g., 06/02/2020 11:28:36 PM
+        room.lastModified = (datetime.now().strftime("%m/%d/%Y %I:%M %p"))
         room.save()                                             #Save data
         return json.dumps({"success":1})
    except:
