@@ -124,7 +124,7 @@ function doDropzoneSetup() {
                                 thumbnailWidth:"120",
                                 thumbnailHeight:"120",
                                 removedfile: function (file) {
-                                  console.log("Remove from server");
+                                  // console.log("Remove from server");
                                   $.ajax({
                                      type: "POST",
                                         url: "/removeImage",
@@ -167,14 +167,6 @@ function doDropzoneSetup() {
                                           console.log(error);
                                         }
                                   });
-                                  //
-                                  // this.on("success", function (file, message) {
-                                  //   // console.log(message);
-                                  // });
-                                  //
-                                  // this.on("error", function (file, message) {
-                                  //   console.log(message)
-                                  // });
                                 }});
   console.log(getRoomId());
 
