@@ -15,7 +15,7 @@ databaseAdmin:
 db:
   db_name: cas
   host: localhost
-  password: okay
+  password: password # todo add your password
   username: root
 
 # Correct for display, but does not match DB.
