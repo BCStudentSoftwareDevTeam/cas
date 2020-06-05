@@ -16,28 +16,32 @@ mkdir -p data
 
 if [ ! -d venv ]
 then
-  virtualenv venv
+  python3 -m venv venv
 fi
 
 . venv/bin/activate
 
-pip install "Flask" # ==$FLASK_VERSION"
-pip install "peewee" #==$PEEWEE_VERSION
-# pip install "pyyaml==$PYAML_VERSION"
-pip install "XlsxWriter" #==$XLSXWRITER_VERSION"
-# needed to migrate the cas.sql
-# pip install "MySQL-python" #==$MYSQLPYTHON_VERSION"
-pip install "pymysql"
-pip install "flask-admin" # ==$FLASK_ADMIN_VERSION"
-pip install "wtf-peewee" # ==$WTF_PEEWEE_VERSION"
-pip install "flask_login" # ==$FLASK_LOGIN_VERSION"
-pip install git+https://github.com/memo330179/migrant-cli.git
-pip install --upgrade setuptools
-pip install flask-mysql
-pip install --upgrade pip enum34
-pip install mysql-connector
-# pip install libsqlite3-dev
-# pip install loadconfig
-pip install "pyyaml"
-pip install cryptography
-pip install pyopenssl
+python3 -m pip install --upgrade pip #added python-m for pip installs (source setup overwrite for venv)
+
+python3 -m pip install -r requirements.txt
+
+# pip install "Flask" # ==$FLASK_VERSION"
+# pip install "peewee" #==$PEEWEE_VERSION
+# # pip install "pyyaml==$PYAML_VERSION"
+# pip install "XlsxWriter" #==$XLSXWRITER_VERSION"
+# # needed to migrate the cas.sql
+# # pip install "MySQL-python" #==$MYSQLPYTHON_VERSION"
+# pip install "pymysql"
+# pip install "flask-admin" # ==$FLASK_ADMIN_VERSION"
+# pip install "wtf-peewee" # ==$WTF_PEEWEE_VERSION"
+# pip install "flask_login" # ==$FLASK_LOGIN_VERSION"
+# pip install git+https://github.com/memo330179/migrant-cli.git
+# pip install --upgrade setuptools
+# pip install flask-mysql
+# pip install --upgrade pip enum34
+# pip install mysql-connector
+# # pip install libsqlite3-dev
+# # pip install loadconfig
+# pip install "pyyaml"
+# pip install cryptography
+# pip install pyopenssl
