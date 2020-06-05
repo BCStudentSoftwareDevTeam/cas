@@ -217,20 +217,18 @@ try:
     os.mkdir("app/static/images")
 except:
     pass
-
+print("Start migrate")
 try:
-    migrate(
-        migrator.add_column('rooms,roomImageURL', CharField(null=True)),
-    )
-except:
-    print("Column roomImageURL in Table Rooms already exists")
+    migrate(migrator.add_column('rooms','roomImageURL', CharField(null=True)),)
+    print("Column added")
+except Exception as e:
+    print(e)
 
-imgs = [',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Stephenson_321Aa.jpg,Stephenson_321Ab.jpg']
 f = open("app/static/roomsMap.json")        # Preloaded data from Judy
 rms = json.load(f)
 
 for rm in rms:
     if rm["roomImageURL"] != "":
-        updateRoom = Rooms.get(rm["rID"])
+        updateRoom = Rooms.get(Rooms.rID == rm["rID"])
         updateRoom.roomImageURL = rm["roomImageURL"]
         updateRoom.save()
