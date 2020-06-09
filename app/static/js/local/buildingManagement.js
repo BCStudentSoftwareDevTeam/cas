@@ -123,6 +123,7 @@ function doDropzoneSetup() {
                                 parallelUploads: 1,
                                 thumbnailWidth:"120",
                                 thumbnailHeight:"120",
+                                acceptedFiles: "image/*",
                                 removedfile: function (file) {
                                   // console.log("Remove from server");
                                   $.ajax({

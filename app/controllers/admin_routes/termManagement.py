@@ -15,7 +15,7 @@ from app.loadConfig import load_config
 @admin_bp.route("/admin/termManagement", methods=["GET"])
 @must_be_admin
 def termManagement():
-
+      au = AuthorizedUser()
       terms = Term.select().where(Term.term_state <= 8) # Select all the terms for the terms table with the state buttons
 
 #      for term in terms:
@@ -40,7 +40,8 @@ def termManagement():
                               years          = years,
                               today          = today,
                               term_state     = term_state,
-                              cfg = cfg)
+                              cfg = cfg,
+                              isAdmin = au.user.isAdmin)
 
 def run_algorithm(termCode, term):
    room_assigner = RoomAssigner(termCode)

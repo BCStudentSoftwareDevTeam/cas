@@ -70,7 +70,9 @@ def imageUpload(rid):
 
     # Update the DB
     room = Rooms.get(Rooms.rID == rid)
-    if len(room.roomImageURL) == 0:
+    if not room.roomImageURL:
+        room.roomImageURL = filename
+    elif len(room.roomImageURL) == 0:
         room.roomImageURL = filename
     else:
         room.roomImageURL += "," + filename
@@ -82,6 +84,8 @@ def imageUpload(rid):
 def getImages(rid):
     images = Rooms.get(Rooms.rID == rid)
     imageSet = []
+    if not images.roomImageURL:
+        return json.dumps(imageSet)
     if len(images.roomImageURL) == 0:
         return json.dumps(imageSet)
     for img in images.roomImageURL.split(","):
