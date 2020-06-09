@@ -10,6 +10,7 @@ from app.models.models import *
 @admin_bp.route("/admin/userManagement", methods=["GET"])
 @must_be_admin
 def userManagement():
+    au = AuthorizedUser()
     cfg = load_config()
     page        = "/" + request.url.split("/")[-1]
     users = User.select().order_by(User.firstName.asc())
@@ -31,7 +32,8 @@ def userManagement():
                            divisionchairs = divisionchairs,
                            programchairs = programchairs,
                            buildingmanagers = buildingmanagers,
-                           cfg = cfg
+                           cfg = cfg,
+                           isAdmin = au.user.isAdmin
                            )
 
 

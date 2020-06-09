@@ -168,7 +168,7 @@ function doDropzoneSetup() {
                                         }
                                   });
                                 }});
-  console.log(getRoomId());
+  // console.log(getRoomId());
 
 };
 
