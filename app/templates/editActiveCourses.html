@@ -12,12 +12,13 @@
 <div id="wrapper">
     <div id="page-wrapper">
     {% include "snips/messages.html" %}
-
+    <h2>Manage Active Courses</h2>
+    <p>Activated courses can be scheduled. Deactivated courses cannot be schedule.</p>
     {# Reactivate a Course #}
-    <div class="panel panel-default">
+    <div class="panel panel-default col-md-6">
       <div class="panel-heading">
         <h3 class="panel-title">Activate a Course
-          <a data-toggle="popover" data-content="Activating a course makes a previous deactivated course available for selection during the scheduling process.">
+          <a data-toggle="popover" data-content="Activating a course makes a course available for selection during the scheduling process.">
             <span class="glyphicon glyphicon-question-sign"></span>
           </a>
         </h3>
@@ -25,7 +26,7 @@
       <div class="panel-body">
         <form action="/activate/course" method="post" id="active">
           <div class="form-group">
-            <select class="selectpicker form-control" name="activate" data-live-search="true" required>
+            <select class="selectpicker form-control" name="activate" data-live-search="true"  data-container="#wrapper" title="Choose a course to activate" required>
               <option value="">---</option>
               {% for course in deactiveCourses %}
                 <option value="{{course.reFID}}">
@@ -40,10 +41,10 @@
     </div>
 
     {# Deactivate Course Panel #}
-      <div class="panel panel-default" style="margin-top: 50px;">
+      <div class="panel panel-default col-md-6" style="margin-top: 50px; clear: both;">
         <div class="panel-heading">
           <h3 class="panel-title">Deactivate a Course
-            <a data-toggle="popover" data-content="Deactivating a course ensures that is unable to be selected by Program and Division Chairs during the scheduling process.">
+            <a data-toggle="popover" data-content="Deactivating a course makes a course unavailable for selection during the scheduling process.">
               <span class="glyphicon glyphicon-question-sign"></span>
             </a>
           </h3>
@@ -51,7 +52,7 @@
         <div class="panel-body">
           <form action="/deactivate/course" method="post" id="deactive">
             <div class="form-group">
-              <select class="selectpicker form-control" name="deactivate" data-live-search="true" required>
+              <select class="selectpicker form-control" name="deactivate" data-live-search="true" data-container="#wrapper" title="Choose a course to deactivate" required>
                 <option value="">---</option>
                 {% for course in activeCourses %}
                   <option value="{{course.reFID}}">

@@ -26,18 +26,21 @@ def buildingManagement():                                   #Gathering of approp
                     .where(BuildingManager.username == au.username)
                     )
     le_rooms = []                                           #Scott LITERALLY created this variable with a terrible name
-    for b in building:
-        rooms = Rooms.select().where(Rooms.building == b.bID)
-        for room in rooms:
-            le_rooms.append(room)
-    user = User.select()
-    return render_template("buildingManagement.html",
-                            building = building,
-                            rooms = le_rooms,
-                            user = user,
-                            cfg = cfg,
-                            isAdmin = au.user.isAdmin
-                            )
+    if len(building) == 0:
+        abort(403)
+    else:
+        for b in building:
+            rooms = Rooms.select().where(Rooms.building == b.bID)
+            for room in rooms:
+                le_rooms.append(room)
+        user = User.select()
+        return render_template("buildingManagement.html",
+                                building = building,
+                                rooms = le_rooms,
+                                user = user,
+                                cfg = cfg,
+                                isAdmin = au.user.isAdmin
+                                )
 
 @main_bp.route('/getRoomData/<rID>', methods=["GET"])
 # connected to ajax calls in the javascript file to populate the room data into panel
