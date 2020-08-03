@@ -67,7 +67,7 @@ def imageUpload(rid):
         file = request.files['file']
         filename = secure_filename(file.filename)
         file.save(os.path.join('app/static/images/', filename))
-    except e:
+    except Exception as e:
         print(e)
         return ("Image failed to upload to the server", 500)
 
