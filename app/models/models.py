@@ -200,6 +200,8 @@ class Course(baseModel):
   prereq            = CharField(null = True)
   parentCourse      = ForeignKeyField('self', null=True)
   faculty_credit    = CharField(null=True, default=" ")
+  offCampusFlag     = BooleanField(default = False)
+
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 
