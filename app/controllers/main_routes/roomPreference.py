@@ -36,11 +36,12 @@ def roomPreference(term):
                         .join(Term, on=(Term.termCode == Course.term))
                         .where(InstructorCourse.username == current_user)
                         .where(Course.term == int(current_term))
+                        .where(Course.offCampusFlag == False)
                     )
-
+        
         # Constructs RoomPreferences if they don't exist
         for course in courses:
-            # print("adding ", course.cId, "to ", current_user)
+            print("adding ", course.cId, "to ", current_user, "flag: ",  course.offCampusFlag)
             (rp, c) = RoomPreferences.get_or_create(course = course.cId)
             # print(rp.course.term.termCode)
 
@@ -51,6 +52,7 @@ def roomPreference(term):
                                         .where(RoomPreferences.course == InstructorCourse.course
                                                 and InstructorCourse.username == current_user)
                                         .where(Course.term == current_term)
+                                        .where(Course.offCampusFlag == False)
                                         .distinct().where(Course.parentCourse == None)
                             )
         # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
