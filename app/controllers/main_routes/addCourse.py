@@ -33,7 +33,7 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
-    # print("values", data)
+    print("values", data)
 
     # # instructors need to be a list
 
@@ -44,6 +44,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
     nullCheck = NullCheck()
 
     values = nullCheck.add_course_form(data)
+    values.update({'offCampusFlag': bool(data.get('offCampusFlag', False))})
     banner = BannerCourses.get(BannerCourses.reFID == values['bannerRef'])
     bannerNumber = str(banner.number)[-2:]
 
@@ -71,7 +72,9 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
             minorReqsMet=data['minorReqsMet'],
             perspectivesMet=data['perspectivesMet'],
             section=data['section'],
-            faculty_credit=data["faculty_credit"])
+            faculty_credit=data["faculty_credit"],
+            offCampusFlag=bool(data.get('offCampusFlag', False))
+	)
         if data['formBtn'] == "submit":
             specialTopicCourse.status = 1
         specialTopicCourse.save()
@@ -97,7 +100,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
         if section_exists:
             message = "Course: TID#{0} prefix#{1} with section {2} exists".format(
                 tid, prefix, values["section"])
-            log.writer("INFO", current_page, message)
+            # log.writer("INFO", current_page, message)
             flash(
                 "Course with section %s already exists" %
                 (values['section']), "error")
@@ -114,7 +117,8 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
                         crossListed=int(data['crossListed']),
                         section=values['section'],
                         faculty_credit=values['faculty_credit'],
-                        prereq=convertPrereqs(prereqs)
+                        prereq=convertPrereqs(prereqs),
+			offCampusFlag = bool(data.get('offCampusFlag', False))
                         )
 
         course.save()
@@ -147,6 +151,7 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
 
     '''
     crosslistedCourses = values["crossListedCourses"]
+    print(values)
     if crosslistedCourses:
 
         # save parent crosslisted to itself
@@ -171,7 +176,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
                                parentCourse=course.cId,
                                section=values['section'],
                                prereq=convertPrereqs(prereqs),
-                               faculty_credit= values['faculty_credit']
+                               faculty_credit= values['faculty_credit'],
+                               offCampusFlag = bool(values.get('offCampusFlag', False))
                                )
             cc_course.save()
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)

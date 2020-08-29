@@ -21,5 +21,7 @@ migrator = MySQLMigrator(mainDB)
 
 migrate(
     migrator.add_column('Course','offCampusFlag', BooleanField(default=False)),
+    migrator.add_column('SpecialTopicCourse','offCampusFlag', BooleanField(default=False)),
+
 )
 

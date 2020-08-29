@@ -244,6 +244,8 @@ class SpecialTopicCourse(baseModel):
   perspectivesMet      = TextField(null = True)
   section              = TextField(null = True)
   faculty_credit       = CharField(null=True, default=" ")
+  offCampusFlag        = BooleanField(default=False)
+
   def __str__(self):
       return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
 

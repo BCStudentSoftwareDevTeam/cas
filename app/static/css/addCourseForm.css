@@ -20,3 +20,7 @@
   /*height: 25px;*/
   display: block;
 }
+
+#middleRow .form-group {
+  margin-right: 10px;
+}

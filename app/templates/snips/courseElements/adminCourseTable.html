@@ -8,7 +8,7 @@
         <th>Section</th>
         <th>Schedule</th>
         <th>Capacity</th>
-        <th>Room</th>
+        <th>Location</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
         <th>Faculty Load Credit</th>
@@ -78,9 +78,13 @@
             <!-- ROOM -->
             <td>
                 {% if course.rid is not none %}
-                    {{course.rid.building.name}}:{{course.rid.number}}
+                    {{course.rid.building.name}} {{course.rid.number}}
                 {% else %}
-                    <p>No room listed</p>
+		    {% if course.offCampusFlag %}
+			<p> Off-campus </p>
+		    {% else %}
+                        <p> On-campus</p>
+		    {% endif %}
                 {% endif %}
             </td>
             <!--CROSS LISTED-->
@@ -235,7 +239,11 @@
               {% if course.rid is not none %}
                   {{course.rid.building.name}} {{course.rid.number}}
               {% else %}
-                  <p>No room listed</p>
+              	    {% if course.offCampusFlag %}
+			<p> Off-campus </p>
+		    {% else %}
+                        <p> On-campus</p>
+		    {% endif %}
               {% endif %}
           <!--CROSS LISTED-->
               <td>

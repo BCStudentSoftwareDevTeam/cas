@@ -63,26 +63,14 @@ def editcourse(tid, prefix, page, can_edit):
     page1 =  "/" + request.url.split("/")[-1]
     data = request.form.to_dict()
     crosslistedCourse = request.form.getlist('crossListedCourses[]')
-    # faculty_credit= request.form.getlist('faculty_credit')
-    #if no crosslisted children, update hidden crosslisted to true or false
     data["crossListed"] = 1 if crosslistedCourse else 0
-    # trackerEdit = TrackerEdit(data)
     professors = request.form.getlist('professors[]')
-    # if (not databaseInterface.isTermOpen(tid)):
-    #   if user.isAdmin:
-    #     # created = trackerEdit.make_edit(professors, username) #WE AINT USING THE CHANGE TRACKER ANYMORE
-    #     pass
-    #   else:
-    # print("did the damn thing worked?") #this whole bit broke other things...
-    #                                       in /logic/databaseinterface.py, it was checking for term states in a yucky way -Kat 9/9/19
-    # print (Term.get(Term.termCode == tid).term_state.number)
     if ((not au.user.isAdmin) and (Term.get(Term.termCode == tid).term_state.number) != 1): #If the term is not open for scheduling changes:
         print(au.user.isAdmin)
         print(Term.get(Term.termCode == tid).term_state.number)
         return render_template("schedulingLocked.html", tid = tid, prefix = prefix, cfg = cfg)
     databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
     message = "Course: course {} has been edited".format(data['cid'])
-    # log.writer("INFO", page1, message)
     flash("Course information has successfully been modified!")
     if page == 'courses':
       return redirect(url_for("main.courses", tID=tid, prefix=prefix))

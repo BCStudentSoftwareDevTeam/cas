@@ -215,7 +215,8 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         course.schedule = schedule
         course.notes = notes
         course.lastEditBy = au.username
-        course.faculty_credit= faculty_credit
+        course.faculty_credit = faculty_credit
+        course.offCampusFlag = bool(data.get('offCampusFlag', False))
         course.save()
         new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
@@ -303,7 +304,8 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             notes = specialTopicCourse.notes,
                             crossListed = specialTopicCourse.crossListed,
                             rid = specialTopicCourse.rid,
-                            faculty_credit= specialTopicCourse.faculty_credit
+                            faculty_credit= specialTopicCourse.faculty_credit,
+                            offCampusFlag = specialTopicCourse.offCampusFlag
                             )
             course.save()
             update_course = DataUpdate()
@@ -326,6 +328,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
         specialTopicCourse.concentrationReqsMet = data['concentrationReqsMet']
         specialTopicCourse.perspectivesMet = data['perspectivesMet']
         specialTopicCourse.faculty_credit= data["faculty_credit"]
+        specialTopicCourse.offCampusFlag = bool(data.get('offCampusFlag', False))
 
         editSTInstructors(professors, data['stid'])
         specialTopicCourse.save()
@@ -392,7 +395,8 @@ def createChildCourse(course_id, parent, newInstructors):
             crossListed = parent.crossListed,
             parentCourse = parent.cId,
             section = parent.section,
-            prereq = parent.prereq
+            prereq = parent.prereq,
+            offCampusFlag = parent.offCampusFlag
             )
     #TODO:create its instructors
     addInstructorsChild(newInstructors, parent.cId, cc_course.cId)
@@ -447,6 +451,7 @@ def updateChildCourse(course, parent, newInstructors):
     course.parentCourse = parent.cId
     course.section = parent.section
     course.prereq = parent.prereq
+    course.offCampusFlag = parent.offCampusFlag
     course.save()
 
     #update its instructors
