@@ -77,14 +77,15 @@
             </td>
             <!-- ROOM -->
             <td>
-                {% if course.rid is not none %}
-                    {{course.rid.building.name}} {{course.rid.number}}
+                {% if not course.offCampusFlag and course.rid is none %}
+                   <p>On-campus</p>                
                 {% else %}
-		    {% if course.offCampusFlag %}
-			<p> Off-campus </p>
-		    {% else %}
-                        <p> On-campus</p>
-		    {% endif %}
+                  {% if course.rid is not none %}
+                    {{course.rid.building.name}} {{course.rid.number}}
+                  {% endif %}
+		  {% if course.offCampusFlag %}
+		    <p> Off-campus </p>
+		  {% endif %}
                 {% endif %}
             </td>
             <!--CROSS LISTED-->
@@ -235,17 +236,20 @@
                   {% endif %}
               </td>
               <!-- ROOM -->
-              <td>
-              {% if course.rid is not none %}
-                  {{course.rid.building.name}} {{course.rid.number}}
-              {% else %}
-              	    {% if course.offCampusFlag %}
-			<p> Off-campus </p>
-		    {% else %}
-                        <p> On-campus</p>
-		    {% endif %}
-              {% endif %}
-          <!--CROSS LISTED-->
+	      <td>
+                {% if not course.offCampusFlag and course.rid is none %}
+                   <p>On-campus</p>
+                {% else %}
+                  {% if course.rid is not none %}
+                    {{course.rid.building.name}} {{course.rid.number}}
+                  {% endif %}
+                  {% if course.offCampusFlag %}
+                    <p> Off-campus </p>
+                  {% endif %}
+                {% endif %}
+              </td>
+
+              <!--CROSS LISTED-->
               <td>
                   {% if course in crosslisted %}
                   <div class="form-check" id="checkcross">
