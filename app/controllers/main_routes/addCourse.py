@@ -33,7 +33,6 @@ def convertPrereqs(prereqs):
 def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
     current_page = "/" + request.url.split("/")[-1]
     data = request.form
-    print("values", data)
 
     # # instructors need to be a list
 
@@ -118,7 +117,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
                         section=values['section'],
                         faculty_credit=values['faculty_credit'],
                         prereq=convertPrereqs(prereqs),
-			offCampusFlag = bool(data.get('offCampusFlag', False))
+                        offCampusFlag = bool(data.get('offCampusFlag', False))
                         )
 
         course.save()
@@ -151,7 +150,6 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
 
     '''
     crosslistedCourses = values["crossListedCourses"]
-    print(values)
     if crosslistedCourses:
 
         # save parent crosslisted to itself
@@ -234,7 +232,6 @@ def add_one(tid, can_edit):
 def add_many(tid, can_edit):
     data = request.form.getlist
     courses = request.form.getlist('courses')
-    print(courses)
     if courses:
         for i in courses:
             course = Course.get(Course.cId == int(i))  # get an existing course
@@ -307,7 +304,6 @@ def term_courses(term, department):
                             instructor.username.firstName[0] + ". " + instructor.username.lastName)
                 else:
                     pass
-        print("Sending courses to JS")
         return json.dumps(courses_dict)
     except BaseException:
         return json.dumps("Error")

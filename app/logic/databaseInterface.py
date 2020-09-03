@@ -304,7 +304,7 @@ def editSTCourse(data, prefix, professors, status, cfg):
                             notes = specialTopicCourse.notes,
                             crossListed = specialTopicCourse.crossListed,
                             rid = specialTopicCourse.rid,
-                            faculty_credit= specialTopicCourse.faculty_credit,
+                            faculty_credit = specialTopicCourse.faculty_credit,
                             offCampusFlag = specialTopicCourse.offCampusFlag
                             )
             course.save()

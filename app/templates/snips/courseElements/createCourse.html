@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/static/css/addCourseForm.css" type="text/css" />
   {% if isAdmin or ((curTermName.term_state_id == 1 and can_edit == True) and key < 3) %}
   <div>
-    {# This needs to be a button, for accessibiliy purposes #}
+    {# This needs to be a button, for accessibility purposes #}
     <button class="createCourseText btn btn-sm btn-default" id="showForm" style="margin-top:-10px; margin-bottom: 10px;"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Schedule a course</button>
   </div>
   {% endif %}

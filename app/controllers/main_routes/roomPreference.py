@@ -41,9 +41,7 @@ def roomPreference(term):
         
         # Constructs RoomPreferences if they don't exist
         for course in courses:
-            print("adding ", course.cId, "to ", current_user, "flag: ",  course.offCampusFlag)
             (rp, c) = RoomPreferences.get_or_create(course = course.cId)
-            # print(rp.course.term.termCode)
 
         roompreferences= (  RoomPreferences.select()
                                         .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
