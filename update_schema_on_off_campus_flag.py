@@ -25,7 +25,7 @@ migrate(
 )
 
 # Shift existing schedule's order up by 300 to give space for the new ones
- for prior_schedule in BannerSchedule().select():
+for prior_schedule in BannerSchedule().select():
     print(prior_schedule.order)
     prior_schedule.order = int(prior_schedule.order) + 300 
     prior_schedule.save()
