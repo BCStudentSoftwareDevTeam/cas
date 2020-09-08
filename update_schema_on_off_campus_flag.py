@@ -20,8 +20,8 @@ migrator = MySQLMigrator(mainDB)
 
 
 migrate(
- migrator.add_column('Course','offCampusFlag', BooleanField(default=False)),
- migrator.add_column('SpecialTopicCourse','offCampusFlag', BooleanField(default=False)),
+# migrator.add_column('course','offCampusFlag', BooleanField(default=False)),
+ migrator.add_column('specialtopiccourse','offCampusFlag', BooleanField(default=False)),
 )
 
 # Shift existing schedule's order up by 300 to give space for the new ones
