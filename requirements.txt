@@ -20,7 +20,7 @@ Flask-SQLAlchemy
 idna
 itsdangerous
 Jinja2
-loadconfig
+# loadconfig
 Mako
 MarkupSafe
 migrant

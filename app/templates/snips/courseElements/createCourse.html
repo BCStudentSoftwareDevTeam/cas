@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/static/css/addCourseForm.css" type="text/css" />
   {% if isAdmin or ((curTermName.term_state_id == 1 and can_edit == True) and key < 3) %}
   <div>
-    {# This needs to be a button, for accesibiliy purposes #}
+    {# This needs to be a button, for accessibility purposes #}
     <button class="createCourseText btn btn-sm btn-default" id="showForm" style="margin-top:-10px; margin-bottom: 10px;"><span class="glyphicon glyphicon-plus white" aria-hidden="true"></span> Schedule a course</button>
   </div>
   {% endif %}
@@ -47,27 +47,23 @@
                     {% include "snips/courseElements/addSection.html" %}
                   </div>
 
-                  <div class="row">
-                    <div class="form-group col-md-6">
-                        <div class="col-md-2" style="margin-top:10px;">
-                        <b><span> Capacity: </span></b>
-                        </div>
-                      <input placeholder="Enter course capacity" type="number" min='0'  name ="capacity" class="form-control" style="width: 200px;">
+                  <div class="row" id="middleRow">
+                    <div class="form-group col-md-4">
+                        <label for = "capacityInput"> Capacity: </label><br>
+                        <input id = "capacityInput" placeholder="Enter course capacity" type="number" min='0'  name ="capacity" class="form-control" style="min-width: 150px;">
                     </div>
-                    <div class="form-group col-md-6 offset_input right">
-                      <div class="row">
-                        <div class="col-md-3" style="margin-top:12px;">
-                          <b><span> Faculty Load Credit:</span></b>
-                        </div>
-                        <div class="col-md-6">
-                          <select class="form-control" name="faculty_credit" style="width:200px !important;" required>
-                              <option value="0.25">0.25</option>
-                              <option value="0.5">0.5</option>
-                              <option selected value="1.0">1.0</option>
-                              <option value="1.5">1.5</option>
-                            </select>
-                        </div>
-                      </div>
+                    <div class="form-group col-md-4">
+                        <label for="facultyCreditInput"> Faculty Load Credit:</label><br></label>
+                        <select class="form-control" id="facultyCreditInput" name="faculty_credit" required>
+                           <option value="0.25">0.25</option>
+                           <option value="0.5">0.5</option>
+                           <option selected value="1.0">1.0</option>
+                           <option value="1.5">1.5</option>
+                        </select>	
+                    </div>
+		    <div class="form-group col-md-4">
+                        <label for="offCampusFlag">Off-campus: </label></br>
+                        <input type="checkbox" name ="offCampusFlag" class="form-control left" value="True" id="offCampusFlag" style="height: 20px; width: 20px;">
                     </div>
                   </div>
                   <!-- the description and the prereqs are removed from the special topics modals page. -->

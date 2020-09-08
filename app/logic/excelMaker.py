@@ -52,7 +52,8 @@ class ExcelMaker:
         sheet.write('Q1','Bnumber2')
         sheet.write('R1','Instructor3')
         sheet.write('S1','Bnumber3')
-        sheet.write('T1', "Crosslisted With")
+        sheet.write('T1', "Crosslisted with")
+        sheet.write('U1', "Off-Campus")
 
         self.intr_letter = 'N'
 
@@ -108,7 +109,10 @@ class ExcelMaker:
             sheet.write('I{0}'.format(row),course.section)
 
 
-        # Room Information
+        # Off-campus and Room Information
+        if course.offCampusFlag:
+            sheet.write('U{0}'.format(row), 'Yes')
+
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
 
         preference_1 = ""

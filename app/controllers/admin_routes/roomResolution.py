@@ -30,7 +30,7 @@ def roomResolutionTerm():
 @must_be_admin
 def roomResolution(termCode):
     # Creating the UI
-    courses = Course.select().where(Course.rid == None, Course.term==termCode, Course.schedule.is_null(False))
+    courses = Course.select().where(Course.rid == None, Course.offCampusFlag == False, Course.term==termCode, Course.schedule.is_null(False))
     cfg = load_config()
     au = AuthorizedUser()
     return render_template("roomResolution.html",  isAdmin=au.user.isAdmin, courses=courses, termcode=termCode, cfg = cfg)

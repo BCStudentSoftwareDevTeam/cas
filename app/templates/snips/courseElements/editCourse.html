@@ -115,7 +115,8 @@
            </select>
            <br>
 
-
+	  <h5> Off-Campus </h5>
+	  <input type='checkbox' id='offCampusFlag' name='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}> </input>
           {# --Notes-- #}
             <h5> Notes </h5>
             <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
