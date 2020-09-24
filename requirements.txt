@@ -21,6 +21,7 @@ idna
 itsdangerous
 Jinja2
 # loadconfig
+ldap3
 Mako
 MarkupSafe
 migrant
