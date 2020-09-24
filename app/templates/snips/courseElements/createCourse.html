@@ -55,10 +55,18 @@
                     <div class="form-group col-md-4">
                         <label for="facultyCreditInput"> Faculty Load Credit:</label><br></label>
                         <select class="form-control" id="facultyCreditInput" name="faculty_credit" required>
-                           <option value="0.25">0.25</option>
+			  {% for credit_value in cfg["credits"] %}
+                    	    <option value="{{credit_value}}"
+                	      {% if credit_value|float==1.0 %}
+                  	        selected
+                	      {% endif %}
+                	    >{{credit_value}}</option>
+              		  {% endfor %}		
+			  	
+			  {#<option value="0.25">0.25</option>
                            <option value="0.5">0.5</option>
                            <option selected value="1.0">1.0</option>
-                           <option value="1.5">1.5</option>
+			   <option value="1.5">1.5</option>#}
                         </select>	
                     </div>
 		    <div class="form-group col-md-4">
