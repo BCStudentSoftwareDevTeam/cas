@@ -178,7 +178,7 @@ def get_speical_topic_courses(tid, table):
     if status is not None:
         courses= SpecialTopicCourse.select().where(SpecialTopicCourse.status == status).where(SpecialTopicCourse.term == int(tid))
         course_data = map(format_course_data, courses)
-        return jsonify(course_data)
+        return jsonify(list(course_data))
 
 def format_course_data(course):
     """Generates the list of data used by """

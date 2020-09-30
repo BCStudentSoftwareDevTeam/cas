@@ -4,7 +4,7 @@ from app.allImports import *
 from app.logic.NullCheck import NullCheck
 from app.logic import functions
 from app.logic.authorizedUser import AuthorizedUser
-from app.models.models import CourseChange
+from app.models.models import *
 
 class DataUpdate:
 
