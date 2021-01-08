@@ -73,7 +73,7 @@
           <h5>Schedule Block</h5>
             <select class="form-control" name="schedule">
             <option value="">---</option>
-            {% for schedule in schedules %}
+	    {% for schedule in schedules if "PANDEMIC" not in schedule.letter %}
               <option value="{{schedule.sid}}"
                 {% if course.schedule.order == schedule.order %}
                   selected
@@ -111,8 +111,10 @@
               </div>
 
               {# OFF CAMPUS CHECKBOX #}
+	      <div style='display:none'>
               <h5>Off-Campus</h5>
-              <input type='checkbox' name='offCampusFlag' id='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}></input>
+              <input disabled type='checkbox' name='offCampusFlag' id='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}></input>
+	      </div>
             </div>
             <div class="col-md-6">
               <h5> Faculty Load Credit</h5>

@@ -47,7 +47,7 @@
           <h5>Schedule Block</h5>
           <select class="form-control" name="schedule">
             <option value="">---</option>
-            {% for schedule in schedules %}
+	    {% for schedule in schedules if "PANDEMIC" not in schedule.letter %}
               <option value="{{schedule.sid}}"
                 {% if course.schedule.order == schedule.order %}
                   selected
@@ -115,8 +115,11 @@
            </select>
            <br>
 
+	   <div style='display:none'>
 	  <h5> Off-Campus </h5>
-	  <input type='checkbox' id='offCampusFlag' name='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}> </input>
+	  <input disabled type='checkbox' id='offCampusFlag' name='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}> </input>
+	   </div>
+
           {# --Notes-- #}
             <h5> Notes </h5>
             <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>

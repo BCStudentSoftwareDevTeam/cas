@@ -1,7 +1,7 @@
 <div class="form-group col-md-6">
      <select id = "scheduleSelect" title="Select schedule" class="form-control selectpicker" name="schedule" data-live-search="true">
       <option value="">---</option>
-      {% for schedule in schedules %}
+      {% for schedule in schedules if "PANDEMIC" not in schedule.letter %}
         <option value="{{schedule.sid}}">
           {{schedule.letter}}: {% for day in schedule.day %}{{ day.day }}{% endfor %} {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
         </option>
