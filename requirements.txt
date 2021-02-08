@@ -32,7 +32,7 @@ pycparser
 PyMySQL
 python-dateutil
 python-editor
-PyYAML
+PyYAML==5.4.1
 six
 SQLAlchemy
 termcolor
