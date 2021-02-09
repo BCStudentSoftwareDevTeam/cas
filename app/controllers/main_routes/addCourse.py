@@ -237,21 +237,20 @@ def add_many(tid, can_edit):
             course = Course.get(Course.cId == int(i))  # get an existing course
             # create a new course using fields from an existing course because
             # we are importing it as new
-            course = Course(
-                bannerRef=course.bannerRef_id,
-                term=int(tid),
-                schedule=course.schedule_id,
-                capacity=course.capacity,
-                specialTopicName=course.specialTopicName,
-                notes=None,
-                crossListed=int(course.crossListed),
-                rid=None,
-                section=course.section,
-                prereq=course.prereq,
-                faculty_credit=course.faculty_credit
-            )
-
-            course.save()
+            newCourse = Course(bannerRef=course.bannerRef_id,
+                               prefix=course.prefix_id,
+                               term=int(tid),
+                               schedule=course.schedule_id,
+                               capacity=course.capacity,
+                               specialTopicName=course.specialTopicName,
+                               notes=None,
+                               crossListed=int(course.crossListed),
+                               rid=None,
+                               section=course.section,
+                               prereq=course.prereq,
+                               faculty_credit=course.faculty_credit
+                               )
+            newCourse.save()
 
      # if there are many instructors for an existing course, update instructors
      # of new course as well
