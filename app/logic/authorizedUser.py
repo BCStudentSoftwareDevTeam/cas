@@ -37,7 +37,7 @@ def can_modify(f):
     # if not g.user.is_authenticated: # check if user is logged in
     #   return redirect(url_for('login', next=request.url))
     prefix = kwargs.get('prefix', None)
-    
+
     if au.isAuthorized(prefix):
       kwargs['can_edit'] = True
     else:
@@ -98,8 +98,8 @@ class AuthorizedUser():
         '''
         returns the Subject object associated with this user
         '''
-        return Subject.get(Subject.prefix == self.user.lastVisited)
-
+        if self.user.lastVisited:
+            return Subject.get(Subject.prefix == self.user.lastVisited)
 
 
     def isAuthorized(self, prefix):

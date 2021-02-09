@@ -4,7 +4,7 @@ Run "source setup.sh" each time you want to run the app.
 '''
 FLASK_VERSION="${FLASK_VERSION:-0.12.2}"              #0.12.2
 # PEEWEE_VERSION="${PEEWEE_VERSION:-2.10.2}"            #2.10.2
-PYAML_VERSION="${PYAML_VERSION:-5.4.1}"                #3.12
+PYAML_VERSION="${PYAML_VERSION:-3.12}"                #3.12
 XLSXWRITER_VERSION="${XLSXWRITER_VERSION:-1.0.2}"     #1.0.2
 MYSQLPYTHON_VERSION="${MYSQLPYTHON_VERSION=-1.2.5}"   #1.2.5
 FLASK_ADMIN_VERSION="${FLASK_ADMIN_VERSION:-1.5.0}"   #1.5.0

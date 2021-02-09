@@ -1,5 +1,5 @@
 from create_tables import *
-from app.models import *
+from app.models.models import *
 
 ######
 #USERS#
