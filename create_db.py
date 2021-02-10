@@ -1,5 +1,5 @@
 from create_tables import *
-from app.models import *
+from app.models.models import *
 
 ######
 #USERS#
@@ -359,12 +359,7 @@ term = Term(  name              = "Fall 2018",
               editable          = 0,
               state             = 1
             ).save(force_insert = True)
-<<<<<<< HEAD
 
-
-
-
-=======
 term = Term(  name              = "Fall 2019",
               semester          = "Fall",
               year              = 2019,
@@ -373,10 +368,6 @@ term = Term(  name              = "Fall 2019",
               state             = 1
             ).save(force_insert = True)
 
-
-
-
->>>>>>> 4886fc6bb780baa95cbff0da55d8da29dd1e6879
 ########
 #COURSE#
 ########
@@ -424,53 +415,24 @@ course = Course(  bannerRef         = 8,
                   ).save()
 
 
-<<<<<<< HEAD
-=======
 
 
 course = Course(  bannerRef         = 9,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
-<<<<<<< HEAD
                   days              =  1,
                   capacity          = 20,
                   notes             = "Preference1",
                   crossListed       = 1
                   ).save()
-=======
-                  days              = 1,
-
-
-                  capacity          = 20,
-                  notes             = "Preference1",
-                  section           = "A",
-                  crossListed       = 1
-                 ).save()
-
-
->>>>>>> 4886fc6bb780baa95cbff0da55d8da29dd1e6879
-
-
-
-
-
-
-
-
-
->>>>>>> c9888550b37ad7169c9a73daac308b68be0b8334
 
 course = Course(  bannerRef         = 21,
                   prefix            = "CSC",
                   term              = 201611,
                   schedule          = "A",
                   days              = 1,
-<<<<<<< HEAD
-=======
 
-
->>>>>>> c9888550b37ad7169c9a73daac308b68be0b8334
                   capacity          = 20,
                   notes             = "Preference1",
                   section           = "A",
@@ -671,7 +633,13 @@ course = Course(  bannerRef         = 21,
                   ).save()
 
 
-
+# crossListed = CrossListed(
+#                   courseId          = 1,
+#                   crosslistedCourse = 1,
+#                   verified          = 0,
+#                   prefix            = "CSC",
+#                   term              = 201611
+#                   )
 
 ########
 #PCHAIR#

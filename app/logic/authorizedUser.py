@@ -37,11 +37,11 @@ def can_modify(f):
     # if not g.user.is_authenticated: # check if user is logged in
     #   return redirect(url_for('login', next=request.url))
     prefix = kwargs.get('prefix', None)
-    
+
     if au.isAuthorized(prefix):
-      kwargs['can_edit'] = True
+        kwargs['can_edit'] = True
     else:
-      kwargs['can_edit'] = False
+        kwargs['can_edit'] = False
     return f(*args, **kwargs)
   return decorated_function
 
