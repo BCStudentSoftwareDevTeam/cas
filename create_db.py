@@ -414,13 +414,11 @@ course = Course(  bannerRef         = 8,
                   crossListed       = 1
                   ).save()
 
-
-
-
 course = Course(  bannerRef         = 9,
                   prefix            = "CHI",
                   term              = 201711,
                   schedule          = "A",
+
                   days              =  1,
                   capacity          = 20,
                   notes             = "Preference1",

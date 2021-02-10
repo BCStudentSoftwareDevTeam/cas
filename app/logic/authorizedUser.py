@@ -98,8 +98,8 @@ class AuthorizedUser():
         '''
         returns the Subject object associated with this user
         '''
-        return Subject.get(Subject.prefix == self.user.lastVisited)
-
+        if self.user.lastVisited:
+            return Subject.get(Subject.prefix == self.user.lastVisited)
 
 
     def isAuthorized(self, prefix):
