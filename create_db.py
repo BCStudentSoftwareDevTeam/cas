@@ -1,5 +1,5 @@
 from create_tables import *
-from app.models import *
+from app.models.models import *
 
 ######
 #USERS#
@@ -360,6 +360,14 @@ term = Term(  name              = "Fall 2018",
               state             = 1
             ).save(force_insert = True)
 
+term = Term(  name              = "Fall 2019",
+              semester          = "Fall",
+              year              = 2019,
+              termCode          = 201911,
+              editable          = 0,
+              state             = 1
+            ).save(force_insert = True)
+
 ########
 #COURSE#
 ########
@@ -623,7 +631,13 @@ course = Course(  bannerRef         = 21,
                   ).save()
 
 
-
+# crossListed = CrossListed(
+#                   courseId          = 1,
+#                   crosslistedCourse = 1,
+#                   verified          = 0,
+#                   prefix            = "CSC",
+#                   term              = 201611
+#                   )
 
 ########
 #PCHAIR#
