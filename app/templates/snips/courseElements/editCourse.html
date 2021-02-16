@@ -53,7 +53,7 @@
                   selected
                 {% endif %}
               >
-                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %} 
+                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %}
 		{{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
@@ -74,7 +74,7 @@
           {# --Capacity-- #}
           <h5>Capacity</h5>
           <div class="form-group">
-          <input type="number" name ="capacity" class="form-control" min="1" value ="{{course.capacity}}" />
+          <input type="number" name ="capacity" class="form-control" min="0" value ="{{course.capacity}}" />
           </div>
           <span> Faculty Load Credit</span>
           <div >
