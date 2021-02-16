@@ -53,7 +53,7 @@
                   selected
                 {% endif %}
               >
-                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %}
+                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %} 
 		{{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
