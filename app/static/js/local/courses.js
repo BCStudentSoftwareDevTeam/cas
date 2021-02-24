@@ -17,7 +17,11 @@ function fillCourses(response, id){
         var courses = document.getElementById("coursesDiv");
         courses.style.display = 'inline';// do enabled/disabled instead of hidden
 
+        // Set to false if the term has no courses
+        var isEmpty = true;
+
         for (var key in response){
+            isEmpty = false;
             var option = document.createElement("option");
             /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
             // console.log("Course: ", response[key]);
@@ -53,6 +57,16 @@ function fillCourses(response, id){
             }
 
             option.value = key;
+            selectPicker.appendChild(option);
+            $('.selectpicker').selectpicker('refresh');
+        }
+
+        // Set message if courses are empty
+        if (isEmpty){
+            var option = document.createElement("option");
+            option.text = "There are no courses for this term in the database";
+
+            option.value = null;
             selectPicker.appendChild(option);
             $('.selectpicker').selectpicker('refresh');
         }
