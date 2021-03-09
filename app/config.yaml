@@ -15,10 +15,10 @@ databaseAdmin:
 db:
   db_name: cas
   host: localhost
-  password: password # todo add your password
-  username: root
-
-# Correct for display, but does not match DB.
+  password: 27AM2uzohA@vT2k
+  username: casUser
+  
+  # Correct for display, but does not match DB.
 scheduleDays:
   Monday: 'Mon'
   Tuesday: 'Tues'
@@ -264,6 +264,7 @@ credits:
   - "0.5"
   - "0.75"
   - "1.0"
+  - "1.25"
   - "1.5"
   - "2.0"
 

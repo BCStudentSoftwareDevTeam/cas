@@ -3,7 +3,7 @@
 ## Requirements ##
 * Python 2.7
 * One of the following: linux, unix, mac or windows (with attachments)
-* Git 
+* Git
 
 ## Creating Development Environment ##
 
@@ -17,6 +17,8 @@ source setup.sh
 python create_db.py
 python app.py
 ```
+**NOTE:** The application is running over HTTPS. Therefore, make sure to change the link from ```bash http://IP_ADDRESS:8080 to https://IP_ADDRESS:8080 ```
+
 You can now check your localhost to see if it deployed correctly.
 
 3. If working on a **cloud9** account follow instructions below to create a new workspace.
@@ -28,7 +30,7 @@ You can now check your localhost to see if it deployed correctly.
 source setup.sh
 python create_db.py
 python app.py
-``` 
+```
 If you are succesful you will see something like:
 ``` bash
 Starting application
@@ -100,7 +102,7 @@ one quick example of a query would be the following:
 ```python
 query = tableName.get( condition = something )
 ```
-This will return a python object that will have the data as attributes. You can pass this object to the html file. You can access this data by typing query.Column. 
+This will return a python object that will have the data as attributes. You can pass this object to the html file. You can access this data by typing query.Column.
 
 NOTE: Needs more details on asking query to finish reading and writing to the database.
 
@@ -118,18 +120,18 @@ NOTE: Needs more details on asking query to finish reading and writing to the da
       db_name: c9
       host: localhost
       password: ''
-      username: nelsonk 
-3. Run python mysql_migration.py which will create the mysql tables 
-4. Run python migrate_data.py to transfer data from db.sqlite to newly created mysql. 
-Depending on which version of the Cas db.sqlite you have, you might need to run python update_schema.py first. 
+      username: nelsonk
+3. Run python mysql_migration.py which will create the mysql tables
+4. Run python migrate_data.py to transfer data from db.sqlite to newly created mysql.
+Depending on which version of the Cas db.sqlite you have, you might need to run python update_schema.py first.
 Also make sure that the models.py file is directed towards the sqlite database file.
 
-If it is directed towards sqlite, the code to create the database connection will look like this: 
+If it is directed towards sqlite, the code to create the database connection will look like this:
     # Create a database
     from app.loadConfig import *
     here = os.path.dirname(__file__)
     cfg       = load_config(os.path.join(here, 'config.yaml'))
-    db	  = os.path.join(here,'../',cfg['databases']['dev']) 
+    db	  = os.path.join(here,'../',cfg['databases']['dev'])
     # mainDB    = SqliteDatabase(cfg['databases']['dev'])
     mainDB    = SqliteDatabase(db,
                               pragmas = ( ('busy_timeout',  100),
@@ -137,11 +139,11 @@ If it is directed towards sqlite, the code to create the database connection wil
                                       ),
                               threadlocals = True
                               )
-5. Once you run the migrate_data script, if successful, all data from the db.sqlite 
+5. Once you run the migrate_data script, if successful, all data from the db.sqlite
 should have migrated to the mysql database created at step 1.  
 
-6. Now, to run the application with the newly created mysql table, make sure that models.py is directed towards mysql: 
-If it is directed towards mysql, the code to create the database connection will look like this: 
+6. Now, to run the application with the newly created mysql table, make sure that models.py is directed towards mysql:
+If it is directed towards mysql, the code to create the database connection will look like this:
     # Create a database
     from app.loadConfig import *
     dir_name   = os.path.dirname(__file__) # Return the directory name of pathname _file_
@@ -150,17 +152,17 @@ If it is directed towards mysql, the code to create the database connection will
     host       = cfg['db']['host']
     username   = cfg['db']['username']
     password   = cfg['db']['password']
-    
+
     mainDB     = MySQLDatabase ( db_name, host = host, user = username, passwd = password)
 
 **** I would highly suggest that you keep two models.py files one with sqlite and one with mysql so you could transition between the two if needs be.
 
-7. Delete all the db.sqlite files or rename them something other than db.sqlite 
-8. Run python app.py and everything should work as usual 
+7. Delete all the db.sqlite files or rename them something other than db.sqlite
+8. Run python app.py and everything should work as usual
 
-If when you run the application, you don't have access to the admin menu, simply edit Scott Heggen's isadmin field to 1 using the steps below. 
+If when you run the application, you don't have access to the admin menu, simply edit Scott Heggen's isadmin field to 1 using the steps below.
 
-With mysql, you will not be able to use DB browser to visualize the data like we used to with sqlite. You will have to run: 
+With mysql, you will not be able to use DB browser to visualize the data like we used to with sqlite. You will have to run:
 1. mysql-ctl cli in the terminal
 2. use c9; *remember that c9 is the default name for any mysql database created on cloud9 ex. update user set isadmin=1 where username = 'heggens';
 3. then you can type any SQL commands you want to see any data you want
