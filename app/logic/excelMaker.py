@@ -54,6 +54,7 @@ class ExcelMaker:
         sheet.write('S1','Bnumber3')
         sheet.write('T1', "Crosslisted with")
         sheet.write('U1', "Off-Campus")
+        sheet.write('V1', 'Faculty Load Credit')
 
         self.intr_letter = 'N'
 
@@ -66,6 +67,7 @@ class ExcelMaker:
         sheet.write('P1', 'Minor Req')
         sheet.write('Q1', 'Perspectives Request')
         sheet.write('R1', 'Instructors')
+
         self.intr_letter = 'R'
 
 
@@ -112,6 +114,8 @@ class ExcelMaker:
         # Off-campus and Room Information
         if course.offCampusFlag:
             sheet.write('U{0}'.format(row), 'Yes')
+
+        sheet.write('V{0}'.format(row), course.faculty_credit)
 
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
 
@@ -162,12 +166,13 @@ class ExcelMaker:
                     for cc in qs:
                         #skip the parent itself
                         if cc.crosslistedCourse.cId != int(course.cId):
-                            courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number + "-" + cc.crosslistedCourse.section
+                            section = cc.crosslistedCourse.section if cc.crosslistedCourse.section else "None"
+                            courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number + "-" + section
                         res.append(courseTitle) if courseTitle else 0
             if res:
                 sheet.write('T{0}'.format(row), " , ".join(res))
-        except:
-            print( "Unexpected error:", sys.exc_info()[0])
+        except Exception as e:
+            print( "Unexpected error:", e)
 
     def write_special_course_info(self,sheet,row,course):
         sheet.write('C{0}'.format(row),course.specialTopicName)
