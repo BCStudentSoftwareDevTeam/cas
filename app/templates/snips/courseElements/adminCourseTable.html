@@ -41,7 +41,7 @@
             <!--TAUGHT BY-->
             <td>
                 {% for instructor in course.instructors %}
-                    {{instructor.username.firstName[0] + ".  "+instructor.username.lastName}}<br>
+		{{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> 
                 {% endfor %}
             </td>
             <!-- SECTION -->
