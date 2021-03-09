@@ -26,6 +26,7 @@ function fillCourses(courseList){
       $('.selectpicker').selectpicker('refresh');
 
     } else {
+      $("multipleCoursesSelect").empty();
       courseList.forEach((item) => {
         var option = document.createElement("option");
         option.text = item.course_info
