@@ -275,3 +275,26 @@ def specialCourses(tid):
                           currentTerm=int(tid),
                           page = page,
                           instructors = instructors)
+
+@admin_bp.route("/courseManagement/newCourse", methods=["POST"])
+@must_be_admin
+def addNewCourse():
+    # receive an ajax response containing course number, section, and ctitle
+    # using those create an new entry in bannerCourses table
+    # Grab the right subject from the subject table
+    # create new entry
+    try:
+        data = request.data.decode('utf-8')
+        subject = Subject.select().where(Subject.prefix == data['subjectPrefix'])
+
+        newCourse = BannerCourses.create(subject = subject,
+                                         number = data['courseNumber'],
+                                         section = None, # TODO Should there be a section option in the front end?
+                                         ctitle = data['courseTitle'],
+                                         is_active = data['isActive'])  # TODO: should I leave this off for the activate/deactivate part? # should it be 0 or 1 by default?
+
+        flash("New Course created successfully!")
+        return jsonify({"Success": True})
+    except Exception as e:
+        print("Error on creating a new course: ", e)
+        return jsonify({"Success": False}), 500
