@@ -2,6 +2,7 @@ from app.controllers.admin_routes import *
 
 import pprint
 from flask import jsonify
+from app.logic.redirectBack import redirect_url
 
 from app.allImports import *
 from app.updateCourse import DataUpdate
@@ -276,25 +277,29 @@ def specialCourses(tid):
                           page = page,
                           instructors = instructors)
 
-@admin_bp.route("/courseManagement/newCourse", methods=["POST"])
+@admin_bp.route("/courseManagement/addNewCourse", methods=["POST", "GET"])
 @must_be_admin
 def addNewCourse():
-    # receive an ajax response containing course number, section, and ctitle
-    # using those create an new entry in bannerCourses table
-    # Grab the right subject from the subject table
-    # create new entry
     try:
-        data = request.data.decode('utf-8')
-        subject = Subject.select().where(Subject.prefix == data['subjectPrefix'])
+        if request.method == "POST":
+            data = request.form
+            subject = Subject.select().where(Subject.prefix == data['subjectPrefix'])
 
-        newCourse = BannerCourses.create(subject = subject,
-                                         number = data['courseNumber'],
-                                         section = None, # TODO Should there be a section option in the front end?
-                                         ctitle = data['courseTitle'],
-                                         is_active = data['isActive'])  # TODO: should I leave this off for the activate/deactivate part? # should it be 0 or 1 by default?
+            newCourse = BannerCourses.create(subject = subject,
+                                             number = data['courseNumber'],
+                                             section = None,
+                                             ctitle = data['courseTitle'],
+                                             is_active = True)  # TODO: should I leave this off for the activate/deactivate part? # should it be 0 or 1 by default?
 
-        flash("New Course created successfully!")
-        return jsonify({"Success": True})
+            flash("New Course created successfully!")
+            return redirect(redirect_url()) # TODO: Fix the flash message not showing up. 
+
+        subject_prefix = Subject.select()
+        return render_template("addNewCourse.html",
+                               cfg=cfg,
+                               isAdmin = True,
+                               page="addNewCourse",
+                               subjectPrefix = subject_prefix,)
     except Exception as e:
         print("Error on creating a new course: ", e)
         return jsonify({"Success": False}), 500
