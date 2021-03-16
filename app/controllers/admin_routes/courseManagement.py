@@ -1,7 +1,7 @@
 from app.controllers.admin_routes import *
 
 import pprint
-from flask import jsonify
+from flask import jsonify, redirect
 from app.logic.redirectBack import redirect_url
 
 from app.allImports import *
@@ -285,21 +285,21 @@ def addNewCourse():
             data = request.form
             subject = Subject.select().where(Subject.prefix == data['subjectPrefix'])
 
-            newCourse = BannerCourses.create(subject = subject,
+            new_course = BannerCourses.create(subject = subject,
                                              number = data['courseNumber'],
                                              section = None,
                                              ctitle = data['courseTitle'],
-                                             is_active = True)  # TODO: should I leave this off for the activate/deactivate part? # should it be 0 or 1 by default?
+                                             is_active = True)
 
             flash("New Course created successfully!")
-            return redirect(redirect_url()) # TODO: Fix the flash message not showing up. 
-
-        subject_prefix = Subject.select()
-        return render_template("addNewCourse.html",
-                               cfg=cfg,
-                               isAdmin = True,
-                               page="addNewCourse",
-                               subjectPrefix = subject_prefix,)
+            return redirect(redirect_url()) # TODO: Fix the flash message not showing up.
+        else:
+            subject_prefix = Subject.select()
+            return render_template("addNewCourse.html",
+                                   cfg=cfg,
+                                   isAdmin = True,
+                                   page="addNewCourse",
+                                   subjectPrefix = subject_prefix)
     except Exception as e:
         print("Error on creating a new course: ", e)
         return jsonify({"Success": False}), 500

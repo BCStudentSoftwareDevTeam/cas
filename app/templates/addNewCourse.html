@@ -12,33 +12,33 @@
         <h2>New Course</h2>
         <div class="panel panel-default col-md-6">
           <div class="panel-heading">
-            <h3 class="panel-title">Add a New Course
-              <a data-toggle="popover" data-content="Description">
-                <span class="glyphicon glyphicon-question-sign"></span>
-              </a>
-            </h3>
+            <h3 class="panel-title">Add a New Course</h3>
           </div>
           <div class="panel-body">
             <form action="/courseManagement/addNewCourse" method="post" id="active">
-              <div class="form-group">
-                <label for="subjectPrefix">Course Prefix</label>
-                <select class="selectpicker form-control" name="subjectPrefix" data-live-search="true"  data-container="#wrapper" required>
-                  {% for subject in subjectPrefix %}
-                    <option value="{{subject.prefix}}">
-                      {{subject.prefix}}
-                    </option>
-                  {% endfor %}
-                </select>
+              <div class="form-group col-md-12" style="padding-left: 0px;">
+                <div class="col-md-6">
+                  <label for="subjectPrefix">Course Prefix</label>
+                  <select class="selectpicker form-control" name="subjectPrefix" data-live-search="true"  data-container="#wrapper" title="Choose a course prefix" required>
+                    {% for subject in subjectPrefix %}
+                      <option value="{{subject.prefix}}">
+                        {{subject.prefix}}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6" style="padding-right: 0px;">
+                  <div><label for="courseNumber">Course Number</label></div>
+                  <input type="text" class="form-control" name="courseNumber" placeholder="Specify course number" required/>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="courseNumber">Course Number</label>
-                <input type="text" name="courseNumber" required />
+              <div class="form-group col-md-12">
+                <div><label for="courseTitle">Course Title</label></div>
+                <input type="text" class="form-control" name="courseTitle" placeholder="Specify course title" required/>
               </div>
-              <div class="form-group">
-                <label for="courseTitle">Course Title</label>
-                <input type="text" name="courseTitle" required />
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-info">Add</button>
               </div>
-              <button type="submit" class="btn btn-info">Add</button>
             </form>
           </div>
         </div>
