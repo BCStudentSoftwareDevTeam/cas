@@ -292,7 +292,7 @@ def addNewCourse():
                                              is_active = True)
 
             flash("New Course created successfully!")
-            return redirect(redirect_url()) # TODO: Fix the flash message not showing up.
+            return redirect(redirect_url())
         else:
             subject_prefix = Subject.select()
             return render_template("addNewCourse.html",
