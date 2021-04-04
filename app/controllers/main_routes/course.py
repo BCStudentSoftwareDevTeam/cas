@@ -32,7 +32,7 @@ def courses(tID, prefix, can_edit):     #can_edit comes from @can_modify
     curTermName = Term.get(Term.termCode == tID)
     terms = Term.select().order_by(-Term.termCode)
 
-    allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
+    allCourses = BannerCourses.select().order_by(BannerCourses.subject.asc())
     # We need these for populating add course
     courseInfo = (BannerCourses
                         .select(BannerCourses, Subject)
