@@ -41,7 +41,7 @@
             <!--TAUGHT BY-->
             <td>
                 {% for instructor in course.instructors %}
-		{{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> 
+		{{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br>
                 {% endfor %}
             </td>
             <!-- SECTION -->
@@ -78,7 +78,7 @@
             <!-- ROOM -->
             <td>
                 {% if not course.offCampusFlag and course.rid is none %}
-                   <p>On-campus</p>                
+                   <p>On-campus</p>
                 {% else %}
                   {% if course.rid is not none %}
                     {{course.rid.building.name}} {{course.rid.number}}
@@ -134,7 +134,7 @@
                 {% if course.faculty_credit  %}
                     {{course.faculty_credit}}
                 {% else %}
-                    No Credit specified
+                    0
                 {% endif %}
             </td>
             <!--LAST EDITED BY-->
@@ -293,7 +293,7 @@
               {% if course.faculty_credit is not none  %}
                   {{course.faculty_credit}}
               {% else %}
-                  No Credit specified
+                  0
               {% endif %}
           </td>
           <!--LAST EDITED BY-->
