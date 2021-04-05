@@ -115,7 +115,10 @@ class ExcelMaker:
         if course.offCampusFlag:
             sheet.write('U{0}'.format(row), 'Yes')
 
-        sheet.write('V{0}'.format(row), course.faculty_credit)
+        if course.crossListed and course.parentCourse: # child crosslisted course
+            sheet.write('V{0}'.format(row), "0")
+        else:
+            sheet.write('V{0}'.format(row), course.faculty_credit)
 
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
 
