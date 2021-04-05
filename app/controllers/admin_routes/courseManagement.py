@@ -291,7 +291,7 @@ def addNewCourse():
                                              ctitle = data['courseTitle'],
                                              is_active = True)
 
-            flash("New Course created successfully!")
+            flash("New course created successfully!")
             return redirect(redirect_url())
         else:
             subject_prefix = Subject.select()
