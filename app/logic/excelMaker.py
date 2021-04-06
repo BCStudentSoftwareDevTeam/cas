@@ -71,7 +71,7 @@ class ExcelMaker:
         self.intr_letter = 'R'
 
 
-    def write_course_info(self,sheet,row,course, master_sheet=None):
+    def write_course_info(self,sheet,row,course):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
         sheet.write('B{0}'.format(row),course.bannerRef.number)
@@ -216,6 +216,7 @@ class ExcelMaker:
         #Loop through programs
         programs = Subject.select().order_by(Subject.prefix)
 
+
         # Create worksheets and set headers for each program
         for program in programs:
 
@@ -233,7 +234,7 @@ class ExcelMaker:
                 if course.crossListed:
                     sheet_matrix.append([cross_sheet,self.cross_row])
                 for sheet_list in sheet_matrix:
-                    self.write_course_info(sheet_list[0],sheet_list[1],course, master_sheet)
+                    self.write_course_info(sheet_list[0],sheet_list[1],course)
                 self.increment_rows(course)
 
         workbook.close()
