@@ -1,7 +1,6 @@
 from app.allImports import *
 from app.logic.redirectBack import redirect_url
 from flask import session
-
 @app.route("/login", methods=["GET"])
 def login():
     # get the user from shibboleth
@@ -15,7 +14,7 @@ def login():
     except Exception as e:
         abort(401)
     abort(401)
-    
+
 @app.route("/logout", methods=["GET"])
 @login_required
 def logout():
