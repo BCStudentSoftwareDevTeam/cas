@@ -20,6 +20,9 @@ from app.allImports import *
 # secret config first
 cfg = load_config("app/secret_config.yaml")
 app.secret_key = cfg["secret_key"]
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 from app.loadConfig import load_config
 from app import login_logout
