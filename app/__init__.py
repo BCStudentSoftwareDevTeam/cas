@@ -1,8 +1,10 @@
 from flask import Flask
+
 # from app import logtool
 # import logging
 
 app = Flask(__name__)
+
 
 from app.allImports import *
 
@@ -12,18 +14,19 @@ from app.allImports import *
 #     return cfg
 
 
-from app.loadConfig import load_config
+
+
 
 # secret config first
 cfg = load_config("app/secret_config.yaml")
 app.secret_key = cfg["secret_key"]
 
+from app.loadConfig import load_config
+from app import login_logout
+from app.login_manager import *
 # regular config
 # cfg = load_config()
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = 'login'
 
 from app.controllers.main_routes import main_bp as main_bp
 app.register_blueprint(main_bp)
