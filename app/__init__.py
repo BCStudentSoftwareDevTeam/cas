@@ -4,8 +4,6 @@ from flask import Flask
 # import logging
 
 app = Flask(__name__)
-
-
 from app.allImports import *
 
 # def load_config(file):
