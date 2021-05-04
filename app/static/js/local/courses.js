@@ -10,13 +10,13 @@ function getSelectedCourse(elementId) {
 
 function testSort(response,id){
   console.log("Inside the TESTSORT function");
+  var optionsList = [];
   if (response !== "Error"){
        console.log("This is the response in the testSort",response);
-       var optionsList = [];
 
        for (var key in response){
            var option = "";
-           console.log(option)
+           console.log(option);
            /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
            // console.log("Course: ", response[key]);
            //  console.log(response[key].schedule_object);
@@ -35,7 +35,7 @@ function testSort(response,id){
            // Add Instructors, if they exist
            if (response[key].instructors != null && response[key].instructors.length > 0) {
                // console.log(response[key].instructors);
-               option += " ";
+               option += "[";
                first = true;
                for (inst in response[key].instructors) {
                    // console.log(response[key].instructors[inst]);
@@ -47,7 +47,7 @@ function testSort(response,id){
                    }
 
                }
-               option += "";
+               option += "]";
            }
            optionsList.push(option)
        }
@@ -56,12 +56,17 @@ function testSort(response,id){
        console.log(optionsList);
        optionsList.sort();
        console.log("after Sort");
+       console.log("Tis is ");
        console.log(optionsList);
+       console.log("just before return");
+       return optionsList;
    }
+   return optionsList;
 
 }
 function fillCourses(response, id){
-    testSort(response,id);
+    var coursesList = testSort(response,id);
+    console.log(coursesList);
 //   console.log('Response', response);
     var selectPicker = document.getElementById("multipleCoursesSelect");
 
@@ -69,46 +74,19 @@ function fillCourses(response, id){
     $(selectPicker).selectpicker('refresh');
    console.log("Before the if of response");
    if (response !== "Error"){
+      console.log("Inside the if");
         var courses = document.getElementById("coursesDiv");
         courses.style.display = 'inline';// do enabled/disabled instead of hidden
-        console.log("This is the response",response);
-        for (var key in response){
+        var key = 1000;
+        console.log(coursesList.length);
+        for (var i=0, l=coursesList.length; i<l;i++){
+          console.log("Inside the for loop");
             var option = document.createElement("option");
-            console.log(option)
-            /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
-            // console.log("Course: ", response[key]);
-            //  console.log(response[key].schedule_object);
-            option.text=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString();
-            if (response[key].section != null && response[key].section != "None") {
-                // console.log("Section: ", response[key].section);
-                option.text+=" " + response[key].section;
-            }
-            option.text+=" - "+response[key].bannerRef["ctitle"].toString()
-            // Add schedule, if it exists
-            if (response[key].schedule_object == true){
-                // console.log("Start time: ", response[key].schedule['startTime'] )
-                option.text += " (" +response[key].schedule['startTime'] + "-" +response[key].schedule['endTime']+")" ;
-            }
 
-            // Add Instructors, if they exist
-            if (response[key].instructors != null && response[key].instructors.length > 0) {
-                // console.log(response[key].instructors);
-                option.text += " [";
-                first = true;
-                for (inst in response[key].instructors) {
-                    // console.log(response[key].instructors[inst]);
-                    if (first) {
-                        option.text += response[key].instructors[inst];
-                        first = !first;
-                    } else {
-                        option.text += ", " + response[key].instructors[inst];
-                    }
-
-                }
-                option.text += "]";
-            }
-            print(option.text)
+            option.text = coursesList[i];
+            console.log("this is option.text", option.text);
             option.value = key;
+            key = key +1;
             selectPicker.appendChild(option);
             $('.selectpicker').selectpicker('refresh');
         }
