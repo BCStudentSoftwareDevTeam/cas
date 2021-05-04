@@ -7,18 +7,74 @@ function getSelectedCourse(elementId) {
    return selectedCourse.options[selectedCourse.selectedIndex].text;
 
 }
+
+function testSort(response,id){
+  console.log("Inside the TESTSORT function");
+  if (response !== "Error"){
+       console.log("This is the response in the testSort",response);
+       var optionsList = [];
+
+       for (var key in response){
+           var option = "";
+           console.log(option)
+           /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
+           // console.log("Course: ", response[key]);
+           //  console.log(response[key].schedule_object);
+           option=response[key].prefix["prefix"].toString()+" "+response[key].bannerRef["number"].toString();
+           if (response[key].section != null && response[key].section != "None") {
+               // console.log("Section: ", response[key].section);
+               option+=" " + response[key].section;
+           }
+           option+=" - "+response[key].bannerRef["ctitle"].toString()
+           // Add schedule, if it exists
+           if (response[key].schedule_object == true){
+               // console.log("Start time: ", response[key].schedule['startTime'] )
+               option += " (" +response[key].schedule['startTime'] + "-" +response[key].schedule['endTime']+")" ;
+           }
+
+           // Add Instructors, if they exist
+           if (response[key].instructors != null && response[key].instructors.length > 0) {
+               // console.log(response[key].instructors);
+               option += " ";
+               first = true;
+               for (inst in response[key].instructors) {
+                   // console.log(response[key].instructors[inst]);
+                   if (first) {
+                       option += response[key].instructors[inst];
+                       first = !first;
+                   } else {
+                       option += ", " + response[key].instructors[inst];
+                   }
+
+               }
+               option += "";
+           }
+           optionsList.push(option)
+       }
+       console.log("These are the options in the list");
+       console.log("before sort");
+       console.log(optionsList);
+       optionsList.sort();
+       console.log("after Sort");
+       console.log(optionsList);
+   }
+
+}
 function fillCourses(response, id){
+    testSort(response,id);
 //   console.log('Response', response);
     var selectPicker = document.getElementById("multipleCoursesSelect");
 
     $(selectPicker).find('option').remove();
     $(selectPicker).selectpicker('refresh');
+   console.log("Before the if of response");
    if (response !== "Error"){
         var courses = document.getElementById("coursesDiv");
         courses.style.display = 'inline';// do enabled/disabled instead of hidden
-
+        console.log("This is the response",response);
         for (var key in response){
             var option = document.createElement("option");
+            console.log(option)
             /*CSC 111 - COURSE NAME (startTime - endTime) [instructor_lastname]*/
             // console.log("Course: ", response[key]);
             //  console.log(response[key].schedule_object);
@@ -51,7 +107,7 @@ function fillCourses(response, id){
                 }
                 option.text += "]";
             }
-
+            print(option.text)
             option.value = key;
             selectPicker.appendChild(option);
             $('.selectpicker').selectpicker('refresh');
@@ -76,7 +132,7 @@ function retrieveCourses(obj){
 
     //$(selectPicker).find('option').remove();
     $(selectPicker).selectpicker('refresh');
-    console.log("Retrieve courses is called!")
+    console.log("Retrieve courses is called!.....")
     var id = $(obj).attr('id');
     var x = window.location.href
     var y =x.split("/");
@@ -88,7 +144,7 @@ function retrieveCourses(obj){
             url: '/get_termcourses/'+selected_term+"/"+y[5],
             dataType: 'json',
             success: function(response){
-                // console.log('Response', response)
+                console.log('Response', response)
       			fillCourses(response, id);
       			},
       			error: function(error){
