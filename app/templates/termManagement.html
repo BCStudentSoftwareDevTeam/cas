@@ -19,13 +19,13 @@
           {% include "snips/termModal.html" %}
           {% for term in terms %}
           <tr  id = "{{ term.termCode }}" class = "row" >
-            <td> 
+            <td>
             {% for state in term_state %}
                 {% if state.number == 0 %}
                 <td style="margin-top:1px !important; padding-top: 1px !important;">
                   <!-- Generates the term buttons-->
-                  <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false" 
-                  aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.term_state.order}}">{{term.name}} 
+                  <button style="width: 100%;" type="button" class="btn btn-primary terms_btn" data-target="#order{{state.order + 1}}" aria-expanded="false"
+                  aria-controls="order{{state.order + 1}}" onclick="showPanel({{term.termCode}},this); enableTheOne('#{{term.termCode}} #btn{{state.order + 1}}');" id = "{{term.termCode}}_{{term.term_state.order}}">{{term.name}}
                   </button>
                 {% else %}
                 <!--This cater for the archiving state which is not the menu tab on the row, generates the other six menu tabs-->
@@ -33,15 +33,15 @@
                   <td style="padding: 1px !important; margin: 1px !important;">
                     <button style="width:100%" class="theButtons btn btn-dark" type = "button" id = "btn{{state.order}}" data-target="#order{{state.order}}" aria-expanded="false" aria-controls="order{{state.order}}" disabled = "disabled"
                     onclick="showPanel({{term.termCode}},this);)" >{{state.display_name}} <span class="glyphicon glyphicon-chevron-right"></span></button>
-                  </td>  
+                  </td>
                   {% endif %}
                 {% endif %}
                 </td>
             {% endfor %}
             </td>
-          <td style="padding: 1px !important; margin: 1px !important;"> 
+          <td style="padding: 1px !important; margin: 1px !important;">
             <button type="button" class="btn btn-success" onclick = 'downloadCourses({{term.termCode}})' >Download</button>
-          </td>  
+          </td>
           </tr>
           <tr  id = "hidden_{{ term.termCode }}">
             <td colspan="10" id = "divForPanel{{term.termCode}}" align="center" > <!-- Calls the panels for each button in  term--> </td>
@@ -58,7 +58,7 @@
       {% set format3 = [7] %}
       {% for state in term_state %}
         {% if state.number in format0 %}
-            <div id="order{{state.order}}" class="collapse text-center"> 
+            <div id="order{{state.order}}" class="collapse text-center">
               <div class="panel-footer">
                 <div class = "row text-center">
                    <p><b>{{cfg['states'][state.number]['mainInfo']}}</b></p> <!-- Access the state number from the config file and then get the value of mainInfo-->
@@ -68,7 +68,7 @@
                   <p><i>{{cfg['states'][state.number]['subtext']}}</i></p>
                 </div>
                 <div class = "col-sm-2">
-                  <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false" 
+                  <button class="btn btn-sm btn-success" type="button" id="button{{state.number}}" data-toggle="collapse" data-target="#order{{state.order}},#order{{state.order + 1}}" aria-expanded="false"
                   aria-controls="order{{state.order + 1}}" onclick="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); change_text();submit_data({{state.order}},'false');">{{state.display_name}}<span class="glyphicon glyphicon-chevron-right"> </span></button>
                 </div><!--Closes column-->
                 </div><!--Closes row-->
@@ -85,21 +85,21 @@
                       <div class = "col-sm-6">
                          <p><br><i>{{cfg['states'][state.number]['left_help_text']}}</i></p>
                          <!-- this is for the unlock button --->
-                          <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false" 
+                          <button class="btn btn-sm btn-danger" type = "button" id = "button{{state.order-1}}" data-toggle="collapse" data-target="#order{{state.order - 1}}, #order{{state.order}}" aria-expanded="false"
                           aria-controls="{{state.order-1}}" onclick="enableTheOne('btn{{state.order-1}}'); reverseFunc('btn{{state.order-1}}', {{state.order-1}});"> <span class="glyphicon glyphicon-chevron-left"></span>{{cfg['states'][state.order - 1]['btn']}}</button>
                       </div>
-                      
+
                       <div class = "col-sm-6 ">
                           <p><br><i>{{cfg['states'][state.number]['right_help_text']}}</i></p>
                           <!--- this is for the lock button --->
                           {% if state.number == 5 %} <!-- Checking for statenumber to see if wait modal needs to popup -->
-                          <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
+                          <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false"
                           aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}}, 'false'); waitModal();" >
                             {{state.display_name}}
                             <span class="glyphicon glyphicon-chevron-right"></span>
                           </button>
                           {% else %}
-                          <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false" 
+                          <button class="btn btn-sm btn-success" type = "button" id = "button{{state.order + 1}}" data-toggle="collapse" data-target="#order{{state.order + 1}}, #order{{state.order}}"  aria-expanded="false"
                           aria-controls="{{state.order + 1}}" onclick ="enableTheOne('btn{{state.order + 1}}'); prevcolor('btn{{state.order}}'); submit_data({{state.order}}, 'false');" >
                             {{state.display_name}}
                             <span class="glyphicon glyphicon-chevron-right"></span>
@@ -108,7 +108,7 @@
                           <br>
                           <span style="margin-top:1px">
                             <sub>
-                              <br> 
+                              <br>
                                 {{cfg['states'][state.number]['subtext']}}
                           </span>
                       </div><!-- Closes column-->
@@ -116,7 +116,7 @@
                     </div>
                   </div><!-- Closes order-->
                 </div><!--Closes row -->
-    {% elif state.number in format2 %} 
+    {% elif state.number in format2 %}
       <!--FINISH-->
        <div id="order6" class="collapse text-center">
           <div class = "panel-footer">
@@ -127,7 +127,7 @@
               <div class = "col-sm-3 text-left ">
               <!--Click below to go to Room resolutions page-->
                 <p><sub>{{cfg['states'][state.number]['goto_text']}}</sub></p>
-                <a onclick = "goto_roomResolution()">{{cfg['states'][state.number]['goto_link']}}</a>
+                <a onclick = "goto_roomResolution()" style="cursor: pointer;">{{cfg['states'][state.number]['goto_link']}}</a>
               </div>
               <div class= "col-sm-6 text-center">
                   <p>
@@ -139,11 +139,11 @@
                  onclick ="enableTheOne('btn{{state.order}}'), submit_data({{state.order}}-1,'false'), waitModal();"> {{cfg['states'][state.number]['btn']}}
                 </button>
               </div>
-                <div class = "col-sm-3 text-right"> 
+                <div class = "col-sm-3 text-right">
               <!-- Click to finish term-->
                 <p><sub>{{cfg['states'][state.number]['right_help_text']}}</sub><br></p>
                 <!--Finish button-->
-                  <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}" 
+                  <button type="button" id ="button{{state.order}}" class="btn btn-success finalize" data-toggle="collapse" data-target= "#order{{state.order + 1}}" aria-controls="order{{state.order + 1}}"
                     onclick="enableTheOne('btn{{state.order}}'); prevcolor('btn{{state.order}}');submit_data({{state.order}},'false'); collapser(6);"> {{state.display_name}}
                   </button>
                 </div><!--Closes column-->
@@ -160,12 +160,12 @@
             </div>
           <div class = "row">
                  <!--{# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}-->
-              <div class = "col-sm-4">  
+              <div class = "col-sm-4">
                 <br>
                 <!--<a>Download Rooms </a>-->
               </div>
             <div class = "col-sm-8 text-left">
-              <div class = " text-right"> 
+              <div class = " text-right">
                   <input type = "button" class = "btn btn-danger" id = "Archive"  data-target ="#myModal" data-toggle="modal" aria-expanded="false" value = "Archive" ></input><br>
                 <br><p><sub>(Archiving will hide the term from view in other CAS interfaces.)</sub></p>
               </div>
@@ -181,12 +181,12 @@
               </div>
             <div class = "row">
                    <!--{# Download Rooms is no longer needed by itself because the data it would contain is being added to the downloadCourses #}-->
-                <div class = "col-sm-4">  
+                <div class = "col-sm-4">
                   <br>
                   <!--<a>Download Rooms </a>-->
                 </div>
               <div class = "col-sm-8 text-left">
-                <div class = "text-right"> 
+                <div class = "text-right">
                     <input type = "button" class = "btn btn-danger" id = "Unarchive"  data-target ="#unarchiveModal" data-toggle="modal" aria-expanded="false" value = "Unarchive" onclick= ""></input><br>
                   <br><p><sub>(Unarchiving will show the term within other CAS interfaces.)</sub></p>
                 </div>
@@ -275,7 +275,7 @@
       </div>
     </form>
   </div>  <!-- Closes panel-body-->
-   
-  
+
+
 <!--------------------------------------------End----CREATE A NEW TERM---------------------------------------->
 {% endblock %}
