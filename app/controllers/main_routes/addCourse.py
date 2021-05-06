@@ -276,7 +276,6 @@ def term_courses(term, dept_prefix):
 
         courses = Course.select().where(Course.prefix == dept_prefix,
                                         Course.term == selected_term.termCode)
-
         if courses:
             for course in courses:
                 course_info = []
@@ -296,7 +295,7 @@ def term_courses(term, dept_prefix):
                     course_ctitle = course.bannerRef.ctitle
                     course_info.append(course_ctitle)
 
-                    if course.schedule and course.schedule != 'ZZZ': 
+                    if course.schedule and course.schedule != 'ZZZ':
                         course_start_time = course.schedule.startTime.strftime("%I:%M %p")
                         course_end_time = course.schedule.endTime.strftime("%I:%M %p")
                         course_info.append('(' + course_start_time + ' ' + course_end_time + ')')
@@ -309,6 +308,10 @@ def term_courses(term, dept_prefix):
                         course_info.append(str(instructors_name))
 
                 courses_list.append({"course_id": course.cId, "course_info": ' '.join(course_info)})
+
+        #sorting w.r.t course_info
+        courses_list = sorted(courses_list,key= lambda i:i['course_info'])
+
         return json.dumps(courses_list)
     except Exception as e:
         print("Error on importing courses: ", e)
