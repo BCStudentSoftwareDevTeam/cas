@@ -41,7 +41,7 @@
             <!--TAUGHT BY-->
             <td>
                 {% for instructor in course.instructors %}
-		{{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br> 
+		{{instructor.username.firstName[0] + ". "+instructor.username.lastName}}<br>
                 {% endfor %}
             </td>
             <!-- SECTION -->
@@ -78,7 +78,7 @@
             <!-- ROOM -->
             <td>
                 {% if not course.offCampusFlag and course.rid is none %}
-                   <p>On-campus</p>                
+                   <p>On-campus</p>
                 {% else %}
                   {% if course.rid is not none %}
                     {{course.rid.building.name}} {{course.rid.number}}
@@ -139,7 +139,9 @@
             </td>
             <!--LAST EDITED BY-->
             <td>
+              {% if course.lastEditBy %}
                 {{course.lastEditBy}}
+              {% endif %}
             </td>
       {% if key > 2 and isAdmin %} {# if user is admin and its summer course, they can edit (key > 2 means it's summer) #}
           {% if (course.crossListed == 1 and course.parentCourse == None) or course.parentCourse == None %}
@@ -298,7 +300,9 @@
           </td>
           <!--LAST EDITED BY-->
           <td>
+            {% if course.lastEditBy %}
               {{course.lastEditBy}}
+            {% endif %}
           </td>
           {% if isAdmin or curTermName.term_state_id == 1 and can_edit == True %}
           <!-- if user is admin,scheduling is open, and they are permitted to edit these SPECIAL TOPIC courses -->
