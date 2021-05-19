@@ -3,6 +3,8 @@ from flask import request
 from app.controllers.error_routes.errorHandler import *
 from app.models.models import User
 
+login_manager = LoginManager()
+
 
 def getUsernameFromEnv():
     env = request.environ
