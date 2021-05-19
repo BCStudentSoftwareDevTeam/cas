@@ -266,46 +266,53 @@ def add_many(tid, can_edit):
     return redirect(redirect_url())
 
 
-@main_bp.route('/get_termcourses/<term>/<department>')
-def term_courses(term, department):
+@main_bp.route('/get_termcourses/<term>/<dept_prefix>')
+def term_courses(term, dept_prefix):
     '''returns all courses for a specific term to ajax call when importing one/many course from terms'''
 
     try:
-        term1 = Term.get(Term.name == term)
-        courses_dict = {}
+        selected_term = Term.get(Term.name == term)
+        courses_list = []
 
-        courses = Course.select().where(
-            Course.prefix == department,
-            Course.term == term1.termCode)
+        courses = Course.select().where(Course.prefix == dept_prefix,
+                                        Course.term == selected_term.termCode)
+
         if courses:
             for course in courses:
+                course_info = []
                 bannerNumber = str(course.bannerRef.number)[-2:]
-                # Don't add x86 courses
-                if bannerNumber != '86':
-                    courses_dict[course.cId] = model_to_dict(course)
-                    if course.schedule:
-                        if course.schedule != "ZZZ":
-                            courses_dict[course.cId]["schedule"]["startTime"] = str(
-                                courses_dict[course.cId]["schedule"]["startTime"].strftime("%I:%M %p"))
-                            courses_dict[course.cId]["schedule"]["endTime"] = str(
-                                courses_dict[course.cId]["schedule"]["endTime"].strftime("%I:%M %p"))
-                            courses_dict[course.cId]["schedule_object"] = True
-                        else:
-                            courses_dict[course.cId]["schedule_object"] = False
-                    else:
-                        courses_dict[course.cId]["schedule_object"] = False
 
-                    # Get instructor
-                    inst = InstructorCourse.select().where(InstructorCourse.course == course)
-                    courses_dict[course.cId]["instructors"] = []
-                    for instructor in inst:
-                        courses_dict[course.cId]["instructors"].append(
-                            instructor.username.firstName[0] + ". " + instructor.username.lastName)
-                else:
-                    pass
-        return json.dumps(courses_dict)
-    except BaseException:
-        return json.dumps("Error")
+                if bannerNumber != '86': # Don't add special topics courses (they all end with x86)
+                    course_prefix = course.prefix.prefix
+                    course_info.append(course_prefix)
+
+                    course_number = course.bannerRef.number
+                    course_info.append(course_number + ' - ')
+
+                    course_section = course.bannerRef.section
+                    if course_section:
+                        course_info.append(course_section)
+
+                    course_ctitle = course.bannerRef.ctitle
+                    course_info.append(course_ctitle)
+
+                    if course.schedule and course.schedule != 'ZZZ': 
+                        course_start_time = course.schedule.startTime.strftime("%I:%M %p")
+                        course_end_time = course.schedule.endTime.strftime("%I:%M %p")
+                        course_info.append('(' + course_start_time + ' ' + course_end_time + ')')
+
+                    instructors = InstructorCourse.select().where(InstructorCourse.course == course)
+                    instructors_name = []
+                    if instructors:
+                        for instructor in instructors:
+                            instructors_name.append(instructor.username.firstName [0]+ ". " + instructor.username.lastName)
+                        course_info.append(str(instructors_name))
+
+                courses_list.append({"course_id": course.cId, "course_info": ' '.join(course_info)})
+        return json.dumps(courses_list)
+    except Exception as e:
+        print("Error on importing courses: ", e)
+        return jsonify({'Success': False})
 
 
 @main_bp.route("/courses/get_sections/", methods=["POST"])
