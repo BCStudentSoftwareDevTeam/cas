@@ -174,7 +174,7 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
                                parentCourse=course.cId,
                                section=values['section'],
                                prereq=convertPrereqs(prereqs),
-                               faculty_credit= values['faculty_credit'],
+                               faculty_credit= 0,
                                offCampusFlag = bool(values.get('offCampusFlag', False))
                                )
             cc_course.save()
