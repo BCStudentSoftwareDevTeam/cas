@@ -16,7 +16,7 @@ function getCurrentTerm() {
         var termCode = document.getElementById('termSelect').value
         return termCode
 }
-    
+
 $(document).ready(function ($) {
     var termCode = getCurrentTerm()
     $("#crossListedLink").attr("href", "/courseManagement/crossListed/" + termCode)
@@ -25,6 +25,6 @@ $(document).ready(function ($) {
     $("#courseTimeline").attr("href", "/courseTimeline/" + termCode)
     $("#specialCourseRequestsLink").attr("href", "/courseManagement/specialCourses/" + termCode)
     $("#deactivateLink").attr("href", " /edit/active/courses")
-   
-});
+    $("#addNewCourseLink").attr("href", "/courseManagement/addNewCourse")
 
+});
