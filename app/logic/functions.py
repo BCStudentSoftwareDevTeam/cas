@@ -165,7 +165,7 @@ def getColorClassDict(courses):
 
 def createColorString(changeType):
         ''' Purpose: This method will create a comma seperated list depending on the changeType entered
-        @param -changeType {string} = This should only ever be a type located in the config.yaml
+        @param -changeType {string} = This should only ever be a type located in the secret_config.yaml
         -->Author: CDM 20160713 '''
         # SET THE COLOR SCHEME FOR THE TD'S
         color = cfg["columnColor"][changeTpe]
@@ -253,7 +253,7 @@ def find_avail_unavailable_rooms(curr_course):
 
         #map assigned rooms to their courses' schedule
         rooms_to_courses = rooms_to_course_schedule(assignedRooms)
-        #find non-conflicting assignedRooms rooms for course using conflict logic defined in config.yaml:
+        #find non-conflicting assignedRooms rooms for course using conflict logic defined in secret_config.yaml:
         courseConflictsWith = set(cfg['conflicts'][curr_course.schedule_id])
         for key in rooms_to_courses:
             curr_room_schedules = set(rooms_to_courses[key])

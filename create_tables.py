@@ -9,7 +9,7 @@ import datetime
 here = os.path.dirname(__file__)
 # Don't forget to import your own models!
 from app.models.models import *
-conf = load_config(os.path.join(here,'app/config.yaml'))
+conf = load_config(os.path.join(here,'app/secret_config.yaml'))
 #onf = load_config('app/config.yaml')
 
 sqlite_dbs  = [ conf['databases']['dev'],

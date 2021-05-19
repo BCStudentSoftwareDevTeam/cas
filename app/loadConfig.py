@@ -8,7 +8,7 @@ import yaml, os
 #For Logging
 import logging
 
-def load_config(filename = 'app/config.yaml'):
+def load_config(filename = 'app/secret_config.yaml'):
     with open(filename, 'r') as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     return cfg

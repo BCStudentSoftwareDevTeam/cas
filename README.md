@@ -19,6 +19,8 @@ python app.py
 ```
 **NOTE:** The application is running over HTTPS. Therefore, make sure to change the link from ```bash http://IP_ADDRESS:8080 to https://IP_ADDRESS:8080 ```
 
+**NOTE:** You may need to change the username and password located on lines 19 and 20 of ```app/secret_config.yaml``` to match your SQL login information.
+
 You can now check your localhost to see if it deployed correctly.
 
 3. If working on a **cloud9** account follow instructions below to create a new workspace.
