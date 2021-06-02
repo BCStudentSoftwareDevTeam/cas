@@ -179,7 +179,6 @@
       </tr>
   {% endfor %}
   {% for course in specialCourses %}
-      {% if course.course not in  approved_special_topics %}
           <tr>
               <!--COURSE NAME-->
               <td>
@@ -333,7 +332,6 @@
               {% endif %}
           {% endif %}
           </tr>
-      {% endif %}
   {% endfor %}
 
     </tbody>
