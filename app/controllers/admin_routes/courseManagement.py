@@ -53,6 +53,7 @@ def crossListed(tid):
         # log.writer("Unable to parse Term ID, courseManagment.py", e)
         pass
     cfg = load_config()
+    
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
