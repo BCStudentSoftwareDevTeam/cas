@@ -136,8 +136,6 @@ function doDropzoneSetup() {
                                         success: function(response){
                                           // console.log(response)
                                           file.previewElement.remove();
-                                          this.removeFile(file)
-
                                         },
                                         error: function(error){
                                           console.log(error);
