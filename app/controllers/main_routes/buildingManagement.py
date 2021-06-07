@@ -104,6 +104,7 @@ def getImages(rid):
 def removeImage():
     room = Rooms.get(Rooms.rID == request.form["rid"])
     if not len(room.roomImageURL) == 0:
+        os.remove("app/static/images/" + room.roomImageURL)
         room.roomImageURL = None
     room.save()
     return json.dumps({"success":1})
