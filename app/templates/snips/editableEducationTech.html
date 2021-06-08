@@ -147,27 +147,15 @@
           <!-- <button type="button" class="btn btn-warning"
 		  data-toggle='modal' data-target='#save_warning'>Close</button> -->
         <p>
-              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-           Cancel
-          </button>
+              <button class="btn btn-primary" type="button" data-dismiss="modal" data-target="edTechModal" aria-expanded="false">
+                Cancel</button>
+
         </p>
-
-        <div class="collapse" id="collapseExample">
-          <div  class="mx-auto" style="width: 550px;" align="center">
-          <p class="text-danger">Are you sure that you want to close this window without saving?</p>
-          </div>
-            <div  class="mx-auto" style="width: 550px;" align="center">
-                <button type="button" class="btn btn-danger btn-sm"  data-dismiss="modal" data-target="#edTechModal">Close Without Saving</button>
-            </div>
-
-        </div>
       </div>
 
-
-
-
         <div class = "col-sm-10" align = "right">
-          <button type="button"  class="btn btn-primary" data-dismiss="modal" onclick='saveEdTechChanges()' aria-labelledby="Save button">Save</button>
+          <button type="button"  class="btn btn-primary" data-dismiss="modal" onclick='saveEdTechChanges()' aria-labelledby="Save button">
+            Save</button>
           </div>
       </div>
       </div>
