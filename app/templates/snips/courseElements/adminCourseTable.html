@@ -122,7 +122,8 @@
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
-                    <a href='javascript:;'  tabindex='0' data-toggle='popover' data-trigger='focus' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+                    <a href='javascript:;'  html=true data-templatefile="popup.js" data-toggle='popover' title='Course Notes <a href="#" class="close" data-dismiss="alert">&times;</a>' data-content='{{ course.notes }}'>Notes <script src="/static/js/local/popup.js"></script></a>
+                    <!-- <a href='javascript:;'  tabindex='0' data-toggle='popover' html = true data-trigger='focus' title='Course Notes' data-content='{{ course.notes }}'>Notes</a> -->
                 {% else %}
                     <p>Notes</p>
                 {% endif %}
