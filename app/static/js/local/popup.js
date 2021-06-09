@@ -1,6 +1,6 @@
 // on click make a pop-out for the notes
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover({
+    $('[data-toggle="popover"]').popover({               /* This creates and controls popover for course notes. */
         placement : 'top',
         html : true,
         trigger : 'focus',
@@ -11,7 +11,7 @@ $(document).ready(function(){
         $('[data-toggle="popover"]').parents(".popover").popover('hide');
     });
 
-    $('[data-toggle="tooltip"]').tooltip({
+    $('[data-toggle="tooltip"]').tooltip({              /* This creates and controls a tooltip for editActiveCourses */
       placement : 'top'
     })
 });
