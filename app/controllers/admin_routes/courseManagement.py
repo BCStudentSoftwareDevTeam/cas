@@ -303,4 +303,5 @@ def addNewCourse():
     except Exception as e:
         print("Error on creating a new course: ", e)
         return jsonify({"Success": False}), 500
-#Nonesense comment
+
+#Nonesense comments
