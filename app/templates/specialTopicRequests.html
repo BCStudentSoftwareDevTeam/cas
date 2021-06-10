@@ -32,7 +32,7 @@
                     {% include "snips/courseElements/adminSpecialTopicsTable.html" %}
                   {% else %}
                     <br/>
-                    <p> There are no special topic requests for {{state['name']}} . </p>
+                    <p> There are no special topic requests with the label <span style = "text-transform: lowercase">{{state['name']}} .</span> </p>
                   {% endif %}
                 </table>
               </div>
@@ -45,5 +45,3 @@
 <script src="/static/js/local/popup.js"></script>
 {% endblock %}
 <!--end page content-->
-
-
