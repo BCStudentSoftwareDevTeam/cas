@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import g
-from app.models.models import Term, BannerCourses, Course, CrossListed
+from app.models.models import Term, BannerCourses, Course, CrossListed,
 from collections import defaultdict
 from app.logic.authorizedUser import AuthorizedUser
 
@@ -37,8 +37,10 @@ def find_crosslist_courses(prefix, tID):
                     Tuple: contains Crosslisted Course Name, Verification State
         """
         course_to_crosslisted = defaultdict(list)
-        courses = (Course.select(Course, BannerCourses).join(BannerCourses).where(
-            (Course.prefix == prefix) & (Course.term == tID) & (Course.crossListed == 1)))
+        courses = (Course.select(Course, BannerCourses)
+                         .join(BannerCourses)
+                         .where(
+                            (Course.prefix == prefix) & (Course.term == tID) & (Course.crossListed == 1)))
         # courses = courses_prefetch.select().where(Course.crossListed == 1)
 
         for curr_course in courses:
