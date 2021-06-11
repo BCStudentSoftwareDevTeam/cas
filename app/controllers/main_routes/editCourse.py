@@ -95,6 +95,7 @@ def editSTCourseModal(tid, prefix, stid, page):
   instructors[course.stId] = InstructorSTCourse.select().where(InstructorSTCourse.course == course.stId)
   # SELECT ALL ROOMS
   rooms     = Rooms.select()
+  checkUser = DataUpdate()
 
   return render_template("snips/courseElements/editSTCourse.html",
                           schedules = schedules,
