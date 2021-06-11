@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import g
-from app.models.models import Term, BannerCourses, Course, CrossListed,
+from app.models.models import Term, BannerCourses, Course, CrossListed, SpecialTopicCourse
 from collections import defaultdict
 from app.logic.authorizedUser import AuthorizedUser
 
@@ -43,6 +43,11 @@ def find_crosslist_courses(prefix, tID):
                             (Course.prefix == prefix) & (Course.term == tID) & (Course.crossListed == 1)))
         # courses = courses_prefetch.select().where(Course.crossListed == 1)
 
+        # line 46-49 Access courses in SpecialTopicCourse table that are crossListed and append it to course_to_crosslisted dict. -Sreynit 6/11/2021
+        special_courses = SpecialTopicCourse.select().where(SpecialTopicCourse.crossListed == 1)
+        for sp_crssl_course in special_courses:
+            course_to_crosslisted[crssl_course].append(sp_crssl_course)
+
         for curr_course in courses:
 
             #if the course is crosslisted_child
@@ -79,7 +84,9 @@ def find_crosslist_courses(prefix, tID):
                     else:
                         course_to_crosslisted[curr_course].insert(0, cross_course.verified)
         # print(course_to_crosslisted)
+        print(course_to_crosslisted)
         return course_to_crosslisted
+
 
 
 # FIXME I don't know what this function does or why it exists. -SH
