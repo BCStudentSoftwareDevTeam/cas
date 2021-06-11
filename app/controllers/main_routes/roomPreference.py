@@ -19,7 +19,7 @@ def roomPreference(term):
     current_term = term
     term = Term.get(Term.termCode == current_term)
     au = AuthorizedUser()
-    # print('Term', term.termCode)
+    #print('Term', term.termCode)
     if term.term_state.number == 3:
         current_user = au.username
 
@@ -27,33 +27,34 @@ def roomPreference(term):
         room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
 
         users= User.select()
-        instructors = InstructorCourse.select()
         educationTech= EducationTech.select()
 
         courses = ( Course.select()
-
-                        .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
                         .join(Term, on=(Term.termCode == Course.term))
-                        .where(InstructorCourse.username == current_user)
                         .where(Course.term == int(current_term))
                         .where(Course.offCampusFlag == False)
                     )
+        #print(courses)
         
         # Constructs RoomPreferences if they don't exist
         for course in courses:
             (rp, c) = RoomPreferences.get_or_create(course = course.cId)
 
         roompreferences= (  RoomPreferences.select()
-                                        .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
                                         .join(Course, on = (RoomPreferences.course == Course.cId))
-                                        .join(Term, on = (Course.term == Term.termCode))
-                                        .where(RoomPreferences.course == InstructorCourse.course
-                                                and InstructorCourse.username == current_user)
                                         .where(Course.term == current_term)
                                         .where(Course.offCampusFlag == False)
-                                        .distinct().where(Course.parentCourse == None)
-                            )
-        # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+                                        .where(Course.parentCourse == None))
+        
+        instructor_query = InstructorCourse.select(InstructorCourse, User).join(User)
+        instructors = {}
+        for instructor in instructor_query.objects():
+            c_id = instructor.course_id
+            if c_id not in instructors:
+                instructors[c_id] = []
+
+            instructors[c_id].append( f"{instructor.firstName} {instructor.lastName}")
+        
 
         return render_template(
                 "roomPreference.html",
