@@ -20,7 +20,56 @@ def roomPreference(term):
     term = Term.get(Term.termCode == current_term)
     au = AuthorizedUser()
     # print('Term', term.termCode)
-    if term.term_state.number == 3:
+
+    if au.user.isAdmin == True:
+                current_user = au.username
+
+                # Used to populate dropdowns and stuff
+                room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
+
+                users= User.select()
+                instructors = InstructorCourse.select()
+                educationTech= EducationTech.select()
+
+                courses = ( Course.select()
+
+                                .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
+                                .join(Term, on=(Term.termCode == Course.term))
+                                .where(Course.term == int(current_term))
+                                .where(Course.offCampusFlag == False)
+                                # .where(InstructorCourse.username == current_user) // Line commented out for admin to allow ability to see all courses
+                            )
+
+                # Constructs RoomPreferences if they don't exist
+                for course in courses:
+                    (rp, c) = RoomPreferences.get_or_create(course = course.cId)
+
+                roompreferences= (  RoomPreferences.select()
+                                                .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
+                                                .join(Course, on = (RoomPreferences.course == Course.cId))
+                                                .join(Term, on = (Course.term == Term.termCode))
+                                                .where(RoomPreferences.course == InstructorCourse.course)
+                                                .where(Course.term == current_term)
+                                                .where(Course.offCampusFlag == False)
+                                                .distinct().where(Course.parentCourse == None)
+                                                # and InstructorCourse.username == current_user)  // Line commented out for admin to allow ability to see all courses
+                                    )
+                # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+
+                return render_template(
+                        "roomPreference.html",
+                        roompreferences= roompreferences,
+                        room=room,
+                        users=users,
+                        course=courses,
+                        educationTech=educationTech,
+                        instructors=instructors,
+                        cfg = cfg,
+                        isAdmin = au.user.isAdmin
+                    )
+
+
+    elif term.term_state.number == 3:
         current_user = au.username
 
         # Used to populate dropdowns and stuff
@@ -38,7 +87,7 @@ def roomPreference(term):
                         .where(Course.term == int(current_term))
                         .where(Course.offCampusFlag == False)
                     )
-        
+
         # Constructs RoomPreferences if they don't exist
         for course in courses:
             (rp, c) = RoomPreferences.get_or_create(course = course.cId)
