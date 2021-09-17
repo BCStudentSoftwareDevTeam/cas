@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+<script src="/static/js/local/popup.js"></script>
 {#This is the HTML for the courses table! aka /courses/term/program Yeah I know it says Admin in the title but its for both -Kay 11/11/19 #}
 {% include "snips/courseElements/deleteSTCourse.html" %}
 <thead>
@@ -123,7 +124,8 @@
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
-                    <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+                    <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes </a>
+                    <!-- <a href='javascript:;'  tabindex='0' data-toggle='popover' html = true data-trigger='focus' title='Course Notes' data-content='{{ course.notes }}'>Notes</a> -->
                 {% else %}
                     <p>Notes</p>
                 {% endif %}
@@ -286,7 +288,7 @@
           <!--NOTES-->
           <td>
               {% if course.notes is not none %}
-                  <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+              <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes</a>
               {% else %}
                   <p>Notes</p>
               {% endif %}
