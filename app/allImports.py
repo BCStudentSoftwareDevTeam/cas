@@ -22,5 +22,5 @@ import pprint
 from flask_login import login_user, logout_user, current_user, LoginManager, login_required
 
 from app.loadConfig import load_config
-
 cfg = load_config()
+from app.controllers.error_routes import errorHandler

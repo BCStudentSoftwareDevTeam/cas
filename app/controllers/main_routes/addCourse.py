@@ -348,7 +348,6 @@ def get_sections():
         if edit and section is not None:
             sections.append(section)
             existing_section.append(section)
-
         for course in current_courses:
             existing_section.append(course.section)
         if "A" not in existing_section or len(current_courses) == 0:
