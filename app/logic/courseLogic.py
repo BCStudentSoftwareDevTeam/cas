@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import g
+from flask import g, abort
 from app.models.models import Term, BannerCourses, Course, CrossListed
 from collections import defaultdict
 from app.logic.authorizedUser import AuthorizedUser
@@ -117,7 +117,11 @@ def save_last_visited(f):
     def decorated_function(*args, **kwargs):
         au = AuthorizedUser()
         au.user.lastVisited = kwargs['prefix']
-        au.user.save()
+        try:
+            au.user.save()
+        except:
+            abort(404)
+
         return f(*args, **kwargs)
 
     return decorated_function
