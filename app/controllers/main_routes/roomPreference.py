@@ -53,9 +53,10 @@ def roomPreference(term):
     if au.user.isAdmin == False:
         roompreferences = roompreferences.where(InstructorCourse.username == current_user)
         courses = courses.where(InstructorCourse.username == current_user)
-        if term.term_state.number != 3:
-            return render_template("roomPreferencesLocked.html", cfg = cfg,
-                                                                 isAdmin = au.user.isAdmin)
+    if term.term_state.number != 3:
+        return render_template("roomPreferencesLocked.html",
+                                cfg = cfg,
+                                isAdmin = au.user.isAdmin)
 
     return render_template(
             "roomPreference.html",
