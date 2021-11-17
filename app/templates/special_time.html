@@ -17,38 +17,38 @@
               <tr>
                 <!--COURSE NAME-->
                 <td>
-                  {{course.prefix.prefix}} 
-                  {{course.bannerRef.number}} 
-                  {% if course.specialTopicName is not none %} 
-                    {{course.specialTopicName}} 
-                  {% else %} 
-                    {{course.bannerRef.ctitle}} 
+                  {{course.prefix.prefix}}
+                  {{course.bannerRef.number}}
+                  {% if course.specialTopicName is not none %}
+                    {{course.specialTopicName}}
+                  {% else %}
+                    {{course.bannerRef.ctitle}}
                   {%endif%}
                 </td>
                 <!--TAUGHT BY-->
                 <!--Needed in one line so names wrap correctly-->
                 <td>
-                  {% for instructorcourse in course.instructors_course_prefetch %} 
+                  {% for instructorcourse in course.instructors_course_prefetch %}
                     {{instructorcourse.username.firstName[0]+".  "+instructorcourse.username.lastName}}
                   {% endfor %}
                 </td>
                 <!--SCHEDULE-->
                 <td>
-                  {% if course.schedule is not none %} 
-                    {% for day in course.schedule.days %} {{ day.day }} 
-                  {% endfor %} 
-                    {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}} 
+                  {% if course.schedule is not none %}
+                    {% for day in course.schedule.days %} {{ day.day }}
+                  {% endfor %}
+                    {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                   {% endif %}
                 </td>
                 <!--CAPACITY-->
                 <td>
-                  {% if course.capacity is not none %} 
-                    {{course.capacity}} 
+                  {% if course.capacity is not none %}
+                    {{course.capacity}}
                   {% endif %}
                 </td>
                 <!-- ROOM -->
                 <td>
-                  {% if course.rid is not none %} 
+                  {% if course.rid is not none %}
                     {{course.rid.building.name}}:{{course.rid.number}}
                   {% else %}
                     <p>No room listed</p>
@@ -65,10 +65,7 @@
                 <!--NOTES-->
                 <td>
                   {% if course.notes is not none %}
-                    <a href='javascript:;' 
-                       data-toggle='popover' 
-                       title='Course Notes' 
-                       data-content='{% if course.notes is not none %}{{ course.notes }}{% endif %}'>Notes</a> 
+                    <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes</a> 
                   {% else %}
                     <p>Notes</p>
                   {% endif %}
