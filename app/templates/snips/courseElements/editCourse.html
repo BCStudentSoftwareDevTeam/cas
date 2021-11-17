@@ -148,8 +148,7 @@
 {% block belowContainer %}
 <script type="text/javascript">
   var cid = {{course.cId}};
-  var title =  "{{course.prefix.prefix}} {{course.bannerRef.number}} {{course.section}}";
-
+  var title =  "{{course.prefix.prefix|trim}} {{course.bannerRef.number|trim}} {{course.section|trim}}";
 </script>
 
 {% endblock %}
