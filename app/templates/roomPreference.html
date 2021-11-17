@@ -11,6 +11,7 @@
         <thead class="thead-dark">
             <th scope="col"><h4><strong> Term </strong></h4></th>
             <th scope="col"><h4><strong> Your Course(s)</strong></h4></th>
+            <th scope="col"> <h4><strong>Instructor(s) </strong></h4></th>
             <th scope="col"> <h4><strong>Section </strong></h4></th>
             <th scope="col"><h4> <strong>Time</strong> </h4></th>
             <th scope="col"><h4><strong> # of Students</strong></h4> </th>
@@ -26,6 +27,7 @@
                     <tr class = "courseTablerow1 selectTermModal" id = "courseTableRow_{{roompreference.course.cId}}">
     		            <td>{{roompreference.course.term.name}}<input hidden id = "row_state_{{roompreference.course.cId}}" value = ""/></td>
                         <td id = "courseInfo_{{roompreference.course.cId}}">{{roompreference.course.prefix}} - {{roompreference.course.bannerRef.number}}</td>
+                        <td>{{ instructors[roompreference.course.cId]|join("<br>")| safe }}</td>
                         <td> {% if roompreference.course.section %} {{roompreference.course.section}} {% else %} A {% endif %}</td> <!--<br>-->
                         <td> {% if roompreference.course.schedule_id != None %} {{roompreference.course.schedule.letter}} ({{roompreference.course.schedule.startTime.strftime('%H:%M %p')}} - {{roompreference.course.schedule.endTime.strftime('%H:%M %p')}}) {% else %} {% endif %} </td>
                         <td> {{roompreference.course.capacity}} </td>
