@@ -49,12 +49,8 @@ def roomPreference(term):
         instructor_query = InstructorCourse.select(InstructorCourse, User).join(User)
         instructors = {}
         for instructor in instructor_query.objects():
-            c_id = instructor.course_id
-            if c_id not in instructors:
-                instructors[c_id] = []
-
-            instructors[c_id].append( f"{instructor.firstName} {instructor.lastName}")
-        
+            name = f"{instructor.firstName} {instructor.lastName}"
+            instructors.setdefault(instructor.course_id, []).append(name)
 
         return render_template(
                 "roomPreference.html",
