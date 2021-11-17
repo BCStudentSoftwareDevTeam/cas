@@ -5,7 +5,6 @@ from flask import Flask
 
 app = Flask(__name__)
 from app.allImports import *
-
 # def load_config(file):
 #     with open(file, 'r') as ymlfile:
 #         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -32,8 +31,8 @@ from app.login_manager import *
 from app.controllers.main_routes import main_bp as main_bp
 app.register_blueprint(main_bp)
 
-from app.controllers.error_routes import error_bp as error_bp
-app.register_blueprint(error_bp)
+# from app.controllers.error_routes import error_bp as error_bp
+# app.register_blueprint(error_bp)
 
 from app.controllers.admin_routes import admin_bp as admin_bp
 app.register_blueprint(admin_bp)
