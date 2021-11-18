@@ -19,57 +19,60 @@ def roomPreference(term):
     current_term = term
     term = Term.get(Term.termCode == current_term)
     au = AuthorizedUser()
-    # print('Term', term.termCode)
-    if term.term_state.number == 3:
-        current_user = au.username
+    current_user = au.username
 
-        # Used to populate dropdowns and stuff
-        room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
+    # Used to populate dropdowns and stuff
+    room = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.asc())
 
-        users= User.select()
-        instructors = InstructorCourse.select()
-        educationTech= EducationTech.select()
+    users= User.select()
+    educationTech= EducationTech.select()
 
-        courses = ( Course.select()
+    courses = ( Course.select()
+                    .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
+                    .join(Term, on=(Term.termCode == Course.term))
+                    .where(Course.term == int(current_term))
+                    .where(Course.offCampusFlag == False))
 
-                        .join(InstructorCourse, on= (InstructorCourse.course == Course.cId))
-                        .join(Term, on=(Term.termCode == Course.term))
-                        .where(InstructorCourse.username == current_user)
-                        .where(Course.term == int(current_term))
-                        .where(Course.offCampusFlag == False)
-                    )
-        
-        # Constructs RoomPreferences if they don't exist
-        for course in courses:
-            (rp, c) = RoomPreferences.get_or_create(course = course.cId)
+    # Constructs RoomPreferences if they don't exist
+    for course in courses:
+        (rp, c) = RoomPreferences.get_or_create(course = course.cId)
 
-        roompreferences= (  RoomPreferences.select()
-                                        .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
-                                        .join(Course, on = (RoomPreferences.course == Course.cId))
-                                        .join(Term, on = (Course.term == Term.termCode))
-                                        .where(RoomPreferences.course == InstructorCourse.course
-                                                and InstructorCourse.username == current_user)
-                                        .where(Course.term == current_term)
-                                        .where(Course.offCampusFlag == False)
-                                        .distinct().where(Course.parentCourse == None)
-                            )
-        # roompreferences = RoomPreferences.select().join(Course, on = (RoomPreferences.course == Course.cId)).join(InstructorCourse, on=(Course.cId == InstructorCourse.course)).where(InstructorCourse.username == current_user and Course.term == current_term).distinct()
+    roompreferences= (  RoomPreferences.select()
+                                    .join(InstructorCourse, on = (InstructorCourse.course == RoomPreferences.course))
+                                    .join(Course, on = (RoomPreferences.course == Course.cId))
+                                    .join(Term, on = (Course.term == Term.termCode))
+                                    .where(RoomPreferences.course == InstructorCourse.course)
+                                    .where(Course.term == current_term)
+                                    .where(Course.offCampusFlag == False)
+                                    .distinct().where(Course.parentCourse == None))
 
-        return render_template(
-                "roomPreference.html",
-                roompreferences= roompreferences,
-                room=room,
-                users=users,
-                course=courses,
-                educationTech=educationTech,
-                instructors=instructors,
-                cfg = cfg,
-                isAdmin = au.user.isAdmin
-            )
-    else:
-        return render_template("roomPreferencesLocked.html", cfg = cfg,
-                                                             isAdmin = au.user.isAdmin)
+    if au.user.isAdmin == False:
+        roompreferences = roompreferences.where(InstructorCourse.username == current_user)
+        courses = courses.where(InstructorCourse.username == current_user)
 
+    if term.term_state.number != 3:
+        return render_template("roomPreferencesLocked.html",
+                                cfg = cfg,
+                                isAdmin = au.user.isAdmin)
+
+    instructor_query = InstructorCourse.select(InstructorCourse, User).join(User)
+    instructors = {}
+    for instructor in instructor_query.objects():
+        name = f"{instructor.firstName} {instructor.lastName}"
+        instructors.setdefault(instructor.course_id, []).append(name)
+
+
+    return render_template(
+            "roomPreference.html",
+            roompreferences= roompreferences,
+            room=room,
+            users=users,
+            course=courses,
+            educationTech=educationTech,
+            instructors=instructors,
+            cfg = cfg,
+            isAdmin = au.user.isAdmin
+        )
 
 @main_bp.route('/room_details/<rid>', methods = ["GET"])
 def room_details(rid):

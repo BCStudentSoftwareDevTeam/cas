@@ -19,7 +19,7 @@
     <tbody>
         {% for dict_item in courseName_to_term %}
             <tr title="{{dict_item[1]}}">
-                <th scope = "row" >{{dict_item[0]}} </th> 
+                <th scope = "row" >{{dict_item[0]}} </th>
                     {% for term in terms %}
                         {% if term.termCode in courseName_to_term[dict_item] %}
                             <td>
@@ -34,11 +34,11 @@
                     {% endfor %}
             </tr>
         {% endfor %}
-    
+
     </tbody>
 
-    </table
-    </br>
+    </table>
+    <br>
     <p><strong>* To be used for planning purposes only.</strong></p>
 </div>
 {% endblock %}

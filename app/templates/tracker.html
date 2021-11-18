@@ -92,9 +92,9 @@
                       {% if special != [] %}
                         <p>See Notes</p>
                       {% else %}
-                        {% for day in course.schedule.days %} 
-                          {{ day.day }} 
-                        {% endfor %} 
+                        {% for day in course.schedule.days %}
+                          {{ day.day }}
+                        {% endfor %}
                         {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
                       {% endif %}
                     {% endif %}
@@ -118,9 +118,7 @@
                   </td>
                   <td id="notes"class="{{classDict[course.cId][7]}}">
                     {% if course.notes is not none %}
-                      <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>
-                        Notes
-                      </a>
+                      <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes</a>
                     {% else %}
                       <p>Notes</p>
                     {% endif %}

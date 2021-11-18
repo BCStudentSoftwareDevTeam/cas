@@ -57,7 +57,12 @@ class AuthorizedUser():
         # @private
         self.username = authUser(request.environ)
         if self.username is not None:
-            self.user = User.get(User.username == self.username)
+            print("Logging in as", self.username)
+            self.user = User.get_or_none(User.username == self.username)
+
+            if not self.user:
+                print("Unable to get or create user for", self.username)
+                abort(403)
         else:
             abort(403)
 

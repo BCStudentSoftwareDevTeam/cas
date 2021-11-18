@@ -18,8 +18,10 @@
                         {% include "snips/courseElements/adminCourseTable.html" %}
                     </table>
                     <br>
-                    {% if (can_edit == True and curTermName.term_state.order == 1) or current_user.isAdmin == True %}
+                    {% if (can_edit == True and curTermName.term_state.name == "schedule_opened") or current_user.isAdmin == True %}
                         {% include "snips/courseElements/createCourse.html" %}
+                    {% elif (can_edit == False and curTermName.term_state.name == "schedule_opened") %}
+                        <p>User is not authorized to schedule in this division. Please contact the registrar office or the admin of this site.</p>
                     {% else %}
                         <br>
                         <p>Scheduling is closed for this term. Please contact the registrar office or the admin of this site.</p>
