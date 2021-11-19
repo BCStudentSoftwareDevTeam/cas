@@ -6,9 +6,10 @@
     <form method="post" action="\editcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
       <div class="modal-content">
         <div class="modal-header">
-          <a href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">
+          <a href={% if page == 'courses' %} "/courses/{{currentTerm}}/{{course.prefix.prefix}}"
+                  {% else %} "/courseManagement/{{page}}/{{currentTerm}}" {% endif %}>
             <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
             </button>
           </a>
           <h4 class="modal-title">Edit course</h4>
@@ -53,7 +54,7 @@
                   selected
                 {% endif %}
               >
-                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %} 
+                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %}
 		{{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}

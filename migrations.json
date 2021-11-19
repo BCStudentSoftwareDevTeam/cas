@@ -1,0 +1,32 @@
+{
+  "prerun": "# some code here",
+  "directory": "migrations",
+  "history": "migratehistory",
+  "models": [
+    "app.models.Division",
+    "app.models.BannerSchedule",
+    "app.models.TermStates",
+    "app.models.Building",
+    "app.models.EducationTech",
+    "app.models.Deadline",
+    "app.models.ScheduleDays",
+    "app.models.Term",
+    "app.models.Rooms",
+    "app.models.Program",
+    "app.models.Subject",
+    "app.models.User",
+    "app.models.BannerCourses",
+    "app.models.Course",
+    "app.models.CrossListed",
+    "app.models.SpecialTopicCourse",
+    "app.models.ProgramChair",
+    "app.models.DivisionChair",
+    "app.models.BuildingManager",
+    "app.models.InstructorCourse",
+    "app.models.InstructorSTCourse",
+    "app.models.CourseChange",
+    "app.models.InstructorCourseChange",
+    "app.models.CoursesInBanner",
+    "app.models.RoomPreferences"
+  ]
+}
