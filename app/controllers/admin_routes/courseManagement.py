@@ -59,6 +59,7 @@ def crossListed(tid):
                            page=page,
                            currentTerm=int(tid),
                            courses=courses_prefetch,
+                           crosslisted=[],
                            #courseInfo=courseInfo,
                            schedules=schedules,
                            rooms=rooms,
