@@ -6,20 +6,12 @@
     <form method="post" action="\editcourse\{{currentTerm}}\{{course.prefix.prefix}}\{{page}}">
       <div class="modal-content">
         <div class="modal-header">
-          {# DIFFERENT URL'S DEPENDING ON THE PAGE #}
-          {% if page == "courses" %}
-            <a href="/courses/{{currentTerm}}/{{course.prefix.prefix}}">
-              <button type="button" class="close" aria-label="Close">
-              <span>&times;</span>
-              </button>
-            </a>
-          {% else %}
-            <a href="/courseManagement/{{page}}/{{currentTerm}}">
-              <button type="button" class="close" aria-label="Close">
-              <span>&times;</span>
-              </button>
-            </a>
-          {% endif %}
+          <a href={{"/courses/{{currentTerm}}/{{course.prefix.prefix}}" if page == 'courses'
+                    else "/courseManagement/{{page}}/{{currentTerm}}"}}>
+            <button type="button" class="close" aria-label="Close">
+            <span>&times;</span>
+            </button>
+          </a>
           <h4 class="modal-title">Edit course</h4>
         </div>
         <div class="modal-body">
