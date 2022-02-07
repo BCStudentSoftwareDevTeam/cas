@@ -92,6 +92,7 @@
             <!--CROSS LISTED-->
             <td>
                 {% if course in crosslisted %}
+
                 <div class="form-check" id="checkcross">
                   {% if can_edit == True %}
                     {% if crosslisted[course][0] %}
@@ -103,24 +104,24 @@
                     {% endif %}
                   {% endif %}
                 </div>
-		<div class="row">
+		           <div class="row">
                     {% for cross_course in crosslisted[course][1:] %}
                         {% if cross_course.verified == False %}
                             <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
                                   <span class="glyphicon glyphicon-remove" style="color:red; clear:both;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                             </span>
-                        {% else %}
-                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
-                                  <span class="glyphicon glyphicon-ok" style="color:green; clear:both; " aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                            </span>
+                            {% else %}
+                                <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
+                                      <span class="glyphicon glyphicon-ok" style="color:green; clear:both; " aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                                </span>
                         {% endif %}
                     {% endfor %}
-		</div>
+		           </div>
                 {% else %}
+
                     No
                 {% endif %}
             </td>
-
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
