@@ -53,13 +53,24 @@ def crossListed(tid):
         # log.writer("Unable to parse Term ID, courseManagment.py", e)
         pass
     cfg = load_config()
-    
+    # for course in courses_prefetch:
+    #     print("course",course,"type:",type(course))
+
+    crossCourses = CrossListed.select().where(CrossListed.term == tid)
+    crosslisted_table = {}
+    for course in list(crossCourses):
+        if course not in crosslisted_table:
+            crosslisted_table[course.courseId] = []
+        crosslisted_table[course.courseId].append(course.verified)
+        crosslisted_table[course.courseId].append(course)
+        
+
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
                            currentTerm=int(tid),
                            courses=courses_prefetch,
-                           crosslisted=[],
+                           crosslisted= crosslisted_table,
                            #courseInfo=courseInfo,
                            schedules=schedules,
                            rooms=rooms,
@@ -67,7 +78,6 @@ def crossListed(tid):
                            cfg = cfg,
                            curTermName = curTermName,
                            isAdmin = au.user.isAdmin
-
                            )
 #############################
 #SCHEDULE AND ROOM CONFLICTS#
