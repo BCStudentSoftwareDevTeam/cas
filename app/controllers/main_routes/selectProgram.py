@@ -14,7 +14,7 @@ from app.models.models import Program, Subject
 #FIXME: @require_authorization
 def selectProgram():
     cfg = load_config()
-    programs = Program.select()
+    programs = Program.select().order_by(Program.name)
     subjects = Subject.select()
     return render_template("selectProgram.html",
                             allPrograms=programs,
