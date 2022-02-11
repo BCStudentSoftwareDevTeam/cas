@@ -58,13 +58,15 @@ def crossListed(tid):
 
     crossCourses = CrossListed.select().where(CrossListed.term == tid)
     crosslisted_table = {}
-    for course in list(crossCourses):
-        if course not in crosslisted_table:
-            crosslisted_table[course.courseId] = []
-        crosslisted_table[course.courseId].append(course.verified)
-        crosslisted_table[course.courseId].append(course)
-        
 
+    for course in list(crossCourses):
+        if course.courseId not in crosslisted_table:
+            crosslisted_table[course.courseId] = [course.verified,course]
+        else:
+            crosslisted_table[course.crosslistedCourse] = [course.verified,course]
+
+    for k,v in crosslisted_table.items():
+        print(k,v)
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
