@@ -27,7 +27,7 @@ def editCourseModal(tid, prefix, cid, page):
     # Select instructors for the course
     instructors = {}
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
-    print("Instructors: ", instructors[course.cId])
+
     # SELECT ALL ROOMS
     rooms     = Rooms.select()
 

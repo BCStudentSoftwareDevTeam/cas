@@ -30,7 +30,7 @@
 
                         <li>
                             <a class="first-level" href="#">{{division.name}}<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
-                            {% for program in division.programs %}
+                            {% for program in division.programs | sort(attribute="name") %}
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="#">{{program.name}}</a>

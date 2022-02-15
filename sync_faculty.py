@@ -46,7 +46,7 @@ def grab_staff(connection):
 def grab_data(connection, description):
     # search_base and search_filter are the parameters
     connection.search('dc=berea,dc=edu',
-      '(description=%s)' % (description),
+      f'(|(description={description})(description=Staff|{description}))',
       attributes = ['samaccountname', 'givenname', 'sn', 'employeeid']
       )
     print("Found {0} {1} in the AD".format(len(connection.entries), description))

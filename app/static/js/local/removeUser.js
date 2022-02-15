@@ -6,7 +6,8 @@ $("#Programs").hide();
 $("#Divisions").hide();
 $("#Buildings").hide();
 $("#Add").hide();
-$("#Remove").hide(); 
+$("#Remove").hide();
+var programs_prev_selected = divisions_prev_selected = buildings_prev_selected = false;
 
 //Shows appropriate 2nd dropdown based on first dropdown selection
 function show_access_level(s) {
@@ -15,16 +16,28 @@ function show_access_level(s) {
         $("#Divisions").hide();
         $("#Buildings").hide();
         $("#Add").hide();
-        $("#Remove").hide();  
-    
+        $("#Remove").hide();
+
         if (s.value == "program_chair"){
             $("#Programs").show();
+            if (programs_prev_selected === true) {
+              $("#Add").show();
+              $("#Remove").show();
+            }
         }
         else if (s.value == "division_chair"){
             $("#Divisions").show();
+            if (divisions_prev_selected === true) {
+              $("#Add").show();
+              $("#Remove").show();
+            }
         }
         else if(s.value == "building_manager"){
             $("#Buildings").show();
+            if (buildings_prev_selected === true) {
+              $("#Add").show();
+              $("#Remove").show();
+            }
         }
         else if(s.value == "administrator"){
              retrieveAdmins();
@@ -44,14 +57,14 @@ function fillProgramChairs(response){
     option.text="---";
     option.value = "---";
     programselect.appendChild(option);
-    
+
     for (var key in response){
         // console.log(response[key]['firstname']);
         var option = document.createElement("option");
         option.text=response[key]["firstname"].toString()+" "+response[key]["lastname"].toString()+"(" + response[key]["username"].toString() + ")";
         option.value = key;
         programselect.appendChild(option); //adds the selected user to program chair list
-    } 
+    }
     $('.selectpicker').selectpicker('refresh');
 }
 
@@ -77,6 +90,7 @@ function program_chairs_show_names(s) { //Called in HTML
             retrievePrograms(s);
             $("#Add").show();
             $("#Remove").show();
+            programs_prev_selected = true;
 }
 //Division Chair remove field
 function fillDivisionChairs(response){
@@ -111,7 +125,7 @@ function retrieveDivisions(obj){
           		    fillDivisionChairs(response);
           			},
           			error: function(error){
-          				console.log(error); 
+          				console.log(error);
           			}
                 }); }
 }
@@ -119,8 +133,9 @@ function retrieveDivisions(obj){
             retrieveDivisions(s);
             $("#Add").show();
             $("#Remove").show();
+            divisions_prev_selected = true;
         }
-        
+
 //Building Manager Remove Field
 function fillBuildingManagers(response){
     // console.log(response)
@@ -141,14 +156,14 @@ function fillBuildingManagers(response){
     }
     $('.selectpicker').selectpicker('refresh');
 }
- 
+
 
 function retrieveBuildings(obj){
     // console.log(obj.value)
     var selected_building = obj.value;
     console.log("Selected building: " + selected_building)
     if(selected_building){
-        
+
          var url = '/get_building_managers/'+selected_building;
          console.log("URL: " + url);
          $.ajax({
@@ -158,15 +173,16 @@ function retrieveBuildings(obj){
           		    fillBuildingManagers(response);
           			},
           			error: function(error){
-          				console.log(error); 
+          				console.log(error);
           			}
                 }); }
 }
 
-function building_managers_show_names(s) { 
+function building_managers_show_names(s) {
     retrieveBuildings(s);
     $("#Add").show();
     $("#Remove").show();
+    buildings_prev_selected = true;
     }
 
 
@@ -188,7 +204,7 @@ function fillAdmin(response){
             var disable_btn = document.getElementById("adminbtn");
             disable_btn.disabled = true;
         }
-    
+
     $('.selectpicker').selectpicker('refresh');
 }
 
@@ -203,10 +219,6 @@ function retrieveAdmins(){
       		    fillAdmin(response);
       			},
       			error: function(error){
-      				console.log(error); 
+      				console.log(error);
       			}
-            }); }   
-                
-                
-
-
+            }); }

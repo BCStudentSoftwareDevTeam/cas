@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/table.css" type="text/css" />
+<script src="/static/js/local/popup.js"></script>
 {#This is the HTML for the courses table! aka /courses/term/program Yeah I know it says Admin in the title but its for both -Kay 11/11/19 #}
 {% include "snips/courseElements/deleteSTCourse.html" %}
 <thead>
@@ -91,7 +92,9 @@
             <!--CROSS LISTED-->
             <td>
                 {% if course in crosslisted %}
+
                 <div class="form-check" id="checkcross">
+                  {% if can_edit == True %}
                     {% if crosslisted[course][0] %}
                     <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}" checked>
                     <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
@@ -99,30 +102,31 @@
                     <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{course.cId}});" id="coursestatus{{course.cId}}">
                     <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                     {% endif %}
+                  {% endif %}
                 </div>
-		<div class="row">
+		           <div class="row">
                     {% for cross_course in crosslisted[course][1:] %}
                         {% if cross_course.verified == False %}
                             <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has not been verified yet." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
                                   <span class="glyphicon glyphicon-remove" style="color:red; clear:both;" aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
                             </span>
-                        {% else %}
-                            <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
-                                  <span class="glyphicon glyphicon-ok" style="color:green; clear:both; " aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
-                            </span>
+                            {% else %}
+                                <span data-toggle="tooltip" title="{{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }} has been verified." style="margin-bottom:2px; margin-right:2px; white-space:nowrap; line-height:2.3;" class="btn-default btn-sm">
+                                      <span class="glyphicon glyphicon-ok" style="color:green; clear:both; " aria-hidden="true"></span> {{cross_course.crosslistedCourse.prefix}}{{cross_course.crosslistedCourse.bannerRef.number }}
+                                </span>
                         {% endif %}
-
                     {% endfor %}
-		</div>
+		           </div>
                 {% else %}
+
                     No
                 {% endif %}
             </td>
-
             <!--NOTES-->
             <td>
                 {% if course.notes is not none %}
-                    <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+                    <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes </a>
+                    <!-- <a href='javascript:;'  tabindex='0' data-toggle='popover' html = true data-trigger='focus' title='Course Notes' data-content='{{ course.notes }}'>Notes</a> -->
                 {% else %}
                     <p>Notes</p>
                 {% endif %}
@@ -179,7 +183,6 @@
       </tr>
   {% endfor %}
   {% for course in specialCourses %}
-      {% if course.course not in  approved_special_topics %}
           <tr>
               <!--COURSE NAME-->
               <td>
@@ -255,6 +258,7 @@
               <td>
                   {% if course in crosslisted %}
                   <div class="form-check" id="checkcross">
+                    {% if can_edit == True %}
                       {% if crosslisted[course][0] %}
                       <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus" checked>
                       <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
@@ -262,6 +266,7 @@
                       <input type="checkbox" name="cid" value="{{course.cId}}" onclick="verifyCrosslisted({{crosslisted[course][0].cId}});" id="coursestatus">
                       <label data-toggle="tooltip" data-placement="right" title="Verifies the schedule added by another department" class="form-check-label" for="exampleCheck1">Verify <span class="glyphicon glyphicon-question-sign"></span></label>
                       {% endif %}
+                    {% endif %}
                   </div>
                       {% for cross_course in crosslisted[course][1:] %}
                           {% if cross_course.verified == False %}
@@ -284,7 +289,7 @@
           <!--NOTES-->
           <td>
               {% if course.notes is not none %}
-                  <a href='javascript:;'  data-toggle='popover' title='Course Notes' data-content='{{ course.notes }}'>Notes</a>
+              <a href='javascript:;' data-toggle='popover' data-content='{{ course.notes }}'>Notes</a>
               {% else %}
                   <p>Notes</p>
               {% endif %}
@@ -333,7 +338,6 @@
               {% endif %}
           {% endif %}
           </tr>
-      {% endif %}
   {% endfor %}
 
     </tbody>

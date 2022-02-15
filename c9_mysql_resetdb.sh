@@ -4,13 +4,13 @@
 # To run the file, enter "source c9_mysql_resetdb.sh" into the terminal
 
 {           # Try
-    mysql -u $C9_USER -e "DROP DATABASE c9"
+    mysql -u root -proot -e "DROP DATABASE cas"
 } || {}     # Catch
 {
-    mysql -u $C9_USER -e "CREATE DATABASE c9"
+    mysql -u root -proot -e "CREATE DATABASE cas"
 } || {}
 
 # cas.sql is exported from the production server; make sure the file is in 
 # the same directory as this file
 
-mysql -u $C9_USER c9 < cas.sql
+mysql -u root -proot cas < cas.sql
