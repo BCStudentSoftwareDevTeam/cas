@@ -62,14 +62,13 @@ def getRoomData(rID):
 @main_bp.route("/imageUpload/<rid>", methods=["POST"])
 def imageUpload(rid):
     print("RID: ", rid)
-    # try:
-        # Save the files
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    file.save(os.path.join('app/static/images/', filename))
-    # except Exception as e:
-    #     print(e)
-    #     return ("Image failed to upload to the server", 500)
+    try:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(os.path.join('app/static/images/', filename))
+    except Exception as e:
+        print(e)
+        return ("Image failed to upload to the server", 500)
 
     # Update the DB
     room = Rooms.get(Rooms.rID == rid)
