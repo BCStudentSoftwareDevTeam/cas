@@ -61,12 +61,16 @@ def crossListed(tid):
 
     for course in list(crossCourses):
         if course.courseId not in crosslisted_table:
-            crosslisted_table[course.courseId] = [course.verified,course]
-        else:
-            crosslisted_table[course.crosslistedCourse] = [course.verified,course]
+            if course.courseId != course.crosslistedCourse: # the database has courses crosslisting themselves. This removes that case
+                crosslisted_table[course.courseId] = [course.verified,course.crosslistedCourse] #This will be updated in the next loop
+                crosslisted_table[course.crosslistedCourse] = [course.verified,course.courseId]
 
-    for k,v in crosslisted_table.items():
-        print(k,v)
+    # The following loop is for updating verification for courses which are crosslisted to themselves on the database.
+    for course in list(crossCourses):
+        if course.courseId in crosslisted_table:
+            if course.courseId == course.crosslistedCourse: # the database has courses crosslisting themselves. This removes that case
+                crosslisted_table[course.courseId][0] = course.verified
+
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
