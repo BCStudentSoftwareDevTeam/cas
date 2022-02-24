@@ -63,7 +63,6 @@ def getRoomData(rID):
 def imageUpload(rid):
     print("RID: ", rid)
     try:
-        # Save the files
         file = request.files['file']
         filename = secure_filename(file.filename)
         file.save(os.path.join('app/static/images/', filename))
@@ -103,14 +102,9 @@ def getImages(rid):
 @main_bp.route("/removeImage", methods=["POST"])
 def removeImage():
     room = Rooms.get(Rooms.rID == request.form["rid"])
-    room.roomImageURL = room.roomImageURL.replace(request.form["file"], "").replace(",,", ",")
-    if len(room.roomImageURL) == 0:
-        room.save()
-        return json.dumps({"success":1})
-    if len(room.roomImageURL) > 0 and room.roomImageURL[0] == ",":
-        room.roomImageURL = room.roomImageURL[1:]
-    if len(room.roomImageURL) > 0 and room.roomImageURL[-1] == ",":
-        room.roomImageURL = room.roomImageURL[:-1]
+    if not len(room.roomImageURL) == 0:
+        os.remove("app/static/images/" + room.roomImageURL)
+        room.roomImageURL = None
     room.save()
     return json.dumps({"success":1})
 
