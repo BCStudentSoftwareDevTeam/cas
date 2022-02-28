@@ -92,7 +92,6 @@
             <!--CROSS LISTED-->
             <td>
                 {% if course in crosslisted %}
-
                 <div class="form-check" id="checkcross">
                   {% if can_edit == True %}
                     {% if crosslisted[course][0] %}
@@ -118,7 +117,6 @@
                     {% endfor %}
 		           </div>
                 {% else %}
-
                     No
                 {% endif %}
             </td>
