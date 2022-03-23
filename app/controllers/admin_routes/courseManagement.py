@@ -12,6 +12,7 @@ from app.logic.databaseInterface import getSidebarElements, createInstructorDict
 from app.logic.redirectBack import redirect_url
 from app.logic.authorizedUser import AuthorizedUser, must_be_admin
 from app.models.models import *
+from app.logic.courseLogic import find_crosslist_courses
 from app.loadConfig import load_config
 #CROSS LISTED COURSES#
 
@@ -57,20 +58,18 @@ def crossListed(tid):
     #     print("course",course,"type:",type(course))
 
     crossCourses = CrossListed.select().where(CrossListed.term == tid)
-    crosslisted_table = {}
+
+    crosslisted = {}
     for course in list(crossCourses):
-        if course not in crosslisted_table:
-            crosslisted_table[course.courseId] = []
-        crosslisted_table[course.courseId].append(course.verified)
-        crosslisted_table[course.courseId].append(course)
-        
+        currentCross = find_crosslist_courses(course.prefix,tid)
+        crosslisted.update(currentCross)
 
     return render_template("crossListed.html",
                            allTerms=terms,
                            page=page,
                            currentTerm=int(tid),
                            courses=courses_prefetch,
-                           crosslisted= crosslisted_table,
+                           crosslisted= crosslisted,
                            #courseInfo=courseInfo,
                            schedules=schedules,
                            rooms=rooms,
