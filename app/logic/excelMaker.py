@@ -32,7 +32,7 @@ class ExcelMaker:
     def writeRow(self,sheet,column,row,value):
         sheet.write('{0}{1}'.format(column,row),value)
 
-    def writeHeaders(self,sheet):
+    def writeHeaders(self,sheet, include_bnum=False):
         sheet.write('A1','Prefix')
         sheet.write('B1','Number')
         sheet.write('C1','Title')
@@ -46,17 +46,22 @@ class ExcelMaker:
         sheet.write('K1', 'Preference 1')
         sheet.write('L1','Preference 2')
         sheet.write('M1','Preference 3')
-        sheet.write('N1','Instructor1')
-        sheet.write('O1','Bnumber1')
-        sheet.write('P1','Instructor2')
-        sheet.write('Q1','Bnumber2')
-        sheet.write('R1','Instructor3')
-        sheet.write('S1','Bnumber3')
-        sheet.write('T1', "Crosslisted with")
-        sheet.write('U1', "Off-Campus")
-        sheet.write('V1', 'Faculty Load Credit')
 
         self.intr_letter = 'N'
+        colNum = ord(self.intr_letter)
+        for instructorNum in range(1,4):
+            sheet.write(chr(colNum) + '1','Instructor'+str(instructorNum))
+            colNum += 1
+            if include_bnum:
+                sheet.write(chr(colNum) + '1','Bnumber'+str(instructorNum))
+                colNum += 1
+        sheet.write(chr(colNum) + '1', "Crosslisted with")
+        colNum += 1
+
+        sheet.write(chr(colNum) + '1', "Off-Campus")
+        colNum += 1
+
+        sheet.write(chr(colNum) + '1', 'Faculty Load Credit')
 
     def writeSpecialHeaders(self,sheet):
         sheet.write('K1','credits')
@@ -71,7 +76,7 @@ class ExcelMaker:
         self.intr_letter = 'R'
 
 
-    def write_course_info(self,sheet,row,course):
+    def write_course_info(self,sheet,row,course, include_bnum=False):
         # Course Information
         sheet.write('A{0}'.format(row),course.prefix.prefix)
         sheet.write('B{0}'.format(row),course.bannerRef.number)
@@ -111,12 +116,6 @@ class ExcelMaker:
             sheet.write('I{0}'.format(row),course.section)
 
 
-        # Off-campus and Room Information
-        if course.offCampusFlag:
-            sheet.write('U{0}'.format(row), 'Yes')
-
-        sheet.write('V{0}'.format(row), course.faculty_credit)
-
         room_preferences = RoomPreferences.select().where(RoomPreferences.course == course.cId)
 
         preference_1 = ""
@@ -147,16 +146,32 @@ class ExcelMaker:
             instructors = InstructorCourse.select().where(InstructorCourse.course == course.course)
 
         colNum = ord(self.intr_letter)
-        for  instructor in instructors:
+        for instructor in instructors:
             self.writeRow(sheet,chr(colNum),row,instructor.username.username)
             colNum += 1
-            self.writeRow(sheet,chr(colNum),row,instructor.username.bNumber)
-            colNum += 1
+            if include_bnum:
+                self.writeRow(sheet,chr(colNum),row,instructor.username.bNumber)
+                colNum += 1
+        
+        # start at the next spot
+        colNum = ord(self.intr_letter) + 3
+        if include_bnum:
+            colNum = ord(self.intr_letter) + 6
 
         #write crosslisted with courses for a course if any
-        self.writeCrosslistedWith(sheet, row, course)
+        self.writeCrosslistedWith(sheet, row, course, colStart=colNum)
+        colNum +=1
 
-    def writeCrosslistedWith(self, sheet, row, course):
+        # Off-campus and Room Information
+        if course.offCampusFlag:
+            sheet.write(chr(colNum) + '{0}'.format(row), 'Yes')
+        colNum +=1
+
+        sheet.write(chr(colNum) + '{0}'.format(row), course.faculty_credit)
+
+
+
+    def writeCrosslistedWith(self, sheet, row, course, colStart=0):
         try:
             res=[]
             courseTitle = None
@@ -170,7 +185,7 @@ class ExcelMaker:
                             courseTitle = cc.crosslistedCourse.prefix.prefix + cc.crosslistedCourse.bannerRef.number + "-" + section
                         res.append(courseTitle) if courseTitle else 0
             if res:
-                sheet.write('T{0}'.format(row), " , ".join(res))
+                sheet.write(chr(colStart) + '{0}'.format(row), " , ".join(res))
         except Exception as e:
             print( "Unexpected error:", e)
 
@@ -208,7 +223,7 @@ class ExcelMaker:
         self.cross_row = 2
         #Create worksheets and Set Headers
         master_sheet = workbook.add_worksheet('All Courses')
-        self.writeHeaders(master_sheet)
+        self.writeHeaders(master_sheet, include_bnum=True)
 
         cross_sheet = workbook.add_worksheet('CrossListed')
         self.writeHeaders(cross_sheet)
@@ -233,8 +248,10 @@ class ExcelMaker:
                 # print(course.cId, course.schedule.letter, course.prefix.prefix, sheet_matrix)
                 if course.crossListed:
                     sheet_matrix.append([cross_sheet,self.cross_row])
+
                 for sheet_list in sheet_matrix:
-                    self.write_course_info(sheet_list[0],sheet_list[1],course)
+                    is_master = (sheet_list[0] == master_sheet)
+                    self.write_course_info(sheet_list[0],sheet_list[1],course, include_bnum=is_master)
                 self.increment_rows(course)
 
         workbook.close()
@@ -255,7 +272,7 @@ class ExcelMaker:
 
         #Create Master worksheet and Set Headers
         master_sheet = workbook.add_worksheet('CrossListed')
-        self.writeHeaders(master_sheet)
+        self.writeHeaders(master_sheet, include_bnum=True)
 
         courses = Course.select(
         ).join(BannerCourses, on=(BannerCourses.reFID == Course.bannerRef)
@@ -265,7 +282,7 @@ class ExcelMaker:
 
         self.master_row = 2
         for course in courses:
-            self.write_course_info(master_sheet,self.master_row,course)
+            self.write_course_info(master_sheet,self.master_row,course, include_bnum=True)
             self.master_row += 1
         workbook.close()
         return path
@@ -284,12 +301,12 @@ class ExcelMaker:
 
         #Create Master worksheet and Set Headers
         master_sheet = workbook.add_worksheet('SpecialTopics')
-        self.writeHeaders(master_sheet)
+        self.writeHeaders(master_sheet, include_bnum=True)
         self.writeSpecialHeaders(master_sheet)
         courses = SpecialTopicCourse.select().where(SpecialTopicCourse.term == term).where(SpecialTopicCourse.status == 3)
         self.master_row = 2
         for course in courses:
-            self.write_course_info(master_sheet,self.master_row,course)
+            self.write_course_info(master_sheet,self.master_row,course, include_bnum=True)
             self.write_special_course_info(master_sheet,self.master_row,course)
             self.master_row += 1
         workbook.close()
