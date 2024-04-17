@@ -2,7 +2,7 @@
 #FIXME: Refactor as secret.yaml
 
 db:
-  db_name: FIXME
+  db_name: cas
   host: localhost
-  password: FIXME
-  username: FIXME
+  password: password
+  username: cas_user
