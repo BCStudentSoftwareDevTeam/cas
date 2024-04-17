@@ -6,7 +6,7 @@
     "workspaceFolder": "/home/vscode/${localWorkspaceFolderBasename}",
     "remoteUser": "vscode",
 
-    "forwardPorts": [5000,3309],
+    "forwardPorts": [5002,3309],
     
     "remoteEnv": {
         "FLASK_DEBUG": "1",
