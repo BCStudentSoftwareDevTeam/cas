@@ -186,7 +186,7 @@ def editSTInstructors(newInstructors, courseID):
             newInstructor.save()
 
 
-def editCourse(data, prefix, professors, crosslistedCourses):
+def editCourse(data, prefix, professors, crosslistedCourses, courseResources):
         '''THIS FUNCTION EDITS THE COURSE DATA TABLE'''
         # check to see if the user has privileges to edit
         # get the course object
@@ -217,6 +217,7 @@ def editCourse(data, prefix, professors, crosslistedCourses):
         course.lastEditBy = au.username
         course.faculty_credit = faculty_credit
         course.offCampusFlag = bool(data.get('offCampusFlag', False))
+        course.courseResources = courseResources
         course.save()
         new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
@@ -452,6 +453,7 @@ def updateChildCourse(course, parent, newInstructors):
     course.section = parent.section
     course.prereq = parent.prereq
     course.offCampusFlag = parent.offCampusFlag
+    course.courseResources = parent.courseResources
     course.save()
 
     #update its instructors

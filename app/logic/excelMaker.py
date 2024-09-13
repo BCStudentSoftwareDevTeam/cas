@@ -1,6 +1,6 @@
 import xlsxwriter
 from app.allImports import *
-import sys,os
+import sys,os, ast
 from app.loadConfig import load_config
 from app.models.models import *
 
@@ -62,6 +62,7 @@ class ExcelMaker:
         colNum += 1
 
         sheet.write(chr(colNum) + '1', 'Faculty Load Credit')
+        sheet.write(chr(colNum) + '1', 'Course Resources')
 
     def writeSpecialHeaders(self,sheet):
         sheet.write('K1','credits')
@@ -167,9 +168,21 @@ class ExcelMaker:
             sheet.write(chr(colNum) + '{0}'.format(row), 'Yes')
         colNum +=1
 
+        # Faculty Credit
         sheet.write(chr(colNum) + '{0}'.format(row), course.faculty_credit)
 
-
+        # Course Resources
+        resources_cleaned = ""
+        if course.courseResources:
+            resources = ast.literal_eval(course.courseResources)
+            resources_cleaned += "No course materials required" if resources["NoneRequired"] else ""
+            resources_cleaned += ("Open educational resources" if len(resources_cleaned) == 0 else ", Open educational resources") if resources["OER"] else ""
+            resources_cleaned += ("Library resources" if len(resources_cleaned) == 0 else ", resources") if resources["Library"] else ""
+            resources_cleaned += ("Paid resources" if len(resources_cleaned) == 0 else ", Paid resources") if resources["Paid"] else ""
+            if resources_cleaned == "":
+                resources_cleaned = "Unspecified"
+        course.courseResources = resources_cleaned
+        sheet.write(chr(colNum) + '{0}'.format(row), course.courseResources)
 
     def writeCrosslistedWith(self, sheet, row, course, colStart=0):
         try:

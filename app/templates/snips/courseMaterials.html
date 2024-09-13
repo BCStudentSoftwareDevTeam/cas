@@ -1,0 +1,26 @@
+<div class="row" style="margin-left: 10px" id="courseMaterialsCheckboxesModal">
+    <div class="checkbox" id="libraryResources">
+    <label>
+      <input id="NoneRequired" type="checkbox" name="NoneRequired" value="NoneRequired" {% if course.courseResources["NoneRequired"] %} checked {% endif %} >
+      No course materials required
+    </label>
+    </div>
+    <div class="checkbox">
+    <label>
+      <input type="checkbox" name="OER" value="OER" {% if course.courseResources["OER"] %} checked {% endif %} >
+      Open educational resources
+    </label>
+    </div>
+    <div class="checkbox">
+    <label>
+      <input type="checkbox" name="Library" value="Library" {% if course.courseResources["Library"] %} checked {% endif %} >
+      Library resources
+    </label>
+    </div>
+    <div class="checkbox">
+    <label>
+      <input type="checkbox" name="Paid" value="Paid" {% if course.courseResources["Paid"] %} checked {% endif %} >
+      Paid resources (textbooks, courseware, etc)
+    </label>
+    </div>
+</div>

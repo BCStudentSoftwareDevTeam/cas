@@ -38,7 +38,11 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
 
     instructors = request.form.getlist('professors[]')
     prereqs = request.form.getlist('prereqs')
-    faculty_credit= request.form.getlist("faculty_credit")
+
+    courseResources = {"NoneRequired": True if request.form.getlist("NoneRequired") else False,
+                       "OER": True if request.form.getlist("OER") else False,
+                       "Library": True if request.form.getlist("Library") else False,
+                       "Paid": True if request.form.getlist("Paid") else False}
 
     nullCheck = NullCheck()
 
@@ -117,6 +121,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
                         section=values['section'],
                         faculty_credit=values['faculty_credit'],
                         prereq=convertPrereqs(prereqs),
+                        courseResources = str(courseResources),
                         offCampusFlag = bool(data.get('offCampusFlag', False))
                         )
 
@@ -138,13 +143,13 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
         # save crosslisted courses of the newly-created course in a database
         if(course.crossListed):
             create_crosslisted_courses(
-                values, course, tid, prereqs, instructors, faculty_credit)
+                values, course, tid, prereqs, instructors, values["faculty_credit"], courseResources)
 
         flash("Course has successfully been added!")
     return redirect(redirect_url())
 
 
-def create_crosslisted_courses(values, course, tid, prereqs, instructors, faculty_credit):
+def create_crosslisted_courses(values, course, tid, prereqs, instructors, faculty_credit, courseResources):
     '''
     Creates a crosslisted child relationship for a course
 
@@ -174,7 +179,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
                                parentCourse=course.cId,
                                section=values['section'],
                                prereq=convertPrereqs(prereqs),
-                               faculty_credit= 0,
+                               faculty_credit= values["faculty_credit"],
+                               courseResources = courseResources,
                                offCampusFlag = bool(values.get('offCampusFlag', False))
                                )
             cc_course.save()

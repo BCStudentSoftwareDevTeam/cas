@@ -11,7 +11,7 @@ from app.logic.courseLogic import find_crosslist_via_id
 from app.loadConfig import load_config
 from app.models.models import *
 from app.logic.authorizedUser import can_modify
-
+import ast
 
 @main_bp.route("/editCourseModal/<tid>/<prefix>/<cid>/<page>", methods=["GET"])
 def editCourseModal(tid, prefix, cid, page):
@@ -22,6 +22,7 @@ def editCourseModal(tid, prefix, cid, page):
     terms = Term.select()
     # Select the course informations
     course = Course.get(Course.cId == cid)
+    course.courseResources = ast.literal_eval(course.courseResources)
     # Select all users
     users = User.select().order_by(User.lastName)
     # Select instructors for the course
@@ -55,7 +56,7 @@ def editCourseModal(tid, prefix, cid, page):
 @main_bp.route("/editcourse/<tid>/<prefix>/<page>", methods=["POST"])
 @can_modify
 def editcourse(tid, prefix, page, can_edit):
-  #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
+    #WE NEED TO CHECK TO ENSURE THE USER HAS THE RIGHT TO EDIT PAGES
     cfg = load_config()
     au = AuthorizedUser()
     username = au.username
@@ -69,7 +70,11 @@ def editcourse(tid, prefix, page, can_edit):
         print(au.user.isAdmin)
         print(Term.get(Term.termCode == tid).term_state.number)
         return render_template("schedulingLocked.html", tid = tid, prefix = prefix, cfg = cfg)
-    databaseInterface.editCourse(data, prefix, professors, crosslistedCourse)
+    courseResources = {"NoneRequired": True if request.form.getlist("NoneRequired") else False,
+                       "OER": True if request.form.getlist("OER") else False,
+                       "Library": True if request.form.getlist("Library") else False,
+                       "Paid": True if request.form.getlist("Paid") else False}
+    databaseInterface.editCourse(data, prefix, professors, crosslistedCourse, courseResources)
     message = "Course: course {} has been edited".format(data['cid'])
     flash("Course information has successfully been modified!")
     if page == 'courses':

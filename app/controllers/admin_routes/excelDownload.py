@@ -23,7 +23,7 @@ def makeMainExcel(tid):
     filename = completePath.split('/').pop()
 
 
-    return send_file(completePath,as_attachment=True, attachment_filename=filename, cache_timeout=0)
+    return send_file(completePath,as_attachment=True, attachment_filename=filename)
 
 
 
@@ -46,4 +46,4 @@ def makeSecondaryExcel(excel_type,tid):
     completePath = excel.make_cross_listed_file(term)
   elif excel_type == "specialTopics":
     completePath = excel.make_special_topics_file(term)
-  return send_file(completePath,as_attachment=True, cache_timeout=0)
+  return send_file(completePath,as_attachment=True)

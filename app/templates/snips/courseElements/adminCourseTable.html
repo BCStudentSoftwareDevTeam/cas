@@ -12,7 +12,8 @@
         <th>Location</th>
         <th>Cross-Listed</th>
         <th>Notes</th>
-        <th>Faculty Load Credit</th>
+        <th>Faculty Load</th>
+        <th>Resources</th>
         <th>Last Edited</th>
 
         {% if isAdmin or (curTermName.term_state_id == 1 and can_edit == True) %}  {# curTermName.term_state_id == 1 means scheduling is open #}
@@ -129,14 +130,21 @@
                     <p>Notes</p>
                 {% endif %}
             </td>
-            <!-- <td> </td>
-            <td> </td> -->
-            <!-- faculty_credit -->
+
+            <!-- FACULTY LOAD -->
             <td>
                 {% if course.faculty_credit  %}
                     {{course.faculty_credit}}
                 {% else %}
                     No credit specified
+                {% endif %}
+            </td>
+            <!-- Course Materials -->
+            <td>
+                {% if course.courseResources  %}
+                    {{course.courseResources}}
+                {% else %}
+                    No resources specified
                 {% endif %}
             </td>
             <!--LAST EDITED BY-->

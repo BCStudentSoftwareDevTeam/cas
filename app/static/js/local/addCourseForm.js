@@ -60,7 +60,21 @@ function callback(e){
     createCourseForm.submit();
 }
 
-
+$('input[type=checkbox]').change(function () {
+//Ensures state of None Required and all the other checkboxes can't be in an impossible state
+    if($(this).prop('name') == "NoneRequired" && $(this).prop("checked")) {
+        var courseCheckboxes = $("#courseMaterialsCheckboxes").find("input:checkbox");
+        var first = true;
+        $(courseCheckboxes).each(function() {
+            $(this).prop('checked', first);
+            if (first) {
+                first = false;
+            }
+        });
+    } else if ($(this).prop("checked")) {
+        $("#courseMaterialsCheckboxes").find("input:checkbox#NoneRequired").prop("checked", false);
+    }
+});
 
 
 

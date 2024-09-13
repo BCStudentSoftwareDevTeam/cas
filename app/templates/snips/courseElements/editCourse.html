@@ -16,7 +16,7 @@
         </div>
         <div class="modal-body">
           {# Modal Title #}
-          <h2 class="text-center">
+          <h2 class="text-center" style="margin-top: 0px;">
             {{course.prefix.prefix}} {{course.bannerRef.number}}
           </h2>
           {# Pass in a hidden input to record the course ID #}
@@ -48,14 +48,14 @@
           <h5>Schedule Block</h5>
           <select class="form-control" name="schedule">
             <option value="">---</option>
-	    {% for schedule in schedules if "PANDEMIC" not in schedule.letter %}
-              <option value="{{schedule.sid}}"
-                {% if course.schedule.order == schedule.order %}
-                  selected
-                {% endif %}
-              >
-                {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %}
-		{{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
+	      {% for schedule in schedules if "PANDEMIC" not in schedule.letter %}
+            <option value="{{schedule.sid}}"
+              {% if course.schedule.order == schedule.order %}
+                selected
+              {% endif %}
+            >
+            {{schedule.letter}}: {% for day in schedule.days %}{{day.day}}{% endfor %}
+		  {{schedule.startTime.strftime('%I:%M%p')}}-{{schedule.endTime.strftime('%I:%M%p')}}
               </option>
             {% endfor %}
           </select>
@@ -113,24 +113,27 @@
                 </option>
               {% endfor %}
 
-           </select>
-           <br>
+            </select>
+            <br>
 
-	   <div style='display:none'>
-	  <h5> Off-Campus </h5>
-	  <input disabled type='checkbox' id='offCampusFlag' name='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}> </input>
-	   </div>
+         <div style='display:none'>
+          <h5> Off-Campus </h5>
+          <input disabled type='checkbox' id='offCampusFlag' name='offCampusFlag' value='True' {% if course.offCampusFlag %} checked {% endif %}> </input>
+         </div>
 
-          {# --Notes-- #}
-            <h5> Notes </h5>
-            <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
+        {# --Notes-- #}
+          <h5> Notes </h5>
+          <textarea class="form-control" id="notes" name="notes">{% if course.notes is not none %}{{ course.notes }}{% endif %}</textarea>
 
+        {# --Instructors-- #}
+        <h5>Edit Instructor</h5>
+          {% include "snips/selectUser.html" %}
+        <br>
 
-
-          {# --Instructors-- #}
-          <h5>Edit Instructor</h5>
-            {% include "snips/selectUser.html" %}
-          <br>
+        {# --Course Materials-- #}
+        <h5>Course Materials</h5>
+          {% include "snips/courseMaterials.html" %}
+        <br>
         </div>
         <div class="modal-footer">
           {# DIFFERENT URL'S DEPENDING ON THE PAGE #}
