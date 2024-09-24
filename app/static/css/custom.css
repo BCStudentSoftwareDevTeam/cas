@@ -9,6 +9,7 @@ footer{
 .footer{
     padding-top:0.7vh;
     background-color: inherit;
+    z-index: 2;
 }
 
 #wrapper {
