@@ -75,15 +75,16 @@ def courses(tID, prefix, can_edit):     #can_edit comes from @can_modify
     for idx in range(len(courses)):
         instructors = InstructorCourse.select().where(InstructorCourse.course == courses[idx].cId)
         courses[idx].instructors = instructors
+        resources_cleaned = ""
         if courses[idx].courseResources:
             resources = ast.literal_eval(courses[idx].courseResources)
-            resources_cleaned = ""
             resources_cleaned += "No course materials required" if resources["NoneRequired"] else ""
             resources_cleaned += ("Open educational resources" if len(resources_cleaned) == 0 else ", Open educational resources") if resources["OER"] else ""
             resources_cleaned += ("Library resources" if len(resources_cleaned) == 0 else ", Library resources") if resources["Library"] else ""
             resources_cleaned += ("Paid resources" if len(resources_cleaned) == 0 else ", Paid resources") if resources["Paid"] else ""
-            if resources_cleaned == "":
-                resources_cleaned = "Unspecified"
+
+        if resources_cleaned == "":
+            resources_cleaned = "Unspecified"
         courses[idx].courseResources = resources_cleaned
 
 
