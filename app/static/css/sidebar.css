@@ -8,6 +8,7 @@
   bottom: 0;
   overflow-y: scroll;
   background-color: transparent;
+  height: 100%;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
