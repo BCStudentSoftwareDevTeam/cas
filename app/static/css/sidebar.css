@@ -9,6 +9,7 @@
   overflow-y: scroll;
   background-color: transparent;
 }
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
@@ -48,9 +49,8 @@
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;
-        position: absolute;
+        position: relative;
         width: 250px;
-        margin-top: 60px;
     }
     .navbar-top-links .dropdown-messages,
     .navbar-top-links .dropdown-tasks,
