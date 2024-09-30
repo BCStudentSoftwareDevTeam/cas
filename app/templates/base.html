@@ -48,11 +48,11 @@
     {% include "navigation.html" %}
     <div id="midSection">
       {% block aboveContainer %} {% endblock %}
-      <!-- START OF THE SIDEBAR -->
+      <!-- sidebar -->
       <link rel="stylesheet" href="/static/css/sidebar.css" type="text/css" />
       {% set sidebarlink = 'snips/sidebars/'+currentPage+'Sidebar.html' %}
       {% include sidebarlink %}
-      <!-- END OF THE SIDEBAR -->
+      
       <script type="text/javascript" src="/static/js/local/sidebar.js"></script>
       <!-- /.navbar-static-side -->
       <div id="mainContent">
