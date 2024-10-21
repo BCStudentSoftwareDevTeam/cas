@@ -1,50 +1,48 @@
-  <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-
-                              <li class="active">
-                            <a class="termSelect text-center head" href="#">Term <span class="caret"></span></a>
-
-                            <ul class="nav nav-second-level">
-                                {% for term in allTerms %}
-                                <li>
-                                    <a
-                                    {% if currentTerm == term.termCode %}
-                                    class="active"
-                                    {% endif %}
-                                    href="/courses/{{term.termCode}}/{{prefix}}">{{term.name}}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-
-                            <!-- /.nav-second-level -->
-                        </li>
-
-
-
-                        <li class="active">
-                            <a href="#" class='text-center head'> Division <span class="caret"></span></a>
-
-                        <!-- NEW DIVISION SELECT -->
-                        {% set hrefs = {} %}
-                        {% for division in divisions %}
-                            {% for program in division.programs %}
-                                {% for subject in program.subjects %}
-                                    {% set hrefs = hrefs.update({subject.prefix: "/courses/" ~ currentTerm ~ "/" ~ subject.prefix}) %}
-                                {% endfor %}
-                            {% endfor %}
-                        {% endfor %}
-                        <select title="Division" class="text-center head form-control selectpicker" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}">
-                            <option value="" disabled>---</option>
-                            {% for prefix in hrefs.keys() %}
-                                <option data-href="{{hrefs[prefix]}}">{{prefix}}</option>
-                            {% endfor %}
-                        </select>
-
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="active">
+                <a class="termSelect text-center head" href="#">Term <span class="caret"></span></a>
+                <ul class="nav nav-second-level">
+                    {% for term in allTerms %}
+                    <li>
+                        <a
+                        {% if currentTerm == term.termCode %}
+                        class="active"
+                        {% endif %}
+                        href="/courses/{{term.termCode}}/{{prefix}}">{{term.name}}</a>
                     </li>
-                </div>
-                <!-- /.sidebar-collapse -->
- </div>
+                    {% endfor %}
+                </ul>
+
+                <!-- /.nav-second-level -->
+            </li>
+
+
+
+            <li class="active">
+
+                <!-- NEW DIVISION SELECT -->
+                {% set hrefs = {} %}
+                {% for division in divisions %}
+                    {% for program in division.programs %}
+                        {% for subject in program.subjects %}
+                            {% set hrefs = hrefs.update({subject.prefix: "/courses/" ~ currentTerm ~ "/" ~ subject.prefix}) %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+                <select title="Division" class="text-center head form-control selectpicker" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}"><span class="caret"></span>
+                    <option value="" disabled>---</option>
+                    {% for prefix in hrefs.keys() %}
+                        <option data-href="{{hrefs[prefix]}}">{{prefix}}</option>
+                    {% endfor %}
+                </select>
+
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
 
 
 {# this Javascript is included here because it uses Jinja tags #}
