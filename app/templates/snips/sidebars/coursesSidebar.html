@@ -25,6 +25,18 @@
                         <li class="active">
                             <a href="#" class='text-center head'> Division <span class="caret"></span></a>
 
+                        <!-- NEW DIVISION SELECT -->
+                        <select title="Division" class="text-center head form-control selectpicker" data-live-search="true" id="divisionSelect">
+                            <option value="" disabled>---</option>
+                            {% for division in divisions %}
+                            {% for program in division.programs | sort(attribute="name") %}
+                            {% for subject in program.subjects %}
+                                <option>{{subject}}</option>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endfor %}
+                        </select>
+
                         <ul class="nav nav-second-level">
                         {% for division in divisions %}
 
