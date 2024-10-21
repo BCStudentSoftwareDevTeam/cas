@@ -23,58 +23,26 @@
 
 
                         <li class="active">
-                            <a href="#" class='text-center head'> Division <span class="caret"></span></a>
+                            <a href="#" class='text-center head' id="divisionHeader"> Programs <span class="caret"></span></a>
 
-                        <ul class="nav nav-second-level">
+                        {% set hrefs = {} %}
+                        {% set tokens = {} %}
                         {% for division in divisions %}
-
-                        <li>
-                            <a class="first-level" href="#">{{division.name}}<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>
-                            {% for program in division.programs | sort(attribute="name") %}
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">{{program.name}}</a>
-
-                                    <ul class="nav nav-third-level">
-
-                                      {% for subject in program.subjects %}
-
-                                        <li>
-                                            <a href="/courses/{{currentTerm}}/{{subject.prefix}}">{{subject.prefix}}</a>
-                                        </li>
-
-                                    {% endfor %}
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-
-                                </li>
-                            </ul>
+                            {% for program in division.programs %}
+                                {% for subject in program.subjects %}
+                                    {% set hrefs = hrefs.update({subject.prefix: "/courses/" ~ currentTerm ~ "/" ~ subject.prefix}) %}
+                                    {% set tokens = tokens.update({subject.prefix: program.name ~ " " ~ program.division_id ~ " " ~ division.name ~ " " ~ subject.prefix }) %}
+                                {% endfor %}
                             {% endfor %}
-                            <!-- /.nav-second-level -->
-                        </li>
                         {% endfor %}
+                        <select class="text-center head form-control selectpicker invisible-select" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}">
+                            {% for prefix in hrefs.keys() %}
+                                <option data-tokens="{{tokens[prefix]}}" data-href="{{hrefs[prefix]}}">{{prefix}}</option>
+                            {% endfor %}
+                        </select>
 
-                        <!--<li class="active">-->
-                        <!--    <a class="termSelect head2" href="#">Term<span class="arrow pull-right glyphicon glyphicon-chevron-down"></span></a>-->
-
-                        <!--    <ul class="nav nav-second-level">-->
-                        <!--        <select id = "termSelect" placeholder= "Select Term" name = "term-select" class="selectpicker form-control" data-live-search="true" >-->
-                        <!--            {% for term in allTerms %}-->
-                        <!--                <option value ={{term.termCode}} >-->
-                        <!--                      {{term.name}}-->
-                        <!--                </option>-->
-                        <!--            {% endfor %}-->
-                        <!--        </select>-->
-                        <!--    </ul>-->
-
-                            <!-- /.nav-second-level -->
-                        <!--</li>-->
-
-
-                    </ul>
                     </li>
                 </div>
-                <!-- /.sidebar-collapse -->
  </div>
 
 

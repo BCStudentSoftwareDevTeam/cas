@@ -3,14 +3,8 @@
 {% extends "base.html" %} 
 {% set currentPage = "crossListed" %} 
 
-<!--area outside of container-->
-{% block aboveContainer %} 
-{% endblock %} 
-<!--end area outside of container-->
-
 <!--Page content-->
 {% block body %}
-        <div id="wrapper">
             <div id="page-wrapper">
                 <div class="row">
                 {% include "snips/messages.html" %} 
@@ -37,8 +31,6 @@
                     </div>
                 </div>
             <!-- /#page-content-wrapper -->
-        </div>
-        <!-- /#wrapper -->
         <script type="text/javascript" src="/static/js/local/courses.js" ></script>
         
 {% endblock %}

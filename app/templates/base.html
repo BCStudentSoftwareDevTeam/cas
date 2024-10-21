@@ -45,28 +45,36 @@
     <link rel="stylesheet" href="/static/css/custom.css" type="text/css" />
   </head>
   <body>
-      {% include "navigation.html" %}
-        {% block aboveContainer %} {% endblock %}
-        <!--<div class="container">-->
-          {% if currentPage == "deadline" %}
-             <div style='height:87vh'>
-          {% endif %}
-              {# All content should get rendered in here #}
-              {% block body %} {% endblock %}
-          {% if currentPage == "deadline" %}
-             </div>
-          {% endif %}
-
-        <!--</div>-->
-       {% block belowContainer %} {% endblock %}
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.js"></script>
-	<script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/static/js/local/app.js?{{gitHash}}"></script>
-	<link rel="stylesheet" href="/static/css/{{currentPage}}.css?{{gitHash}}"/>
-	<script type="text/javascript" src="/static/js/local/{{currentPage}}.js?{{gitHash}}"></script>
+    {% include "navigation.html" %}
+    <div id="midSection">
+      {% block aboveContainer %} {% endblock %}
+      <!-- sidebar -->
+      <link rel="stylesheet" href="/static/css/sidebar.css" type="text/css" />
+      {% set sidebarlink = 'snips/sidebars/'+currentPage+'Sidebar.html' %}
+      {% include sidebarlink %}
+      
+      <script type="text/javascript" src="/static/js/local/sidebar.js"></script>
+      <!-- /.navbar-static-side -->
+      <div id="mainContent">
+        {% if currentPage == "deadline" %}
+            <div style='height:87vh'>
+        {% endif %}
+            {# All content should get rendered in here #}
+            {% block body %} {% endblock %}
+        {% if currentPage == "deadline" %}
+            </div>
+        {% endif %}
+      </div>
+      {% block belowContainer %} {% endblock %}
+    </div>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/static/js/local/app.js?{{gitHash}}"></script>
+    <link rel="stylesheet" href="/static/css/{{currentPage}}.css?{{gitHash}}"/>
+    <script type="text/javascript" src="/static/js/local/{{currentPage}}.js?{{gitHash}}"></script>
+    <footer>
+      {% include 'snips/footer.html' %}
+    </footer>
   </body>
-  <footer>
-    {% include 'snips/footer.html' %}
-  </footer>
 </html>

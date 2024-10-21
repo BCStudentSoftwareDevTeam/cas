@@ -8,7 +8,9 @@
   bottom: 0;
   overflow-y: scroll;
   background-color: transparent;
+  height: 100%;
 }
+
 .sidebar .sidebar-nav.navbar-collapse {
     padding-right: 0;
     padding-left: 0;
@@ -32,6 +34,20 @@
     color: #2c3e50;
 }
 
+.invisible-select {
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.invisible-select .dropdown-menu {
+    visibility: visible;
+}
+
+
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
     border-bottom: 0!important;
@@ -48,9 +64,8 @@
 @media(min-width:768px) {
     .sidebar {
         z-index: 1;
-        position: absolute;
+        position: relative;
         width: 250px;
-        margin-top: 60px;
     }
     .navbar-top-links .dropdown-messages,
     .navbar-top-links .dropdown-tasks,
