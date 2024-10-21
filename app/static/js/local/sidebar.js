@@ -9,7 +9,8 @@ $(document).ready(function(){
    
 
    $('#divisionSelect').on('change', function(){
-      console.log("division select changed")
+      let hrefs = JSON.parse($('#divisionSelect').data('hrefs').replace(/'/g, '"'))
+      window.location.href = hrefs[$('#divisionSelect').val()]
    })
 })
 
