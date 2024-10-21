@@ -23,7 +23,7 @@
 
 
                         <li class="active">
-                            <a href="#" class='text-center head' id="divisionHeader"> Division <span class="caret"></span></a>
+                            <a href="#" class='text-center head' id="divisionHeader"> Programs <span class="caret"></span></a>
 
                         {% set hrefs = {} %}
                         {% set tokens = {} %}
@@ -35,8 +35,7 @@
                                 {% endfor %}
                             {% endfor %}
                         {% endfor %}
-                        <select title="Division" class="text-center head form-control selectpicker invisible-select" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}">
-                            <option value="" disabled>---</option>
+                        <select class="text-center head form-control selectpicker invisible-select" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}">
                             {% for prefix in hrefs.keys() %}
                                 <option data-tokens="{{tokens[prefix]}}" data-href="{{hrefs[prefix]}}">{{prefix}}</option>
                             {% endfor %}
