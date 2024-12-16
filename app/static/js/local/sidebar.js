@@ -7,6 +7,9 @@ $(document).ready(function(){
    
    })
    
+   $("#divisionHeader").on("click", function(){
+      $("#divisionSelect").selectpicker("toggle")
+   })
 
    $('#divisionSelect').on('change', function(){
       let hrefs = JSON.parse($('#divisionSelect').data('hrefs').replace(/'/g, '"'))
