@@ -34,6 +34,7 @@
                             {% endfor %}
                         {% endfor %}
                         <select class="text-center head form-control selectpicker invisible-select" data-live-search="true" id="divisionSelect" data-hrefs="{{hrefs | safe}}">
+                            <option data-tokens="" data-href="">---</option>
                             {% for prefix in hrefs.keys() %}
                                 <option data-tokens="{{tokens[prefix]}}" data-href="{{hrefs[prefix]}}">{{prefix}}</option>
                             {% endfor %}

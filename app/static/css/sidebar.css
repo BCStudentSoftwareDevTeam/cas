@@ -38,9 +38,9 @@
     width: 100%;
     height: 0;
     visibility: hidden;
-    position: absolute;
     z-index: 1;
     cursor: pointer;
+    top: 10px;
 }
 
 .invisible-select .dropdown-menu {
