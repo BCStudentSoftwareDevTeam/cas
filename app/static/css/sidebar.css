@@ -38,15 +38,28 @@
     width: 100%;
     height: 0;
     visibility: hidden;
+    position: absolute;
     z-index: 1;
     cursor: pointer;
-    top: 10px;
+    top: 60px;
 }
 
-.invisible-select .dropdown-menu {
+
+.invisible-select.open {
     visibility: visible;
 }
 
+
+.invisible-select .dropdown-menu {
+    visibility: visible;
+    position: relative;
+    margin-top: 0;
+    transform: none;
+}
+
+button[data-id="divisionSelect"] {
+    display: none !important; 
+}
 
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {

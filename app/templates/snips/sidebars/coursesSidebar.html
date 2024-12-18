@@ -47,19 +47,53 @@
 
 {# this Javascript is included here because it uses Jinja tags #}
 <script type="text/javascript">
-window.onload = function(){
-    var selectEl = document.getElementById('termSelect');
-    $('select[id=termSelect]').val('{{currentTerm}}')
-    $('.selectpicker').selectpicker('refresh')
-};
+    window.onload = function(){
+        var selectEl = document.getElementById('termSelect');
+        $('select[id=termSelect]').val('{{currentTerm}}')
+        $('.selectpicker').selectpicker('refresh')
+    };
 </script>
 <script type="text/javascript">
-var selectEl = document.getElementById('termSelect');
-selectEl.onchange = function(){
-    function redirectCourses(prefix){
-    var termCode = document.getElementById("termSelect").value
-    window.location.replace("/courses/"+termCode+"/" + prefix)
-    }
-    redirectCourses('{{prefix}}')
-};
+    var selectEl = document.getElementById('termSelect');
+    selectEl.onchange = function(){
+        function redirectCourses(prefix){
+        var termCode = document.getElementById("termSelect").value
+        window.location.replace("/courses/"+termCode+"/" + prefix)
+        }
+        redirectCourses('{{prefix}}')
+    };
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.termSelect').on('click', function (e) {
+            e.preventDefault();
+    
+            let $this = $(this);
+            let isExpanded = $this.attr('aria-expanded') === 'true';
+    
+            if (isExpanded) {
+                $this.attr('aria-expanded', 'false');
+                $this.parent().find('.nav-second-level').slideUp();
+            } else {
+                $this.attr('aria-expanded', 'true');
+                $this.parent().find('.nav-second-level').slideDown();
+            }
+        });
+    
+        $('#divisionSelect').on('click', function () {
+            $(this).toggleClass('open');
+        });
+    
+        $('#divisionSelect').on('shown.bs.select', function () {
+            $('.termSelect').attr('aria-expanded', 'false');
+            $('.termSelect').parent().find('.nav-second-level').slideUp();
+        });
+    
+        $('#divisionSelect').on('hidden.bs.select', function () {
+            $('.termSelect').attr('aria-expanded', 'true');
+            $('.termSelect').parent().find('.nav-second-level').slideDown();
+        });
+    });
+    
 </script>
