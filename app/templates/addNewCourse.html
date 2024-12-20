@@ -1,13 +1,7 @@
 {% extends "base.html" %}
 {% set currentPage = "addNewCourse" %}
 
-<!--area outside of container-->
-{% block aboveContainer %}
-{% endblock %}
-<!--end area outside of container-->
-
 {% block body %}
-  <div id="wrapper">
       <div id="page-wrapper">
         {% include "snips/messages.html" %}
         <h2>New Course</h2>
@@ -20,7 +14,7 @@
               <div class="form-group col-md-12" style="padding-left: 0px;">
                 <div class="col-md-6">
                   <label for="subjectPrefix">Course Prefix</label>
-                  <select class="selectpicker form-control" name="subjectPrefix" data-live-search="true"  data-container="#wrapper" title="Choose a course prefix" required>
+                  <select class="selectpicker form-control" name="subjectPrefix" data-live-search="true"  data-container="#mainContent" title="Choose a course prefix" required>
                     {% for subject in subjectPrefix %}
                       <option value="{{subject.prefix}}">
                         {{subject.prefix}}
@@ -44,5 +38,4 @@
           </div>
         </div>
     </div>
-  </div>
 {% endblock %}

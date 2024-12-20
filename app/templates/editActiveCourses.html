@@ -1,15 +1,7 @@
 {% extends "base.html" %}
 {% set currentPage = "editActiveCourses" %}
 
-<!--area outside of container-->
-{% block aboveContainer %}
-{% endblock %}
-<!--end area outside of container-->
-
 {% block body %}
-
-
-<div id="wrapper">
     <div id="page-wrapper">
     {% include "snips/messages.html" %}
     <h2>Manage Active Courses</h2>
@@ -26,7 +18,7 @@
       <div class="panel-body">
         <form action="/activate/course" method="post" id="active">
           <div class="form-group">
-            <select class="selectpicker form-control" name="activate" data-live-search="true"  data-container="#wrapper" title="Choose a course to activate" required>
+            <select class="selectpicker form-control" name="activate" data-live-search="true"  data-container="#mainContent" title="Choose a course to activate" required>
               <option value="">---</option>
               {% for course in deactiveCourses %}
                 <option value="{{course.reFID}}">
@@ -52,7 +44,7 @@
         <div class="panel-body">
           <form action="/deactivate/course" method="post" id="deactive">
             <div class="form-group">
-              <select class="selectpicker form-control" name="deactivate" data-live-search="true" data-container="#wrapper" title="Choose a course to deactivate" required>
+              <select class="selectpicker form-control" name="deactivate" data-live-search="true" data-container="#mainContent" title="Choose a course to deactivate" required>
                 <option value="">---</option>
                 {% for course in activeCourses %}
                   <option value="{{course.reFID}}">
@@ -73,8 +65,4 @@
       <script src="/static/js/local/popup.js"></script>
 
     </div>
-</div>
-
-
-
 {% endblock %}
