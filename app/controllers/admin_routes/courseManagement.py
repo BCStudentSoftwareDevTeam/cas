@@ -42,15 +42,16 @@ def crossListed(tid):
     instructors = InstructorCourse.select(InstructorCourse, User).join(User)
     courses_prefetch = prefetch(crossListedCourses, instructors, Rooms, Subject, BannerSchedule, BannerCourses)
     for course in courses_prefetch:
+        resources_cleaned = ""
         if course.courseResources:
             resources = ast.literal_eval(course.courseResources)
-            resources_cleaned = ""
             resources_cleaned += "No course materials required" if resources["NoneRequired"] else ""
             resources_cleaned += ("Open educational resources" if len(resources_cleaned) == 0 else ", Open educational resources") if resources["OER"] else ""
             resources_cleaned += ("Library resources" if len(resources_cleaned) == 0 else ", Library resources") if resources["Library"] else ""
             resources_cleaned += ("Paid resources" if len(resources_cleaned) == 0 else ", Paid resources") if resources["Paid"] else ""
-            if resources_cleaned == "":
-                resources_cleaned = "Unspecified"
+
+        if resources_cleaned == "":
+            resources_cleaned = "Unspecified"
         course.courseResources = resources_cleaned
     schedules = BannerSchedule.select()
     rooms = Rooms.select()

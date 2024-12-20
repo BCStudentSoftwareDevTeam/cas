@@ -62,6 +62,8 @@ class ExcelMaker:
         colNum += 1
 
         sheet.write(chr(colNum) + '1', 'Faculty Load Credit')
+        colNum += 1
+
         sheet.write(chr(colNum) + '1', 'Course Resources')
 
     def writeSpecialHeaders(self,sheet):
@@ -164,12 +166,13 @@ class ExcelMaker:
         colNum +=1
 
         # Off-campus and Room Information
-        if course.offCampusFlag:
+        if True or course.offCampusFlag:
             sheet.write(chr(colNum) + '{0}'.format(row), 'Yes')
         colNum +=1
 
         # Faculty Credit
         sheet.write(chr(colNum) + '{0}'.format(row), course.faculty_credit)
+        colNum +=1
 
         # Course Resources
         resources_cleaned = ""
@@ -179,10 +182,10 @@ class ExcelMaker:
             resources_cleaned += ("Open educational resources" if len(resources_cleaned) == 0 else ", Open educational resources") if resources["OER"] else ""
             resources_cleaned += ("Library resources" if len(resources_cleaned) == 0 else ", resources") if resources["Library"] else ""
             resources_cleaned += ("Paid resources" if len(resources_cleaned) == 0 else ", Paid resources") if resources["Paid"] else ""
-            if resources_cleaned == "":
-                resources_cleaned = "Unspecified"
-        course.courseResources = resources_cleaned
-        sheet.write(chr(colNum) + '{0}'.format(row), course.courseResources)
+
+        if resources_cleaned == "":
+            resources_cleaned = "Unspecified"
+        sheet.write(chr(colNum) + '{0}'.format(row), resources_cleaned)
 
     def writeCrosslistedWith(self, sheet, row, course, colStart=0):
         try:

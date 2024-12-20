@@ -1,13 +1,13 @@
-from app.models import *
+from app.models.models import User
 from peewee import *
 
 
 new_user = User.create(
-                    username = "brooksjam",
-                    lastName = "Brooks",
-                    firstName = "Jamiella",
+                    username = "jonesam",
+                    lastName = "Jones",
+                    firstName = "Amy",
                     isAdmin = False,
-                    email = "brooksjam" + "@berea.edu",
+                    email = "jonesam@berea.edu",
                 )
 new_user.save()
 

@@ -1,14 +1,16 @@
 <div class="form-group col-md-6" id="roomSelectDiv">
-
      <select title="Add Crosslisted Course" onchange="if (this.selectedIndex) callme(event);"
      class="form-control selectpicker" id='crossListSelect' name="crossListedCourses" data-live-search="true" multiple>
 
         <optgroup label="Headers">
         {% for course in allCourses %}
+		{# don't show crosslisted courses #}
 
-          <option value="{{course.reFID}}"> 
-             {{course}}
-          </option>
+		{% if course.number[-2:] != '86' %}
+		  <option value="{{course.reFID}}"> 
+		     {{course}}
+		  </option>
+		{% endif %}
         {% endfor %}
      </select>
   </div>

@@ -82,6 +82,7 @@ def courses(tID, prefix, can_edit):     #can_edit comes from @can_modify
             resources_cleaned += ("Open educational resources" if len(resources_cleaned) == 0 else ", Open educational resources") if resources["OER"] else ""
             resources_cleaned += ("Library resources" if len(resources_cleaned) == 0 else ", Library resources") if resources["Library"] else ""
             resources_cleaned += ("Paid resources" if len(resources_cleaned) == 0 else ", Paid resources") if resources["Paid"] else ""
+
         if resources_cleaned == "":
             resources_cleaned = "Unspecified"
         courses[idx].courseResources = resources_cleaned

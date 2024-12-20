@@ -22,7 +22,8 @@ def editCourseModal(tid, prefix, cid, page):
     terms = Term.select()
     # Select the course informations
     course = Course.get(Course.cId == cid)
-    course.courseResources = ast.literal_eval(course.courseResources)
+    if course.courseResources:
+        course.courseResources = ast.literal_eval(course.courseResources)
     # Select all users
     users = User.select().order_by(User.lastName)
     # Select instructors for the course
