@@ -14,7 +14,7 @@ from app.logic.NullCheck import NullCheck
 from app.logic.redirectBack import redirect_url
 
 from app.models.models import *
-from app.logic.authorizedUser import can_modify
+from app.logic.authorizedUser import can_modify, AuthorizedUser
 
 '''
 adds the course to the course table and to the course change if needed
@@ -76,7 +76,8 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
             perspectivesMet=data['perspectivesMet'],
             section=data['section'],
             faculty_credit=data["faculty_credit"],
-            offCampusFlag=bool(data.get('offCampusFlag', False))
+            offCampusFlag=bool(data.get('offCampusFlag', False)),
+            lastEditBy=nullCheck.username,
 	)
         if data['formBtn'] == "submit":
             specialTopicCourse.status = 1
@@ -107,7 +108,7 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
             flash(
                 "Course with section %s already exists" %
                 (values['section']), "error")
-            # return redirect(redirect_url())
+            return redirect(redirect_url())
 
         # cross_courses=values["crossListed"]# [1,2,3]
         course = Course(bannerRef=values['bannerRef'],
@@ -122,7 +123,8 @@ def addCourses(tid, prefix, can_edit):      # can_edit comes from @can_modify
                         faculty_credit=values['faculty_credit'],
                         prereq=convertPrereqs(prereqs),
                         courseResources = str(courseResources),
-                        offCampusFlag = bool(data.get('offCampusFlag', False))
+                        offCampusFlag = bool(data.get('offCampusFlag', False)),
+                        lastEditBy=nullCheck.username,
                         )
 
         course.save()
@@ -181,7 +183,8 @@ def create_crosslisted_courses(values, course, tid, prereqs, instructors, facult
                                prereq=convertPrereqs(prereqs),
                                faculty_credit= values["faculty_credit"],
                                courseResources = courseResources,
-                               offCampusFlag = bool(values.get('offCampusFlag', False))
+                               offCampusFlag = bool(values.get('offCampusFlag', False)),
+                               lastEditBy=AuthorizedUser().username,
                                )
             cc_course.save()
             databaseInterface.addCourseInstructors(instructors, cc_course.cId)
@@ -215,7 +218,8 @@ def add_one(tid, can_edit):
                     crossListed=int(course.crossListed),
                     rid=None,
                     prereq=course.prereq,
-                    faculty_credit=course.faculty_credit
+                    faculty_credit=course.faculty_credit,
+                    lastEditBy=AuthorizedUser().username,
                     )
     course.save()
 
@@ -254,7 +258,8 @@ def add_many(tid, can_edit):
                                rid=None,
                                section=course.section,
                                prereq=course.prereq,
-                               faculty_credit=course.faculty_credit
+                               faculty_credit=course.faculty_credit,
+                               lastEditBy=AuthorizedUser().username,
                                )
             newCourse.save()
 
@@ -337,9 +342,14 @@ def get_sections():
     if "edit" in request.json:
         edit = True
     prefix, number, section = course.split(" ", 2)
-    bannerCourse = BannerCourses.select().where(
-        BannerCourses.subject == prefix).where(
-        BannerCourses.number == number)
+    reFID = request.json.get('reFID')
+    if reFID:
+        bannerCourse = BannerCourses.select().where(
+            BannerCourses.reFID == int(reFID))
+    else:
+        bannerCourse = BannerCourses.select().where(
+            BannerCourses.subject == prefix).where(
+            BannerCourses.number == number)
     if bannerCourse.exists():
         bRef = bannerCourse.get().reFID
         current_courses = Course.select().where(
