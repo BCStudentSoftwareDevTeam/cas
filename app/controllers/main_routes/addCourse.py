@@ -240,40 +240,43 @@ def add_one(tid, can_edit):
 @main_bp.route("/addMany/<tid>", methods=["POST"])
 @can_modify
 def add_many(tid, can_edit):
-    data = request.form.getlist
     courses = request.form.getlist('courses')
-    if courses:
-        for i in courses:
-            course = Course.get(Course.cId == int(i))  # get an existing course
-            # create a new course using fields from an existing course because
-            # we are importing it as new
-            newCourse = Course(bannerRef=course.bannerRef_id,
-                               prefix=course.prefix_id,
-                               term=int(tid),
-                               schedule=course.schedule_id,
-                               capacity=course.capacity,
-                               specialTopicName=course.specialTopicName,
-                               notes=None,
-                               crossListed=int(course.crossListed),
-                               rid=None,
-                               section=course.section,
-                               prereq=course.prereq,
-                               faculty_credit=course.faculty_credit,
-                               lastEditBy=AuthorizedUser().username,
-                               )
-            newCourse.save()
+    skipped = []
+    for i in courses:
+        course = Course.get(Course.cId == int(i))  # the old-term course being copied
 
-     # if there are many instructors for an existing course, update instructors
-     # of new course as well
-            for instructor in InstructorCourse.select().where(
-                    InstructorCourse.course_id == int(i)):
-                if instructor:
-                    course_instructor = InstructorCourse(
-                        username_id=instructor.username_id,
-                        course_id=course.cId
-                    )
-                    course_instructor.save()
+        # Skip if this course is already in the target term. Copies are only
+        # told apart by section letter, so if either side has no section, or
+        # the sections match, it's a duplicate.
+        existing = (Course.select()
+                          .where(Course.bannerRef == course.bannerRef_id)
+                          .where(Course.term == int(tid)))
+        if any(course.section is None or c.section is None or c.section == course.section
+               for c in existing):
+            skipped.append("{} {}".format(course.bannerRef.subject_id, course.bannerRef.number))
+            continue
 
+        newCourse = Course(bannerRef=course.bannerRef_id,
+                           prefix=course.prefix_id,
+                           term=int(tid),
+                           schedule=course.schedule_id,
+                           capacity=course.capacity,
+                           specialTopicName=course.specialTopicName,
+                           notes=None,
+                           crossListed=int(course.crossListed),
+                           rid=None,
+                           section=course.section,
+                           prereq=course.prereq,
+                           faculty_credit=course.faculty_credit,
+                           lastEditBy=AuthorizedUser().username,
+                           )
+        newCourse.save()
+
+        for instructor in InstructorCourse.select().where(InstructorCourse.course_id == int(i)):
+            InstructorCourse(username_id=instructor.username_id, course_id=newCourse.cId).save()
+
+    if skipped:
+        flash("Already in this term, not imported: " + ", ".join(skipped), "error")
     return redirect(redirect_url())
 
 
