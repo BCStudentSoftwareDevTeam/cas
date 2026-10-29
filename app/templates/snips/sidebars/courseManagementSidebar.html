@@ -5,24 +5,24 @@
                 <a href="#" class='text-center'> Menu</a>
             </li>
             <li>
-                <a id="crossListedLink" href="">Cross Listed Courses</a>
+                <a id="crossListedLink" href=""class="{% if currentPage == 'crossListed' %}active{% endif %}">Cross Listed Courses</a>
             </li>
             <li>
-                <a id="conflictsLink" href="">Room Conflicts</a>
+                <a id="conflictsLink" href="" class="{% if currentPage == 'conflicts' %}active{% endif %}">Room Conflicts</a>
             </li>
             {# Not really used, and always broken - SH
             <li>
-                <a id="courseTimeline" href="">Course Scheduling Timeline</a>
+                <a id="courseTimeline" href="" class="{% if currentPage == 'courseTimeline' %}active{% endif %}">Course Scheduling Timeline</a>
             </li>
             #}
             <li>
-                <a id="specialCourseRequestsLink" href="">Special Topic Course Requests </a>
+                <a id="specialCourseRequestsLink" href="" class="{% if currentPage == 'specialTopicRequests' %}active{% endif %}">Special Topic Course Requests </a>
             </li>
             <li>
-                <a id="deactivateLink" href="">Edit Active Courses</a>
+                <a id="deactivateLink" href="" class="{% if currentPage == 'editActiveCourses' %}active{% endif %}">Edit Active Courses</a>
             </li>
             <li>
-                <a id="addNewCourseLink" href="">Add New Course</a>
+                <a id="addNewCourseLink" href="" class="{% if currentPage == 'addNewCourse' %}active{% endif %}">Add New Course</a>
             </li>
             {# TODO: This whole sidebar mess needs to be rebuilt #}
             {% if currentPage == "tracker" %}
