@@ -1,5 +1,9 @@
-<select class="selectpicker form-control" id="professors" name="professors[]" multiple data-live-search="true">
+{% set selectedUsernames = (instructors[course.cId] | map(attribute='username.username') | list) if course is defined else [] %}
+<select class="selectpicker form-control show-tick" id="professors" name="professors[]" multiple data-live-search="true">
+  {# Show the already selected instructors first so they can be removed without searching #}
+  {% for isSelected in [true, false] %}
   {% for user in users %}
+  {% if (user.username in selectedUsernames) == isSelected %}
   <option value="{{user.username}}" 
     {% if (course is defined)  %}
       {%for instructor in instructors[course.cId] %}
@@ -12,5 +16,7 @@
   >
     {{user.firstName}} {{user.lastName}}
   </option>
+  {% endif %}
+  {% endfor %}
   {% endfor %}
 </select>
