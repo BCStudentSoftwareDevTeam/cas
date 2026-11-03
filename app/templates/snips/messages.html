@@ -10,10 +10,6 @@
 			    {{message}}
 		    </div>
 		  {% endfor %}
-		  <script>
-		    setTimeout(function() {
-		      $(".alert.auto-dismiss").fadeOut(500, function() { $(this).remove(); });
-		    }, 5000);
-		  </script>
+		  <script src="/static/js/local/messages.js"></script>
 	  {% endif %}
 {% endwith %}
