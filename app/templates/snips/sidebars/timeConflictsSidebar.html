@@ -1,0 +1,15 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="head2"><a class="text-center">Term</a></li>
+            {% for term in allTerms %}
+            <li>
+                <a href="/timeConflicts/{{ term.termCode }}"
+                   {% if term.termCode == currentTerm.termCode %}class="active"{% endif %}>
+                    {{ term.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
