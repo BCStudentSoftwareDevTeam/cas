@@ -16,3 +16,4 @@ from app.controllers.main_routes import roomPreference
 from app.controllers.main_routes import selectProgram
 from app.controllers.main_routes import selectTerm
 from app.controllers.main_routes import selectTermForRoomPreferences
+from app.controllers.main_routes import timeConflicts
