@@ -3,7 +3,10 @@
 
 
 {% block body %}
-<h2>Error (404): Page not found.</h2>
-<p>Page not found. Check spelling in URL.</p>
-<p><a href = "/">Go back to safety.</a></p>
+<div class="text-center">
+    <h2>Error (404): Page not found.</h2>
+    <p>Page not found. Check spelling in URL.</p>
+    <p>Please contact system support at <a href="mailto:{{ cfg['support_email'] }}" target="_blank" rel="noopener">{{ cfg['support_email'] }}</a>.</p>
+    <p><a href = "/">Go back to safety.</a></p>
+</div>
 {% endblock %}
