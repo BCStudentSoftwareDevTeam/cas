@@ -14,7 +14,7 @@ function get_sections(){
     $.ajax({
         dataType : "json",
         url:"/courses/get_sections/",
-        data:JSON.stringify({"course":title, "edit":true, "term":$("#term").val()}),
+        data:JSON.stringify({"course":title, "edit":true, "term":$("#term").val(), "reFID":reFID}),
         type:"POST",
     	contentType: 'application/json',
         success:function(data){

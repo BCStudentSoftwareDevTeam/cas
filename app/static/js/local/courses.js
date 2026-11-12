@@ -120,7 +120,7 @@ function get_sections(title){
     $.ajax({
         dataType : "json",
         url:"/courses/get_sections/",
-        data:JSON.stringify({"course":title, "term":$("#term").val()}),
+        data:JSON.stringify({"course":title, "term":$("#term").val(), "reFID":$("#courseInfo").val()}),
         type:"POST",
     	contentType: 'application/json',
         success:function(data){
