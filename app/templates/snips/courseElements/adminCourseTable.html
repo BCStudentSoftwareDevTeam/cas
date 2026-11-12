@@ -133,8 +133,8 @@
 
             <!-- FACULTY LOAD -->
             <td>
-                {% if course.faculty_credit  %}
-                    {{course.faculty_credit}}
+                {% if course.effective_faculty_credit  %}
+                    {{course.effective_faculty_credit}}
                 {% else %}
                     No credit specified
                 {% endif %}
@@ -303,8 +303,8 @@
           <!-- Stcourse Prerequisites -->
           <!-- faculty_credit -->
           <td>
-              {% if course.faculty_credit is not none  %}
-                  {{course.faculty_credit}}
+              {% if course.effective_faculty_credit %}
+                  {{course.effective_faculty_credit}}
               {% else %}
                   No credit specified
               {% endif %}
