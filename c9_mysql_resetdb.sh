@@ -14,3 +14,6 @@
 # the same directory as this file
 
 mysql -u root -proot cas < cas.sql
+
+# cas.sql predates the courseResources column that app/models/models.py expects
+mysql -u root -proot cas -e "ALTER TABLE course ADD COLUMN courseResources VARCHAR(255) NULL;"
