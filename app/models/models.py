@@ -205,11 +205,10 @@ class Course(baseModel):
 
   def __str__(self):
     return '{0} {1} {2}'.format(self.bannerRef.subject, self.bannerRef.number, self.bannerRef.ctitle)
-  
   @property
   def effective_faculty_credit(self):
-    '''Credit to display: the course's own, or the parent's when this is a
-    cross-listed child with none recorded (#437). None when neither has one.'''
+    '''The course's own, or the parent's when this is a
+    cross-listed child with none recorded. None when neither has one.'''
     credit = (self.faculty_credit or "").strip()
     if credit:
       return credit
