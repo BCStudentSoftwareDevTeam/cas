@@ -11,6 +11,13 @@
     <h2>Time Conflicts: {{ currentTerm.name }}</h2>
     <p>Classes that meet on the same day at overlapping times, grouped by time slot.</p>
 
+    {% if selectedSlot %}
+    <div class="alert alert-info">
+        Showing only classes that overlap the selected time slot.
+        <a href="/timeConflicts/{{ currentTerm.termCode }}">Show all conflicts</a>
+    </div>
+    {% endif %}
+
     {% if groups %}
     <table id="timeConflictsTable" class="table table-striped">
         <thead>
@@ -51,7 +58,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No time conflicts in this term.</p>
+    <p>{% if selectedSlot %}No classes overlap this time slot.{% else %}No time conflicts in this term.{% endif %}</p>
     {% endif %}
 </div>
 {% endblock %}
