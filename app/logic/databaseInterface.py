@@ -250,6 +250,25 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
             #add remaing courses as new crosslisted child course to parent course
             if newCourses:
                 for newCourse in newCourses:
+                    bannerCourse = BannerCourses.get(BannerCourses.reFID == int(newCourse))
+
+                    #a course cannot be crosslisted with a course in its own program
+                    if bannerCourse.subject_id == parent.bannerRef.subject_id:
+                        flash("%s cannot be cross-listed with a course in the same program" %
+                              (bannerCourse), "error")
+                        continue
+
+                    #skip if this course is already in the term with no section
+                    #or with the same section as the parent (see addCourse.py)
+                    duplicate_exists = Course.select().where(
+                        Course.bannerRef == bannerCourse.reFID).where(
+                        Course.term == parent.term).where(
+                                                Course.section.is_null() | (Course.section == parent.section)).exists()
+                    if duplicate_exists:
+                        flash("%s already exists in this term and was not added as a cross-listing" %
+                              (bannerCourse), "error")
+                        continue
+
                     #create a new childCrosslisted course for parent
                     createChildCourse(newCourse, parent, newInstructors)
 
