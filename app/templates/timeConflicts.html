@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% set currentPage = "timeConflicts" %}
+
+{% macro schedule_text(slot) -%}
+    {{ slot.days | map(attribute='day') | unique | join('') }}
+    {{ slot.startTime.strftime('%I:%M%p') }}-{{ slot.endTime.strftime('%I:%M%p') }}
+{%- endmacro %}
+
+{% block body %}
+<div id="page-wrapper">
+    <h2>Time Conflicts: {{ currentTerm.name }}</h2>
+    <p>Classes that meet on the same day at overlapping times, grouped by time slot.</p>
+
+    {% if groups %}
+    <table id="timeConflictsTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Time Slot</th>
+                <th>Course</th>
+                <th>Section</th>
+                <th>Taught By</th>
+                <th>Program</th>
+                <th>Schedule</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group in groups %}
+            {% for course in group.courses %}
+            <tr>
+                <td>{{ schedule_text(group.slot) }}</td>
+                <td>{{ course.bannerRef.subject }} {{ course.bannerRef.number }} {{ course.bannerRef.ctitle }}</td>
+                <td>{{ course.section or "" }}</td>
+                <td>
+                    {% for instructor in course.instructors %}
+                        {{ instructor.username.firstName[0] }}. {{ instructor.username.lastName }}<br>
+                    {% endfor %}
+                </td>
+                <td>{{ course.bannerRef.subject.pid.name }}</td>
+                <td>{{ schedule_text(course.schedule) }}</td>
+                <td>
+                    {% if course.rid is not none %}
+                        {{ course.rid.building.name }} {{ course.rid.number }}
+                    {% else %}
+                        On-campus
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No time conflicts in this term.</p>
+    {% endif %}
+</div>
+{% endblock %}
