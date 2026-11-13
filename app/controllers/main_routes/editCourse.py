@@ -75,9 +75,10 @@ def editcourse(tid, prefix, page, can_edit):
                        "OER": True if request.form.getlist("OER") else False,
                        "Library": True if request.form.getlist("Library") else False,
                        "Paid": True if request.form.getlist("Paid") else False}
-    databaseInterface.editCourse(data, prefix, professors, crosslistedCourse, courseResources)
+    skipped = databaseInterface.editCourse(data, prefix, professors, crosslistedCourse, courseResources)
     message = "Course: course {} has been edited".format(data['cid'])
-    flash("Course information has successfully been modified!")
+    if not skipped:
+        flash("Course information has successfully been modified!")
     if page == 'courses':
       return redirect(url_for("main.courses", tID=tid, prefix=prefix))
     else:

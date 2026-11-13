@@ -221,7 +221,7 @@ def editCourse(data, prefix, professors, crosslistedCourses, courseResources):
         course.save()
         new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
-        editCrosslistedCourse(course, crosslistedCourses, new_instruc)
+        return editCrosslistedCourse(course, crosslistedCourses, new_instruc)
 
 def editCrosslistedCourse(parent, newCourses, newInstructors):
 
@@ -229,7 +229,22 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
 
 
         '''
-        newCourses = map(int, newCourses)
+        newCourses = [int(c) for c in newCourses]
+
+        #a course cannot be crosslisted with a course in its own program:
+        #reject such selections up front so they are neither added as new
+        #children nor kept as existing ones
+        allowedCourses = []
+        skipped = 0
+        for reFID in newCourses:
+            bannerCourse = BannerCourses.get(BannerCourses.reFID == reFID)
+            if bannerCourse.subject_id == parent.bannerRef.subject_id:
+                flash("%s cannot be cross-listed with a course in the same program" %
+                      (bannerCourse), "error")
+                skipped += 1
+            else:
+                allowedCourses.append(reFID)
+        newCourses = allowedCourses
         #find courses where parent is equal to course.cId
         oldChildCourses = Course.select().where(Course.parentCourse == parent.cId)
 
@@ -241,7 +256,7 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
                 if oldCourse.bannerRef.reFID in newCourses:
                     updateChildCourse(oldCourse, parent, newInstructors)
                     #remove this course from current newCourses list after updating
-                    newCourses = filter(lambda a: a != oldCourse.bannerRef.reFID, newCourses)
+                    newCourses = [a for a in newCourses if a != oldCourse.bannerRef.reFID]
                 else:
                     #childCrosslistcourse has been removed, so delete it from database
                     rm =  RoomPreferences()
@@ -250,8 +265,24 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
             #add remaing courses as new crosslisted child course to parent course
             if newCourses:
                 for newCourse in newCourses:
+                    bannerCourse = BannerCourses.get(BannerCourses.reFID == int(newCourse))
+
+                    #skip if this course is already in the term with no section
+                    #or with the same section as the parent (see addCourse.py)
+                    duplicate_exists = Course.select().where(
+                        Course.bannerRef == bannerCourse.reFID).where(
+                        Course.term == parent.term).where(
+                                                Course.section.is_null() | (Course.section == parent.section)).exists()
+                    if duplicate_exists:
+                        flash("%s already exists in this term and was not added as a cross-listing" %
+                              (bannerCourse), "error")
+                        skipped += 1
+                        continue
+
                     #create a new childCrosslisted course for parent
                     createChildCourse(newCourse, parent, newInstructors)
+
+        return skipped
 
 
 def getCourseTimelineSchedules(day,tid):
