@@ -229,7 +229,20 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
 
 
         '''
-        newCourses = map(int, newCourses)
+        newCourses = [int(c) for c in newCourses]
+
+        #a course cannot be crosslisted with a course in its own program:
+        #reject such selections up front so they are neither added as new
+        #children nor kept as existing ones
+        allowedCourses = []
+        for reFID in newCourses:
+            bannerCourse = BannerCourses.get(BannerCourses.reFID == reFID)
+            if bannerCourse.subject_id == parent.bannerRef.subject_id:
+                flash("%s cannot be cross-listed with a course in the same program" %
+                      (bannerCourse), "error")
+            else:
+                allowedCourses.append(reFID)
+        newCourses = allowedCourses
         #find courses where parent is equal to course.cId
         oldChildCourses = Course.select().where(Course.parentCourse == parent.cId)
 
@@ -241,7 +254,7 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
                 if oldCourse.bannerRef.reFID in newCourses:
                     updateChildCourse(oldCourse, parent, newInstructors)
                     #remove this course from current newCourses list after updating
-                    newCourses = filter(lambda a: a != oldCourse.bannerRef.reFID, newCourses)
+                    newCourses = [a for a in newCourses if a != oldCourse.bannerRef.reFID]
                 else:
                     #childCrosslistcourse has been removed, so delete it from database
                     rm =  RoomPreferences()
@@ -251,12 +264,6 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
             if newCourses:
                 for newCourse in newCourses:
                     bannerCourse = BannerCourses.get(BannerCourses.reFID == int(newCourse))
-
-                    #a course cannot be crosslisted with a course in its own program
-                    if bannerCourse.subject_id == parent.bannerRef.subject_id:
-                        flash("%s cannot be cross-listed with a course in the same program" %
-                              (bannerCourse), "error")
-                        continue
 
                     #skip if this course is already in the term with no section
                     #or with the same section as the parent (see addCourse.py)
