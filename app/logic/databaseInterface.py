@@ -221,7 +221,7 @@ def editCourse(data, prefix, professors, crosslistedCourses, courseResources):
         course.save()
         new_instruc =  professors[:]
         editInstructors(professors, data['cid'])
-        editCrosslistedCourse(course, crosslistedCourses, new_instruc)
+        return editCrosslistedCourse(course, crosslistedCourses, new_instruc)
 
 def editCrosslistedCourse(parent, newCourses, newInstructors):
 
@@ -235,11 +235,13 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
         #reject such selections up front so they are neither added as new
         #children nor kept as existing ones
         allowedCourses = []
+        skipped = 0
         for reFID in newCourses:
             bannerCourse = BannerCourses.get(BannerCourses.reFID == reFID)
             if bannerCourse.subject_id == parent.bannerRef.subject_id:
                 flash("%s cannot be cross-listed with a course in the same program" %
                       (bannerCourse), "error")
+                skipped += 1
             else:
                 allowedCourses.append(reFID)
         newCourses = allowedCourses
@@ -274,10 +276,13 @@ def editCrosslistedCourse(parent, newCourses, newInstructors):
                     if duplicate_exists:
                         flash("%s already exists in this term and was not added as a cross-listing" %
                               (bannerCourse), "error")
+                        skipped += 1
                         continue
 
                     #create a new childCrosslisted course for parent
                     createChildCourse(newCourse, parent, newInstructors)
+
+        return skipped
 
 
 def getCourseTimelineSchedules(day,tid):
