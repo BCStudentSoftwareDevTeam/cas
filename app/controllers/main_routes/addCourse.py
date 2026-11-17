@@ -248,11 +248,16 @@ def add_many(tid, can_edit):
         # Skip if this course is already in the target term. Copies are only
         # told apart by section letter, so if either side has no section, or
         # the sections match, it's a duplicate.
-        existing = (Course.select()
-                          .where(Course.bannerRef == course.bannerRef_id)
-                          .where(Course.term == int(tid)))
-        if any(course.section is None or c.section is None or c.section == course.section
-               for c in existing):
+        existingCourses = (Course.select()
+                                 .where(Course.bannerRef == course.bannerRef_id)
+                                 .where(Course.term == int(tid)))
+        isDuplicate = False
+        for existingCourse in existingCourses:
+            eitherHasNoSection = course.section is None or existingCourse.section is None
+            if eitherHasNoSection or existingCourse.section == course.section:
+                isDuplicate = True
+                break
+        if isDuplicate:
             skipped.append("{} {}".format(course.bannerRef.subject_id, course.bannerRef.number))
             continue
 
