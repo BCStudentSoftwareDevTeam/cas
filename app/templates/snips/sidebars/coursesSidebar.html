@@ -66,34 +66,25 @@
 
 <script>
     $(document).ready(function () {
+        $('.termSelect').attr('aria-expanded', 'true');
         $('.termSelect').on('click', function (e) {
             e.preventDefault();
     
             let $this = $(this);
+            let $termList = $this.parent().find('.nav-second-level');
             let isExpanded = $this.attr('aria-expanded') === 'true';
     
             if (isExpanded) {
                 $this.attr('aria-expanded', 'false');
-                $this.parent().find('.nav-second-level').slideUp();
+                $termList.stop(true, true).slideUp();
             } else {
                 $this.attr('aria-expanded', 'true');
-                $this.parent().find('.nav-second-level').slideDown();
+                $termList.stop(true, true).slideDown();
             }
         });
     
         $('#divisionSelect').on('click', function () {
             $(this).toggleClass('open');
         });
-    
-        $('#divisionSelect').on('shown.bs.select', function () {
-            $('.termSelect').attr('aria-expanded', 'false');
-            $('.termSelect').parent().find('.nav-second-level').slideUp();
-        });
-    
-        $('#divisionSelect').on('hidden.bs.select', function () {
-            $('.termSelect').attr('aria-expanded', 'true');
-            $('.termSelect').parent().find('.nav-second-level').slideDown();
-        });
     });
-    
 </script>

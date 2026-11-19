@@ -7,7 +7,8 @@ $(document).ready(function(){
    
    })
    
-   $("#divisionHeader").on("click", function(){
+   $("#divisionHeader").on("click", function(e){
+      e.preventDefault();
       $("#divisionSelect").selectpicker("toggle")
    })
 
