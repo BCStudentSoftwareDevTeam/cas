@@ -397,7 +397,9 @@ def createChildCourse(course_id, parent, newInstructors):
             parentCourse = parent.cId,
             section = parent.section,
             prereq = parent.prereq,
-            offCampusFlag = parent.offCampusFlag
+            offCampusFlag = parent.offCampusFlag,
+            faculty_credit = parent.faculty_credit,
+            courseResources = parent.courseResources,
             )
     #TODO:create its instructors
     addInstructorsChild(newInstructors, parent.cId, cc_course.cId)
@@ -454,6 +456,7 @@ def updateChildCourse(course, parent, newInstructors):
     course.prereq = parent.prereq
     course.offCampusFlag = parent.offCampusFlag
     course.courseResources = parent.courseResources
+    course.faculty_credit = parent.faculty_credit
     course.save()
 
     #update its instructors

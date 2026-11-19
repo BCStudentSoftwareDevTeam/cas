@@ -171,7 +171,7 @@ class ExcelMaker:
         colNum +=1
 
         # Faculty Credit
-        sheet.write(chr(colNum) + '{0}'.format(row), course.faculty_credit)
+        sheet.write(chr(colNum) + '{0}'.format(row), getattr(course, 'effective_faculty_credit', course.faculty_credit))
         colNum +=1
 
         # Course Resources
