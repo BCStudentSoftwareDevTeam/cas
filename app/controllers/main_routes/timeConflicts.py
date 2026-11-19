@@ -19,7 +19,14 @@ def time_conflicts(tid):
         abort(404)
 
     groups = get_time_conflict_groups(currentTerm.termCode)
+
+    # Coming from a Schedule link on the Courses page: only show that slot's group
+    selectedSlot = request.args.get("slot")
+    if selectedSlot:
+        groups = [g for g in groups if g["slot"].sid == selectedSlot]
+
     return render_template("timeConflicts.html",
+                           selectedSlot=selectedSlot,
                            groups=groups,
                            allTerms=terms,
                            currentTerm=currentTerm,

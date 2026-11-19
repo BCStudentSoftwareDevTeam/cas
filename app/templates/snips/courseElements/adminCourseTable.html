@@ -63,8 +63,10 @@
                     {% if special != [] %}
                         <p>See Notes</p>
                     {% else %}
-                        {% for day in course.schedule.days %}{{day.day}}{% endfor %}
-                        {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                        <a href="/timeConflicts/{{ course.term_id }}?slot={{ course.schedule.sid }}" title="See classes at overlapping times">
+                            {% for day in course.schedule.days %}{{day.day}}{% endfor %}
+                            {{course.schedule.startTime.strftime('%I:%M%p')}}-{{course.schedule.endTime.strftime('%I:%M%p')}}
+                        </a>
                         {#  {{course.schedule.startTime}}-{{course.schedule.endTime}} #}
                     {% endif %}
                 {% endif %}
