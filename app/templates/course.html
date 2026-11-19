@@ -12,12 +12,19 @@
                     <strong>{{curTermName.name}} is open for scheduling.</strong>
                 </div>
             {% else %}
-                <div class="alert alert-warning">
-                    <strong>{{curTermName.name}} is locked.</strong>
-                    Courses can no longer be added, edited, or deleted. Please contact the registrar
-                    office or the admin of this site.{% if current_user.isAdmin %} You can still edit
-                    this term as an administrator.{% endif %}
-                </div>
+                {% if current_user.isAdmin %}
+                    <div class="alert alert-warning">
+                        <strong>{{curTermName.name}} is locked.</strong>
+                        Faculty can no longer add, edit, or delete courses in this term. You can still
+                        make changes as an administrator.
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <strong>{{curTermName.name}} is locked.</strong>
+                        Courses can no longer be added, edited, or deleted. Please contact the registrar
+                        office or the admin of this site.
+                    </div>
+                {% endif %}
             {% endif %}
             <div class="container-fluid">
                 <div class="row">
