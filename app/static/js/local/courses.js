@@ -145,6 +145,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('table').DataTable(
        {paging: false,
-        "aaSorting":[]
+        "aaSorting":[[0,'asc']],
        });
 });
