@@ -31,7 +31,8 @@ def editCourseModal(tid, prefix, cid, page):
     instructors[course.cId] = InstructorCourse.select().where(InstructorCourse.course == course.cId)
 
     # SELECT ALL ROOMS
-    rooms     = Rooms.select()
+    # Room numbers are text, so cast them to sort 8 before 101. Rooms like B12 have no number and sort first.
+    rooms     = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.cast('UNSIGNED').asc(), Rooms.number.asc())
 
     getCrosslistedCourses = find_crosslist_via_id(cid)
     allCourses = BannerCourses.select().order_by(BannerCourses.reFID)
@@ -100,7 +101,8 @@ def editSTCourseModal(tid, prefix, stid, page):
   instructors = {}
   instructors[course.stId] = InstructorSTCourse.select().where(InstructorSTCourse.course == course.stId)
   # SELECT ALL ROOMS
-  rooms     = Rooms.select()
+  # Room numbers are text, so cast them to sort 8 before 101. Rooms like B12 have no number and sort first.
+  rooms     = Rooms.select().join(Building, on = (Building.bID == Rooms.building)).order_by(Building.name.asc(), Rooms.number.cast('UNSIGNED').asc(), Rooms.number.asc())
 
   return render_template("snips/courseElements/editSTCourse.html",
                           schedules = schedules,
